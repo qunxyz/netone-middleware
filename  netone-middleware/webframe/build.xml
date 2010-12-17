@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Newland3A" default="default" basedir=".">
+
+	<property name="class.dir" value="${basedir}" />
+	<property name="dist.dir" value="${basedir}/RESOURCE" />
+
+	<target name="rmi_stub">
+		<!-- sample1 -->
+		<jar destfile="${dist.dir}/WebFrame.jar">
+			<fileset dir="${class.dir}">
+				<include name="oe/**" />
+				<include name="WebCache.properties" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="default" depends="rmi_stub">
+	</target>
+
+</project>

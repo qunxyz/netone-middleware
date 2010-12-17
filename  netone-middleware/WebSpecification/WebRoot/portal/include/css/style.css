@@ -1,0 +1,171 @@
+.HeaderTable{
+
+}
+
+.HeaderColor {
+	background-color: #336699;
+}
+
+.HeaderText {
+	color: #FFFFFF;
+	text-decoration:Plain;
+	font-family: Plain;
+	font-size: 12px;
+	font-style: Plain;
+	font-weight: bold;
+}
+
+.HeaderLink {
+	color: #336699;
+	text-decoration:Underline;
+	font-family: Arial;
+	font-size: 13px;
+	font-style: Plain;
+	font-weight: bold;
+}
+
+.HeaderStyle {
+	color: red;
+	text-decoration:Plain;
+	font-family: Arial;
+	font-size: 12px;
+	font-style: Plain;
+	font-weight: bold;
+}
+
+.SubHeaderTable{
+
+}
+
+.SubHeaderColor {
+	background-color: #000000;
+}
+
+.SubHeaderText {
+	color: #FFFFFF;
+	text-decoration:Plain;
+	font-family: Arial;
+	font-size: 10px;
+	font-style: Plain;
+	font-weight: bold;
+}
+
+.SubHeaderLink {
+	color: #0033FF;
+	text-decoration:Underline;
+	font-family: Arial;
+	font-size: 10px;
+	font-style: Plain;
+}
+
+.BodyColor {
+	background-color: #FFFFFF;
+}
+
+.Heading1 {
+	color: #000000;
+	text-decoration:Plain;
+	font-family: Plain;
+	font-size:15px;
+	font-style: Bold-Italic;
+	font-weight:Bold;
+}
+
+.Headinglink1 {
+	color: #336699;
+	text-decoration:Underline;
+	font-family: Plain;
+	font-size:15px;
+	font-style: Bold-Italic;
+	font-weight:Bold;
+}
+
+.Text1 {
+	color: #000000;
+	text-decoration:Plain;
+	font-family: Plain;
+	font-size:12px;
+	font-style: Plain;
+	font-weight:normal;
+}
+
+.Heading2 {
+	color: #000000;
+	text-decoration:Plain;
+	font-family: Plain;
+	font-size:18px;
+	font-style: normal;
+	font-weight:bold;
+}
+
+.Headinglink2 {
+	color: #000000;
+	text-decoration:Underline;
+	font-family: Plain;
+	font-size:18px;
+	font-style: normal;
+	font-weight:bold;
+}
+
+.Text2 {
+	color: #000000;
+	text-decoration:Plain;
+	font-family: Plain;
+	font-size:13px;
+	font-style: Plain;
+	font-weight:normal;
+}
+
+.Heading3 {
+	color: #000000;
+	text-decoration:Plain;
+	font-family: Plain;
+	font-size:22px;
+	font-style: normal;
+	font-weight:bold;
+}
+
+.Headinglink3 {
+	color: #000000;
+	text-decoration:Underline;
+	font-family: Plain;
+	font-size:22px;
+	font-style: normal;
+	font-weight:bold;
+}
+
+.Text3 {
+	color: #000000;
+	text-decoration:Plain;
+	font-family: Plain;
+	font-size:14px;
+	font-style: Plain;
+	font-weight:normal;
+}
+
+.Heading4 {
+	color: #000000;
+	text-decoration:Plain;
+	font-family: Plain;
+	font-size:25px;
+	font-style: normal;
+	font-weight:bold;
+}
+
+.Headinglink4 {
+	color: #000000;
+	text-decoration:Underline;
+	font-family: Plain;
+	font-size:25px;
+	font-style: normal;
+	font-weight:bold;
+}
+
+.Text4 {
+	color: #000000;
+	text-decoration:Plain;
+	font-family: Plain;
+	font-size:15px;
+	font-style: Plain;
+	font-weight:normal;
+}

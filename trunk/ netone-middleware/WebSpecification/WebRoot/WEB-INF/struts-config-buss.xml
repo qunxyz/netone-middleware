@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans>
+		<form-bean name="stu" type="oe.teach.web.turnpage.WebForm" />
+	</form-beans>
+
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action path="/list" type="oe.teach.web.turnpage.ListAction"
+			input="/list.jsp" name="stu" scope="request" />
+		<action path="/create" type="oe.teach.web.turnpage.CreateAction"
+			input="/create.jsp" name="stu" scope="request" />
+		<action path="/update" type="oe.teach.web.turnpage.UpdateAction"
+			input="/update.jsp" name="stu" scope="request" />
+		<action path="/delete" type="oe.teach.web.turnpage.DeleteAction"
+			input="" name="stu" scope="request" />
+
+	</action-mappings>
+
+</struts-config>
+

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<project name="Newland3A" default="default" basedir=".">
+
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="web.dir" value="${basedir}/WebRoot/" />
+	<property name="dist.dir" value="${basedir}/RESOURCE/1_0" />
+	<target name="jar">
+		<delete dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<jar destfile="${dist.dir}/OecSpeciPage.jar">
+			<fileset dir="${class.dir}">
+				<include name="oe/mid/**" />
+				<exclude name="resource.properties" />
+				<exclude name="dyweb.properties" />
+				<exclude name="resourceweb.properties" />
+				<exclude name="rmiClient.properties" />
+			</fileset>
+		</jar>
+		<copy tofile="${dist.dir}/resource.properties" file="${class.dir}/resource.properties" />
+		<copy tofile="${dist.dir}/resourceweb.properties" file="${class.dir}/resourceweb.properties" />
+		<copy tofile="${dist.dir}/rmiClient.properties" file="${class.dir}/rmiClient.properties" />
+		
+		
+		<copy todir="${dist.dir}/webroot">
+			<fileset dir="${web.dir}">
+				<!-- 资源参考页面例子 -->
+				<include name="rsdemo/**" />
+				<!-- 资源必须的脚本 -->
+				<include name="rsinclude/**" />
+				<include name="WEB-INF/web.xml" />
+				<include name="WEB-INF/lib/oecEnvClient.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="default" depends="jar">
+	</target>
+
+
+
+</project>

@@ -1,0 +1,121 @@
+<script>
+var initHTML ="<H1>《Bound0 全能网页客户端》</H1><P><FONT color=#ff0000><STRONG>《Bound0 全能网页客户端》</STRONG></FONT>是一个安装在客户端的可执行程序(EXE)，可以响应网页上的链接和脚本的动作，有很多功能（包括<STRONG>运行本地程序、读写本地文件和注册表</STRONG>等）。<BR><BR>为了防范被滥用或不正当地利用，对《Bound0 全能网页客户端》采用了以下安全措施：<BR><BR><EM>1、《Bound0 全能网页客户端》的安装和注册过程完全在<FONT color=#ff0000><STRONG>用户知情</STRONG></FONT>的条件下进行；<BR>2、每一份售出的《Bound0 全能网页客户端》所具有的实际功能<FONT color=#ff0000><STRONG>根据具体需要设定</STRONG></FONT>，实际不需要的功能不会被开放；<BR>3、《Bound0 全能网页客户端》对网页的响应经过<FONT color=#ff0000><STRONG>特别限制</STRONG></FONT>，不会对<FONT color=#ff0000><STRONG>授权范围</STRONG></FONT>以外的网页做出响应；<BR>4、对每一份售出的《Bound0 全能网页客户端》拷贝均<FONT color=#ff0000><STRONG>留有记录</STRONG></FONT>。<BR></EM><BR>请说明你的具体需要（想要实现什么样的功能），我会做出一个<STRONG><EM>示例网页</EM></STRONG>来让你看，如果觉得<STRONG><EM>确实能够满足需要</EM></STRONG>再购买。</P>"
+function start() {
+	Editor.document.designMode="ON";
+	Editor.document.open();
+	Editor.document.write(initHTML);
+	Editor.document.close();
+}
+/*
+******************************************************************************************************
+conts和contp常常会包含浏览器自动添加的一些\r\n（回车、换行符），这会造成后面“磨”的困难，有必要先进行格式化。但是由于对于pre、textarea、script、style和xmp这几种标签的内容来说\r\n可能是有意义的，所以不能简单地用.replace(/[\r\n]/g,"")的办法去除。必须既要去除浏览器自动添加的\r\n，又要保全pre、textarea、script、style和xmp这几种标签的内容。
+******************************************************************************************************
+*/
+function formatfor(va) {
+  var t=va.replace(/\r/g,'');
+  t = t.replace(/(<(script|textarea|xmp|pre|style).*?>)([^\r]*?)(<\/\2>)/img,
+function (){return arguments[1]+arguments[3].replace(/\n/g, "\r")+arguments[4]})
+  t = t.replace(/\n/g, "");
+  return t
+}
+/*
+****************************************
+Created by Bound0 (bound0@tom.com)
+http://bbs.blueidea.com/viewthread.php?tid=2661868
+转载或应用时请保留此声明！
+****************************************
+*/
+function first()
+{
+//首先要取得编辑区的内容
+var oSel = Editor.document.selection.createRange();
+var conts=oSel.htmlText //内容选中部分对应的代码，首尾可能带有多余标签（就是前面例子中的蓝色标签）。
+var textLength = Editor.document.body.innerText.length
+oSel.moveStart("character", -1*textLength) //把选择区的开始位置往前闪，再取一次内容
+var contp=formatfor(oSel.htmlText) //选中部分及选中部分前的内容，末尾可能带有多余标签。
+var conta=formatfor(Editor.document.body.innerHTML) //整个内容
+var contpa=''
+var partC=""
+var partB=""
+var partA=""
+//接下来用上面取得的三个内容互相“磨”，把多余的标签“磨”掉。
+var m=0
+m=conta.indexOf(contp.substr(0,3)) //校正对齐contp和conta的开始位置，有时候conta开始处可能会有多余的<p>，造成两者对不齐
+var f=contp.length
+for(;f>0;f--)
+{if(conta.substr(m,f)==contp.substr(0, f)){contpa=contp.substr(0,f);partC=conta.substr(m+f);break}}
+var ko=contp.substr(f)
+var kol=ko.length
+var ty=conta.substr(m+f,kol)
+var hu=""
+for(var b=1;b<kol;b++)if(ko.substr(b)==ty.substr(0,kol-b)){hu=ko.substr(b);contpa+=hu;partC=partC.substr(kol-b);break}
+/*
+****************************************************************************************************
+有时候浏览器自动补全的标签并非添加在选中区域的最外围。例如有时会把</p>结束标签添在</font>标签之前，而这里的</font>标签应该是保留在partB中的，如果把</font>连同</p>一起“磨”掉就不对了。对此采取的办法是检查被“磨”掉的碎渣部分，把碎渣捡起来“磨”好，再装到partB的末尾。
+****************************************************************************************************
+*/
+var k=contpa.length
+cont=conts.replace(/\n/g, "")
+var u=cont.length
+if(cont==contpa.substr(k-u)){partB=cont;partA=contpa.substr(0,k-u)}else{
+for(u=cont.length;u>0;u--)
+{if(cont.lastIndexOf(contpa.substr(k-u))!=-1){partB0=contpa.substr(k-u);partA0=contpa.substr(0,k-u);break}}
+/*
+****************************************************************************************************
+对于选中的内容刚好处于一个标签的内部的这种情况，它的具体情况可能又是五花八门的，我个人采取的办法是把格式化和不格式化都尝试一下，除非格式化的结果令partB长度较长（这说明浏览器自动添加的那些\r\n使“磨”出来的partB长度变短），否则就不格式化。
+****************************************************************************************************
+*/
+contt=formatfor(conts)
+if(hu!="")if(contt.substr(contt.length-kol)==ko)contt=contt.substr(0,contt.length-kol)+hu
+u=contt.length
+var youm=contpa.lastIndexOf(contt)
+if(youm!=-1){partB=contt;partA=contpa.substr(0,youm);partC=contpa.substr(youm+u)+partC}else{
+for(;u>0;u--){if(contt.lastIndexOf(contpa.substr(k-u))!=-1){partB1=contpa.substr(k-u);partA1=contpa.substr(0,k-u);break}}
+if(partB1.length>partB0.length){partB=partB1;partA=partA1}else{partB=partB0;partA=partA0}
+	}
+}
+if(partB.substr(partB.length-1)=="<"){partB=partB.substr(0,partB.length-1);partC="<"+partC}
+if(partB.substr(partB.length-2)=="</"){partB=partB.substr(0,partB.length-2);partC="</"+partC}
+//显示按要求分好的A、B、C三段内容。
+//alert(partA)
+//alert(partB)
+//alert(partC)
+var color=document.getElementById('color').value;
+initHTML=partA+"<font color='"+color+"'>"+partB+"</font>"+partC
+}
+</script>
+
+<body SCROLL="no" bgcolor=d0d0c8 onload="start()" leftmargin=5
+	topmargin=5>
+	<table>
+		<tr>
+			<td>
+				<button onclick=first();start();>
+					改变颜色
+				</button>
+				<select name='color'>
+					<option value='red'>
+						红色
+					</option>
+					<option value='blue'>
+						蓝色
+					</option>
+					<option value='green'>
+						绿色
+					</option>
+					<option value='black' selected>
+						黑色
+					</option>
+					<option value='white'>
+						白色
+					</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<IFRAME id="Editor" Name="Editor" style="WIDTH: 550; HEIGHT: 480"></IFRAME>
+			</td>
+		</tr>
+	</table>
+</body>

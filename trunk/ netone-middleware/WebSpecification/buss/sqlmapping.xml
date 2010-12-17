@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlmappings>
+	<!-- paramclass 是输入参数对象,同时也是这个sqlmapping的唯一id -->
+	<sqlmapping name="myview"
+		paramclass="oe.teach.ormer.sample1.ParamObj"
+		resultclass="oe.teach.ormer.sample1.ReturnObj">
+		<sql>
+			<![CDATA[select * from T_OEC_ACCOUNTPS where name
+			like #name# limit #min#,#max#]]>
+		</sql>
+		<!-- inparams 中描述的是SQL中的语句的参数信息,String,Long,Integer,Double..... -->
+		<inparams>
+			<inparam id='name' type='String' />
+			<inparam id='min' type='Long' />
+			<inparam id='max' type='Long' />
+		</inparams>
+	</sqlmapping>
+
+	<sqlmapping name="myview1"
+		paramclass="oe.teach.ormer.sample1.ParamObj2"
+		resultclass="oe.teach.ormer.sample1.ReturnObj2">
+		<sql>
+			<![CDATA[select count(*) count from T_OEC_ACCOUNTPS where name
+			like #name#]]>
+		</sql>
+		<inparams>
+			<inparam id='name' type='String' />
+		</inparams>
+	</sqlmapping>
+	
+	<sqlmapping name="myview2"
+		paramclass="oe.teach.ormer.sample1.ParamObj"
+		resultclass="oe.teach.ormer.sample1.ReturnObj3">
+		<sql>
+			<![CDATA[select * from T_OEC_ACCOUNTPS where name
+			like #name# limit #min#,#max#]]>
+		</sql>
+		<!-- inparams 中描述的是SQL中的语句的参数信息,String,Long,Integer,Double..... -->
+		<inparams>
+			<inparam id='name' type='String' />
+			<inparam id='min' type='Long' />
+			<inparam id='max' type='Long' />
+		</inparams>
+	</sqlmapping>
+</sqlmappings>

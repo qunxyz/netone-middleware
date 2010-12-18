@@ -1,0 +1,339 @@
+A:link {text-decoration:none;color:#000000;}
+A:visited {text-decoration:none;color:#000000;}
+A:hover {text-decoration:underline;color:#FF0000;}
+
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	BORDER-TOP-WIDTH: 4px;
+	SCROLLBAR-FACE-COLOR: #EDF0F6;
+	BORDER-LEFT-WIDTH: 4px;
+	FONT-SIZE: 9pt;
+	BORDER-BOTTOM-WIDTH: 4px;
+	SCROLLBAR-HIGHLIGHT-COLOR: #ffffff;
+	SCROLLBAR-SHADOW-COLOR: #B3CDEA;
+	SCROLLBAR-3DLIGHT-COLOR: #B3CDEA;
+	SCROLLBAR-ARROW-COLOR: #B0C7E1;
+	SCROLLBAR-TRACK-COLOR: #F7FBFF;
+	SCROLLBAR-DARKSHADOW-COLOR: #ffffff;
+	SCROLLBAR-BASE-COLOR: #EEF7FF;
+	BORDER-RIGHT-WIDTH: 4px;
+}
+
+
+
+
+td {
+	font-size: 12px;
+	line-height: 20px;
+}
+
+.Input {
+    Font-size:12px; 
+}
+
+.butt {
+	cursor: hand;
+	border: 1px solid #A9C0E5;
+	height:19px;
+	background-image: url(../images/bott_bg.gif);
+} 
+
+Select { Font-size:12px; }
+
+.flexTd {
+	height: 19px;
+	letter-spacing: 1px;
+
+
+}
+.font_1 {
+	color: #0B4D99;
+	font-family: "宋体";
+	font-size: 16px;
+	font-weight: bold;
+	letter-spacing: 5pt;
+}
+
+.font_2 {
+	color: #ffffff;
+	font-family: "宋体";
+	font-size: 12px;
+	font-weight: ;
+	letter-spacing: 0px;
+}
+
+.flex2Td {
+	text-indent: 15pt;
+
+}
+
+.main_l_bg {
+	text-indent: 15pt;
+	background-image: url(../images/bg.gif);
+	height: 24px;
+	width: 214px;
+	font-family: "宋体";
+	font-size: 12px;
+	color: #FFFFFF;
+}
+.tablecolor { 
+    font-size: 12px; 
+	background-color: #A9C0E5 
+	width: "98%"; 
+	border: 1px #A9C0E5 solid; 
+	float: none 
+	}
+	 
+.table-title {
+	background-color: #A9C0E5;
+	text-indent: 8px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #ffffff;
+	border-right-color: #6F96BA;
+	border-bottom-color: #6F96BA;
+	border-left-color: #ffffff;
+	
+}
+.wordspace {
+	letter-spacing: 2px;
+}
+.tittl01 {
+	background: url(../images/bg_bott_bg01.gif);
+	text-align: center;
+	color: #CC0000;
+
+
+
+}
+.td-01 {
+	text-indent: 10pt;
+	height: 22px;
+
+}
+.button {
+
+	background-image: url(../images/td_titt_bg.gif);
+
+
+}
+.td-bg01 {
+	background: url(../images/bg_bg01.gif);
+	text-align: center;
+	line-height: 25px;
+}
+
+.td-bg02 {
+	font-weight: bold;
+	color: #FFFFFF;
+	background: url(../images/bott.gif);
+	height: 22px;
+	text-align: center;
+
+}
+
+
+.tittl02 {
+	font: 12px "宋体";
+	background: url(../images/bg_bott_bg02.gif);
+	text-align: center;
+
+}
+.tittl03 {
+	color: #0066CC;
+	text-decoration: blink;
+}
+
+.td_titt_bg {
+	font-size: 12px;
+	background-image: url(../images/bg_bott_bg01.gif);
+	font-weight: normal;
+	letter-spacing: 3pt;
+	height: 23px;
+	text-align: center;
+}
+
+.td_page_bg {
+	font-size: 12px;
+	color: #FFFFFF;
+	background-image: url(../images/td_page_bg.gif);
+	font-weight: normal;
+	letter-spacing: 3pt;
+	height: 22px;
+	text-align: center;
+	width: 120px;
+}
+
+.td_page_bg_on {
+	font-size: 12px;
+	background-image: url(../images/td_page_bg_on.gif);
+	font-weight: normal;
+	letter-spacing: 3pt;
+	height: 22px;
+	text-align: center;
+	width: 120px;
+}
+
+.td_page_l{
+	background-image: url(../images/td_page_l.gif);
+	width: 4px;
+
+}
+
+.td_page_r{
+	background-image: url(../images/td_page_r.gif);
+	width: 4px;
+
+}
+
+.td_page_on_l{
+	background-image: url(../images/td_page_on_l.gif);
+	width: 4px;
+
+}
+
+.td_page_on_r{
+	background-image: url(../images/td_page_on_r.gif);
+	width: 4px;
+
+}
+
+.td-02 {
+	text-align: center;
+	height: 22px;
+}
+
+.left_l_bg {
+	background-image: url(../images/left_l_bg.jpg);
+	width: 12px;
+}
+
+
+
+.textarea {
+	width: 150px;
+	border: 1px solid #98A3D9;
+	height: 100%;
+}
+
+.table_select_page {
+	width: 80%;
+}/*弹出页面表格下拉菜单大小*/
+
+#hang_table,#lie_table,#white_table,#white_table1{
+	background-color:#E4E4E4;
+	text-indent: 5px;
+}/*表格的主要背景颜色*/
+
+#table{
+	background-color:#0d509d;
+	text-indent: 5px;
+}/*弹出页面外围背景颜色*/
+
+#table_td{
+	background-color:#d4d0c8;
+	text-indent: 1px;
+}/*弹出页面表格的主要背景颜色*/
+
+#hang_table tbody tr{
+	font-size: 12px;
+	color: #000000;
+	height: 22px;
+    background-color:expression("#ffffff,#fbfbfb".split(",")[this.rowIndex%2]);		text-indent: 5px;
+	text-align: center;
+}/*隔行颜色*/
+
+#lie_table tbody td{
+	font-size: 12px;
+	color: #000000;
+	height: 23px;
+    background-color:expression("#FDFDFD,#ffffff".split(",")[this.cellIndex%2]); text-indent: 5px;
+	text-align: left;
+}/*隔列颜色*/
+
+.textinput_td {
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: 1px;
+	border-left-width: thin;
+	border-bottom-color:#CECECE;
+	width: 80%;
+}/*表格输入框颜色*/
+
+.textinput_tdx {
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: 1px;
+	border-left-width: thin;
+	border-bottom-color:#CECECE;
+	width: 80%;
+}/*表格输入框颜色*/
+
+.textinput_tdy {
+	border-top-style: thin;
+	border-right-style: thin;
+	border-bottom-style: thin;
+	border-left-style: thin;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: 1px;
+	border-left-width: thin;
+	border-bottom-color:#CECECE;
+	width: 80%;
+	height:60;
+}/*表格输入框颜色*/
+
+.table_newpkgsel {
+	border: 1px none #000000;
+	height: 500px;
+}
+.table_table{
+	background-color: #FFFFFF;
+	border: 1px solid #CCCCCC;
+}
+
+.line_lie{
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: dashed;
+	border-top-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+	}
+.line_hang {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: dashed;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-top-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans>
+		<form-bean name="FileForm"
+			type="oe.security4a.web.system.FileForm" />
+	</form-beans>
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action path="/SystemAdd" scope="request"
+			type="oe.security4a.web.system.SystemAddAction">
+			<forward name="newnode" path="/newnode.jsp"></forward>
+			<forward name="newnodex" path="/newnodex.jsp"></forward>
+		</action>
+		<action path="/SystemDelete" scope="request"
+			type="oe.security4a.web.system.SystemDeleteAction">
+			<forward name="systemright" path="/right.jsp"></forward>
+		</action>
+		<action path="/SystemInput" scope="request"
+			type="oe.security4a.web.system.SystemInputAction">
+			<forward name="systemright" path="/right.jsp"></forward>
+		</action>
+		<action path="/SystemModify" scope="request"
+			type="oe.security4a.web.system.SystemModifyAction">
+			<forward name="systemright" path="/SystemRight.do"></forward>
+			<forward name="editnode" path="/editnode.jsp"></forward>
+		</action>
+		<action path="/SystemMove" scope="request"
+			type="oe.security4a.web.system.SystemMoveAction">
+			<forward name="systemright" path="/SystemRight.do"></forward>
+		</action>
+		<action path="/SystemRight" scope="request"
+			type="oe.security4a.web.system.SystemRightAction">
+			<forward name="systemright" path="/right.jsp"></forward>
+		</action>
+		<action path="/SystemTree" scope="request"
+			type="oe.security4a.web.system.SystemTreeAction">
+			<forward name="systemtree" path="/left.jsp"></forward>
+			<forward name="newsystem" path="/newsystem.jsp"></forward>
+		</action>
+		<action path="/SystemSelect" scope="request"
+			type="oe.security4a.web.rsinfo.system.SystemSelectAction">
+			<forward name="systemselect" path="/select.jsp"></forward>
+		</action>
+		<action path="/RSDownload" scope="request"
+			type="oe.security4a.web.system.RSDownloadAction">
+			<forward name="systemright" path="/right.jsp"></forward>
+		</action>
+		<action attribute="FileForm" name="FileForm"
+			path="/RSUpdateLoad" scope="request"
+			type="oe.security4a.web.system.RSUpdateLoadAction">
+			<forward name="add" path="/addinfo.jsp"></forward>
+		</action>
+	</action-mappings>
+</struts-config>
+

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="userDao"
+		class="oe.security3a.seucore.accountser.UserDaoImpl">
+	</bean>
+	<bean id="applicationDao"
+		class="oe.security3a.seucore.resourceser.ApplicationDaoImpl">
+	</bean>
+	<bean id="optrLogDao"
+		class="oe.security3a.seucore.auditingser.OptrLogDaoImpl">
+	</bean>
+
+	<bean id="protectedObjectDao"
+		class="oe.security3a.seucore.resourceser.ProtectedObjectDaoImpl">
+	</bean>
+	<bean id="roleDao"
+		class="oe.security3a.seucore.roleser.RoleDaoImpl">
+		<property name="roleDaopermission">
+			<ref local="roleDaopermission" />
+		</property>
+		<property name="roleDaouser">
+			<ref local="roleDaouser" />
+		</property>
+		<property name="roleDaorole">
+			<ref local="roleDaorole" />
+		</property>
+	</bean>
+	<bean id="roleDaopermission"
+		class="oe.security3a.seucore.roleser.RoleDaoImplpermission">
+	</bean>
+	<bean id="roleDaouser"
+		class="oe.security3a.seucore.roleser.RoleDaoImpluser">
+	</bean>
+	<bean id="roleDaorole"
+		class="oe.security3a.seucore.roleser.RoleDaoImplrole">
+	</bean>
+</beans>

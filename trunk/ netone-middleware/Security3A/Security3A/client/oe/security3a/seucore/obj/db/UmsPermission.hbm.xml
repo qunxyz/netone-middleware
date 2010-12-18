@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.security3a.seucore.obj.db.UmsPermission" table="UMS_PERMISSION">
+<id column="ID" name="id" type="java.lang.Long">
+<generator class="increment"/>
+</id>
+<property column="OBJECTID" length="22" name="objectid" type="java.lang.Long"/>
+<property column="OPERATIONID" length="22" name="operationid" type="java.lang.Long"/>
+<property column="ACTIVE" length="22" name="active" type="java.lang.Long"/>
+<property column="COMMENTS" length="255" name="comments" type="java.lang.String"/>
+</class>
+</hibernate-mapping>

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Insert title here</title>
+		<link type="text/css" rel="stylesheet" href="css/css.css">
+	</head>
+	<body>
+		<form action="/Security3A/login">
+     		<input type="hidden" name="todo" value="addtoken">
+			<table border='%{border}' width='%{width}'
+				style="background-image: %{ image">
+				<tr>
+					<td>
+						欢迎您 XXXX &nbsp;&nbsp; 帐户
+						<input name="username" type="text"
+							style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; WIDTH: 70px; BORDER-BOTTOM: #000000 1px solid; HEIGHT: 15px;"
+							tabindex=1>
+						密码
+						<input name="password" type="password"
+							style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; WIDTH: 70px; BORDER-BOTTOM: #000000 1px solid; HEIGHT: 15px;"
+							tabindex=1>
+						验证
+						<input name="imgcheck" type="text"
+							style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; WIDTH: 70px; BORDER-BOTTOM: #000000 1px solid; HEIGHT: 15px;"
+							tabindex=1>
+						<img></img>
+						<input type="submit" value="登陆" class='butt' />
+						<input type="button" value="注册"
+							onClick="window.open('/Security3A/human/HumanRegeditSelf.jsp','_blank','height=400,width=650,
+					top=0, left=0, toolbar=no, menubar=no,
+					scrollbars=no,resizable=no,location=no, status=no');"
+							class='butt' />
+						&nbsp;&nbsp;
+
+
+						<select name='buss'>
+
+							<option value='0'>
+								-业务平台-
+							</option>
+							<option value='1'>
+								个人工作区
+							</option>
+							<option value='2'>
+								业务系统后台
+							</option>
+						</select>
+						<input type="button" value="进入" class='butt' />
+						<input name="mailcheck" type="text"
+							style="BORDER-RIGHT: #000000 1px solid; BORDER-TOP: #000000 1px solid; BORDER-LEFT: #000000 1px solid; WIDTH: 90px; BORDER-BOTTOM: #000000 1px solid; HEIGHT: 15px;"
+							tabindex=1>
+						<input type="button" value="认证码" class='butt' />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

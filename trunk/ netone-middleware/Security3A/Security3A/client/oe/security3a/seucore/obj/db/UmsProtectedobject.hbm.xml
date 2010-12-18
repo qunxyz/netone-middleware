@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.security3a.seucore.obj.db.UmsProtectedobject"  table="UMS_PROTECTEDOBJECT">
+<id column="ID" name="id" type="java.lang.String">
+<generator class="uuid.hex"/>
+</id>
+<property column="OBJECTTYPE" length="100" name="objecttype" type="java.lang.String"/>
+<property column="NAME" length="255" name="name" not-null="true" type="java.lang.String"/>
+<property column="NATURALNAME" length="255" name="naturalname" type="java.lang.String"/>
+<property column="ACTIVE" length="1" name="active" type="java.lang.String"/>
+<property column="DESCRIPTION" length="255" name="description" type="java.lang.String"/>
+<property column="APPID" length="22" name="appid" type="java.lang.Long"/>
+<property column="PARENTDIR" length="255" name="parentdir" type="java.lang.String"/>
+<property column="ACTIONURL" length="255" name="actionurl" type="java.lang.String"/>
+<property column="OU" length="1000" name="ou" type="java.lang.String"/>
+<property column="EXTENDATTRIBUTE" length="1000" name="extendattribute" type="java.lang.String"/>
+<property column="REFERENCE" length="100" name="reference" type="java.lang.String"/>
+<property column="AGGREGATION" length="22" name="aggregation" type="java.lang.Long"/>
+<property column="INCLUSION" length="1" name="inclusion" type="java.lang.String"/>
+<property column="CREATED" length="19" name="created" type="java.util.Date"/>
+</class>
+</hibernate-mapping>

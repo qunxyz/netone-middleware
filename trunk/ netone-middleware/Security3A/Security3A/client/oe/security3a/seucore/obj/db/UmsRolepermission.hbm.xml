@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.security3a.seucore.obj.db.UmsRolepermission"  table="UMS_ROLEPERMISSION">
+<id column="LSH" name="lsh" type="java.lang.Long">
+<generator class="increment"/>
+</id>
+
+
+<property column="ROLEID" length="255" name="roleid" not-null="true" type="java.lang.String"/>
+<property column="OPERATIONID" length="255" name="operationid" not-null="true" type="java.lang.String"/>
+<property column="ACTIVE" length="1" name="active" type="java.lang.String"/>
+<property column="COMMENTS" length="1000" name="comments" type="java.lang.String"/>
+<property column="DNINFO" length="1000" name="dninfo" type="java.lang.String"/>
+</class>
+</hibernate-mapping>

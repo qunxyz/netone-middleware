@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans></form-beans>
+
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action input="/rbacindex.jsp" parameter="task" path="/rbacIndex" scope="request"
+			type="oe.security4a.web.rbac.RbacIndexAction">
+		</action>
+		<action path="/rbacAdd" type="oe.security4a.web.rbac.RbacAddAction">
+			<forward name="addindex" path="/rbacaddindex.jsp"></forward>
+			<forward name="index" path="/rbacIndex.do"></forward>
+		</action>
+		<action path="/rbacModify" type="oe.security4a.web.rbac.RbacModifyAction">
+			<forward name="addindex" path="/rbacaddindex.jsp"></forward>
+			<forward name="index" path="/rbacIndex.do"></forward>
+		</action>
+		<action input="/index.jsp" parameter="task" path="/rbacDel" scope="request"
+			type="oe.security4a.web.rbac.RbacDelAction">
+			<forward name="index" path="/rbacIndex.do"></forward>
+			<forward name="dept" path="/../rsinfo/dept2/DepartmentRight.do"></forward>
+		</action>
+	</action-mappings>
+
+</struts-config>
+

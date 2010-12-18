@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "spring-beans.dtd">
+
+<beans>
+	<!-- 安全 -->
+	<bean id="cupm" class="oe.security3a.seupublic.client.CupmRmiImpl"></bean>
+	<bean id="resource" class="oe.security3a.seupublic.client.ResourceRmiImpl"></bean>
+	<bean id="application" class="oe.security3a.seupublic.client.ApplicationRmiImpl"></bean>
+	
+	
+</beans>

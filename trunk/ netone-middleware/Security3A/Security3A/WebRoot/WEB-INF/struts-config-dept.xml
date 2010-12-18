@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans>
+	</form-beans>
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action path="/DepartmentAdd" scope="request"
+			type="oe.security4a.web.department.DepartmentAddAction">
+			<forward name="newnode" path="/newnode.jsp"></forward>
+			<forward name="editnode" path="/editnode.jsp"></forward>
+		</action>
+		<action path="/DepartmentDelete" scope="request"
+			type="oe.security4a.web.department.DepartmentDeleteAction">
+			<forward name="departmentright" path="/right.jsp"></forward>
+		</action>
+		<action path="/DepartmentModify" scope="request"
+			type="oe.security4a.web.department.DepartmentModifyAction">
+			<forward name="departmentright" path="/DepartmentRight.do"></forward>
+			<forward name="editnode" path="/editnode.jsp"></forward>
+		</action>
+		<action path="/DepartmentRight" scope="request"
+			type="oe.security4a.web.department.DepartmentRightAction">
+			<forward name="departmentright" path="/right.jsp"></forward>
+		</action>
+		<action path="/DepartmentTree" scope="request"
+			type="oe.security4a.web.department.DepartmentTreeAction">
+			<forward name="departmenttree" path="/left.jsp"></forward>
+			<forward name="newsystem" path="/newsystem.jsp"></forward>
+		</action>
+	</action-mappings>
+</struts-config>
+

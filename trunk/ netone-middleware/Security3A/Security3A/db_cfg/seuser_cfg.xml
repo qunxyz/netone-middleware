@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="userService"
+		class="oe.security3a.seucore.accountser.UserServiceImpl">
+	</bean>
+	<bean id="applicationService"
+		class="oe.security3a.seucore.resourceser.ApplicationServiceImpl">
+	</bean>
+	<bean id="protectedObjectService"
+		class="oe.security3a.seucore.resourceser.ProtectedObjectServiceImpl">
+	</bean>
+	<bean id="roleService"
+		class="oe.security3a.seucore.roleser.RoleServiceImpl">
+	</bean>
+	<bean id="permissionService"
+		class="oe.security3a.seucore.permission.PermissionServiceImpl">
+	</bean>
+
+
+</beans>

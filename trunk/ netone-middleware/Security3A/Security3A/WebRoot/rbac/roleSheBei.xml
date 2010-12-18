@@ -1,0 +1,17 @@
+﻿<?xml version='1.0'?>
+<tree id="0">
+	<item text="菜单管理" id="菜单管理" open="1" im0="books_close.gif" im1="tombs.gif" im2="tombs.gif" call="1" select="1">
+		<item text="电子运维" id="电子运维" open="1" im0="book.gif" im1="books_open.gif" im2="books_close.gif">
+			<item text="工单管理" id="工单管理" im0="book.gif" im1="books_open.gif" im2="book.gif"></item>
+			<item text="作业管理" id="作业管理" im0="book.gif" im1="books_open.gif" im2="book.gif"></item>
+			<item text="流程管理" id="流程管理" im0="book.gif" im1="books_open.gif" im2="book.gif"></item>
+			<item text="报表管理" id="报表管理" im0="book.gif" im1="books_open.gif" im2="book.gif"></item>
+		</item>
+		<item text="客户支撑" id="客户支撑" open="1" im0="book.gif" im1="books_open.gif" im2="books_close.gif">
+			<item text="工单管理" id="工单管理1" im0="book.gif" im1="books_open.gif" im2="book.gif"></item>
+			<item text="规则管理" id="规则管理" im0="book.gif" im1="books_open.gif" im2="book.gif"></item>
+			<item text="投诉管理" id="投诉管理" im0="book.gif" im1="books_open.gif" im2="book.gif"></item>
+			<item text="品牌查询" id="品牌查询" im0="book.gif" im1="books_open.gif" im2="book.gif"></item>
+		</item>
+	</item>
+</tree> 

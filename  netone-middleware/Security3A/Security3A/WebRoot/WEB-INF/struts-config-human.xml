@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans></form-beans>
+
+	<global-exceptions />
+
+	<global-forwards />
+	<action-mappings>
+		<action input="/human/humanindex.jsp" parameter="task" path="/humanIndex" scope="request"
+			type="oe.security4a.web.human.HumanIndexAction">
+		</action>
+		<action input="/human/humanadd.jsp" parameter="task" path="/humanAdd" scope="request"
+			type="oe.security4a.web.human.HumanAddAction">
+		</action>
+		<action input="/human/humanadd.jsp" parameter="task" path="/humanModify" scope="request"
+			type="oe.security4a.web.human.HumanModifyAction">
+			<forward name="humanindex" path="/humanIndex.do"></forward>
+		</action>
+		<action input="/human/humanindex.jsp" parameter="task" path="/humanDel" scope="request"
+			type="oe.security4a.web.human.HumanDelAction">
+			<forward name="humanindex" path="/humanIndex.do"></forward>
+			<forward name="dept" path="/rsinfo/dept/DepartmentRight.do"></forward>
+		</action>
+		<action input="/human/humanadd.jsp" parameter="task" path="/humanCopy" scope="request"
+			type="oe.security4a.web.human.HumanCopyAction">
+			<forward name="humanindex" path="/humanIndex.do"></forward>
+		</action>
+		<action input="/human/humanfile.jsp" path="/humanFile" scope="request"
+			type="oe.security4a.web.human.HumanFileAction">
+			<forward name="humanindex" path="/humanIndex.do"></forward>
+			<forward name="humanfile" path="/human/humanfile.jsp" ></forward>
+		</action>
+	</action-mappings>
+</struts-config>
+

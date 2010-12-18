@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="addClerk"
+		class="oe.security3a.seupublic.authentication.PDPClerkInput">
+	</bean>
+	<bean id="addResource"
+		class="oe.security3a.seupublic.authentication.PDPResourceInput">
+	</bean>
+	<bean id="getClerk"
+		class="oe.security3a.seupublic.authentication.PDPClerkOutput">
+	</bean>
+	<bean id="getResource"
+		class="oe.security3a.seupublic.authentication.PDPResourceOutput">
+	</bean>
+	<bean id="checkRolePermission"
+		class="oe.security3a.seupublic.authentication.PDPRolePermission">
+	</bean>
+	<bean id="checkClerkPermission"
+		class="oe.security3a.seupublic.authentication.PDPClerkPermission">
+	</bean>
+	<bean id="getRole"
+		class="oe.security3a.seupublic.authentication.PDPRoleOutput">
+	</bean>
+	<bean id="login"
+		class="oe.security3a.seupublic.authentication.PDPLogin">
+	</bean>
+</beans>

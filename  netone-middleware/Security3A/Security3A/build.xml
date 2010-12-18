@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<project name="Security3A" default="default" basedir=".">
+
+	<property name="src.dir" value="${basedir}/client" />
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="web.dir" value="${basedir}/WebRoot" />
+	<property name="dist.dir" value="${basedir}/RESOURCE" />
+
+
+	<target name="rmi_stub">
+		<jar destfile="${dist.dir}/Security3ASer.jar">
+			<fileset dir="${class.dir}">
+				<include name="**" />
+				<exclude name="contextBean.xml" />
+				<exclude name="ds_config.xml" />
+				<exclude name="rmiClient.properties" />
+				<exclude name="ssoconf.properties" />
+				<exclude name="ssoserver.properties" />
+				<exclude name="webservice.properties" />
+				<exclude name="oe/security3a/severlet/" />
+				<exclude name="oe/security3a/web/" />
+				<exclude name="ClerkInfo.xls" />
+				<exclude name="CupmWeb.xml" />
+				<exclude name="log4j.properties" />
+			</fileset>
+		</jar>
+		<jar destfile="${dist.dir}/Security3AClient.jar">
+			<fileset dir="${class.dir}">
+				<include name="oe/security4a/severlet/**" />
+				<include name="oe/security3a/client/**" />
+				<include name="oe/security3a/seucore/obj/**" />
+				<include name="oe/security3a/seucore/permission/**" />
+				<include name="oe/security3a/tools/XMLReference.class" />
+				<include name="oe/security3a/tools/UserSyncSpeci.class" />
+				<exclude name="oe/security3a/seucore/PermissionManagerImpl.class" />
+				<exclude name="oe/security3a/seucore/PermissionServiceImpl.class" />
+				<include name="oe/security3a/sso/**" />
+				<include name="oe/security3a/seupublic/authentication/**" />
+				<include name="oe/security3a/seupublic/client/**" />
+				<exclude name="oe/security3a/seupublic/client/CupmRmiImpl.class" />
+				<exclude name="oe/security3a/seupublic/client/ResourceRmiImpl.class" />
+				<exclude name="oe/security3a/severlet/" />
+				<exclude name="oe/security3a/web/" />
+				<exclude name="rs.tld" />
+				<include name="CupmWeb.xml" />
+				<include name="ssoconf.properties" />
+				<include name="ssoserver.properties" />
+				<include name="webservice.properties" />
+				<include name="urlRedirect.properties" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="default" depends="rmi_stub">
+	</target>
+
+
+
+</project>

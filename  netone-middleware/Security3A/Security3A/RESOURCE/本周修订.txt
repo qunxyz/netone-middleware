@@ -1,0 +1,52 @@
+1: 传统的授权模式 有问题　－－OK
+1: DB模式下的人员　上传和下载，部门信息的上传和下载－－OK
+2: 授权 应该对所有的资源进行授权, 所以 旧的授权模型和新的授权模式  需要修订一下 －－OK
+3: 自动注册的 部门隶属问题需要解决一下,人员注册 要求全部采用邮件帐户进行注册 －－OK
+5: 资源包括: 人员/角色/部门/菜单资源 这些都通过使用安全的 RMI服务 来同步,在任务系统中测试 －－OK
+10: 单点登陆 如果服务放在同一机器上, 在一个页面登陆,后,切换到另一个系统将无法初始化另一个系统的 登陆初始化程序 －－OK
+11: 所有直接点开的应用,在旁边加一个 树的图标来打开 
+12: 访问控制跳转的时候 参数会丢失 --OK
+12: 访问控制跳转的时候 参数会丢失,只能传递一个参数,两个参数的情况下第二个参数丢失 －－OK
+
+13: 自动单点登陆,参考 oralce中的模式
+
+14: 被安全保护的url 在去安全登陆,跳转回来的时候,可以保存参数,其中还对参数进行jbk的编码 --OK
+
+15: 页框的应用测试一下在 AutoCss中 －－OK
+
+16: 任务系统测试一下
+
+17: 保护对象命名重复的问题 要好好的处理下,否则容易出现很多 异常,比如:portal的创建 －－OK
+
+http://localhost:8000/cmsWeb/DownloadSvl2?name=CSSFILE.CSSFILE.DEFAULT 用跳转后
+无法重现参数
+
+登陆控制部分有些问题, 如果没有被过滤器过滤到的 URL 中的olusermgr.getOnlineUser(request).getLoginname(); 将为空
+
+安全需要全部过滤,修改 web.xml 去掉一下的东西
+		<init-param>
+			<param-name>FilterUrls</param-name>
+			<param-value>
+				/sso/index.jsp,/sso/impl/index.jsp
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>CheckLoginUrls</param-name>
+			<param-value>
+				/sso/index.jsp,/sso/impl/index.jsp
+			</param-value>
+		</init-param>
+		
+安全的整个 sso 机制需要努力去搞明白
+
+超时的时候,系统会报出个错误,Session过期的时候跳转的页面找不到 Secruity3A/login.jsp
+
+安全系统运行久了之后, 会发现无法登陆
+
+安全这边标签中集中成了soa的访问
+
+关联用户要支持多选
+
+列表和选择全部采用 webSpeci中的标准方式来完成
+
+发现一个严重的bug 在 protectedobjectDao中 create逻辑中的ou 创建出错

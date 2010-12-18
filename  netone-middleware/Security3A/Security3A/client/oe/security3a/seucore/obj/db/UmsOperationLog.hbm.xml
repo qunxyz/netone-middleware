@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.security3a.seucore.obj.db.UmsOperationLog" table="UMS_OPERATION_LOG">
+<id column="LOGID" name="logid" type="java.lang.String">
+<generator class="uuid.hex"/>
+</id>
+<property column="USERID" length="100" name="userid" type="java.lang.String"/>
+<property column="OPERATETIME" length="7" name="operatetime" type="java.util.Date"/>
+<property column="OPERATIONID" length="100" name="operationid" type="java.lang.String"/>
+<property column="RESULTINFO" length="100" name="resultinfo" type="java.lang.String"/>
+<property column="LOGSEQID" length="1000" name="logseqid" type="java.lang.String"/>
+<property column="USERIP" length="100" name="userip" type="java.lang.String"/>
+<property column="USERHOST" length="100" name="userhost" type="java.lang.String"/>
+<property column="REMARK" length="1000" name="remark" type="java.lang.String"/>
+</class>
+</hibernate-mapping>

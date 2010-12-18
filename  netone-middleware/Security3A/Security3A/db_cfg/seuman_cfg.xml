@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="userManager"
+		class="oe.security3a.seucore.accountser.UserManagerImpl">
+	</bean>
+	<bean id="applicationManager"
+		class="oe.security3a.seucore.resourceser.ApplicationManagerImpl">
+	</bean>
+	<bean id="protectedObjectManager"
+		class="oe.security3a.seucore.resourceser.ProtectedObjectManagerImpl">
+	</bean>
+	<bean id="roleManager"
+		class="oe.security3a.seucore.roleser.RoleManagerImpl">
+	</bean>
+	<bean id="permissionManager"
+		class="oe.security3a.seucore.permission.PermissionManagerImpl">
+	</bean>
+</beans>

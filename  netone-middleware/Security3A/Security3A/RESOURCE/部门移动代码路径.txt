@@ -1,0 +1,13 @@
+com.newland.security3a.web.department.DepartmentMoveAction.java
+
+function movedept(){
+	var deptid = document.all.id.value;
+	window.open("DepartmentSelect.do?func=movedept&deptid="+deptid,'×éÖ¯Ñ¡Ôñ','width=400,height=350,resizable=yes,left=250,top=100,status=yes');
+}
+
+function doMove(oldid,newid){
+	document.all.oldid.value = oldid;
+	document.all.newid.value = newid;
+	form1.action = "rsinfo/dept/DepartmentMove.do";
+	form1.submit();
+}

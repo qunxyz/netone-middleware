@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.security3a.seucore.obj.db.TCsUser"  table="T_CS_USER">
+<id column="USERCODE" name="usercode" type="java.lang.String">
+<generator class="assigned"/>
+</id>
+<property column="SYSTEMID" length="100" name="systemid" type="java.lang.String"/>
+<property column="NAME" length="100" name="name" type="java.lang.String"/>
+<property column="STATUSINFO" length="2" name="statusinfo" type="java.lang.String"/>
+<property column="EXTENDINFO" length="1000" name="extendinfo" type="java.lang.String"/>
+<property column="PASSWORDX" length="100" name="passwordx" type="java.lang.String"/>
+<property column="TYPES" length="2" name="types" type="java.lang.String"/>
+<property column="CREATED" length="30" name="created" type="java.lang.String"/>
+<property column="DESCRIPTION" length="1000" name="description" type="java.lang.String"/>
+<property column="EMAIL" length="100" name="email" type="java.lang.String"/>
+<property column="ADDRESSINFO" length="100" name="addressinfo" type="java.lang.String"/>
+<property column="FOX" length="100" name="fox" type="java.lang.String"/>
+<property column="PHONE" length="100" name="phone" type="java.lang.String"/>
+<property column="BUSSINESS" length="100" name="bussiness" type="java.lang.String"/>
+<property column="PARTICIPANT" length="100" name="participant" type="java.lang.String"/>
+<property column="SEX" length="1" name="sex" type="java.lang.String"/>
+<property column="IDS" length="20" name="ids" type="java.lang.String"/>
+<property column="MAJOR" length="100" name="major" type="java.lang.String"/>
+<property column="OTHERINFO" length="1000" name="otherinfo" type="java.lang.String"/>
+
+</class>
+</hibernate-mapping>

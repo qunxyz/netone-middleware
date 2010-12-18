@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://localhost:8080/axis/CupmWeb.jws" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://localhost:8080/axis/CupmWeb.jws" xmlns:intf="http://localhost:8080/axis/CupmWeb.jws" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://lang.java" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="http://localhost:8080/axis/CupmWeb.jws" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://lang.java"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_xsd_string">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="logRequest">
+
+      <wsdl:part name="dnname" type="xsd:string"/>
+
+      <wsdl:part name="action" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="checkUserPermissionResponse">
+
+      <wsdl:part name="checkUserPermissionReturn" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getRoleActionRequest">
+
+      <wsdl:part name="rolename" type="xsd:string"/>
+
+      <wsdl:part name="dnname" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="mainRequest">
+
+      <wsdl:part name="args" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="todoRequest">
+
+      <wsdl:part name="request" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="mainResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="checkRolePermissionRequest">
+
+      <wsdl:part name="rolename" type="xsd:string"/>
+
+      <wsdl:part name="dnname" type="xsd:string"/>
+
+      <wsdl:part name="action" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="checkUserPermissionRequest">
+
+      <wsdl:part name="loginname" type="xsd:string"/>
+
+      <wsdl:part name="dnname" type="xsd:string"/>
+
+      <wsdl:part name="action" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getRoleActionResponse">
+
+      <wsdl:part name="getRoleActionReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="checkLoginResponse">
+
+      <wsdl:part name="checkLoginReturn" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="todoResponse">
+
+      <wsdl:part name="todoReturn" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="checkLoginRequest">
+
+      <wsdl:part name="loginname" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="restr" type="xsd:anyType"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="checkRolePermissionResponse">
+
+      <wsdl:part name="checkRolePermissionReturn" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="logResponse">
+
+      <wsdl:part name="logReturn" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="CupmWeb">
+
+      <wsdl:operation name="main" parameterOrder="args">
+
+         <wsdl:input message="impl:mainRequest" name="mainRequest"/>
+
+         <wsdl:output message="impl:mainResponse" name="mainResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="log" parameterOrder="dnname action">
+
+         <wsdl:input message="impl:logRequest" name="logRequest"/>
+
+         <wsdl:output message="impl:logResponse" name="logResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="todo" parameterOrder="request">
+
+         <wsdl:input message="impl:todoRequest" name="todoRequest"/>
+
+         <wsdl:output message="impl:todoResponse" name="todoResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="checkRolePermission" parameterOrder="rolename dnname action">
+
+         <wsdl:input message="impl:checkRolePermissionRequest" name="checkRolePermissionRequest"/>
+
+         <wsdl:output message="impl:checkRolePermissionResponse" name="checkRolePermissionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="checkUserPermission" parameterOrder="loginname dnname action">
+
+         <wsdl:input message="impl:checkUserPermissionRequest" name="checkUserPermissionRequest"/>
+
+         <wsdl:output message="impl:checkUserPermissionResponse" name="checkUserPermissionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRoleAction" parameterOrder="rolename dnname">
+
+         <wsdl:input message="impl:getRoleActionRequest" name="getRoleActionRequest"/>
+
+         <wsdl:output message="impl:getRoleActionResponse" name="getRoleActionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="checkLogin" parameterOrder="loginname password restr">
+
+         <wsdl:input message="impl:checkLoginRequest" name="checkLoginRequest"/>
+
+         <wsdl:output message="impl:checkLoginResponse" name="checkLoginResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="CupmWebSoapBinding" type="impl:CupmWeb">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="main">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="mainRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://DefaultNamespace" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="mainResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8080/axis/CupmWeb.jws" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="log">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="logRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://DefaultNamespace" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="logResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8080/axis/CupmWeb.jws" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="todo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="todoRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://DefaultNamespace" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="todoResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8080/axis/CupmWeb.jws" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="checkRolePermission">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="checkRolePermissionRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://DefaultNamespace" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="checkRolePermissionResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8080/axis/CupmWeb.jws" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="checkUserPermission">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="checkUserPermissionRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://DefaultNamespace" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="checkUserPermissionResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8080/axis/CupmWeb.jws" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRoleAction">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getRoleActionRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://DefaultNamespace" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getRoleActionResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8080/axis/CupmWeb.jws" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="checkLogin">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="checkLoginRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://DefaultNamespace" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="checkLoginResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://localhost:8080/axis/CupmWeb.jws" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="CupmWebService">
+
+      <wsdl:port binding="impl:CupmWebSoapBinding" name="CupmWeb">
+
+         <wsdlsoap:address location="http://localhost:8080/axis/CupmWeb.jws"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

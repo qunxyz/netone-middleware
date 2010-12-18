@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.security3a.seucore.obj.db.UmsApplication"  table="UMS_APPLICATION">
+<id column="ID" name="id" type="java.lang.Long">
+<generator class="increment"/>
+</id>
+<property column="NAME" length="255" name="name" not-null="true" type="java.lang.String"/>
+<property column="NATURALNAME" length="255" name="naturalname" type="java.lang.String"/>
+<property column="PASSWORD" length="255" name="password" not-null="true" type="java.lang.String"/>
+<property column="DESCRIPTION" length="255" name="description" type="java.lang.String"/>
+<property column="ACTIVE" length="1" name="active" type="java.lang.String"/>
+<property column="APPTYPE" length="100" name="apptype" type="java.lang.String"/>
+<property column="CREATED" length="19" name="created" type="java.util.Date"/>
+<property column="EXTENDATTRIBUTE" length="1000" name="extendattribute" type="java.lang.String"/>
+</class>
+</hibernate-mapping>

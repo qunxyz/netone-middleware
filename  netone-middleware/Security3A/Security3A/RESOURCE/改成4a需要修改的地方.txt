@@ -1,0 +1,2 @@
+1:在web.xml中除了过滤器不动<filter-class>com.newland.security3a.sso.SsoFilter</filter-class>,其余security3a改成4a
+2:struts-config.xml等struts配置文件里的路径改成4a

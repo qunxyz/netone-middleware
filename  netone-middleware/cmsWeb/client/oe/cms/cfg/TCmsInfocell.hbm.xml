@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+	<class name="oe.cms.cfg.TCmsInfocell" table="T_CMS_INFOCELL">
+		<id column="CELLID" name="cellid" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property column="NATURALNAME" length="100" name="naturalname"
+			type="java.lang.String" />
+
+		<property column="CELLNAME" length="100" name="cellname"
+			type="java.lang.String" />
+		<property column="BODY" length="65535" name="body"
+			type="java.lang.String" />
+		<property column="EXTENDATTRIBUTE" length="1000"
+			name="extendattribute" type="java.lang.String" />
+		<property column="BELONGTO" length="100" name="belongto"
+			type="java.lang.String" />
+		<property column="INTIME" length="10" name="intime"
+			type="java.lang.String" />
+		<property column="PARTICIPANT" length="100" name="participant"
+			type="java.lang.String" />
+		<property column="TYPES" length="2" name="types"
+			type="java.lang.String" />
+		<property column="HEIGHT" length="22" name="height"
+			type="java.lang.Long" />
+		<property column="WIDTH" length="22" name="width"
+			type="java.lang.Long" />
+		<property column="availablefrom" length="10"
+			name="availablefrom" type="java.sql.Timestamp" />
+		<property column="availableto" length="10" name="availableto"
+			type="java.sql.Timestamp" />
+		<property column="cachecycle" length="10" name="cachecycle"
+			type="java.lang.Double" />
+		<property column="created" length="10" name="created"
+			type="java.sql.Timestamp" />
+	</class>
+</hibernate-mapping>

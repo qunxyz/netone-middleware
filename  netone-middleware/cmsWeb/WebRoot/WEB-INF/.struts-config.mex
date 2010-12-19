@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowViewLayout Version="1.2">
+  <StrutsActivity path="/cms/infodata/infoDataList.jsp" location="950,250" dimension="220,48" />
+  <StrutsActivity path="/cms/infodata/infoDataEdit.jsp" location="50,350" dimension="220,48" />
+  <StrutsActivity path="/cms/infodata/infoDataNew.jsp" location="350,350" dimension="214,48" />
+  <StrutsActivity path="/cms/infocell/infoCellList.jsp" location="50,450" dimension="220,48" />
+  <StrutsActivity path="/cms/infocell/infoCellEdit.jsp" location="50,550" dimension="220,48" />
+  <StrutsActivity path="/cms/infocell/infoCellNew.jsp" location="650,550" dimension="214,48" />
+  <StrutsActivity path="/cms/infomodel/infoModelNew.jsp" location="50,850" dimension="226,48" />
+  <StrutsActivity path="/cms/infomodel/infoModelEdit.jsp" location="1250,850" dimension="232,48" />
+  <StrutsActivity path="/cms/infomodel/infoModelList.jsp" location="50,950" dimension="232,48" />
+  <StrutsActivity path="/floatdiv/index.jsp" location="350,950" dimension="154,48" />
+  <StrutsActivity path="/cms/infogroup/infoGroupList.jsp" location="350,850" dimension="232,48" />
+  <StrutsActivity path="/cms/infogroup/infoGroupNew.jsp" location="650,850" dimension="226,48" />
+  <StrutsActivity path="/cms/infogroup/infoGroupEdit.jsp" location="950,850" dimension="232,48" />
+  <StrutsActivity path="/cms/InfoData/infoDataList.jsp" location="350,50" dimension="220,48" />
+  <StrutsActivity path="/cms/InfoData/editInfodata.jsp" location="950,50" dimension="220,48" />
+  <StrutsActivity path="/cms/InfoData/newInfodata.jsp" location="950,150" dimension="214,48" />
+  <StrutsActivity path="/cms/InfoData/infoDataEdit.jsp" location="50,250" dimension="220,48" />
+  <StrutsActivity path="/cms/InfoData/infoDataNew.jsp" location="650,250" dimension="214,48" />
+  <StrutsActivity path="/cms/infodata/infoCellList.jsp" location="950,350" dimension="220,48" />
+  <StrutsTransition id="/cms/infomodel/infoModelNew.jsp,null,/infomodelnew.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="276,874" />
+      <AbsolutePoint location="309,874" />
+      <AbsolutePoint location="309,613" />
+      <AbsolutePoint location="1369,613" />
+      <AbsolutePoint location="1369,534" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/cms/infocell/infoCellEdit.jsp,null,/infocelledit.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="270,574" />
+      <AbsolutePoint location="469,574" />
+      <AbsolutePoint location="469,534" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/cms/infodata/infoDataList.jsp,null,/infodatalist.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="950,274" />
+      <AbsolutePoint location="909,274" />
+      <AbsolutePoint location="909,-25" />
+      <AbsolutePoint location="166,-25" />
+      <AbsolutePoint location="166,50" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/cms/infomodel/infoModelEdit.jsp,null,/infomodeledit.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1366,850" />
+      <AbsolutePoint location="1366,779" />
+      <AbsolutePoint location="1072,779" />
+      <AbsolutePoint location="1072,734" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/cms/infocell/infoCellList.jsp,null,/infocelllist.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="160,450" />
+      <AbsolutePoint location="160,413" />
+      <AbsolutePoint location="650,413" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/cms/infocell/infoCellNew.jsp,null,/infocellnew.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="757,550" />
+      <AbsolutePoint location="757,492" />
+      <AbsolutePoint location="950,492" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/cms/infodata/infoDataEdit.jsp,null,/infodataedit.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="160,350" />
+      <AbsolutePoint location="160,313" />
+      <AbsolutePoint location="879,313" />
+      <AbsolutePoint location="879,134" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/cms/infomodel/infoModelList.jsp,null,/infomodellist.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="166,998" />
+      <AbsolutePoint location="166,1073" />
+      <AbsolutePoint location="1209,1073" />
+      <AbsolutePoint location="1209,692" />
+      <AbsolutePoint location="1250,692" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/cms/infodata/infoDataNew.jsp,null,/infodatanew.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="457,350" />
+      <AbsolutePoint location="457,234" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/showFloatDiv.do,success,/floatdiv/index.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1509,334" />
+      <AbsolutePoint location="1509,974" />
+      <AbsolutePoint location="504,974" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+</FlowViewLayout>
+

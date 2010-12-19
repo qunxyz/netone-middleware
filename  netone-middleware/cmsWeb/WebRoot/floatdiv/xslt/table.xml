@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="GBK"?>
+<DivView type="table">
+	<id>fz</id>
+	<name>福州指标</name>
+	<xoffset>0</xoffset>
+	<yoffset>0</yoffset>
+	<date>
+		<table>
+			<tr>
+				<td>
+					<text>接通率</text>
+				</td>
+				<td>
+					<text>98%</text>
+					<link><![CDATA[http://localhost:8080]]></link>
+					<remark>好</remark>
+					<remark>不好</remark>
+				</td>
+			</tr>
+		</table>
+	</date>
+</DivView>
+

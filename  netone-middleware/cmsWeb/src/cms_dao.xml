@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="infocellDao"
+		class="oe.cms.dao.infocell.InfoCellDaoImpl">
+	</bean>
+	<bean id="modelDao" class="oe.cms.dao.infomodel.ModelDaoImpl">
+		<property name="blogLevelARichSeriTime">
+			<value>0 30 5 * * ?</value>
+		</property>
+		<property name="blogLevelBRichSeriTime">
+			<value>0 30 5 * * ?</value>
+		</property>
+		<property name="blogLevelCRichSeriTime">
+			<value>0 30 5 * * ?</value>
+		</property>
+		<property name="comeAlevelTime">
+			<value>0 30 5 * * ?</value>
+		</property>
+		<property name="comeBlevelTime">
+			<value>0 30 5 * * ?</value>
+		</property>
+		<property name="backBlevelTime">
+			<value>0 30 5 * * ?</value>
+		</property>
+		<property name="backClevelTime">
+			<value>0 30 5 * * ?</value>
+		</property>
+		<property name="winnerTime">
+			<value>0 30 5 * * ?</value>
+		</property>
+		<property name="comeAlevelNum">
+			<value>3</value>
+		</property>
+		<property name="backBlevelNum">
+			<value>3</value>
+		</property>
+		<property name="comeBlevelNum">
+			<value>3</value>
+		</property>
+		<property name="backClevelNum">
+			<value>3</value>
+		</property>
+	</bean>
+	<bean id="richLevel" class="oe.cms.dao.infomodel.RichLevelImpl"></bean>
+	<bean id="blog" class="oe.cms.dao.blog.BlogImpl"></bean>
+	<bean id="inport" class="oe.cms.dao.blog.InportImpl2"></bean>
+	<bean id="export" class="oe.cms.dao.blog.ExportImpl2"></bean>
+	<bean id="layoutX" class="oe.cms.dao.blog.LayoutXImpl"></bean>
+	<bean id="jppMiddwareDIY"
+		class="oe.cms.dao.infocell.JppMiddwareDIYImpl">
+	</bean>
+</beans>

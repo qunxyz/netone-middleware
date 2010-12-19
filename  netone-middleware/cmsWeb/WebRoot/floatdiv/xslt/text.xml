@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="GBK"?><DivView type="text">	<id>fz</id>	<name>福州指标</name>	<xoffset>0</xoffset>	<yoffset>0</yoffset>	<date>		<item>			<text>接通率</text>			<value>98%</value>			<link><![CDATA[http://localhost:8080/]]></link>		</item>	</date></DivView>

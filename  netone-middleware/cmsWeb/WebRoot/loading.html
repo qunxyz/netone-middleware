@@ -1,0 +1,23 @@
+<form name=loading>
+  <p align=center> <font color="#0066ff" size="2" face="Arial">loading...</font><br>
+    <input type=text name=chart size=46 style="font-family:Arial; font-weight:bolder; color:#0066ff; background-color:#fef4d9; padding:0px; border-style:none;">
+    <br>
+    <input type=text name=percent size=47 style="color:#0066ff; text-align:center; border-width:medium; border-style:none;">
+    <script> 
+var bar=0 
+var line="||" 
+var amount="||" 
+count() 
+function count(){ 
+bar=bar+2 
+amount =amount + line 
+document.loading.chart.value=amount 
+document.loading.percent.value=bar+"%" 
+if (bar<99) 
+{setTimeout("count()",100);}else{
+document.loading.style.display='none';
+}
+}
+</script>
+  </p>
+</form>

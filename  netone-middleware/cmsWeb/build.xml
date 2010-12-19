@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<project name="Newland3A" default="default" basedir=".">
+
+	<property name="src.dir" value="${basedir}/client" />
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="web.dir" value="${basedir}/WebRoot" />
+	<property name="dist.dir" value="${basedir}/RESOURCE" />
+
+
+	<target name="rmi_stub">
+		<jar destfile="${dist.dir}/cmsService.jar">
+			<fileset dir="${class.dir}">
+				<include name="**" />
+				<exclude name="oe/cms/web/**" />
+				<exclude name="applicationweb.properties" />
+				<exclude name="log4j.properties" />
+				<exclude name="resource.properties" />
+				<exclude name="resourceweb.properties" />
+				<exclude name="rmiClient.properties" />
+				<exclude name="ssoconf.properties" />
+				<exclude name="jppDemo.properties" />
+				<exclude name="jpp.properties" />
+				<exclude name="envconfig.properties" />
+			</fileset>
+		</jar>
+		<jar destfile="${dist.dir}/cmsClient.jar">
+			<fileset dir="${class.dir}">
+				<include name="oe/cms/cfg/**" />
+				<include name="oe/cms/service/**" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="default" depends="rmi_stub">
+	</target>
+
+
+
+</project>

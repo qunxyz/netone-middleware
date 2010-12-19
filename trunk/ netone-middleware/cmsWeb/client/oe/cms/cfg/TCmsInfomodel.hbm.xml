@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+	<class name="oe.cms.cfg.TCmsInfomodel" table="T_CMS_INFOMODEL">
+		<id column="MODELID" name="modelid" type="java.lang.Long">
+			<generator class="assigned" />
+		</id>
+		<property column="NATURALNAME" length="100" name="naturalname"
+			type="java.lang.String" />
+
+		<property column="MODELNAME" length="100" name="modelname"
+			type="java.lang.String" />
+		<property column="DESCRIPTION" length="1000" name="description"
+			type="java.lang.String" />
+		<property column="EXTENDATTRIBUTE" length="1000"
+			name="extendattribute" type="java.lang.String" />
+		<property column="USERID" length="100" name="userid"
+			type="java.lang.String" />
+		<property column="ACCESSMODE" length="2" name="accessmode"
+			not-null="true" type="java.lang.String" />
+		<property column="INFOXML" length="4000" name="infoxml"
+			type="java.lang.String" />
+		<property column="PARTICIPANT" length="100" name="participant"
+			type="java.lang.String" />
+		<property column="HIT" length="20" name="hit"
+			type="java.lang.Long" />
+		<property column="LEVELS" length="1" name="levels"
+			type="java.lang.String" />
+		<property column="WINTIME" length="30" name="wintime"
+			type="java.lang.String" />
+		<property column="CREATEDTIME" length="30" name="createdtime"
+			type="java.lang.String" />
+		<property column="MODIFYTIME" length="30" name="modifytime"
+			type="java.lang.String" />
+	</class>
+</hibernate-mapping>

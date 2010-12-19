@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+	<class name="oe.cms.cfg.TCmsJppmidware" table="t_cms_jppmidware">
+		<id column="JPPMID" name="jppmid" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property column="JPPMIDNAME" length="100" name="jppmidname"
+			type="java.lang.String" />
+		<property column="ACCESSTYPE" length="1" name="accesstype"
+			type="java.lang.String" />
+		<property column="JPPMIDSCRIPT" length="65535"
+			name="jppmidscript" type="java.lang.String" />
+		<property column="JPPMIDSCRIPTAPI" length="65535"
+			name="jppmidscriptapi" type="java.lang.String" />
+		<property column="PARTICIPANT" length="100" name="participant"
+			type="java.lang.String" />
+		<property column="EXTENDATTRIBUTE" length="100"
+			name="extendattribute" type="java.lang.String" />
+		<property column="NATURALNAME" length="100"
+			name="naturalname" type="java.lang.String" />			
+			
+	</class>
+</hibernate-mapping>

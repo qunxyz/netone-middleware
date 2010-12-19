@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="xmlParser" class="oe.cms.datasource.XMLParseImpl"></bean>
+	<bean id="htmlStreamHandler"
+		class="oe.cms.runtime.HtmlStreamHandlerImpl">
+	</bean>
+	<bean id="infoCellParser"
+		class="oe.cms.runtime.InfoCellParserImpl">
+	</bean>
+	<bean id="xHtmlParser"
+		class="oe.cms.runtime.ruleparser2.XHtmlParserImpl2">
+	</bean>
+	<bean id="wiParser" class="oe.cms.runtime.core.WiParserImpl"></bean>
+
+	<bean id="infobodyAccess"
+		class="oe.cms.datasource.InfoBodyAccessImpl">
+	</bean>
+	<bean id="widivaccess"
+		class="oe.cms.datasource.WiDivInfoAccessImpl">
+	</bean>
+	<!-- J++内部对象-->
+	<bean id="ai"
+		class="oe.cms.xhtml2.analysis.AnalysisInterfaceImpl">
+	</bean>
+	<bean id="di" class="oe.cms.xhtml2.data.DataInterfaceImpl"></bean>
+	<bean id="pi" class="oe.cms.xhtml2.portal.PortaletInterfaceImpl"></bean>
+
+	<bean id="vi" class="oe.cms.xhtml2.view.ViewInterfaceImpl"></bean>
+	<bean id="intimeTrigger"
+		class="oe.cms.runtime.timeTrigger.InTimeTriggerImpl">
+	</bean>
+	<bean id="bi" class="oe.cms.xhtml2.bi.BusinessInterfaceImpl">
+		<property name="di">
+			<ref bean="di" />
+		</property>
+		<property name="vi">
+			<ref bean="vi" />
+		</property>
+	</bean>
+	<bean id="ui" class="oe.cms.xhtml2.UtilInterfaceImpl"></bean>
+</beans>

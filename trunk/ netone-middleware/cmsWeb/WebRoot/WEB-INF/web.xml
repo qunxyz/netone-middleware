@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<filter>
+		<filter-name>characterEncoding</filter-name>
+		<filter-class>oe.frame.web.SetCharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 安全-开始 -->
+	<filter>
+		<filter-name>ssofilter</filter-name>
+		<filter-class>
+			oe.security3a.sso.SsoFilter
+		</filter-class>
+		<init-param>
+			<param-name>LoginListener</param-name>
+			<param-value>oe.security3a.sso.OnLoginOperation</param-value>
+		</init-param>
+		<init-param>
+			<param-name>AbortUrls</param-name>
+			<param-value>
+				/servlet/DivInnerHtmlPortalSvl,/frames.do,/frames/AppFrame.jsp,/frames/AppFrame1.jsp,/frames/AppFrame2.jsp,/floatdiv/portal.jsp,/CopyPortalSvl,/portal.do,/DownloadSvl,/DownloadSvl2,/AutoStyleSvl,/RmiBeanTestSvl,/RmiBeanViewSvl,/flowpage/login.jsp
+			</param-value>
+		</init-param>
+	</filter>
+	
+
+	
+	
+	<filter-mapping>
+		<filter-name>ssofilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<servlet-class>oe.frame.web.util.AjaxServiceSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<url-pattern>/servlet/AjaxServiceSvl</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+		<servlet>
+		<servlet-name>logoutsvl</servlet-name>
+		<servlet-class>
+			oe.security3a.sso.listener.LogoutSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>logoutsvl</servlet-name>
+		<url-pattern>/logoutsvl</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>home.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- 安全-结束 -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+
+	<servlet>
+		<servlet-name>AjaxPageItemSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.AjaxPageItemSvl
+		</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>AjaxInfoModelSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.AjaxInfoModelSvl
+		</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>DivInnerHtmlSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.DivInnerHtmlSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DivInnerHtmlPortalSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.DivInnerHtmlPortalSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DivInnerHtmlSvlHistory</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.DivInnerHtmlSvlHistory
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DivLayoutSvl</servlet-name>
+		<servlet-class>oe.cms.web.floatdiv.DivLayoutSvl</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>graphSeverlet</servlet-name>
+		<servlet-class>
+			oe.cms.xhtml.core.graph.GraphSeverlet
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>graph2Severlet</servlet-name>
+		<servlet-class>
+			oe.cms.xhtml.core.graph.Graph2Severlet
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AjaxSvl</servlet-name>
+		<servlet-class>oe.cms.web.floatdiv.AjaxSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AjaxBlankSvl</servlet-name>
+		<servlet-class>oe.cms.web.floatdiv.AjaxBlankSvl</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>AjaxViewElementSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.AjaxViewElementSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AjaxCellListSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.infocellx.AjaxCellListSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AjaxCellDelSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.infocellx.AjaxCellDelSvl
+		</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>AjaxJppListSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.infocellx.AjaxJppListSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AjaxJppListMoreSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.infocellx.AjaxJppListMoreSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AjaxJppAddSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.infocellx.AjaxJppAddSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AjaxJppAddMoreSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.infocellx.AjaxJppAddMoreSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SpaceRichOpenSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.SpaceRichOpenSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>RichAddTicket</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.SpaceRichAddTicket
+		</servlet-class>
+	</servlet>
+
+	<servlet>
+		<description>
+			This is the description of my J2EE component
+		</description>
+		<display-name>
+			This is the display name of my J2EE component
+		</display-name>
+		<servlet-name>CmsInit</servlet-name>
+		<servlet-class>oe.cms.web.init.CmsInit</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+
+
+	<servlet>
+		<servlet-name>SaveipSvl</servlet-name>
+		<servlet-class>oe.cms.web.floatdiv.SaveipSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>FishCutSvl</servlet-name>
+		<servlet-class>oe.cms.web.floatdiv.FishCutSvl</servlet-class>
+	</servlet>
+
+
+
+	<servlet>
+		<servlet-name>CalculateSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.infocellx.AjaxCellCalcalateSvl
+		</servlet-class>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CalculateSvl</servlet-name>
+		<url-pattern>/servlet/CalculateSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DivInnerHtmlPortalSvl</servlet-name>
+		<url-pattern>/servlet/DivInnerHtmlPortalSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DivInnerHtmlSvl</servlet-name>
+		<url-pattern>/servlet/DivInnerHtmlSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FishCutSvl</servlet-name>
+		<url-pattern>/servlet/FishCutSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SaveipSvl</servlet-name>
+		<url-pattern>/servlet/SaveipSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DivInnerHtmlSvlHistory</servlet-name>
+		<url-pattern>/servlet/DivInnerHtmlSvlHistory</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DivLayoutSvl</servlet-name>
+		<url-pattern>/servlet/DivLayoutSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>graphSeverlet</servlet-name>
+		<url-pattern>/servlet/graphSeverlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>graph2Severlet</servlet-name>
+		<url-pattern>/servlet/graph2Severlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AjaxSvl</servlet-name>
+		<url-pattern>/servlet/AjaxSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AjaxBlankSvl</servlet-name>
+		<url-pattern>/servlet/AjaxBlankSvl</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>AjaxViewElementSvl</servlet-name>
+		<url-pattern>/servlet/AjaxViewElementSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AjaxCellListSvl</servlet-name>
+		<url-pattern>/servlet/AjaxCellListSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AjaxCellDelSvl</servlet-name>
+		<url-pattern>/servlet/AjaxCellDelSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AjaxJppAddSvl</servlet-name>
+		<url-pattern>/servlet/AjaxJppAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AjaxJppAddMoreSvl</servlet-name>
+		<url-pattern>/servlet/AjaxJppAddMoreSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AjaxJppListSvl</servlet-name>
+		<url-pattern>/servlet/AjaxJppListSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AjaxJppListMoreSvl</servlet-name>
+		<url-pattern>/servlet/AjaxJppListMoreSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AjaxInfoModelSvl</servlet-name>
+		<url-pattern>/servlet/AjaxInfoModelSvl</url-pattern>
+	</servlet-mapping>
+
+
+
+	<servlet-mapping>
+		<servlet-name>CmsInit</servlet-name>
+		<url-pattern>/servlet/CmsInit</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>SpaceRichOpenSvl</servlet-name>
+		<url-pattern>/servlet/BlogSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RichAddTicket</servlet-name>
+		<url-pattern>/servlet/BlogAddMarkSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AjaxPageItemSvl</servlet-name>
+		<url-pattern>/servlet/AjaxPageItemSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PageService</servlet-name>
+		<servlet-class>oe.cms.web.outservice.PageService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PageService</servlet-name>
+		<url-pattern>/servlet/PageService</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>JppService</servlet-name>
+		<servlet-class>oe.cms.web.outservice.JppService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JppService</servlet-name>
+		<url-pattern>/servlet/JppService</url-pattern>
+	</servlet-mapping>
+
+	<!-- ###################### -->
+	<!-- 资源管理部分 -->
+	<servlet>
+		<servlet-name>MoveSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.common.MoveSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MoveSvl</servlet-name>
+		<url-pattern>/MoveSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SelectSvl</servlet-name>
+		<url-pattern>/SelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.MultiSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MSelectSvl</servlet-name>
+		<url-pattern>/MSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SingleSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SSelectSvl</servlet-name>
+		<url-pattern>/SSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DownloadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.DownloadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadSvl</servlet-name>
+		<url-pattern>/DownloadSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DownloadSvl2</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.DownloadSvl2
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadSvl2</servlet-name>
+		<url-pattern>/DownloadSvl2</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.XMLFuncTreeSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<url-pattern>/XMLFuncTreeSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.applist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<url-pattern>/ApplistAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<url-pattern>/ApplistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<url-pattern>/ApplistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<url-pattern>/ApplistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<url-pattern>/ApplistSelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.pagelist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<url-pattern>/PagelistAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<url-pattern>/PagelistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<url-pattern>/PagelistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ViewSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<url-pattern>/PagelistViewSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<url-pattern>/PagelistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.UploadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<url-pattern>/PagelistUploadSvl</url-pattern>
+	</servlet-mapping>
+	<!-- rspage.pagelist 结束 -->
+
+	<!-- rspage.pagelistpath 开始-->
+	<servlet>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelistpath.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<url-pattern>/PagelistpathRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<!-- rspage.pagelistpath 结束-->
+	<!-- 资源管理部分 -->
+	<!-- ###################### -->
+
+	<!-- 页的增加修改 -->
+	<servlet>
+		<servlet-name>AjaxAddPageSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.AjaxAddPageSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AjaxAddPageSvl</servlet-name>
+		<url-pattern>/servlet/AjaxAddPageSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>AjaxUpdatePageSvl</servlet-name>
+		<servlet-class>
+			oe.cms.web.floatdiv.AjaxUpdatePageSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AjaxUpdatePageSvl</servlet-name>
+		<url-pattern>/servlet/AjaxUpdatePageSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AutoStyleSvl</servlet-name>
+		<servlet-class>oe.cms.web.common.AutoStyleSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AutoStyleSvl</servlet-name>
+		<url-pattern>/AutoStyleSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>RmiBeanTestSvl</servlet-name>
+		<servlet-class>oe.cms.web.common.bean.RmiBeanTestSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RmiBeanTestSvl</servlet-name>
+		<url-pattern>/RmiBeanTestSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>RmiBeanViewSvl</servlet-name>
+		<servlet-class>oe.cms.web.common.bean.RmiBeanViewSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RmiBeanViewSvl</servlet-name>
+		<url-pattern>/RmiBeanViewSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>TemplateExeSvl</servlet-name>
+		<servlet-class>oe.cms.web.common.TemplateExeSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TemplateExeSvl</servlet-name>
+		<url-pattern>/TemplateExeSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>NetScriptCalcalateSvl</servlet-name>
+		<servlet-class>oe.cms.web.common.NetScriptCalcalateSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NetScriptCalcalateSvl</servlet-name>
+		<url-pattern>/NetScriptCalcalateSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>TemplateExeInItemSvl</servlet-name>
+		<servlet-class>oe.cms.web.common.TemplateExeInItemSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TemplateExeInItemSvl</servlet-name>
+		<url-pattern>/TemplateExeInItemSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ApppageSvl</servlet-name>
+		<servlet-class>oe.cms.web.common.ApppageSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApppageSvl</servlet-name>
+		<url-pattern>/ApppageSvl</url-pattern>
+	</servlet-mapping>	
+		<servlet>
+		<servlet-name>JppFuncSvl</servlet-name>
+		<servlet-class>oe.cms.web.outservice.JppFuncSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JppFuncSvl</servlet-name>
+		<url-pattern>/JppFuncSvl</url-pattern>
+	</servlet-mapping>	
+		<servlet>
+		<servlet-name>CopyPortalSvl</servlet-name>
+		<servlet-class>oe.cms.web.common.CopyPortalSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CopyPortalSvl</servlet-name>
+		<url-pattern>/CopyPortalSvl</url-pattern>
+	</servlet-mapping>
+</web-app>
+

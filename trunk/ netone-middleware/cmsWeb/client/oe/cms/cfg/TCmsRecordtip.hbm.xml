@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.cms.cfg.TCmsRecordtip" table="T_CMS_RECORDTIP">
+<id column="TIPID" name="tipid" type="java.lang.String">
+<generator class="uuid.hex"/>
+</id>
+<property column="TIPINFO" length="65535" name="tipinfo" type="java.lang.String"/>
+<property column="CELLID" length="50" name="cellid" not-null="true" type="java.lang.String"/>
+<property column="RECORDID" length="100" name="recordid" not-null="true" type="java.lang.String"/>
+<property column="WRITER" length="30" name="writer" not-null="true" type="java.lang.String"/>
+<property column="CREATED" length="10" name="created" type="java.util.Date"/>
+
+</class>
+</hibernate-mapping>

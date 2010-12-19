@@ -1,0 +1,89 @@
+'安全管理', 
+'<table border='1'><tr class='SubHeaderColor'><td><font class='SubHeaderText'>安全管理</font><font class='SubHeaderLink'>>></font></td></tr><tr><tr> <td height='80' width='200' class='BodyColor'>
+<a href='http://localhost:8080/Newland3A/rbac/rbacIndex.do?belongingness=8a818581144a24d901144a2ac3630002&appid=1' target='_blank'><font class='HeaderLink'>角色定义</font></a><br>
+应用RBAC2级的访问控制模式,在这里通过角色来管理系统权限,并且支持角色偏序继承。在授权的对象是针对资源管理
+中的相关节点
+<font style='display:none'>special end mark</font></td></tr></table>'
+
+
+
+'Portal服务器', 
+'<table border='1'><tr class='SubHeaderColor'><td><font class='SubHeaderText'>Portal服务器</font><font class='SubHeaderLink'>>></font></td></tr><tr><tr> <td height='80' width='200' class='BodyColor'>
+
+<a href='$:curl{}//sysmaintance-web/sysmain/sysmainviewSingle.do?mode=ser' target='_blank'><font class='HeaderLink'>服务器程序管理</font></a><br>
+在这里您管理Portal的内部服务程序 <br><br>
+<a href='$:curl{}//sysmaintance-web/sysmain/sysmainviewSingle.do?mode=rsman' target='_blank'><font class='HeaderLink'>服务器资源管理</font></a><br>
+您可以查看,下载,删除服务器上的相关资源<br><br>
+<a href='$:curl{}//sysmaintance-web/sysmain/sysmainviewSingle.do?mode=rsupdate' target='_blank'><font class='HeaderLink'>更新服务器资源</font></a> <br>
+你可以上传资源,移动服务器上的已有资源的
+<br><br>
+<a href='$:curl{}//sysmaintance-web/sysmain/sysmainviewSingle.do?mode=db' target='_blank'><font class='HeaderLink'>系统数据库管理</font></a><br>
+您可以通过SQL语句来操作系统的所有数据库系统
+<br><br>
+
+
+
+<font style='display:none'>special end mark</font></td></tr></table>'
+'人员角色', '<table border='1'><tr class='SubHeaderColor'><td><font class='SubHeaderText'>人员帐户管理</font><font class='SubHeaderLink'>>></font></td></tr><tr><tr> <td height='80' width='200' class='BodyColor'>
+<a href='http://localhost:8080/Newland3A/selfmodify/selfModify.do' target='_blank'><font class='HeaderLink'>我的个人信息</font></a><br>
+在这里你可以查看、编辑、修改你的个人信息 <br><br>
+
+<a href='http://localhost:8080/Newland3A/human/humanIndex.do' target='_blank'><font class='HeaderLink'>人员帐户</font></a><br>
+在这里您可以创建、修改、删除人员帐户信息外。还可以对人员帐户进行授权，分配部门 <br><br>
+
+
+<a href='http://localhost:8080/Newland3A/resource/rsmgr/frameIndex.jsp?function=department&source=ldap' target='_blank'><font class='HeaderLink'>组织机构</font></a><br>
+在这里您可以管理部门组织机构，以及其中的人员帐户。
+
+<font style='display:none'>special end mark</font></td></tr></table>'
+
+
+'SOA服务管理', 
+'<table border='1'><tr class='SubHeaderColor'><td><font class='SubHeaderText'>SOA服务管理</font><font class='SubHeaderLink'>>></font></td></tr><tr><tr> <td height='80' width='200' class='BodyColor'>
+
+<font class='HeaderLink'>资源服务-状态!</font><br>
+该服务对外提供人员、组织机构、角色、字典、设备等相关业务资源。 <br>
+服务提供方式:WebService/JavaRmi
+<br> <br>
+
+<a href='' target='_blank'><font class='HeaderLink'>表单服务-状态!</font></a><br>
+该服务对外提供动态表单中的相关表单结构和表单数据的内容。<br>
+服务提供方式:WebService/JavaRmi
+<br> <br>
+
+
+
+<a href='' target='_blank'><font class='HeaderLink'>消息服务-状态!</font></a><br>
+该服务对外提供消息服务，通过消息服务可以方便的获得相关的业务临时数据信息。<br>服务提供方式:WebService/JavaRmi<br> <br>
+
+<a href='' target='_blank'><font class='HeaderLink'>流程服务-状态!</font></a> <br>
+该服务可提供针对现在有业务流程的控制管理服务。<br>
+服务提供方式:WebService/JavaRmi<br> <br>
+
+<a href='' target='_blank'><font class='HeaderLink'>数据源服务-状态!</font></a><br>
+该服务支持基于SQL的模式，访问管理系统数据库。<br>服务提供方式:WebService/JavaRmi<br> <br>
+
+<a href='' target='_blank'><font class='HeaderLink'>访问控制服务-状态!</font></a><br>
+该服务对外提供访问控制服务。<br>
+服务提供方式:WebService/JavaRmi <br> <br>
+
+
+<font style='display:none'>special end mark</font></td></tr></table>'
+
+
+
+'业务资源管理', 
+'<table border='1'><tr class='SubHeaderColor'><td><font class='SubHeaderText'>业务资源管理</font><font class='SubHeaderLink'>>></font></td></tr><tr><tr> <td height='80' width='200' class='BodyColor'>
+<a href='$:curl{}//sysmaintance-web/sysmain/sysmainviewSingle.do?mode=db' target='_blank'><font class='HeaderLink'>业务安全资源</font></a><br>
+在这里你可以将该系统中所有需要保护的资源定义进来，比如：Portalet、页组、菜单，按钮，URL地址。 <br> <br>
+
+
+
+业务字典资源
+在这里您可以编辑定义管理与业务相关的常量信息，这些信息可以通过服务API被应用获得
+
+实体资源
+实体资源是指相关的图片、文件等块数据
+
+<font style='display:none'>special end mark</font></td></tr></table>'
+'', ''

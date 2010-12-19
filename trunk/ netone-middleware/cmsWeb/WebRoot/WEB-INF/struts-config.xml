@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans>
+		<form-bean name="infocellForm"
+			type="oe.cms.web.infocell.InfoCellForm" />
+		<form-bean name="infomodelForm"
+			type="oe.cms.web.infomodel.InfoModelForm" />
+		<form-bean name="infoCellModelDIYForm"
+			type="oe.cms.web.infocellSimple.InfoCellModelDIYForm" />
+	</form-beans>
+
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+
+		<action path="/infocelllist"
+			type="oe.cms.web.infocell.InfoCellListAction"
+			input="/cms/infocell/infoCellList.jsp" scope="request" />
+		<action path="/infocelledit" scope="request"
+			type="oe.cms.web.infocell.InfoCellEditAction" name="infocellForm">
+			<forward name="celledit"
+				path="/cms/infocell/infoCellEdit.jsp" />
+		</action>
+		<action path="/infocellnew" scope="request"
+			type="oe.cms.web.infocell.InfoCellNewAction" name="infocellForm">
+			<forward name="cellnew"
+				path="/cms/infocell/infoCellNew.jsp" />
+			<forward name="celledit"
+				path="/cms/infocell/infoCellEdit.jsp" />
+		</action>
+		<action path="/infocelldelete"
+			type="oe.cms.web.infocell.InfoCellDeleteAction"
+			input="/cms/infocell/infoCellDelete.jsp" />
+		<action path="/infocelltool" scope="request" name="infocellForm"
+			type="oe.cms.web.infocell.InfoCellToolAction"
+			input="/cms/infocell/infoCellTools.jsp" />
+
+
+		<action path="/infocelleditSimple" scope="request"
+			type="oe.cms.web.infocellSimple.InfoCellEditAction"
+			name="infocellForm">
+			<forward name="celleditSimple"
+				path="/cms/infocellSimple/infoCellEditSimple.jsp" />
+			<forward name="celleditSimpleQuick"
+				path="/cms/infocellSimple/infoCellEditSimpleQuick.jsp" />
+
+		</action>
+		<action path="/infocellnewSimple" scope="request"
+			type="oe.cms.web.infocellSimple.InfoCellNewAction"
+			name="infocellForm">
+			<forward name="cellnewSimple"
+				path="/cms/infocellSimple/infoCellNewSimple.jsp" />
+			<forward name="celleditSimple"
+				path="/cms/infocellSimple/infoCellEditSimple.jsp" />
+		</action>
+
+		<action path="/infomodelnew"
+			type="oe.cms.web.infomodel.InfoModelNewAction" name="infomodelForm"
+			input="/cms/infomodel/infoModelNew.jsp" scope="request" />
+		<action path="/infomodelautonew"
+			type="oe.cms.web.infomodel.InfoModelNewAutoAction"
+			input="/showFloatDiv2.do" scope="request" />
+
+		<action path="/infomodeledit"
+			type="oe.cms.web.infomodel.InfoModelEditAction" name="infomodelForm"
+			input="/cms/infomodel/infoModelEdit.jsp" scope="request" />
+		<action path="/infomodellist"
+			type="oe.cms.web.infomodel.InfoModelListAction" name="infomodelForm"
+			input="/cms/infomodel/infoModelList.jsp" scope="request" />
+		<action path="/infomodellistRich"
+			type="oe.cms.web.infomodel.InfoModelListRichAction"
+			name="infomodelForm" scope="request">
+			<forward name="richA"
+				path="/cms/infomodel/infoModelListRichA.jsp" />
+			<forward name="richB"
+				path="/cms/infomodel/infoModelListRichB.jsp" />
+			<forward name="richC"
+				path="/cms/infomodel/infoModelListRichC.jsp" />
+		</action>
+		<action path="/infomodellistRichQ"
+			type="oe.cms.web.infomodel.InfoModelListRichQueryAction"
+			name="infomodelForm" scope="request">
+			<forward name="richQ"
+				path="/cms/infomodel/infoModelListRichQ.jsp" />
+		</action>
+		<action path="/infomodellistRichNewList"
+			type="oe.cms.web.infomodel.InfoModelListRichNewListAction"
+			name="infomodelForm" scope="request">
+			<forward name="richQ"
+				path="/cms/infomodel/infoModelListRichNew.jsp" />
+		</action>
+
+		<action path="/top" type="oe.cms.web.TopAction"
+			input="/configureIndex.jsp" scope="request" />
+
+
+		<action path="/templateModel"
+			type="oe.cms.web.TemplateSelectAction"
+			input="/blog/TemplateModel.jsp" scope="request" />
+
+		<action path="/templateModelDone"
+			type="oe.cms.web.TemplateSelectDoneAction" input="/ds.do"
+			scope="request" />
+
+
+		<action path="/showFloatDiv"
+			type="oe.cms.web.infomodelx.ShowFloatDivAction">
+			<forward name="design" path="/floatdiv/design.jsp" />
+			<forward name="show" path="/cms/modelshow/showmodel.jsp" />
+			<forward name="showHistory"
+				path="/cms/modelshow/showmodelHistory.jsp" />
+		</action>
+
+
+
+		<action path="/vs"
+			type="oe.cms.web.infomodelx.ShowFloatDivActionView">
+			<forward name="show" path="/cms/modelshow/showmodel.jsp" />
+		</action>
+
+		<action path="/ds"
+			type="oe.cms.web.infomodelx.ShowFloatDivActionDesign">
+			<forward name="design" path="/floatdiv/design.jsp" />
+		</action>
+
+		<action path="/portal"
+			type="oe.cms.web.infomodelx.ShowFloatDivActionPortal">
+			<forward name="design" path="/floatdiv/portal.jsp" />
+		</action>
+
+		<action path="/showFloatDivWinner"
+			type="oe.cms.web.infomodelx.ShowFloatDivWinnerAction">
+			<forward name="showWinner"
+				path="/cms/modelshow/showmodelWinner.jsp" />
+		</action>
+
+		<action path="/recordtipmodi"
+			type="oe.cms.web.action.recordtip.RecordTipModi" scope="request">
+			<forward name="RecordTip_Modi"
+				path="/cms/recordtip/RecordTipModi.jsp" />
+		</action>
+		<action path="/recordtipmodiView"
+			type="oe.cms.web.action.recordtip.RecordTipModiView"
+			scope="request">
+			<forward name="RecordTip_Modi"
+				path="/cms/recordtip/RecordTipModi.jsp" />
+			<forward name="RecordTip_Modi2"
+				path="/cms/recordtip/RecordTipModi2.jsp" />
+		</action>
+		<!-- 模型DIY -->
+		<action path="/cellModelDIY"
+			type="oe.cms.web.infocellSimple.InfoCellModelDIYAction"
+			name="infoCellModelDIYForm" scope="request">
+			<forward name="view" path="/cms/cellDIY/edit.jsp" />
+		</action>
+
+		<!-- 系统外框设计 -->
+		<action  path="/frames" scope="request"
+			type="oe.cms.web.frames.ProletAction">
+			<forward name="portalframe" path="/frames/portalframe.jsp"></forward>
+			<forward name="portalmenu" path="/frames/portalmenu.jsp"></forward>
+			<forward name="portalbody" path="/frames/portalbody.jsp"></forward>
+		</action>
+
+	</action-mappings>
+
+	<message-resources
+		parameter="com.yourcompany.struts.ApplicationResources" />
+</struts-config>
+

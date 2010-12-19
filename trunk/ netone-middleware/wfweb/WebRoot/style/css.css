@@ -1,0 +1,111 @@
+/* CSS Document */
+body {
+	font-size: 9pt;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+td {
+	font-size: 9pt;
+}
+.top01{
+	background-image:url("../images/top01.jpg");
+	background-position:right;
+	text-align:right;
+	color:#000033;
+}
+a{
+	color: #123a6f;
+	text-decoration: none;
+}
+a:hover {
+	color: #123a6f;
+	text-decoration:underline;
+}
+
+.topBbc{
+	border-bottom:1px solid #999999;
+}
+.leftBg{
+	background-image:url("../images/leftBg.jpg");
+	background-position:bottom;
+	color:#000000;
+	border-right:1px solid #999999;
+	padding-top:8px;
+}
+.rightBg{
+	color:#000000;
+	padding:18px;
+}
+.rightTitle{
+	font-weight:bold;
+	font-size:14px;
+}
+.subTitle{
+	padding-top:16px;
+	padding-bottom:5px;
+	padding-left:16px;
+	font-weight:bold;
+	font-size:14px;
+}
+.titBg{
+	width:100%;
+	height:25;
+	white-space:nowrap;
+	font-size:11pt ;
+	color:#ffffff;
+	font-weight:bold;
+	padding-top:5px;
+	padding-left:5px;
+	background-color:black;
+}
+
+.titBg1{
+	width:100%;
+	height:25;
+	white-space:nowrap;
+	font-size:11pt ;
+	color:#ffffff;
+	font-weight:bold;
+	padding-top:5px;
+	padding-left:5px;
+
+}
+/*左边连接的样式*/
+#Nav {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 10px; FONT: 1em Verdana,Arial; PADDING-TOP: 2px
+}
+#Nav .line {
+	BORDER-TOP: #999999 1px solid; MARGIN: 5px 0px
+}
+UNKNOWN {
+	MARGIN: 6px 0px 4px
+}
+#Nav H4 {
+	FONT-SIZE: 95%; MARGIN: 4px 0px 5px 5px
+}
+UNKNOWN {
+	MARGIN: 4px 0px 4px 5px
+}
+#Nav UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+#Nav LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: -4px 2px; WIDTH: 175px; PADDING-TOP: 0px
+}
+UNKNOWN {
+	MARGIN: -3px 2px
+}
+#Nav A {
+	PADDING-RIGHT: 4px; DISPLAY: block; PADDING-LEFT: 8px; PADDING-BOTTOM: 4px; MARGIN: 1px 0px; CURSOR: pointer; COLOR: #000000; PADDING-TOP: 2px
+}
+UNKNOWN {
+	BORDER-RIGHT: transparent 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: transparent 1px solid; PADDING-LEFT: 7px; PADDING-BOTTOM: 4px; BORDER-LEFT: transparent 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: transparent 1px solid
+}
+#Nav A:visited {
+	COLOR: #000000
+}
+#Nav A:hover {
+	BORDER-RIGHT: #cccccc 1px solid; PADDING-RIGHT: 4px; BORDER-TOP: #cccccc 1px solid; PADDING-LEFT: 7px; PADDING-BOTTOM: 4px; MARGIN: 0px; BORDER-LEFT: #cccccc 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #cccccc 1px solid; BACKGROUND-COLOR: #f1f1f1; TEXT-DECORATION: none
+}

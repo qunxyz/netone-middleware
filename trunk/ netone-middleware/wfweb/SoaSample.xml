@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soa>
+	<activity name="e4628b27f57e11dcbbdde3e525dbb225"
+		bind="dy:e9f2e00ce69b11dc8c97c3675ceb8d64_" sync="false">
+		<relation datamode="out" name="a"
+			source="dy:e9f2e00ce69b11dc8c97c3675ceb8d64_" node="belongx">
+			<script>
+				<![CDATA[]]>
+			</script>
+		</relation>
+		<relation datamode="out" name="b"
+			source="dy:e9f2e00ce69b11dc8c97c3675ceb8d64_" node="TIMEX">
+			<script>
+				<![CDATA[]]>
+			</script>
+		</relation>
+		<relation datamode="in" name="b"
+			source="dy:e9f2e00ce69b11dc8c97c3675ceb8d64_" node="TIMEX">
+			<script>
+				<![CDATA[]]>
+			</script>
+		</relation>
+	</activity>
+</soa>

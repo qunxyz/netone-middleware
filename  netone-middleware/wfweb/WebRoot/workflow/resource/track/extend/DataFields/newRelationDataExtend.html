@@ -1,0 +1,27 @@
+<html>
+<head>
+<link href="../../../../../include/css/workflowtrack/style.css" rel="stylesheet" type="text/css">
+<script src="../../../../../include/js/workflowtrack/relationData/relationDataExtend.js">
+</script>
+</head>
+<body onLoad="(new event()).setExtend();">
+<div align="center">
+  <table width="235" border="0">
+    <tr>
+      <td width="42">名字：</td>
+      <td width="183"><input id="dataExtendName" type="text" size="25"></td>
+    </tr>
+    <tr>
+      <td>值&nbsp;&nbsp;：</td>
+      <td><textarea id="dataExtendValue" cols="24" rows="8"></textarea></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" name="Submit" value="提交" onclick="(new bean()).getValue();">
+   
+      <input type="submit" name="Submit3" value="取消" onclick="self.close();"></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

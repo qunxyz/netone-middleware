@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>grammar.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=GBK">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+  
+<body>
+  <br>
+  <table width="555" height="270" border="1" align="center">
+    <tr>
+      <td>位置</td>
+      <td>时间域名</td>
+      <td>允许值</td>
+      <td>允许的特殊字符</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>秒</td>
+      <td>0-59</td>
+      <td>,-*/</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>分钟</td>
+      <td>0-59</td>
+      <td>,-*/</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>小时</td>
+      <td>0-23</td>
+      <td>,-*/</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>日期</td>
+      <td>1-31</td>
+      <td>,-*?/LWC</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>月份</td>
+      <td>1-12</td>
+      <td>,-*/</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>星期</td>
+      <td>1-7</td>
+      <td>,-*?/LC</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>年（可选）</td>
+      <td>空值1970-2099</td>
+      <td>,-*/</td>
+    </tr>
+  </table>
+  <p>Cron表达式的时间字段除允许设置数值外，还可使用一些特殊的字符，提供列表、范围、通配符等功能，细说如下：<br><br>●星号(*)：可用在所有字段中，表示对应时间域的每一个时刻，例如，*在分钟字段时，表示“每分钟”；<br><br>●问号（?）：该字符只在日期和星期字段中使用，它通常指定为“无意义的值”，相当于点位符；<br><br>●减号(-)：表达一个范围，如在小时字段中使用“10-12”，则表示从10到12点，即10,11,12；<br><br>●逗号(,)：表达一个列表值，如在星期字段中使用“MON,WED,FRI”，则表示星期一，星期三和星期五；<br><br>●斜杠(/)：x/y表达一个等步长序列，x为起始值，y为增量步长值。如在分钟字段中使用0/15，则表示为0,15,30和45秒，而5/15在分钟字段中表示5,20,35,50，你也可以使用*/y，它等同于0/y；<br><br>●L：该字符只在日期和星期字段中使用，代表“Last”的意思，但它在两个字段中意思不同。L在日期字段中，表示这个月份的最后一天，如一月的31号，非闰年二月的28号；如果L用在星期中，则表示星期六，等同于7。但是，如果L出现在星期字段里，而且在前面有一个数值X，则表示“这个月的最后X天”，例如，6L表示该月的最后星期五；<br><br>●W：该字符只能出现在日期字段里，是对前导日期的修饰，表示离该日期最近的工作日。例如15W表示离该月15号最近的工作日，如果该月15号是星期六，则匹配14号星期五；如果15日是星期日，则匹配16号星期一；如果15号是星期二，那结果就是15号星期二。但必须注意关联的匹配日期不能够跨月，如你指定1W，如果1号是星期六，结果匹配的是3号星期一，而非上个月最后的那天。W字符串只能指定单一日期，而不能指定日期范围；<br><br>●LW组合：在日期字段可以组合使用LW，它的意思是当月的最后一个工作日；<br><br>●井号(#)：该字符只能在星期字段中使用，表示当月某个工作日。如6#3表示当月的第三个星期五(6表示星期五，#3表示当前的第三个)，而4#5表示当月的第五个星期三，假设当月没有第五个星期三，忽略不触发；<br><br>● C：该字符只在日期和星期字段中使用，代表“Calendar”的意思。它的意思是计划所关联的日期，如果日期没有被关联，则相当于日历中所有日期。例如5C在日期字段中就相当于日历5日以后的第一天。1C在星期字段中相当于星期日后的第一天。Cron表达式对特殊字符的大小写不敏感，对代表星期的缩写英文大小写也不敏感。</p>
+  <p>表2下面给出一些完整的Cron表示式的实例：表2  Cron表示式示例 </p>
+  <table width="654" height="553" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="201" valign="top"><br>
+        表示式 </td>
+      <td width="367" valign="top"><p>说明 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 0 12 * * ? &quot;</p></td>
+      <td width="367" valign="top"><p>每天12点运行 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 ? * *&quot;</p></td>
+      <td width="367" valign="top"><p>每天10:15运行 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 * * ?&quot;</p></td>
+      <td width="367" valign="top"><p>每天10:15运行 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 * * ? *&quot;</p></td>
+      <td width="367" valign="top"><p>每天10:15运行 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 * * ? 2008&quot;</p></td>
+      <td width="367" valign="top"><p>在2008年的每天10：15运行 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 * 14 * * ?&quot;</p></td>
+      <td width="367" valign="top"><p>每天14点到15点之间每分钟运行一次，开始于14:00，结束于14:59。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 0/5 14 * * ?&quot;</p></td>
+      <td width="367" valign="top"><p>每天14点到15点每5分钟运行一次，开始于14:00，结束于14:55。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 0/5 14,18 * * ?&quot;</p></td>
+      <td width="367" valign="top"><p>每天14点到15点每5分钟运行一次，此外每天18点到19点每5钟也运行一次。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 0-5 14 * * ?&quot;</p></td>
+      <td width="367" valign="top"><p>每天14:00点到14:05，每分钟运行一次。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 10,44 14 ? 3 WED&quot;</p></td>
+      <td width="367" valign="top"><p>3月每周三的14:10分到14:44，每分钟运行一次。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 ? * MON-FRI&quot;</p></td>
+      <td width="367" valign="top"><p>每周一，二，三，四，五的10:15分运行。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 15 * ?&quot;</p></td>
+      <td width="367" valign="top"><p>每月15日10:15分运行。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 L * ?&quot;</p></td>
+      <td width="367" valign="top"><p>每月最后一天10:15分运行。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 ? * 6L&quot;</p></td>
+      <td width="367" valign="top"><p>每月最后一个星期五10:15分运行。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 ? * 6L 2007-2009&quot;</p></td>
+      <td width="367" valign="top"><p>在2007,2008,2009年每个月的最后一个星期五的10:15分运行。 </p></td>
+    </tr>
+    <tr>
+      <td width="201" valign="top"><p>&quot;0 15 10 ? * 6#3&quot;</p></td>
+      <td width="367" valign="top"><p>每月第三个星期五的10:15分运行。 </p></td>
+    </tr>
+  </table>
+  <p>&nbsp;  </p>
+</body>
+</html>

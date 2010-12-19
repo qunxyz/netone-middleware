@@ -1,0 +1,117 @@
+.tableclass {
+}
+
+.tdtasktip {
+	COLOR: #FF0000;
+}
+
+.tdhead {
+	FONT-SIZE: 13px;
+	LINE-HEIGHT: 25px;
+	background-image: url(../../image/bnbk05-3.gif);
+	background-color: #EEEEEE;
+	TEXT-ALIGN: left
+}
+.tdheadline {
+	FONT-SIZE: 13px;
+	LINE-HEIGHT: 25px;
+	background-image: url(../../image/bnbk05-1.gif);
+	background-color: #EEEEEE;
+	TEXT-ALIGN: left
+}
+.tdheaddes {
+	FONT-SIZE: 13px;
+	LINE-HEIGHT: 25px;
+	background-image: url(../../image/bnbk05-3.gif);
+	background-color: #EEEEEE;
+	TEXT-ALIGN: left
+}
+.tdheadsys {
+	FONT-SIZE: 13px; LINE-HEIGHT: 25px; BACKGROUND-COLOR: #cfdaf2; TEXT-ALIGN: left
+}
+
+.tdindex {
+	LINE-HEIGHT: 18px; TEXT-ALIGN: center
+}
+.tdtitle {
+	FONT-SIZE: 12px; LINE-HEIGHT: 18px; BACKGROUND-COLOR: #cfdae2
+}
+.tdlist {
+	LINE-HEIGHT: 18px
+}
+.need_text {
+	BORDER-TOP: 1px inset; FONT-SIZE: 12px; BORDER-LEFT: 1px inset; HEIGHT: 13pt; BACKGROUND-COLOR: #f4fffc
+}
+.need_textarea {
+	BORDER-TOP: 1px inset; FONT-SIZE: 12px; BORDER-LEFT: 1px inset; BACKGROUND-COLOR: #f4fffc
+}
+.need_sel {
+	FONT-SIZE: 12px; HEIGHT: 14pt; BACKGROUND-COLOR: #f4fffc
+}
+.btext {
+	BORDER-TOP: 1px inset; FONT-SIZE: 12px; BORDER-LEFT: 1px inset; HEIGHT: 13pt
+}
+.barea {
+	BORDER-TOP: 1px inset; FONT-SIZE: 12px; BORDER-LEFT: 1px inset
+}
+.bsel {
+	FONT-SIZE: 12px; HEIGHT: 14pt
+}
+.buttonOnTable {
+	CURSOR: hand;
+	background-image: url(../../image/bnbk04.gif);
+	background-color: #EEEEEE;	
+}
+.buttonmenu {
+	CURSOR: hand;
+	background-image: url(../../image/bnbk04x.gif);
+	background-color: #EEEEEE;
+}
+.buttonnormal {
+	CURSOR: hand;
+}
+BODY {
+	MARGIN-TOP: 0px; SCROLLBAR-FACE-COLOR: #adcbda; FONT-SIZE: 12px; MARGIN-LEFT: 0px; SCROLLBAR-SHADOW-COLOR: #bebebe; WORD-BREAK: break-all; SCROLLBAR-3DLIGHT-COLOR: #bebebe; SCROLLBAR-ARROW-COLOR: #bebebe; FONT-FAMILY: "ËÎÌו", "Arial"; SCROLLBAR-DARKSHADOW-COLOR: #ffffff; SCROLLBAR-BASE-COLOR: #ffffff; TEXT-ALIGN: center; WORD-WRAP: break-word
+}
+TD {
+	FONT-SIZE: 12px; FONT-FAMILY: "ËÎÌו", "Arial"
+}
+THEAD .arrow {
+	PADDING-RIGHT: 0px; MARGIN-TOP: -3px; PADDING-LEFT: 0px; FONT-SIZE: 10px; MARGIN-BOTTOM: 2px; PADDING-BOTTOM: 2px; OVERFLOW: hidden; WIDTH: 10px; COLOR: red; PADDING-TOP: 0px; FONT-FAMILY: webdings; HEIGHT: 11px
+}
+A {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:link {
+	FONT-SIZE: 9pt; COLOR: #000000; TEXT-DECORATION: none
+}
+A:visited {
+	FONT-SIZE: 9pt; MARGIN: 0px; COLOR: #062b6f; TEXT-DECORATION: none
+}
+A:active {
+	TEXT-DECORATION: underline
+}
+A:hover {
+	FONT-SIZE: 9pt; COLOR: #ffffff; BACKGROUND-COLOR: #6798d3; TEXT-DECORATION: none
+}
+.pageControlerInput {
+	BORDER-RIGHT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; FONT-SIZE: 12px; RIGHT: 1px; LEFT: 1px; BORDER-LEFT: #cccccc 1px solid; BOTTOM: 1px; BORDER-BOTTOM: #cccccc 1px solid; POSITION: relative; TOP: 0px; HEIGHT: 15px
+}
+.pageControlerPicPosition {
+	RIGHT: 1px; LEFT: 1px; BOTTOM: 1px; POSITION: relative; TOP: 1px
+}
+.tdIndexFree {
+	TEXT-ALIGN: center
+}
+.tdTitleFree {
+	FONT-SIZE: 12px; BACKGROUND-COLOR: #cfdae2
+}
+.tdListFree {
+	LINE-HEIGHT: 18px
+}
+.14fx {
+	FONT-SIZE: 14px
+}
+.y1 {
+	FONT-SIZE: 12px; FILTER: DropShadow(Color=#ffffff, OffX=1, OffY=1, Positive=5)
+}

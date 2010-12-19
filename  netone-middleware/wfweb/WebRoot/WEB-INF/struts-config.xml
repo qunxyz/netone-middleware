@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans>
+		<form-bean name="fjform" type="oe.cav.web.workflow.resource.FjglForm" />
+		<form-bean name="rform" type="oe.cav.web.workflow.monitor.process.ProcessForm" />
+		<form-bean name="showform" type="oe.cav.web.workflow.resource.soa2.ShowForm" />
+		<form-bean name="showform2" type="oe.cav.web.workflow.resource.soa3.ShowForm" />
+		<form-bean name="showform3" type="oe.cav.web.workflow.resource.soa4.ShowForm" />
+		<form-bean name="showform4" type="oe.cav.web.workflow.resource.soax.ShowForm" />
+	</form-beans>
+
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action path="/viewprocess" type="oe.cav.web.workflow.resource.FViewAction"
+			input="/workflow/resource/workStrack.jsp" name="fjform" scope="request" />
+		<action path="/dowloadprocess" type="oe.cav.web.workflow.resource.FDownloadAction"
+			input="/workflow/resource/xpdl_list.jsp" name="fjform" scope="request" />
+		<action path="/saveprocess" type="oe.cav.web.workflow.resource.FSaveAction"
+			input="/workflow/resource/workStrack.jsp" name="fjform" scope="request" />
+		<action path="/updateprocess" type="oe.cav.web.workflow.resource.FUpdateAction"
+			input="/workflow/resource/workStrack.jsp" name="fjform" scope="request" />
+		<action path="/newprocessfile" type="oe.cav.web.workflow.resource.FNewAction"
+			input="/workflow/resource/createProcess.jsp" name="fjform" scope="request" />
+		<action path="/viewreadonlyprocess" type="oe.cav.web.workflow.resource.FViewReadOnlyAction"
+			input="/workflow/resource/process_script.jsp" name="fjform" scope="request" />
+
+		<action path="/initprocess" type="oe.cav.web.workflow.monitor.process.RInitAction"
+			input="/workflow/monitor/process_script.jsp" name="rform" scope="request" />
+		<action path="/listprocess" type="oe.cav.web.workflow.monitor.process.RListAction"
+			input="/workflow/monitor/process_list.jsp" name="rform" scope="request" />
+		<action path="/runprocess" type="oe.cav.web.workflow.monitor.process.RRunAction"
+			input="/workflow/monitor/process_script.jsp" name="rform" scope="request" />
+		<action path="/commitact" type="oe.cav.web.workflow.monitor.process.RComitAction"
+			input="/workflow/monitor/process_script.jsp" name="rform" scope="request" />
+		<action path="/newprocess" type="oe.cav.web.workflow.monitor.process.RNewAction"
+			input="/workflow/monitor/process_script.jsp" name="rform" scope="request" />
+		<action path="/useprocess" type="oe.cav.web.workflow.monitor.process.RUseAction"
+			input="/workflow/monitor/processuse_script.jsp" name="rform" scope="request" />
+		<action path="/useAccess" type="oe.cav.web.workflow.monitor.process.RUseAccessAction"
+			input="/workflow/monitor/process_act.jsp" name="rform" scope="request" />
+		<action path="/useAccessCommit" type="oe.cav.web.workflow.monitor.process.RUseCommitAction"
+			input="/workflow/monitor/processuse_script.jsp" name="rform" scope="request" />
+		<action path="/listUseprocess" type="oe.cav.web.workflow.monitor.process.RListUseAction"
+			input="/workflow/monitor/processuse_list.jsp" name="rform" scope="request" />
+				<action path="/listSubUseprocess" type="oe.cav.web.workflow.monitor.process.RListSubUseAction"
+			input="/workflow/monitor/processuse_list.jsp" name="rform" scope="request" />
+		<action path="/listRuntimeprocess" type="oe.cav.web.workflow.monitor.process.RUseRuntimeAction" name="rform"
+			scope="request">
+			<forward name="console" path="/workflow/monitor/processuse_script.jsp"></forward>
+			
+		</action>
+		<action path="/listRuntimeprocessview" type="oe.cav.web.workflow.monitor.process.RUseRuntimeViewAction" name="rform"
+			scope="request">
+			
+			<forward name="look" path="/workflow/monitor/processuse_script_view.jsp"></forward>
+		</action>		
+		
+		
+		<action path="/vprocess" type="oe.cav.web.workflow.monitor.process.RViewAction"
+			input="/workflow/monitor/process_script.jsp" name="rform" scope="request" />
+		<action path="/vdata" type="oe.cav.web.workflow.monitor.process.RDataAction"
+			input="/workflow/monitor/process_data.jsp" name="rform" scope="request" />
+
+		<action path="/Createsubinfo" scope="request" type="oe.cav.web.workflow.resource.soa.CreateSubinfoAction">
+			<forward name="busswf" path="/PagelistpathRightSvl"></forward>
+		</action>
+		<action path="/Show2" scope="request" name="showform" type="oe.cav.web.workflow.resource.soa2.ShowAction">
+			<forward name="show" path="/workflow/resource/soa2/show.jsp"></forward>
+			<forward name="first" path="/workflow/resource/soa2/First.jsp"></forward>
+			<forward name="step" path="/workflow/resource/soa2/Step.jsp"></forward>
+			<forward name="next" path="/workflow/resource/soa2/Next.jsp"></forward>
+			<forward name="done" path="/workflow/resource/soa2/Done.jsp"></forward>
+		</action>
+		<action path="/Show3" scope="request" name="showform2" type="oe.cav.web.workflow.resource.soa3.ShowAction">
+			<forward name="zero" path="/workflow/resource/soa3/Zero.jsp"></forward>
+			<forward name="first" path="/workflow/resource/soa3/First.jsp"></forward>
+			<forward name="step" path="/workflow/resource/soa3/Step.jsp"></forward>
+			<forward name="next" path="/workflow/resource/soa3/Next.jsp"></forward>
+			<forward name="done" path="/workflow/resource/soa3/Done.jsp"></forward>
+		</action>
+		<action path="/Show4" scope="request" name="showform3" type="oe.cav.web.workflow.resource.soa4.ShowAction">
+			<forward name="first" path="/workflow/resource/soa4/First.jsp"></forward>
+			<forward name="step" path="/workflow/resource/soa4/Step.jsp"></forward>
+			<forward name="next" path="/workflow/resource/soa4/Next.jsp"></forward>
+			<forward name="done" path="/workflow/resource/soa4/Done.jsp"></forward>
+		</action>
+		<action path="/Showx" scope="request" name="showform4" type="oe.cav.web.workflow.resource.soax.ShowAction">
+			<forward name="first" path="/workflow/resource/soax/Design.jsp"></forward>
+		</action>
+	</action-mappings>
+
+</struts-config>
+

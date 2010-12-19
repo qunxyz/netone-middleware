@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soa>
+	<activity sync="true" />
+	<script name="" activityname=""><![CDATA[
+/* WF ESB 入口参数*/
+wf.set(runtimeid, 'rev1', 1000);
+wf.set(runtimeid, 'rev2', 1000);
+wf.set(runtimeid, 'rev3', 1000);
+]]></script>
+	<task name="" activityname="" starttime="2008-5-5 15:34:5"
+		choicemode="chooseByDay" loopmode="2008@*@*@1@1@8@0@0"
+		endtime="2008-6-6 15:35:00" />
+</soa>

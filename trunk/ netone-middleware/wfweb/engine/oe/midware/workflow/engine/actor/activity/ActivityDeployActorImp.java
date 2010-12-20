@@ -71,7 +71,9 @@ public class ActivityDeployActorImp implements ActivityDeployActor {
 			String types=ActivityTypeFetcher.fetchType(actPre);
 			worklistPre.setTypes(types);
 			if (ActivityRef.ACT_SUBFLOW_SYNC_KEY[0].equals(worklistPre
-					.getTypes())) {
+					.getTypes())
+					|| ActivityRef.ACT_SUBFLOW_KEY[0].equals(worklistPre
+							.getTypes())) {
 				worklistPre
 						.setExecutestatus(RuntimeWorklistRef.STATUS_SUBFLOW_WAITING[0]);
 			} else {

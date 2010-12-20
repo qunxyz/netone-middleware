@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<ParameterDefine>
+  <Parameter levelColumn="LSH" timeColumn="CREATED" ds="oec:sqldsfdsfs" table="DY_201188182271392" NAME="考核指标" uuid="221dc6c6-5447-11dc-9ac4-7beebbae7269_" level="" usable="true" period="1h" other="[subform]#[listinfo]1,2,3,4,5,6,7,8#[orderinfo]1#[butinfo],backIc:1:回退 ,dispIc:1:显示 ,queIc:1:查询 ,expIc:1:导出 ,createIc:1:创建 ,modifyIc:1:修改 ,deleteIc:1:删除 ,sublistIc:1:子表单列表 #[viewbutinfo],viewmanIc:1:视图管理 ,viewbut1Ic:1:进入明细 ,viewbut2Ic:1:返回上一级 ">
+    <FieldMapping NAME="LSH" uuid="LSH" virtual="" viewtype="" attributeName="LSH" fieldName="LSH" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="FORMCODE" uuid="FORMCODE" virtual="" viewtype="" attributeName="FORMCODE" fieldName="FORMCODE" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="PARTICIPANT" uuid="PARTICIPANT" virtual="" viewtype="" attributeName="PARTICIPANT" fieldName="PARTICIPANT" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="CREATED" uuid="CREATED" virtual="" viewtype="" attributeName="CREATED" fieldName="CREATED" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="FATHERLSH" uuid="FATHERLSH" virtual="" viewtype="" attributeName="FATHERLSH" fieldName="FATHERLSH" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="STATUSINFO" uuid="STATUSINFO" virtual="" viewtype="" attributeName="STATUSINFO" fieldName="STATUSINFO" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]char#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="EXTENDATTRIBUTE" uuid="EXTENDATTRIBUTE" virtual="" viewtype="" attributeName="EXTENDATTRIBUTE" fieldName="EXTENDATTRIBUTE" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="HIT" uuid="HIT" virtual="" viewtype="" attributeName="HIT" fieldName="HIT" attributeType="number" unit="" usable="false" period="1h" other="[htmltype]#[checktype]number#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="考核" uuid="column1" virtual="A,B,C,D" viewtype="10" attributeName="column1" fieldName="column1" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]select#[checktype]#[musk]0#[opemode]0#[extend]"/>
+   </Parameter>
+</ParameterDefine>

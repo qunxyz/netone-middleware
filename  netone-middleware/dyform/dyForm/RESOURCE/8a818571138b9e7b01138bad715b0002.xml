@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<ParameterDefine>
+  <Parameter levelColumn="DATAID" timeColumn="CREATED" ds="oec" table="t_cms_data" NAME="未命名表单" uuid="8a818571138b9e7b01138bad715b0002" dataSrc="DB" level="" usable="true" period="1h" other="[subform]#[listinfo]1,2,3,4,5,6,7,8#[orderinfo]1#[butinfo],backIc:1:回退,dispIc:1:显示,queIc:1:查询,expIc:1:导出,createIc:1:创建,modifyIc:1:修改,deleteIc:1:删除,sublistIc:1:子表单列表#[viewbutinfo],viewmanIc:1:视图管理,viewbut1Ic:1:进入明细,viewbut2Ic:1:返回上一级">
+    <FieldMapping NAME="DATAID" uuid="DATAID" attributeName="column1" fieldName="DATAID" attributeType="number" unit="" usable="true" period="1h" other="[htmltype]#[checktype]number#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="DATANAME" uuid="DATANAME" attributeName="column2" fieldName="DATANAME" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="DESCRIPTION" uuid="DESCRIPTION" attributeName="column3" fieldName="DESCRIPTION" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="EXTENDATTRIBUTE" uuid="EXTENDATTRIBUTE" attributeName="column4" fieldName="EXTENDATTRIBUTE" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="DATASOURCE" uuid="DATASOURCE" attributeName="column5" fieldName="DATASOURCE" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="LINK" uuid="LINK" attributeName="column6" fieldName="LINK" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="TITLE" uuid="TITLE" attributeName="column7" fieldName="TITLE" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="TYPES" uuid="TYPES" attributeName="column8" fieldName="TYPES" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="BELONGTO" uuid="BELONGTO" attributeName="column9" fieldName="BELONGTO" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="column10" uuid="column10" attributeName="column10" fieldName="column10" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+  </Parameter>
+</ParameterDefine>

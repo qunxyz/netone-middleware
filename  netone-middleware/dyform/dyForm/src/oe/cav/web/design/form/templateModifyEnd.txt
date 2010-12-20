@@ -1,0 +1,27 @@
+			<script language="javascript">
+			
+			var value='<%=value%>'.split('$#');
+			var readcolumn='<%=readcolumn%>'.split(',');
+			var opeacolumn='<%=opeacolumn%>'.split(',');
+			var allcolumn='<%=allcolumn%>'.split(',');
+			
+			//先删除隐蔽所有的字段
+			for( var i=0;i<allcolumn.length-1;i++){
+				document.getElementById(allcolumn[i]).value='';
+				document.getElementById(allcolumn[i]+'tr').style.display='none';
+			}
+			//给可显示的set值,并且显示
+			for( var i=0;i<readcolumn.length-1;i++){
+				document.getElementById(readcolumn[i]).value=value[i];
+				document.getElementById(readcolumn[i]+'tr').style.display='';
+				document.getElementById(readcolumn[i]).readOnly=true;
+			}
+			//给可操作的授予操作权限
+			for( var i=0;i<opeacolumn.length-1;i++){
+				document.getElementById(opeacolumn[i]).readOnly=false;
+			}
+			
+			document.getElementById("lsh").value='<%=lsh%>';
+			</script>
+	</body>
+</html>

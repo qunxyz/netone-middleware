@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<project name="Newland3A" default="default" basedir=".">
+	
+	<property name="src.dir" value="${basedir}/client" />
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="web.dir" value="${basedir}/WebRoot" />
+	<property name="dist.dir" value="${basedir}/dist" />
+	
+	
+    <target name="rmi_stub">
+    	<rmic base="${class.dir}" sourcebase="${src.dir}" >
+			<include name="oe/midware/dyform/service/DyFormServiceImpl.class"/>
+    		<include name="oe/midware/dyform/service/DyFormDesignServiceImpl.class"/>
+		</rmic>
+    </target>
+	<target name="default" depends="rmi_stub"></target>
+</project>

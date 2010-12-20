@@ -1,0 +1,109 @@
+<%@ page contentType="text/html; charset=GB2312"%>
+<jsp:directive.page import="oe.rmi.client.RmiEntry" />
+<jsp:directive.page import="oe.env.client.EnvService" />
+<jsp:directive.page import="oe.cav.bean.logic.bus.TCsBus" />
+<jsp:directive.page import="java.util.List" />
+<jsp:directive.page import="java.util.Iterator" />
+<jsp:directive.page import="oe.cav.bean.logic.column.TCsColumn" />
+<jsp:directive.page import="org.apache.commons.beanutils.BeanUtils" />
+<jsp:directive.page import="oe.midware.dyform.service.DyFormService" />
+<jsp:directive.page import="java.util.ArrayList"/>
+
+<%
+	String fatherlsh = request.getParameter("fatherlsh");
+	String context = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ context + "/";
+	String url0 = "";
+
+	try {
+		EnvService env = (EnvService) RmiEntry.iv("envinfo");
+		url0 = env.fetchEnvValue("%{dyformSer}");
+
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	//modify logic
+	String lsh=request.getParameter("lsh");
+	String formcode=request.getParameter("formcode");
+	// fetch current buss object
+	TCsBus busForm = null;
+	try {
+		DyFormService dys = (DyFormService) RmiEntry.iv("dyhandle");
+		busForm = dys.load(lsh, formcode);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	// fetch this form's column reference
+	List columnListAll = new ArrayList();
+	try {
+		DyFormService dys = (DyFormService) RmiEntry.iv("dyhandle");
+		columnListAll = dys.fetchColumnList(formcode);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+
+	List columnListPermission = columnListAll;
+	List columnListReadonly = columnListPermission;
+
+	StringBuffer butAll = new StringBuffer();
+	for (Iterator iter = columnListAll.iterator(); iter.hasNext();) {
+		TCsColumn element = (TCsColumn) iter.next();
+		butAll.append(element.getColumnid() + ",");
+	}
+
+	StringBuffer butR = new StringBuffer();
+	StringBuffer butV = new StringBuffer();
+	for (Iterator iter = columnListReadonly.iterator(); iter.hasNext();) {
+		TCsColumn element = (TCsColumn) iter.next();
+		butR.append(element.getColumnid() + ",");
+		String value = (String) BeanUtils.getProperty(busForm, element
+		.getColumnid());
+		butV.append(value + "$#");
+	}
+
+	StringBuffer butP = new StringBuffer();
+	for (Iterator iter = columnListPermission.iterator(); iter
+			.hasNext();) {
+		TCsColumn element = (TCsColumn) iter.next();
+		butP.append(element.getColumnid() + ",");
+	}
+
+	String allcolumn = butAll.toString();
+	String readcolumn = butR.toString();
+	String opeacolumn = butP.toString();
+	String value = butV.toString();
+%>
+
+
+<html>
+	<head>
+		<title>OESEE ¶¯Ì¬±íµ¥</title>
+		<!-- System properties -->
+		<base href="<%=url0%>/data/" />
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+		<meta name="keyword" content="oes" />
+		<meta name="description" content="" />
+		<meta name="author" content="robanco" />
+		<meta name="copyright" content="" />
+		<script language="javascript"
+			src="<%=basePath%>/dyinclude/scripts/web/common/Common.js"
+			type="text/javascript"></script>
+		<script language="javascript" 
+			src="<%=basePath%>/dyinclude/scripts/web/date/Date.js" 
+			type="text/javascript"></script>
+		<script language="javascript" type="text/javascript">
+			win.ContextPath='<%=context%>';
+		</script>
+		<script language="javascript"
+			src="<%=basePath%>/dyinclude/scripts/web/validate/Validate.js"
+			type="text/javascript"></script>
+		<link href="<%=basePath%>/include/css/oe.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="<%=basePath%>/include/js/prototype.js"></script>
+		<script language="javascript"
+			src="<%=basePath%>/dyinclude/data/dataCheck.js" type="text/javascript">
+			</script>
+		<!-- System properties -->
+	</head>

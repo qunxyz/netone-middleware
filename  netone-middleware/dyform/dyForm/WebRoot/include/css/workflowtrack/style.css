@@ -1,0 +1,46 @@
+/*菜单样式*/
+.Menu {border-style:none; WIDTH: 54px; COLOR:#6600FF;BACKGROUND-COLOR:#E8E8E8 }
+
+/*子窗口菜单样式*/
+.MenuS {border-style:none; WIDTH: 54px; COLOR:#6600FF;BACKGROUND-COLOR:#CCCCCC }
+
+.divNone{Z-INDEX: 102; POSITION: absolute; BACKGROUND-COLOR: #E8E8E8;visibility: hidden;}
+.font{ color:#6600FF}
+.tdColor{bgcolor:"#E8E8E8"}
+.div{
+	Z-INDEX: 102;
+	POSITION: absolute;
+	BACKGROUND-COLOR: #E8E8E8;
+	width: 332px;
+	top: 30px;
+	left: 11px;
+}
+
+.startEndFont {
+	font-size: large;
+	font-weight: bold;
+}
+
+body {
+	margin-top: 0px;
+	background-image: url(spacer.gif);
+}
+
+table{background:background-color:#E8E8E8; font-size:12px;}
+.workMune { BORDER-RIGHT: gray 1px solid; BORDER-TOP: #E8E8E8 1px solid; BORDER-LEFT: #eeeeee 1px solid; WIDTH: 54px; COLOR: white; BORDER-BOTTOM: gray 1px solid; BACKGROUND-COLOR: gray }
+v\:* { Behavior: url(#default#VML) }
+
+
+/*节点通用样式*/
+.activity{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:40; width:80;COLOR: #000000; BORDER-BOTTOM:0px solid; BACKGROUND-COLOR: #DDDDDD;cursor:hand}
+.subflow{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:40; width:80;COLOR: #000000; BORDER-BOTTOM:0px solid; BACKGROUND-COLOR: #DDDDDD;cursor:hand}
+.route{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:40; width:80;COLOR: #000000; BORDER-BOTTOM:0px solid; BACKGROUND-COLOR: #FFFFFF;cursor:hand}
+
+
+/*开始图片样式*/
+.startIcon{cursor:hand;FONT-SIZE:15;COLOR:#CC3366;WORD-BREAK:-all;FONT-FbreakAMILY:黑体;}
+
+/*结束图片样式*/
+.endIcon{cursor:hand;FONT-SIZE:15;COLOR:#CC3366;WORD-BREAK:-all;FONT-FbreakAMILY:黑体;}
+
+.iconMenu{DISPLAY:none; Z-INDEX: 102; POSITION: absolute; BACKGROUND-COLOR: #CCCCCC;}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<ParameterDefine>
+  <Parameter levelColumn="id,password" timeColumn="CREATED" ds="" table="NewTable" NAME="NewTable" uuid="1x" dataSrc="SQL" level="" usable="true" period="1h" other="[subform]#[listinfo]1,2,3,4,5,6,7#[orderinfo]1#[butinfo],backIc:1:回退,dispIc:1:显示,queIc:1:查询,expIc:1:导出,createIc:1:创建,modifyIc:1:修改,deleteIc:1:删除,sublistIc:1:子表单列表#[viewbutinfo],viewmanIc:1:视图管理,viewbut1Ic:1:进入明细,viewbut2Ic:1:返回上一级">
+    <FieldMapping NAME="id" uuid="column1" attributeName="id" fieldName="id" attributeType="number" unit="id" usable="true" period="1h" other="[htmltype]#[checktype]number#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="name" uuid="column2" attributeName="name" fieldName="name" attributeType="string" unit="name" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="today" uuid="column3" attributeName="today" fieldName="today" attributeType="date" unit="today" usable="true" period="1h" other="[htmltype]date#[checktype]#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+    <FieldMapping NAME="password" uuid="column4" attributeName="password" fieldName="password" attributeType="number" unit="password" usable="true" period="1h" other="[htmltype]#[checktype]number#[musk]0#[opemode]0#[valuelist]#[extend]"/>
+  </Parameter>
+  
+</ParameterDefine>

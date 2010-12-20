@@ -1,0 +1,1 @@
+注意发布服务程序的时候dycontext.properties中需要把表单的xml路径配置好

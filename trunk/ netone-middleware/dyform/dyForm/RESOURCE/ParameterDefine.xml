@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GB2312"?>
+<ParameterDefine>
+	<Parameter levelColumn="DEPTCODE=DESIGNER" timeColumn="CREATED" ds="bioec=DESCRIPTION" table="T_CS_MESSAGE=PARTICIPANT" name="1x = FORMNAME" uuid="1x=formcode" dataSrc="SQL=subform" level="*manual" usable="true" period="1h" other="ALL =EXTENDATTRIBUTE;LISTINFO;;BUTINFO;ORDERINFO;VIEWBUTINFO">
+		<FieldMapping name="发送日期=COLUMNAME" uuid="CREATED=COLUMNCODE" attributeName="CREATED=COLUMNID" fieldName="CREATED=COLUMNID" attributeType="date" unit="" usable="true" period="1h" other="1" />
+		<FieldMapping name="发送者" uuid="USERCODE" attributeName="USERCODE" fieldName="USERCODE" attributeType="string" unit="" usable="true" period="1h" other="1"/>
+		<FieldMapping name="消息类型" uuid="MSGTYPE" attributeName="MSGTYPE" fieldName="MSGTYPE" attributeType="string" unit="" usable="true" period="1h" other="1" />
+		<FieldMapping name="消息值" uuid="MSGVALUE" attributeName="MSGVALUE" fieldName="MSGVALUE" attributeType="number" unit="" usable="true" period="1h" other="1" />
+		<FieldMapping name="目标地" uuid="DEPTCODE" attributeName="DEPTCODE" fieldName="DEPTCODE" attributeType="string" unit="条" usable="true" period="1h" other=""/>
+		<FieldMapping name="消息内容" uuid="EXTENDATTRIBUTE" attributeName="EXTENDATTRIBUTE" fieldName="EXTENDATTRIBUTE" attributeType="text" unit="条" usable="false" period="1h" other="" />
+	</Parameter>
+	<Parameter levelColumn="DEPTCODE" timeColumn="CREATED" ds="bioec" table="T_CS_MESSAGE" name="2x" uuid="2x" dataSrc="SQL" level="DEPTSUB" usable="true" period="1h" other="ALL">
+		<FieldMapping name="发送日期" uuid="CREATED" attributeName="CREATED" fieldName="CREATED" attributeType="date" unit="" usable="true" period="1h" other="1"/>
+		<FieldMapping name="发送者" uuid="USERCODE" attributeName="USERCODE" fieldName="USERCODE" attributeType="string" unit="" usable="true" period="1h" other="1"/>
+		<FieldMapping name="消息类型" uuid="MSGTYPE" attributeName="MSGTYPE" fieldName="MSGTYPE" attributeType="string" unit="" usable="true" period="1h" other="1"/>
+		<FieldMapping name="消息值" uuid="MSGVALUE" attributeName="MSGVALUE" fieldName="MSGVALUE" attributeType="number" unit="" usable="true" period="1h" other="1"/>
+		<FieldMapping name="目标地" uuid="DEPTCODE" attributeName="DEPTCODE" fieldName="DEPTCODE" attributeType="string" unit="条" usable="true" period="1h" other=""/>
+		<FieldMapping name="消息内容" uuid="EXTENDATTRIBUTE" attributeName="EXTENDATTRIBUTE" fieldName="EXTENDATTRIBUTE" attributeType="text" unit="条" usable="false" period="1h" other=""/>
+
+	</Parameter>
+
+</ParameterDefine>

@@ -1,0 +1,20 @@
+v\:* { Behavior: url(#default#VML) }
+/*////////静态活动的颜色////////////*/
+.static00{background-color:#DDDDDD}/*异步子流程*/
+.static01{background-color:#BBBBBB}/*普通活动-带工具*/
+.static02{background-color:#BBBBBB}/*普通活动*/
+.static03{background-color:#EEEEEE}/*空活动*/
+.static04{background-color:#DDDDDD}/*同步子流程*/
+
+/*////////动态活动的颜色/////////*/
+.dynamic01{background-color:#FF3399}/*运行中*/
+.dynamic02{background-color:#6666FF}/*完毕*/
+.dynamic03{background-color:#FFFF33}/*异常*/
+.dynamic04{background-color:#CC66FF}/*取消*/
+.dynamic05{background-color:#FFFFFF}/*忽略*/
+.dynamic06{background-color:#FFCC00}/*等待*/
+
+
+/*活动的开始，结束*/
+.end{FONT-SIZE:13;COLOR:#CC3366;WORD-BREAK:-all;FONT-FbreakAMILY:黑体;}
+.start{FONT-SIZE:13;COLOR:#CC3366;WORD-BREAK:-all;FONT-FbreakAMILY:黑体;}

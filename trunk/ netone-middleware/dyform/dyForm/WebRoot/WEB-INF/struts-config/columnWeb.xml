@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<form-beans>
+		<form-bean name="columnForm" type="oe.cav.web.design.column.ColumnForm" />
+	</form-beans>
+
+	<action-mappings>
+		<action name="columnForm" path="/design/system/column" type="oe.cav.web.design.column.ColumnActionImpl">
+			<event name="list" />
+			<event name="createview" />
+			<event name="createope" />
+			<event name="modifyview" />
+			<event name="modifyope" />
+			<event name="dropope" />
+			<event name="moveup" />
+			<event name="movedown" />
+			<event name="upload" />
+			<event name="initpoint" />
+			
+			<forward name="list" path="/design/system/column/column_list.jsp" />
+			<forward name="pointlist" path="/design/system/column/column_list_point.jsp" />
+			<forward name="createview" path="/design/system/column/column_create_view.jsp" />
+			<forward name="modifyview" path="/design/system/column/column_modify_view.jsp" />
+		</action>
+	</action-mappings>
+
+</struts-config>

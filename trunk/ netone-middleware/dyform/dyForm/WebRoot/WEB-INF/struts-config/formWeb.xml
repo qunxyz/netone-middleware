@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<form-beans>
+		<form-bean name="formForm"
+			type="oe.cav.web.design.form.FormForm" />
+	</form-beans>
+
+	<action-mappings>
+		<action name="formForm" path="/design/system/form"
+			type="oe.cav.web.design.form.FormActionImpl">
+			<event name="createview" />
+			<event name="createviewTemplate" />
+			<event name="createope" />
+			<event name="modifyview" />
+			<event name="modifyope" />
+			<event name="queryview" />
+			<event name="dropope" />
+			<event name="addToPermission" />
+
+			<forward name="createview"
+				path="/design/system/form/form_create_view.jsp" />
+			<forward name="modifyview"
+				path="/design/system/form/form_modify_view.jsp" />
+		</action>
+	</action-mappings>
+
+</struts-config>

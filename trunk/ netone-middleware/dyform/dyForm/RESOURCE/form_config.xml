@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "spring-beans.dtd">
+
+<beans>
+	<!-- ######## DyForm Design ######## -->
+
+	<!-- 从数据库构建dyObj -->
+	<bean id="dyObjFromDatabase"
+		class="oe.cav.bean.logic.tools.DyObjFromDatabaseImpl">
+	</bean>
+	<!-- 从OeForm构建dyObj -->
+	<bean id="dyObjFromOeForm"
+		class="oe.cav.bean.logic.tools.DyObjFromOeFormImpl">
+	</bean>
+	<!-- 从Xml构建dyObj -->
+	<bean id="dyObjFromXml"
+		class="oe.cav.bean.logic.tools.DyObjFromXmlImpl">
+	</bean>
+	<!-- 从dyObj构建Xml -->
+	<bean id="dyObjToXML"
+		class="oe.cav.bean.logic.tools.DyObjToXMLImpl">
+	</bean>
+
+	<!--Form设计 -->
+	<bean id="formDao" class="oe.cav.bean.logic.dy.form.FormDaoImpl">
+		<property name="dyObjFromXml" ref="dyObjFromXml" />
+		<property name="dyObjToXML" ref="dyObjToXML" />
+		<property name="dyObjFromDatabase" ref="dyObjFromDatabase" />
+	</bean>
+	
+	<!--字段设计 -->
+	<bean id="columnDao"
+		class="oe.cav.bean.logic.dy.column.ColumnDaoImpl">
+		<property name="dyObjFromXml" ref="dyObjFromXml" />
+		<property name="dyObjToXML" ref="dyObjToXML" />
+	</bean>
+	<!-- ############################### -->
+
+	<!-- ####### 数据应用管理 ############ -->
+	<!-- 数据应用核心部分 -->
+	<bean id="bussDaoCore"
+		class="oe.cav.bean.logic.dy.bus.BussDaoCoreImpl2">
+	</bean>
+	<!-- 数据应用入口 -->
+	<bean id="bussDao" class="oe.cav.bean.logic.dy.bus.BussDaoImpl">
+		<property name="dyObjFromXml" ref="dyObjFromXml" />
+		<property name="formDao" ref="formDao" />
+	</bean>
+	<!-- ######## 工具程序 ############ -->
+	<bean id="excelHandler"
+		class="oe.midware.doc.excel.ExcelHandlerImp" />
+
+	<!-- dyform -->
+	<bean id="dyhandle"
+		class="oe.midware.dyform.service.DyFormServiceImpl">
+	</bean>
+	<bean id="dydesign"
+		class="oe.midware.dyform.service.DyFormDesignServiceImpl">
+		<property name="columnDao">
+			<ref bean="columnDao" />
+		</property>
+		<property name="formDao">
+			<ref bean="formDao" />
+		</property>
+	</bean>
+</beans>

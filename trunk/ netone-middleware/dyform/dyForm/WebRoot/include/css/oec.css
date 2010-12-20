@@ -1,0 +1,22 @@
+.btext {
+	border-top: 1px inset;
+	font-size: 12px;
+	border-left: 1px inset;
+	height: 13pt;
+}
+
+.btextTitle {
+	border-top: 1px inset;
+	font-size: 12px;
+	border-left: 1px inset;
+	height: 12pt;
+	text-align: right;
+}
+
+.bCheckInput{
+	border-top: 0px inset;
+	font-size: 20px;
+	border-left: 0px inset;
+	height: 30pt;
+	background-image: url(../../image/checknum.GIF);
+}

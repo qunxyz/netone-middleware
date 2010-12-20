@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.cav.bean.logic.bus.TCsBustp"  table="T_CS_BUSTP">
+<id column="TPID" name="tpid" type="java.lang.String">
+<generator class="uuid.hex"/>
+</id>
+<property column="SYSTEMID" length="100" name="systemid" not-null="true" type="java.lang.String"/>
+<property column="TPMC" length="100" name="tpmc" not-null="true" type="java.lang.String"/>
+<property column="WJDX" length="100" name="wjdx" not-null="true" type="java.lang.String"/>
+<property column="SCSJ" length="100" name="scsj" type="java.lang.String"/>
+<property column="BZ" length="100" name="bz" type="java.lang.String"/>
+<property column="LSH" length="32" name="lsh" type="java.lang.String"/>
+<property column="DISPSIZE" length="100" name="dispsize" type="java.lang.String"/>
+<property column="LINKURL" length="100" name="linkurl" type="java.lang.String"/>
+<property column="PARTICIPANT" length="100" name="participant" type="java.lang.String"/>
+
+</class>
+</hibernate-mapping>

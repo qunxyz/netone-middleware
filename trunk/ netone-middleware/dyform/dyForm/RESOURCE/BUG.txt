@@ -1,0 +1,10 @@
+#########07-10-01############
+
+1) BussDaoImpl 中装载方法 返回的sql 无法执行
+   必须采用 带预制的SQL 
+   
+2) DyObjFromDatabaseImpl 中formcode用缺少.
+   处理用idServer创建formcode,并且用表名来设置formname
+   
+   
+3) 修改的表单的删除方法,之前的路径有问题

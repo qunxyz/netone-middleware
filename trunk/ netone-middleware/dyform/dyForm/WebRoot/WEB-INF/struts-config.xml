@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "struts-config_1_2.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans>
+		<form-bean name="dicForm" type="oe.cav.web.dbtool.DicForm" />
+	</form-beans>
+
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action attribute="dicForm" input="/Dic.jsp" name="dicForm"
+			path="/dic" scope="request" type="oe.cav.web.dbtool.DicAction">
+			<forward name="xmllist" path="/list.jsp" />
+		</action>
+
+	</action-mappings>
+	<message-resources parameter="ApplicationResources" />
+</struts-config>
+

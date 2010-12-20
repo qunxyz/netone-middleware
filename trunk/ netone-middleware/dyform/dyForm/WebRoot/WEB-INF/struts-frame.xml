@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE struts-frame PUBLIC "-//Rongji Software Foundation//DTD Struts Frame Configuration 1.0//EN" "struts-frame_1_0.dtd">
+<!--基本框架配置-->
+
+<struts-frame>
+	<!-- 定义服务器类型,用于不同服务器的适配处理,todo:尚未实现 -->
+	<server>jboss</server>
+	<!-- 过期地址设置        -->
+	<timeout-forward>/oec/forum/loginview.do?login=1</timeout-forward>
+	<!-- charset 设置 -->
+	<encode-set>
+		<charset>gbk</charset>
+	</encode-set>
+	<!--头信息定义
+		站点基本信息的定义：主要包含以下四个信息
+		author: 作者
+		keyword:关键字
+		description:站点描述
+		copyright:站点版权
+	-->
+	<meta-set>
+		<site>::::</site>
+		<author>robanco</author>
+		<keyword>oes</keyword>
+		<description></description>
+		<copyright></copyright>
+	</meta-set>
+
+	<struts-module>
+		<config url="/WEB-INF/struts-config/formWeb.xml" />
+		<config url="/WEB-INF/struts-config/columnWeb.xml" />
+		<config url="/WEB-INF/struts-config/dataWeb.xml" />
+	</struts-module>
+	<struts-module name="dbtool" apache="true">
+		<config url="/WEB-INF/struts-config.xml" />
+	</struts-module>
+	
+</struts-frame>

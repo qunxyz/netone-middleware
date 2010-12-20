@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+	<form-beans>
+		<form-bean name="dataForm" type="oe.cav.web.data.BusForm" />
+		<form-bean name="dyDataForm"
+			type="com.rongji.webframework.struts.DynaUIForm" />
+		<form-bean name="dataFjForm"
+			type="oe.cav.web.data.fj.BusFjForm" />
+		<form-bean name="dataTpForm"
+			type="oe.cav.web.data.tp.BusTpForm" />
+	</form-beans>
+
+	<action-mappings>
+		<action name="dataForm" path="/data/data"
+			type="oe.cav.web.data.BusActionImpl">
+			<event name="list" />
+			<event name="sublist" />
+			<event name="listShare" />
+			<event name="sublistShare" />
+			<event name="listsum" />
+			<event name="exportope" />
+			<event name="createope" />
+			<event name="modifyope" />
+			<event name="dropope" />
+			<event name="backtofather" />
+
+			<forward name="list" path="/data/data_list.jsp" />
+			<forward name="listsmall" path="/data/data_listsmall.jsp" />
+			<forward name="listverysmall"
+				path="/data/data_listverysmall.jsp" />
+			<forward name="listsum" path="/data/data_list_sum.jsp" />
+			<forward name="resultWeb" path="/data/datars.jsp" />
+			<forward name="loginview" path="/oec/forum/loginview.do" />
+
+		</action>
+
+		<action name="dyDataForm" path="/data/showdata"
+			type="oe.cav.web.data.BusViewActionImpl">
+			<event name="createview" />
+			<event name="createviewScript" />
+			<event name="createOrModifyview" />
+			<event name="modifyview" />
+			<event name="queryview" />
+			<event name="exportview" />
+			<event name="display" />
+			<event name="listview" />
+			<event name="listviews" />
+			<event name="sublistview" />
+
+			<forward name="dataview" path="/data/data_view.jsp" />
+			<forward name="display" path="/data/data_display.jsp" />
+			<forward name="listview" path="/data/data_listview.jsp" />
+			<forward name="listviews" path="/data/data_listviews.jsp" />
+			<forward name="listviewslink"
+				path="/data/data_listviewslink.jsp" />
+			<forward name="listviewslinkMax"
+				path="/data/data_listviewslinkMax.jsp" />
+			<forward name="loginview" path="/oec/forum/loginview.do" />
+
+
+
+
+
+		</action>
+
+		<action name="dataFjForm" path="/data/datafj"
+			type="oe.cav.web.data.fj.BusFjActionImpl">
+			<event name="list" />
+			<event name="fjview" />
+			<event name="upload" />
+			<event name="download" />
+			<event name="delete" />
+
+
+			<forward name="fjview" path="/data/fj/fjgl.jsp" />
+
+		</action>
+
+		<action name="dataTpForm" path="/data/datatp"
+			type="oe.cav.web.data.tp.BusTpActionImpl">
+			<event name="list" />
+			<event name="tpview" />
+			<event name="upload" />
+			<event name="download" />
+			<event name="delete" />
+			<event name="saveinfo" />
+			<forward name="fjview" path="/data/tp/tpgl.jsp" />
+		</action>
+	</action-mappings>
+
+</struts-config>

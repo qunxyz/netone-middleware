@@ -94,6 +94,9 @@ public class SubProcessActorTmpImp implements SubProcessActor {
 		runtimeSub.setKind(subflowSyncmode);
 
 		OrmerEntry.fetchOrmer().fetchSerializer().update(runtimeSub);
+		
+		//马上启动子流程
+		processActor.runProcess(runtimeSub);
 
 		return runtimeSub;
 	}

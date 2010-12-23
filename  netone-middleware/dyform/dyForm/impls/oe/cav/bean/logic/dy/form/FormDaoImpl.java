@@ -400,7 +400,12 @@ public class FormDaoImpl implements FormDao {
 	}
 
 	public List listByLevel(String level) {
+		log.debug("level to match:"+level);
 		level = StringUtils.substringBetween(level, "[", "]");
+		if(level==null){
+			return new ArrayList();
+		}
+		
 		String pathinfo = System.getProperty("user.dir") + "/dy/";
 		File fi = new File(pathinfo);
 

@@ -1,0 +1,1 @@
+oecBi.tld需要手工拷贝到Bi发布包中biClient.jar的 meta-inf中

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowViewLayout Version="1.2">
+  <StrutsActivity path="/etlmain.do" location="650,50" dimension="228,88" />
+  <StrutsActivity path="/etlAnalyse.do" location="360,375" dimension="238,88" />
+  <StrutsActivity path="/dataModelDesign.do" location="950,350" dimension="309,88" />
+  <StrutsActivity path="/datamodellist.do" location="350,550" dimension="293,88" />
+  <StrutsActivity path="/editDataModel.do" location="950,550" dimension="295,88" />
+  <StrutsActivity path="/datasourcelist.do" location="50,750" dimension="301,88" />
+  <StrutsActivity path="/etlVMCreate.do" location="350,950" dimension="247,88" />
+  <StrutsActivity path="/etlTableVM.do" location="650,950" dimension="240,88" />
+  <StrutsActivity path="/etlChartVM.do" location="950,950" dimension="241,88" />
+  <StrutsActivity path="/excel.do" location="1250,750" dimension="230,88" />
+  <StrutsActivity path="/forecastSelect.do" location="1250,950" dimension="259,88" />
+  <StrutsActivity path="/tgFilter.do" location="50,1050" dimension="224,88" />
+  <StrutsActivity path="/design_Newdatamodel.do" location="350,1150" dimension="370,84" />
+  <StrutsActivity path="/design_Updatedatamodel.do" location="950,1150" dimension="388,84" />
+  <StrutsActivity path="/design_Showdatamodel.do" location="50,1350" dimension="376,84" />
+  <StrutsActivity path="/bi/etl/etlmain.jsp" location="650,450" dimension="113,49" />
+  <StrutsActivity path="/bi/datamodel/index.jsp" location="650,850" dimension="143,49" />
+  <StrutsActivity path="/bi/datamodel/editdatamodel.jsp" location="950,850" dimension="185,49" />
+  <StrutsActivity path="/bi/datasource/datasourceList.jsp" location="50,950" dimension="191,49" />
+  <StrutsActivity path="/bi/etl/tableView.jsp" location="950,50" dimension="125,49" />
+  <StrutsActivity path="/bi/etl/chartView.jsp" location="950,150" dimension="126,49" />
+  <StrutsActivity path="/bi/etl/chartSelect.jsp" location="950,750" dimension="133,49" />
+  <StrutsActivity path="/bi/etl/forecastselect.jsp" location="50,550" dimension="147,49" />
+  <StrutsActivity path="/bi/etl/tgfilter.jsp" location="50,650" dimension="160,48" />
+  <StrutsActivity path="/bi/datamodel/designdatamodel.jsp" location="50,1550" dimension="238,48" />
+  <StrutsActivity path="/bi/datamodel/showdatamodel.jsp" location="350,1550" dimension="226,48" />
+  <StrutsActivity path="/chartView.jsp" location="345,300" dimension="98,49" />
+  <StrutsActivity path="/chart.jsp" location="950,150" dimension="76,49" />
+  <StrutsActivity path="/bi/chartView.jsp" location="650,250" dimension="110,49" />
+  <StrutsActivity path="/biWeb/bi/chartView.jsp" location="950,250" dimension="144,49" />
+  <StrutsActivity path="" location="650,750" dimension="29,49" />
+  <StrutsTransition id="/etlVMCreate.do,table,/etlTableVM.do,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="597,994" />
+      <AbsolutePoint location="650,994" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bi/datamodel/designdatamodel.jsp,null,/design_Newdatamodel.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bi/datamodel/showdatamodel.jsp,null,/design_Showdatamodel.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/forecastSelect.do,forecastselect,/bi/etl/forecastselect.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1495,950" />
+      <AbsolutePoint location="1495,514" />
+      <AbsolutePoint location="123,514" />
+      <AbsolutePoint location="123,550" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bi/datasource/datasourceList.jsp,null,/datasourcelist.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="145,950" />
+      <AbsolutePoint location="145,838" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bi/etl/etlmain.jsp,null,/etlmain.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="763,474" />
+      <AbsolutePoint location="778,474" />
+      <AbsolutePoint location="778,138" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/etlAnalyse.do,vmcreate,/etlVMCreate.do,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="360,419" />
+      <AbsolutePoint location="248,419" />
+      <AbsolutePoint location="248,683" />
+      <AbsolutePoint location="473,683" />
+      <AbsolutePoint location="473,950" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bi/datamodel/index.jsp,null,/datamodellist.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="721,850" />
+      <AbsolutePoint location="721,594" />
+      <AbsolutePoint location="643,594" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bi/datamodel/designdatamodel.jsp,null,/design_Updatedatamodel.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/etlChartVM.do,CHART_SELECT,/bi/etl/chartSelect.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1150,950" />
+      <AbsolutePoint location="1150,774" />
+      <AbsolutePoint location="1083,774" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/etlVMCreate.do,chart,/etlChartVM.do,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="503,950" />
+      <AbsolutePoint location="503,914" />
+      <AbsolutePoint location="1070,914" />
+      <AbsolutePoint location="1070,950" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/etlChartVM.do,CHART_VIEW,/bi/etl/chartView.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="950,994" />
+      <AbsolutePoint location="905,994" />
+      <AbsolutePoint location="905,174" />
+      <AbsolutePoint location="950,174" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/tgFilter.do,selectjsp,/bi/etl/tgfilter.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="50,1094" />
+      <AbsolutePoint location="-75,1094" />
+      <AbsolutePoint location="-75,674" />
+      <AbsolutePoint location="50,674" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bi/datamodel/editdatamodel.jsp,null,/editDataModel.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1098,850" />
+      <AbsolutePoint location="1098,638" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/etlTableVM.do,TABLE_VIEW,/bi/etl/tableView.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="770,1038" />
+      <AbsolutePoint location="770,1113" />
+      <AbsolutePoint location="1555,1113" />
+      <AbsolutePoint location="1555,74" />
+      <AbsolutePoint location="1075,74" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+</FlowViewLayout>
+

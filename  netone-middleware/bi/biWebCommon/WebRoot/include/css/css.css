@@ -1,0 +1,71 @@
+A:link {text-decoration:none;color:#000000;}
+A:visited {text-decoration:none;color:#000000;}
+A:hover {text-decoration:underline;color:#FF0000;}
+
+td {
+	font-size: 12px;
+	line-height: 20px;
+}
+
+Input { Font-size:12px; } 
+Select { Font-size:12px; }
+
+.wordspace {
+	letter-spacing: 2px;
+}
+.tittl01 {
+	background: url(../../images/bg_bott_bg01.gif);
+	text-align: center;
+	color: #CC0000;
+
+}
+.td-01 {
+	text-indent: 10pt;
+	height: 22px;
+
+}
+.button {
+	background: url(../../images/bott_bg.gif);
+	cursor: hand;
+	
+
+}
+.butt {
+	border: 1px solid #809DD5;
+	height:17px;
+	background-image: url(../../images/bott_bg.gif);
+}
+.td-bg01 {
+	background: url(../../images/bg_bg01.gif);
+	text-align: center;
+	line-height: 25px;
+
+}
+.tittl02 {
+	font: 12px "ËÎÌו";
+	background: url(../../images/bg_bott_bg02.gif);
+	text-align: center;
+
+}
+.td-bg03 {
+	color: #FFFFFF;
+	background-image: url(../../images/bott_2.gif);
+}
+
+.tittl03 {
+	color: #0066CC;
+	text-decoration: blink;
+}
+.td-bg02 {
+	font-weight: bold;
+	color: #FFFFFF;
+	background: url(../../images/bott.gif);
+	height: 22px;
+	text-align: center;
+
+}
+.td-02 {
+	text-align: center;
+	height: 22px;
+
+}

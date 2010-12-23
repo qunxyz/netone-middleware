@@ -1,0 +1,18 @@
+新增MakeChartSvl
+
+<servlet>
+	<servlet-name>MakeChartSvl</servlet-name>
+	<servlet-class>com.newland.bi.common.MakeChartSvl</servlet-class>
+</servlet>
+<servlet-mapping>
+	<servlet-name>MakeChartSvl</servlet-name>
+	<url-pattern>/MakeChartSvl</url-pattern>
+</servlet-mapping>
+
+引用方法为
+function test(value){
+	window.open('<%=path%>/MakeChartSvl?chkid='+value,'_blank');
+}
+
+url为http://localhost:8080/biWeb/MakeChartSvl?chkid=8a81854a19f459d6011a05058a41000d&index=1
+其中index用于多图显示，不写则默认为第1张图

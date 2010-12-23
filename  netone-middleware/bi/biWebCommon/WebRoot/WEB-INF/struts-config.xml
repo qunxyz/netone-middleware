@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans>
+		<form-bean name="etlViewForm"
+			type="oe.bi.web.form.EtlViewForm" />
+		<form-bean name="dataModelForm"
+			type="oe.bi.web.datamodel.DataModelForm" />
+		<form-bean name="designdatamodelForm"
+			type="oe.bi.web.datamodel.DesigndatamodelForm" />
+		<form-bean name="analyseSubjectForm"
+			type="oe.bi.etl.wizard.analysesubject.AnalyseSubjectForm" />
+		<form-bean name="summaryDataForm"
+			type="oe.bi.etl.wizard.summarydata.SummaryDataForm" />
+		<form-bean name="excelToDbForm"
+			type="oe.bi.etl.wizard.exceltodb.ExcelToDbForm" />
+	</form-beans>
+
+	<global-exceptions />
+	<global-forwards />
+
+	<action-mappings>
+		<action path="/flowpage" name="analyseSubjectForm" attribute="analyseSubjectForm"
+			type="oe.bi.etl.wizard.analysesubject.FlowpageAction" scope="request">
+			<forward name="vmcreate" path="/etlVMCreate.do" />
+			<forward name="errorPage" path="/bi/etl/tableView.jsp" />
+		</action>
+		<action path="/NextChart" name="analyseSubjectForm" attribute="analyseSubjectForm"
+			type="oe.bi.etl.wizard.analysesubject.chart.ChartAction" scope="request" >
+			<forward name="First" path="/bi/etl/chart/First.jsp" />
+			<forward name="Next" path="/bi/etl/chart/Next.jsp" />
+			<forward name="Done" path="/bi/etl/chart/Done.jsp" />
+			<forward name="Modify" path="/bi/etl/chart/Modify.jsp" />
+		</action>
+		<action path="/NextAnalyse" name="analyseSubjectForm" attribute="analyseSubjectForm"
+			type="oe.bi.etl.wizard.analysesubject.AnalyseSubjectAction" scope="request" >
+			<forward name="Zero" path="/bi/etl/wizard/AnalyseSubject/Zero.jsp" />
+			<forward name="BeforeFirst" path="/bi/etl/wizard/AnalyseSubject/BeforeFirst.jsp" />
+			<forward name="First" path="/bi/etl/wizard/AnalyseSubject/First.jsp" />
+			<forward name="Step" path="/bi/etl/wizard/AnalyseSubject/Step.jsp" />
+			<forward name="Step1" path="/bi/etl/wizard/AnalyseSubject/Step1.jsp" />
+			<forward name="Step2" path="/bi/etl/wizard/AnalyseSubject/Step2.jsp" />
+			<forward name="Step21" path="/bi/etl/wizard/AnalyseSubject/Step21.jsp" />
+			<forward name="Step22" path="/bi/etl/wizard/AnalyseSubject/Step22.jsp" />
+			<forward name="Step3" path="/bi/etl/wizard/AnalyseSubject/Step3.jsp" />
+			<forward name="Step31" path="/bi/etl/wizard/AnalyseSubject/Step31.jsp" />
+			<forward name="Step32" path="/bi/etl/wizard/AnalyseSubject/Step32.jsp" />
+			<forward name="Step4" path="/bi/etl/wizard/AnalyseSubject/Step4.jsp" />
+			<forward name="Step5" path="/bi/etl/wizard/AnalyseSubject/Step5.jsp" />
+			<forward name="Done" path="/bi/etl/wizard/AnalyseSubject/Done.jsp" />
+			<forward name="Done2" path="/bi/etl/wizard/AnalyseSubject/Done2.jsp" />
+			<forward name="Done3" path="/bi/etl/wizard/AnalyseSubject/Done3.jsp" />
+		</action>
+		<action path="/ModifyAnalyse" name="analyseSubjectForm" attribute="analyseSubjectForm"
+			type="oe.bi.etl.wizard.analysesubject.AnalyseSubjectModifyAction" scope="request" >
+			<forward name="Finish" path="/bi/etl/wizard/AnalyseSubject/Finish.jsp" />
+			<forward name="Finish2" path="/bi/etl/wizard/AnalyseSubject/Finish2.jsp" />
+		</action>
+		<action path="/NextFilter" name="analyseSubjectForm" attribute="analyseSubjectForm"
+			type="oe.bi.etl.wizard.analysesubject.FilterAction" scope="request" >
+			<forward name="filter1" path="/bi/etl/multiview/filter1.jsp" />
+			<forward name="filter2" path="/bi/etl/multiview/filter2.jsp" />
+			<forward name="filter3" path="/bi/etl/multiview/filter3.jsp" />
+		</action>
+		<action path="/NextSummary" name="summaryDataForm" attribute="summaryDataForm"
+			type="oe.bi.etl.wizard.summarydata.SummaryDataAction" scope="request" >
+			<forward name="First" path="/bi/etl/wizard/SummaryData/First.jsp" />
+			<forward name="Step" path="/bi/etl/wizard/SummaryData/Step.jsp" />
+			<forward name="Step2" path="/bi/etl/wizard/SummaryData/Step2.jsp" />
+			<forward name="Done" path="/bi/etl/wizard/SummaryData/Done.jsp" />
+		</action>
+		<action path="/ModifySummary" name="summaryDataForm" attribute="summaryDataForm"
+			type="oe.bi.etl.wizard.summarydata.SummaryDataModifyAction" scope="request" >
+			<forward name="MStep2" path="/bi/etl/wizard/SummaryData/MStep2.jsp" />
+		</action>
+		<action path="/SynSummary" name="summaryDataForm" attribute="summaryDataForm"
+			type="oe.bi.etl.wizard.summarydata.SummaryDataSynAction" scope="request" >
+			<forward name="Syn" path="/bi/etl/wizard/SummaryData/Syn.jsp" />
+			<forward name="Synbefore" path="/bi/etl/wizard/SummaryData/Synbefore.jsp" />
+			<forward name="Synbefore2" path="/bi/etl/wizard/SummaryData/Synbefore2.jsp" />
+		</action>
+		<action path="/NextExcel" name="excelToDbForm" attribute="excelToDbForm"
+			type="oe.bi.etl.wizard.exceltodb.ExcelToDbAction" scope="request" >
+			<forward name="First" path="/bi/etl/wizard/ExcelToDb/First.jsp" />
+			<forward name="Step" path="/bi/etl/wizard/ExcelToDb/Step.jsp" />
+			<forward name="Step2" path="/bi/etl/wizard/ExcelToDb/Step2.jsp" />
+			<forward name="Done" path="/bi/etl/wizard/ExcelToDb/Done.jsp" />
+		</action>
+		<action path="/Export"
+			type="oe.bi.etl.wizard.export.ExportAction" scope="request" >
+			<forward name="Exportexcel" path="/bi/etl/export/exportexcel.jsp" />
+		</action>
+		
+		
+		<action input="/bi/etl/etlmain.jsp" path="/etlmain"
+			scope="request" type="oe.bi.web.etl.ETSMainAction" />
+		<action path="/etlAnalyse"
+			type="oe.bi.web.etl.EtlAnalyseAction" scope="request">
+			<forward name="vmcreate" path="/etlVMCreate.do" />
+			<forward name="errorPage" path="/bi/etl/tableView.jsp" />
+		</action>
+		<action path="/dataModelDesign"
+			type="oe.bi.web.datamodel.DataModelDesignAction" />
+		<action path="/datamodellist"
+			type="oe.bi.web.datamodel.DataModelListAction"
+			input="/bi/datamodel/index.jsp" />
+		<action name="dataModelForm" path="/editDataModel"
+			scope="request"
+			type="oe.bi.web.datamodel.EditDataModelAction"
+			input="/bi/datamodel/editdatamodel.jsp" />
+		<action input="/bi/datasource/datasourceList.jsp"
+			path="/datasourcelist"
+			type="oe.bi.web.datasource.DatasourceListAction" />
+		<action path="/etlVMCreate"
+			type="oe.bi.web.etl.EtlVMCreateAction">
+			<forward name="table" path="/etlTableVM.do" />
+			<forward name="chart" path="/etlChartVM.do" />
+		</action>
+		<action path="/etlTableVM"
+			type="oe.bi.web.etl.EtlTableVMAction">
+			<forward name="TABLE_VIEW" path="/bi/etl/tableView.jsp" />
+			<forward name="chart0" path="/bi/etl/multiview/chart0.jsp" />
+		</action>
+		<action path="/etlChartVM"
+			type="oe.bi.web.etl.EtlChartVMAction">
+			<forward name="CHART_VIEW" path="/bi/etl/chartView.jsp" />
+			<forward name="CHART_SELECT" path="/bi/etl/chartSelect.jsp" />
+			<forward name="CHART_SELECT0" path="/bi/etl/multiview/chartSelect0.jsp" />
+		</action>
+		<action path="/excel"
+			type="oe.bi.web.action.ExcelAction" />
+		<action path="/forecastSelect"
+			type="oe.bi.web.etl.ForecastSelectAction">
+			<forward name="forecastselect"
+				path="/bi/etl/forecastselect.jsp" />
+		</action>
+		<action path="/tgFilter"
+			type="oe.bi.web.etl.TgFilterAction">
+			<forward name="selectjsp" path="/bi/etl/tgfilter.jsp" />
+		</action>
+		<action path="/design_Newdatamodel" name="designdatamodelForm"
+			input="/bi/datamodel/designdatamodel.jsp"
+			type="oe.bi.web.datamodel.Design_NewdatamodelAction" />
+		<action path="/design_Updatedatamodel"
+			name="designdatamodelForm" input="/bi/datamodel/designdatamodel.jsp"
+			type="oe.bi.web.datamodel.Design_UpdatedatamodelAction" />
+		<action path="/design_Showdatamodel"
+			input="/bi/datamodel/showdatamodel.jsp"
+			type="oe.bi.web.datamodel.Design_ShowdatamodelAction" />
+
+		<action path="/fmHistory" input="/fm/fmhistory.jsp"
+			type="oe.bi.web.fmhistory.FmHistoryAction" />
+
+	</action-mappings>
+
+	<message-resources
+		parameter="oe.bi.web.ApplicationResources" />
+</struts-config>
+

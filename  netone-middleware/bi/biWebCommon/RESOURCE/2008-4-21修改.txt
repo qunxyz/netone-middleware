@@ -1,0 +1,7 @@
+com.newland.bi.etl.bus3.ExtractImpl3修改如下:
+第62行将List dimensionElement = new ArrayList();改为List dimensionElement = choice.getDimensionElement();
+
+com.newland.bi.etl.wizard.summarydata.util.SumUtil修改如下:
+第67行searchToAdd方法中添加插入字段"CREATED",并在这个方法中做相应修改
+
+

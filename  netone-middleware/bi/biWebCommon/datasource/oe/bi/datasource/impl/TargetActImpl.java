@@ -71,7 +71,7 @@ public class TargetActImpl implements TargetAct {
 						|| XMLReference.DIMETION_BELONGX
 								.equalsIgnoreCase(columnid)
 						|| XMLReference.DIMETION_TIMEX
-								.equalsIgnoreCase(columnid)||"number".equalsIgnoreCase(type)) {
+								.equalsIgnoreCase(columnid)||!"number".equalsIgnoreCase(type)) {
 					continue;
 				}
 				TargetObj to = new TargetObj();

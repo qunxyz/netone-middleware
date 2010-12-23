@@ -66,11 +66,12 @@ public class TargetActImpl implements TargetAct {
 			for (Iterator iter = list.iterator(); iter.hasNext();) {
 				TCsColumn element = (TCsColumn) iter.next();
 				String columnid = element.getColumnid();
+				String type=element.fetchType();
 				if (!element.isUseable()
 						|| XMLReference.DIMETION_BELONGX
 								.equalsIgnoreCase(columnid)
 						|| XMLReference.DIMETION_TIMEX
-								.equalsIgnoreCase(columnid)) {
+								.equalsIgnoreCase(columnid)||"number".equalsIgnoreCase(type)) {
 					continue;
 				}
 				TargetObj to = new TargetObj();

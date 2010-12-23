@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="bi" default="default" basedir=".">
+	
+	<property name="src.dir" value="${basedir}/service" />
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="web.dir" value="${basedir}/WebRoot" />	
+	
+    <target name="rmi_stub">
+    	<rmic base="${class.dir}" sourcebase="${src.dir}" >
+			<include name="oe/bi/wizard/WizardDaoImpl.class"/>
+ 		</rmic>
+    	<rmic base="${class.dir}" sourcebase="${src.dir}" >
+			<include name="oe/bi/analysis/BiAnalysisImpl2.class"/>
+ 		</rmic>
+    	<rmic base="${class.dir}" sourcebase="${src.dir}" >
+			<include name="oe/bi/analysis/BiForcastImpl.class"/>
+ 		</rmic>
+    	<rmic base="${class.dir}" sourcebase="${src.dir}" >
+			<include name="oe/bi/datasource/SumUtilImpl.class"/>
+ 		</rmic>
+    </target>
+	<target name="default" depends="rmi_stub"></target>
+</project>

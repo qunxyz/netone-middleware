@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<filter>
+		<filter-name>characterEncoding</filter-name>
+		<filter-class>
+			oe.frame.web.SetCharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 安全 -->
+	<filter>
+		<filter-name>ssofilter</filter-name>
+		<filter-class>oe.security3a.sso.SsoFilter</filter-class>
+		<init-param>
+			<param-name>AbortUrls</param-name>
+			<param-value>
+				/DownloadSvl,/CopyBussFormSvl,/CopyAnalyseSvl,/LoadDataSvl,/MakeChartSvl,/flowpage.do
+			</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>ssofilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/WEB-INF/cewolf.tld</taglib-uri>
+			<taglib-location>/WEB-INF/cewolf.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>/WEB-INF/pageTag.tld</taglib-uri>
+			<taglib-location>/WEB-INF/pageTag.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>/WEB-INF/bi.tld</taglib-uri>
+			<taglib-location>/WEB-INF/bi.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>CewolfServlet</servlet-name>
+		<servlet-class>de.laures.cewolf.CewolfRenderer</servlet-class>
+		<init-param>
+			<param-name>storage</param-name>
+			<param-value>
+				de.laures.cewolf.storage.TransientSessionStorage
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>overliburl</param-name>
+			<param-value>/etc/overlib.js</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<load-on-startup>5</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>XmlTreeSvl</servlet-name>
+		<servlet-class>oe.bi.web.view.tree.XmlTreeSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>XmlDataSourceSvl</servlet-name>
+		<servlet-class>
+			oe.bi.web.datasource.XmlDataSourceSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EtlTreeSvl</servlet-name>
+		<servlet-class>oe.bi.web.etl.EtlTreeSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ChartProviderSvl</servlet-name>
+		<servlet-class>
+			oe.bi.common.chart.ChartProviderSvl
+		</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EtlTimeSelectSvl</servlet-name>
+		<servlet-class>oe.bi.web.etl.EtlTimeSelectSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EtlTargetSelectSvl</servlet-name>
+		<servlet-class>oe.bi.web.etl.EtlTargetSelectSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EtlTreeRightClickSvl</servlet-name>
+		<servlet-class>
+			oe.bi.web.etl.EtlTreeRightClickSvl
+		</servlet-class>
+	</servlet>
+
+
+
+
+	<servlet-mapping>
+		<servlet-name>XmlTreeSvl</servlet-name>
+		<url-pattern>/servlet/XmlTreeSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>XmlDataSourceSvl</servlet-name>
+		<url-pattern>/servlet/XmlDataSourceSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EtlTreeSvl</servlet-name>
+		<url-pattern>/servlet/EtlTreeSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CewolfServlet</servlet-name>
+		<url-pattern>/cewolf/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ChartProviderSvl</servlet-name>
+		<url-pattern>/servlet/ChartProviderSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EtlTimeSelectSvl</servlet-name>
+		<url-pattern>/servlet/EtlTimeSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EtlTargetSelectSvl</servlet-name>
+		<url-pattern>/servlet/EtlTargetSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EtlTreeRightClickSvl</servlet-name>
+		<url-pattern>/servlet/EtlTreeRightClickSvl</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- 流程向导WEB应用 -->
+	<servlet>
+		<servlet-name>FlowpageSvl</servlet-name>
+		<servlet-class>
+			oe.bi.etl.wizard.analysesubject.FlowpageSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FlowpageSvl</servlet-name>
+		<url-pattern>/servlet/FlowpageSvl</url-pattern>
+	</servlet-mapping>
+	<!-- ######################## -->
+	<!-- 资源管理部分 -->
+	<servlet>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<servlet-class>oe.frame.web.util.AjaxServiceSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<url-pattern>/servlet/AjaxServiceSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>MoveSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.common.MoveSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MoveSvl</servlet-name>
+		<url-pattern>/MoveSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SelectSvl</servlet-name>
+		<url-pattern>/SelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.MultiSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MSelectSvl</servlet-name>
+		<url-pattern>/MSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SingleSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SSelectSvl</servlet-name>
+		<url-pattern>/SSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DownloadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.DownloadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadSvl</servlet-name>
+		<url-pattern>/DownloadSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DownloadSvl2</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.DownloadSvl2
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadSvl2</servlet-name>
+		<url-pattern>/DownloadSvl2</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.XMLFuncTreeSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<url-pattern>/XMLFuncTreeSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.applist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<url-pattern>/ApplistAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<url-pattern>/ApplistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<url-pattern>/ApplistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<url-pattern>/ApplistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<url-pattern>/ApplistSelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.pagelist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<url-pattern>/PagelistAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<url-pattern>/PagelistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<url-pattern>/PagelistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ViewSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<url-pattern>/PagelistViewSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<url-pattern>/PagelistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.UploadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<url-pattern>/PagelistUploadSvl</url-pattern>
+	</servlet-mapping>
+	<!-- rspage.pagelist 结束 -->
+
+	<!-- rspage.pagelistpath 开始-->
+	<servlet>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelistpath.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<url-pattern>/PagelistpathRightSvl</url-pattern>
+	</servlet-mapping>
+	<!-- rspage.pagelistpath 结束-->
+	<!-- 资源管理部分 -->
+	<!-- ###################### -->
+	<servlet>
+		<servlet-name>MakeChartSvl</servlet-name>
+		<servlet-class>oe.bi.common.MakeChartSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MakeChartSvl</servlet-name>
+		<url-pattern>/MakeChartSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>BiViewsvl</servlet-name>
+		<servlet-class>oe.bi.common.BiViewsvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BiViewsvl</servlet-name>
+		<url-pattern>/servlet/BiViewsvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>EtlTargetSelectSvl2</servlet-name>
+		<servlet-class>oe.bi.web.etl.EtlTargetSelectSvl2</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EtlTargetSelectSvl2</servlet-name>
+		<url-pattern>/servlet/EtlTargetSelectSvl2</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SumSynSvl</servlet-name>
+		<servlet-class>
+			oe.bi.etl.wizard.summarydata.SumSynSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SumSynSvl</servlet-name>
+		<url-pattern>/SumSynSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>LoadDataSvl</servlet-name>
+		<servlet-class>oe.bi.common.LoadDataSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadDataSvl</servlet-name>
+		<url-pattern>/LoadDataSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CopyBussFormSvl</servlet-name>
+		<servlet-class>oe.bi.common.CopyBussFormSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CopyBussFormSvl</servlet-name>
+		<url-pattern>/CopyBussFormSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CopyAnalyseSvl</servlet-name>
+		<servlet-class>oe.bi.common.CopyAnalyseSvl</servlet-class>
+	</servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SaveSql</servlet-name>
+    <servlet-class>oe.bi.etl.wizard.summarydata.util.SaveSql</servlet-class>
+  </servlet>
+
+	<servlet-mapping>
+		<servlet-name>CopyAnalyseSvl</servlet-name>
+		<url-pattern>/CopyAnalyseSvl</url-pattern>
+	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SaveSql</servlet-name>
+    <url-pattern>/servlet/SaveSql</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+

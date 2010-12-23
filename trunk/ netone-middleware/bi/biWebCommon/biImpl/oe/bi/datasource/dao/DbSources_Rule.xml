@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="GB2312"?>
+<digester-rules>
+	<pattern value="DbSources/DbSource">
+		<object-create-rule classname="oe.bi.datasource.obj.Datasource"/>
+		<set-next-rule methodname="add" paramtype="java.lang.Object"/>
+		<set-properties-rule/>
+		<bean-property-setter-rule pattern="dsid"/>
+		<bean-property-setter-rule pattern="dsname"/>
+		<bean-property-setter-rule pattern="dstype"/>
+		<bean-property-setter-rule pattern="dsurl"/>
+		<bean-property-setter-rule pattern="dsdriver"/>
+		<bean-property-setter-rule pattern="dsflit"/>
+		<bean-property-setter-rule pattern="username"/>
+		<bean-property-setter-rule pattern="password"/>
+		<bean-property-setter-rule pattern="description"/>
+		<bean-property-setter-rule pattern="extendattribute"/>
+	</pattern>
+</digester-rules>

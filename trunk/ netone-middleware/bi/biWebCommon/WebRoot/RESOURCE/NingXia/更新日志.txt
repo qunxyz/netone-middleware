@@ -1,0 +1,14 @@
+7月23日更新
+1)修订图片的缓存模式,每次创建图片的时候覆盖上一次的图片,对应的类修改
+2)维度选择的高度调整
+3)间隔时间如果是选择小时,那么自动将时端设置为disabled
+///////////对应的程序修改////////////////
+com.newland.bi.common.chart.ChartProviderSvl
+com.newland.bi.common.chart.JFreeChartUtil
+
+com.newland.bi.web.etl.EltChartVMAction
+/bi/etl/etlmain.jsp
+/bi/elt/tableView.jsp
+/include/js/etl/etlmain.js
+/include/js/etl/tableview.js
+////////////////////////////////////

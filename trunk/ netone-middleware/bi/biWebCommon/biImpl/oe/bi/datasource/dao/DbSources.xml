@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="GB2312"?>
+<DbSources>
+	<DbSource dsid="1" dsname="数据源1" dstype="type1" dsurl="jdbc:oracle:thin:@10.1.5.153:1521:pnmc" dsdriver="oracle.jdbc.driver.OracleDriver" dsflit="YW%" username="nxnmc" password="nxnmc" description="description1" extendattribute="extendattribute1"/>
+	<DbSource dsid="2" dsname="数据源1" dstype="type2" dsurl="jdbc:oracle:thin:@10.1.5.153:1521:pnmc" dsdriver="oracle.jdbc.driver.OracleDriver" dsflit="YW%" username="nxnmc" password="nxnmc" description="description2" extendattribute="extendattribute2"/>
+</DbSources>

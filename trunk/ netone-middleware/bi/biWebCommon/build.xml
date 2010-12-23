@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project name="Newland3A" default="default" basedir=".">
+
+	<property name="src.dir" value="${basedir}/client" />
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="web.dir" value="${basedir}/WebRoot" />
+	<property name="dist.dir" value="${basedir}/RESOURCE" />
+	
+
+	<target name="rmi_stub">
+		<jar destfile="${dist.dir}/biService.jar">
+			<fileset dir="${class.dir}">
+				<include name="**" />
+                <exclude name="bi_config.xml"/>
+				<exclude name="ds_config.xml"/>
+    			<exclude name="ssoconf.properties"/>
+                <exclude name="wizard.properties"/>
+				<exclude name="rmiClient.properties"/>
+				<exclude name="log4j.properties"/>
+				<exclude name="busscontext.properties"/>
+			</fileset>
+		</jar>
+		<jar destfile="${dist.dir}/biClient.jar">
+			<fileset dir="${class.dir}">
+				<include name="**" />
+				<exclude name="analyse.properties"/>
+				<exclude name="applicationweb.properties"/>
+                <exclude name="bi_config.xml"/>
+				<exclude name="ds_config.xml"/>
+                <exclude name="resource.properties"/>
+                <exclude name="resourceweb.properties"/>
+				<exclude name="rmiClient.properties"/>
+    			<exclude name="ssoconf.properties"/>
+                <exclude name="wizard.properties"/>
+				<exclude name="oe/bi/analysis/BiAnalysisImpl2.class"/>
+				<exclude name="oe/bi/analysis/BiForcastImpl.class"/>
+				<exclude name="oe/bi/analysis/WizardDaoImpl.class"/>
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="default" depends="rmi_stub">
+	</target>
+
+
+
+</project>

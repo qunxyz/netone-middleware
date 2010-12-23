@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://192.168.2.3:3306/netone</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value>123</value>
+		</property>
+		<property name="maxActive">
+			<value>10</value>
+		</property>
+		<property name="maxWait">
+			<value>1000</value>
+		</property>
+		<property name="maxIdle">
+			<value>30</value>
+		</property>
+	</bean>
+	<!-- 针对分析之前预先获得目标数据个数的统计程序 基于sql实现，需要根据配置jdbc.properties中的sql结合 这里的datasource来实现-->
+	<bean id="sqlCount" class="oe.bi.web.etl.util.AutoDigSQL" />
+	<!-- 针对分析之前预先获得目标数据个数的统计程序 基于资源模型来实现,无需要额外的配置,但是速度较慢-->
+	<bean id="treeCount"
+		class="oe.bi.web.etl.util.AutoDigTree" />
+
+	<!-- /////////  数据源部分 ////////////// -->
+	<bean id="dataModelDao"
+		class="oe.bi.datasource.impl.DataModelDaoImpl" />
+
+	<bean id="dimensionAct"
+		class="oe.bi.datasource.impl.DimensionActImpl" />
+
+	<bean id="dimensionLoader"
+		class="oe.bi.datasource.impl.DimensionLoaderImpl" />
+
+	<bean id="datachannels"
+		class="oe.bi.datasource.impl.DataChannelsImpl" />
+
+	<bean id="targetAct"
+		class="oe.bi.datasource.impl.TargetActImpl" />
+	<!-- 时间适应-需要区分不同的数据库 -->
+	<bean id="conditionAdapter"         
+		class="oe.bi.datasource.impl.ConditionAdapterMysqlImpl" />
+
+	<!--/////// ETL部分 ////////-->
+	<bean id="extract" class="oe.bi.etl.bus3.ExtractImpl3"/>
+	<bean id="targetAdapter" class="oe.bi.datasource.impl.TargetAdapterMysqlImpl"/>
+	<bean id="transform" class="oe.bi.etl.bus3.TransformImpl3" />
+	<bean id="load" class="oe.bi.etl.bus3.LoadImpl3" />
+
+	<!--/////// 算法部分 ////////-->
+	<!-- 预测分析算法 -->
+	<bean id="biForcast" class="oe.bi.analysis.BiForcastImpl" />
+
+	<!-- 分析入口 -->
+	<bean id="biAnalysis"
+		class="oe.bi.analysis.BiAnalysisImpl2" />
+	<!-- 向导工具入口 -->	
+	<bean id="bihandle" class="oe.bi.wizard.WizardDaoImpl"></bean>
+
+	<!-- 分析辅助处理 -->
+	<bean id="dimensionFilt"
+		class="oe.bi.view.bus.filt.DimensionFiltImpl" />
+	<bean id="targetFilt"
+		class="oe.bi.view.bus.filt.TargetFiltImpl" />
+		
+	<!-- 分析入口 -->
+	<bean id="biData"
+		class="oe.bi.datasource.SumUtilImpl" />
+</beans>

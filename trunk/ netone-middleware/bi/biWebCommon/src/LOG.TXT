@@ -1,0 +1,41 @@
+07-07-06 适应TargetActImpl的变化，在EtlTargetSelectSvl中通过时间力度参数，来过滤指标
+
+指标组中的字段配置other属性1 表示 不显示该字段, 2 表示显示但不加入数据中
+
+
+整理工程,将多余的内容删除
+1) 删除 om.newland.bi.dataModel.bus.tree.DataListImpl,
+SqlTreeImpl,TimeTreeImpl,TimeTreeImpl2
+
+2) Spring 配置中删除  dataSource,dataList,sqlTree,timeTree
+,dBHandler,XmlHandler,fileHandler,optimize
+
+,dBHandler,XmlHandler,fileHandler 这三个是公共资源可以保存起来
+
+
+############收集有用的东西
+dataModelDao 可以用在xml资源管理上
+构件N维度空间的算法 nDimension
+
+
+
+指标组的过滤目前支持 三类的过滤
+1) 基于网元类型的过滤 objectType
+2) 基于时间类型的过略 period
+3) 基于厂家过滤 other
+
+
+
+8-13 更新新功能
+analyse.properties
+PropertiesConf.java
+EltAnalyseAction.java
+
+etlmain.jsp
+tableView.jsp
+etlmain.js
+struts-config.xml
+
+
+
+

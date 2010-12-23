@@ -1,0 +1,27 @@
+2007-9-24 
+对于右键选择 中, EtlAnalyseAction类中
+String[][] dimvalues = dimfilt.allDimensionValueList(viewModel);  可能会出现空值 具体的原因还未拍插
+
+在LoadImpl3中,target[0].size() == 0 这个需要补充进去检查参数
+
+CloneViewModel中 增加  		
+if (dimensionValues == null || dimensionValues.length == 0) {
+			viewmodelNew.setDimensionvalue(dimensionValues);
+			return;
+		}
+
+DimenstionFiltImpl中 增加修改
+			if (dimensionvalue == null || dimensionvalue.length == 0) {
+				viewModeClone.setTargetvalue(new double[0][0]);
+
+			} else {
+				String[][] reSetDimensionvalue = (String[][]) listDimensionAvaible
+						.toArray(new String[0][dimensionvalue[0].length]);
+
+				double[][] reSetTargetvalue = (double[][]) listTargetAvaible
+						.toArray(new double[0][targetvalue[0].length]);
+
+				viewModeClone.setDimensionvalue(reSetDimensionvalue);
+				viewModeClone.setTargetvalue(reSetTargetvalue);
+
+			}

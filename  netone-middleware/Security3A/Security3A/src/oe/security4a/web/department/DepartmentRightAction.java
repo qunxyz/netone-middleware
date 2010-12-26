@@ -56,7 +56,7 @@ public class DepartmentRightAction extends Action {
 			// 根据分页的参数查询本页的相关数据
 			List list = rmi.queryObjectsClerk(code, clerk, null,
 					pageinfo.getPageStartIndex(), pageinfo
-							.getPageEndIndex() + 1);
+							.getPageEndIndex() + 1-pageinfo.getPageStartIndex());
 			List<Clerk> newlist = new ArrayList<Clerk>();
 			CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 			for (Iterator iter = list.iterator(); iter.hasNext();) {

@@ -43,7 +43,8 @@ public class DepartmentRightAction extends Action {
 			}
 			// 根据分页的参数查询本页的相关数据
 			List list = rmi.queryObjectsRole(ur, null, pageinfo
-					.getPageStartIndex(), pageinfo.getPageEndIndex() + 1);
+					.getPageStartIndex(), pageinfo.getPageEndIndex() + 1-pageinfo
+					.getPageStartIndex());
 			List<UmsRole> newlist = new ArrayList<UmsRole>();
 			if (list != null) {
 				for (Iterator iteror = list.iterator(); iteror.hasNext();) {

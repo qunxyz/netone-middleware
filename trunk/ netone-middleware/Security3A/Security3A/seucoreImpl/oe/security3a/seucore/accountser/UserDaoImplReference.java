@@ -191,7 +191,7 @@ public class UserDaoImplReference {
 		if (map != null) {
 			map.put("extendinfo", (String) map.get("extendattribute"));
 		}
-		System.out.println(user.toString());
+		
 		return user;
 
 	}

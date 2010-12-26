@@ -15,6 +15,7 @@ import oe.frame.web.WebCache;
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
 import oe.frame.web.page.PageInfo;
+import oe.frame.web.util.WebTip;
 import oe.midware.doc.excel.ExcelHandlerImp;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
@@ -49,6 +50,11 @@ public class HumanIndexAction extends Action {
 		OnlineUserMgr olmgr = new DefaultOnlineUserMgr();
 		OnlineUser oluser = olmgr.getOnlineUser(request);
 		String code = oluser.getBelongto();
+		
+		if(!"adminx".equals(oluser.getLoginname())){
+			WebTip.htmlInfo("您不是超级管理员", false, response);
+			return null;
+		}
 
 		Map<String, String> comparisonKey = new LinkedHashMap<String, String>();
 		String loginName = oluser.getLoginname();
@@ -160,7 +166,7 @@ public class HumanIndexAction extends Action {
 				// 根据分页的参数查询本页的相关数据
 				List list = rmi.queryObjectsClerk(code, clerk, comparisonKey,
 						pageinfo.getPageStartIndex(), pageinfo
-								.getPageEndIndex() + 1);
+								.getPageEndIndex() + 1-pageinfo.getPageStartIndex());
 				List<Clerk> newlist = new ArrayList<Clerk>();
 				CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 				for (Iterator iter = list.iterator(); iter.hasNext();) {

@@ -615,17 +615,17 @@ public class SumUtilImpl extends UnicastRemoteObject implements SumUtilIfc {
 		} else if (driver.length == 4) {
 			conn = this.getConn(driver[0], driver[1], driver[2], driver[3]);
 		} else {
-			return null;
+			return new ArrayList();
 		}
 		if (conn == null) {
-			return null;
+			return new ArrayList();
 		}
 		ResultSet rs = null;
 		List<String> list = new ArrayList<String>();
 		try {
 			DatabaseMetaData meta = conn.getMetaData();
 			if (meta == null) {
-				return null;
+				return new ArrayList();
 			}
 			rs = meta.getTables(null, "%", "%", new String[] { "TABLE" });
 			while (rs.next()) {
@@ -634,7 +634,7 @@ public class SumUtilImpl extends UnicastRemoteObject implements SumUtilIfc {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			list = null;
+			return new ArrayList();
 		} finally {
 			try {
 				rs.close();

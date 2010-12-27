@@ -100,7 +100,7 @@ public class DbScriptTools {
 		
 		if ("DECIMAL".equals(column.getHtmltype())
 				|| "number".equals(column.getChecktype())) {
-			type = "DECIMAL(10,3)";
+			type = "DECIMAL(16,4)";
 		} else if (ColumnExtendInfo._HTML_TYPE_TEXTAREA.equals(column
 				.getHtmltype())) {
 			type = "text " + " character set gbk";

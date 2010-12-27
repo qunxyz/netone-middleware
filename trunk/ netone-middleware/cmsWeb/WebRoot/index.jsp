@@ -140,7 +140,7 @@ href='<rs:changepassword/>' target='_blank'>【修改密码】</a></font>
 					<A HREF="/Security3A" target='_blank'><FONT class="OecLink">4A安全</FONT>
 					</A>
 					&nbsp;
-					<A HREF="/biWeb/PagelistpathRightSvl?pagename=datasourceExcellist&appname=DATASOURCE" target='_blank'><FONT class="OecLink">数据源配置
+					<A HREF="/biWeb/PagelistpathRightSvl?pagename=datasourceDblist&appname=DATASOURCE" target='_blank'><FONT class="OecLink">数据源配置
 
 </FONT>
 					</A>

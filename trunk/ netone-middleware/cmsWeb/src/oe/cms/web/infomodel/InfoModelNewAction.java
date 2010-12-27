@@ -18,6 +18,7 @@ import oe.cms.datasource.XMLParseImpl;
 import oe.cms.datasource.XMLParser;
 import oe.frame.orm.OrmerEntry;
 import oe.frame.orm.util.IdServer;
+import oe.frame.web.util.WebStr;
 import oe.frame.web.util.WebTip;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -54,7 +55,7 @@ public class InfoModelNewAction extends Action {
 				cmsinfomodel.setExtendattribute("100.0%");
 				cmsinfomodel.setInfoxml(XMLParser._XML_HEAD
 						+ XMLParser._DEFAULT_BODY);
-				cmsinfomodel.setModelname(form.getModelname());
+				cmsinfomodel.setModelname(WebStr.encode(request, form.getModelname()));
 				// 原始代码：cmsinfomodel.setUserid(form.getUserid());2009-2-6
 				// 改后代码:如下
 				String userid = new String(form.getUserid().getBytes(

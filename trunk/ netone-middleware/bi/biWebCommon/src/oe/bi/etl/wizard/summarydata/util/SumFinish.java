@@ -61,6 +61,9 @@ public class SumFinish {
 						|| "DOUBLE".equals(ctypes[i])
 						|| "FLOAT".equals(ctypes[i])) {
 					type = "DECIMAL";
+					column.setViewtype(ColumnExtendInfo._TYPE_NUMBER);
+				}else{
+					column.setViewtype(ColumnExtendInfo._TYPE_NORMAL);
 				}
 				column.setHtmltype(type);
 
@@ -69,7 +72,6 @@ public class SumFinish {
 				} else if ("TIMEX".equals(cnames[i])) {
 					createdname = column.getColumname();
 				} else {
-					column.setViewtype(ColumnExtendInfo._TYPE_NORMAL);
 					dfd.addColumn(column);
 					// list.add(column);
 				}

@@ -62,10 +62,10 @@
 				<td height="30" colspan="2">
 					
 						<img src='Netone.PNG'/>
-					 <font color='red'><rs:logininfo/></font>  &nbsp;  <font color='blue'><a href='<rs:loginout/>'>【注销】</a></font><font color='blue'><a  
-href='<rs:changepassword/>' target='_blank'>【修改密码】</a></font>
-<font color='blue'><a href='<rs:userinfo/>' target='_blank'>【个人信息】</a></font> 
 					
+<font color='red'><rs:logininfo/></font>  &nbsp;  <font color='blue'><a href='<rs:loginout/>'>【注销】</a></font><font color='blue'><a  
+href='<rs:changepassword/>' target='_blank'>【修改密码】</a></font>
+<font color='blue'><a href='<rs:userinfo/>' target='_blank'>【个人信息】</a></font>
 
 				</td>
 			</tr>
@@ -136,13 +136,11 @@ href='<rs:changepassword/>' target='_blank'>【修改密码】</a></font>
 					</select>
 					<A HREF="javascript:createpage()" ><FONT
 						class="OecLink">创建/管理应用</FONT> </A>
-					&nbsp;
+					&nbsp;&nbsp;
 					<A HREF="/Security3A" target='_blank'><FONT class="OecLink">4A安全</FONT>
 					</A>
 					&nbsp;
-					<A HREF="/biWeb/PagelistpathRightSvl?pagename=datasourceDblist&appname=DATASOURCE" target='_blank'><FONT class="OecLink">数据源配置
-
-</FONT>
+					<A HREF="/biWeb/PagelistpathRightSvl?pagename=datasourceDblist&appname=DATASOURCE" target='_blank'><FONT class="OecLink">数据源配置</FONT>
 					</A>
 					<BR>
 <BR>
@@ -195,31 +193,22 @@ href='<rs:changepassword/>' target='_blank'>【修改密码】</a></font>
 					<br>
 
 					<br>
-					案例系统:
+					
+                                        DRP分销资源计划-产品：
 					
 					<a
-						href='<portal:envget envkey="WEBSER_FORUM"/>'
-						target='_blank'><FONT class="OecLink">论坛</font> </a>
-					<a
-						href='<portal:envget envkey="WEBSER_WEBMAIL"/>'
-						target='_blank'><FONT class="OecLink">邮件</font> </a>
-					<a
-						href='<portal:envget envkey="WEBSER_INIS"/>'
-						target='_blank'><FONT class="OecLink">巡检</font> </a>
-					<a
-						href='<portal:envget envkey="WEBSER_ITKNOW"/>'
-						target='_blank'><FONT class="OecLink">知识库</font> </a>
-					
-					<a	href='<portal:envget envkey="WEBSER_PMS"/>/PagelistpathRightSvl?pagename=pagelist&appname=PMS.PMS.INSTANCES'
-						target='_blank'><FONT class="OecLink">任务系统平台站</font> 
-					<a
-						href='<portal:envget envkey="WEBSER_PMS"/>/PagelistpathRightSvl?pagename=pojlist&appname=PMS.PMS.FRAMEWORK'
-						target='_blank'><FONT class="OecLink">任务系统平台站框架管理</font> </a>
-						
-						 <br>
-						<br> 在这里我们预先整合和研发了一些应用系统和中间件平台，通过学习和使用这些系统和平台，您的业务系统将会更加的完美
+						href='<portal:envget envkey="WEBSER_ISS"/>'
+						target='_blank'><FONT class="OecLink">产品体验</font> </a> 					
+                                        <a
+						href='<portal:envget envkey="WEBSER_ISS"/>'
+						target='_blank'><FONT class="OecLink">产品资料</font> </a> <br><br>
 
-						项目绩效管理系统、工单系统、业务考核系统、 CRM客户关系管理系统、表单系统、经营分析、会员积分管理、企业论坛、 
+                                     协同知识门户平台-产品:
+					<a
+						href='<portal:envget envkey="WEBSER_GSXX"/>'
+						target='_blank'><FONT class="OecLink">产品体验</font> </a>                                         <a
+						href='<portal:envget envkey="WEBSER_ISS"/>'
+						target='_blank'><FONT class="OecLink">产品资料</font> </a>
 				</td>
 			</tr>
 		</table>

@@ -25,6 +25,7 @@ import java.util.Map;
 import oe.bi.wizard.ExcelToDb.ExcelToDbDao;
 import oe.bi.wizard.ExcelToDb.ExcelToDbDaoImpl;
 import oe.cav.bean.logic.form.TCsForm;
+
 import oe.cav.bean.logic.tools.reference.XMLReference;
 import oe.frame.orm.OrmerEntry;
 import oe.frame.orm.util.IdServer;
@@ -34,6 +35,8 @@ import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * 工具类集合
@@ -43,6 +46,8 @@ public class SumUtilImpl extends UnicastRemoteObject implements SumUtilIfc {
 	public SumUtilImpl() throws RemoteException {
 		super();
 	}
+
+	static Log log = LogFactory.getLog(SumUtilImpl.class);
 
 	public static final String _COLUMNX = ",LSH,FORMCODE,PARTICIPANT,FATHERLSH,STATUSINFO,EXTENDATTRIBUTE,HIT,CREATED,";
 
@@ -168,6 +173,8 @@ public class SumUtilImpl extends UnicastRemoteObject implements SumUtilIfc {
 							obj = new Date();
 						}
 					}
+					log.debug("fetch data for insert:" + obj + " index in " + i
+							+ 8);
 					psWrited.setObject(i + 8, obj);
 				}
 				j++;

@@ -6,6 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -203,9 +204,6 @@ public class SumUtilImpl extends UnicastRemoteObject implements SumUtilIfc {
 			}
 		}
 	}
-	
-	
-	
 
 	/**
 	 * 执行同步SQL语句(根据时间)
@@ -619,14 +617,21 @@ public class SumUtilImpl extends UnicastRemoteObject implements SumUtilIfc {
 		} else {
 			return null;
 		}
+		if (conn == null) {
+			return null;
+		}
 		ResultSet rs = null;
 		List<String> list = new ArrayList<String>();
 		try {
-			rs = conn.getMetaData().getTables(null, "%", "%",
-					new String[] { "TABLE" });
+			DatabaseMetaData meta = conn.getMetaData();
+			if (meta == null) {
+				return null;
+			}
+			rs = meta.getTables(null, "%", "%", new String[] { "TABLE" });
 			while (rs.next()) {
 				list.add(rs.getString("TABLE_NAME"));
 			}
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			list = null;

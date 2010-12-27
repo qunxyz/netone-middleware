@@ -216,8 +216,7 @@ public class BusActionImpl extends BaseAction {
 
 		String usercode = ser.getUserLoginName();
 		if (!usercode.equals("adminx")) {// 非超级用户
-			boolean sysadmin = ser.checkUserPermission(
-					_ROLE_ADMIN_SYS, "1");
+			boolean sysadmin = ser.checkUserPermission(_ROLE_ADMIN_SYS, "1");
 			if (!sysadmin) {// 没有管理员角色权限(管理员权限的对DEPT.DEPT部门根有权限的)
 				busForm.setParticipant(busForm.getParticipant());
 			}
@@ -273,12 +272,11 @@ public class BusActionImpl extends BaseAction {
 		// 处理人员过滤，只能操作自己的数据
 		String man = ser.getUserLoginName();
 		if (!man.equals("adminx")) {// 管理员例外
-			boolean sysadmin = ser.checkUserPermission(
-					_ROLE_ADMIN_SYS, "1");
+			boolean sysadmin = ser.checkUserPermission(_ROLE_ADMIN_SYS, "1");
 			if (!sysadmin) {// 没有管理员角色权限(管理员权限的对DEPT.DEPT部门根有权限的)
 				form.setParticipant(man);
 			}
-			
+
 		}
 
 		// 业务查询对象
@@ -567,8 +565,8 @@ public class BusActionImpl extends BaseAction {
 			Security ser = new Security(req);
 			String usercode = ser.getUserName();
 			if (!usercode.equals("adminx")) {// 非超级用户
-				boolean sysadmin = ser.checkUserPermission(
-						_ROLE_ADMIN_SYS, "1");
+				boolean sysadmin = ser
+						.checkUserPermission(_ROLE_ADMIN_SYS, "1");
 				if (!sysadmin) {// 没有管理员角色权限(管理员权限的对DEPT.DEPT部门根有权限的)
 					busForm.setParticipant(form.getParticipant());
 				}
@@ -777,7 +775,10 @@ public class BusActionImpl extends BaseAction {
 			String controlKey = "col" + i;
 			Control control = ae.getControl(controlKey);
 			control.setAttribute("field", columnInfo[0].toLowerCase());
-			control.setAttribute("headText", columnInfo[1].toLowerCase());
+			if (columnInfo[1] != null) {
+				columnInfo[1]=columnInfo[1].toLowerCase();
+			}
+			control.setAttribute("headText", columnInfo[1]);
 			control.setVisible(true);
 		}
 		if (i < 7) {

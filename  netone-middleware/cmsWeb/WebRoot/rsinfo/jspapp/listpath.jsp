@@ -217,10 +217,12 @@
 							</td>
 
 							<td nowrap>
+							<c:if test="${list.inclusion != '1'}">
 								<a href="javascript:edit('${list.id}');">[ÐÞ¸Ä]</a>
 								<a href="javascript:del('${list.id}');">[É¾³ý]</a>
 								<a href="javascript:test('${list.id}','${list.active}');"><font color='red'>[²âÊÔ]</font></a>
 								<a href="javascript:checkthis('${list.id}','${list.naturalname}','${list.inclusion}','${list.parentdir}','${list.naturalname}');">Ñ¡Ôñ</a>
+							</c:if>
 							</td>
 						</tr>
 					</c:forEach>

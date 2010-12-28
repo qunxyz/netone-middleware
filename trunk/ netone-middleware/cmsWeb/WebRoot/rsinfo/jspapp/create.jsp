@@ -92,7 +92,7 @@
 						</td>
 					</tr>
 					<tr>
-						
+						<c:if test="${param.inclusion!=1}">
 						<td colspan='2'>
 						±à¼­Ò³½Å±¾: 
 						<a href='rsinfo/jspapp/Template.txt' target='_blank'><font color='#999999'>[²Î¿¼Ä£°å1]</font></a>
@@ -110,6 +110,7 @@
 							<br>
 							<input type="hidden" name="needSerilaizer" value="1" />
 						</td>
+						</c:if>
 					</tr>
 
 

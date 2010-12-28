@@ -189,26 +189,10 @@ href='<rs:changepassword/>' target='_blank'>【修改密码】</a></font>
 			<tr>
 				<td height="128" colspan="2">
 					<hr>
-					<Strong><font color='red'>企业级 应用开发模式</font></Strong> &nbsp;
-					<br>
+					<Strong><font color='red'>NETONE 相关资料 </font></Strong> &nbsp;&nbsp;
+		
+					<a href='/Security3A/extinfo.jsp' target='_blank'> [资源下载页面] </a>
 
-					<br>
-					
-                                        DRP分销资源计划-产品：
-					
-					<a
-						href='<portal:envget envkey="WEBSER_ISS"/>'
-						target='_blank'><FONT class="OecLink">产品体验</font> </a> 					
-                                        <a
-						href='<portal:envget envkey="WEBSER_ISS"/>'
-						target='_blank'><FONT class="OecLink">产品资料</font> </a> <br><br>
-
-                                     协同知识门户平台-产品:
-					<a
-						href='<portal:envget envkey="WEBSER_GSXX"/>'
-						target='_blank'><FONT class="OecLink">产品体验</font> </a>                                         <a
-						href='<portal:envget envkey="WEBSER_ISS"/>'
-						target='_blank'><FONT class="OecLink">产品资料</font> </a>
 				</td>
 			</tr>
 		</table>

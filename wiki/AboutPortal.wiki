@@ -1,0 +1,8 @@
+#Portal 应用指南
+= Introduction =
+
+应用集成
+
+= Details =
+
+  #集成中间件Netone定制的图表，可用WEB抓取功能，这样可以很容易的切割符合窗口显示

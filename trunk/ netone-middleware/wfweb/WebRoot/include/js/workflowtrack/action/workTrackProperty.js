@@ -391,6 +391,6 @@ function subflow(){
   	alert("请先删除旧流程的信息");
   	return;
   }
-  window.open(pathinfo+"/SSelectSvl?pagename=pagelist&appname=BUSSWF",'_blank','height=400, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+  window.open(pathinfo+"/SSelectSvl?pagename=subflow&appname=BUSSWF",'_blank','height=400, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
   //var attribute = window.showModalDialog(pathinfo+"/SSelectSvl?pagename=flow&appname=BUSSWF",window,"status:0;help:0;dialogWidth=600px;dialogHeight=500px");
 }

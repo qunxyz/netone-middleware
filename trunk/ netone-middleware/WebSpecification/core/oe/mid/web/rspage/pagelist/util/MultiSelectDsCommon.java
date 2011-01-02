@@ -44,11 +44,11 @@ public class MultiSelectDsCommon implements IAjaxService {
 			if (selectColumn == null || selectColumn.equals("")) {
 				selectColumn = "naturalname";
 			}
-
+			
 			for (UmsProtectedobject cl : list) {
 
 				if (!sec.check(cl.getNaturalname(), LogUtil._READ)) {
-					// 没有权限，过滤掉
+					
 				} else {
 					sb.append("name=" + cl.getName() + ","); // 姓名
 					String naturalname = null;

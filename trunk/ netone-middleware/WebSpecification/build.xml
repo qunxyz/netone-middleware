@@ -13,12 +13,10 @@
 				<exclude name="resource.properties" />
 				<exclude name="dyweb.properties" />
 				<exclude name="resourceweb.properties" />
-				<exclude name="rmiClient.properties" />
 			</fileset>
 		</jar>
 		<copy tofile="${dist.dir}/resource.properties" file="${class.dir}/resource.properties" />
 		<copy tofile="${dist.dir}/resourceweb.properties" file="${class.dir}/resourceweb.properties" />
-		<copy tofile="${dist.dir}/rmiClient.properties" file="${class.dir}/rmiClient.properties" />
 		
 		
 		<copy todir="${dist.dir}/webroot">

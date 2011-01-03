@@ -62,8 +62,8 @@ public class CopyAnalyseSvl extends HttpServlet {
 			UmsProtectedobject upo = rsrmi.loadResourceByNatural(naturalname);
 			String lsh = upo.getExtendattribute();
 			ChoiceInfo choiceinfo = wd.fromXml(lsh);
-
-			String dataModelid =naturalname2;
+			
+			String dataModelid =WebStr.encode(request, naturalname2) ;
 			choiceinfo.setDataModelid(dataModelid);
 			choiceinfo.setTggroup(dataModelid);
 			String lshNew = IdServer.uuid();

@@ -29,6 +29,8 @@ public class DimensionActImpl implements DimensionAct {
 			app = (ApplicationRmi) RmiEntry.iv("application");
 			UmsApplication upo = new UmsApplication();
 			upo.setApptype("DYFORM");
+			// 被删除的资源需要过滤
+			upo.setActive("1");
 			list = app.queryObjects(upo, null);
 
 		} catch (NotBoundException e) {

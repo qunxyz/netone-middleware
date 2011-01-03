@@ -367,7 +367,7 @@
 						<tr>
 							<td>
 								Ö¸±ê×é£º
-								<select name="tgGroup" onChange="selectAction_tgGroup()">
+								<select id="tgGroup" name="tgGroup" onChange="selectAction_tgGroup()">
 
 								</select>
 							</td>

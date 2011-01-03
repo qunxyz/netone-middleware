@@ -62,7 +62,7 @@
 				
 				var index = dimResult.selectedIndex;
 				if(index == -1){
-					alert("没有选择维度!");
+					alert("没有选择维度数据!如果直接选择业务维度请任意选择一个维度数据");
 					return ;
 				} else{
 					var dimResultValue = "";
@@ -84,9 +84,13 @@
 					var levelname = selectedDimList.get(0).get("levelname");
 					document.all.levelname.value=levelname;
 				}
+				
 				var selectedDimValue = selectedDimList.join("#");
+			
 				document.all.selectedDimValue.value=selectedDimValue;
+			
 				document.all.seldimvalue.value = selectedDimValue;
+			
 				document.additem.submit();
 			}
 			//--Modify-END---可自定义修改结合您的业务需求来修订------------
@@ -261,14 +265,14 @@
 			}
 			
 			function selected(){
-			    if(selectedDimList.size() <= 0){
-			    	alert('请选择维度节点');
-				   return;
-			    }
-				var levelname = selectedDimList.get(0).get("levelname");
+			    //if(selectedDimList.size() <= 0){
+			    //	alert('请选择维度节点');
+				//   return;
+			    //}
+				//var levelname = selectedDimList.get(0).get("levelname");
 
-				var pagepath = levelname.substring(levelname.indexOf("[")+1,levelname.indexOf("]"));
-				window.open('<%=basePath%>SSelectSvl?appname=BUSSENV&pagename=datalist&pagepath='+pagepath,'_blank', 'height=380, width=600, top=0, left=0,toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+				//var pagepath = levelname.substring(levelname.indexOf("[")+1,levelname.indexOf("]"));
+				window.open('<%=basePath%>SSelectSvl?pagename=datalist&appname=BUSSENV.BUSSENV.DYSER.BUSSLEVEL','_blank', 'height=380, width=600, top=0, left=0,toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 				
 			}
 			
@@ -450,12 +454,12 @@
 
 				<!-- Start--Title----功能标题与提示---->
 				<FONT CLASS="OecHeaderSub"><NOBR>
-						项目类型选择
+						分析维度选择
 					</NOBR> </FONT>
 				<hr>
 				<br>
-				<FONT CLASS="OecInstructionText">帮助提示:从以下两个组中选择要添加到此页的项目类型,
-					然后单击“下一步”。</FONT>
+				<FONT CLASS="OecInstructionText">帮助提示:分析维度包含业务维度和时间维度，其中业务维度选择有2中方式，第一种通过维度数据的选择来间接选择业务维度，选中的维度数据将作为过滤条件来过滤最终的报表数据。第二种直接选择业务维度
+				需要注意的是如果直接选择业务维度，那么可任意选择以一个维度数据，并且将任意值选中(选中任意值将在最终报表中忽略维度数据，展示出所有的业务数据)。</FONT>
 				<!-- End --Title----功能标题与提示---->
 				<BR>
 
@@ -464,7 +468,7 @@
 					<!-- 维度值选择 -->
 					<div
 						style="width: 99%; height: 55%; margin: 0px; margin-top: 0px; border: 0 solid #A9C0E5">
-						类型选择:
+						维度数据选择:
 						<select name="dimTreeList" style="width: 90px"
 							onchange="selectAction_dimTreeList();">
 							<option value="-1">
@@ -514,7 +518,7 @@
 									</div>
 								</td>
 								<td height="100%">
-									选择的结果： &nbsp;&nbsp;&nbsp;
+									已选择的维度数据： &nbsp;&nbsp;&nbsp;
 									<input type="button" class="butt" value="删除选定"
 										onclick="btnAction_delSelDim()">
 									<br>
@@ -527,7 +531,7 @@
 								</td>
 								<td>
 									<input type="text" name="choice" value="${fo.choice}">
-									<input type="button" class="butt" value="选择"
+									<input type="button" class="butt" value="选择业务维度"
 										onclick="selected();">
 									<input type="checkbox" name="dynamicDim" value="${fo.dynamicDim}" onclick="checkDim();" ${fo.dynamicDim=="true"?"checked":""}>
 									动态值

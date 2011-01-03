@@ -20,8 +20,8 @@
 		
 		//打开树选择页面
 		function searchtree() {
-		   window.alert(document.all.pagename.value)
-			window.open("SelectSvl?appname=BUSSENV&pagename="+document.all.pagename.value,'_blank', 'height=380, width=600, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+		   //window.alert(document.all.pagename.value)
+			window.open("SelectSvl?appname=BUSSENV.BUSSENV.DYSER.BUSSLEVEL&pagename="+document.all.pagename.value,'_blank', 'height=380, width=600, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 		}
 		//执行点击树节点操作
 		function  addselect(name){
@@ -116,7 +116,7 @@
 				<script type="text/javascript">
 				function createthis(){
 					var objvalue=document.getElementById('objecttype').value;
-					window.alert(objvalue);
+					//window.alert(objvalue);
 					if(objvalue==''){
 						alert('未选择分类');
 						return;

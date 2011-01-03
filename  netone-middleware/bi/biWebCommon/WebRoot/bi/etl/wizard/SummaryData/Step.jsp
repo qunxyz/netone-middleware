@@ -211,7 +211,7 @@
 					</tr>
 					<tr>
 						<td colspan="4">
-							<textarea rows="5" cols="100" name="sqlview" title="Ë«»÷´ò¿ª±à¼­Ò³Ãæ" ondblclick="window.open('<%=path%>/bi/etl/wizard/SummaryData/Stepedit.jsp?values='+document.all.sqlview.value)">${so.sqlview}</textarea>
+							<textarea rows="8" cols="100" name="sqlview">${so.sqlview}</textarea>
 						</td>
 					</tr>
 				</table>

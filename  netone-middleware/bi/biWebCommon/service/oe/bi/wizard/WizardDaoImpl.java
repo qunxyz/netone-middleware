@@ -75,7 +75,7 @@ public class WizardDaoImpl extends UnicastRemoteObject implements WizardDao {
 			}
 			UmsProtectedobject upo = new UmsProtectedobject();
 			upo.setNaturalname(cho.getNaturalname());
-			upo.setName(cho.getName());
+			upo.setName(cho.getDataModelid());
 			upo.setActionurl("");
 			upo.setExtendattribute(cho.getLsh());
 			if (natrualname == null) {

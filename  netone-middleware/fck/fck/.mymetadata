@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="fck"
+  id="myeclipse.1221633760468"
+  context-root="/fck"
+  j2ee-spec="1.4"
+  archive="fck.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

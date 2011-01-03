@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <filter>
+		<filter-name>GBK</filter-name>
+		<filter-class>oe.product.fck.common.CharsetEncodeFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>GBK</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 
+	<filter>
+		<filter-name>ssofilter</filter-name>
+		<filter-class>com.newland.security3a.sso.SsoFilter</filter-class>
+		<init-param>
+			<param-name>LoginListener</param-name>
+			<param-value>oe.product.pms.listener.LoginListenerImpl</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>ssofilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+   -->
+  <servlet>
+		<servlet-name>Connector</servlet-name>
+		<servlet-class>
+			com.fredck.FCKeditor.connector.ConnectorServlet
+		</servlet-class>
+		<init-param>
+			<param-name>baseDir</param-name>
+			<param-value>/UserFiles/</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>SimpleUploader</servlet-name>
+		<servlet-class>
+			com.fredck.FCKeditor.uploader.SimpleUploaderServlet
+		</servlet-class>
+		<init-param>
+			<param-name>baseDir</param-name>
+			<param-value>/UserFiles/</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>enabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>AllowedExtensionsFile</param-name>
+			<param-value></param-value>
+		</init-param>
+		<init-param>
+			<param-name>DeniedExtensionsFile</param-name>
+			<param-value>
+				php|php3|php5|phtml|asp|aspx|ascx|jsp|cfm|cfc|pl|bat|exe|dll|reg|cgi
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>AllowedExtensionsImage</param-name>
+			<param-value>jpg|gif|jpeg|png|bmp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>DeniedExtensionsImage</param-name>
+			<param-value></param-value>
+		</init-param>
+		<init-param>
+			<param-name>AllowedExtensionsFlash</param-name>
+			<param-value>swf|fla</param-value>
+		</init-param>
+		<init-param>
+			<param-name>DeniedExtensionsFlash</param-name>
+			<param-value></param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	
+	<servlet-mapping>
+		<servlet-name>Connector</servlet-name>
+		<url-pattern>
+			/FCKeditor/editor/filemanager/browser/default/connectors/jsp/connector
+		</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>SimpleUploader</servlet-name>
+		<url-pattern>
+			/FCKeditor/editor/filemanager/upload/simpleuploader
+		</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<filter>
+		<filter-name>characterEncoding</filter-name>
+		<filter-class>
+			oe.mid.web.rspage.common.SetCharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- ###################### -->
+	<!-- 资源管理部分 -->
+		<servlet>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<servlet-class>
+			oe.frame.web.util.AjaxServiceSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<url-pattern>/servlet/AjaxServiceSvl</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>MoveSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.common.MoveSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MoveSvl</servlet-name>
+		<url-pattern>/MoveSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SelectSvl</servlet-name>
+		<url-pattern>/SelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.MultiSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MSelectSvl</servlet-name>
+		<url-pattern>/MSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SingleSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SSelectSvl</servlet-name>
+		<url-pattern>/SSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DownloadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.DownloadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadSvl</servlet-name>
+		<url-pattern>/DownloadSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DownloadSvl2</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.DownloadSvl2
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadSvl2</servlet-name>
+		<url-pattern>/DownloadSvl2</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.XMLFuncTreeSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<url-pattern>/XMLFuncTreeSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.applist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<url-pattern>/ApplistAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<url-pattern>/ApplistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<url-pattern>/ApplistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<url-pattern>/ApplistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<url-pattern>/ApplistSelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.pagelist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<url-pattern>/PagelistAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<url-pattern>/PagelistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<url-pattern>/PagelistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ViewSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<url-pattern>/PagelistViewSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<url-pattern>/PagelistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.UploadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<url-pattern>/PagelistUploadSvl</url-pattern>
+	</servlet-mapping>
+	<!-- rspage.pagelist 结束 -->
+
+	<!-- rspage.pagelistpath 开始-->
+	<servlet>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelistpath.RightSvl
+		</servlet-class>
+	</servlet>
+  <servlet>
+    <servlet-name>SearchSvl</servlet-name>
+    <servlet-class>oe.product.fck.common.SearchSvl</servlet-class>
+  </servlet>
+
+	<servlet-mapping>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<url-pattern>/PagelistpathRightSvl</url-pattern>
+	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchSvl</servlet-name>
+    <url-pattern>/SearchSvl</url-pattern>
+  </servlet-mapping>
+
+	<!-- rspage.pagelistpath 结束-->
+	<!-- 资源管理部分 -->
+	<!-- ###################### -->
+	
+</web-app>

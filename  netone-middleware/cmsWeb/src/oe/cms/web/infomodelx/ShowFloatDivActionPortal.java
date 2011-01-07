@@ -59,7 +59,7 @@ public class ShowFloatDivActionPortal extends Action {
 					.fetchQuerister().loadObject(TCmsInfomodel.class,
 							new Long(id));
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		if (usermodel != null) {
 			String sytleinfox = usermodel.getUserid();

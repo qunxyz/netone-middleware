@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>
+		A tag library exercising SimpleTag handlers.
+	</description>
+	<tlib-version>1.0</tlib-version>
+	<short-name>portaltag</short-name>
+	<uri>http://www.oesee.com/netone/portal</uri>
+	<tag>
+		<name>beanTag</name>
+		<tag-class>oe.web.tag.bean.BeanTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>varname</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>beanname</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<dynamic-attributes>true</dynamic-attributes>
+	</tag>
+	<tag>
+		<name>envget</name>
+		<tag-class>oe.web.tag.env.EnvGetTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>envkey</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>envset</name>
+		<tag-class>oe.web.tag.env.EnvSetTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>envkey</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+	</tag>
+</taglib>
+

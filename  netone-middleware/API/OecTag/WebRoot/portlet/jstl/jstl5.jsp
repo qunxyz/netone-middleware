@@ -1,0 +1,20 @@
+<%@ page language="java" pageEncoding="GBK"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<HTML dir="LTR" lang="zh-CN">
+	<HEAD>
+		<TITLE></TITLE>
+
+		<SCRIPT TYPE="text/javascript">
+		</SCRIPT>
+	</HEAD>
+
+	<BODY bgcolor="#FFFFFF">
+	
+	<c:forEach items="${list}" var="each">
+		${each.name},${each.age},
+		<c:if test="${each.age<=25}">Boy</c:if>
+		<c:if test="${each.age>25}">Men</c:if> <br><br>
+	</c:forEach>
+	</BODY>
+</HTML>

@@ -78,7 +78,7 @@ public class InfoModelEditAction extends Action {
 					e.printStackTrace();
 				}
 				cmsinfomodel.setAccessmode("1");
-				cmsinfomodel.setUserid(WebStr.iso8859ToGBK(form.getUserid()));
+				cmsinfomodel.setUserid(WebStr.encode(request,form.getUserid()));
 				cmsinfomodel.setParticipant(ser.getUserLoginName());
 
 				boolean todo = modelDao.update(cmsinfomodel);

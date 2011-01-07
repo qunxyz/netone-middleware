@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/DyFormClient.jar" sourcepath="D:/project/netOne/dyForm/impls"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/oecEnvClient.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/MessageClient.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/WfRmiClient.jar" sourcepath="/wfweb"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-collections-2.1.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-digester.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-lang-2.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-pool.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-validator.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/OecbeanClient.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/dom4j-full.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xalan.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xbean.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xerces-2.4.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/cmsClient.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/rmiService.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/sample1Client.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/Security3AClient.jar" sourcepath="/Security3A"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/biClient.jar" sourcepath="/biWebCommon"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/WfRmiService.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/OrmFrame.jar"/>
+	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
+</classpath>

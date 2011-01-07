@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>bi</shortname>
+	<uri>http://www.oesee.com/netone/bi</uri>
+
+	<tag>
+		<name>tableview</name>
+		<tagclass>oe.web.tag.bi.TableViewTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>dataname</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>ananame</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>begin</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>end</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>chart</name>
+		<tagclass>oe.web.tag.bi.GraphView</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>charname</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>chartActUrl</name>
+		<tagclass>oe.web.tag.bi.ActGraphView</tagclass>
+		<bodycontent>empty</bodycontent>
+		<attribute>
+			<name>charname</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="Oetag" default="default" basedir=".">
+
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="web.dir" value="${basedir}/WebRoot" />
+	<property name="dist.dir" value="${basedir}/RESOURCE" />
+
+
+	<target name="rmi_stub">
+		<jar destfile="${dist.dir}/OeTag.jar">
+			<fileset dir="${class.dir}">
+				<include name="**" />
+				<exclude name="rmiClient.properties"/>
+				<exclude name="ssoconf.properties"/>
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="default" depends="rmi_stub">
+	</target>
+
+
+
+</project>

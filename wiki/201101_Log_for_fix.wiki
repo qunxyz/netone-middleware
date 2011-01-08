@@ -7,3 +7,5 @@
   * 页框管理和展示有些问题 需要处理
   * 提交RMI和TAG 的 DEMO工程
   * 所有的localhost 的要配置127.0.0.1 或者 用统一域名netone.oesee.org.包括数据库连接和RMI
+  * portal 将全部用RMI来连接，不在web工程中提供数据源配置
+  * 或许需要提供ormer 持久层的RMI连接

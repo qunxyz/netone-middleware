@@ -1,6 +1,4 @@
-#summary One-sentence summary of this page.
-
-= 2011年1月份收集的问题日志 =
+#2011年1月份收集的问题日志
  # 工作流相关
  * 工作流RMI 改良 增加部分方法，对应的RMI服务和相关工程中的rmi客户端要更新
  * 提供了工作流扩展工程wfweb-ext 移植ISS中的代办任务应用，wfweb-ext 作为扩展工程将一起默认发布到

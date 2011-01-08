@@ -2,19 +2,19 @@
 
 = 2011年1月份收集的问题日志 =
  # 工作流相关
-  * 工作流RMI 改良 增加部分方法，对应的RMI服务和相关工程中的rmi客户端要更新
-  * 提供了工作流扩展工程wfweb-ext 移植ISS中的代办任务应用，wfweb-ext 作为扩展工程将一起默认发布到
+ * 工作流RMI 改良 增加部分方法，对应的RMI服务和相关工程中的rmi客户端要更新
+ * 提供了工作流扩展工程wfweb-ext 移植ISS中的代办任务应用，wfweb-ext 作为扩展工程将一起默认发布到
 webser工程中，并且在cmsweb的首页中集成，在二次开发文档中加入 wfweb-ext的引用
 
  # 其他
 
-  * 应用资源根目录，原先只允许管理员访问，现在开放授权处理，需要用户授予BUSSENV.BUSSENV.SECURITY.ROLE资源 操作的权限即可。修改需要更新所有的客户端oecSpeciTag.jar包
-  * 提供一个独立的代办任务扩展服务，支持协同工作流应用处理 来源DRP模块
-  * 页框管理和展示有些问题 需要处理
-  * 提交RMI和TAG 的 DEMO工程
-  * 所有的localhost 的要配置127.0.0.1 或者 用统一域名netone.oesee.org.包括数据库连接和RMI
-  * portal 将全部用RMI来连接，不在web工程中提供数据源配置
-  * 或许需要提供ormer 持久层的RMI连接
-  * 很多客户端包不统一 主要包括：安全客户端、环境、资源、webcache、工作流、表单、bi、portal
-  * 工作流发布包的 安全插件包 不完整丢失很多公共类，需要补上  OK
-  * Portal的小窗口默认有缓存，要处理下，用户有时没有选择用cache却自动有了cache
+ * 应用资源根目录，原先只允许管理员访问，现在开放授权处理，需要用户授予BUSSENV.BUSSENV.SECURITY.ROLE资源 操作的权限即可。修改需要更新所有的客户端oecSpeciTag.jar包
+ * 提供一个独立的代办任务扩展服务，支持协同工作流应用处理 来源DRP模块
+ * 页框管理和展示有些问题 需要处理
+ * 提交RMI和TAG 的 DEMO工程
+ * 所有的localhost 的要配置127.0.0.1 或者 用统一域名netone.oesee.org.包括数据库连接和RMI
+ * portal 将全部用RMI来连接，不在web工程中提供数据源配置
+ * 或许需要提供ormer 持久层的RMI连接
+ * 很多客户端包不统一 主要包括：安全客户端、环境、资源、webcache、工作流、表单、bi、portal
+* 工作流发布包的 安全插件包 不完整丢失很多公共类，需要补上  OK
+* Portal的小窗口默认有缓存，要处理下，用户有时没有选择用cache却自动有了cache

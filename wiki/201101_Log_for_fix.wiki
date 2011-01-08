@@ -1,9 +1,10 @@
 ==2011年1月份收集的问题日志==
- *工作流相关
-  # 工作流RMI 改良 增加部分方法，对应的RMI服务和相关工程中的rmi客户端要更新
-  # 提供了工作流扩展工程wfweb-ext 移植ISS中的代办任务应用，wfweb-ext 作为扩展工程将一起默认发布到webser工程中，并且在cmsweb的首页中集成，在二次开发文档中加入 wfweb-ext的引用
- *其他
-  # 应用资源根目录，原先只允许管理员访问，现在开放授权处理，需要用户授予BUSSENV.BUSSENV.SECURITY.ROLE资源 操作的权限即可。修改需要更新所有的客户端oecSpeciTag.jar包
+ * 工作流相关
+  # 工作流RMI 改良 增加部分方法，对应的RMI服务和相关工程中的rmi客户端要更新  OK
+  # 提供了工作流扩展工程wfweb-ext 移植ISS中的代办任务应用，wfweb-ext 作为扩展工程将一起默认发布到webser工程中，并且在cmsweb的首页中集成，在二次开发文档中加入 wfweb-ext的引用  OK
+ * 其他
+  # 中间件首页的布局和功能说明加以修订  OK
+  # 应用资源根目录，原先只允许管理员访问，现在开放授权处理，需要用户授予BUSSENV.BUSSENV.SECURITY.ROLE资源 操作的权限即可。修改需要更新所有的客户端oecSpeciTag.jar包  OK
   # 页框管理和展示有些问题 需要处理  OK
   # 提交RMI和TAG 的 DEMO工程 OK
   # 所有的localhost 的要配置127.0.0.1 或者 用统一域名netone.oesee.org.包括数据库连接和RMI

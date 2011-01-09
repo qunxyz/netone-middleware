@@ -1,0 +1,55 @@
+.style-warn {
+	background-color : red;
+}
+.style-pass {
+	background-color : blue;
+}
+
+.summary {   
+    margin-left: 3px;   
+    font: 12px Tahoma;   
+    color: #666;   
+    border: 1px solid #0099cc;   
+    background: #ddedfb;   
+    display : none;   
+}   
+.summary .title {   
+    font-weight: bold;   
+    margin-left:8px;   
+    padding:3px;   
+}   
+.summary ol{   
+    margin-top:0;   
+    margin-bottom:2px;   
+}  
+.msg {   
+	
+    border: 1px solid #fff;   
+    display: inline;   
+    /*margin-right: 5px;   */
+}   
+  
+.pass {   
+    background-color: #E6FFE6;   
+    border-color: #00BE00;   
+}   
+  
+.error {   
+    background-color: #FFF2E9;   
+    border-color: #FF6600;   
+}   
+  
+.tips {   
+    background-color: #E2F5FF;   
+    border-color: #00A8FF;   
+}   
+  
+.loading {   
+    background-color: #E2F5FF;   
+    border-color: #00A8FF;   
+}   
+  
+.block {   
+    background-color: #FFF2E9;   
+    border-color: #FF6600;   
+}  

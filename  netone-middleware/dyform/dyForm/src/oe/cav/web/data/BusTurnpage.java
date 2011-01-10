@@ -89,8 +89,7 @@ public class BusTurnpage implements PageEvent {
 			if (search.getCondition() != null
 					&& search.getCondition().length() > 0) {
 				try {
-				
-					
+			
 					list = dysc.queryData((TCsBus) search.getSearchobj(), page
 							.startRow(), page.getSize(),  search.getCondition());
 				} catch (RemoteException e) {

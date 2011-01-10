@@ -2,11 +2,10 @@ package oe.midware.workflow.service;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
+import java.util.List;
 
 import oe.frame.bus.workflow.ProcessEngine;
 import oe.midware.workflow.client.Session;
-
 
 /**
  * 工作流控制服务
@@ -99,6 +98,15 @@ public interface WorkflowConsole extends Remote, ProcessEngine {
 			throws RemoteException;
 
 	/**
+	 * 控制活动的扩展属性
+	 * 
+	 * @param worklist
+	 * @throws RemoteException
+	 */
+	public void updateWorklistExtendattribute(String workcode, String ext)
+			throws RemoteException;
+
+	/**
 	 * 启动子流程( 子流程的创建与普通流程是一样的,直接采用 newProcess即可,但是子流程的启动运行必须采用该方法)
 	 * 
 	 * @param subRuntimeid
@@ -121,7 +129,8 @@ public interface WorkflowConsole extends Remote, ProcessEngine {
 	 * @return
 	 * @throws RemoteException
 	 */
-	public String eai(String eaixml, String runtimeid,String workcode) throws RemoteException;
+	public String eai(String eaixml, String runtimeid, String workcode)
+			throws RemoteException;
 
 	/***************************************************************************
 	 * 获得流程实例过程中的会话
@@ -159,5 +168,15 @@ public interface WorkflowConsole extends Remote, ProcessEngine {
 	 * @throws RemoteException
 	 */
 	public Session descriptSession(String runtimeid) throws RemoteException;
+
+	/**
+	 * sql语句查询
+	 * 
+	 * @param sql
+	 * @return 被影响的工作流中的数据个数
+	 * 
+	 * 可以最灵活的分析和获得工作流的详细信息
+	 */
+	int coreSqlhandle(String sql) throws RemoteException;
 
 }

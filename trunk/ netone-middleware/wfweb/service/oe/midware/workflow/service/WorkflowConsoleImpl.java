@@ -2,6 +2,8 @@ package oe.midware.workflow.service;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -11,6 +13,7 @@ import java.util.Map;
 import oe.frame.bus.workflow.ProcessEngine;
 import oe.frame.bus.workflow.RuntimeMonitor;
 import oe.frame.orm.OrmerEntry;
+import oe.frame.orm.util.DbTools;
 import oe.midware.workflow.client.Session;
 import oe.midware.workflow.client.SoaObj;
 import oe.midware.workflow.runtime.RuntimeProcessRef;
@@ -256,8 +259,9 @@ public class WorkflowConsoleImpl extends UnicastRemoteObject implements
 		// 解析SOA参数
 		SoaObj listParam = activeBindDao.fromXml(eaixml);
 		String scriptinfo = listParam.getScript().getCdata();
-		System.out.println(listParam.getActivity().isSync()+","+ worklist.isDone());
-		if (!listParam.getActivity().isSync()&&worklist.isRunning()) {// 异步模式，在激活节点的时候先执行脚本
+		System.out.println(listParam.getActivity().isSync() + ","
+				+ worklist.isDone());
+		if (!listParam.getActivity().isSync() && worklist.isRunning()) {// 异步模式，在激活节点的时候先执行脚本
 			return exeScript(scriptinfo, runtimeid);
 		} else if (listParam.getActivity().isSync() && worklist.isDone()) {// 同步模式，必须等节点结束后才去执行
 			return exeScript(scriptinfo, runtimeid);
@@ -302,6 +306,27 @@ public class WorkflowConsoleImpl extends UnicastRemoteObject implements
 	public void removeSession(String runtimeid) throws RemoteException {
 		sessions.remove(runtimeid);
 
+	}
+
+	public void updateWorklistExtendattribute(String workcode, String ext)
+			throws RemoteException {
+		TWfWorklist worklist = (TWfWorklist) OrmerEntry.fetchOrmer()
+				.fetchQuerister().loadObject(TWfWorklist.class, workcode);
+		worklist.setExtendattribute(ext);
+		OrmerEntry.fetchOrmer().fetchSerializer().update(worklist);
+
+	}
+
+	public int coreSqlhandle(String sql) throws RemoteException{
+		Connection con = null;
+		try {
+			con = OrmerEntry.fetchDS().getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return DbTools.execute(con, sql);
+		
 	}
 
 }

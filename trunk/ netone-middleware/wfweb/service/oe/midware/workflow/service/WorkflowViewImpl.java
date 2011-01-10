@@ -2,18 +2,18 @@ package oe.midware.workflow.service;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import oe.frame.bus.workflow.RuntimeMonitor;
-import oe.frame.bus.workflow.WfEntry;
-
-import oe.midware.workflow.client.SoaObj;
+import oe.frame.orm.OrmerEntry;
+import oe.frame.orm.util.DbTools;
 import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
 import oe.midware.workflow.runtime.ormobj.TWfRuntime;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
-import oe.midware.workflow.service.soatools.ActiveBindDao;
 import oe.midware.workflow.xpdl.model.activity.Activity;
 import oe.midware.workflow.xpdl.model.workflow.WorkflowProcess;
 
@@ -209,6 +209,18 @@ public class WorkflowViewImpl extends UnicastRemoteObject implements
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		return runtimemonitor.listxinstance(processid, extinfo);
+	}
+
+	public List coreSqlview(String sql) throws RemoteException {
+		Connection con = null;
+		try {
+			con = OrmerEntry.fetchDS().getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return DbTools.queryData(con, sql);
+
 	}
 
 }

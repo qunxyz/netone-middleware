@@ -106,5 +106,14 @@ public interface WorkflowView extends Remote, RuntimeMonitor {
 	 */
 	public TWfRuntime loadRuntime(String runtimeid) throws RemoteException;
 
+	/**
+	 * sql语句查询
+	 * 
+	 * @param sql
+	 * @return
+	 * 
+	 * 可以最灵活的分析和获得工作流的详细信息
+	 */
+	List coreSqlview(String sql)throws RemoteException;
 
 }

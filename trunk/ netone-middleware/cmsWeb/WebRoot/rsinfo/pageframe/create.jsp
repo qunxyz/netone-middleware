@@ -30,7 +30,8 @@
 			document.all.objecttype.value = name+"["+naturalname+"]";
 		}
 		
-		function sselected(id){
+		function sselected(name,id){
+
 				   var url=$('pagetypeinfo').value;
 				   $('actionurl').value=url+id;
 		}

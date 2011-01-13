@@ -203,6 +203,7 @@
 							<td>
 								<script type="text/javascript">
 								function todox(){
+								    document.getElementById('linkvaluepage').value='';
 									var selet=document.getElementById('funcinfo').value;
 									if(selet=='inst'){
 										use2.style.display=''
@@ -211,17 +212,23 @@
 										use2.style.display='none'
 										use1.style.display=''									
 									}
+									if(selet=='worklist'){
+									   document.getElementById('linkvaluepage').value='/wfweb-ext/worklist?reloadtime=10';
+									}
 								}
 								</script>
 								<select name='funcinfo' onChange='todox()'>
 									<option value='disp'>
-										某流程视图
+										某流程实例视图
 									</option>
 									<option value='inst'>
-										某流程交互
+										某流程实例交互
 									</option>
 									<option value='list'>
-										某流程实例All
+										某流程创建管理
+									</option>
+									<option value='worklist'>
+										代办任务
 									</option>
 								</select>
 							</td>

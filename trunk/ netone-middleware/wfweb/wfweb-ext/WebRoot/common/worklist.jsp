@@ -68,7 +68,7 @@ $(document).ready(function(){
 
 </script>
 <c:if test="${param.reloadtime>0}">
-	<script>setTimeout("location.reload();",${param.reloadtime*60000})</script>
+	<script>setTimeout("location.reload();",${reloadtime*60000})</script>
 </c:if>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

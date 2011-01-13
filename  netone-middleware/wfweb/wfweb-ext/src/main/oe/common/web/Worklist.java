@@ -80,6 +80,7 @@ public class Worklist extends HttpServlet {
 			request.setAttribute("processselect", selectScript);
 
 			request.setAttribute("workLists", list);
+			request.setAttribute("reloadtime", request.getParameter("reloadtime"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

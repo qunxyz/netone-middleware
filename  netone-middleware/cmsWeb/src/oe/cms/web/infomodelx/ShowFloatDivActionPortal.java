@@ -9,26 +9,28 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
 import java.util.Map;
-
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import oe.cms.cfg.CellInfo;
+import oe.cms.cfg.TCmsInfocell;
+import oe.cms.cfg.TCmsInfomodel;
 import oe.frame.orm.Ormer;
 import oe.frame.orm.OrmerEntry;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.CupmRmi;
+import oe.security3a.sso.onlineuser.DefaultOnlineUserMgr;
+import oe.security3a.sso.onlineuser.OnlineUser;
+import oe.security3a.sso.onlineuser.OnlineUserMgr;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
-import oe.cms.cfg.CellInfo;
-import oe.cms.cfg.TCmsInfocell;
-import oe.cms.cfg.TCmsInfomodel;
 
 /**
  * 应用界面,主要用于发布门户信息, 该应用中其实还可以根据参数或者权限来控制每个界面的可见与否,或者能否编辑....
@@ -97,7 +99,7 @@ public class ShowFloatDivActionPortal extends Action {
 		request.setAttribute("model", usermodel);
 		request.setAttribute("portalmode", mode);
 		request.setAttribute("modelid", id);
-		
+
 		return mapping.findForward("design");
 
 	}
@@ -121,11 +123,23 @@ public class ShowFloatDivActionPortal extends Action {
 
 		HashSet groupset = new HashSet();
 		try {
+			CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
+			OnlineUserMgr olmgr = new DefaultOnlineUserMgr();
+			OnlineUser oluser = olmgr.getOnlineUser(request);
+
 			List grouplist = usermodel.fetchInfocell();
 
 			Iterator iter = grouplist.iterator();
 			while (iter.hasNext()) {
 				CellInfo group = (CellInfo) iter.next();
+				String rs = StringUtils.substringBetween(group
+						.getExtendattribute(), "[", "]");
+				// 检查是否可见
+				boolean check = cupm.checkUserPermission("0000", oluser
+						.getLoginname(), rs, "3");
+				if (!check) {
+					continue;
+				}
 				groupset.add(group.getInfoCellid().trim());
 				ArrayList boxlist = (ArrayList) listmap.get("boxdiv"
 						+ group.getXoffset());

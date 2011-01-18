@@ -15,6 +15,7 @@ setCookie("extTheme", extTheme, a, url);
 setCookie("appTheme", appTheme, a, url);
 setCookie("mainTheme", mainTheme, a, url);
 }}}
+ # 修订Portal的头链接的样式显示缺陷 fix
  * 其他
   # 中间件首页的布局和功能说明加以修订  fix
   # 应用资源根目录，原先只允许管理员访问，现在开放授权处理，需要用户授予BUSSENV.BUSSENV.SECURITY.ROLE资源 操作的权限即可。修改需要更新所有的客户端oecSpeciTag.jar包  fix

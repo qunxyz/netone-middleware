@@ -9,6 +9,12 @@
   # portal中集成工作流代办任务
   # portal 将全部用RMI来连接，不在web工程中提供数据源配置
   # Portal中需要提供鉴权功能，控制门户也可见和不可见，这样可以提供门户页的共享度和通用性
+ # portal支持自动适应外部样式，通过cookies进行交互，在DRP的做法参考
+{{{
+setCookie("extTheme", extTheme, a, url);
+setCookie("appTheme", appTheme, a, url);
+setCookie("mainTheme", mainTheme, a, url);
+}}}
  * 其他
   # 中间件首页的布局和功能说明加以修订  fix
   # 应用资源根目录，原先只允许管理员访问，现在开放授权处理，需要用户授予BUSSENV.BUSSENV.SECURITY.ROLE资源 操作的权限即可。修改需要更新所有的客户端oecSpeciTag.jar包  fix

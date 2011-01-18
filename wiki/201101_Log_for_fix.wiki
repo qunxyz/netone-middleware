@@ -1,7 +1,8 @@
 ==2011年1月份收集的问题日志==
  * 工作流相关
-  # 工作流RMI 改良 增加部分方法，对应的RMI服务和相关工程中的rmi客户端要更新  fix
-  # 提供了工作流扩展工程wfweb-ext 移植ISS中的代办任务应用，wfweb-ext 作为扩展工程将一起默认发布到webser工程中，并且在cmsweb的首页中集成，在二次开发标签文档中加入 wfweb-ext的引用[http://netone-middleware.googlecode.com/files/NETONE_DEV_TAG.zip 二次开发标签文档]  fix
+ # 工作流RMI 改良 增加部分方法，对应的RMI服务和相关工程中的rmi客户端要更新  fix
+ # 提供了工作流扩展工程wfweb-ext 移植ISS中的代办任务应用，wfweb-ext 作为扩展工程将一起默认发布到webser工程中，并且在cmsweb的首页中集成，在二次开发标签文档中加入 wfweb-ext的引用[http://netone-middleware.googlecode.com/files/NETONE_DEV_TAG.zip 二次开发标签文档]  fix
+ # 工作流提供子流程调度时自动复制父流程的相关变量，复制原则为如果子流程的某相关变量的字段名与父流程雷同，那么就自动复制 
 
  * PORTAL相关
   # Portal的小窗口默认有缓存，要处理下，用户有时没有选择用cache却自动有了cache ，用户需要自己重新编辑保持下小窗口方可生效

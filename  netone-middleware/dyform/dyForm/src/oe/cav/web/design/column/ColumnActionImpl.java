@@ -125,7 +125,7 @@ public class ColumnActionImpl extends BaseAction {
 		FormColumnCache.removeCache(formcode);
 		FormColumnTitleCache.removeCache(formcode);
 
-		WebTip.htmlInfo(info, true, true, ae.getResponse());
+		WebTip.htmlInfo(info, true,true, ae.getResponse());
 
 		return null;
 	}

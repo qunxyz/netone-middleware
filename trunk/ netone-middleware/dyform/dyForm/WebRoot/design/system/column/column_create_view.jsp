@@ -26,13 +26,11 @@
     }
     document.form.action="/dyForm/design/system/column/createope.do";
  	document.form.submit();
- 	
-
+document.form.action="";
  }
 </script>
 
 	<body onLoad="hideFilebutton()">
-		<h:messageDialog />
 		<!-- 2009-2-17
 		<h:form action="/design/system/column" method="post">-->
 		<form action="" id="form" name="form" method="post">

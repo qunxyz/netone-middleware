@@ -6,6 +6,9 @@
 	<bean id="htmlStreamHandler"
 		class="oe.cms.runtime.HtmlStreamHandlerImpl">
 	</bean>
+	<bean id="extHtmlStreamHandler"
+		class="oe.cms.runtime.ExtHtmlStreamHandlerImpl">
+	</bean>
 	<bean id="infoCellParser"
 		class="oe.cms.runtime.InfoCellParserImpl">
 	</bean>

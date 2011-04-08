@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import oe.cms.CmsBean;
 import oe.cms.CmsEntry;
 import oe.cms.cfg.CellInfo;
@@ -113,7 +115,19 @@ public class DivLayoutSvl extends HttpServlet {
 			TCmsInfomodel model = (TCmsInfomodel) ormer.fetchQuerister()
 					.loadObject(TCmsInfomodel.class, new Long(modelid));
 			model.setInfoxml(xmlstr);
-			model.setExtendattribute(layouttype);
+			//为了加入extcss
+			String extend = model.getExtendattribute();
+			// 去掉原先的100%,
+			String others = "";
+			if(StringUtils.contains(extend, "%"))
+			{
+				others = StringUtils.substringAfterLast(extend, "%");
+			}
+			else if(StringUtils.contains(extend, "null"))
+			{
+				others = StringUtils.substringAfterLast(extend, "null");
+			}
+			model.setExtendattribute(layouttype + others);
 			model.setParticipant(ser.getUserLoginName());
 			boolean todo = ormer.fetchSerializer().update(model);
 

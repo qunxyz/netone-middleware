@@ -110,6 +110,8 @@ body {
 							onclick='viewPortal(2);'>
 						<input type='button' class='buttds' value='Ô¤ÀÀ3'
 							onclick='viewPortal(3);'>
+						<input type='button' class='buttds' value='Ô¤ÀÀ4'
+							onclick='viewPortal(5);'>
 					</td>
 
 					<td align='right'  nowrap>

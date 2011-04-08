@@ -79,6 +79,19 @@ String path = request.getContextPath();
 				</tr>
 				<tr>
 					<td>
+						ExtJs样式
+					</td>
+					<td>
+						<select name="extcss">
+							<option value="${theme}" selected>当前样式[${theme}]</option>
+							<c:forEach items="${extcss}" var="themename"  varStatus="vs">
+							<option value="${themename}">${themename}</option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
 						选择模板
 					</td>
 					<td>

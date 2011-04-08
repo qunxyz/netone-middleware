@@ -54,12 +54,12 @@ public class InfoCellDaoImpl implements InfoCellDao {
 			}
 			// 处理 Portal标题中的链接，该链接信息定义在页cell 的 extendattribute中
 			String linkvalue = cell.getExtendattribute();
-			String linkInfo = ">>";
+			String linkInfo = "";
 			if (linkvalue != null) {
 				String[] linkvaluex = StringUtils.split(linkvalue, "#");
 				if (linkvaluex.length == 2) {
 					linkInfo = "<a href='" + linkvaluex[1]
-							+ "' target='_blank'>" + linkvaluex[0] + "</a>";
+							+ "' target='_blank'><font class='HeaderLink'>" + linkvaluex[0] + "</font></a>";
 				}
 			}
 
@@ -149,6 +149,109 @@ public class InfoCellDaoImpl implements InfoCellDao {
 			e.printStackTrace();
 		} catch (NotBoundException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cell;
+	}
+	
+	public TCmsInfocell view4ext(String cellid, HttpServletRequest req) 
+	{
+		Ormer ormer = OrmerEntry.fetchOrmer();
+		TCmsInfocell cell = (TCmsInfocell) ormer.fetchQuerister().loadObject(
+				TCmsInfocell.class, cellid);
+		
+		try {
+			StringBuffer butBody = new StringBuffer();
+
+			// 特别标示下该字段
+			ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+			String naturalname = cell.getBelongto() + "."
+					+ cell.getNaturalname();
+
+			UmsProtectedobject upo = null;
+			try {
+				upo = rsrmi.loadResourceByNatural(naturalname);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			if (upo == null) {
+				return null;
+			}
+//			// 处理 Portal标题中的链接，该链接信息定义在页cell 的 extendattribute中
+//			String linkvalue = cell.getExtendattribute();
+//			String linkInfo = "";
+//			if (linkvalue != null) {
+//				String[] linkvaluex = StringUtils.split(linkvalue, "#");
+//				if (linkvaluex.length == 2) {
+//					linkInfo = "<a href=\"" + linkvaluex[1]
+//							+ "\" target=\"_blank\"><font class=\"HeaderLink\">" + linkvaluex[0] + "</font></a>";
+//					// 这边更换扩展属性为 标题link
+//					cell.setExtendattribute(linkvalue);
+//				}
+//			}
+			
+			
+
+			List list = rsrmi.subResource(upo.getId());// 页下面的项
+
+			for (Iterator iter = list.iterator(); iter.hasNext();) 
+			{
+				UmsProtectedobject element = (UmsProtectedobject) iter.next(); //资源表ums_protectedobject的记录
+				String cacheCycle = element.getDescription();// description用于保存缓存信息
+				String bodyinfo = element.getExtendattribute();
+				String itemid = element.getNaturalname();
+				String exers = null;
+				if (cacheCycle != null && !cacheCycle.equals("")) {
+					// 存在缓存的情况下
+
+					if (!WebCache.containCache(WebCache._CACHE_ITEM_WEBITEM + "EXT"
+							+ itemid)) {
+						String[] rsinfo = ScriptExe.executeScriptCore(cellid,
+								bodyinfo, req);
+						exers = rsinfo[1];
+					} else {
+						exers = (String) WebCache
+								.getCache(WebCache._CACHE_ITEM_WEBITEM + "EXT" + itemid);
+						long currentime = System.currentTimeMillis();
+						long cachecycle = currentime
+								+ (long) (Double.parseDouble(cacheCycle) * 1000 * 60 * 60);
+						WebCache.setCache(
+								WebCache._CACHE_ITEM_WEBITEM + "EXT" + itemid, exers,
+								new Date(cachecycle));
+
+					}
+				} else {
+					// 不存在缓存的情况下
+					String[] rsinfo = ScriptExe.executeScriptCore(cellid,
+							bodyinfo, req);
+					exers = rsinfo[1];
+				}
+				butBody.append(Blog._PORTALET_ELEMENT_START_MARK + exers
+						+ Blog._PORTALET_ELEMENT_END_MARK);
+			}
+			
+			// 保留Table,为了显示页下面的每一项
+			cell.setBody(
+							Blog._PORTALET_BODY_START_MARK 
+							+ butBody.toString()
+							+ Blog._PORTALET_END_MARK
+						);
+			
+			System.out.println(
+								"bodyx="+Blog._PORTALET_BODY_START_MARK 
+								+ butBody.toString()
+								+ Blog._PORTALET_END_MARK );
+		} 
+		catch (MalformedURLException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (RemoteException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (NotBoundException e) 
+		{
 			e.printStackTrace();
 		}
 		return cell;

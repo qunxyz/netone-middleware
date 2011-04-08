@@ -5,6 +5,10 @@ package oe.cms.web.infomodel;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +23,7 @@ import oe.frame.web.util.WebTip;
 import oe.security3a.sso.Security;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -28,6 +33,15 @@ import org.apache.struts.action.ActionMapping;
  * @author Wang ting-jie 2006-08-09
  */
 public class InfoModelEditAction extends Action {
+	
+	static ResourceBundle messages = null;
+	static {
+		try {
+			messages = ResourceBundle.getBundle("extcss", Locale.CHINESE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	// 编辑资讯模型
 	public ActionForward execute(ActionMapping mapping, ActionForm actionform,
@@ -68,6 +82,38 @@ public class InfoModelEditAction extends Action {
 				TCmsInfomodel cmsinfomodel = new TCmsInfomodel();
 				try {
 					BeanUtils.copyProperties(cmsinfomodel, form);
+					// 扩展属性加入extcss
+					String extcss = request.getParameter("extcss");
+					String extendattribute = cmsinfomodel.getExtendattribute();
+					
+					System.out.println("extcss===="+extcss);
+					// 有换extcss
+					if( !"".equals(extcss) && extcss != null)
+					{
+						// 原先有值
+						if(StringUtils.contains(extendattribute, "theme:"))
+						{
+							String[] extendx = StringUtils.split(extendattribute, ","); //所有的值对
+							for (int i = 0; i < extendx.length; i++) 
+							{
+								if(StringUtils.contains(extendx[i], "theme:"))
+								{
+									String newtheme = "theme:" + extcss;
+									extendx[i] = newtheme;
+								}
+							}
+							String newExtendx = StringUtils.join(extendx,",");
+							System.out.println("newExtendx"+newExtendx);
+							cmsinfomodel.setExtendattribute(newExtendx);
+						}
+						else
+						{
+							// 加入新的
+							extendattribute = extendattribute + ",theme:" + extcss;
+							System.out.println("extendattribute"+extendattribute);
+							cmsinfomodel.setExtendattribute(extendattribute);
+						}
+					}
 					cmsinfomodel.setModelname(WebStr.encode(request, cmsinfomodel
 							.getModelname()));
 				} catch (IllegalAccessException e) {
@@ -87,6 +133,7 @@ public class InfoModelEditAction extends Action {
 							.htmlInfoOri(
 									"<script>alert('修改成功');opener.location.reload();window.close()</script>",
 									response);
+					// opener.location.reload()会出现BUG：父窗口会新一列空的页组，width值为0.2%
 				} else {
 					WebTip.htmlInfo("失败", true, response);
 				}
@@ -112,6 +159,26 @@ public class InfoModelEditAction extends Action {
 
 			TCmsInfomodel cmsinfomodel = modelDao.view(id);
 			try {
+				// 构造Ext主题选项
+				String themes = messages.getString("themes");
+				List extcss = Arrays.asList(themes.split(","));
+				request.setAttribute("extcss", extcss);
+				
+				// 从扩展属性取原来的css
+				String extend = cmsinfomodel.getExtendattribute();
+				// String[] extendx = StringUtils.split(extend, ","); 
+				// 取值对 key:value,
+				String theme = StringUtils.substringAfter(extend, "theme:");
+				// 去掉可能存在的逗号，和之后的字串
+				if(StringUtils.contains(theme, ","))
+				{
+					theme = StringUtils.substringBefore(theme, ",");
+				}
+				
+				System.out.println("theme="+theme);
+				
+				request.setAttribute("theme", theme);
+				
 				BeanUtils.copyProperties(form, cmsinfomodel);
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block

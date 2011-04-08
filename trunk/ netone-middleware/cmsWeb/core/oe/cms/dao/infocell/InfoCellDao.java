@@ -15,6 +15,14 @@ public interface InfoCellDao {
 	 * @return
 	 */
 	TCmsInfocell viewPreOperation(String cellid, HttpServletRequest req);
+	/**
+	 * 给ext用的
+	 * 
+	 * @param cellid
+	 * @return
+	 */
+	TCmsInfocell view4ext(String cellid, HttpServletRequest req);
+
 
 	/**
 	 * 根据查询的资讯元SQL取得 资讯元列表

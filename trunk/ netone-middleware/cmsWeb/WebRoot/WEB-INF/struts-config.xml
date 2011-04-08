@@ -131,6 +131,12 @@
 			<forward name="design" path="/floatdiv/portal.jsp" />
 		</action>
 
+		<action path="/extportal"
+			type="oe.cms.web.infomodelx.ShowExtActionPortal">
+			<forward name="design" path="/floatdiv/portal.jsp" />
+			<forward name="extdesign" path="/extportal/index.jsp" />
+		</action>
+
 		<action path="/showFloatDivWinner"
 			type="oe.cms.web.infomodelx.ShowFloatDivWinnerAction">
 			<forward name="showWinner"

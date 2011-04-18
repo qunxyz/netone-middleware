@@ -103,8 +103,8 @@ public class CmsInit extends HttpServlet {
 	 *             if an error occure
 	 */
 	public void init() throws ServletException {
-		WebCache.removeallCache();
-		System.out.println("--清空已有的缓存--");
+		//WebCache.removeallCache();
+		//System.out.println("--清空已有的缓存--");
 		// // 启动计时器
 		// InTimeTrigger tig = (InTimeTrigger) CmsEntry
 		// .fetchBean(CmsBean._INTIME_TRIGGER);
@@ -164,9 +164,9 @@ public class CmsInit extends HttpServlet {
 		// .println("你可以使用IE浏览器,输入http://localhost:8000 访问Oesee客户端");
 		// }
 		 // 初始化用户自定义模板
-		JppMiddwareDIY jppMiddwareDIY = (JppMiddwareDIY) CmsEntry
-				.fetchDao("jppMiddwareDIY");
-		jppMiddwareDIY.initJppmidwarePool();
+//		JppMiddwareDIY jppMiddwareDIY = (JppMiddwareDIY) CmsEntry
+//				.fetchDao("jppMiddwareDIY");
+//		jppMiddwareDIY.initJppmidwarePool();
 		//
 		// } catch (Exception e) {
 		// // TODO Auto-generated catch block

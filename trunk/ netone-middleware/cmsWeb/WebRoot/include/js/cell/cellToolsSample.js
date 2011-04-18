@@ -292,4 +292,7 @@ function viewPortal(mode){
  if(3==mode){
    window.open('/cmsWeb/portal.do?id='+modelid+'&portalmode='+mode);
  }
+ if(5==mode){
+   window.open('/cmsWeb/extportal.do?id='+modelid+'&portalmode='+mode);
+ }
 }

@@ -3,6 +3,9 @@
 
 package oe.cms.web.infomodelx;
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,6 +25,7 @@ import oe.frame.orm.Ormer;
 import oe.frame.orm.OrmerEntry;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
+import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.sso.onlineuser.DefaultOnlineUserMgr;
 import oe.security3a.sso.onlineuser.OnlineUser;
 import oe.security3a.sso.onlineuser.OnlineUserMgr;
@@ -54,6 +58,27 @@ public class ShowFloatDivActionPortal extends Action {
 		response.setContentType("text/html; charset=GBK");
 
 		String id = request.getParameter("id");
+		if (id == null || id.equals("")) {
+			String naturalname = request.getParameter("name");
+			if (naturalname != null && !naturalname.equals("")) {
+				ResourceRmi rs;
+				try {
+					rs = (ResourceRmi) RmiEntry.iv("resource");
+					id = rs.loadResourceByNatural(naturalname)
+							.getExtendattribute();
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotBoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		}
 		String mode = request.getParameter("portalmode");
 		TCmsInfomodel usermodel = null;
 		try {
@@ -63,18 +88,23 @@ public class ShowFloatDivActionPortal extends Action {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (usermodel != null) {
+		// 支持外部 样式传递
+		String style = request.getParameter("style");
+		if (style != null && !style.equals("")) {
+			usermodel.setStyleinfo(style);
+		} else {
 			String sytleinfox = usermodel.getUserid();
 			if (sytleinfox != null || !sytleinfox.equals("")) {
 				String styleinfo = StringUtils.substringBetween(sytleinfox,
 						"[", "]");
 				usermodel.setStyleinfo(styleinfo);
 			}
-			creaeViewLayout(request, usermodel);
-			if (usermodel.getExtendattribute() == null
-					|| usermodel.getExtendattribute().equals("")) {
-				usermodel.setExtendattribute("01");
-			}
+		}
+
+		creaeViewLayout(request, usermodel);
+		if (usermodel.getExtendattribute() == null
+				|| usermodel.getExtendattribute().equals("")) {
+			usermodel.setExtendattribute("01");
 		}
 
 		String description = usermodel.getDescription();

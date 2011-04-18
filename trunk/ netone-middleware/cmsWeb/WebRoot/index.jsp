@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="GB2312"%>
 <%@page import="oe.security3a.sso.onlineuser.OnlineUserMgr"%>
-<%@page import="oe.security3a.sso.onlineuser.DefaultOnlineUserMgr"%>
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
 <%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>
 <%
@@ -8,10 +7,6 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	String id = request.getParameter("id");
-
-	OnlineUserMgr oum = new DefaultOnlineUserMgr();
-	String loginname = oum.getOnlineUser(request).getLoginname();
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

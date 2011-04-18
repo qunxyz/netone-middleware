@@ -146,17 +146,7 @@
 				onfocus="calendar()">
 			<br>
 			<br>
-			&nbsp;页面授权:
-			<select multichoice='true'>
-				<option value='all'>
-					全体
-				</option>
-			</select>
-			<font color='red' size='4'><strong>+</strong> </font>
-			<font color='red' size='4'><strong>-</strong> </font>
 
-			<br>
-			<br>
 			&nbsp;
 			<INPUT type='button' value='提交' onClick='todo()'>
 		</FORM>

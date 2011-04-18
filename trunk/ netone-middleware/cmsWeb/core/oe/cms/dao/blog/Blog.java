@@ -29,8 +29,8 @@ public interface Blog {
 	// --------------------------
 
 	// 标准portalet的结构
-	String _PORTALET_HEAD_MARK1 = "<table  border='1' class='HeaderTable'><tr class='HeaderColor'><td><font class='HeaderText'>$name</font>&nbsp;&nbsp;<font class='HeaderLink'>$link</font></td></tr><tr>";
-	String _PORTALET_HEAD_MARK2 = "<table  border='0' class='HeaderTable'><tr class='HeaderColor'><td><font class='HeaderText'>$name</font>&nbsp;&nbsp;<font class='HeaderLink'>$link</font></td></tr><tr>";
+	String _PORTALET_HEAD_MARK1 = "<table  border='1' class='HeaderTable'><tr class='HeaderColor'><td><font class='HeaderText'>$name</font>&nbsp;&nbsp;$link</td></tr><tr>";
+	String _PORTALET_HEAD_MARK2 = "<table  border='0' class='HeaderTable'><tr class='HeaderColor'><td><font class='HeaderText'>$name</font>&nbsp;&nbsp;$link</td></tr><tr>";
 	String _PORTALET_HEAD_MARK3 = "<table  border='1' class='HeaderTable'><tr>";
 	String _PORTALET_HEAD_MARK4 = "<table  border='0' class='HeaderTable'><tr>";
 

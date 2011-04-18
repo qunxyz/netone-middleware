@@ -166,16 +166,6 @@
 			<!--戴新禄- 2009-2-8-增加id  -->
 			<input type="text" name="availableto" id="availableto" value="" class="textinput_td"
 				onfocus="calendar()">
-			<br>
-			<br>
-			&nbsp;页面授权:
-			<select multichoice='true'>
-				<option value='all'>
-					全体
-				</option>
-			</select>
-			<font color='red' size='4'><strong>+</strong> </font>
-			<font color='red' size='4'><strong>-</strong> </font>
 
 			<br>
 			<br>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import oe.cav.web.workflow.monitor.process.util.WfFormUtil;
 import oe.frame.bus.workflow.RuntimeInfo;
+import oe.frame.web.util.WebStr;
 import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
 import oe.midware.workflow.service.WorkflowConsole;
 import oe.midware.workflow.service.WorkflowView;
@@ -67,7 +68,9 @@ public class RDataAction extends Action {
 				TWfRelevantvar rev = (TWfRelevantvar) itr.next();
 				String value = request.getParameter(rev.getDatafieldid()
 						+ "_rev");
+				
 				if (value != null) {
+					value=WebStr.encode(request, value);
 					rev.setValuenow(value);
 				}
 			}

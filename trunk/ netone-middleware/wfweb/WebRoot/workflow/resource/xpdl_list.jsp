@@ -42,7 +42,7 @@
 				<c:forEach items="${listinfo}" var="getCol">
 					<tr class="td-02" align="left">
 						<td>
-							<input type="radio" name="radioid" value="${getCol.id}" size="10">
+							<input type="radio" name="radioid" id='radioid' value="${getCol.id}" size="10">
 						</td>
 						<td height="21">
 							${getCol.naturalname}

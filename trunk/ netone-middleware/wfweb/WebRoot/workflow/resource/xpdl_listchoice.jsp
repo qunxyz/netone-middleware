@@ -39,7 +39,7 @@
 						<tr class="td-02" align="center">
 							<td>
 
-								<input type="radio" name="processid"
+								<input type="radio" name="processid" id='processid'
 									value="${getCol.extendattribute}">
 								<input type="hidden" name="processname" value="${getCol.name}">
 							</td>

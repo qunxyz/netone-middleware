@@ -159,8 +159,6 @@ public class PermissionServiceImpl implements PermissionService {
 			return true;
 		}
 		
-
-
 		if (!cache) {
 			return checkUserPermissionInner(code, userid, podn, action);
 		}

@@ -34,7 +34,7 @@
 						<br>
 						
 						<input type="button" value="提交流程"
-							onclick="commit('<%=runtimeid%>','<%=actid%>');" class="butt" <c:if test="${permission<1}">disabled</c:if>/>
+							onclick="commit('<%=runtimeid%>','<%=actid%>');" class="butt" <c:if test="${permission<3}">disabled</c:if>/>
 
 					</td>
 					<td>
@@ -50,7 +50,7 @@
 							</c:forEach>
 						</select>
 						<input type="button" value="跳转流程"
-							onclick="jump('<%=runtimeid%>','<%=actid%>');" class="butt" <c:if test="${permission<3}">disabled</c:if>/>
+							onclick="jump('<%=runtimeid%>','<%=actid%>');" class="butt" <c:if test="${permission<7}">disabled</c:if>/>
 
 					</td>
 

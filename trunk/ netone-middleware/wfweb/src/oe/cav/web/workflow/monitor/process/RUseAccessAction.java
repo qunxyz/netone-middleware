@@ -36,7 +36,7 @@ public class RUseAccessAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-
+  
 		String runtimeid = request.getParameter("runtimeid"); // 标志位
 		String activity = request.getParameter("activityid"); // 标志位
 

@@ -8,12 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import javax.sql.DataSource;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -88,6 +87,21 @@ public class DbTools {
 	}
 
 	/**
+	 * 
+	 * @param driver
+	 * @param url
+	 * @param name
+	 * @param password
+	 * @return
+	 */
+	public static Connection getOuterCon(String driver, String url,
+			String name, String password) throws Exception {
+
+		Class.forName(driver).newInstance();
+		return DriverManager.getConnection(url, name, password);
+	}
+
+	/**
 	 * 执行SQL语句,返回SQl的生效结果,如果值为-1表示该SQL是查询语句,如果是insert,update,delete的sql
 	 * 那么将返回被影响数据库的记录个数,如果返回值为0,可能存在两种情况:<br>
 	 * 1: SQl是DDL语句 <br>
@@ -149,6 +163,32 @@ public class DbTools {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("SQL执行失败:" + e.getMessage());
+		}
+	}
+
+	public static int[] executeTransaction(String[] sql, Connection con) {
+		Statement st = null;
+		try {
+			// 获得Statment句柄
+			st = con.createStatement();
+			// 在连接的目标数据库上执行SQL
+			for (int i = 0; i < sql.length; i++) {
+				st.addBatch(sql[i]);
+			}
+			// 返回SQL的执行结果
+			return st.executeBatch();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("SQL执行失败:" + e.getMessage());
+		} finally {
+			if (st != null) {
+				try {
+					st.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -237,11 +277,24 @@ public class DbTools {
 				// 遍历结果集中的字段,将当前行的数据库记录数据,写入map对象中
 				for (int i = 1; i <= metaData.getColumnCount(); i++) {
 					// 获得字段名
-					String columnname = metaData.getColumnName(i);
+					String columnname = metaData.getColumnLabel(i);
 					// 获得字段的值
-					Object value = rs.getObject(columnname);
-					// 写入一个字段的值
-					preRecord.put(columnname, value);
+					
+					// 类型为VARBINARY时
+					String columnType = metaData.getColumnTypeName(i);
+					//System.out.println(columnname +":"+ columnType);
+					
+					if( "VARBINARY".equals(columnType) )
+					{
+						String tempStr= rs.getString(columnname);
+						preRecord.put(columnname, tempStr);
+					}
+					else
+					{
+						Object value = rs.getObject(columnname);
+						// 写入一个字段的值
+						preRecord.put(columnname, value);
+					}
 				}
 				// 将一条记录存入动态数组
 				list.add(preRecord);
@@ -275,6 +328,20 @@ public class DbTools {
 			}
 		}
 		return list;
+	}
+	
+	public static String byte2hex(byte[] b) // 二进制转字符串
+	{
+	   String hs = "";
+	   String stmp = "";
+	   for (int n = 0; n < b.length; n++) {
+	    stmp = (java.lang.Integer.toHexString(b[n] & 0XFF));
+	    if (stmp.length() == 1)
+	     hs = hs + "0" + stmp;
+	    else
+	     hs = hs + stmp;
+	   }
+	   return hs;
 	}
 
 	public static long countData(String sql) {
@@ -460,4 +527,25 @@ public class DbTools {
 
 	}
 
+	public static String[] fetchOneData(String sql, String key) {
+		List list = queryData(sql);
+		List data = new ArrayList();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			data.add(object.get(key));
+		}
+		return (String[]) data.toArray(new String[0]);
+
+	}
+
+	public static String[] fetchOneData(String sql, String key, Connection con) {
+		List list = queryData(sql,con);
+		List data = new ArrayList();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			data.add(object.get(key));
+		}
+		return (String[]) data.toArray(new String[0]);
+
+	}
 }

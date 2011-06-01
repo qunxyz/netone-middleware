@@ -1,0 +1,36 @@
+/*
+	Ò³¿òÑùÊ½
+	Author: Yan.mou.xie
+	Version: 1.0
+	Email: Ymx@foxmail.com
+	Created: 2011-05-31 13:46
+	Copyleft 2011, Yan.Mou.Xie
+*/
+*{
+	font-size:12px;
+	padding:0;
+	margin:0 auto;
+	font-family:"arial","Î¢ÈíÑÅºÚ","ËÎÌå";
+}
+img {
+	border:0;
+}
+ol,ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+body{
+	background:#FFF;
+}
+#mymenu
+{
+	width:200px;
+	margin:5px;
+}
+
+

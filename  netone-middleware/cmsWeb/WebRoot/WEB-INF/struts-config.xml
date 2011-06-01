@@ -170,6 +170,14 @@
 			<forward name="portalmenu" path="/frames/portalmenu.jsp"></forward>
 			<forward name="portalbody" path="/frames/portalbody.jsp"></forward>
 		</action>
+		<action  path="/extframes" scope="request"
+			type="oe.cms.web.frames.ExtProletAction">
+			<forward name="extportalframe1" path="/frames/AppFrame3.jsp"></forward>
+			<forward name="extportalframe2" path="/frames/AppFrame4.jsp"></forward>
+			<forward name="portalframe" path="/frames/portalframe.jsp"></forward>
+			<forward name="portalmenu" path="/frames/portalmenu.jsp"></forward>
+			<forward name="portalbody" path="/frames/portalbody.jsp"></forward>
+		</action>
 
 	</action-mappings>
 

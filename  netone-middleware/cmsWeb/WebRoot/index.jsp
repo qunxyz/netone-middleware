@@ -39,6 +39,13 @@
 						if(mode==2){
 						   window.open('/cmsWeb/frames/AppFrame2.jsp?rs='+value+'&height=0&fckid=');
 						}
+						if(mode==3){
+						
+							window.open('/cmsWeb/extframes.do?listPath='+value);
+						}
+						if(mode==4){
+						   window.open('/cmsWeb/extframes.do?mode=4&listPath='+value);
+						}
 					}
 					
 					function sselected(text,id){
@@ -101,7 +108,11 @@
 
 								<A HREF="javascript:view(1)"><FONT class="OecLink">[纵型预览]</FONT>
 								</A>
+								<A HREF="javascript:view(3)"><FONT class="OecLink">[纵型预览2]</FONT>
+								</A>
 								<A HREF="javascript:view(2)"><FONT class="OecLink">[横型预览]</FONT>
+								</A>
+								<A HREF="javascript:view(4)"><FONT class="OecLink">[横型预览2]</FONT>
 								</A> &nbsp;&nbsp;
 								<A HREF='/fck/PagelistpathRightSvl?appname=FCK&pagename=fcklist'
 									target='_blank'> <FONT class="OecLink">[在线文档]</FONT> </A>

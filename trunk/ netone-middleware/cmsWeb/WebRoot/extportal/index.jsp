@@ -98,13 +98,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         items:
         [{
         	id:'outBox',
-        	//border:false,
+        	<c:if test="${not empty param.hide}">
+        	border:false,
+        	</c:if>
         	width:${modelWidth},
         	height:${modelHeight},
         	items:
         	[{
 				id:'inBox',
-		        //border:false,
+				<c:if test="${not empty param.hide}">
+		        border:false,
+		        </c:if>
 		        //xtype:'portal',
 		        width:'${widthlist}',
 		        items:
@@ -121,8 +125,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					id:'${cell.cellid}',
 					title:'${cell.cellname} ${cell.extendattribute}',
 					html:'${cell.body}',
+					<c:if test="${empty param.hide}">
 					tools:tools,
 					autoScroll: true,
+					</c:if>
+					<c:if test="${not empty param.tools}">
+					tools:tools,
+					</c:if>
 					collapsible : true,
 					script:true,
 					width:${cell.width+20},

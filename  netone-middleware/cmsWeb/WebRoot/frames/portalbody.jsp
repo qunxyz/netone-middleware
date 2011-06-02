@@ -49,8 +49,8 @@ function changeTab(tab){
 	</head>
 	<body style="margin: 22px">
 		<form name="form1" action="" method="post">
-			<c:if test="${res == 'res'}">
-				<table width="100%" border="0" align="center" cellpadding="0"
+			<c:if test="${res == 'res'}"><div style="padding-left: 20px;">
+				<table  border="0" cellpadding="0"
 					cellspacing="0">
 					<tr>
 						<%
@@ -65,7 +65,7 @@ function changeTab(tab){
 							if (i == 1) {
 							%>
 							<td id=<%=tab%> style="cursor: hand" onclick="changeTab(this)"
-								width="100">
+								width="auto">
 								<table border="0" cellpadding="0" cellspacing="0"
 									style="display: block">
 									<tr>
@@ -91,7 +91,7 @@ function changeTab(tab){
 							} else {
 							%>
 							<td id=<%=tab%> style="cursor: hand" onclick="changeTab(this)"
-								width="100">
+								width="auto">
 								<table border="0" cellpadding="0" cellspacing="0"
 									style="display: none">
 									<tr>
@@ -128,7 +128,7 @@ function changeTab(tab){
 					<tr>
 						<td height="2" colspan="8" bgcolor="#d4d0c8"></td>
 					</tr>
-				</table>
+				</table></div>
 				<%
 					int j = 0;
 				%>

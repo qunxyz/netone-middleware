@@ -62,7 +62,7 @@
 						<div id='pageleft'>
 							<iframe id="proletleft"
 								src="frames.do?listPath=${param.rs}&type=frame" scrolling="no"
-								resize="no" height="100%" width="100%" frameborder='0'></iframe>
+								resize="no" height="100%" width="268" frameborder='0'></iframe>
 						</div>
 					</td>
 					<td height="100%" align='left'>

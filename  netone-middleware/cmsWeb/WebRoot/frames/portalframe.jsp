@@ -22,6 +22,7 @@
 		<link href="frames/css/css.css" rel="stylesheet" type="text/css">
 	</head>
 	<script type="text/javascript">
+		var pClickTd = "";
 		function turnit(ss){
 			if (document.getElementById(ss).style.display=="none"){
 				document.getElementById(ss).style.display="";
@@ -32,30 +33,44 @@
 		function link(values){
 			parent.document.frames["proletright"].location="frames.do?task="+values ;
 		}
+		
+		function bgChange(clickedtd){
+
+			if(pClickTd == ""){
+				clickedtd.style.backgroundImage = "url(image/c_menu.gif)";
+				pClickTd = clickedtd;
+			}else{
+				pClickTd.style.backgroundImage = "url(image/menu.gif)";
+				clickedtd.style.backgroundImage = "url(image/c_menu.gif)";
+				pClickTd = clickedtd;
+			}
+		}
 	</script>
 	<body style="margin: 22px">
 		<form name="form1" action="" method="post">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" width=220>
 				<c:forEach items="${childrenlist}" var="getCol">
-					<tr>
+					<tr width=220>
 						<td onmouseup="turnit('${getCol.naturalname}')"
-							style="CURSOR: hand" bgcolor="#d0cfb9" height=25>&nbsp;
+							style="background-image: url(image/menu.gif);background-repeat: no-repeat;CURSOR: hand; width:220px; height: 33px;" onclick=";bgChange(this)"
+							onmouseover="if(this.style.backgroundImage != 'url(image/c_menu.gif)')this.style.backgroundImage = 'url(image/m_menu.gif)'" onmouseout="if(this.style.backgroundImage != 'url(image/c_menu.gif)')this.style.backgroundImage = 'url(image/menu.gif)'">&nbsp;
 							<IMG  src="image/allen004.gif" border=0>
 							<strong>${getCol.name}</strong>
 						</td>
 					</tr>
 					<tr>
 						<td id=${getCol.naturalname } style="DISPLAY: ">
-							<table width="100%" border="0" align="center" cellpadding="0"
-								cellspacing="1">
+							<table width="100%" border="0" align="center" cellpadding="0">
 								<c:forEach items="${map}" var="map">
 									<c:if test="${map.key == getCol.naturalname}">
 										<c:forEach items="${map.value}" var="list">
 											<tr>
-												<td background="image/allen005.gif">
-													&nbsp;&nbsp;&nbsp;
-													<a href=javascript:link("${list.naturalname}")>${list.name}</a>
+											<a href=javascript:link("${list.naturalname}")>
+												<td style="cursor: pointer; background-image: url(image/sub_menu.gif); background-repeat: no-repeat; width: 220px; height: 28px;">
+													<div style="float: left;margin-top: 3px; padding-left: 18px;"><img src="image/sub_menu_title_img.png"/></div>
+													<div>${list.name}</div>
 												</td>
+											</a>
 											</tr>
 										</c:forEach>
 									</c:if>

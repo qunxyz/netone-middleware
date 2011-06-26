@@ -33,6 +33,7 @@
 			
 			if(pClicksubMenu == ""){
 				pClicksubMenu = document.getElementById(ss);
+				document.getElementById('first').style.display="none";
 			}else if(pClicksubMenu != document.getElementById(ss)){
 				pClicksubMenu.style.display = "none";
 				pClicksubMenu = document.getElementById(ss);
@@ -57,17 +58,35 @@
 	<body style="margin: 22px">
 		<form name="form1" action="" method="post">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" width=220>
-				<c:forEach items="${childrenlist}" var="getCol">
+				<c:forEach items="${childrenlist}" var="getCol" varStatus="status">
 					<tr width=220>
-						<td onmouseup="turnit('${getCol.naturalname}')"
+						<c:choose>
+							<c:when test="${status.index==0}">
+								<td onmouseup="turnit('first')"
 							style="background-image: url(image/menu.gif);background-repeat: no-repeat;CURSOR: hand; width:220px; height: 33px;" onclick=";bgChange(this)"
-							onmouseover="if(this.style.backgroundImage != 'url(image/c_menu.gif)')this.style.backgroundImage = 'url(image/m_menu.gif)'" onmouseout="if(this.style.backgroundImage != 'url(image/c_menu.gif)')this.style.backgroundImage = 'url(image/menu.gif)'">&nbsp;
+							onmouseover="if(this.style.backgroundImage != 'url(image/c_menu.gif)')this.style.backgroundImage = 'url(image/m_menu.gif)'" onmouseout="if(this.style.backgroundImage != 'url(image/c_menu.gif)')this.style.backgroundImage = 'url(image/menu.gif)'">
+							</c:when>
+							<c:otherwise>
+								<td onmouseup="turnit('${getCol.naturalname}')"
+							style="background-image: url(image/menu.gif);background-repeat: no-repeat;CURSOR: hand; width:220px; height: 33px;" onclick=";bgChange(this)"
+							onmouseover="if(this.style.backgroundImage != 'url(image/c_menu.gif)')this.style.backgroundImage = 'url(image/m_menu.gif)'" onmouseout="if(this.style.backgroundImage != 'url(image/c_menu.gif)')this.style.backgroundImage = 'url(image/menu.gif)'">
+							</c:otherwise>
+						</c:choose>
+						&nbsp;
 							<IMG  src="image/allen004.gif" border=0>
 							<strong>${getCol.name}</strong>
 						</td>
 					</tr>
 					<tr>
-						<td id=${getCol.naturalname } style="DISPLAY:none ">
+						<c:choose>
+							<c:when test="${status.index==0}">
+								<td id="first">
+							</c:when>
+							<c:otherwise>
+								<td id=${getCol.naturalname } style="DISPLAY:none ">
+							</c:otherwise>
+						</c:choose>
+
 							<table width="100%" border="0" align="center" cellpadding="0">
 								<c:forEach items="${map}" var="map">
 									<c:if test="${map.key == getCol.naturalname}">

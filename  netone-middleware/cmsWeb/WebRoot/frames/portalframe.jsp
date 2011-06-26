@@ -23,11 +23,19 @@
 	</head>
 	<script type="text/javascript">
 		var pClickTd = "";
+		var pClicksubMenu = "";
 		function turnit(ss){
 			if (document.getElementById(ss).style.display=="none"){
 				document.getElementById(ss).style.display="";
 			} else{
 				document.getElementById(ss).style.display="none"; 
+			}
+			
+			if(pClicksubMenu == ""){
+				pClicksubMenu = document.getElementById(ss);
+			}else if(pClicksubMenu != document.getElementById(ss)){
+				pClicksubMenu.style.display = "none";
+				pClicksubMenu = document.getElementById(ss);
 			}
 		}
 		function link(values){
@@ -59,7 +67,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td id=${getCol.naturalname } style="DISPLAY: ">
+						<td id=${getCol.naturalname } style="DISPLAY:none ">
 							<table width="100%" border="0" align="center" cellpadding="0">
 								<c:forEach items="${map}" var="map">
 									<c:if test="${map.key == getCol.naturalname}">

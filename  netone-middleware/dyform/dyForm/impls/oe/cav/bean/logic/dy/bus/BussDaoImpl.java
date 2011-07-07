@@ -103,12 +103,12 @@ public class BussDaoImpl implements BussDao {
 						TCsBus element = (TCsBus) iterx.next();
 						// 创建BussObj对象属性
 						Map columnidvalue = new LinkedHashMap();
-						// 处理Portal相关的字段
-						BussDaoCoreTools.addToResourcePortal(element, dfo
-								.getColumn(), tablename, formcode);
-						// 添加 Fck的字段
-						BussDaoCoreTools.addToResourceFck(element, dfo
-								.getColumn(), tablename, formcode);
+//						// 处理Portal相关的字段
+//						BussDaoCoreTools.addToResourcePortal(element, dfo
+//								.getColumn(), tablename, formcode);
+//						// 添加 Fck的字段
+//						BussDaoCoreTools.addToResourceFck(element, dfo
+//								.getColumn(), tablename, formcode);
 						// 检查字段属性是否正确
 						BussDaoTools.columnTypeAndValueAvail(columnlist, tcf,
 								element, columnidvalue, false);

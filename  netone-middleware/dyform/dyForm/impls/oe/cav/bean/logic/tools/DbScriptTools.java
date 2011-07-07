@@ -96,7 +96,7 @@ public class DbScriptTools {
 
 		log.debug("preprared add form column:" + column.getChecktype() + ","
 				+ column.getHtmltype());
-		String type = "varchar(1000)" + " character set gbk";
+		String type = "varchar(100)" + " character set gbk";
 		
 		if ("DECIMAL".equals(column.getHtmltype())
 				|| "number".equals(column.getChecktype())) {
@@ -116,6 +116,6 @@ public class DbScriptTools {
 		} catch (Exception e) {
 			return e.getMessage();
 		}
-		return "创建成功";
+		return "完成";
 	}
 }

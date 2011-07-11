@@ -1,9 +1,11 @@
 package oe.cav.web.workflow.resource.soa;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,7 +22,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-
 /**
  * 建立子节点以提供新建和修改
  */
@@ -28,12 +29,13 @@ public class CreateSubinfoAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
+		String extendattribute = "";
 		try {
 			String id = request.getParameter("chkid");
 			ResourceRmi resourceRmi = (ResourceRmi) RmiEntry.iv("resource");
 			UmsProtectedobject upo = resourceRmi.loadResourceById(id);
-			String extendattribute = upo.getExtendattribute();
-		
+			extendattribute = upo.getExtendattribute();
+
 			WorkflowView wfview = null;
 
 			try {
@@ -62,7 +64,18 @@ public class CreateSubinfoAction extends Action {
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
-		WebTip.htmlInfo("装载成功!接着可进行[服务配置]", true, response);
+		String url = "PagelistRightSvl?pagename=pagelist&appname="
+				+ extendattribute;
+		try {
+			request.getRequestDispatcher(url).forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// WebTip.htmlInfo("装载成功!接着可进行[服务配置]", true, response);
 		return null;
 	}
 }

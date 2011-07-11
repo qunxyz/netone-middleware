@@ -226,11 +226,11 @@ function copyElemnt(){
 							<td nowrap>
 <c:if test="${list.inclusion != '1'}">
 								<a href="javascript:createA('${list.id}')"><font
-									color='red'>[装载]</font>
-								</a>
-								<a href="javascript:inclusionlinkX('${list.naturalname}')"><font
 									color='red'>[服务配置]</font>
 								</a>
+								<!-- <a href="javascript:inclusionlinkX('${list.naturalname}')"><font
+									color='red'>[]</font>
+								</a> -->
 
 								<a href="javascript:choiceprocess1('${list.extendattribute}');"><font
 									color='blue'>[设计修订]</font>

@@ -26,12 +26,12 @@
 
 		<script type="text/javascript">
 		//单选择 需要根据应用的需要来订制
-		function checkthis(id) {
+		function checkthis(id,naturalname,name) {
 			if(opener.selected==undefined){
 				alert('非选择状态,父页面缺少回调函数');
 				return;
 			}
-			opener.selected(id);
+			opener.selected(id,naturalname,name);
 			window.close();
 		}
 		//多选择 需要根据应用的需要来订制
@@ -247,7 +247,7 @@
 									<a href="javascript:viewmodel('${list.extendattribute}','2');">预览2</a>
 									<a href="javascript:viewmodel('${list.extendattribute}','3');">预览3</a>
 									<a href="javascript:del('${list.id}');">删除</a>
-									<a href="javascript:checkthis('${list.extendattribute}');">选择</a>
+									<a href="javascript:checkthis('${list.extendattribute}','${list.naturalname}','${list.name}');">选择</a>
 								</c:if>
 
 							</td>

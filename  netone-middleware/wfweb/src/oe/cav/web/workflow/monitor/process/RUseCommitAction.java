@@ -1,6 +1,7 @@
 package oe.cav.web.workflow.monitor.process;
 
 import java.rmi.RemoteException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,7 @@ public class RUseCommitAction extends Action {
 		String runtimeid = request.getParameter("runtimeid"); // 标志位
 		String activity = request.getParameter("activityid"); // 标志位
 		String activityto = request.getParameter("activityto"); // 标志位
+		String user=request.getParameter("user"); // 标志位
 		if (runtimeid != null) {
 			runtimeid = runtimeid.split(",")[0];
 			try {
@@ -56,6 +58,15 @@ public class RUseCommitAction extends Action {
 					if (worklist.isRunning()) {
 						if (activityto == null) {// 提交
 							console.commitActivity(worklist);
+							if(user!=null&&!user.equals("")){
+								List wListx = wfview.fetchRunningWorklist(runtimeid);
+								for (Iterator iterator = wListx.iterator(); iterator
+										.hasNext();) {
+									TWfWorklist object = (TWfWorklist) iterator.next();
+									object.setParticipant(user);
+								}
+							}
+							
 						} else {// 跳转
 							String processid=wfview.loadRuntime(runtimeid).getProcessid();
 							Activity act = wfview.fetchWorkflowProcess(
@@ -82,5 +93,4 @@ public class RUseCommitAction extends Action {
 
 		return mapping.getInputForward();
 	}
-
 }

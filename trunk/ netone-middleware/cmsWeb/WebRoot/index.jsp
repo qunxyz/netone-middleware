@@ -203,6 +203,10 @@
 
 							</td>
 							<td>
+							<A HREF="/cmsWeb/PagelistpathRightSvl?pagename=appframelist&appname=APPFRAME" target='_blank'><FONT
+									class="OecLink">应用框架定制</FONT> </A>:
+								整合表单和流程提供全应用在线定制开发
+								
 							<a href='/Security3A/extinfo.jsp' target='_blank'> <font
 							color='red'>[相关资料下载]</font> </a>关于更多Netone中间件应用开发材料下载
 							</td>

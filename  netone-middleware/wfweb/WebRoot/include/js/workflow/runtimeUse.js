@@ -9,6 +9,16 @@ opener.location.href=url;
 	 window.close();	
 }
 
+function committo(runtimeid,activityid){
+ 	 var contextpath=document.getElementById("pathroot").value;
+ 	  var recevier=document.getElementById("recevier").value;
+ 	 var url=contextpath+"/useAccessCommit.do?runtimeid="+runtimeid+"&activityid="+activityid+"&user="+recevier;
+	 
+	 //window.open(url,'',"left=300,top=300,width=400,height=300,scrollbars=no,resizable=no");
+opener.location.href=url;
+	 window.close();	
+}
+
 function jump(runtimeid,activityid){
  	 var contextpath=document.getElementById("pathroot").value;
  	 var activityto=document.getElementById("activityto").value;

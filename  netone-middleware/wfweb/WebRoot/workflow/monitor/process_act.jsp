@@ -5,6 +5,8 @@
 	String runtimeid = (String) request.getAttribute("runtimeid");
 	String actid = (String) request.getAttribute("actid");
 	String forminfo = (String) request.getAttribute("forminfo");
+		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -16,6 +18,25 @@
 			type="text/css">
 		<SCRIPT type="text/javascript"
 			src="<%=path%>/include/js/workflow/runtimeUse.js"></SCRIPT>
+		<script>
+				function selected(){
+				window.open('<%=basePath%>MSelectSvl?pagename=human&appname=DEPT.DEPT','_blank', 'height=380, width=600, top=0, left=0,toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+				
+			}
+			
+		function mselected(options){
+			if(options){
+				var users = "";
+				var userids = "";
+				for(var i=0;i<options.length;i++){
+					userids += options[i].value + "[" +options[i].text+ "],";
+				}
+
+				document.all.recevier.value = userids  ;
+	
+			}
+		}
+		</script>
 	</head>
 	<body>
 		<form method="post" action="">
@@ -31,14 +52,12 @@
 				<tr>
 
 					<td>
-						<br>
-						
+					
 						<input type="button" value="提交流程"
 							onclick="commit('<%=runtimeid%>','<%=actid%>');" class="butt" <c:if test="${permission<3}">disabled</c:if>/>
 
 					</td>
 					<td>
-						<br>
 						<select name="activityto">
 							<option value="none">
 								选择跳转点
@@ -54,7 +73,18 @@
 
 					</td>
 
-
+				</tr>
+				<tr>
+				<td colspan='2'>
+								
+					   指定审批者:
+					   <input type='text' value='' id='recevier' name='recevier'> 
+					   <input type='button' value='选择' onclick='selected()'> &nbsp;
+					   <input type="button" value="提交审批"
+							onclick="committo'<%=runtimeid%>','<%=actid%>');" class="butt" <c:if test="${permission<3}">disabled</c:if>/>
+					   
+				
+				</td>
 				</tr>
 			</table>
 		</form>

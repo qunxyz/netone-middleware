@@ -4,7 +4,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<filter>
 		<filter-name>characterEncoding</filter-name>
-		<filter-class>oe.frame.web.SetCharacterEncodingFilter</filter-class>
+		<filter-class>
+			oe.frame.web.SetCharacterEncodingFilter
+		</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>GBK</param-value>
@@ -18,12 +20,12 @@
 	<!-- 安全-开始 -->
 	<filter>
 		<filter-name>ssofilter</filter-name>
-		<filter-class>
-			oe.security3a.sso.SsoFilter
-		</filter-class>
+		<filter-class>oe.security3a.sso.SsoFilter</filter-class>
 		<init-param>
 			<param-name>LoginListener</param-name>
-			<param-value>oe.security3a.sso.OnLoginOperation</param-value>
+			<param-value>
+				oe.security3a.sso.OnLoginOperation
+			</param-value>
 		</init-param>
 		<init-param>
 			<param-name>AbortUrls</param-name>
@@ -32,10 +34,10 @@
 			</param-value>
 		</init-param>
 	</filter>
-	
 
-	
-	
+
+
+
 	<filter-mapping>
 		<filter-name>ssofilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -51,7 +53,7 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-		<servlet>
+	<servlet>
 		<servlet-name>logoutsvl</servlet-name>
 		<servlet-class>
 			oe.security3a.sso.listener.LogoutSvl
@@ -602,7 +604,9 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>RmiBeanTestSvl</servlet-name>
-		<servlet-class>oe.cms.web.common.bean.RmiBeanTestSvl</servlet-class>
+		<servlet-class>
+			oe.cms.web.common.bean.RmiBeanTestSvl
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RmiBeanTestSvl</servlet-name>
@@ -610,7 +614,9 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>RmiBeanViewSvl</servlet-name>
-		<servlet-class>oe.cms.web.common.bean.RmiBeanViewSvl</servlet-class>
+		<servlet-class>
+			oe.cms.web.common.bean.RmiBeanViewSvl
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RmiBeanViewSvl</servlet-name>
@@ -626,7 +632,9 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>NetScriptCalcalateSvl</servlet-name>
-		<servlet-class>oe.cms.web.common.NetScriptCalcalateSvl</servlet-class>
+		<servlet-class>
+			oe.cms.web.common.NetScriptCalcalateSvl
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>NetScriptCalcalateSvl</servlet-name>
@@ -634,7 +642,9 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>TemplateExeInItemSvl</servlet-name>
-		<servlet-class>oe.cms.web.common.TemplateExeInItemSvl</servlet-class>
+		<servlet-class>
+			oe.cms.web.common.TemplateExeInItemSvl
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>TemplateExeInItemSvl</servlet-name>
@@ -647,33 +657,59 @@
 	<servlet-mapping>
 		<servlet-name>ApppageSvl</servlet-name>
 		<url-pattern>/ApppageSvl</url-pattern>
-	</servlet-mapping>	
-		<servlet>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>JppFuncSvl</servlet-name>
 		<servlet-class>oe.cms.web.outservice.JppFuncSvl</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>JppFuncSvl</servlet-name>
 		<url-pattern>/JppFuncSvl</url-pattern>
-	</servlet-mapping>	
-		<servlet>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>CopyPortalSvl</servlet-name>
 		<servlet-class>oe.cms.web.common.CopyPortalSvl</servlet-class>
 	</servlet>
+	<servlet>
+		<description>The Javascript Pool</description>
+		<display-name>JsFactory Controller</display-name>
+		<servlet-name>SSOLoginSvl</servlet-name>
+		<servlet-class>oe.cms.sync.SSOLoginSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+			This is the description of my J2EE component
+		</description>
+		<display-name>
+			This is the display name of my J2EE component
+		</display-name>
+		<servlet-name>CreateSubSvl</servlet-name>
+		<servlet-class>oe.cms.web.appframe.CreateSubSvl</servlet-class>
+	</servlet>
   <servlet>
-    <description>The Javascript Pool</description>
-    <display-name>JsFactory Controller</display-name>
-    <servlet-name>SSOLoginSvl</servlet-name>
-    <servlet-class>oe.cms.sync.SSOLoginSvl</servlet-class>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>StartSvl</servlet-name>
+    <servlet-class>oe.cms.web.appframe.StartSvl</servlet-class>
   </servlet>
+
 
 	<servlet-mapping>
 		<servlet-name>CopyPortalSvl</servlet-name>
 		<url-pattern>/CopyPortalSvl</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SSOLoginSvl</servlet-name>
+		<url-pattern>/SSOLoginSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CreateSubSvl</servlet-name>
+		<url-pattern>/CreateSubSvl</url-pattern>
+	</servlet-mapping>
   <servlet-mapping>
-    <servlet-name>SSOLoginSvl</servlet-name>
-    <url-pattern>/SSOLoginSvl</url-pattern>
+    <servlet-name>StartSvl</servlet-name>
+    <url-pattern>/servlet/StartSvl</url-pattern>
   </servlet-mapping>
+
 </web-app>
 

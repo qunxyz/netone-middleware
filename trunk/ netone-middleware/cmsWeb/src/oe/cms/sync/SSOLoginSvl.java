@@ -67,15 +67,28 @@ public class SSOLoginSvl extends HttpServlet {
 		String password = cookies[2];
 		password = java.net.URLDecoder.decode(password, "gbk");
 
-//		response.getWriter().print(
-//				"<script>window.location.href='"
-//						+ "http://127.0.0.1/cms/index.php?username="
-//						+ loginame + "&password=" + password + "'</script>");
-//		request.getRequestDispatcher(
-//				"/http://127.0.0.1/cms/index.php?m=member&c=index&a=login&username=" + loginame
-//						+ "&password=" + password).forward(request, response);
-		 response.sendRedirect("http://127.0.0.1/cms/index.php?m=member&c=index&a=login4netone&username=" + loginame
-						+ "&password=" + password);
+		EnvService env = null;
+
+		try {
+
+			env = (EnvService) RmiEntry.iv("envinfo");
+			String urlhead = env.fetchEnvValue("WEBSER_PHPCMS");
+			response.sendRedirect(urlhead
+					+ "index.php?m=member&c=index&a=login4netone&username="
+					+ loginame + "&password=" + password);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// response.getWriter().print(
+		// "<script>window.location.href='"
+		// + "http://127.0.0.1/cms/index.php?username="
+		// + loginame + "&password=" + password + "'</script>");
+		// request.getRequestDispatcher(
+		// "/http://127.0.0.1/cms/index.php?m=member&c=index&a=login&username="
+		// + loginame
+		// + "&password=" + password).forward(request, response);
 
 		// String xxx[]={"a","b","c","d"};
 		// CookiesOpe.addCookiesx(xxx, response);

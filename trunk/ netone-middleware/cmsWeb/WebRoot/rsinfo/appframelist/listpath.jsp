@@ -63,7 +63,7 @@
 		}
 		
 		function man(name){
-			var url='<portal:envget envkey="WEBSER_APPFRAME"/>'+name;
+			var url='<portal:envget envkey="WEBSER_APPFRAME"/>frame.do?method=onMainView&naturalname='+name;
 			window.open(url);
 		}
 		

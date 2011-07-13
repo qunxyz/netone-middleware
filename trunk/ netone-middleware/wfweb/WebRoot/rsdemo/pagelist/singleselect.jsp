@@ -4,7 +4,7 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	String className = "oe.mid.web.rspage.pagelist.util.MultiSelectDsCommon";
+	String className = "oe.mid.web.rspage.pagelist.util.MultiSelectDsWithOutDir";
 	//选择资源属性，不填写\默认的属性为naturalname，同时我们可以根据需要选择一下的其他资源属性
 	//objecttype,name,naturalname,active,description,appid,parentdir,actionurl,ou,extendattribute,inclusion,reference,aggregation,created
 	//选择人员属性，不填写\默认的属性为naturalname，同时我们可以根据需要选择一下的其他人员属性
@@ -46,7 +46,7 @@
 		}
 		 
 		function checkthis(){
-			if(opener.sselected==undefined){
+			if(opener.sselectwf==undefined){
 				alert('非选择状态,父页面缺少回调函数');
 				return;
 			}
@@ -55,7 +55,7 @@
 				alert("未选择");
 			}else{
 				var option = usersel.options[usersel.selectedIndex];
-				opener.sselected(option.text,option.value);
+				opener.sselectwf(option.text,option.value);
 				window.close();
 			}
 		}

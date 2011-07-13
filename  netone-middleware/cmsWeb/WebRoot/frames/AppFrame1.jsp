@@ -107,8 +107,8 @@
 					</td>
 					<!-- ${fn:replace(param.initurl,'$@','&')} -->
 					<td height="100%" align='left'>
-						<div style="color:#99BBE8;margin-top:21px;border: 1px solid #99BBE8;line-height:30px;width:900px;">
-							<div style="float: right;margin-right:20px;"><a href="javascript:opendialog();">[新建]</a> <a href="http://127.0.0.1:81/ndyd/workList.do?method=onMainView" target="proletright">[所有代办]</a> <a href="http://127.0.0.1:81/ndyd/workList.do?method=onMainView&mode=2" target="proletright">[所有已办]</a></div>
+						<div style="color:#99BBE8;margin-top:21px;border: 1px solid #99BBE8;line-height:30px;width:900px;"> 
+							<div style="float: right;margin-right:20px;"><a href="javascript:opendialog();">[新建]</a> <a href="<portal:envget envkey='WEBSER_APPFRAME'/>/workList.do?method=onMainView" target="proletright">[所有代办]</a> <a href="<portal:envget envkey='WEBSER_APPFRAME'/>/workList.do?method=onMainView&mode=2" target="proletright">[所有已办]</a></div>
 							<div id="dialogx" style="height:220px;width:500px;display: none;">
 							<iframe name="mydialog" id="mydialog" 
 							src="<portal:envget envkey='WEBSER_CMSWEB'/>/PagelistpathRightSvl?pagename=appframelistx&appname=APPFRAME" scrolling="no"

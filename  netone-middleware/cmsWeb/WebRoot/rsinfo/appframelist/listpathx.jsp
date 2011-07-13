@@ -59,7 +59,7 @@
 		}
 		
 		function newdo(id){
-			window.open('<%=basePath%>frame.do?method=onEditViewMain&naturalname='+id);
+			window.open('<portal:envget envkey="WEBSER_APPFRAME"/>frame.do?method=onEditViewMain&naturalname='+id);
 		}
 		
 		
@@ -137,7 +137,7 @@
 
 							<td nowrap>
 								<c:if test="${list.inclusion!='1'}">
-							    <a href="javascript:cfg('${list.naturalname}');">[新建]</a>
+							    <a href="javascript:newdo('${list.naturalname}');">[新建]</a>
 								</c:if>
 							</td>
 						</tr>

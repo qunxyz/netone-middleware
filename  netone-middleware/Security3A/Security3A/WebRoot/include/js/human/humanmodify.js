@@ -39,6 +39,15 @@ function humanmodifysave(){
 		rolevalue += role.options[i].value + "@" ;
 	}
 	document.all.roles.value = rolevalue ;
+	                        
+	var team = document.all.humanteam;
+
+	var teamvalue = "";
+	for(var i=0 ; i<team.length ; i++){
+		teamvalue += team.options[i].value + "@" ;
+	}
+	document.all.teams.value = teamvalue ;
+	
 	//var group = document.all.humangroup;
 	//var groupvalue = "";
 	//for(var i=0 ; i<group.length ; i++){

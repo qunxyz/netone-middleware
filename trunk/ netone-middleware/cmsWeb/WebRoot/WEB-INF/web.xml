@@ -30,7 +30,7 @@
 		<init-param>
 			<param-name>AbortUrls</param-name>
 			<param-value>
-				/servlet/DivInnerHtmlPortalSvl,/frames.do,/frames/AppFrame.jsp,/frames/AppFrame1.jsp,/frames/AppFrame2.jsp,/floatdiv/portal.jsp,/CopyPortalSvl,/portal.do,/DownloadSvl,/DownloadSvl2,/AutoStyleSvl,/RmiBeanTestSvl,/RmiBeanViewSvl,/flowpage/login.jsp,/SSOLoginSvl,/logoutsvl
+				/servlet/DivInnerHtmlPortalSvl,/frames.do,/frames/AppFrame.jsp,/frames/AppFrame1.jsp,/frames/AppFrame2.jsp,/floatdiv/portal.jsp,/CopyPortalSvl,/portal.do,/DownloadSvl,/DownloadSvl2,/AutoStyleSvl,/RmiBeanTestSvl,/RmiBeanViewSvl,/flowpage/login.jsp,/SSOLoginSvl,/logoutsvl,/ListDyColumnSvl
 			</param-value>
 		</init-param>
 	</filter>
@@ -692,6 +692,27 @@
     <servlet-name>StartSvl</servlet-name>
     <servlet-class>oe.cms.web.appframe.StartSvl</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>CreateDySubSvl</servlet-name>
+    <servlet-class>oe.cms.web.appframe.CreateDySubSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ListDyColumnSvl</servlet-name>
+    <servlet-class>oe.cms.web.appframe.ListDyColumnSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>InitCfgSvl</servlet-name>
+    <servlet-class>oe.cms.web.appframe.InitCfgSvl</servlet-class>
+  </servlet>
+
+
+
 
 
 	<servlet-mapping>
@@ -709,6 +730,18 @@
   <servlet-mapping>
     <servlet-name>StartSvl</servlet-name>
     <url-pattern>/servlet/StartSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CreateDySubSvl</servlet-name>
+    <url-pattern>/CreateDySubSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListDyColumnSvl</servlet-name>
+    <url-pattern>/ListDyColumnSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InitCfgSvl</servlet-name>
+    <url-pattern>/InitCfgSvl</url-pattern>
   </servlet-mapping>
 
 </web-app>

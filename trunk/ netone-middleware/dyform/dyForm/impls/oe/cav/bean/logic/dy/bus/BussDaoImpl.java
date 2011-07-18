@@ -71,7 +71,7 @@ public class BussDaoImpl implements BussDao {
 			TCsBus bustmp = (TCsBus) list.get(0);
 			String formcode = bustmp.getFormcode();
 			if (formcode == null || formcode.equals("")) {
-				log.error("未找到文件名");
+				log.error(formcode+" 表单不存在");
 				return false;
 			} else {
 				DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode)

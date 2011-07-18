@@ -20,6 +20,7 @@ public interface DyFormService extends Remote {
 	 * 装载表单
 	 * 
 	 * @param formid
+	 *            表单唯一标识码
 	 * @return
 	 */
 	TCsForm loadForm(String formid) throws RemoteException;
@@ -106,7 +107,7 @@ public interface DyFormService extends Remote {
 	 * @throws RemoteException
 	 */
 	int queryDataNum(TCsBus bus, String condition) throws RemoteException;
-	
+
 	/**
 	 * 获得动态数据的列表标题头信息
 	 * 

@@ -41,7 +41,7 @@
 									radio="true" headText="选择" />
 								<c:datacolumn field="columnid" align="center" headText="字段ID" />
 								<c:datacolumn field="columname" align="center" headText="字段名" />
-								<c:datacolumn field="indexvalue" align="center" headText="位置坐标" />
+								<c:datacolumn field="indexvalue" align="center" headText="索引号" />
 								<c:datacolumn field="ext9viewtype" align="center" headText="类型" />
 								<c:datacolumn field="ext9opemode" align="center" headText="只读吗" />
 								<c:datacolumn field="useable" align="center" headText="是否显示" />

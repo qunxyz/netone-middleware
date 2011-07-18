@@ -28,6 +28,8 @@
 				<include name="oe/cav/bean/logic/tools/**" />
 				<include name="oe/cav/bean/logic/tag/**" />
 				<include name="oe/midware/dyform/service/DyFormService.class" />
+				
+				<include name="oe/cav/web/data/dyform/utils/DymaticFormCheck.class" />
 				<include name="oe/midware/dyform/service/DyFormServiceImpl_Stub.class" />
 				<include name="oe/midware/dyform/service/DyFormDesignService.class" />
 				<include name="oe/midware/dyform/service/DyFormDesignServiceImpl_Stub.class" />

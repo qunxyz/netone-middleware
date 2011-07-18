@@ -36,12 +36,13 @@ public class PermissionManagerImpl implements PermissionManager {
 		if (dnnatrualname == null || dnnatrualname.length() == 0) {
 			throw new RuntimeException("dn描述为空");
 		}
-		dnnatrualname=dnnatrualname.toUpperCase();
+		dnnatrualname = dnnatrualname.toUpperCase();
 		// 该方法必须加入缓存，否则性能非常糟糕
 		String key = "NAME_OU:" + dnnatrualname;
 		if (WebCache.containCache(key)) {
 			return (String) WebCache.getCache(key);
 		}
+		System.out.println("warning:ou no cache!"+key);
 
 		Ormer ormer = OrmerEntry.fetchOrmer();
 		UmsProtectedobject upp = new UmsProtectedobject();

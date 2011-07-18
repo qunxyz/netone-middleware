@@ -866,8 +866,8 @@ public class BusActionImpl extends BaseAction {
 		String url = "/dyForm/data/showdata/modifyview.do?fatherlsh="
 				+ busForm.getFatherlsh() + "&formcode=" + busForm.getFormcode()
 				+ "&lsh=" + busForm.getLsh();
-		WebTip.htmlInfoOri("<script>opener.location.href='" + url
-				+ "';window.close();</script>", ae.getResponse());
+		WebTip.htmlInfoOri("<script>location.href='" + url
+				+ "';</script>", ae.getResponse());
 		return null;
 	}
 

@@ -134,8 +134,17 @@
 						&nbsp;√Ë ˆ
 					</td>
 					<td class="btext">
-						<h:textarea property="description" cols="80" rows="5"
-							readonly="true" />
+						<h:textarea property="description" cols="80" rows="2"
+							/>
+					</td>
+				</tr>
+								<tr>
+					<td class="tdheaddes">
+						&nbsp;¿©’π Ù–‘
+					</td>
+					<td class="btext">
+						<h:textarea property="extendattribute" cols="80" rows="5"
+							/>
 					</td>
 				</tr>
 				<tr>

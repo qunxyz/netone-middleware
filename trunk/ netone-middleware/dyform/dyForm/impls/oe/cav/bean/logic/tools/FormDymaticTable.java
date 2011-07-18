@@ -206,7 +206,7 @@ public class FormDymaticTable {
 		colTitle.setUI(label);
 
 		TableColumn colValue = row.insertCol();// 创建新的一列
-		colValue.setAttribute("class", "td");
+		//colValue.setAttribute("class", "td");
 		if (ui == null) {
 			Label labelx = new Label();
 			label.setValue("");
@@ -228,7 +228,7 @@ public class FormDymaticTable {
 
 		TableColumn colValue = row.insertCol();// 创建新的一列
 		colValue.setColspan(String.valueOf(colspace * 2 - 1));
-		colValue.setAttribute("class", "td");
+		//colValue.setAttribute("class", "td");
 		if (ui == null) {
 			Label labelx = new Label();
 			label.setValue("");

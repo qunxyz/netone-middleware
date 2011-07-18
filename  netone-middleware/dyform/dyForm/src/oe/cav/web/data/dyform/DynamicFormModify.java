@@ -1,7 +1,9 @@
 package oe.cav.web.data.dyform;
 
 import java.lang.reflect.InvocationTargetException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -9,17 +11,22 @@ import java.util.Map;
 import oe.cav.bean.logic.bus.TCsBus;
 import oe.cav.bean.logic.column.ColumnExtendInfo;
 import oe.cav.bean.logic.column.TCsColumn;
+import oe.cav.bean.logic.form.TCsForm;
+import oe.cav.bean.logic.tools.FormCache;
+import oe.cav.bean.logic.tools.FormDymaticTable;
 import oe.cav.web.data.dyform.utils.DefaultElementAdder;
 import oe.cav.web.data.dyform.utils.DymaticFormButton;
 import oe.cav.web.data.dyform.utils.DymaticFormCheck;
 import oe.cav.web.data.dyform.utils.DynamicFormElementAdder;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.SequencedHashMap;
 import org.apache.commons.lang.StringUtils;
 
 import com.rongji.webframework.struts.ActionEvent;
 import com.rongji.webframework.struts.DynaUIForm;
 import com.rongji.webframework.ui.html.Label;
+import com.rongji.webframework.ui.html.Link;
 import com.rongji.webframework.ui.html.Table;
 
 public class DynamicFormModify {
@@ -37,9 +44,11 @@ public class DynamicFormModify {
 	 */
 	public static void generateModifyView(ActionEvent ae, TCsBus bus,
 			List columns, DynaUIForm dyform, String hidesome, Map columnAccess,
-			String fatherlsh) {
+			String fatherlsh, TCsForm formx) {
 		boolean continuenew = false;
 		boolean autoclose = false;
+
+		boolean onlyview = "yes".equals(ae.getAttribute("onlyview"));
 
 		String autocloseStr = ae.getParameter("autoclose");
 		String continuenewStr = ae.getParameter("continuenew");
@@ -70,21 +79,37 @@ public class DynamicFormModify {
 				.getStatusinfo());
 
 		Table table = new Table();
-
+		table.setAttribute("class", "table");
 		List listCheck = new ArrayList();
-
+		// 增加表单的头部的用户信息
 		Label label = new Label();
 		label.setValue("&nbsp;[" + bus.getParticipant() + ","
 				+ bus.getCreated() + "]");
 		dyform.addControl(label);
+
+		// 增加表单的头部描述信息
+		String ext = FormCache.getCache(formcode).getExtendattribute();
+		if (ext != null && !ext.equals("")) {
+			Label label2 = new Label();
+			label2.setValue(ext);
+			dyform.addControl(label2);
+		}
+
+		// 暂存表单信息
+		Map columnCache = new SequencedHashMap();
+
+		int maxcol = FormDymaticTable.maxCol(formcode);
 		for (Iterator itr = columns.iterator(); itr.hasNext();) {
 
 			TCsColumn busEach = (TCsColumn) itr.next();
 			String htmltypes = busEach.getHtmltype();
+			String viewtype = busEach.getViewtype();
 			String columnName = busEach.getColumname();
 			String columnId = busEach.getColumncode();
 			boolean musk = ColumnExtendInfo._BOOLEAN_TRUE.equals(busEach
 					.getMusk()) ? true : false;
+
+			int rowAndCol[] = FormDymaticTable.getRowCol(formcode, columnId);
 
 			if (!busEach.isUseable()) {
 				// DefaultElementAdder.addHideColumn(dyform,
@@ -98,7 +123,7 @@ public class DynamicFormModify {
 			// .equals(accessmode);
 			String accessmode = ColumnExtendInfo._ACCESS_TYPE_W;
 			boolean readonly = false;
-			if ("readonly".equals(busEach.getOpemode())) {
+			if ("1".equals(busEach.getOpemode())) {
 				readonly = true;
 			}
 
@@ -124,88 +149,102 @@ public class DynamicFormModify {
 					|| ColumnExtendInfo._HTML_TYPE_TIME.equals(htmltypes)
 					|| ColumnExtendInfo._HTML_TYPE_DATE.equals(htmltypes)) {
 				DynamicFormElementAdder.addDatetimeRow(table, columnName,
-						htmltypes, columnId, valueis, musk, readonly, false);
+						htmltypes, columnId, valueis, musk, readonly, false,
+						rowAndCol[0], rowAndCol[1], columnCache);
 			} else if (ColumnExtendInfo._HTML_TYPE_SELECT.equals(htmltypes)
 					|| ColumnExtendInfo._HTML_TYPE_SELECT_KV.equals(htmltypes)) {
 				DynamicFormElementAdder.addSelectRow(table, columnName,
 						htmltypes, columnId, valuelist, valueis, musk,
-						readonly, false, null, false);
+						readonly, false, null, false, rowAndCol[0],
+						rowAndCol[1], columnCache);
 			} else if (ColumnExtendInfo._HTML_TYPE_TEXTAREA.equals(htmltypes)) {
 				DynamicFormElementAdder.addTextAreaRow(table, columnName,
-						columnId, valueis, musk, readonly, false);
-			} else if (ColumnExtendInfo._HTML_TYPE_FILE.equals(htmltypes)) {
-				// 这块目前不是文件了,而是统一的资源包括:文件,图片,树,按扭等非字符形式的资源
-				DynamicFormElementAdder.addResource(rootpath, table, columnId,
-						formcode, columnName, readonly);
-			} else if (ColumnExtendInfo._HTML_TYPE_IMAGE.equals(htmltypes)) {
-				// 这些全部不用了,统一采用外部资源来管理
-			} else if (ColumnExtendInfo._HTML_TYPE_BUT.equals(htmltypes)) {
-				// 这些全部不用了,统一采用外部资源来管理
+						columnId, valueis, musk, readonly, false, rowAndCol[0],
+						rowAndCol[1], columnCache);
 			} else if (ColumnExtendInfo._HTML_TYPE_TREE.equals(htmltypes)) {
 
 				// 这块目前不是文件了,而是统一的资源包括:文件,图片,树,按扭等非字符形式的资源,它与ColumnExtendInfo._HTML_TYPE_FILE的区别在于它有目录
 				DynamicFormElementAdder.addResourceWithSingle(rootpath, table,
-						columnId, columnName, valueis, valuelist, readonly);
+						columnId, columnName, valueis, valuelist, readonly,
+						rowAndCol[0], rowAndCol[1], columnCache);
 			} else if (ColumnExtendInfo._HTML_TYPE_TREE2.equals(htmltypes)) {
 				// 这块目前不是文件了,而是统一的资源包括:文件,图片,树,按扭等非字符形式的资源,它与ColumnExtendInfo._HTML_TYPE_FILE的区别在于它有目录
 				DynamicFormElementAdder.addResourceWithMulti(rootpath, table,
-						columnId, columnName, valueis, valuelist, readonly);
-			}else if (ColumnExtendInfo._HTML_TYPE_HUMAN.equals(htmltypes)) {
+						columnId, columnName, valueis, valuelist, readonly,
+						rowAndCol[0], rowAndCol[1], columnCache);
+			} else if (ColumnExtendInfo._HTML_TYPE_HUMAN.equals(htmltypes)) {
 				// 这块目前不是文件了,而是统一的资源包括:文件,图片,树,按扭等非字符形式的资源,它与ColumnExtendInfo._HTML_TYPE_FILE的区别在于它有目录
-				DynamicFormElementAdder.addResourceWithSingleHuman(rootpath, table,
-						columnId, columnName, valueis, valuelist, readonly);
+				DynamicFormElementAdder.addResourceWithSingleHuman(rootpath,
+						table, columnId, columnName, valueis, valuelist,
+						readonly, rowAndCol[0], rowAndCol[1], columnCache);
 			} else if (ColumnExtendInfo._HTML_TYPE_HUMAN2.equals(htmltypes)) {
 				// 这块目前不是文件了,而是统一的资源包括:文件,图片,树,按扭等非字符形式的资源,它与ColumnExtendInfo._HTML_TYPE_FILE的区别在于它有目录
-				DynamicFormElementAdder.addResourceWithMultiHuman(rootpath, table,
-						columnId, columnName, valueis, valuelist, readonly);
+				DynamicFormElementAdder.addResourceWithMultiHuman(rootpath,
+						table, columnId, columnName, valueis, valuelist,
+						readonly, rowAndCol[0], rowAndCol[1], columnCache);
 			} else if (ColumnExtendInfo._HTML_TYPE_SCRIPT.equals(htmltypes)) {
 				DynamicFormElementAdder.addScript(table, columnId, columnName,
 						valuelist, false, htmltypes, busEach
-								.getExtendattribute());
+								.getExtendattribute(), rowAndCol[0],
+						rowAndCol[1], columnCache);
 			} else if (ColumnExtendInfo._HTML_TYPE_PORTAL_ITEM
 					.equals(htmltypes)) {
-				if (bus.getLsh() != null) {// 只有记录创建后才能加 Portal页
-					String cellidPre = DynamicFormElementAdder.addPortalPage(
-							bus, table, columnId, columnName, valuelist);
-					cellid.append("," + cellidPre);
-				}
+				DynamicFormElementAdder.addPortal(rootpath, table, columnId,
+						columnName, valueis, valuelist, readonly, rowAndCol[0],
+						rowAndCol[1], columnCache, onlyview);
+				// if (bus.getLsh() != null) {// 只有记录创建后才能加 Portal页
+				// String cellidPre = DynamicFormElementAdder.addPortalPage(
+				// bus, table, columnId, columnName, valuelist,
+				// rowAndCol[0], rowAndCol[1], columnCache);
+				// cellid.append("," + cellidPre);
+				// }
 
 			} else if (ColumnExtendInfo._HTML_TYPE_FCK_ITEM.equals(htmltypes)) {
-				if (bus.getLsh() != null) {// 只有记录创建后才能加 Portal页
-					// String cellidPre = DynamicFormElementAdder.addFck(
-					// bus, table, columnId, columnName, valuelist);
-					// cellid.append("," + cellidPre);
-					boolean onview = false;
-					DynamicFormElementAdder.addFckRow(ae, bus, table,
-							columnName, columnId, valuelist, onview);
-				}
+
+				DynamicFormElementAdder.addFck(rootpath, table, columnId,
+						columnName, valueis, valuelist, readonly, rowAndCol[0],
+						rowAndCol[1], columnCache, onlyview);
+
+				// if (bus.getLsh() != null) {// 只有记录创建后才能加 Portal页
+				// // String cellidPre = DynamicFormElementAdder.addFck(
+				// // bus, table, columnId, columnName, valuelist);
+				// // cellid.append("," + cellidPre);
+				// boolean onview = false;
+				// DynamicFormElementAdder.addFckRow(ae, bus, table,
+				// columnName, columnId, valuelist, onview,
+				// rowAndCol[0], rowAndCol[1], columnCache);
+				// }
 
 			} else {
 				DynamicFormElementAdder.addInputRow(table, columnName,
 						htmltypes, columnId, valueis, valuelist, musk,
-						readonly, false, lsh);
+						readonly, false, lsh, busEach.getExtendattribute(),
+						rowAndCol[0], rowAndCol[1], columnCache, busEach
+								.getChecktype(),viewtype,bus);
 			}
 		}
+
+		FormDymaticTable.makeTable(columnCache, table, maxcol);
 		dyform.addControl(table);
 		// 添加按钮
-		if (!"yes".equals(ae.getAttribute("onlyview"))) {
+		if (!onlyview) {
 			addButton(rootpath, dyform, formcode, bus, fatherlsh, continuenew,
-					autoclose);
+					autoclose, formx);
 		}
 
 		// 添加表单校验参考信息
-		DymaticFormCheck.addCheckInfo(listCheck, table);
-		if (cellid != null && cellid.length() > 0) {
-			ae.setAttribute("cellid", cellid.substring(1));
-		} else {
-			ae.setAttribute("cellid", "");
-		}
+		// DymaticFormCheck.addCheckInfo(listCheck, table);
+		// if (cellid != null && cellid.length() > 0) {
+		// ae.setAttribute("cellid", cellid.substring(1));
+		// } else {
+		// ae.setAttribute("cellid", "");
+		// }
 
 	}
 
 	private static void addButton(String rootpath, DynaUIForm dyform,
 			String formcode, TCsBus bus, String fatherlsh, boolean continuenew,
-			boolean autoclose) {
+			boolean autoclose, TCsForm formx) {
 		String extendattribute = bus.getExtendattribute();
 		if (extendattribute != null && !extendattribute.equals("")) {
 			// 说明该表单是集成在工作流中应用的
@@ -242,6 +281,32 @@ public class DynamicFormModify {
 			dyform.addControl(bottomAboutx);
 		}
 
-	}
+		if (formx != null) {
+			String subformlist = formx.getSubform();
+			String subform[] = null;
+			if (subformlist != null && !subformlist.equals("")) {
+				subform = subformlist.split(",");
 
+				for (int i = 0; i < subform.length; i++) {
+					try {
+						String subformcode = StringUtils.substringBetween(
+								subform[i], "[", "]");
+						String subformName = StringUtils.substringBefore(
+								subform[i], "[");
+						Link link = new Link();
+						link.setTitle("[子表单-" + subformName + "]");
+						String href = rootpath + "/data/data/list.do?lsh="
+								+ bus.getLsh() + "&formcode=" + subformcode;
+						link.setHref(href);
+						link.setAttribute("target", "_blank");
+						dyform.addControl(link);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+	}
 }

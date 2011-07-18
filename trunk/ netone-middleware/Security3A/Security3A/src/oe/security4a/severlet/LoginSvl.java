@@ -23,14 +23,18 @@ import oe.security3a.seucore.accountser.UserService;
 import oe.security3a.seucore.obj.Clerk;
 import oe.security3a.sso.LoginInfo;
 import oe.security3a.sso.onlineuser.OnlineUser;
+import oe.security3a.sso.util.CookiesOpe;
 import oe.security3a.sso.util.StringUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 /**
  * 单点登陆服务,用于登陆应用
- * @author chenjx <br> mail:15860836998@139.com
- *
+ * 
+ * @author chenjx <br>
+ *         mail:15860836998@139.com
+ * 
  */
 public class LoginSvl extends HttpServlet {
 
@@ -47,7 +51,6 @@ public class LoginSvl extends HttpServlet {
 
 	// Initialize global variables
 	public void init() throws ServletException {
-
 
 		try {
 			String imagecode = messages.getString("ignoreimagecode");
@@ -125,6 +128,10 @@ public class LoginSvl extends HttpServlet {
 					String usercode = user.getDescription();
 					// 补充功能- 针对登陆用户的改进,只能允许一个帐户登陆一次
 					// 30分钟后过期,180000表示30分钟
+					
+					//另外添加cookies信息
+					String cookies[]={user.getDescription(),user.getName(),password,reqhost};
+					CookiesOpe.addCookiesx(cookies, response);
 
 					CupmRmi cupmrmi = (CupmRmi) RmiEntry.iv("cupm");
 					String config = null;

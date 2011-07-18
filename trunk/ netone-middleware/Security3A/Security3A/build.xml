@@ -22,6 +22,8 @@
 				<exclude name="ClerkInfo.xls" />
 				<exclude name="CupmWeb.xml" />
 				<exclude name="log4j.properties" />
+				<exclude name="ds_config_log.xml" />
+				<exclude name="ds_config_user.xml" />
 			</fileset>
 		</jar>
 		<jar destfile="${dist.dir}/Security3AClient.jar">

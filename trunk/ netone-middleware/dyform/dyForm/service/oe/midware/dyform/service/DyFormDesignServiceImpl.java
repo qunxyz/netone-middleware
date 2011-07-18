@@ -5,6 +5,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import oe.cav.bean.logic.column.ColumnDao;
 import oe.cav.bean.logic.column.TCsColumn;
 import oe.cav.bean.logic.form.FormDao;
@@ -34,12 +36,16 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 	private ColumnDao columnDao;
 
 	public String addColumn(TCsColumn column) throws RemoteException {
+		String ext = column.getExtendattribute();
+		ext = StringUtils.replace(ext, "#", "%X@");
+		column.setExtendattribute(ext);
 		return columnDao.create(column);
 	}
 
-	public String[] create(TCsForm form,String belongname) throws RemoteException {
+	public String[] create(TCsForm form, String belongname)
+			throws RemoteException {
 
-		formDao.create(form,belongname);
+		formDao.create(form, belongname);
 		String tablename = form.getDescription();
 		String formcode = form.getFormcode();
 		return new String[] { tablename, formcode };
@@ -51,6 +57,9 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 	}
 
 	public String updateColumn(TCsColumn column) throws RemoteException {
+		String ext = column.getExtendattribute();
+		ext = StringUtils.replace(ext, "#", "%X@");
+		column.setExtendattribute(ext);
 		return columnDao.update(column);
 	}
 

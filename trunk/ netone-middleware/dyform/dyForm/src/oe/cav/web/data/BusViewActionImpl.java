@@ -21,6 +21,7 @@ import oe.cav.web.data.dyform.DynamicFormModify;
 import oe.cav.web.data.dyform.DynamicFormQuery;
 import oe.cav.web.data.dyform.utils.DealwithButton;
 import oe.cav.web.data.dyform.utils.ListView;
+import oe.frame.web.WebCache;
 import oe.midware.dyform.service.DyFormDesignService;
 import oe.midware.dyform.service.DyFormService;
 import oe.rmi.client.RmiEntry;
@@ -193,9 +194,11 @@ public class BusViewActionImpl extends BaseAction {
 		// bus = dysc.loadData(bus.getLsh(), formcode);
 		List columnList = columnPermission(ser, bus.getFormcode());
 		DynaUIForm dyform = (DynaUIForm) ae.getForm();
+		
+		
 
 		DynamicFormModify.generateModifyView(ae, bus, columnList, dyform, "",
-				null, fatherlsh);
+				null, fatherlsh,null);
 
 		TCsForm form = dysc.loadForm(formcode);
 		String styleinfo = form.getStyleinfo();
@@ -233,7 +236,7 @@ public class BusViewActionImpl extends BaseAction {
 		DynaUIForm dyform = (DynaUIForm) ae.getForm();
 
 		DynamicFormModify.generateModifyView(ae, busForm, columnList, dyform,
-				hidesome, null, fatherlsh);
+				hidesome, null, fatherlsh,form);
 
 		String styleinfo = form.getStyleinfo();
 
@@ -256,7 +259,7 @@ public class BusViewActionImpl extends BaseAction {
 			List columnList = columnPermission(ser, formcode);
 			DynaUIForm dyform = (DynaUIForm) ae.getForm();
 			DynamicFormModify.generateModifyView(ae, busForm, columnList,
-					dyform, hidesome, null, fatherlsh);
+					dyform, hidesome, null, fatherlsh,null);
 			return "dataview";
 		} catch (Exception e) {
 			return onCreateview(ae);

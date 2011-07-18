@@ -91,7 +91,7 @@ function docheck(){
 }
 
 function deptselect(){
-	window.open("../SelectSvl?pagename=deptlist&appname=DEPT",'组织选择','width=400,height=450,resizable=yes,left=250,top=100,status=yes,scrollbars=auto');
+	window.open("../SelectSvl?pagename=deptlist&appname=SYSROLE",'组织选择','width=400,height=450,resizable=yes,left=250,top=100,status=yes,scrollbars=auto');
 }
 
 function addSelectedOuteruse(name, id, ou, naturalname, parentdir, url, appid){

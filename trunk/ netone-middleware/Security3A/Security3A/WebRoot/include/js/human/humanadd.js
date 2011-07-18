@@ -73,6 +73,7 @@ function humanaddsave(){
 		}
 	}
 	setroles();
+	setteams();
 	form1.action="humanAdd.do?task=save";
 	form1.submit();
 }
@@ -81,8 +82,23 @@ function humanroleadd(appname){
 	window.open('MSelectSvl?pagename=rolelist&appname='+appname,'角色选择','width=700,height=350,resizable=yes,left=150,top=100,status=yes')
 }
 
+
 function humanroledrop(){
 	var s = document.all.humanrole;
+	var i = s.selectedIndex;
+	while(i != -1){
+		s.remove(i);
+		i = s.selectedIndex;
+	}
+}
+
+function humanteamadd(appname){
+	window.open('MSelectSvl?pagename=humanteam&appname='+appname,'群组选择','width=700,height=350,resizable=yes,left=150,top=100,status=yes')
+}
+
+
+function humanteamdrop(){
+	var s = document.all.humanteam;
 	var i = s.selectedIndex;
 	while(i != -1){
 		s.remove(i);
@@ -101,6 +117,31 @@ function addSelectedOuteruse(name, id, ou, naturalname, parentdir, url, appid){
 
 function addSelectedDuty(text,value){
 	document.all.company.value = text;
+}
+
+
+
+function addSelectedTeam2(options){
+
+	if(options!=null){
+		var b = true;
+		for(var i=0;i<options.length;i++){
+			var rolelength = document.all.humanteam.length;
+			for(var j=0;j<rolelength;j++){
+				if(options[i].value==document.all.humanteam.options[j].value){
+					b=false;
+					alert("不要添加相同的群组!");
+					break;
+				}
+			}
+		}
+		if(b){
+			for(var i=0;i<options.length;i++){
+				var op = new Option(options[i].text,options[i].value);
+				document.all.humanteam.add(op);
+			}
+		}
+	}
 }
 
 function addSelectedRole2(options){
@@ -141,4 +182,13 @@ function setgroups(){
 		value += group.options[i].value + "@" ;
 	}
 	document.all.groups.value = value ;
+}
+
+function setteams(){
+	var team = document.all.humanteam;
+	var value = "";
+	for(var i=0 ; i<team.length ; i++){
+		value += team.options[i].value + "@" ;
+	}
+	document.all.teams.value = value ;
 }

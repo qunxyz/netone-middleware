@@ -11,7 +11,7 @@
 
 	</head>
 
-	<body onload="document.getElementById('xxx').style.display='none'">
+	<body>
 		<h:form action="/design/system/form/createope.do">
 			<TABLE width="800" align="left" border="2" cellpadding="5"
 				cellspacing="0" bordercolorlight="white" bordercolordark="#FFFFFF">
@@ -129,14 +129,23 @@
 						<input type='button' value='选择样式' onClick='listStyle()'>
 					</td>
 				</tr>
-				<tr id='xxx'>
+								<tr>
+					<td class="tdheaddes" width="100">
+						&nbsp;扩展属性
+					</td>
+					<td class="btext">
+						<h:textarea property="extendattribute" cols="80" rows="5" />
+					</td>
+				</tr>
+				<tr>
 					<td class="tdheaddes" width="100">
 						&nbsp;表单描述
 					</td>
 					<td class="btext">
-						<h:textarea property="description" cols="80" rows="5" />
+						<h:textarea property="description" cols="80" rows="2" />
 					</td>
 				</tr>
+
 				<tr>
 					<script>
 				function checkDo(){

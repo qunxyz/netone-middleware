@@ -39,6 +39,7 @@ public class Certificate {
 			certArray = (X509Certificate[]) request
 					.getAttribute("javax.servlet.request.X509Certificate");
 			cert = certArray[0];
+		
 			String dn = cert.getSubjectDN().toString();
 			this.cn = dn.substring(dn.lastIndexOf('=') + 1, dn.length());
 			this.serialNumber = cert.getSerialNumber().toString();

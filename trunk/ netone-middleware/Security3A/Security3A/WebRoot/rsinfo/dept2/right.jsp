@@ -97,13 +97,13 @@
 							<input type="checkbox" name="checkall" onclick="docheck();">
 							选择
 						</td>
-						<td class="td_titt_bg">
+						<td class="td_titt_bg" nowrap>
 							角色名称
 						</td>
-						<td class="td_titt_bg">
+						<td class="td_titt_bg" nowrap>
 							中文名称
 						</td>
-						<td class="td_titt_bg">
+						<td class="td_titt_bg" nowrap>
 							角色分类
 						</td>
 						<td class="td_titt_bg">

@@ -25,6 +25,15 @@ function setCurResource(id) {
 function addselect(value) {
 	$(curResource).value = value;
 }
+//portal 的选择
+function selected(id,naturalname,name){
+	$(curResource).value = name+"["+naturalname+"]";
+}
+//fck 的选择
+function selecthis(id,naturalname,inclusion,parent,name){
+
+	$(curResource).value = name+"["+naturalname+"]";
+}
 
 //////////正则表达式///////////////////////////////
 var number = /^[-]?([0-9]+)\.?([0-9]*)$/;
@@ -150,7 +159,7 @@ function checkAndCommit(commitaction) {
 	}
 	this.document.forms[0].action = commitaction;
 	this.document.forms[0].method = "post";
-	this.document.forms[0].target = "_blank";
+	this.document.forms[0].target = "_self";
 	this.document.forms[0].submit();
 	
 	//window.opener.location.reload();

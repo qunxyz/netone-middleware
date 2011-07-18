@@ -7,9 +7,8 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-		//存放自定义的业务临时数据
+	//存放自定义的业务临时数据
 	String entryvar = (String) request.getAttribute("entryvar");
-	
 %>
 <html>
 	<head>
@@ -58,8 +57,11 @@
 			form1.submit();
 		}
 		
-		function cfg(id){
+		function cfg_p(id){
 			window.open("CreateSubSvl?&pagename=${pagename}&chkid="+id);
+		}
+		function cfg_dy(id){
+			window.open("CreateDySubSvl?&pagename=${pagename}&chkid="+id);
 		}
 		
 		function man(name){
@@ -67,10 +69,27 @@
 			window.open(url);
 		}
 		
+		function worklist(name){    
+			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/WorkListSvl?ope=y&limit=0&status=01&appname='+name;
+			window.open(url);
+		}
+		
+		function worklistR(name){    
+			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/WorkListSvl?ope=n&limit=0&status=01&appname='+name;
+			window.open(url);
+		}
+		function worklistdone(name){
+			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/WorkListSvl?ope=y&limit=0&status=02&appname='+name;
+			window.open(url);
+		}
+		function init(id){
+			var url='InitCfgSvl?id='+id;
+			window.open(url);
+		}		
 		</script>
 	</head>
-	<body style="font-size: 12px;margin: 22px">
-		<div style="width: 100%;height: 100%">
+	<body style="font-size: 12px; margin: 22px">
+		<div style="width: 100%; height: 100%">
 			<form action="" method="post" name="form1">
 				<input type="hidden" name="pagename" value="${pagename}" />
 				<input type="hidden" name="parentdir" value="${upo.parentdir}" />
@@ -130,8 +149,8 @@
 							<!-- ${pathreal} -->
 						</td>
 						<td colspan='1'>
-<a href='javascript:newInclusion();'><font color='blue'>新建目录</font></a>
-							&nbsp;&nbsp;
+							<a href='javascript:newInclusion();'><font color='blue'>新建目录</font>
+							</a> &nbsp;&nbsp;
 
 						</td>
 					</tr>
@@ -140,11 +159,7 @@
 							&nbsp;&nbsp;
 							<input type="button" value="新建应用" onclick="newElemnt();"
 								class="butt">
-							&nbsp;&nbsp;
-
-
-
-							&nbsp;&nbsp;
+							&nbsp;&nbsp; &nbsp;&nbsp;
 							<input type="button" name="btndelete" value="删 除"
 								onclick="del();" class="butt">
 							&nbsp;&nbsp;
@@ -167,9 +182,7 @@
 						<td class="td_titt_bg" width="70" nowrap>
 							名称
 						</td>
-						<td class="td_titt_bg" width="70" nowrap>
-							分类
-						</td>
+
 						<td class="td_titt_bg" width="70" nowrap>
 							日期
 						</td>
@@ -188,7 +201,9 @@
 
 							<td align='left' nowrap>
 								<c:if test="${list.inclusion == '1'}">
-									<a href="javascript:inclusionlink('${list.id}','${list.ou}');"><img BORDER='0' src='<%=basePath%>rsinclude/images/folder.png'></a>
+									<a href="javascript:inclusionlink('${list.id}','${list.ou}');"><img
+											BORDER='0' src='<%=basePath%>rsinclude/images/folder.png'>
+									</a>
 									<a href="javascript:view('${list.id}');">${list.name}</a>
 								</c:if>
 								<c:if test="${list.inclusion != '1'}">
@@ -198,9 +213,7 @@
 							<td nowrap>
 								${list.naturalname}
 							</td>
-							<td nowrap>
-								${list.objecttype}
-							</td>
+
 							<td nowrap>
 								${list.created}
 							</td>
@@ -215,12 +228,17 @@
 
 							<td nowrap>
 								<c:if test="${list.inclusion!='1'}">
-							    <a href="javascript:cfg('${list.id}');">[流程参与者]</a>
-							    <a href="javascript:man('${list.naturalname}');">[管理]</a>
-								<a href="javascript:edit('${list.id}');">修改</a>
-								<a href="javascript:del('${list.id}');">删除</a>
-								
-								<a href="javascript:checkthis('${list.id}');">选择</a>
+									 <a
+										href="javascript:edit('${list.id}');"><font color='red'>[框架配置]</font></a> <a
+										href="javascript:cfg_p('${list.id}');"><font color='red'>[参与者配置]</font></a> <a
+										href="javascript:cfg_dy('${list.id}');"><font color='red'>[流程表单配置]</font></a> 
+										
+									<a href="javascript:man('${list.naturalname}');"><font color='green'>过程:管理</font></a>
+									<a href="javascript:worklist('${list.naturalname}');"><font color='green'>待办应用</font></a>
+									<a href="javascript:worklistR('${list.naturalname}');"><font color='green'>待阅应用</font></a>
+									<a href="javascript:worklistdone('${list.naturalname}');"><font color='green'>已办应用</font></a>
+									<a href="javascript:init('${list.id}');">初始化</a>
+									<a href="javascript:del('${list.id}');">删除</a>
 								</c:if>
 							</td>
 						</tr>

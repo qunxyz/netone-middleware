@@ -54,8 +54,19 @@
 			if(typex=='team'){
 				selectpage('department','SYSTEMTEAM');
 			}
-			if(typex=='role'){
+			if(typex=='role'||typex=='flowrole'){
 				selectpage('role','SYSROLE');
+			}
+		}
+		
+		function choicex(){
+			document.getElementById('extendattribute').value=''
+			if(document.getElementById('objecttype').value=='creater'){
+				document.getElementById('extendattribute').style.display='none';
+				document.getElementById('choicepage').style.display='none';
+			}else{
+				document.getElementById('extendattribute').style.display='';
+				document.getElementById('choicepage').style.display='';			
 			}
 		}
 		</script>
@@ -83,7 +94,7 @@
 				name="form1">
 				<input type="hidden" name="pagename" value="${pagename}" />
 				<input type="hidden" name="id" value="${upo.id}" />
-				<table width="96%" border="0" align="center" cellpadding="0"
+				<table width="96%" border="0" align="center" cellpadding="10"
 					cellspacing="1" id="lie_table">
 					<tr>
 						<td width="15%">
@@ -119,7 +130,7 @@
 						</td>
 						<td>
 							<select name='objecttype' id='objecttype'
-								onchange="document.getElementById('extendattribute').value=''">
+								onchange="choicex()">
 								<option value='human'
 									<c:if test="${upo.objecttype=='human'}">selected</c:if>>
 									人员
@@ -136,15 +147,20 @@
 									<c:if test="${upo.objecttype=='role'}">selected</c:if>>
 									角色
 								</option>
+								<option value='flowrole'
+									<c:if test="${upo.objecttype=='flowrole'}">selected</c:if>>
+									流程角色
+								</option>
+								<option value='creater'
+									<c:if test="${upo.objecttype=='creater'}">selected</c:if>>
+									创建者
+								</option>
 							</select>
 
 							<input type='text' name='extendattribute' id="extendattribute"
 								value='${upo.extendattribute}' size='40'>
 							<input type='button' name='choicepage' value='选择参与者'
 								onClick='selectpagex()'>
-						
-
-
 
 							<input type="checkbox" name="needSerilaizer" value="0"
 								style="display: none" />
@@ -153,20 +169,39 @@
 						</td>
 					</tr>
 					<tr>
-					<td>并发控制</td>
-					<td>				
-					
-					<input type="radio" name="actionurl" value="1" <c:if test="${upo.actionurl==1||upo.actionurl==null}">checked</c:if>> 单人审批
-					<input type="radio" name="actionurl" value="2" <c:if test="${upo.actionurl==2}">checked</c:if>> 多人审批-不控制同步
-					<input type="radio" name="actionurl" value="3" <c:if test="${upo.actionurl==3}">checked</c:if>> 多人审批-控制同步
-					</td>
+						<td>
+							并发控制
+						</td>
+						<td>
+
+							<input type="radio" name="actionurl" value="1"
+								<c:if test="${upo.actionurl==1||upo.actionurl==null||upo.description==''}">checked</c:if>>
+							单人审批
+							<input type="radio" name="actionurl" value="2"
+								<c:if test="${upo.actionurl==2}">checked</c:if>>
+							多人审批-不控制同步
+							<input type="radio" name="actionurl" value="3"
+								<c:if test="${upo.actionurl==3}">checked</c:if>>
+							多人审批-控制同步
+						</td>
 					</tr>
 					<tr>
 						<td width="15%">
-							描述
+							协办
 						</td>
 						<td>
-							<textarea rows="4" cols="60" name="description">${upo.description}</textarea>
+							<input type="radio" name="description" value="1"
+								<c:if test="${upo.description==1||upo.description==null||upo.description==''}">checked</c:if>>
+							无协办
+							<input type="radio" name="description" value="2"
+								<c:if test="${upo.description==2}">checked</c:if>>
+							抄送
+							<input type="radio" name="description" value="3"
+								<c:if test="${upo.description==3}">checked</c:if>>
+							抄阅
+							<input type="radio" name="description" value="4"
+								<c:if test="${upo.description==4}">checked</c:if>>
+							抄送且抄阅
 						</td>
 					</tr>
 				</table>

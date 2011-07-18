@@ -14,7 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import oe.cms.web.common.Func;
+
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
 import oe.rmi.client.RmiEntry;
@@ -39,7 +39,7 @@ public class ExtProletAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		Func.print_r(request);
+		//Func.print_r(request);
 		String ajax = request.getParameter("ajax");
 		String node = request.getParameter("node");
 		String mode = request.getParameter("mode");

@@ -13,8 +13,8 @@ import oe.cav.bean.logic.tools.DyObj;
  * 表单设计服务
  * 
  * @author chen.jia.xun(Robanco)<br>
- *         mail:56414429@qq.com, chenjiaxun@oesee.com<br>
- *         tel:13328675083<br>
+ *         mail:56414429@qq.com, oesee@139.com<br>
+ *         tel:15860836998<br>
  */
 public interface DyFormDesignService extends Remote {
 	/**

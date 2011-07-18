@@ -5,7 +5,11 @@ function addselect(name) {
 
 function openTree() {
 	var viewtype = document.getElementById('viewtype').value;
-	if (viewtype == '22' || viewtype == '23') {
+	if (viewtype == '21') {
+	  window.open('/dyForm/ApplistRightSvl?pagename=fckapplist', '_blank');
+	}else if (viewtype == '20') {
+	   window.open('/dyForm/ApplistRightSvl?pagename=portalapplist', '_blank');
+	}else 	if (viewtype == '22' || viewtype == '23') {
 		window.open('/dyForm/ApplistRightSvl?pagename=orgapplist', '_blank')
 	} else {
 		window.open('/dyForm/ApplistRightSvl?pagename=dyapplist', '_blank')
@@ -54,7 +58,7 @@ function choiceFileCore(valuelist, viewtype) {
 
 	// 关于资源的处理 14是普通资源,17是带目录的资源
 	if (viewtype == '18' || viewtype == '17' || viewtype == '22'
-			|| viewtype == '23') {
+			|| viewtype == '23'|| viewtype == '21'|| viewtype == '20') {
 		// flashTree(valuelist);
 		document.getElementById('treemantr').style.display = '';
 		document.getElementById('bkvalue').style.display = 'none';
@@ -122,7 +126,12 @@ function choiceFileCore(valuelist, viewtype) {
 	if (viewtype == '22' || viewtype == '23') {
 		document.getElementById("dispvalue").value = "组织机构[DEPT]";
 	}
-
+	if (viewtype == '20') {
+		document.getElementById("dispvalue").value = "Portal[PORTALPG]";
+	}
+	if (viewtype == '21') {
+		document.getElementById("dispvalue").value = "多彩文档[FCK]";
+	}
 }
 
 function goback() {

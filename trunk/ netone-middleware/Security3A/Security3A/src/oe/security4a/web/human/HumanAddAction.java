@@ -137,8 +137,13 @@ public class HumanAddAction extends Action {
 					String loginname = request.getParameter("naturalname")
 							.trim();
 					clerk.setDescription(loginname);
-
+					
+					//添加群组
+					String teams = reqmap.getParameter("teams");
+					clerk.setProvince(teams);
 					if (rsrmi.addClerk(code, clerk)) {
+						
+						//添加角色
 						String roles = reqmap.getParameter("roles");
 						if (roles != null && !roles.equals("")) {
 							String[] role = roles.split("@");
@@ -154,6 +159,8 @@ public class HumanAddAction extends Action {
 						}
 						CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 						cupmRmi.initCacheUser(loginname);
+
+						
 
 						// 进行创建用户时,自动同步帐号
 						rsrmi.SyncUser(SyncUserUtil._PARAM_OPE_ADD, code,

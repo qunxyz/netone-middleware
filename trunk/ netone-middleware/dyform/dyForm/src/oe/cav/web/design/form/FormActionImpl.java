@@ -13,6 +13,7 @@ import java.util.List;
 import oe.cav.bean.logic.column.TCsColumn;
 import oe.cav.bean.logic.form.FormExtendInfo;
 import oe.cav.bean.logic.form.TCsForm;
+import oe.cav.bean.logic.tools.FormCache;
 import oe.cav.bean.logic.tools.FormColumnCache;
 import oe.cav.bean.logic.tools.FormColumnTitleCache;
 import oe.cav.web.design.form.template.CreateTemplate;
@@ -23,6 +24,7 @@ import oe.cav.web.design.form.template.ReadMeTemplate;
 import oe.cav.web.util.CommonIoTools;
 import oe.cav.web.util.SearchObj;
 import oe.cav.web.util.ZipUtil;
+import oe.frame.web.util.WebStr;
 import oe.frame.web.util.WebTip;
 import oe.midware.dyform.service.DyFormDesignService;
 import oe.midware.dyform.service.DyFormService;
@@ -220,6 +222,16 @@ public class FormActionImpl extends BaseAction {
 
 		String pagepath = ae.getRequest().getParameter("pagepath");
 		String[] dors = dys.create(busForm, pagepath);
+
+		// 增加扩展属性的展示 主要针对 html 头信息的追加
+		ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+		String rsname = pagepath + "." + dors[0];
+		UmsProtectedobject upo = rsrmi.loadResourceByNatural(rsname);
+		upo.setDescription(busForm.getExtendattribute());
+		upo.setReference(busForm.getDescription());
+		rsrmi.updateResource(upo);
+		// //////////////////////////////////////////
+
 		// ae.setAttribute("tip", WebTip.tip(dors));
 		if (dors == null || dors.length != 2) {
 			WebTip.htmlInfo("创建失败", false, ae.getResponse());
@@ -253,6 +265,19 @@ public class FormActionImpl extends BaseAction {
 
 			form.setSubform(busForm.getSubform());
 		}
+
+		// 增加扩展属性的展示 主要针对 html 头信息的追加
+		ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(formcode);
+		List listq = rsrmi.queryObjectProtectedObj(upo, null, 0, 1, "");
+		if (listq != null && listq.size() == 1) {
+			form.setExtendattribute(((UmsProtectedobject) listq.get(0))
+					.getDescription());
+			form.setDescription(((UmsProtectedobject) listq.get(0))
+					.getReference());
+		}
+		// ///////////////////////////////
 
 		// TCsForm system = new TCsForm();
 		// system.setSystemid(form.getSystemid());
@@ -288,6 +313,7 @@ public class FormActionImpl extends BaseAction {
 			// 清除缓存
 			FormColumnCache.removeCache(formcode);
 			FormColumnTitleCache.removeCache(formcode);
+			
 		}
 
 		if (!dors) {
@@ -318,6 +344,8 @@ public class FormActionImpl extends BaseAction {
 		}
 		Security ser = new Security(ae.getRequest());
 		busForm.setParticipant(ser.getUserLoginName());
+		// 原先设计中用description来存储动态表单的实际库表
+		busForm.setDescription(busFormOld.getDescription());
 		boolean dors = dys.updateForm(busForm);
 		ae.setAttribute("tip", WebTip.tip(dors));
 		if (dors) {
@@ -325,6 +353,19 @@ public class FormActionImpl extends BaseAction {
 			// 清除缓存
 			FormColumnCache.removeCache(formcode);
 			FormColumnTitleCache.removeCache(formcode);
+
+		}
+
+		// 增加扩展属性的展示 主要针对 html 头信息的追加
+		ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(busForm.getFormcode());
+		List listq = rsrmi.queryObjectProtectedObj(upo, null, 0, 1, "");
+		if (listq != null && listq.size() == 1) {
+			UmsProtectedobject upox = (UmsProtectedobject) listq.get(0);
+			upox.setDescription(busForm.getExtendattribute());
+			upox.setReference(busForm.getDescription());
+			rsrmi.updateResource(upox);
 		}
 
 		if (!dors) {

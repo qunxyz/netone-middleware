@@ -11,7 +11,7 @@
 	<head>
 		<base href="<%=basePath%>">
 
-		<title>部门选择</title>
+		<title>部门选择XX</title>
 
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -57,6 +57,7 @@
 							-->
 						<c:if test="${root != null}">
 							<script type="text/javascript">
+								
 			  					var functree = new WebFXLoadTree("${root.name}","XMLFuncTreeSvl?parentid=${root.id}","javascript:nodeAction('${root.id}','${root.ou}','${root.naturalname}','${root.parentdir}','${root.actionurl}')");
 			  					functree.write();
 			  					functree.expand();

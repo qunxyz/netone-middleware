@@ -94,35 +94,35 @@ public class RbacIndexAction extends Action {
 						+ reqmap.getParameter("sclass2") + "'";
 			}
 			if (StringUtils.isNotEmpty(reqmap.getParameter("sname"))) {
-				newmap.put("naturalname", "like");
-				ur.setNaturalname("%"
+				newmap.put("name", "like");
+				ur.setName("%"
 						+ reqmap.getParameter("sname").trim().toUpperCase()
 						+ "%");
 			}
 			// newmap.put("belongingness", "like");
 			// ur.setBelongingness("%");
-			List<UmsRole> listinfo = new ArrayList<UmsRole>();
-			List urlist = rsrmi.fetchRole(ur, newmap, condition);
-			if (urlist != null) {
-				for (Iterator iteror = urlist.iterator(); iteror.hasNext();) {
-					UmsRole tmpur = (UmsRole) iteror.next();
-					UmsProtectedobject up = null;
-					try {
-
-						up = rsrmi.loadResourceByNatural(tmpur
-								.getBelongingness());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					if(up!=null){
-						tmpur.setBelongingness(up.getName());
-					}
-					
-					if (!listinfo.contains(tmpur)) {
-						listinfo.add(tmpur);
-					}
-				}
-			}
+			//List<UmsRole> listinfo = new ArrayList<UmsRole>();
+			List listinfo = rsrmi.fetchRole(ur, newmap, condition);
+//			if (urlist != null) {
+//				for (Iterator iteror = urlist.iterator(); iteror.hasNext();) {
+//					UmsRole tmpur = (UmsRole) iteror.next();
+//					UmsProtectedobject up = null;
+//					try {
+//
+//						up = rsrmi.loadResourceByNatural(tmpur
+//								.getBelongingness());
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//					if(up!=null){
+//						tmpur.setBelongingness(up.getName());
+//					}
+//					
+//					if (!listinfo.contains(tmpur)) {
+//						listinfo.add(tmpur);
+//					}
+//				}
+//			}
 			if (PageInfo.isPageEvent(request)) {
 				pageinfo = new PageInfo(request, "rolesearch");
 			} else {

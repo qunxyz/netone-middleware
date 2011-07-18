@@ -40,7 +40,7 @@
 		//查询逻辑可以自定义扩展条件,SQL的子条件,日期属性 created 有效属性 active 1/0 扩展属性 extendattribute
 		function search(){
 			//默认的一个扩展条件,只能显示active!='0'的记录
-			document.getElementById('ext').value="and active!='0' and apptype='ORG'";
+			document.getElementById('ext').value="and active!='0' and naturalname='PORTALPG'";
 			form1.action="ApplistRightSvl";
 			form1.submit();
 		}
@@ -112,7 +112,7 @@
 						</td>
 					</tr>
 					<c:forEach items="${list}" var="list">
-						<c:if test="${list.apptype=='ORG'}">
+						<c:if test="${list.naturalname=='PORTALPG'}">
 							<tr>
 								<td nowrap>
 									<input type="checkbox" name="chkid" value="${list.id}">

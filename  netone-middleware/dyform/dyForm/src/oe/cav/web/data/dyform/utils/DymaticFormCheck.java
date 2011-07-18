@@ -16,9 +16,13 @@ public class DymaticFormCheck {
 
 	static Log log = LogFactory.getLog(DymaticFormCheck.class);
 
-	final static String CHECKRULE = "checkrule:";
+	public final static String _CHECK_CHECKRULE = "checkrule$:";
+	public final static String _CHECK_INITSCRIPT = "initscript$:";
+	public final static String _CHECK_FOCUSSCRIPT = "focusscript$:";
+	public final static String _CHECK_LOSEFOCUSSCRIPT = "blurscript$:";
+	public final static String _CHECK_OFFSET = "offset$:";
 
-	final static String CHECKUNPASSTIP = "checktip:";
+	public final static String _FINAL_CHECK = "$!";
 
 	final static String SPLITMARK = "#kqx#";
 
@@ -47,12 +51,17 @@ public class DymaticFormCheck {
 					.getMusk()) ? "1" : "0";
 			String checktypes = busEach.getChecktype();
 			String ext = busEach.getExtendattribute();
+
 			String rule = "";
 			String ruletip = "";
 			if (ext != null && !ext.equals("")) {
-				rule = StringUtils.substringBetween(ext, CHECKRULE, ";");
-				ruletip = StringUtils
-						.substringBetween(ext, CHECKUNPASSTIP, ";");
+				String ruletmp = StringUtils.substringBetween(ext,
+						_CHECK_CHECKRULE, "$!");
+				if (ruletmp != null && !ruletmp.equals("")) {
+					String rulearr[] = ruletmp.split(";");
+					rule = rulearr[0];
+					ruletip = rulearr[1];
+				}
 			}
 
 			if (!ColumnExtendInfo._HTML_TYPE_CHECKBOX.equals(htmltypes)
@@ -89,14 +98,15 @@ public class DymaticFormCheck {
 		valuexList = valuexList.substring(1, valuexList.length());
 		DynamicFormElementAdder.addSelectRow(table, "",
 				ColumnExtendInfo._HTML_TYPE_SELECT_KV, "checkinXC", valuexList,
-				"", false, false, false, SPLITMARK,true);
+				"", false, false, false, SPLITMARK, true, 0, 0, null);
 
 		String valuexList1 = selListtip;
 		valuexList1 = valuexList1 == null ? "," : valuexList1;
 		valuexList1 = valuexList1.substring(1, valuexList1.length());
 		DynamicFormElementAdder.addSelectRow(table, "",
 				ColumnExtendInfo._HTML_TYPE_SELECT_KV, "checkinXCNAME",
-				valuexList1, "", false, false, false, SPLITMARK,true);
+				valuexList1, "", false, false, false, SPLITMARK, true, 0, 0,
+				null);
 
 		// 添加列表：字段ID-检查类型
 		String valueIdlist = idlist;
@@ -104,14 +114,16 @@ public class DymaticFormCheck {
 		valueIdlist = valueIdlist.substring(1, valueIdlist.length());
 		DynamicFormElementAdder.addSelectRow(table, "",
 				ColumnExtendInfo._HTML_TYPE_SELECT_KV, "checkinSl",
-				valueIdlist, "", false, false, false, SPLITMARK,true);
+				valueIdlist, "", false, false, false, SPLITMARK, true, 0, 0,
+				null);
 		// 添加列表：字段ID-字段名
 		String valueNamelist = namelist;
 		valueNamelist = valueNamelist == null ? "," : valueNamelist;
 		valueNamelist = valueNamelist.substring(1, valueNamelist.length());
 		DynamicFormElementAdder.addSelectRow(table, "",
 				ColumnExtendInfo._HTML_TYPE_SELECT_KV, "checkinNl",
-				valueNamelist, "", false, false, false, SPLITMARK,true);
+				valueNamelist, "", false, false, false, SPLITMARK, true, 0, 0,
+				null);
 		// 添加列表：字段Id-必须
 		String valuemaskList = maskList;
 		valuemaskList = valuemaskList == null ? "," : valuemaskList;
@@ -119,6 +131,7 @@ public class DymaticFormCheck {
 		log.debug("marklist:" + valuemaskList);
 		DynamicFormElementAdder.addSelectRow(table, "",
 				ColumnExtendInfo._HTML_TYPE_SELECT_KV, "checkinMl",
-				valuemaskList, "", false, false, false, SPLITMARK,true);
+				valuemaskList, "", false, false, false, SPLITMARK, true, 0, 0,
+				null);
 	}
 }

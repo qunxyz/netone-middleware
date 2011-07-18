@@ -76,10 +76,10 @@
 	</style>
 	
 	</head>
-	<body BGCOLOR=#FFFFFF LEFTMARGIN=0 TOPMARGIN=0 MARGINWIDTH=0
+	<body  BGCOLOR=#FFFFFF LEFTMARGIN=0 TOPMARGIN=0 MARGINWIDTH=0
 		MARGINHEIGHT=0>
 		<table width="100%" height="100%" border="0" align="center"
-			cellpadding="0" cellspacing="0">
+			cellpadding="0" cellspacing="0" style="position:relative;top:-18px;z-index:0;">
 			<tr>
 				<td colspan='2'>
 					<iframe id="head"
@@ -107,7 +107,7 @@
 					</td>
 					<!-- ${fn:replace(param.initurl,'$@','&')} -->
 					<td height="100%" align='left'>
-						<div style="color:#99BBE8;margin-top:21px;border: 1px solid #99BBE8;line-height:30px;width:900px;"> 
+						<div style="color:#99BBE8;margin-top:21px;border: 1px solid #99BBE8;line-height:30px;width:820px;"> 
 							<div style="float: right;margin-right:20px;"><a href="javascript:opendialog();">[新建]</a> <a href="<portal:envget envkey='WEBSER_APPFRAME'/>/workList.do?method=onMainView" target="proletright">[所有代办]</a> <a href="<portal:envget envkey='WEBSER_APPFRAME'/>/workList.do?method=onMainView&mode=1" target="proletright">[所有已办]</a></div>
 							<div id="dialogx" style="height:220px;width:500px;display: none;">
 							<iframe name="mydialog" id="mydialog" 

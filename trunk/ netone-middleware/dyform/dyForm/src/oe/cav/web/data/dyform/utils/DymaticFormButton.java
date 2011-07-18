@@ -32,7 +32,7 @@ public class DymaticFormButton {
 
 	public static Table addBottonOpen(String buttonTitle, String commitAction) {
 		Button butCreate = new Button();
-		butCreate.setName("but1");
+		butCreate.setName("but3");
 		butCreate.setValue(buttonTitle);
 		butCreate.setOnClick("commitX('" + commitAction + "')");
 		Table table = new Table();

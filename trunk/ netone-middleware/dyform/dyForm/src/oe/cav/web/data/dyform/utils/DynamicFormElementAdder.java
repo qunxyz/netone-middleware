@@ -5,12 +5,16 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import oe.cav.bean.logic.bus.TCsBus;
 import oe.cav.bean.logic.column.ColumnExtendInfo;
+import oe.cav.bean.logic.tools.FormDymaticTable;
 import oe.cms.service.CmsService;
+import oe.env.client.EnvService;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
+import oe.security3a.seucore.obj.Clerk;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,20 +32,23 @@ import com.rongji.webframework.ui.html.Label;
 import com.rongji.webframework.ui.html.Link;
 import com.rongji.webframework.ui.html.Select;
 import com.rongji.webframework.ui.html.Table;
-import com.rongji.webframework.ui.html.TableColumn;
 import com.rongji.webframework.ui.html.TableRow;
 import com.rongji.webframework.ui.html.TextArea;
 
 public class DynamicFormElementAdder {
 
+	static final String number_c = "/^[-]?([0-9]+)\\.?([0-9]*)$/";
+	static final String mail_c = "/^[_a-z0-9]+@([_a-z0-9]+\\.)+[a-z0-9]{2,3}$/";
+	static final String ip_c = "/^([0-2]{1}[0-9]{2}\\.){3}[0-2]{1}[0-9]{2}$/";
+
 	public static void addTextAreaRow(Table table, String title,
 			String columnId, String valuelist, boolean musk, boolean readonly,
-			boolean ifQuery) {
+			boolean ifQuery, int row, int col, Map map) {
 		if (!ifQuery) {
 			TextArea textArea = new TextArea();
 			textArea.setName(columnId);
 
-			textArea.setAttribute("cols", "80%");
+			textArea.setAttribute("cols", "85%");
 			textArea.setAttribute("rows", "15");
 			textArea.setReadOnly(readonly);
 			if (readonly) {
@@ -50,44 +57,84 @@ public class DynamicFormElementAdder {
 			textArea.setValue(valuelist);
 			textArea.setRequire(musk);
 
-			addRow(title, table, textArea, columnId);
+			addRow(map, title, table, textArea, columnId, row, col);
 		}
 	}
 
-	public static void addViewInfoRow(Table table, String title,
-			String valuelist, boolean first) {
-		Label label = new Label();
+	// public static void addViewInfoRow(Table table, String title,
+	// String valuelist, boolean first) {
+	// Label label = new Label();
+	//
+	// if (first) {
+	// label.setValue("<font size='2'><strong>" + valuelist
+	// + "</strong></font>");
+	// } else {
+	// label.setValue("<font size='2'>" + title + ": " + valuelist
+	// + "</font>");
+	// }
+	// label.setAttribute("width", "80%");
+	// addViewInfoRow(table, label);
+	// }
 
-		if (first) {
-			label.setValue("<font size='2'><strong>" + valuelist
-					+ "</strong></font>");
-		} else {
-			label.setValue("<font size='2'>" + title + ": " + valuelist
-					+ "</font>");
-		}
-		label.setAttribute("width", "80%");
-		addViewInfoRow(table, label);
-	}
-
-	public static String addViewInfoLink(String valuelist, String time,
-			String partiticpant, String onclick, String reNum) {
-		time = time.substring(0, 16);
-
-		String link = "<font style='display:none'>$_</font><a href='" + onclick
-				+ "' target='_blank'" + valuelist
-				+ "</a><font style='display:none'>_$</font>";
-
-		return "<tr><td nowrap>" + link + "</td><td>" + reNum
-				+ "</td><td nowrap>" + partiticpant + "</td><td nowrap>" + time
-				+ "</td></tr>";
-	}
+	// public static String addViewInfoLink(String valuelist, String time,
+	// String partiticpant, String onclick, String reNum) {
+	// time = time.substring(0, 16);
+	//
+	// String link = "<font style='display:none'>$_</font><a href='" + onclick
+	// + "' target='_blank'" + valuelist
+	// + "</a><font style='display:none'>_$</font>";
+	//
+	// return "<tr><td nowrap>" + link + "</td><td>" + reNum
+	// + "</td><td nowrap>" + partiticpant + "</td><td nowrap>" + time
+	// + "</td></tr>";
+	// }
 
 	public static void addInputRow(Table table, String title, String htmltypes,
 			String columnId, String valueis, String valuelist, boolean musk,
-			boolean readonly, boolean ifQuery, String lsh) {
+			boolean readonly, boolean ifQuery, String lsh, String ext, int row,
+			int col, Map map, String checktype, String viewtype, TCsBus bus) {
 		Input input = new Input();
 		input.setType(htmltypes);
 		input.setName(columnId);
+
+		String onchangescript = "";
+		if (ext != null && !ext.equals("")) {
+			String onclickscript = StringUtils.substringBetween(ext,
+					DymaticFormCheck._CHECK_FOCUSSCRIPT,
+					DymaticFormCheck._FINAL_CHECK);
+			if (onclickscript != null && !onclickscript.equals("")) {
+				input.setAttribute("onfocus", onclickscript);
+			}
+
+			onchangescript = StringUtils.substringBetween(ext,
+					DymaticFormCheck._CHECK_LOSEFOCUSSCRIPT,
+					DymaticFormCheck._FINAL_CHECK);
+		}
+		if (musk) {
+			onchangescript = "if(document.getElementById('" + columnId
+					+ "').value==''){alert('字段不允许为空');}" + onchangescript;
+		}
+
+		String check_req = "";
+		if ("mail".equals(checktype)) {
+			check_req = mail_c;
+		}
+		if ("ip".equals(checktype)) {
+			check_req = ip_c;
+		}
+		if ("number".equals(checktype)) {
+			check_req = number_c;
+		}
+		if (!check_req.equals("")) {
+			onchangescript = "if(document.getElementById('" + columnId
+					+ "').value!=''){ if(!document.getElementById('" + columnId
+					+ "').value.match(" + check_req + ")){alert('无效格式');}}"
+					+ onchangescript;
+		}
+
+		if (onchangescript != null && !onchangescript.equals("")) {
+			input.setAttribute("onblur", onchangescript);
+		}
 
 		if (ColumnExtendInfo._HTML_TYPE_CHECKBOX.equals(htmltypes)) {
 
@@ -110,11 +157,58 @@ public class DynamicFormElementAdder {
 			}
 
 		}
-		addRow(title, table, input, columnId);
+		if ("24".equals(viewtype)) {
+			ResourceRmi rs;
+			Clerk clerk = null;
+			try {
+				rs = (ResourceRmi) RmiEntry.iv("resource");
+				clerk=rs.loadClerk("0000", bus.getParticipant());
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			input
+					.setValue(clerk.getName() + "[" + clerk.getDescription()
+							+ "]");
+		}
+		if ("25".equals(viewtype)) {
+			ResourceRmi rs;
+			Clerk clerk = null;
+			UmsProtectedobject upodept=null;
+			try {
+				rs = (ResourceRmi) RmiEntry.iv("resource");
+				clerk=rs.loadClerk("0000", bus.getParticipant());
+				String departmenid=clerk.getDeptment();
+				upodept=rs.loadResourceById(departmenid);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			input
+					.setValue(upodept.getName()+ "[" + upodept.getNaturalname()
+							+ "]");
+		}
+
+		addRow(map, title, table, input, columnId, row, col);
 	}
 
 	public static void addFckRow(ActionEvent ae, TCsBus bus, Table table,
-			String title, String columnId, String valuelist, boolean onview) {
+			String title, String columnId, String valuelist, boolean onview,
+			int row, int col, Map map) {
 
 		if (bus == null) {
 			return;
@@ -150,9 +244,13 @@ public class DynamicFormElementAdder {
 									.setHref("/fck/PagelistModifySvl?task=edit&pagename=fcklist&chkid="
 											+ preinfo[0] + "\" target=\"_blank");
 							if (onview) {
-								addViewInfoRow(table, input);
+								// addViewInfoRow(table, input);
+								addRow(map, title, table, input, columnId, row,
+										col);
 							} else {
-								addRow2Space(title, table, input, columnId);
+								// addRow2Space(title, table, input, columnId);
+								addRow(map, title, table, input, columnId, row,
+										col);
 							}
 
 						} else {
@@ -167,9 +265,13 @@ public class DynamicFormElementAdder {
 											+ url
 											+ "' frameborder='0' width='900' height='400'></iframe><br id=\"");
 							if (onview) {
-								addViewInfoRow(table, div);
+								// addViewInfoRow(table, div);
+								addRow(map, title, table, div, columnId, row,
+										col);
 							} else {
-								addRow2Space(title, table, div, columnId);
+								// addRow2Space(title, table, div, columnId);
+								addRow(map, title, table, div, columnId, row,
+										col);
 							}
 						}
 
@@ -182,7 +284,7 @@ public class DynamicFormElementAdder {
 								.setHref("/fck/PagelistModifySvl?task=edit&pagename=fcklist&chkid="
 										+ preinfo[0] + "\" target=\"_blank");
 
-						addRow(title, table, input, columnId);
+						addRow(map, title, table, input, columnId, row, col);
 
 					}
 
@@ -196,7 +298,7 @@ public class DynamicFormElementAdder {
 
 	public static void addInputQueryRow(Table table, String title,
 			String htmltypes, String columnId, String valuelist,
-			String checkTypes) {
+			String checkTypes, int row, int col, Map map) {
 		Input input = new Input();
 		input.setType(htmltypes);
 		input.setName(columnId);
@@ -209,11 +311,12 @@ public class DynamicFormElementAdder {
 
 		}
 
-		addRow(title, table, input, columnId);
+		addRow(map, title, table, input, columnId, row, col);
 	}
 
 	public static String addPortalPage(TCsBus bus, Table table,
-			String columnId, String title, String valuelist) {
+			String columnId, String title, String valuelist, int row, int col,
+			Map map) {
 		if (bus == null) {
 			return null;
 		}
@@ -243,7 +346,7 @@ public class DynamicFormElementAdder {
 					Div div = new Div();
 					div.setId(preinfo[0]);
 
-					addRow(title, table, div, columnId);
+					addRow(map, title, table, div, columnId, row, col);
 				}
 
 			}
@@ -255,7 +358,7 @@ public class DynamicFormElementAdder {
 	}
 
 	public static String addFck(TCsBus bus, Table table, String columnId,
-			String title, String valuelist) {
+			String title, String valuelist, int row, int col, Map map) {
 		if (bus == null) {
 			return null;
 		}
@@ -280,7 +383,7 @@ public class DynamicFormElementAdder {
 					Div div = new Div();
 					div.setId(preinfo[0]);
 
-					addRow(title, table, div, columnId);
+					addRow(map, title, table, div, columnId, row, col);
 				}
 
 			}
@@ -293,7 +396,7 @@ public class DynamicFormElementAdder {
 
 	public static void addScript(Table table, String columnId, String title,
 			String valuelist, boolean ifQuery, String htmltypes,
-			String extendattribute) {
+			String extendattribute, int row, int col, Map map) {
 
 		if (!ifQuery) {
 
@@ -363,11 +466,12 @@ public class DynamicFormElementAdder {
 			inputResult.setName(columnId);
 			expressionView.addUI(inputResult);
 
-			addRow(title, table, expressionView, columnId);
+			addRow(map, title, table, expressionView, columnId, row, col);
 
 		} else {
-			addInputRow(table, title, htmltypes, columnId, valuelist,
-					valuelist, false, false, ifQuery, null);
+			// addInputRow(table, title, htmltypes, columnId, valuelist,
+			// valuelist, false, false, ifQuery, null,"");
+			addRow(map, title, table, null, columnId, row, col);
 		}
 	}
 
@@ -375,7 +479,8 @@ public class DynamicFormElementAdder {
 	 * @param table
 	 * @param cellid
 	 */
-	public static void addScriptView(Table table, String cellid) {
+	public static void addScriptView(Table table, String cellid, int rowc,
+			int col, Map map) {
 
 		String columnId = "columnx";
 		String script = scriptExpress(cellid);
@@ -433,11 +538,11 @@ public class DynamicFormElementAdder {
 				+ cellid + "')");
 		expressionView.addUI(but1);
 
-		addRow(" ", table, expressionView, columnId);
+		addRow(map, " ", table, expressionView, columnId, rowc, col);
 
 		Div div = new Div();
 		div.setId("DISP");
-		addRow(" ", table, div, columnId);
+		addRow(map, " ", table, div, columnId, rowc, col);
 
 	}
 
@@ -483,7 +588,7 @@ public class DynamicFormElementAdder {
 
 	public static void addDatetimeRow(Table table, String title,
 			String htmltypes, String columnId, String valuelist, boolean musk,
-			boolean readonly, boolean ifQuery) {
+			boolean readonly, boolean ifQuery, int row, int col, Map map) {
 
 		DateTime datetime = new DateTime();
 		datetime.setType(htmltypes);
@@ -505,11 +610,12 @@ public class DynamicFormElementAdder {
 
 		}
 
-		addRow(title, table, datetime, columnId);
+		addRow(map, title, table, datetime, columnId, row, col);
 	}
 
 	public static void addResource(String rootpath, Table table,
-			String columnId, String treeid, String title, boolean readonly) {
+			String columnId, String treeid, String title, boolean readonly,
+			int row, int col, Map map) {
 
 		Div div = new Div();
 		// 创建附件管理按钮
@@ -535,7 +641,7 @@ public class DynamicFormElementAdder {
 				+ urlReal);
 		div.addUI(butBack);
 
-		addRow(title, table, div, columnId);
+		addRow(map, title, table, div, columnId, row, col);
 	}
 
 	/**
@@ -550,12 +656,103 @@ public class DynamicFormElementAdder {
 	 */
 	public static void addResourceWithSingle(String rootpath, Table table,
 			String columnId, String title, String value, String valuelist,
-			boolean radonly) {
-		
+			boolean radonly, int row, int col, Map map) {
+
 		String url = "/SSelectSvl?pagename=datalist&appname=";
 		String name = "选择";
 		addResourceCore(rootpath, table, columnId, title, value, valuelist,
-				url, name, radonly);
+				url, name, radonly, row, col, map);
+
+	}
+
+	/**
+	 * 在树上单选择
+	 * 
+	 * @param rootpath
+	 * @param table
+	 * @param columnId
+	 * @param title
+	 * @param value
+	 * @param valuelist
+	 */
+	public static void addPortal(String rootpath, Table table, String columnId,
+			String title, String value, String valuelist, boolean radonly,
+			int row, int col, Map map, boolean onlyview) {
+
+		EnvService env = null;
+		try {
+			env = (EnvService) RmiEntry.iv("envinfo");
+			if (onlyview) {
+
+				if (value == null) {
+					addRow(map, title, table, new Link(), columnId, row, col);
+					return;
+				}
+				ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+				String name = StringUtils.substringBetween(value, "[", "]");
+				UmsProtectedobject upo = rs.loadResourceByNatural(name);
+
+				Link link = new Link();
+				link.setAttribute("target", "_blank");
+				link.setHref(env.fetchEnvValue("WEBSER_CMSWEB")
+						+ "/extportal.do?id=" + upo.getExtendattribute()
+						+ "&portalmode=5");
+				link.setTitle("[访问]");
+				addRow(map, title, table, link, columnId, row, col);
+			} else {
+				String url = env.fetchEnvValue("WEBSER_CMSWEB")
+						+ "/PagelistpathRightSvl?pagename=pagegroup&appname=";
+				String name = "选择";
+				addResourceCore("", table, columnId, title, value, valuelist,
+						url, name, radonly, row, col, map);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			addRow(map, title, table, new Link(), columnId, row, col);
+		}
+
+	}
+
+	public static void addFck(String rootpath, Table table, String columnId,
+			String title, String value, String valuelist, boolean radonly,
+			int row, int col, Map map, boolean onlyview) {
+
+		EnvService env = null;
+		try {
+			env = (EnvService) RmiEntry.iv("envinfo");
+			if (onlyview) {
+
+				if (value == null) {
+					addRow(map, title, table, new Link(), columnId, row, col);
+					return;
+				}
+				ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+				String name = StringUtils.substringBetween(value, "[", "]");
+				UmsProtectedobject upo = rs.loadResourceByNatural(name);
+
+				Link link = new Link();
+
+				link.setHref(env.fetchEnvValue("WEBSER_FCK")
+						+ "/PagelistViewSvl?chkid=" + upo.getId()
+						+ "&pagename=simplefcklist");
+				link.setTitle("[访问]");
+				link.setAttribute("target", "_blank");
+				addRow(map, title, table, link, columnId, row, col);
+			} else {
+				String url = env.fetchEnvValue("WEBSER_FCK")
+						+ "/PagelistpathRightSvl?pagename=fcklist&appname=";
+				String name = "选择";
+				addResourceCore("", table, columnId, title, value, valuelist,
+						url, name, radonly, row, col, map);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			addRow(map, title, table, new Link(), columnId, row, col);
+		}
 
 	}
 
@@ -571,14 +768,14 @@ public class DynamicFormElementAdder {
 	 */
 	public static void addResourceWithMulti(String rootpath, Table table,
 			String columnId, String title, String value, String valuelist,
-			boolean readonly) {
+			boolean readonly, int row, int col, Map map) {
 		String url = "/MSelectSvl?pagename=datalist&appname=";
 		String name = "选择*";
 		addResourceCore(rootpath, table, columnId, title, value, valuelist,
-				url, name, readonly);
+				url, name, readonly, row, col, map);
 
 	}
-	
+
 	/**
 	 * 在树上单选择
 	 * 
@@ -591,12 +788,12 @@ public class DynamicFormElementAdder {
 	 */
 	public static void addResourceWithSingleHuman(String rootpath, Table table,
 			String columnId, String title, String value, String valuelist,
-			boolean radonly) {
-		
+			boolean radonly, int row, int col, Map map) {
+
 		String url = "/SSelectSvl?pagename=datalisthuman&appname=";
 		String name = "选择人员";
 		addResourceCore(rootpath, table, columnId, title, value, valuelist,
-				url, name, radonly);
+				url, name, radonly, row, col, map);
 
 	}
 
@@ -612,17 +809,17 @@ public class DynamicFormElementAdder {
 	 */
 	public static void addResourceWithMultiHuman(String rootpath, Table table,
 			String columnId, String title, String value, String valuelist,
-			boolean readonly) {
+			boolean readonly, int row, int col, Map map) {
 		String url = "/MSelectSvl?pagename=datalisthuman&appname=";
 		String name = "选择人员*";
 		addResourceCore(rootpath, table, columnId, title, value, valuelist,
-				url, name, readonly);
+				url, name, readonly, row, col, map);
 
 	}
 
 	public static void addResourceCore(String rootpath, Table table,
 			String columnId, String title, String value, String valuelist,
-			String url, String name, boolean readonly) {
+			String url, String name, boolean readonly, int row, int col, Map map) {
 
 		try {
 			if (value == null || value.equals("")) {// 维度为其写入默认值，默认值是数据源中的根元素
@@ -694,11 +891,12 @@ public class DynamicFormElementAdder {
 				+ urlReal);
 		div.addUI(butBack);
 
-		addRow(title, table, div, columnId);
+		addRow(map, title, table, div, columnId, row, col);
 	}
 
 	public static void addResourceView(String rootpath, Table table,
-			String columnId, String treeid, String title) {
+			String columnId, String treeid, String title, int row, int col,
+			Map map) {
 
 		String value = StringUtils.substringBetween(treeid, "[", "]");
 		String name = StringUtils.substringBefore(treeid, "[");
@@ -706,25 +904,25 @@ public class DynamicFormElementAdder {
 		link.setHref(rootpath + "/DownloadSvl?fileid=" + value);
 		link.setTitle("[" + name + "]");
 
-		addRow(title, table, link, columnId);
+		addRow(map, title, table, link, columnId, row, col);
 	}
 
 	public static void addSelectRow(Table table, String title,
 			String htmltypes, String columnId, String valuelist,
 			String valueis, boolean musk, boolean readonly, boolean ifQuery,
-			String spiltmark, boolean hidden) {
+			String spiltmark, boolean hidden, int row, int col, Map map) {
 
 		if (spiltmark == null || spiltmark.equals("")) {
 			spiltmark = "-";
 		}
 
 		Select select = new Select();
-		select.setName(columnId+ "\" title=");
+		select.setName(columnId + "\" title=");
 		if (hidden) {
 			select.setId(columnId + "\" style='display:none' title=");
 
 		} else {
-			select.setId(columnId );
+			select.setId(columnId);
 		}
 
 		String[] selectValuelist = null;
@@ -774,70 +972,72 @@ public class DynamicFormElementAdder {
 			select.setValue(valueis);
 		}
 
-		addRow(title, table, select, columnId);
+		addRow(map, title, table, select, columnId, row, col);
 	}
 
-	public static void addRow(String title, Table table, HtmlUI ui,
-			String columnid) {
+	public static void addRow(Map map, String title, Table table, HtmlUI ui,
+			String columnid, int inrow, int incol) {
 
-		TableRow row = table.insertRow();// 创建新的一行
-		row.setId(columnid + "tr");
-		TableColumn colTitle = row.insertCol();// 创建新的一列
+		FormDymaticTable.addToTable(map, title, ui, columnid, inrow, incol);
 
-		Label label = new Label();
-		label.setValue(title);
-		colTitle.setUI(label);
-
-		TableColumn colValue = row.insertCol();// 创建新的一列
-		colValue.setUI(ui);
-	}
-
-	public static void addRow2Space(String title, Table table, HtmlUI ui,
-			String columnid) {
-
-		TableRow row = table.insertRow();// 创建新的一行
-		row.setId(columnid + "tr");
-		TableColumn colTitle = row.insertCol();// 创建新的一列
-		colTitle.setColspan("2");
-
-		colTitle.setUI(ui);
-		colTitle.setTitle(title);
-	}
-
-	public static void addRow(String title, Table table, HtmlUI[] ui) {
-
-		TableRow row = table.insertRow();// 创建新的一行
-
-		TableColumn colTitle = row.insertCol();// 创建新的一列
-
-		Label label = new Label();
-		label.setValue(title);
-		colTitle.setUI(label);
-
-		// ---modify by Robanco 处理一个表格只能设置一个Html元素的BUG,用DIV来处理---
-		TableColumn colValue = row.insertCol();// 创建新的一列
-		Div div = new Div();
-		for (int i = 0; i < ui.length; i++) {
-			div.addUI(ui[i]);
-		}
-		colValue.setUI(div);
-		// ----------------------------------
-
-		// for (int i = 0; i < ui.length; i++) {
+		// TableRow row = table.insertRow();// 创建新的一行
+		// row.setId(columnid + "tr");
+		// TableColumn colTitle = row.insertCol();// 创建新的一列
+		//
+		// Label label = new Label();
+		// label.setValue(title);
+		// colTitle.setUI(label);
 		//
 		// TableColumn colValue = row.insertCol();// 创建新的一列
-		// colValue.setUI(ui[i]);
-		// }
-
+		// colValue.setUI(ui);
 	}
 
-	public static void addViewInfoRow(Table table, HtmlUI ui) {
-
-		TableRow row1 = table.insertRow();// 创建新的一行
-		TableColumn colValue = row1.insertCol();// 创建新的一列
-
-		colValue.setUI(ui);
-
-	}
+	// public static void addRow2Space(String title, Table table, HtmlUI ui,
+	// String columnid) {
+	//
+	// TableRow row = table.insertRow();// 创建新的一行
+	// row.setId(columnid + "tr");
+	// TableColumn colTitle = row.insertCol();// 创建新的一列
+	// colTitle.setColspan("2");
+	//
+	// colTitle.setUI(ui);
+	// colTitle.setTitle(title);
+	// }
+	//
+	// public static void addRow(String title, Table table, HtmlUI[] ui) {
+	//
+	// TableRow row = table.insertRow();// 创建新的一行
+	//
+	// TableColumn colTitle = row.insertCol();// 创建新的一列
+	//
+	// Label label = new Label();
+	// label.setValue(title);
+	// colTitle.setUI(label);
+	//
+	// // ---modify by Robanco 处理一个表格只能设置一个Html元素的BUG,用DIV来处理---
+	// TableColumn colValue = row.insertCol();// 创建新的一列
+	// Div div = new Div();
+	// for (int i = 0; i < ui.length; i++) {
+	// div.addUI(ui[i]);
+	// }
+	// colValue.setUI(div);
+	// // ----------------------------------
+	//
+	// // for (int i = 0; i < ui.length; i++) {
+	// //
+	// // TableColumn colValue = row.insertCol();// 创建新的一列
+	// // colValue.setUI(ui[i]);
+	// // }
+	//
+	// }
+	//
+	// public static void addViewInfoRow(Table table, HtmlUI ui) {
+	//
+	// TableRow row1 = table.insertRow();// 创建新的一行
+	// TableColumn colValue = row1.insertCol();// 创建新的一列
+	//
+	// colValue.setUI(ui);
+	//
+	// }
 
 }

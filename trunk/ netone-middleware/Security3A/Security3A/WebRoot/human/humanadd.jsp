@@ -47,16 +47,17 @@
 						<table width="96%" height="100%" border="0" cellpadding="0"
 							cellspacing="6">
 							<tr>
-								<td align="center" valign="top">
+								<td align="center" valign="top" colspan='2'>
 									<div id="div_tab1" style="width: 100%">
 										<jsp:include flush="true" page="humaninfo.jsp"></jsp:include>
 									</div>
-									<br>
-									<div id="div_tab2" style="width: 100%">
-										<jsp:include flush="true" page="humanrole.jsp"></jsp:include>
-									</div>
-									<br>
-									<table id="tablebutton">
+								</td>
+							</tr>
+							<tr>
+							<td><jsp:include flush="true" page="humanrole.jsp"></jsp:include></td><td><jsp:include flush="true" page="humanTeam.jsp"></jsp:include></td>
+							</tr>
+							<tr><td  colspan='2'>
+																<table id="tablebutton">
 										<tr>
 											<td>
 												<c:if test="${flag == 'add'}">
@@ -76,7 +77,7 @@
 											</td>
 										</tr>
 									</table>
-								</td>
+							</td>
 							</tr>
 						</table>
 					</td>

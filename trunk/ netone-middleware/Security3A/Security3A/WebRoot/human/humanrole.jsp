@@ -7,7 +7,7 @@
 	</tr>
 	<tr>
 		<td width="50%">
-			<select name="humanrole" class="table_select_page" size="6"
+			<select name="humanrole" class="table_select_page" size="5"
 				multiple="multiple">
 			</select>
 		</td>

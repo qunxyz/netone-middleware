@@ -342,8 +342,9 @@ public class ColumnDaoImpl implements ColumnDao {
 		} else if (ColumnExtendInfo._TYPE_HUMAN_ITEM2.equals(type)) {
 			return new String[] { ColumnExtendInfo._CHECK_TYPE_NO,
 					ColumnExtendInfo._HTML_TYPE_HUMAN2 };
-		}
-		return null;
+		} else
+			return new String[] { ColumnExtendInfo._CHECK_TYPE_NO,
+					ColumnExtendInfo._HTML_TYPE_TEXT };
 
 	}
 

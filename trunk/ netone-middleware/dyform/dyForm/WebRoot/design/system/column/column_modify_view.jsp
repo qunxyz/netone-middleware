@@ -139,7 +139,7 @@
 					</td>
 					<td class="btext">
 						<h:textarea property="extendattribute" require="false" cols="60"
-							rows="5" />
+							rows="15" />
 						<h:textarea property="tip" require="false" cols="30" rows="5" />
 						
 					</td>

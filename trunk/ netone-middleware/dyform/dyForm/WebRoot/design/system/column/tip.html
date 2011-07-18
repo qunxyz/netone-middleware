@@ -1,19 +1,59 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <title>tip.html</title>
-	
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="this is my page">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    
-    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	<head>
+		<title>tip.html</title>
 
-  </head>
-  
-  <body>
-    扩展属性中可以追加定义正则表达式来进一步控制输入<br><br>
-    格式: checkrule:[expression];checktip:[tipinfo]<br><br>
-    参考:<br> 数字  checkrule:(-\+)?([0-9]+)\.?([0-9]*);checktip:需要数字;
-  </body>
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+		<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+	</head>
+
+	<body>
+		扩展属性
+		<table border='1'>
+			<tr>
+				<td>
+					校验格式: checkrule$:expression$!
+				</td>
+				<td>
+					参考:数字 checkrule$:(-\+)?([0-9]+)\.?([0-9]*);需要数字;$!
+				</td>
+			</tr>
+			<tr>
+				<td>
+					初始化处理脚本:initscript$:expression$!
+				</td>
+				<td>
+					参考: initscript$:alert('init');$!
+				</td>
+			</tr>
+			<tr>
+				<td>
+					获得焦点时处理脚本:focusscript$:expression$!
+				</td>
+				<td>
+					参考: focusscript$:alert('focus');$!
+				</td>
+			</tr>
+			<tr>
+				<td>
+					失去焦点时处理脚本:losefocusscript$:expression$!
+				</td>
+				<td>
+					参考:blurscript$:alert('losefocus');$!
+				</td>
+			</tr>
+			<tr>
+				<td>
+					布局坐标脚本:offset$:expression$!
+				</td>
+				<td>
+					参考: offset$:1-2$!
+				</td>
+			</tr>
+
+	</body>
 </html>

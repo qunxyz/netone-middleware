@@ -53,7 +53,9 @@ public class ColumnExtendInfo {
 			{ "04", "日期时间YYYY-MM-DD hh:mm:ss" }, { "05", "真假" },
 			{ "06", "邮件地址" }, { "10", "列表信息" }, { "11", "列表信息K-V" },
 			{ "12", "IP地址" }, { "13", "大文本" }, { "17", "单资源选择" },
-			{ "18", "多资源选择" }, { "20", "PORTAL项" }, { "21", "多彩文档" }, { "22", "组织人员" }, { "23", "组织人员多选" } };
+			{ "18", "多资源选择" }, { "20", "PORTAL项" }, { "21", "多彩文档" },
+			{ "22", "组织人员" }, { "23", "组织人员多选" }, { "24", "当前用户" },
+			{ "25", "所属部门" } };
 
 	public static String _TYPE_NORMAL = "00";
 
@@ -90,13 +92,12 @@ public class ColumnExtendInfo {
 	public static String _TYPE_SCRIPT = "19";
 
 	public static String _TYPE_PORRAL_ITEM = "20";
-	
-	public static String _TYPE_FCK_ITEM = "21";
-	
-	public static String _TYPE_HUMAN_ITEM = "22";
-	
-	public static String _TYPE_HUMAN_ITEM2 = "23";
 
+	public static String _TYPE_FCK_ITEM = "21";
+
+	public static String _TYPE_HUMAN_ITEM = "22";
+
+	public static String _TYPE_HUMAN_ITEM2 = "23";
 
 	// ///////字段 校验类型 参考//////////
 	public static String _CHECK_TYPE_NO = "";
@@ -133,13 +134,13 @@ public class ColumnExtendInfo {
 	public static String _HTML_TYPE_TREE = "tree";
 
 	public static String _HTML_TYPE_TREE2 = "tree2";
-	
+
 	public static String _HTML_TYPE_HUMAN = "human";
 
 	public static String _HTML_TYPE_HUMAN2 = "human2";
 
 	public static String _HTML_TYPE_PORTAL_ITEM = "pitem";
-	
+
 	public static String _HTML_TYPE_FCK_ITEM = "fck";
 
 	public static String _HTML_TYPE_PORTAL_APP = "papp";

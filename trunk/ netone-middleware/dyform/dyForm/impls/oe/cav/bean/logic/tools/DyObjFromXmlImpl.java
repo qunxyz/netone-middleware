@@ -198,7 +198,7 @@ public class DyObjFromXmlImpl implements DyObjFromXml {
 						}
 						// ·â×°TCsColumn¶ÔÏó
 						TCsColumn tcc = new TCsColumn();
-						
+
 						tcc.setChecktype(checktype);
 						tcc.setColumname(name1);
 						tcc.setColumncode(attributeName);
@@ -233,6 +233,14 @@ public class DyObjFromXmlImpl implements DyObjFromXml {
 					break;
 				}
 			}
+		}
+
+		List list = dfo.getColumn();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			TCsColumn object = (TCsColumn) iterator.next();
+			String ext = object.getExtendattribute();
+			ext = StringUtils.replace(ext, "%X@", "#");
+			object.setExtendattribute(ext);
 		}
 		return dfo;
 	}

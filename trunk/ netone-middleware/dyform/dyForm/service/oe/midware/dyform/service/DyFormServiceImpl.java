@@ -1,5 +1,7 @@
 package oe.midware.dyform.service;
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
@@ -11,6 +13,9 @@ import oe.cav.bean.logic.bus.TCsBus;
 import oe.cav.bean.logic.form.FormDao;
 import oe.cav.bean.logic.form.TCsForm;
 import oe.frame.web.WebCache;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
+import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 public class DyFormServiceImpl extends UnicastRemoteObject implements
 		DyFormService {
@@ -30,6 +35,28 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 		if (!WebCache.containCache("DYFORM$_" + formid)) {
 			FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
 			TCsForm form = formDao.loadObject(formid);
+			
+			// 增加扩展属性的展示 主要针对 html 头信息的追加
+			ResourceRmi rsrmi=null;
+			try {
+				rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			UmsProtectedobject upo = new UmsProtectedobject();
+			upo.setExtendattribute(formid);
+			List listq = rsrmi.queryObjectProtectedObj(upo, null, 0, 1, "");
+			if (listq != null && listq.size() == 1) {
+				form.setExtendattribute(((UmsProtectedobject) listq.get(0))
+						.getDescription());
+				form.setDescription(((UmsProtectedobject) listq.get(0))
+						.getReference());
+			}
+			
 			WebCache.setCache("DYFORM$_" + formid, form, null);
 			return form;
 		} else {

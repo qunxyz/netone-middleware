@@ -12,12 +12,13 @@ import oe.cav.bean.logic.bus.TCsBus;
 import oe.cav.bean.logic.column.ColumnExtendInfo;
 import oe.cav.bean.logic.column.TCsColumn;
 import oe.cav.bean.logic.form.TCsForm;
-import oe.cav.bean.logic.tools.FormCache;
 import oe.cav.bean.logic.tools.FormDymaticTable;
 import oe.cav.web.data.dyform.utils.DefaultElementAdder;
 import oe.cav.web.data.dyform.utils.DymaticFormButton;
 import oe.cav.web.data.dyform.utils.DymaticFormCheck;
 import oe.cav.web.data.dyform.utils.DynamicFormElementAdder;
+import oe.midware.dyform.service.DyFormService;
+import oe.rmi.client.RmiEntry;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.SequencedHashMap;
@@ -88,7 +89,14 @@ public class DynamicFormModify {
 		dyform.addControl(label);
 
 		// 增加表单的头部描述信息
-		String ext = FormCache.getCache(formcode).getExtendattribute();
+		String ext = "";
+		try {
+			DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
+			ext = dysc.loadForm(formcode).getExtendattribute();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if (ext != null && !ext.equals("")) {
 			Label label2 = new Label();
 			label2.setValue(ext);
@@ -220,7 +228,7 @@ public class DynamicFormModify {
 						htmltypes, columnId, valueis, valuelist, musk,
 						readonly, false, lsh, busEach.getExtendattribute(),
 						rowAndCol[0], rowAndCol[1], columnCache, busEach
-								.getChecktype(),viewtype,bus);
+								.getChecktype(), viewtype, bus);
 			}
 		}
 

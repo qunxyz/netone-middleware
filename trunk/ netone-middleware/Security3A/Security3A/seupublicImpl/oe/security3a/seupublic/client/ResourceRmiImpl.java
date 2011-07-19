@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import oe.frame.orm.OrmerEntry;
+import oe.frame.web.WebCache;
 import oe.security3a.SeumanEntry;
 import oe.security3a.SeuserEntry;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -28,7 +29,6 @@ import oe.security3a.seucore.roleser.RoleDao;
 import oe.security3a.seucore.roleser.RoleManager;
 import oe.security3a.seucore.roleser.RoleService;
 import oe.security3a.sso.util.SyncUser;
-
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -147,7 +147,14 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 	}
 
 	public Clerk loadClerk(String code, String id) throws RemoteException {
-		return (Clerk) userservice.fetchDao().loadObject(code, id);
+		if (!WebCache.containCache("USER$" + id)) {
+			Clerk clerk = (Clerk) userservice.fetchDao().loadObject(code, id);
+			WebCache.setCache("USER$" + id, clerk, null);
+			return clerk;
+		} else {
+			return (Clerk) WebCache.getCache("USER$" + id);
+		}
+
 	}
 
 	private boolean checkCreate(String parentid, String subNatrualname)
@@ -193,8 +200,14 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 		if (id == null) {
 			return null;
 		}
-		return (UmsProtectedobject) pos.fetchDao().loadObject(
-				UmsProtectedobject.class, id);
+		if (!WebCache.containCache("NID$" + id)) {
+			UmsProtectedobject upo = (UmsProtectedobject) pos.fetchDao()
+					.loadObject(UmsProtectedobject.class, id);
+			WebCache.setCache("NID$" + id, upo, null);
+			return upo;
+		} else {
+			return (UmsProtectedobject) WebCache.getCache("NID$" + id);
+		}
 	}
 
 	public UmsProtectedobject loadResourceByNatural(String naturalname)
@@ -203,16 +216,22 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 			return null;
 		}
 
-		UmsProtectedobject up = new UmsProtectedobject();
-		up.setNaturalname(naturalname.toUpperCase());
-		List list = pos.fetchDao().queryObjects(up, null);
-		if (list == null || list.size() != 1) {
-			if (list == null)
-				list = new ArrayList();
-			throw new RuntimeException("存储的保护对象出现异常:" + naturalname
-					+ " 对应的资源数为：" + list.size());
+		if (!WebCache.containCache("NA$_" + naturalname)) {
+			UmsProtectedobject up = new UmsProtectedobject();
+			up.setNaturalname(naturalname.toUpperCase());
+			List list = pos.fetchDao().queryObjects(up, null);
+			if (list == null || list.size() != 1) {
+				if (list == null)
+					list = new ArrayList();
+				throw new RuntimeException("存储的保护对象出现异常:" + naturalname
+						+ " 对应的资源数为：" + list.size());
+			}
+			UmsProtectedobject upo = (UmsProtectedobject) list.get(0);
+			WebCache.setCache("NA$_" + naturalname, upo, null);
+			return upo;
+		} else {
+			return (UmsProtectedobject) WebCache.getCache("NA$_" + naturalname);
 		}
-		return (UmsProtectedobject) list.get(0);
 
 	}
 
@@ -300,7 +319,13 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 
 	public List<Clerk> fetchUser(String code, String roleId)
 			throws RemoteException {
-		return rolemanager.fetchUser(code, roleId);
+		if (!WebCache.containCache("ROLE$" + roleId)) {
+			List clerk = rolemanager.fetchUser(code, roleId);
+			WebCache.setCache("ROLE$" + roleId, clerk, null);
+			return rolemanager.fetchUser(code, roleId);
+		} else {
+			return (List) WebCache.getCache("ROLE$" + roleId);
+		}
 	}
 
 	public List<UmsRole> getUserRoles(String code, String userid)
@@ -340,7 +365,10 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 	public void roleRelationupdate(String code, String userid,
 			List<UmsRole> role) throws RemoteException {
 		usermanager.roleRelationupdate(code, userid, role);
-
+		for (Iterator iterator = role.iterator(); iterator.hasNext();) {
+			UmsRole umsRole = (UmsRole) iterator.next();
+			WebCache.removeCache("ROLE$" + umsRole.getId());
+		}
 	}
 
 	public boolean updateRole(String code, Map map) throws RemoteException {
@@ -378,7 +406,8 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 		return roleservice.fetchDao("roleDaouser").drops(newobjs);
 	}
 
-	public Clerk validationUserOpe(String code, String name, String pass) throws RemoteException {
+	public Clerk validationUserOpe(String code, String name, String pass)
+			throws RemoteException {
 		return usermanager.validationUserOpe(code, name, pass);
 	}
 
@@ -456,15 +485,18 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 	}
 
 	public List queryObjectProtectedObj(UmsProtectedobject upo,
-			Map comparisonKey, int from, int to, String conditionPre) throws RemoteException {
-		
-		return pos.fetchDao().queryObjects(upo, comparisonKey, from, to, conditionPre);
+			Map comparisonKey, int from, int to, String conditionPre)
+			throws RemoteException {
+
+		return pos.fetchDao().queryObjects(upo, comparisonKey, from, to,
+				conditionPre);
 	}
 
 	public long queryObjectNumberProtectedObj(UmsProtectedobject upo,
 			Map comparisonKey, String conditionPre) throws RemoteException {
-		
-		return pos.fetchDao().queryObjectsNumber(upo, comparisonKey, conditionPre);
+
+		return pos.fetchDao().queryObjectsNumber(upo, comparisonKey,
+				conditionPre);
 	}
 
 }

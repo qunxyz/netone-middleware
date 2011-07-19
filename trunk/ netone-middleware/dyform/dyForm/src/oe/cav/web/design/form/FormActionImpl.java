@@ -13,9 +13,6 @@ import java.util.List;
 import oe.cav.bean.logic.column.TCsColumn;
 import oe.cav.bean.logic.form.FormExtendInfo;
 import oe.cav.bean.logic.form.TCsForm;
-import oe.cav.bean.logic.tools.FormCache;
-import oe.cav.bean.logic.tools.FormColumnCache;
-import oe.cav.bean.logic.tools.FormColumnTitleCache;
 import oe.cav.web.design.form.template.CreateTemplate;
 import oe.cav.web.design.form.template.ListTemplate;
 import oe.cav.web.design.form.template.ModifyTemplate;
@@ -309,12 +306,6 @@ public class FormActionImpl extends BaseAction {
 
 		boolean dors = dys.dropForm(bufForm);
 		ae.setAttribute("tip", WebTip.tip(dors));
-		if (dors) {
-			// 清除缓存
-			FormColumnCache.removeCache(formcode);
-			FormColumnTitleCache.removeCache(formcode);
-			
-		}
 
 		if (!dors) {
 			WebTip.htmlInfo("删除失败", true, ae.getResponse());
@@ -348,13 +339,6 @@ public class FormActionImpl extends BaseAction {
 		busForm.setDescription(busFormOld.getDescription());
 		boolean dors = dys.updateForm(busForm);
 		ae.setAttribute("tip", WebTip.tip(dors));
-		if (dors) {
-			String formcode = form.getFormcode();
-			// 清除缓存
-			FormColumnCache.removeCache(formcode);
-			FormColumnTitleCache.removeCache(formcode);
-
-		}
 
 		// 增加扩展属性的展示 主要针对 html 头信息的追加
 		ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");

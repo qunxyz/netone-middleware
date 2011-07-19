@@ -10,6 +10,7 @@ import oe.cav.bean.logic.bus.FormEntry;
 import oe.cav.bean.logic.bus.TCsBus;
 import oe.cav.bean.logic.form.FormDao;
 import oe.cav.bean.logic.form.TCsForm;
+import oe.frame.web.WebCache;
 
 public class DyFormServiceImpl extends UnicastRemoteObject implements
 		DyFormService {
@@ -26,8 +27,14 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 	}
 
 	public TCsForm loadForm(String formid) throws RemoteException {
-		FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
-		return formDao.loadObject(formid);
+		if (!WebCache.containCache("DYFORM$_" + formid)) {
+			FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
+			TCsForm form = formDao.loadObject(formid);
+			WebCache.setCache("DYFORM$_" + formid, form, null);
+			return form;
+		} else {
+			return (TCsForm) WebCache.getCache("DYFORM$_" + formid);
+		}
 	}
 
 	public List queryData(TCsBus bus, int from, int to, String condition)
@@ -48,8 +55,15 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 	}
 
 	public List fetchColumnList(String formid) throws RemoteException {
-		FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
-		return formDao.fetchColumnList(formid);
+
+		if (!WebCache.containCache("DYFORMCOLUMN$_" + formid)) {
+			FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
+			List forms = formDao.fetchColumnList(formid);
+			WebCache.setCache("DYFORMCOLUMN$_" + formid, forms, null);
+			return forms;
+		} else {
+			return (List) WebCache.getCache("DYFORMCOLUMN$_" + formid);
+		}
 	}
 
 	public TCsForm loadFormUrl(String url) throws RemoteException {
@@ -74,9 +88,14 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 	}
 
 	public Map fetchTitleInfos(String formcode) throws RemoteException {
-		// TODO Auto-generated method stub
-		FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
-		return formDao.fetchTitleInfos(formcode);
+		
+		if (!WebCache.containCache("DYFORMTITLE$_" + formcode)) {
+			FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
+			Map forms = formDao.fetchTitleInfos(formcode);
+			WebCache.setCache("DYFORMTITLE$_" + formcode, forms, null);
+			return forms;
+		} else {
+			return (Map) WebCache.getCache("DYFORMTITLE$_" + formcode);
+		}
 	}
-
 }

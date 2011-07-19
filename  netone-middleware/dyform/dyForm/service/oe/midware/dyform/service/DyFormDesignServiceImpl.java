@@ -16,6 +16,7 @@ import oe.cav.bean.logic.tools.DyObjFromDatabaseImpl;
 import oe.cav.bean.logic.tools.DyObjFromXmlImpl;
 import oe.cav.bean.logic.tools.DyObjToXMLImpl;
 import oe.cav.bean.logic.tools.XmlPools;
+import oe.frame.web.WebCache;
 
 public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 		DyFormDesignService {
@@ -35,7 +36,15 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 
 	private ColumnDao columnDao;
 
+	private void initCache(String formcode) {
+		WebCache.removeCache("DYFORMTITLE$_" + formcode);
+		WebCache.removeCache("DYFORM$_" + formcode);
+		WebCache.removeCache("DYFORMCOLUMN$_" + formcode);
+	}
+
 	public String addColumn(TCsColumn column) throws RemoteException {
+		
+		initCache(column.getFormcode());
 		String ext = column.getExtendattribute();
 		ext = StringUtils.replace(ext, "#", "%X@");
 		column.setExtendattribute(ext);
@@ -52,11 +61,12 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 	}
 
 	public String dropColumn(TCsColumn column) throws RemoteException {
-
+		initCache(column.getFormcode());
 		return columnDao.drop(column);
 	}
 
 	public String updateColumn(TCsColumn column) throws RemoteException {
+		initCache(column.getFormcode());
 		String ext = column.getExtendattribute();
 		ext = StringUtils.replace(ext, "#", "%X@");
 		column.setExtendattribute(ext);
@@ -64,6 +74,7 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 	}
 
 	public String updateColumnView(TCsColumn column) throws RemoteException {
+		initCache(column.getFormcode());
 		return columnDao.updateView(column);
 	}
 
@@ -103,12 +114,12 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 	}
 
 	public boolean updateForm(TCsForm form) throws RemoteException {
-		// TODO Auto-generated method stub
+		initCache(form.getFormcode());
 		return formDao.update(form);
 	}
 
 	public boolean dropForm(TCsForm form) throws RemoteException {
-		// TODO Auto-generated method stub
+		initCache(form.getFormcode());
 		return formDao.drop(form);
 	}
 
@@ -154,12 +165,13 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 
 	public boolean movedownColumn(String formcode, String columnid,
 			String participant) throws RemoteException {
-		// TODO Auto-generated method stub
+		initCache(formcode);
 		return columnDao.moveupColumn(formcode, columnid, participant);
 	}
 
 	public boolean moveupColumn(String formcode, String columnid,
 			String participant) throws RemoteException {
+		initCache(formcode);
 		return columnDao.movedownColumn(formcode, columnid, participant);
 	}
 
@@ -170,7 +182,6 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 
 	public boolean resizeColumnIndexValue(String formcode, String participant)
 			throws RemoteException {
-
 		return columnDao.resizeColumnIndexValue(formcode, participant);
 	}
 

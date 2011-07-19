@@ -27,7 +27,6 @@ import oe.cav.bean.logic.tools.DyObj;
 import oe.cav.bean.logic.tools.DyObjFromDatabase;
 import oe.cav.bean.logic.tools.DyObjFromXml;
 import oe.cav.bean.logic.tools.DyObjToXML;
-import oe.cav.bean.logic.tools.FormColumnTitleCache;
 import oe.cav.bean.logic.tools.XmlPools;
 import oe.cav.bean.logic.tools.reference.DyReference;
 import oe.cav.bean.logic.tools.reference.XMLReference;
@@ -248,40 +247,36 @@ public class FormDaoImpl implements FormDao {
 	}
 
 	public Map fetchTitleInfos(String formcode) {
-		boolean hasCache = FormColumnTitleCache.hasCache(formcode);
-		if (!hasCache) {
-			DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode)
-					.toString());
-			TCsForm form = dfo.getFrom();
-			String formKeyName = form.getListinfo();
-			if (formKeyName == null || formKeyName.equals("")) {
-				formKeyName = "1,2,3,4,5,6,7,8";
-			}
-			formKeyName = formKeyName.replaceAll(",n", "");
-			List columnlist = dfo.getColumn();
-			Map columntitle = new HashMap();
-			for (Iterator itr = columnlist.iterator(); itr.hasNext();) {
-				TCsColumn columnPre = (TCsColumn) itr.next();
-				if (!columnPre.isUseable()) {
-					continue;
-				}
-				if (ColumnExtendInfo._HTML_TYPE_PORTAL_ITEM.equals(columnPre
-						.getHtmltype())) {
-					continue;
-				}
-				if (ColumnExtendInfo._HTML_TYPE_FCK_ITEM.equals(columnPre
-						.getHtmltype())) {
-					continue;
-				}
-				String[] columnInfo = { columnPre.getColumncode(),
-						columnPre.getColumname() };
-				columntitle.put(columnPre.getIndexvalue().toString(),
-						columnInfo);
-			}
-			columntitle.put("0", form.getListinfo());
-			FormColumnTitleCache.addCache(columntitle, formcode);
+
+		DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode).toString());
+		TCsForm form = dfo.getFrom();
+		String formKeyName = form.getListinfo();
+		if (formKeyName == null || formKeyName.equals("")) {
+			formKeyName = "1,2,3,4,5,6,7,8";
 		}
-		return FormColumnTitleCache.getCache(formcode);
+		formKeyName = formKeyName.replaceAll(",n", "");
+		List columnlist = dfo.getColumn();
+		Map columntitle = new HashMap();
+		for (Iterator itr = columnlist.iterator(); itr.hasNext();) {
+			TCsColumn columnPre = (TCsColumn) itr.next();
+			if (!columnPre.isUseable()) {
+				continue;
+			}
+			if (ColumnExtendInfo._HTML_TYPE_PORTAL_ITEM.equals(columnPre
+					.getHtmltype())) {
+				continue;
+			}
+			if (ColumnExtendInfo._HTML_TYPE_FCK_ITEM.equals(columnPre
+					.getHtmltype())) {
+				continue;
+			}
+			String[] columnInfo = { columnPre.getColumncode(),
+					columnPre.getColumname() };
+			columntitle.put(columnPre.getIndexvalue().toString(), columnInfo);
+		}
+		columntitle.put("0", form.getListinfo());
+
+		return columntitle;
 	}
 
 	public TCsForm loadObject(String key) {
@@ -400,12 +395,12 @@ public class FormDaoImpl implements FormDao {
 	}
 
 	public List listByLevel(String level) {
-		log.debug("level to match:"+level);
+		log.debug("level to match:" + level);
 		level = StringUtils.substringBetween(level, "[", "]");
-		if(level==null){
+		if (level == null) {
 			return new ArrayList();
 		}
-		
+
 		String pathinfo = System.getProperty("user.dir") + "/dy/";
 		File fi = new File(pathinfo);
 

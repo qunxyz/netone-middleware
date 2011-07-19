@@ -3,6 +3,7 @@ package oe.cav.bean.logic.tools;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +40,14 @@ public class FormDymaticTable {
 	 */
 	public static int maxCol(String formcode) {
 
-		List list = FormCache.getColumn(formcode);
+		List list = new ArrayList();
+		try {
+			DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
+			list = dysc.fetchColumnList(formcode);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		int maxrow = 1;
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsColumn object = (TCsColumn) iterator.next();
@@ -71,8 +79,15 @@ public class FormDymaticTable {
 	 * @return
 	 */
 	public static int[] getRowCol(String formcode, String columnid) {
-
-		List list = FormCache.getColumn(formcode);
+		
+		List list = new ArrayList();
+		try {
+			DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
+			list = dysc.fetchColumnList(formcode);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsColumn object = (TCsColumn) iterator.next();
@@ -206,7 +221,7 @@ public class FormDymaticTable {
 		colTitle.setUI(label);
 
 		TableColumn colValue = row.insertCol();// 创建新的一列
-		//colValue.setAttribute("class", "td");
+		// colValue.setAttribute("class", "td");
 		if (ui == null) {
 			Label labelx = new Label();
 			label.setValue("");
@@ -228,7 +243,7 @@ public class FormDymaticTable {
 
 		TableColumn colValue = row.insertCol();// 创建新的一列
 		colValue.setColspan(String.valueOf(colspace * 2 - 1));
-		//colValue.setAttribute("class", "td");
+		// colValue.setAttribute("class", "td");
 		if (ui == null) {
 			Label labelx = new Label();
 			label.setValue("");

@@ -8,8 +8,6 @@ import java.util.List;
 
 import oe.cav.bean.logic.column.ColumnExtendInfo;
 import oe.cav.bean.logic.column.TCsColumn;
-import oe.cav.bean.logic.tools.FormColumnCache;
-import oe.cav.bean.logic.tools.FormColumnTitleCache;
 import oe.cav.web.util.SearchObj;
 import oe.frame.web.util.WebTip;
 import oe.midware.dyform.service.DyFormDesignService;
@@ -26,40 +24,7 @@ import com.sun.mail.iap.Response;
 
 public class ColumnActionImpl extends BaseAction {
 
-	DyFormDesignService dys = null;
 
-	DyFormService dysc = null;
-
-	public ColumnActionImpl() {
-		if (dys == null) {
-			try {
-				dys = (DyFormDesignService) RmiEntry.iv("dydesign");
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if (dysc == null) {
-			try {
-				dysc = (DyFormService) RmiEntry.iv("dyhandle");
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 
 	protected boolean validateLogon() {
 		return false;
@@ -102,6 +67,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onCreateope(ActionEvent ae) throws Exception {
+		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+		
 		ColumnForm form = (ColumnForm) ae.getForm();
 		TCsColumn busForm = new TCsColumn();
 		BeanUtils.copyProperties(busForm, form);
@@ -121,17 +88,14 @@ public class ColumnActionImpl extends BaseAction {
 
 		String info = dys.addColumn(busForm);
 
-		// Çå³ý»º´æ
-		FormColumnCache.removeCache(formcode);
-		FormColumnTitleCache.removeCache(formcode);
-
 		WebTip.htmlInfo(info, true,true, ae.getResponse());
 
 		return null;
 	}
 
 	public String onModifyview(ActionEvent ae) throws Exception {
-	
+		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+
 		ae.setAttribute("typeinfo", ColumnExtendInfo._TYPE_INFO_LIST);
 		ae.setAttribute("booleaninfo", ColumnExtendInfo._BOOLEAN_INFO_LIST);
 		ColumnForm form = (ColumnForm) ae.getForm();
@@ -144,6 +108,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onDropope(ActionEvent ae) throws Exception {
+		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+		
 		ColumnForm form = (ColumnForm) ae.getForm();
 		String columncode = form.getColumncode();
 		TCsColumn bufForm = dys.loadColumn(form.getFormcode(), columncode);
@@ -152,9 +118,6 @@ public class ColumnActionImpl extends BaseAction {
 		String dors = dys.dropColumn(bufForm);
 
 		String formcode = bufForm.getFormcode();
-		// Çå³ý»º´æ
-		FormColumnCache.removeCache(formcode);
-		FormColumnTitleCache.removeCache(formcode);
 
 		WebTip.htmlInfo(dors, true, true, ae.getResponse());
 
@@ -162,6 +125,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onModifyope(ActionEvent ae) throws Exception {
+		
+		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
 
 		ColumnForm form = (ColumnForm) ae.getForm();
 		TCsColumn busForm = new TCsColumn();
@@ -177,9 +142,6 @@ public class ColumnActionImpl extends BaseAction {
 		String tip = WebTip.tipSpi(dors);
 		ae.setAttribute("tip", tip);
 		String formcode = busForm.getFormcode();
-		// Çå³ý»º´æ
-		FormColumnCache.removeCache(formcode);
-		FormColumnTitleCache.removeCache(formcode);
 
 		WebTip.htmlInfo(dors, true, true, ae.getResponse());
 
@@ -187,6 +149,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onMoveup(ActionEvent ae) throws Exception {
+		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+		
 		ColumnForm form = (ColumnForm) ae.getForm();
 		String formcode = form.getFormcode();
 		String columncode = form.getColumncode();
@@ -194,23 +158,17 @@ public class ColumnActionImpl extends BaseAction {
 
 		dys.moveupColumn(formcode, columncode, ser.getUserLoginName());
 
-		// Çå³ý»º´æ
-		FormColumnCache.removeCache(formcode);
-		FormColumnTitleCache.removeCache(formcode);
-
 		return onList(ae);
 	}
 
 	public String onMovedown(ActionEvent ae) throws Exception {
+		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+		
 		ColumnForm form = (ColumnForm) ae.getForm();
 		String formcode = form.getFormcode();
 		String columncode = form.getColumncode();
 		Security ser = new Security(ae.getRequest());
 		dys.movedownColumn(formcode, columncode, ser.getUserLoginName());
-
-		// Çå³ý»º´æ
-		FormColumnCache.removeCache(formcode);
-		FormColumnTitleCache.removeCache(formcode);
 
 		return onList(ae);
 	}
@@ -221,13 +179,12 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onInitpoint(ActionEvent ae) throws Exception {
+		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+		
 		ColumnForm form = (ColumnForm) ae.getForm();
 		String formcode = form.getFormcode();
 		Security ser = new Security(ae.getRequest());
 		dys.resizeColumnIndexValue(formcode, ser.getUserLoginName());
-		// Çå³ý»º´æ
-		FormColumnCache.removeCache(formcode);
-		FormColumnTitleCache.removeCache(formcode);
 
 		return onList(ae);
 	}

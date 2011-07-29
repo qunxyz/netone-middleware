@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         items:
         [{
         	id:'outBox',
-        	width:840,
+        	width:904,
         	//height:100,
         	border:false,
         	items:
@@ -119,9 +119,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					autoScroll: true,
 					collapsible : true,
 					script:true,
-					width:440,
+					width:450,
 					height:220,
-					style:'padding-left:4px;padding-top:4px;float:left' 
+					style:'padding-top:4px;float:left' 
 				}, 
 				{
 					id:'title2',
@@ -131,7 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					autoScroll: true,
 					collapsible : true,
 					script:true,
-					width:382,
+					width:450,
 					height:220,
 					style:'padding-left:4px;padding-top:4px;float:left' 
 				},
@@ -143,9 +143,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					autoScroll: true,
 					collapsible : true,
 					script:true,
-					width:440,
+					width:450,
 					height:220,
-					style:'padding-left:4px;padding-top:4px;float:left' 
+					style:'padding-top:4px;float:left' 
 				},
 				{
 					id:'title4',
@@ -155,7 +155,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					autoScroll: true,
 					collapsible : true,
 					script:true,
-					width:382,
+					width:450,
 					height:220,
 					style:'padding-left:4px;padding-top:4px;float:left' 
 				}

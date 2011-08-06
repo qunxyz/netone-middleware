@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=gbk"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%
 	String path = request.getContextPath();
@@ -89,7 +90,9 @@
 						<td class="td_titt_bg" nowrap>
 							名称
 						</td>
-
+						<td class="td_titt_bg" nowrap>
+							类型
+						</td>
 
 						<td class="td_titt_bg" nowrap>
 							手动
@@ -110,7 +113,20 @@
 							<td align='left' nowrap>
 								${list.naturalname}
 							</td>
+							<td align='left' nowrap>
 
+								<c:if test="${list.objecttype=='human'}">人员</c:if>
+													
+								<c:if test="${list.objecttype=='team'}">组</c:if>
+									
+								<c:if test="${list.objecttype=='dept'}">组织</c:if>
+	
+								<c:if test="${list.objecttype=='role'}">角色</c:if>
+
+							    <c:if test="${list.objecttype=='flowrole'}">流程角色</c:if>
+
+								<c:if test="${list.objecttype=='creater'}">创建者</c:if>
+							</td>
 							<td nowrap>
 								<c:if test="${list.active=='1'}">
 									手动
@@ -128,7 +144,8 @@
 						</tr>
 					</c:forEach>
 				</table>
-				<br>
+
+				<iframe src='<portal:envget envkey="WEBSER_WFWEB"/>/viewreadonlyprocess.do?processid=${processid }' frameborder="0" width="1000" height="400"></iframe>
 
 			</form>
 		</div>

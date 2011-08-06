@@ -130,7 +130,7 @@
 									</c:if>
 								</td>
 								<td align="center" valign="top">
-									<select size="18" name="users" style="width: 150px"
+									<select size="18" name="users" style="width: 300px"
 										multiple="multiple">
 									</select>
 								</td>
@@ -146,7 +146,7 @@
 									</p>
 								</td>
 								<td align="center" valign="top">
-									<select size="18" name="result" style="width: 150px"
+									<select size="18" name="result" style="width: 300px"
 										multiple="multiple">
 									</select>
 								</td>

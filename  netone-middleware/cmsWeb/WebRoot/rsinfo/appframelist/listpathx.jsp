@@ -82,7 +82,7 @@
 				<input type="hidden" name="entryvar" value="<%=entryvar%>" />
 				<table width="96%" border="0" align="center" cellpadding="5"
 					cellspacing="0">
-					<tr>
+					<tr style="display:none">
 						<td nowrap>
 							路径:
 						</td>
@@ -93,53 +93,27 @@
 						</td>
 					</tr>
 				</table>
-				<br>
+				<hr>
 				<table id="hang_table" width="96%" border="0" align="center"
 					cellpadding="0" cellspacing="1">
-					<tr>
-						<td class="td_titt_bg" nowrap>
-							名称中文名称
-						</td>
-						<td class="td_titt_bg"  nowrap>
-							日期
-						</td>
-						<td class="td_titt_bg"  nowrap>
-							有效
-						</td>
-						<td class="td_titt_bg"  nowrap>
-							操作
+					<tr style='display:none'>
+						<td class="td_titt_bg" nowrap align="left">
+							应用流程
 						</td>
 					</tr>
 					<c:forEach items="${list}" var="list">
 						<tr>
 
-							<td nowrap>
+							<td nowrap align="left">
 								<c:if test="${list.inclusion == '1'}">
 									<a href="javascript:inclusionlink('${list.id}','${list.ou}');"><img BORDER='0' src='<%=basePath%>rsinclude/images/folder.png'></a>
 									<a href="javascript:view('${list.id}');">${list.name}</a>
 								</c:if>
 								<c:if test="${list.inclusion != '1'}">
-									<a href="javascript:view('${list.id}');">${list.name}</a>
+									<a href="javascript:newdo('${list.naturalname}');">${list.name}</a>
 								</c:if>
 							</td>
 
-							<td nowrap>
-								${list.created}
-							</td>
-							<td nowrap>
-								<c:if test="${list.active=='1'}">
-									YES
-								</c:if>
-								<c:if test="${list.active=='0'}">
-									NO
-								</c:if>
-							</td>
-
-							<td nowrap>
-								<c:if test="${list.inclusion!='1'}">
-							    <a href="javascript:newdo('${list.naturalname}');">[新建]</a>
-								</c:if>
-							</td>
 						</tr>
 					</c:forEach>
 				</table>

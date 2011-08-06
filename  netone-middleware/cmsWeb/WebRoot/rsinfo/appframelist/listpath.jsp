@@ -70,16 +70,20 @@
 		}
 		
 		function worklist(name){    
-			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/WorkListSvl?ope=y&limit=0&status=01&appname='+name;
+			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=onMainView2&mode=1&height=460&listtype=01&sortfield=&sort=&psize=20&appname='+name;
 			window.open(url);
 		}
 		
 		function worklistR(name){    
-			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/WorkListSvl?ope=n&limit=0&status=01&appname='+name;
+			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=onMainView2&mode=0&height=460&listtype=01&sortfield=&sort=&psize=20&appname='+name;
 			window.open(url);
 		}
-		function worklistdone(name){
-			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/WorkListSvl?ope=y&limit=0&status=02&appname='+name;
+		function worklistdone1(name){
+			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=onMainView2&mode=1&height=460&listtype=02&sortfield=&sort=&psize=20&appname='+name;
+			window.open(url);
+		}
+		function worklistdone2(name){
+			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=onMainView2&mode=1&height=460&listtype=03&sortfield=&sort=&psize=20&appname='+name;
 			window.open(url);
 		}
 		function init(id){
@@ -236,7 +240,9 @@
 									<a href="javascript:man('${list.naturalname}');"><font color='green'>过程:管理</font></a>
 									<a href="javascript:worklist('${list.naturalname}');"><font color='green'>待办应用</font></a>
 									<a href="javascript:worklistR('${list.naturalname}');"><font color='green'>待阅应用</font></a>
-									<a href="javascript:worklistdone('${list.naturalname}');"><font color='green'>已办应用</font></a>
+									<a href="javascript:worklistdone1('${list.naturalname}');"><font color='green'>已办未归档</font></a>
+									<a href="javascript:worklistdone2('${list.naturalname}');"><font color='green'>已办且归档</font></a>
+									
 									<a href="javascript:init('${list.id}');">初始化</a>
 									<a href="javascript:del('${list.id}');">删除</a>
 								</c:if>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+	<class name="oe.midware.workflow.runtime.ormobj.TWfRuntime" table="t_wf_runtime">
+		<id column="RUNTIMEID" name="runtimeid" type="java.lang.String">
+			<generator class="uuid.hex" />
+		</id>
+		<property column="PROCESSID" length="100" name="processid" not-null="true" type="java.lang.String" />
+		<property column="STARTTIME" length="30" name="starttime" type="java.lang.String" />
+		<property column="ENDTIME" length="30" name="endtime" type="java.lang.String" />
+		<property column="STATUSNOW" length="2" name="statusnow" type="java.lang.String" />
+		<property column="KIND" length="2" name="kind" type="java.lang.String" />
+		<property column="BELONGRUNTIMEID" length="32" name="belongruntimeid" type="java.lang.String" />
+		<property column="BELONGACTIVITYID" length="32" name="belongactivityid" type="java.lang.String" />
+		<property column="PRIORITY" length="20" name="priority" type="java.lang.String" />
+		<property column="LIMITS" length="100" name="limits" type="java.lang.String" />
+		<property column="EXTENDATTRIBUTE" length="65535" name="extendattribute" type="java.lang.String" />
+		<property column="PARTICIPANT" length="100" name="participant" type="java.lang.String" />
+
+	</class>
+</hibernate-mapping>

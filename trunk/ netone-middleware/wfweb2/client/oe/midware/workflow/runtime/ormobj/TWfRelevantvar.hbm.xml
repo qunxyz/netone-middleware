@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.midware.workflow.runtime.ormobj.TWfRelevantvar" table="t_wf_relevantvar">
+<id column="VARCODE" name="varcode" type="java.lang.String">
+<generator class="uuid.hex"/>
+</id>
+<property column="RUNTIMEID" length="32" name="runtimeid" type="java.lang.String"/>
+<property column="VALUENOW" length="65535" name="valuenow" type="java.lang.String"/>
+<property column="DATAFIELDID" length="100" name="datafieldid" not-null="true" type="java.lang.String"/>
+<property column="EXTENDATTRIBUTE" length="65535" name="extendattribute" type="java.lang.String"/>
+<property column="PROCESSID" length="100" name="processid"  type="java.lang.String"/>
+<property column="PARTICIPANT" length="100" name="participant" type="java.lang.String"/>
+
+</class>
+</hibernate-mapping>

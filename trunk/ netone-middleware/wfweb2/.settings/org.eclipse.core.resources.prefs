@@ -1,0 +1,22 @@
+#Sat Dec 18 22:48:07 CST 2010
+eclipse.preferences.version=1
+encoding//WebRoot/include/js/quartzlist.js=GBK
+encoding//WebRoot/include/js/workflow/design.js=GBK
+encoding//WebRoot/include/js/workflow/designnew.js=GBK
+encoding//WebRoot/include/js/workflow/runtime.js=GBK
+encoding//WebRoot/include/js/workflow/runtimeUse.js=GBK
+encoding//WebRoot/include/js/workflow/soa.js=GBK
+encoding//WebRoot/include/js/workflow/soa2.js=GBK
+encoding//WebRoot/include/js/workflow/soa3.js=GBK
+encoding//WebRoot/include/js/workflow/soa4.js=GBK
+encoding//WebRoot/include/js/workflow/soax.js=GBK
+encoding//WebRoot/include/js/workflowtrack/action/newSubflowExtend.js=GBK
+encoding//WebRoot/include/js/workflowtrack/action/workTrackProperty.js=GBK
+encoding//WebRoot/include/js/workflowtrack/process/processAttribute.js=GBK
+encoding//WebRoot/include/js/workflowtrack/process/processExtend.js=GB2312
+encoding//WebRoot/include/js/workflowtrack/relationData/relationDataExtend.js=GBK
+encoding//WebRoot/include/js/workflowtrack/workflow.js=GBK
+encoding//WebRoot/rsinclude/pagelist/pagelist.js=GBK
+encoding//WebRoot/workflow/resource/track/extend/process/newProcessExtend.html=GB2312
+encoding//WebRoot/workflow/resource/updataProcess.jsp=GBK
+encoding//src/resourceweb.properties=GBK

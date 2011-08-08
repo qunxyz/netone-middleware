@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+	<class name="oe.midware.workflow.runtime.ormobj.TWfWorklist" table="t_wf_worklist">
+		<id column="WORKCODE" name="workcode" type="java.lang.String">
+			<generator class="uuid.hex" />
+		</id>
+		<property column="RUNTIMEID" length="32" name="runtimeid" type="java.lang.String" />
+		<property column="STARTTIME" length="30" name="starttime" type="java.lang.String" />
+		<property column="DONETIME" length="30" name="donetime" type="java.lang.String" />
+		<property column="EXECUTESTATUS" length="2" name="executestatus" type="java.lang.String" />
+		<property column="ACTIVITYID" length="100" name="activityid" not-null="true" type="java.lang.String" />
+		<property column="TYPES" length="2" name="types" type="java.lang.String" />
+		<property column="PROCESSID" length="100" name="processid" type="java.lang.String" />
+		<property column="PARTICIPANT" length="100" name="participant" type="java.lang.String" />
+		<property column="EXTENDATTRIBUTE" length="1000" name="extendattribute" type="java.lang.String" />
+
+	</class>
+</hibernate-mapping>

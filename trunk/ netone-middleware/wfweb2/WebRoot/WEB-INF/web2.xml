@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<filter>
+		<filter-name>characterEncoding</filter-name>
+		<filter-class>
+			oe.mid.web.rspage.common.SetCharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>GBK</param-value>
+		</init-param>
+		<init-param>
+			<param-name>AbortUrls</param-name>
+			<param-value>
+				/saveprocess,/updateprocess,/newprocessfile,/newprocessfile.do,/workflow/resource/check.jsp,/workflow/resource/createProcess.jsp,/workflow/resource/workStrack.jsp
+			</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 安全需要的配置-结束  -->
+	<filter>
+		<filter-name>ssofilter</filter-name>
+		<filter-class>
+			oe.security3a.sso.SsoFilter
+		</filter-class>
+		<init-param>
+			<param-name>LoginListener</param-name>
+			<param-value>oe.security.OnLoginOperation</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>ssofilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<servlet-class>oe.frame.web.util.AjaxServiceSvl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<url-pattern>/servlet/AjaxServiceSvl</url-pattern>
+	</servlet-mapping>
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>home.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- 安全需要的配置-结束 -->
+
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>3</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- ###################### -->
+	<!-- 资源管理部分 -->
+
+
+
+	<servlet>
+		<servlet-name>MoveSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.common.MoveSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MoveSvl</servlet-name>
+		<url-pattern>/MoveSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SelectSvl</servlet-name>
+		<url-pattern>/SelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.MultiSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MSelectSvl</servlet-name>
+		<url-pattern>/MSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SingleSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SSelectSvl</servlet-name>
+		<url-pattern>/SSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DownloadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.DownloadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadSvl</servlet-name>
+		<url-pattern>/DownloadSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.XMLFuncTreeSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<url-pattern>/XMLFuncTreeSvl</url-pattern>
+	</servlet-mapping>
+
+	<!-- rspage.common 结束 -->
+
+	<!-- rspage.applist 开始 -->
+	<servlet>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.applist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<url-pattern>/ApplistAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<url-pattern>/ApplistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<url-pattern>/ApplistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<url-pattern>/ApplistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<url-pattern>/ApplistSelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<!-- rspage.applist 结束 -->
+
+
+	<!-- rspage.pagelist 开始 -->
+
+	<servlet>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.pagelist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<url-pattern>/PagelistAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<url-pattern>/PagelistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<url-pattern>/PagelistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ViewSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<url-pattern>/PagelistViewSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<url-pattern>/PagelistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.UploadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<url-pattern>/PagelistUploadSvl</url-pattern>
+	</servlet-mapping>
+	<!-- rspage.pagelist 结束 -->
+
+	<!-- rspage.pagelistpath 开始-->
+	<servlet>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelistpath.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<url-pattern>/PagelistpathRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<!-- rspage.pagelistpath 结束-->
+	<!-- 资源管理部分 -->
+	<!-- ###################### -->
+	<servlet>
+		<servlet-name>PagelistStartSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.StartSvl.PagelistStartSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistStartSvl</servlet-name>
+		<url-pattern>/PagelistStartSvl</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>Createsubinfo</servlet-name>
+		<servlet-class>
+			oe.cav.web.workflow.resource.soa.Createsubinfo
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Createsubinfo</servlet-name>
+		<url-pattern>/Createsubinfo</url-pattern>
+	</servlet-mapping>
+	
+</web-app>

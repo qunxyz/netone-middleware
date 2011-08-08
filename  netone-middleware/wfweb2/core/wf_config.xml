@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "spring-beans.dtd">
+
+<beans>
+	<!-- /////////////////////工作流对外API ////////////////////////////// -->
+	<bean id="processEngine"
+		class="oe.midware.workflow.engine.ProcessEngineImp">
+		<property name="processAuto">
+			<ref bean="processAuto" />
+		</property>
+		<property name="processActor">
+			<ref bean="processActor" />
+		</property>
+		<property name="dataFieldUpdateActor">
+			<ref bean="dataFieldUpdateActor" />
+		</property>
+		<property name="processInitActor">
+			<ref bean="processInitActor" />
+		</property>
+		<property name="processDropActor">
+			<ref bean="processDropActor" />
+		</property>
+		<property name="ruleEngine">
+			<ref bean="ruleEngine" />
+		</property>
+	</bean>
+	<!-- SOA解析服务 -->
+	<bean id="activeBindDao"
+		class="oe.midware.workflow.service.soatools.ActiveBindDaoImpl">
+	</bean>
+	<bean id="webWorkflow"
+		class="oe.midware.workflow.design.WebWorkflowImpl">
+	</bean>
+	<bean id="workflowTrackRuntime"
+		class="oe.midware.workflow.track.WorkflowTrackRuntimeImpl">
+	</bean>
+	<bean id="xpdlResourceDao"
+		class="oe.midware.workflow.xpdlresource.XpdlResourceDaoImpl">
+		<property name="webWorkflow" ref="webWorkflow" />
+		<property name="xpdlModelHandler" ref="xpdlModelHandler" />
+	</bean>
+
+	<!-- /////////////////////工作流核心部分逻辑 ////////////////////////////// -->
+	<!-- xpdl模板处理 -->
+	<bean id="xpdlModelHandler"
+		class="oe.midware.workflow.engine.XpdlModelHandlerImp">
+	</bean>
+
+	<!-- 规则引擎 -->
+	<bean id="ruleEngine"
+		class="oe.midware.workflow.engine.rule2.RuleEngine2Impl">
+		<property name="scripthead"><value>
+			import oe.frame.bus.workflow.WfEntry;
+			import oe.frame.bus.workflow.rule.*;
+			import java.util.*;
+			import java.sql.*;
+			import oe.mid.soa.bean.SoaBean;
+			
+			MsgScriptFunction msg = (MsgScriptFunction) WfEntry.fetchBean("msg");
+			ScriptFunction bean = (ScriptFunction) WfEntry.fetchBean("bean");
+			bean.init(runtimeid, workcode);
+			WfScriptFunction wf = (WfScriptFunction) WfEntry.fetchBean("wf");
+			wf.init(runtimeid, workcode);
+			DyScriptFunction dy = (DyScriptFunction) WfEntry.fetchBean("dy");
+			dy.init(runtimeid, workcode);
+			EnvScriptFunction env = (EnvScriptFunction) WfEntry.fetchBean("env");
+			DbScriptFunction db=(DbScriptFunction)WfEntry.fetchBean("db");
+			</value>
+		</property>
+	</bean>
+
+	<!-- 相关数据模块 -->
+	<bean id="dataFieldDeployActor"
+		class="oe.midware.workflow.engine.actor.datafield.DataFieldDeployActorImp">
+	</bean>
+	<bean id="dataFieldDropActor"
+		class="oe.midware.workflow.engine.actor.datafield.DataFieldDropActorImp">
+	</bean>
+	<bean id="dataFieldUpdateActor"
+		class="oe.midware.workflow.engine.actor.datafield.DataFieldUpdateActorImp">
+	</bean>
+
+
+	<!-- 活动模块 -->
+	<bean id="activityDeployActor"
+		class="oe.midware.workflow.engine.actor.activity.ActivityDeployActorImp">
+	</bean>
+	<bean id="activityDropActor"
+		class="oe.midware.workflow.engine.actor.activity.ActivityDropActorImp">
+	</bean>
+	<bean id="activityEndActor"
+		class="oe.midware.workflow.engine.actor.activity.ActivityEndActorImp">
+	</bean>
+	<bean id="activityStatusActor"
+		class="oe.midware.workflow.engine.actor.activity.ActivityStatusActorImp">
+	</bean>
+
+	<!-- 流程模块 -->
+	<bean id="processDeployActor"
+		class="oe.midware.workflow.engine.actor.process.ProcessDeployActorImp">
+		<property name="dataFieldDeployActor">
+			<ref local="dataFieldDeployActor" />
+		</property>
+	</bean>
+	<bean id="processEndActor"
+		class="oe.midware.workflow.engine.actor.process.ProcessEndActorImp">
+	</bean>
+	<bean id="processRouteActor"
+		class="oe.midware.workflow.engine.actor.process.ProcessRouteActorImp">
+		<property name="ruleEngine">
+			<ref local="ruleEngine" />
+		</property>
+	</bean>
+	<bean id="processSyncCheckActor"
+		class="oe.midware.workflow.engine.actor.process.ProcessSyncCheckActorImp">
+	</bean>
+	<bean id="processInitActor"
+		class="oe.midware.workflow.engine.actor.process.ProcessInitActorImp">
+		<property name="dataFieldDropActor">
+			<ref local="dataFieldDropActor" />
+		</property>
+		<property name="activityDropActor">
+			<ref local="activityDropActor" />
+		</property>
+		<property name="dataFieldDeployActor">
+			<ref local="dataFieldDeployActor" />
+		</property>
+
+	</bean>
+	<bean id="processDropActor"
+		class="oe.midware.workflow.engine.actor.process.ProcessDropActorImp">
+		<property name="dataFieldDropActor">
+			<ref local="dataFieldDropActor" />
+		</property>
+		<property name="activityDropActor">
+			<ref local="activityDropActor" />
+		</property>
+	</bean>
+	<bean id="processRunActor"
+		class="oe.midware.workflow.engine.actor.process.ProcessRunActorImp">
+		<property name="activityDeployActor">
+			<ref local="activityDeployActor" />
+		</property>
+	</bean>
+
+
+	<!-- /////// 流程内部执行者 /////// -->
+	<!-- 流程导航者 -->
+	<bean id="naviageActor"
+		class="oe.midware.workflow.engine.actor.NaviageActorImp">
+		<property name="processRouteActor">
+			<ref local="processRouteActor" />
+		</property>
+		<property name="processSyncCheckActor">
+			<ref local="processSyncCheckActor" />
+		</property>
+	</bean>
+	<!-- 流程交互者 -->
+	<bean id="processActor"
+		class="oe.midware.workflow.engine.actor.ProcessActorImp">
+
+		<property name="processDeployActor">
+			<ref local="processDeployActor" />
+		</property>
+		<property name="processRunActor">
+			<ref local="processRunActor" />
+		</property>
+		<property name="activityDeployActor">
+			<ref local="activityDeployActor" />
+		</property>
+		<property name="activityEndActor">
+			<ref local="activityEndActor" />
+		</property>
+		<property name="autoDeployer">
+			<ref local="autoDeployer" />
+		</property>
+
+	</bean>
+	<!-- 子流程交互者 -->
+	<bean id="subProcessActor"
+		class="oe.midware.workflow.engine.actor.SubProcessActorTmpImp">
+		<property name="processActor">
+			<ref local="processActor" />
+		</property>
+		<property name="activityStatusActor">
+			<ref local="activityStatusActor" />
+		</property>
+	</bean>
+	<!-- 自动者 -->
+	<bean id="autoMen"
+		class="oe.midware.workflow.engine.actor.AutoMenImp">
+		<property name="processActor">
+			<ref local="processActor" />
+		</property>
+		<property name="subProcessActor">
+			<ref local="subProcessActor" />
+		</property>
+	</bean>
+	<!-- 自动发布活动 -->
+	<bean id="autoDeployer"
+		class="oe.midware.workflow.engine.actor.AutoDeployerImp">
+		<property name="naviageActor">
+			<ref local="naviageActor" />
+		</property>
+		<property name="activityDeployActor">
+			<ref local="activityDeployActor" />
+		</property>
+		<property name="processEndActor">
+			<ref local="processEndActor" />
+		</property>
+		<property name="activityEndActor">
+			<ref local="activityEndActor" />
+		</property>
+	</bean>
+
+	<bean id="runtimemonitor"
+		class="oe.midware.workflow.engine.RuntimeMonitorImpl">
+	</bean>
+
+	<!-- 外部自动者-->
+	<bean id="processAuto"
+		class="oe.midware.workflow.engine.ProcessAutoTmpImp">
+		<property name="autoMen">
+			<ref local="autoMen" />
+		</property>
+	</bean>
+
+	<!-- soa服务脚本 -->
+	<bean id="msg"
+		class="oe.midware.workflow.engine.rule2.func.MsgScriptFunctionImpl" />
+	<bean id="bean"
+		class="oe.midware.workflow.engine.rule2.func.BeanScriptFunctionImpl" />
+	<bean id="dy"
+		class="oe.midware.workflow.engine.rule2.func.DyScriptFunctionImpl" />
+	<bean id="wf"
+		class="oe.midware.workflow.engine.rule2.func.WfScriptFunctionImpl" />
+	<bean id="env"
+		class="oe.midware.workflow.engine.rule2.func.EnvScriptFunctionImpl" />
+	<bean id="db"
+		class="oe.midware.workflow.engine.rule2.func.DbScriptFunctionImpl" />		
+	<!--工作流-->
+	<bean id="wfview"
+		class="oe.midware.workflow.service.WorkflowViewImpl">
+		<property name="runtimemonitor">
+			<ref local="runtimemonitor" />
+		</property>
+	</bean>
+	<bean id="wfhandle"
+		class="oe.midware.workflow.service.WorkflowConsoleImpl">
+		<property name="runtimemonitor">
+			<ref local="runtimemonitor" />
+		</property>
+		<property name="processEngine">
+			<ref local="processEngine" />
+		</property>
+		<property name="activeBindDao">
+			<ref local="activeBindDao" />
+		</property>	
+		
+	</bean>
+
+	<bean id="wfdesign"
+		class="oe.midware.workflow.service.WorkflowDesignImpl">
+		<property name="xpdlModelHandler">
+			<ref local="xpdlModelHandler" />
+		</property>
+		<property name="xpdlResourceDao">
+			<ref local="xpdlResourceDao" />
+		</property>
+		<property name="workflowTrackRuntime">
+			<ref local="workflowTrackRuntime" />
+		</property>
+
+	</bean>
+</beans>

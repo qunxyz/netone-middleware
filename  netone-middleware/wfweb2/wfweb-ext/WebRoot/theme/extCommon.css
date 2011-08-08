@@ -1,0 +1,96 @@
+@CHARSET "UTF-8";
+
+.addIcon {
+	background-image: url(../images/default/add.gif) !important;
+}
+
+.openIcon {
+	background-image: url(../images/default/open.gif) !important;
+}
+
+.saveIcon {
+	background-image: url(../images/default/save.gif) !important;
+}
+
+.deleteIcon {
+	background-image: url(../images/default/delete.gif) !important;
+}
+
+.editIcon {
+	background-image: url(../images/default/plugin.gif) !important;
+}
+
+.cancelIcon {
+	background-image: url(../images/default/cancel.gif) !important;
+}
+
+.exitIcon {
+	background-image: url(../images/default/exit.gif) !important;
+}
+
+.newIcon {
+	background-image: url(../images/default/new.gif) !important;
+}
+.leftIcon{
+	background-image: url(../images/multiselectItemSelector/left.gif) !important;
+}
+.rightIcon{
+	background-image: url(../images/multiselectItemSelector/right.gif) !important;
+}
+
+.reIcon{
+	background-image: url(../images/default/re.gif) !important;
+}
+
+.shIcon{
+	background-image: url(../images/default/sh.gif) !important;
+}
+	
+.savedIcon{
+	background-image: url(../images/default/saved.png) !important;
+}
+.okIcon{
+	background-image: url(../images/default/okbtn.png) !important;
+}
+.archiveIcon{
+	background-image: url(../images/default/archive.png) !important;
+}
+.addSIcon{
+	background-image: url(../images/default/addS.png) !important;
+}
+.copyIcon{
+	background-image: url(../images/default/copy.png) !important;
+}
+.viewIcon{
+	background-image: url(../images/default/view.png) !important;
+}
+.downLoadIcon{
+	background-image: url(../images/default/downLoad.png) !important;
+}
+.refreshIcon{
+	background-image: url(../images/default/nowait.gif) !important;
+}
+
+.excelIcon{
+	background-image: url(../images/default/excel.gif) !important;
+}
+
+.pdfIcon{
+	background-image: url(../images/default/pdf.gif) !important;
+}
+
+.wordIcon{
+	background-image: url(../images/default/word.gif) !important;
+}
+
+.picIcon{
+	background-image: url(../images/default/pic.gif) !important;
+}
+
+.pptIcon{
+	background-image: url(../images/default/ppt.gif) !important;
+}
+
+.downloadIcon2{
+	background-image: url(../images/default/download.gif) !important;
+}

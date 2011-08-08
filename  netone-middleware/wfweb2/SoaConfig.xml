@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soa>
+	<!-- name 是流程活动的资源注册ID, sync表示是否需要同步,bind表示所绑定的外部应用 -->
+	<activity name='' bind="dy:fsdfdsfdfs" sync="true">
+		<!-- name 中文名,source与activity所指的bind是一致的, node是字段名 -->
+		<relation datamode='in/out' name='' source='dy:fsdfdsfdfs'
+			node='' value=''/>
+		<relation datamode='in/out' name='' source='dy:fsdfdsfdfs'
+			node='' value=''/>
+	</activity>
+	<script name='' activityname=''>
+		<![CDATA[]]>
+	</script>
+	<task name='' activityname='' starttime='2008-4-2 15:18:7'
+		choicemode='chooseByDay' loopmode='2008 * * 1 1 8 0 0'
+		endtime='2008-4-2 15:19:00' />
+</soa>

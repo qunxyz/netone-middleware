@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="GB2312"?>
+<Package Id="63743581094" Name="page" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+	<PackageHeader>
+ 	<XPDLVersion>1.0</XPDLVersion>
+ 	<Vendor>oesee</Vendor>
+ 	<Created>2006-03-08 15:45:54</Created>
+	</PackageHeader>
+	<RedefinableHeader PublicationStatus="UNDER_TEST"/>
+	<ConformanceClass GraphConformance="NON_BLOCKED"/>
+	<WorkflowProcesses>
+ 	<WorkflowProcess AccessLevel="PUBLIC" Id="6cafb0c7fb9e11dc868c51c8ba5bf6b8" Name="TestX1[TestX1]">
+ 		<ProcessHeader DurationUnit="D">
+ 			<Created>2008-03-27 09:38:21</Created>
+ 		</ProcessHeader>
+ 	<RedefinableHeader PublicationStatus="UNDER_TEST"/>
+ 		<DataFields>
+ 			<DataField Id="rev1" IsArray="FALSE" Name="rev1">
+ 				<DataType>
+ 					<BasicType Type="STRING"/>
+ 				</DataType>
+ 				<InitialValue></InitialValue>
+ 				<Length></Length>
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 				</ExtendedAttributes>
+ 			</DataField>
+ 			<DataField Id="rev2" IsArray="FALSE" Name="rev2">
+ 				<DataType>
+ 					<BasicType Type="STRING"/>
+ 				</DataType>
+ 				<InitialValue></InitialValue>
+ 				<Length></Length>
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 				</ExtendedAttributes>
+ 			</DataField>
+ 		</DataFields>
+ 	<Activities>
+ 		<Activity Id="trackAction1206581891265" Name="节点1">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="239"/>
+ 				<ExtendedAttribute Name="YOffset" Value="121"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="trackAction1206581892446" Name="节点2">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="356"/>
+ 				<ExtendedAttribute Name="YOffset" Value="199"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		</Activities>
+ 		<Transitions>
+ 			<Transition Name="" From="trackAction1206581891265" Id="trackAction1206581891265_trackAction1206581892446" To="trackAction1206581892446">
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 		</Transitions>
+ 		<ExtendedAttributes>
+ 			<ExtendedAttribute Name="StartOfWorkflow" Value="FreeTextExpressionParticipant;trackAction1206581891265;124;123;NOROUTING"/>
+ 			<ExtendedAttribute Name="EndOfWorkflow" Value="FreeTextExpressionParticipant;trackAction1206581892446;523;149;NOROUTING"/>
+ 			<ExtendedAttribute Name="ParticipantVisualOrder" Value="FreeTextExpressionParticipant;"/>
+ 			<ExtendedAttribute Name="activitycount" Value="2"/>
+ 			<ExtendedAttribute Name="activitymaxcount" Value="2"/>
+ 			<ExtendedAttribute Name="othercount" Value="2"/>
+ 		</ExtendedAttributes>
+ 	</WorkflowProcess>
+	</WorkflowProcesses>
+	<ExtendedAttributes>
+ 	<ExtendedAttribute Name="MadeBy" Value="www.oesee.org"/>
+ 	<ExtendedAttribute Name="Version" Value="1.0"/>
+	</ExtendedAttributes>
+</Package>

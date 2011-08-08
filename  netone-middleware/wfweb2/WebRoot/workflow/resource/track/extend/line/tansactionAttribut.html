@@ -1,0 +1,88 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="../../../../../include/css/workflowtrack/style.css
+" rel="stylesheet" type="text/css">
+
+<script src="../../../../../include/js/workflowtrack/
+line/tansactionAttribut.js">
+</script>
+</head>
+<body onLoad="(new fetchLineObj()).initializeLineObj();">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td colspan="2" align="center">
+	<table width="100%">
+	<tr align="left">
+	<td width="12%" >ID
+	</td>
+	<td  ><input id="lineId" type="text" name="textfield" size="40"></td>
+	</tr>	
+	<tr align="left">
+	<td width="12%" >名字
+	</td>
+	<td width="277" ><input id="lineName" type="text" name="textfield2" size="40"></td>
+	</tr>			
+	<tr align="left">
+	<td width="12%" >来自
+	<td width="277" ><input id="lineFrom" type="text" name="textfield3" size="40" readonly>    
+	</tr>	
+	<tr>
+	<td width="12%" ><div align="left">到
+	  </div></td>
+	<td width="277" ><div align="left">
+	  <input id="lineTo" type="text" name="textfield4" size="40" readonly>
+	  </div></td>
+	</tr>
+	<tr>
+	<td width="12%" >条件表达式
+	</td>
+	<td ><textarea id="lineCondition" name="textarea" rows=5 cols=60></textarea></td>
+	</tr>
+	<tr align="left">
+	<td width="12%" >描述
+	</td>
+	<td ><textarea id="lineDescribe" name="textarea" rows=2 cols=60></textarea></td>
+	</tr>
+				
+	</table>	
+	<table width="100%">
+	<tr align="left">
+	<td width="136">
+	扩展属性集</td>
+	</tr>	
+	</table>
+	<table width="100%" height="100" border="1" cellpadding=0 cellspacing=0>
+        <tr>
+          <td width="80%" valign="top">
+            <table width="100%" border="1" cellpadding=0 cellspacing=0  style=" BORDER-COLLAPSE: collapse">
+              <tr>
+                <td width="49%"><div align="center">名字</div></td>
+                <td width="51%"><div align="center">值</div></td>
+              </tr>
+            </table>
+            <IFRAME frameBorder=0 id=tAttributeList name=tlistFrame src="tansactionAttributeList.html" style="HEIGHT: 100%; VISIBILITY: inherit; WIDTH: 100%; Z-INDEX: 1"></IFRAME>
+		  </td>
+          <td width="20%" align="center" valign="top">
+          	  <br>
+              <input type="submit" name="Submit2" value="新建" onclick="(new openWindow()).newLineExtend();">
+              <br> 
+              <input type="submit" name="Submit3" value="编辑" onclick="(new openWindow()).editLineExtend();">
+              <br>
+              <input type="submit" name="Submit4" value="删除" onclick="(new operateTansactionAttributeList).deleteExtend();">
+          </td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td>
+      <div align="center">
+        <input type="button" name="Submit" value="提交" onClick="(new fetchLineObj()).setLineObj();">
+&nbsp;
+
+        <input type="button" name="Submit" value="关闭"onClick="self.close();">
+    </div></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,318 @@
+body {
+	FONT-SIZE: 12px;
+	font-family: "宋体";
+	/*BACKGROUND: #FFFFFF; 
+		scrollbar-highlight-color: #f8f7f9;
+     	scrollbar-shadow-color: #c5d9e8;
+	    scrollbar-3dlight-color: #c5d9e8;
+	    scrollbar-arrow-color: black;
+	    scrollbar-darkshadow-color: white;
+		*/ /*margin: 10px;
+    padding: 0; 
+    font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 100%;*/
+}
+
+/** 按钮统一样式 */
+input.btn {
+	BORDER-RIGHT: #7b9ebd 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #7b9ebd 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 12px;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColorStr =   #ffffff, EndColorStr =#cecfde);
+	BORDER-LEFT: #7b9ebd 1px solid;
+	CURSOR: hand;
+	COLOR: black;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #7b9ebd 1px solid;
+}
+
+input.btn_mouseover {
+	BORDER-RIGHT: #7b9ebd 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #7b9ebd 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 12px;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColorStr =   #ffffff, EndColorStr =#9DBCEA);
+	BORDER-LEFT: #7b9ebd 1px solid;
+	CURSOR: hand;
+	COLOR: black;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #7b9ebd 1px solid;
+}
+
+input.btn_mousedown {
+	BORDER-RIGHT: #FFE400 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #FFE400 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 12px;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColorStr =   #ffffff, EndColorStr =#C3DAF5);
+	BORDER-LEFT: #FFE400 1px solid;
+	CURSOR: hand;
+	COLOR: black;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #FFE400 1px solid;
+}
+
+/*---报表查询样式----start----*/
+#wrapper {
+	width: 500px;
+	margin: 0 auto;
+}
+
+#intro {
+	padding-bottom: 10px;
+}
+
+h2 {
+	margin: 0;
+	margin-bottom: 14px;
+	padding: 0;
+}
+
+#slider {
+	width: 620px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.scroll {
+	width: 500px;
+	overflow: auto;
+	overflow-x: hidden;
+	position: relative;
+	clear: left;
+	background: #FFFFFF url(images/content_pane-gradient.gif) repeat-x
+		scroll left bottom;
+	border: 2px 2px solid #DFC68E;
+}
+
+.scrollContainer div.panel {
+	padding: 20px;
+	height: 210px;
+	width: 580px;
+	font-size: 12px;
+	line-height: 18px;
+}
+
+#shade {
+	background: #EDEDEC url(images/shade.jpg) no-repeat 0 0;
+	height: 50px;
+}
+
+.navigation {
+	height: 18px;
+}
+
+ul.navigation {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 9px;
+}
+
+ul.navigation li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+ul.navigation a {
+	padding: 10px;
+	color: #613611;
+	text-decoration: none;
+	line-height: 22px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+ul.navigation a:hover {
+	background-color: #DFC68E;
+}
+
+ul.navigation a.selected {
+	color: #613611;
+	background-color: #DFC68E;
+	border: 1px 1px solid #613611;
+}
+
+ul.navigation a:focus {
+	outline: none;
+}
+
+.scrollButtons {
+	position: absolute;
+	top: 150px;
+	cursor: pointer;
+}
+
+.scrollButtons.left {
+	left: -20px;
+}
+
+.scrollButtons.right {
+	right: -20px;
+}
+
+.hide {
+	display: none;
+}
+
+/*---报表查询样式----end----*/
+
+/*--所有编辑页面及出、入库查询、出入库（实际、账面）汇总 ---start---*/
+
+/** 表格样式	*/ /*border: 3;
+	border-color: #DFC68E; 
+	cellPadding: 0px;
+	border-top: #DFC68E 3px solid;
+    border-bottom: #DFC68E 3px solid;
+    border-left: #DFC68E 3px solid;
+    border-right: #DFC68E 3px solid;
+    t1:expression(this.border=3);
+     border:3px solid #DFC68E;*/
+table.main {
+	border: 3px solid #DFC68E;
+	border-collapse: collapse;
+	boder-spacing:2px;
+}
+td.label {
+	background-color: #fff;
+	color: #000066;
+	text-align: right;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-style: normal;
+	border: 1px solid #DFC68E;
+}
+/** td导入文件标题等 （“请选择要导入数据文件”）*/
+td.labeltitle {
+	background-color: #F5FAFF;
+	font-size: 16px;
+	font-family: "宋体";
+	
+	padding-left: 10px;
+	padding-top: 15px;
+	border-bottom: #DFC68E 1px solid;
+}
+td.labeltitle_td{
+	width: 100%;
+	height: 50px;
+	vertical-align: top;
+	padding-top: 25px;
+	padding-bottom: 20px;
+	text-align: center;
+	background-color: #fff;
+}
+/** td中的查询按钮 */
+td.labelbtn {
+	text-align: right;
+	border: 1px solid #DFC68E;
+}
+/*--所有编辑页面及出、入库查询、出入库（实际、账面）汇总 ---end---*/
+
+/*----产销计划、订单\配送 -----strat -----*/
+table.mainPI{
+ border:0;
+ border-color: #9fd6ff;
+ border-collapse: collapse;
+ width: 100%;
+}
+td.labelPI{
+	background-color: #fff;
+	color: #000066;
+	text-align: right;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-style: normal;
+}
+.text {
+	border-left: 0px;
+	border-right: 0px;
+	border-top: 0px;
+	border-bottom-color: #3167B1;
+	border-bottom: 1px solid
+}
+/*----产销计划、订单\配送 -----end -----*/
+
+/*- workList------start--*/
+.titleList{
+	font-size: 14px;
+}
+.hrList{
+	color: #DFC68E;
+}
+.titlebig{
+	color: red;
+	font-weight: bold;
+	font-size: 14px;
+}
+a.titlemid:link{
+	color: red;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.titlemid:visited {
+	color: red;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.titlemid:hover {
+	color: red;
+	font-size: 13px;
+	text-decoration:underline;
+}
+
+a.titlesmall:link{
+	color: blue;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.titlesmall:visited{
+	color: blue;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.titlesmall:hover {
+	color: blue;
+	font-size: 13px;
+	text-decoration:underline;
+}
+.title{
+	color: #999990;
+	font-size: 13px;
+}
+a.titles:link{/*正常*/
+	text-decoration:underline;
+	color: #999999;
+	font-size: 13px;
+}
+a.titles:visited{/*按下*/
+	text-decoration:underline;
+	color: #999999;
+	font-size: 13px;
+}
+a.titles:hover {
+	color: #999999;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.none:link{
+	color:blue;
+	font-size: 14px;
+	text-decoration: underline;
+}
+a.none:visited{
+	color:#800080;
+	font-size: 14px;
+	text-decoration: underline;
+}
+
+/** 产品选择页面中，提示输入产品编码、或名字进行查询 */
+.titleInfo{
+	width: 150px;
+	font:12px/14px arial;
+	color:#999;
+}

@@ -1,0 +1,190 @@
+/*
+html{
+		PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0xp; HEIGHT: 96%;
+		overflow:auto;
+}
+*/
+/* don modify overflow:auto;超出自动出现滚动条
+body {
+		PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0xp; HEIGHT: 96%;
+		overflow:auto;
+}
+*/
+body {
+		FONT-SIZE: 12px; 
+		font-family: "宋体";
+		/*
+		BACKGROUND: #FFFFFF; 
+		scrollbar-highlight-color: #f8f7f9;
+     	scrollbar-shadow-color: #c5d9e8;
+	    scrollbar-3dlight-color: #c5d9e8;
+	    scrollbar-arrow-color: black;
+	    scrollbar-darkshadow-color: white;
+		*/
+}
+.text{border-left:0px; border-right:0px; border-top:0px; border-bottom-color:#3167B1; border-bottom:1px solid }
+/*
+table.main{
+	border-collapse: collapse;
+	table-layout: fixed;
+    word-wrap:break-word;
+	font-size:12px;
+	border-color:#9fd6ff 1px solid;
+} 
+tr.title{
+	height:25px;
+	background-color: #C2CADA;
+	font-family: "宋体";
+	font-size: 10pt;
+	filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EFF1F5, endColorStr=#C2CADA, gradientType='0');
+	line-height: 20px;
+	color: #000000;
+	text-align:center;
+	text-decoration: none;
+}
+td.title {
+	position:relative;
+	PADDING-TOP: 1px;
+	FONT: 10pt/30px "宋体";
+	CURSOR: hand;
+	COLOR: #2F285B;
+	text-align: center;
+	FILTER:progid:DXImageTransform.Microsoft.Gradient(startColorStr=#EFF1F5, endColorStr=#C2CADA, gradientType='0');
+}
+*/
+table .main {
+	cellPadding:0px;
+	border:3;
+	borderColor:#000;
+}						
+td.label{
+    background-color:#fff;
+	color:#000066;
+	text-align:right;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-style:normal;
+}
+input.btn {
+BORDER-RIGHT: #7b9ebd 1px solid; 
+PADDING-RIGHT: 2px; 
+BORDER-TOP: #7b9ebd 1px solid; 
+PADDING-LEFT: 2px; 
+FONT-SIZE: 12px; 
+FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#cecfde); 
+BORDER-LEFT: #7b9ebd 1px solid; 
+CURSOR: hand; 
+COLOR: black; 
+PADDING-TOP: 2px; 
+BORDER-BOTTOM: #7b9ebd 1px solid;
+}
+input.btn_mouseover {
+BORDER-RIGHT: #7b9ebd 1px solid;
+PADDING-RIGHT: 2px;
+BORDER-TOP: #7b9ebd 1px solid;
+PADDING-LEFT: 2px;
+FONT-SIZE: 12px;
+FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#9DBCEA);
+BORDER-LEFT: #7b9ebd 1px solid;
+CURSOR: hand;
+COLOR: black;
+PADDING-TOP: 2px;
+BORDER-BOTTOM: #7b9ebd 1px solid;
+}
+input.btn_mousedown
+{
+BORDER-RIGHT: #FFE400 1px solid;
+PADDING-RIGHT: 2px;
+BORDER-TOP: #FFE400 1px solid;
+PADDING-LEFT: 2px;
+FONT-SIZE: 12px;
+FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#C3DAF5);
+BORDER-LEFT: #FFE400 1px solid;
+CURSOR: hand;
+COLOR: black;
+PADDING-TOP: 2px;
+BORDER-BOTTOM: #FFE400 1px solid;
+}
+
+
+/*
+a{
+	font-family: "宋体";
+	font-size: 9pt;
+	text-decoration: none;
+	color: #003399;
+}
+a:hover {
+	font-family: "宋体";
+	font-size: 9pt;
+	text-decoration: none;
+	color: #003399;
+}
+a:link {
+	font-family: "宋体";
+	font-size: 9pt;
+	line-height: 20px;
+	color: #003399;
+	text-decoration: none;
+}
+a:visited {
+	font-family: "宋体";
+	font-size: 9pt;
+	line-height: 20px;
+	color: #003399;
+	text-decoration: none;
+}
+
+
+.ToolBar{
+        background-color:#D3E0EB;
+        vertical-align: middle;
+        height:38px;
+        width:100%;
+}
+.ToolBarOut{
+	width:60px;
+	padding: 1px 1px 1px 1px;
+	cursor:hand;
+	vertical-align: middle;
+}
+.ToolBarIn{
+	width:60px;
+	padding: 1px 1px 1px 1px;
+	color:Blue;
+	vertical-align: middle;
+	cursor:hand;
+}
+.ToolBarSep{
+	font: Verdana;
+	color: #000000;
+	padding: 0 1px 2px 1px;
+}
+#ToolBar a{
+	text-decoration: none;
+	color: #003399;
+}
+#ToolBar a:hover
+{
+	text-decoration: underline;
+	color: #ff3300;
+}
+
+div#container{
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	width:100%;
+	overflow:hidden;
+	padding:0px;
+}
+div#toolbarRim{
+	width:100%;
+	padding:0px;
+	height:28px;
+}
+div#toolbar{
+	width:100%;
+	height:28px;
+	padding:0px;
+}*/

@@ -1,0 +1,78 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="../../../../../include/css/workflowtrack/style.css" rel="stylesheet" type="text/css">
+
+<script src="../../../../../include/js/workflowtrack/relationData/relationDataAttribute.js">
+</script>
+</head>
+<body>
+<table width="330" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td colspan="2" align="center">
+	<table width="100%">
+	<tr align="left">
+	<td width="57" >ID
+	</td>
+	<td width="261" ><input id="dataId" type="text" name="textfield" ></td>
+	</tr>	
+	<tr align="left">
+	<td width="57" >名字
+	</td>
+	<td width="261" ><input id="dataName" type="text" name="textfield2"></td>
+	</tr>			
+	<tr align="left">
+	<td width="57"  >初时值：
+	<td width="261" ><input id="dataInitial" type="text" name="textfield3" >    
+	</tr>	
+	<tr>
+	<td width="57" ><div align="left">长度：
+	  </div></td>
+	<td width="261" ><div align="left">
+	  <input id="dataLength" type="text" name="textfield4" >
+	  </div></td>
+	</tr>
+	<tr align="left">
+	<td >描述
+	</td>
+	<td ><textarea id="dataDescribe" name="textarea"></textarea></td>
+	</tr>			
+	</table>	
+	<table width="100%">
+	<tr align="left">
+	<td width="136">
+	扩展属性集</td>
+	</tr>	
+	</table>
+	<table width="100%" height="25%" border="1" cellpadding=0 cellspacing=0>
+        <tr>
+          <td width="278" valign="top">
+            <table width="100%" border="1" cellpadding=0 cellspacing=0  style=" BORDER-COLLAPSE: collapse">
+              <tr>
+                <td width="49%"><div align="center">名字</div></td>
+                <td width="51%"><div align="center">值</div></td>
+              </tr>
+            </table>
+            <IFRAME frameBorder=0 id=dAttributeList name=dExtendFrame src="reationDataExtend.html" style="HEIGHT: 100%; VISIBILITY: inherit; WIDTH: 100%; Z-INDEX: 1"></IFRAME>
+		  </td>
+          <td width="46" align="center" valign="top"><input type="submit" name="Submit2" value="新建" onclick="(new openWindow()).newExtend();">
+              <label>
+              <input type="submit" name="Submit3" value="编辑" onclick="(new openWindow()).editExtend();">
+              </label>
+              <input type="submit" name="Submit4" value="删除" onclick="deleteOpe();">
+          </td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td>
+      <div align="center">
+        <input type="button" name="Submit" value="提交" onClick="(new bean()).getValue();">
+
+&nbsp;
+        <input type="button" name="Submit" value="关闭"onClick="self.close();">
+    </div></td>
+  </tr>
+</table>
+</body>
+</html>

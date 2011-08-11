@@ -21,7 +21,10 @@ public class UseResource {
 			RemoteException, NotBoundException {
 		// 资源的访问控制句柄
 		ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
-		UmsProtectedobject upo=new UmsProtectedobject();
+		UmsProtectedobject upo=rsrmi.loadResourceByNatural("BUSSFORM.BUSSFORM");
+		List list=rsrmi.subResource(upo.getId());
+		
+		
 		upo.setName("fdsfsd");
 		upo.setNaturalname("");
 		rsrmi.addResource(upo, "");

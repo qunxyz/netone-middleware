@@ -97,9 +97,7 @@
 							<input type="checkbox" name="checkall" onclick="docheck();">
 							选择
 						</td>
-						<td class="td_titt_bg" nowrap>
-							角色名称
-						</td>
+
 						<td class="td_titt_bg" nowrap>
 							中文名称
 						</td>
@@ -115,9 +113,7 @@
 							<td>
 								<input type="checkbox" name="chkid" value="${getCol.id}"${checkedMap[getCol.id]}>
 							</td>
-							<td height="21">
-								<a href=javascript:link("${getCol.id}")>${getCol.naturalname}</a>
-							</td>
+
 							<td height="21">
 								${getCol.name}
 							</td>

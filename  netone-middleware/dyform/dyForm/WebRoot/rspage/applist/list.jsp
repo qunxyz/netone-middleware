@@ -47,12 +47,13 @@
 		</script>
 
 	</head>
-	<body style="font-size: 12px;margin: 22px">
-		<div style="width: 100%;height: 100%">
+	<body style="font-size: 12px; margin: 22px">
+		<div style="width: 100%; height: 100%">
 
 			<form action="" method="post" name="form1">
 				<input type="hidden" name="pagename" value="${pagename}" />
-				<input type="hidden" name="ext"  id="ext" value="" /><!-- 增加id 2009-2-17 -->
+				<input type="hidden" name="ext" id="ext" value="" />
+				<!-- 增加id 2009-2-17 -->
 
 				<table width="90%" border="0">
 					<tr>
@@ -112,43 +113,42 @@
 						</td>
 					</tr>
 					<c:forEach items="${list}" var="list">
-						<c:if test="${list.apptype=='DYFORM'}">
-							<tr>
-								<td nowrap>
-									<input type="checkbox" name="chkid" value="${list.id}">
-								</td>
-								<td nowrap>
-									${list.naturalname}
-								</td>
-								<td nowrap>
-									${list.name}
-								</td>
-								<td nowrap>
-									${list.created}
-								</td>
-								<td nowrap>
-									<c:if test="${list.active=='1'}">
+
+						<tr>
+							<td nowrap>
+								<input type="checkbox" name="chkid" value="${list.id}">
+							</td>
+							<td nowrap>
+								${list.naturalname}
+							</td>
+							<td nowrap>
+								${list.name}
+							</td>
+							<td nowrap>
+								${list.created}
+							</td>
+							<td nowrap>
+								<c:if test="${list.active=='1'}">
 									YES
 								</c:if>
-									<c:if test="${list.active=='0'}">
+								<c:if test="${list.active=='0'}">
 									NO
 								</c:if>
-								</td>
-								<td nowrap>
-									<a href="javascript:edit('${list.id}');">[修改]</a>
-									<a href="javascript:del('${list.id}');">[删除]</a>
-									<a href="javascript:viewthis('${list.id}');">[查看]</a>
-									<a
-										href="javascript:checkthis('${list.name}','${list.naturalname}','${list.name}');"><font
-										color='red'>[选择]</font> </a>
+							</td>
+							<td nowrap>
+								<a href="javascript:edit('${list.id}');">[修改]</a>
+								<a href="javascript:del('${list.id}');">[删除]</a>
+								<a href="javascript:viewthis('${list.id}');">[查看]</a>
+								<a
+									href="javascript:checkthis('${list.name}','${list.naturalname}','${list.name}');"><font
+									color='red'>[选择]</font> </a>
 
-									<a
-										href="javascript:managerthis('${list.naturalname}','path','datalist');"><font
-										color='blue'>[管理]</font>
-									</a>
-								</td>
-							</tr>
-						</c:if>
+								<a
+									href="javascript:managerthis('${list.naturalname}','path','datalist');"><font
+									color='blue'>[管理]</font> </a>
+							</td>
+						</tr>
+						
 					</c:forEach>
 				</table>
 				<br>

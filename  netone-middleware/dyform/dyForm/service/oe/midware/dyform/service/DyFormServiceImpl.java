@@ -4,12 +4,16 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 
 import oe.cav.bean.logic.bus.BussDao;
 import oe.cav.bean.logic.bus.FormEntry;
 import oe.cav.bean.logic.bus.TCsBus;
+import oe.cav.bean.logic.column.TCsColumn;
 import oe.cav.bean.logic.form.FormDao;
 import oe.cav.bean.logic.form.TCsForm;
 import oe.frame.web.WebCache;
@@ -32,12 +36,17 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 	}
 
 	public TCsForm loadForm(String formid) throws RemoteException {
-		if (!WebCache.containCache("DYFORM$_" + formid)) {
+		if (formid == null || formid.equals("")) {
+			System.err.println("lose formid");
+		}
+		if (!WebCache.containCache("DYFORMX_" + formid)) {
+			System.out.println("add cache form:" + formid);
 			FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
 			TCsForm form = formDao.loadObject(formid);
-			
+			// 零时适应，动态表单中的表名原先放在 description中，现在移
+			form.setTablename(form.getDescription());
 			// 增加扩展属性的展示 主要针对 html 头信息的追加
-			ResourceRmi rsrmi=null;
+			ResourceRmi rsrmi = null;
 			try {
 				rsrmi = (ResourceRmi) RmiEntry.iv("resource");
 			} catch (MalformedURLException e) {
@@ -56,11 +65,11 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 				form.setDescription(((UmsProtectedobject) listq.get(0))
 						.getReference());
 			}
-			
-			WebCache.setCache("DYFORM$_" + formid, form, null);
+
+			WebCache.setCache("DYFORMX_" + formid, form, null);
 			return form;
 		} else {
-			return (TCsForm) WebCache.getCache("DYFORM$_" + formid);
+			return (TCsForm) WebCache.getCache("DYFORMX_" + formid);
 		}
 	}
 
@@ -83,13 +92,19 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 
 	public List fetchColumnList(String formid) throws RemoteException {
 
-		if (!WebCache.containCache("DYFORMCOLUMN$_" + formid)) {
+		if (!WebCache.containCache("DYFORMCOLUMNX_" + formid)) {
 			FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
 			List forms = formDao.fetchColumnList(formid);
-			WebCache.setCache("DYFORMCOLUMN$_" + formid, forms, null);
+			for (Iterator iterator = forms.iterator(); iterator.hasNext();) {
+				TCsColumn object = (TCsColumn) iterator.next();
+				String ext = object.getExtendattribute();
+				ext = StringUtils.replace(ext, "%X@", "#");
+				object.setExtendattribute(ext);
+			}
+			WebCache.setCache("DYFORMCOLUMNX_" + formid, forms, null);
 			return forms;
 		} else {
-			return (List) WebCache.getCache("DYFORMCOLUMN$_" + formid);
+			return (List) WebCache.getCache("DYFORMCOLUMNX_" + formid);
 		}
 	}
 
@@ -115,14 +130,14 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 	}
 
 	public Map fetchTitleInfos(String formcode) throws RemoteException {
-		
-		if (!WebCache.containCache("DYFORMTITLE$_" + formcode)) {
+
+		if (!WebCache.containCache("DYFORMTITLEX_" + formcode)) {
 			FormDao formDao = (FormDao) FormEntry.fetchBean("formDao");
 			Map forms = formDao.fetchTitleInfos(formcode);
-			WebCache.setCache("DYFORMTITLE$_" + formcode, forms, null);
+			WebCache.setCache("DYFORMTITLEX_" + formcode, forms, null);
 			return forms;
 		} else {
-			return (Map) WebCache.getCache("DYFORMTITLE$_" + formcode);
+			return (Map) WebCache.getCache("DYFORMTITLEX_" + formcode);
 		}
 	}
 }

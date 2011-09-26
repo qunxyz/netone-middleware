@@ -37,13 +37,13 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 	private ColumnDao columnDao;
 
 	private void initCache(String formcode) {
-		WebCache.removeCache("DYFORMTITLE$_" + formcode);
-		WebCache.removeCache("DYFORM$_" + formcode);
-		WebCache.removeCache("DYFORMCOLUMN$_" + formcode);
+		WebCache.removeCache("DYFORMTITLEX_" + formcode);
+		WebCache.removeCache("DYFORMX_" + formcode);
+		WebCache.removeCache("DYFORMCOLUMNX_" + formcode);
 	}
 
 	public String addColumn(TCsColumn column) throws RemoteException {
-		
+
 		initCache(column.getFormcode());
 		String ext = column.getExtendattribute();
 		ext = StringUtils.replace(ext, "#", "%X@");
@@ -187,7 +187,11 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 
 	public TCsColumn loadColumn(String formcode, Serializable key) {
 
-		return columnDao.loadObject(formcode, key);
+		TCsColumn columnx = columnDao.loadObject(formcode, key);
+		String ext = columnx.getExtendattribute();
+		ext = StringUtils.replace(ext, "%X@", "#");
+		columnx.setExtendattribute(ext);
+		return columnx;
 	}
 
 	public List queryObjects(TCsColumn obj, int from, int to)

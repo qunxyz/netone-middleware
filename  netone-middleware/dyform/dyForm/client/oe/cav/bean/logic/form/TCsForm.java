@@ -69,6 +69,16 @@ public class TCsForm implements Serializable {
 
 	private String styleinfo;
 
+	private String tablename;
+
+	public String getTablename() {
+		return tablename;
+	}
+
+	public void setTablename(String tablename) {
+		this.tablename = tablename;
+	}
+
 	public String getDimlevel() {
 		return dimlevel;
 	}

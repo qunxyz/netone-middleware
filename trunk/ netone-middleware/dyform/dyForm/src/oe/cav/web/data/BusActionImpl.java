@@ -271,10 +271,11 @@ public class BusActionImpl extends BaseAction {
 
 		// 处理人员过滤，只能操作自己的数据
 		String man = ser.getUserLoginName();
+		String name=ser.getUserName();
 		if (!man.equals("adminx")) {// 管理员例外
 			boolean sysadmin = ser.checkUserPermission(_ROLE_ADMIN_SYS, "1");
 			if (!sysadmin) {// 没有管理员角色权限(管理员权限的对DEPT.DEPT部门根有权限的)
-				form.setParticipant(man);
+				form.setParticipant(name+"["+man+"]");
 			}
 
 		}

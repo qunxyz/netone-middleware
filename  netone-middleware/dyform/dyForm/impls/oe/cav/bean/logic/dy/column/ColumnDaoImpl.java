@@ -7,7 +7,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.management.StringValueExp;
+
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 
 import oe.cav.bean.logic.bus.FormEntry;
 import oe.cav.bean.logic.column.ColumnDao;
@@ -46,7 +49,7 @@ public class ColumnDaoImpl implements ColumnDao {
 			DyObj dfo = dofx.parser(XmlPools.fetchXML(formcode).toString());
 			TCsForm tcf = dfo.getFrom();
 			if (DyReference.DB.equals(tcf.getTypeinfo())) {
-				return "来自DB的表单,不能创建字段";
+				return "来自SQL的表单,不能创建字段";
 			}
 			List columnlist = dfo.getColumn();
 			// 检查是否有重复的columncode
@@ -54,11 +57,11 @@ public class ColumnDaoImpl implements ColumnDao {
 				TCsColumn tcc = (TCsColumn) iteror.next();
 				String columncodes = tcc.getColumnid();
 				if (columncodes.equals(columncode)) {
-					return "发现重复的字段ID";
+					System.err.println("发现重复的字段ID," + columncodes);
+					throw new RuntimeException("发现重复的字段ID," + columncodes);
 				}
 			}
 			columnlist.add(column);
-			dfo.setColumn(columnlist);
 			XmlWriter.write(dyObjToXML.parser(dfo), XmlPools
 					.writedPath(formcode));
 			// Db Sys
@@ -96,7 +99,6 @@ public class ColumnDaoImpl implements ColumnDao {
 					}
 				}
 			}
-			dfo.setColumn(columnlist);
 			XmlWriter.write(dyObjToXML.parser(dfo), XmlPools
 					.writedPath(formcode));
 			// Db Sys
@@ -154,26 +156,29 @@ public class ColumnDaoImpl implements ColumnDao {
 					.toString());
 			TCsForm tcf = dfo.getFrom();
 			if (DyReference.DB.equals(tcf.getTypeinfo())) {
-				return "来自DB的表单,不能删除字段";
+				return "来自SQL的表单,不能删除字段";
 			}
 			List columnlist = dfo.getColumn();
 			// 有重复的columncode
+			TCsColumn columnx = null;
 			for (Iterator iteror = columnlist.iterator(); iteror.hasNext();) {
 				TCsColumn tcc = (TCsColumn) iteror.next();
 				String columncodes = tcc.getColumnid();
 				if (columncodes.equals(columncode)) {
 					// columnlist.remove(tcc);
-					tcc.setUseable(false);
+					// tcc.setUseable(false);
+					columnx = tcc;
 					break;
 				}
 			}
-			dfo.setColumn(columnlist);
+
+			columnlist.remove(columnx);
 
 			XmlWriter.write(dyObjToXML.parser(dfo), XmlPools
 					.writedPath(formcode));
 
 			// Db Sys
-			// DbScriptTools.dropColumn(column);
+			DbScriptTools.dropColumn(column,tcf.getSystemid());
 			return "删除成功";
 		}
 	}
@@ -457,6 +462,26 @@ public class ColumnDaoImpl implements ColumnDao {
 	public long getNextIndexValue(String formcode) {
 		DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode).toString());
 		List columnlist = dfo.getColumn();
+		int maxcolumnid = 0;
+		for (Iterator iterator = columnlist.iterator(); iterator.hasNext();) {
+			TCsColumn object = (TCsColumn) iterator.next();
+			String columnid = object.getColumnid();
+			if (columnid.contains("column")) {
+				String index = StringUtils.substring(columnid, 6);
+				try {
+					int indexvalue = Integer.parseInt(index);
+					if (indexvalue > maxcolumnid) {
+						maxcolumnid = indexvalue;
+					}
+				} catch (Exception e) {
+					System.err.println("表单字段异常 " + columnid);
+					e.printStackTrace();
+				}
+			}
+		}
+		if (maxcolumnid > 0) {
+			return maxcolumnid + 1;
+		}
 		return (columnlist.size() - 7); // 8是前8位系统默认变量
 
 	}

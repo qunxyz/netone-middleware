@@ -120,6 +120,7 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 	}
 
 	public boolean dropClerk(String code, String id) throws RemoteException {
+		WebCache.removeCache("USERX_"+id);
 		Clerk clerk = new Clerk();
 		clerk.setDescription(id);
 		clerk.setOfficeNO(code);
@@ -130,11 +131,14 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 	public boolean dropResource(String id) throws RemoteException {
 		UmsProtectedobject ps = (UmsProtectedobject) pos.fetchDao().loadObject(
 				UmsProtectedobject.class, id);
+		WebCache.removeCache("NA_" + ps.getNaturalname());
+		WebCache.removeCache("NID_" + ps.getId());
 		return pos.fetchDao().drop(ps);
 
 	}
 
 	public boolean updateClerk(String code, Clerk user) throws RemoteException {
+		WebCache.removeCache("USERX_"+user.getDescription());
 		user.setOfficeNO(code);
 		return userservice.fetchDao().update(user);
 
@@ -142,17 +146,19 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 
 	public boolean updateResource(UmsProtectedobject upo)
 			throws RemoteException {
+		WebCache.removeCache("NA_" + upo.getNaturalname());
+		WebCache.removeCache("NID_" + upo.getId());
 		return pos.fetchDao().update(upo);
 
 	}
 
 	public Clerk loadClerk(String code, String id) throws RemoteException {
-		if (!WebCache.containCache("USER$" + id)) {
+		if (!WebCache.containCache("USERX_" + id)) {
 			Clerk clerk = (Clerk) userservice.fetchDao().loadObject(code, id);
-			WebCache.setCache("USER$" + id, clerk, null);
+			WebCache.setCache("USERX_" + id, clerk, null);
 			return clerk;
 		} else {
-			return (Clerk) WebCache.getCache("USER$" + id);
+			return (Clerk) WebCache.getCache("USERX_" + id);
 		}
 
 	}
@@ -200,13 +206,13 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 		if (id == null) {
 			return null;
 		}
-		if (!WebCache.containCache("NID$" + id)) {
+		if (!WebCache.containCache("NID_" + id)) {
 			UmsProtectedobject upo = (UmsProtectedobject) pos.fetchDao()
 					.loadObject(UmsProtectedobject.class, id);
-			WebCache.setCache("NID$" + id, upo, null);
+			WebCache.setCache("NID_" + id, upo, null);
 			return upo;
 		} else {
-			return (UmsProtectedobject) WebCache.getCache("NID$" + id);
+			return (UmsProtectedobject) WebCache.getCache("NID_" + id);
 		}
 	}
 
@@ -215,8 +221,8 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 		if (naturalname == null) {
 			return null;
 		}
-
-		if (!WebCache.containCache("NA$_" + naturalname)) {
+		naturalname=naturalname.toUpperCase();
+		if (!WebCache.containCache("NA_" + naturalname)) {
 			UmsProtectedobject up = new UmsProtectedobject();
 			up.setNaturalname(naturalname.toUpperCase());
 			List list = pos.fetchDao().queryObjects(up, null);
@@ -227,10 +233,10 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 						+ " 对应的资源数为：" + list.size());
 			}
 			UmsProtectedobject upo = (UmsProtectedobject) list.get(0);
-			WebCache.setCache("NA$_" + naturalname, upo, null);
+			WebCache.setCache("NA_" + naturalname, upo, null);
 			return upo;
 		} else {
-			return (UmsProtectedobject) WebCache.getCache("NA$_" + naturalname);
+			return (UmsProtectedobject) WebCache.getCache("NA_" + naturalname);
 		}
 
 	}
@@ -301,6 +307,7 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 	}
 
 	public boolean dropRole(String id) throws RemoteException {
+		WebCache.removeCache("ROLER_" + id);
 		return roleservice.fetchDao().drop(id);
 	}
 
@@ -319,12 +326,12 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 
 	public List<Clerk> fetchUser(String code, String roleId)
 			throws RemoteException {
-		if (!WebCache.containCache("ROLE$" + roleId)) {
+		if (!WebCache.containCache("ROLER_" + roleId)) {
 			List clerk = rolemanager.fetchUser(code, roleId);
-			WebCache.setCache("ROLE$" + roleId, clerk, null);
-			return rolemanager.fetchUser(code, roleId);
+			WebCache.setCache("ROLER_" + roleId, clerk, null);
+			return clerk;
 		} else {
-			return (List) WebCache.getCache("ROLE$" + roleId);
+			return (List) WebCache.getCache("ROLER_" + roleId);
 		}
 	}
 
@@ -359,6 +366,7 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 
 	public boolean resetPassword(String code, Clerk clerk)
 			throws RemoteException {
+		WebCache.removeCache("USERX_"+clerk.getDescription());
 		return usermanager.resetPassword(code, clerk);
 	}
 
@@ -367,11 +375,12 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 		usermanager.roleRelationupdate(code, userid, role);
 		for (Iterator iterator = role.iterator(); iterator.hasNext();) {
 			UmsRole umsRole = (UmsRole) iterator.next();
-			WebCache.removeCache("ROLE$" + umsRole.getId());
+			WebCache.removeCache("ROLER_" + umsRole.getId());
 		}
 	}
 
 	public boolean updateRole(String code, Map map) throws RemoteException {
+		WebCache.removeCache("ROLER_" + ((UmsRole)map.get("role")).getId());
 		map.put(RoleDao._CODE, code);
 		return roleservice.fetchDao().update(map);
 	}

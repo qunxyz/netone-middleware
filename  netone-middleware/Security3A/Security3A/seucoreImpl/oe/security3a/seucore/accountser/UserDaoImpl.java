@@ -1,6 +1,7 @@
 package oe.security3a.seucore.accountser;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 
 import java.util.ArrayList;
@@ -13,10 +14,14 @@ import java.util.ResourceBundle;
 
 import oe.frame.orm.OrmerEntry;
 
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.seucore.obj.Clerk;
 import oe.security3a.seucore.obj.db.TCsUser;
 import oe.security3a.sso.LoginInfo;
 import oe.security3a.sso.util.Encryption;
+import oe.security3a.sso.util.Md5;
+import oe.security4a.severlet.MD5Util;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -96,7 +101,25 @@ public class UserDaoImpl implements UserDao, LoginInfo {
 
 			String key = messages.getString("EncrypKey");
 			String inispassword = messages.getString("initpassword");
-			clerk.setPassword(Encryption.encry(inispassword, key, true));
+
+			String encryptionMode = "default";
+			try {
+				CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
+				encryptionMode=cupm.fetchConfig("EncryptionMode");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if ("md5".equals(encryptionMode)) {
+				try {
+					clerk.setPassword(MD5Util.MD5_UTF16LE(inispassword));
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else {
+				clerk.setPassword(Encryption.encry(inispassword, key, true));
+			}
+
 			Object user = null;
 			try {
 				user = UserDaoImplReference.buildTCsUser(clerk, null);

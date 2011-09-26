@@ -49,6 +49,8 @@ public class HumanDelAction extends Action {
 						if ("yes".equals(reqmap.getParameter("passConfus"))) {
 							clerk.setPassword("9$9$");
 						} else {
+
+							
 							clerk.setPassword(cupmRmi
 									.fetchConfig("initpassword"));
 						}
@@ -61,7 +63,7 @@ public class HumanDelAction extends Action {
 						info = "操作成功！";
 						reqmap.setAlertMsg(info);
 						OperationLog.info(request, "密码重置", clerk.getName()
-								+ info);
+								+ info,true);
 					}
 				} else {
 					for (int i = 0; i < str.length; i++) {
@@ -87,18 +89,18 @@ public class HumanDelAction extends Action {
 
 							reqmap.setAlertMsg("用户删除成功！");
 							OperationLog.info(request, "删除用户", clerk.getName()
-									+ "用户删除成功！");
+									+ "用户删除成功！",true);
 						} else {
 							reqmap.setAlertMsg("用户删除失败！");
-							OperationLog.error(request, "删除用户", clerk.getName()
-									+ "用户删除失败！");
+							OperationLog.info(request, "删除用户", clerk.getName()
+									+ "用户删除失败！",true);
 						}
 					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				reqmap.setAlertMsg(e.getMessage());
-				OperationLog.error(request, "删除用户", e.getMessage());
+				OperationLog.info(request, "删除用户", e.getMessage(),true);
 			}
 		}
 		if ("dept".equals(request.getParameter("task2"))) {

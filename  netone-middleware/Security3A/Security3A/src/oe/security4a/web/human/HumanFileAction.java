@@ -77,7 +77,7 @@ public class HumanFileAction extends Action {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				OperationLog.error(request, "导入用户", e.getMessage());
+				OperationLog.info(request, "导入用户", e.getMessage(),true);
 			}
 		}
 
@@ -150,15 +150,15 @@ public class HumanFileAction extends Action {
 				if (i == 1) {
 					reqmap.setAlertMsg("文件中已经指明人员的部门,无法在当前部门中导入!");
 					request.setAttribute("ImportSuccess", "n");
-					OperationLog.error(request, "导入用户", "文件中已经指明人员的部门,无法在当前部门中导入!");
+					OperationLog.info(request, "导入用户", "文件中已经指明人员的部门,无法在当前部门中导入!",true);
 				} else if (i == 2) {
 					reqmap.setAlertMsg("文件中没有指定人员的部门信息,无法导入!");
 					request.setAttribute("ImportSuccess", "n");
-					OperationLog.error(request, "导入用户", "文件中没有指定人员的部门信息,无法导入!");
+					OperationLog.info(request, "导入用户", "文件中没有指定人员的部门信息,无法导入!",true);
 				} else if (i == 3) {
 					reqmap.setAlertMsg("文件中的部门信息不正确!");
 					request.setAttribute("ImportSuccess", "n");
-					OperationLog.error(request, "导入用户", "文件中的部门信息不正确!");
+					OperationLog.info(request, "导入用户", "文件中的部门信息不正确!",true);
 				} else {
 					for (Iterator iter = list.iterator(); iter.hasNext();) {
 						Map map = (Map) iter.next();
@@ -223,15 +223,15 @@ public class HumanFileAction extends Action {
 					if (!b) {
 						reqmap.setAlertMsg(err + "已存在,不允许导入!");
 						request.setAttribute("ImportSuccess", "n");
-						OperationLog.error(request, "导入用户", err + "已存在,不允许导入!");
+						OperationLog.info(request, "导入用户", err + "已存在,不允许导入!",true);
 					} else {
 						PDP pdp = new PDPClerkInput();
 						if (pdp.evaluate(code, requestctx) != null) {
 							request.setAttribute("ImportSuccess", "y");
-							OperationLog.info(request, "导入用户", "导入用户成功");
+							OperationLog.info(request, "导入用户", "导入用户成功",true);
 						} else {
 							request.setAttribute("ImportSuccess", "n");
-							OperationLog.error(request, "导入用户", "导入用户失败");
+							OperationLog.info(request, "导入用户", "导入用户失败",false);
 						}
 					}
 				}
@@ -239,7 +239,7 @@ public class HumanFileAction extends Action {
 				e.printStackTrace();
 				reqmap.setAlertMsg(e.getMessage());
 				request.setAttribute("ImportSuccess", "n");
-				OperationLog.error(request, "导入用户", e.getMessage());
+				OperationLog.info(request, "导入用户", e.getMessage(),false);
 			}
 		}
 		if ("output".equals(reqmap.getParameter("task"))) {
@@ -310,7 +310,7 @@ public class HumanFileAction extends Action {
 				excelHandler.writeExcel(value, xmlobjlist, null, "human", response.getOutputStream());
 			} catch (Exception e) {
 				e.printStackTrace();
-				OperationLog.error(request, "导出用户", e.getMessage());
+				OperationLog.info(request, "导出用户", e.getMessage(),true);
 			}
 			return null;
 		}

@@ -21,8 +21,7 @@ import oe.security3a.seucore.obj.db.UmsRole;
 import oe.security3a.sso.onlineuser.DefaultOnlineUserMgr;
 import oe.security3a.sso.onlineuser.OnlineUser;
 import oe.security3a.sso.onlineuser.OnlineUserMgr;
-import oe.security3a.sso.util.SyncUser;
-import oe.security3a.sso.util.SyncUser;
+
 import oe.security3a.sso.util.SyncUserUtil;
 
 import org.apache.commons.lang.StringUtils;
@@ -93,7 +92,7 @@ public class HumanModifyAction extends Action {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				OperationLog.error(request, "修改用户", e.getMessage());
+				OperationLog.info(request, "修改用户", e.getMessage(),false);
 			}
 			return mapping.getInputForward();
 		}
@@ -142,13 +141,13 @@ public class HumanModifyAction extends Action {
 
 					reqmap.setAlertMsg("用户修改成功！");
 					request.setAttribute("result", "y");
-					OperationLog.info(request, "修改用户", "用户修改成功！");
+					OperationLog.info(request, "修改用户", "用户修改成功！",true);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				reqmap.setAlertMsg(e.getMessage());
 				request.setAttribute("result", "n");
-				OperationLog.error(request, "修改用户", e.getMessage());
+				OperationLog.info(request, "修改用户", e.getMessage(),false);
 			}
 		}
 		return mapping.getInputForward();

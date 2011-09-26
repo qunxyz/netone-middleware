@@ -74,7 +74,7 @@ public class HumanCopyAction extends Action {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				OperationLog.error(request, "复制用户", e.getMessage());
+				OperationLog.info(request, "复制用户", e.getMessage(),false);
 			}
 		}
 		
@@ -111,23 +111,23 @@ public class HumanCopyAction extends Action {
 						
 						reqmap.setAlertMsg("复制用户成功！");
 						request.setAttribute("result", "y");
-						OperationLog.info(request, "复制用户", "复制用户" + clerk.getName() + "成功！");
+						OperationLog.info(request, "复制用户", "复制用户" + clerk.getName() + "成功！",true);
 					} else {
 						reqmap.setAlertMsg("复制用户失败!请检查用户名是否已存在或帐号是否超过20个字符!");
 						request.setAttribute("result", "n");
-						OperationLog.error(request, "复制用户", "复制用户失败!请检查用户名是否已存在或帐号是否超过20个字符!");
+						OperationLog.info(request, "复制用户", "复制用户失败!请检查用户名是否已存在或帐号是否超过20个字符!",true);
 					}
 				} else {
 					reqmap.setAlertMsg("复制用户失败！");
 					reqmap.setAlertMsg("部门不正确,无法复制用户！");
 					request.setAttribute("result", "n");
-					OperationLog.error(request, "复制用户", "部门不正确,无法复制用户！");
+					OperationLog.info(request, "复制用户", "部门不正确,无法复制用户！",false);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				reqmap.setAlertMsg(e.getMessage());
 				request.setAttribute("result", "n");
-				OperationLog.error(request, "复制用户", e.getMessage());
+				OperationLog.info(request, "复制用户", e.getMessage(),false);
 			}
 		}
 		return mapping.getInputForward();

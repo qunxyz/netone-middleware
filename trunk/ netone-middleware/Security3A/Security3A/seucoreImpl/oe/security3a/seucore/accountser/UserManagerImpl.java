@@ -1,12 +1,15 @@
 package oe.security3a.seucore.accountser;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import oe.rmi.client.RmiEntry;
 import oe.security3a.SeuserEntry;
+import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.seucore.accountser.UserManager;
 import oe.security3a.seucore.accountser.UserService;
 import oe.security3a.seucore.obj.Clerk;
@@ -20,6 +23,7 @@ import oe.security3a.seucore.resourceser.ProtectedObjectService;
 import oe.security3a.seucore.roleser.RoleDaoImplUserReference;
 import oe.security3a.seucore.roleser.RoleService;
 import oe.security3a.sso.util.Encryption;
+import oe.security4a.severlet.MD5Util;
 
 /**
  * 用户管理接口实现
@@ -105,7 +109,7 @@ public class UserManagerImpl implements UserManager {
 		for (Iterator iter = user2rolelist.iterator(); iter.hasNext();) {
 			User2Role userrole = (User2Role) iter.next();
 			try {
-				
+
 				List<UmsRole> umsrolelist = new ArrayList<UmsRole>();
 				UmsRole ur = new UmsRole();
 				String conditionPre = "and id = '" + userrole.getRoleid() + "'";
@@ -166,14 +170,29 @@ public class UserManagerImpl implements UserManager {
 	 * @return 初始化密码
 	 */
 	public boolean resetPassword(String code, Clerk clerk) {
-		String pass=clerk.getPassword();
+		String pass = clerk.getPassword();
 		String inispassword = messages.getString("initpassword");
-		if(pass!=null&&!pass.equals("")){
-			inispassword=pass;
+		if (pass != null && !pass.equals("")) {
+			inispassword = pass;
 		}
-		
+		String encryptionMode = "default";
+		try {
+			encryptionMode = messages.getString("EncryptionMode");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String key = messages.getString("EncrypKey");
-		clerk.setPassword(Encryption.encry(inispassword, key, true));
+		if ("md5".equals(encryptionMode)) {
+			try {
+				clerk.setPassword(MD5Util.MD5_UTF16LE(inispassword));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			clerk.setPassword(Encryption.encry(inispassword, key, true));
+		}
+
 		clerk.setOfficeNO(code);
 		return userservice.fetchDao().update(clerk);
 	}

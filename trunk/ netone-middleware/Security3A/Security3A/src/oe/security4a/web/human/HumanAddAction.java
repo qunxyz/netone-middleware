@@ -41,7 +41,7 @@ public class HumanAddAction extends Action {
 		String code = oluser.getBelongto();
 
 		String actionurl = request.getParameter("actionurl");
-		actionurl=actionurl==null?"":actionurl;
+		actionurl = actionurl == null ? "" : actionurl;
 
 		// 补充的
 
@@ -62,7 +62,6 @@ public class HumanAddAction extends Action {
 
 				// 获得默认的角色，添加到页面中
 
-
 				if ("dept".equals(request.getParameter("task2"))) {
 					Clerk cl = new Clerk();
 					String deptid = reqmap.getParameter("id");
@@ -72,39 +71,39 @@ public class HumanAddAction extends Action {
 					cl.setFaxNO(upodept.getName());
 					cl.setOfficeNO(code);
 
-//					if ("35".equals(actionurl)) {//省公司
-//						String initphone = cupm.fetchConfig("initphone");
-//						String initmail = cupm.fetchConfig("initmail");
-//
-//						cl.setPhoneNO(initphone);
-//						cl.setEmail(initmail);
-//						
-//						String defaultRoleID = "63";//固定的省公司角色
-//						Long id = Long.valueOf(defaultRoleID);
-//						UmsRole role = rsrmi.loadRole(id);
-//						List roleList = new ArrayList();
-//						roleList.add(role);
-//						request.setAttribute("rolelist", roleList);
-//						
-//					}else if(actionurl.length()==4){//营销部门
-//						String defaultRoleID ="61";
-//						Long id = Long.valueOf(defaultRoleID);
-//						UmsRole role = rsrmi.loadRole(id);
-//						List roleList = new ArrayList();
-//						roleList.add(role);
-//						request.setAttribute("rolelist", roleList);
-//					}else if(actionurl.length()==8){
-//						String defaultRoleID ="62";
-//						Long id = Long.valueOf(defaultRoleID);
-//						UmsRole role = rsrmi.loadRole(id);
-//						List roleList = new ArrayList();
-//						roleList.add(role);
-//						request.setAttribute("rolelist", roleList);
-//					}
-					
+					// if ("35".equals(actionurl)) {//省公司
+					// String initphone = cupm.fetchConfig("initphone");
+					// String initmail = cupm.fetchConfig("initmail");
+					//
+					// cl.setPhoneNO(initphone);
+					// cl.setEmail(initmail);
+					//						
+					// String defaultRoleID = "63";//固定的省公司角色
+					// Long id = Long.valueOf(defaultRoleID);
+					// UmsRole role = rsrmi.loadRole(id);
+					// List roleList = new ArrayList();
+					// roleList.add(role);
+					// request.setAttribute("rolelist", roleList);
+					//						
+					// }else if(actionurl.length()==4){//营销部门
+					// String defaultRoleID ="61";
+					// Long id = Long.valueOf(defaultRoleID);
+					// UmsRole role = rsrmi.loadRole(id);
+					// List roleList = new ArrayList();
+					// roleList.add(role);
+					// request.setAttribute("rolelist", roleList);
+					// }else if(actionurl.length()==8){
+					// String defaultRoleID ="62";
+					// Long id = Long.valueOf(defaultRoleID);
+					// UmsRole role = rsrmi.loadRole(id);
+					// List roleList = new ArrayList();
+					// roleList.add(role);
+					// request.setAttribute("rolelist", roleList);
+					// }
+
 					List roleList = new ArrayList();
 					request.setAttribute("rolelist", roleList);
-					
+
 					request.setAttribute("actionurl", upodept.getActionurl());
 					request.setAttribute("clerk", cl);
 				}
@@ -137,13 +136,13 @@ public class HumanAddAction extends Action {
 					String loginname = request.getParameter("naturalname")
 							.trim();
 					clerk.setDescription(loginname);
-					
-					//添加群组
+
+					// 添加群组
 					String teams = reqmap.getParameter("teams");
 					clerk.setProvince(teams);
 					if (rsrmi.addClerk(code, clerk)) {
-						
-						//添加角色
+
+						// 添加角色
 						String roles = reqmap.getParameter("roles");
 						if (roles != null && !roles.equals("")) {
 							String[] role = roles.split("@");
@@ -160,26 +159,24 @@ public class HumanAddAction extends Action {
 						CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 						cupmRmi.initCacheUser(loginname);
 
-						
-
 						// 进行创建用户时,自动同步帐号
 						rsrmi.SyncUser(SyncUserUtil._PARAM_OPE_ADD, code,
 								loginname);
 
 						reqmap.setAlertMsg("新建用户成功！");
 						request.setAttribute("result", "y");
-						OperationLog.info(request, "新建用户", "新建用户"
-								+ clerk.getName() + "成功！");
+						OperationLog.info(request, "新建用户", "新建用户" + loginname
+								+ clerk.getName() + "成功！", true);
 					} else {
 						reqmap.setAlertMsg("新建用户失败!请检查用户名和帐号是否正确或已存在!");
 						request.setAttribute("result", "n");
-						OperationLog.error(request, "新建用户",
-								"新建用户失败!请检查用户名和帐号是否正确或已存在!");
+						OperationLog.info(request, "新建用户", "新建用户失败!"
+								+ loginname + ",请检查用户名和帐号是否正确或已存在!", false);
 					}
 				} else {
 					reqmap.setAlertMsg("部门不正确,无法新建用户！");
 					request.setAttribute("result", "n");
-					OperationLog.error(request, "新建用户", "部门不正确,无法新建用户！");
+					OperationLog.info(request, "新建用户", "部门不正确,无法新建用户！", false);
 				}
 				resetToken(request);
 
@@ -187,7 +184,7 @@ public class HumanAddAction extends Action {
 				e.printStackTrace();
 				reqmap.setAlertMsg(e.getMessage());
 				request.setAttribute("result", "n");
-				OperationLog.error(request, "新建用户", e.getMessage());
+				OperationLog.info(request, "新建用户", e.getMessage(),false);
 			}
 		}
 

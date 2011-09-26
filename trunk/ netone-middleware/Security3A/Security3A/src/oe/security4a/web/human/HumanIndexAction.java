@@ -141,7 +141,7 @@ public class HumanIndexAction extends Action {
 						response.getOutputStream());
 			} catch (Exception e) {
 				e.printStackTrace();
-				OperationLog.error(request, "导出用户", e.getMessage());
+				OperationLog.info(request, "导出用户", e.getMessage(),false);
 			}
 			return null;
 		} else {

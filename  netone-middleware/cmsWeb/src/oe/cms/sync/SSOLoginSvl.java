@@ -58,14 +58,6 @@ public class SSOLoginSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String cookies[] = CookiesOpe.readCookiex(request);
-		if (cookies == null || cookies.length < 4) {
-			System.out.println("cookies==null||cookies.length<4");
-			return;
-		}
-		String loginame = cookies[0];
-		String password = cookies[2];
-		password = java.net.URLDecoder.decode(password, "gbk");
 
 		EnvService env = null;
 
@@ -73,6 +65,18 @@ public class SSOLoginSvl extends HttpServlet {
 
 			env = (EnvService) RmiEntry.iv("envinfo");
 			String urlhead = env.fetchEnvValue("WEBSER_PHPCMS");
+			String securityahead = env.fetchEnvValue("WEBSER_SECURITY3A");
+			String cookies[] = CookiesOpe.readCookiex(request);
+			if (cookies == null || cookies.length < 4) {
+				System.out.println("cookies==null||cookies.length<4");
+
+				response.sendRedirect(securityahead + "/sso/impl/login.jsp");
+				return;
+			}
+			String loginame = cookies[0];
+			String password = cookies[2];
+			password = java.net.URLDecoder.decode(password, "gbk");
+
 			response.sendRedirect(urlhead
 					+ "index.php?m=member&c=index&a=login4netone&username="
 					+ loginame + "&password=" + password);

@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import java.util.List;
 
-
 import oe.cav.bean.logic.bus.TCsBus;
 
 import oe.cav.web.data.dyform.utils.ListView;
@@ -83,15 +82,15 @@ public class BusTurnpage implements PageEvent {
 	}
 
 	public Object page(Page page, Object obj) {
-		List list = null;
+		List list = new ArrayList();
 		ListView search = (ListView) obj;
 		if (search != null) {
 			if (search.getCondition() != null
 					&& search.getCondition().length() > 0) {
 				try {
-			
+
 					list = dysc.queryData((TCsBus) search.getSearchobj(), page
-							.startRow(), page.getSize(),  search.getCondition());
+							.startRow(), page.getSize(), search.getCondition());
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -102,22 +101,21 @@ public class BusTurnpage implements PageEvent {
 				try {
 					list = dysc.queryData((TCsBus) search.getSearchobj(), page
 							.startRow(), page.getSize(), "");
-					
+
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				// UtilsBuss.reWrite(list, search.getFormcode());
 			}
-		} else {
-			list = new ArrayList();
 		}
 		// UserDao.userViewRichx(list);
 		// 改造数据结果，在 fatherlsh中增加选择项，这个在Portal应用中选择 fatherlsh 有用到
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsBus object = (TCsBus) iterator.next();
 			object.setFatherlsh("<a href=\"javascript:selecthis('"
-					+ object.getLsh() + "','"+object.getFormcode()+"')\">选择</a>");
+					+ object.getLsh() + "','" + object.getFormcode()
+					+ "')\">选择</a>");
 		}
 		return list;
 	}

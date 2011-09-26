@@ -67,24 +67,24 @@ public class DepartmentAddAction extends Action {
 				// 检查目录是否合法
 				// 寻找营销部门
 				UmsProtectedobject f = rmi.loadResourceById(upo.getParentdir());
-//				if ("jxs".equals(objecttype)) {
-//					boolean pass = findHeadCom(f.getNaturalname(), rmi,
-//							response);
-//					if(!pass) return null;
-//				}
-//				if("fxs".equals(objecttype)){
-//					boolean pass = findHeadSell(f.getNaturalname(), rmi, response);
-//					if(!pass) return null;
-//				}
+// if ("jxs".equals(objecttype)) {
+// boolean pass = findHeadCom(f.getNaturalname(), rmi,
+// response);
+// if(!pass) return null;
+// }
+// if("fxs".equals(objecttype)){
+// boolean pass = findHeadSell(f.getNaturalname(), rmi, response);
+// if(!pass) return null;
+// }
 				
 
-				//if (list.size() <= 0) {
+				// if (list.size() <= 0) {
 
 					Serializable ouid = rmi.addResource(upo);
 					if (ouid != null) {
 						RequestUtil.loadObjectParam(reqmap, f);
 						request.setAttribute("CreateSuccess", "y");
-						OperationLog.info(request, "新建目录", "新建目录成功！");
+						OperationLog.info(request, "新建目录", upo.getNaturalname()+upo.getName()+"新建目录成功！",true);
 						UmsProtectedobject upox = rmi.loadResourceById(ouid
 								.toString());
 						request.setAttribute("upo", upox);
@@ -92,19 +92,19 @@ public class DepartmentAddAction extends Action {
 					} else {
 						reqmap.setAlertMsg("该名称已存在！");
 						request.setAttribute("CreateSuccess", "n");
-						OperationLog.error(request, "新建目录", "该名称已存在！新建目录失败！");
+						OperationLog.info(request, "新建目录", upo.getNaturalname()+upo.getName()+"该名称已存在！新建目录失败！",false);
 					}
 
-				//} else {
-				//	reqmap.setAlertMsg("该编码已存在！");
-				//	request.setAttribute("CreateSuccess", "n");
-				//	OperationLog.error(request, "新建目录", "该名称已存在！新建目录失败！");
-				//}
+				// } else {
+				// reqmap.setAlertMsg("该编码已存在！");
+				// request.setAttribute("CreateSuccess", "n");
+				// OperationLog.error(request, "新建目录", "该名称已存在！新建目录失败！");
+				// }
 			} catch (Exception e) {
 				e.printStackTrace();
 				reqmap.setAlertMsg(e.getMessage());
 				request.setAttribute("CreateSuccess", "n");
-				OperationLog.error(request, "新建目录", e.getMessage());
+				OperationLog.info(request, "新建目录", e.getMessage(),false);
 			}
 		}
 		return mapping.findForward("newnode");

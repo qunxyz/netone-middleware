@@ -20,13 +20,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-
 public class DepartmentDeleteAction extends Action {
 
-	private static ResourceBundle messages = ResourceBundle.getBundle("resource", Locale.CHINESE);
+	private static ResourceBundle messages = ResourceBundle.getBundle(
+			"resource", Locale.CHINESE);
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) {
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
 		String id = request.getParameter("id");
 		String parentdir = request.getParameter("parentdir");
 		String file = "";
@@ -35,55 +35,68 @@ public class DepartmentDeleteAction extends Action {
 			if ("delete".equals(request.getParameter("task"))) {
 				if (!"0".equals(id)) {
 					UmsProtectedobject upo = rmi.loadResourceById(id);
-					Clerk cler=new Clerk();
+					Clerk cler = new Clerk();
 					cler.setDeptment(id);
-					List list=rmi.fetchClerk("0000", cler, null, "");
-					if(list!=null&& list.size()>0){
+					List list = rmi.fetchClerk("0000", cler, null, "");
+					if (list != null && list.size() > 0) {
 						request.setAttribute("DeleteSuccess", "n");
-						OperationLog.error(request, "删除目录", "删除目录失败,目录下有人员无法删除！");
+						OperationLog.info(request, "删除目录", upo.getNaturalname()
+								+ upo.getName() + "删除目录失败,目录下有人员无法删除！", false);
 						return mapping.findForward("departmentright");
 					}
 					file = upo.getActionurl();
 					if (!rmi.dropResource(id)) {
 						request.setAttribute("DeleteSuccess", "n");
-						OperationLog.error(request, "删除目录", "删除目录失败！");
+						OperationLog.info(request, "删除目录", "删除目录失败！", false);
 						return mapping.findForward("departmentright");
 					}
 				}
 				UmsProtectedobject f = rmi.loadResourceById(parentdir);
 				request.setAttribute("upo", f);
-				if (StringUtils.isNotEmpty(file) && StringUtils.contains(file, messages.getString("rsLogicPath"))) {
-					String pathRoot = servlet.getServletContext().getRealPath("");
+				if (StringUtils.isNotEmpty(file)
+						&& StringUtils.contains(file, messages
+								.getString("rsLogicPath"))) {
+					String pathRoot = servlet.getServletContext().getRealPath(
+							"");
 					String dir = pathRoot + messages.getString("rsSaveWebPath");
-					file = StringUtils.substringAfter(file, messages.getString("rsLogicPath"));
+					file = StringUtils.substringAfter(file, messages
+							.getString("rsLogicPath"));
 					File delfile = new File(dir + file);
 					delfile.delete();
 				}
 				request.setAttribute("DeleteSuccess", "y");
-				OperationLog.info(request, "删除目录", "删除目录成功！");
+				OperationLog.info(request, "删除目录", f.getNaturalname()
+						+ f.getName() + "删除目录成功！", true);
 			} else if ("del".equals(request.getParameter("task"))) {
 				if (request.getParameter("chkid") != null) {
 					String str[] = request.getParameterValues("chkid");
 					for (int i = 0; i < str.length; i++) {
 						if (!"0".equals(str[i])) {
-							UmsProtectedobject upo = rmi.loadResourceById(str[i]);
+							UmsProtectedobject upo = rmi
+									.loadResourceById(str[i]);
 							file = upo.getActionurl();
 							if (!rmi.dropResource(str[i])) {
 								request.setAttribute("DeleteSuccess", "n");
-								OperationLog.error(request, "删除目录", "删除目录失败！");
+								OperationLog.info(request, "删除目录", upo
+										.getNaturalname()
+										+ upo.getName() + "删除目录失败！", false);
 								break;
 							}
 						}
 						if (StringUtils.isNotEmpty(file)
-								&& StringUtils.contains(file, messages.getString("rsLogicPath"))) {
-							String pathRoot = servlet.getServletContext().getRealPath("");
-							String dir = pathRoot + messages.getString("rsSaveWebPath");
-							file = StringUtils.substringAfter(file, messages.getString("rsLogicPath"));
+								&& StringUtils.contains(file, messages
+										.getString("rsLogicPath"))) {
+							String pathRoot = servlet.getServletContext()
+									.getRealPath("");
+							String dir = pathRoot
+									+ messages.getString("rsSaveWebPath");
+							file = StringUtils.substringAfter(file, messages
+									.getString("rsLogicPath"));
 							File delfile = new File(dir + file);
 							delfile.delete();
 						}
 						request.setAttribute("DelSuccess", "y");
-						OperationLog.info(request, "删除目录", "删除目录成功！");
+						OperationLog.info(request, "删除目录", "删除目录成功！", true);
 					}
 				}
 				UmsProtectedobject f = rmi.loadResourceById(id);

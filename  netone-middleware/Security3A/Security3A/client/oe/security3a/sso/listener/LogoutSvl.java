@@ -3,12 +3,19 @@ package oe.security3a.sso.listener;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import oe.security3a.sso.util.SsoUtil;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.CupmRmi;
 
+import oe.security3a.sso.onlineuser.DefaultOnlineUserMgr;
+import oe.security3a.sso.onlineuser.OnlineUser;
+import oe.security3a.sso.onlineuser.OnlineUserMgr;
+import oe.security3a.sso.util.CookiesOpe;
+import oe.security3a.sso.util.SsoUtil;
 
 public class LogoutSvl extends HttpServlet {
 
@@ -43,6 +50,12 @@ public class LogoutSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		OnlineUserMgr olmgr = new DefaultOnlineUserMgr();
+		OnlineUser oluser = olmgr.getOnlineUser(request);
+		String userid = "";
+		if (oluser != null) {
+			userid = oluser.getLoginname();
+		}
 
 		request.getSession().setAttribute("userid", null);
 		String gotourl = request.getParameter("gotourl");
@@ -50,13 +63,18 @@ public class LogoutSvl extends HttpServlet {
 		SsoUtil su = new SsoUtil();
 
 		try {
+			CookiesOpe.delcookie(request, response);
+
+			CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
+			String reqip = request.getRemoteAddr();
+			cupm.log("×¢Ïú", reqip, userid, "success!", "");
+			
 			su.doLogout(request, response, gotourl);
 			request.getSession().setAttribute("init", false);
-
-		} catch (IOException e) {
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**

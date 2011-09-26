@@ -16,10 +16,13 @@ public class DymaticFormCheck {
 
 	static Log log = LogFactory.getLog(DymaticFormCheck.class);
 
+	public final static String _CHECK_GROUPSIZE = "groupsize$:";
 	public final static String _CHECK_CHECKRULE = "checkrule$:";
 	public final static String _CHECK_INITSCRIPT = "initscript$:";
+	public final static String _CHECK_ONCHANGESCRIPT = "onchangescript$:";
 	public final static String _CHECK_FOCUSSCRIPT = "focusscript$:";
 	public final static String _CHECK_LOSEFOCUSSCRIPT = "blurscript$:";
+	public final static String _CHECK_SIZE = "size$:";
 	public final static String _CHECK_OFFSET = "offset$:";
 
 	public final static String _FINAL_CHECK = "$!";

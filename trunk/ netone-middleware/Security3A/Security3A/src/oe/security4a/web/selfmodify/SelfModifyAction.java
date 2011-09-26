@@ -26,6 +26,7 @@ import oe.security3a.sso.onlineuser.OnlineUser;
 import oe.security3a.sso.onlineuser.OnlineUserMgr;
 import oe.security3a.sso.util.Encryption;
 import oe.security3a.sso.util.SyncUserUtil;
+import oe.security4a.severlet.MD5Util;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -65,9 +66,9 @@ public class SelfModifyAction extends Action {
 				String flag = "";
 				flag = request.getParameter("flag");
 				String task = reqmap.getParameter("task");
-				
-				if(null==task){
-					task="";
+
+				if (null == task) {
+					task = "";
 				}
 				if (flag != null && "me".equals(flag.trim())) {
 					// 进入个人信息查看，这个页面只是做显示
@@ -81,7 +82,8 @@ public class SelfModifyAction extends Action {
 					} catch (Exception e) {
 						e.printStackTrace();
 						reqmap.setAlertMsg(e.getMessage());
-						OperationLog.error(request, "个人信息修改", e.getMessage());
+						OperationLog.info(request, "个人信息修改" + clerk.getName()
+								+ clerk.getNaturalname(), e.getMessage(), true);
 					}
 					request.setAttribute("clerk", clerk);
 					UmsProtectedobject upo = rmi.loadResourceByNatural(cupmRmi
@@ -155,13 +157,10 @@ public class SelfModifyAction extends Action {
 							&& StringUtils.isNotEmpty(truenamex)
 							&& StringUtils.isNotEmpty(outemail)) {
 						try {
-							clerk = rmi.validationUserOpe(code, loginName,
-									oldpass);
+							clerk = this.passwordMode( oldpass, loginName);
 							if (clerk.getDescription() != null) {
-								String key = cupmRmi.fetchConfig("EncrypKey");
-								
-								clerk.setPassword(Encryption.encry(newpass,
-										key, true));// 修改密码
+								clerk.setPassword(this.makePassword(
+										newpass));// 修改密码
 								clerk.setName(truenamex);// 修改真实名称
 								clerk.setEmail(outemail);// 修改邮件
 								if (rmi.updateClerk(code, clerk)) {
@@ -174,32 +173,32 @@ public class SelfModifyAction extends Action {
 												code, clerk.getDescription());
 										reqmap.setAlertMsg("个人信息修改成功！");
 										OperationLog.info(request, "个人信息修改",
-												"个人信息修改成功！");
+												truenamex + "个人信息修改成功！", true);
 									} catch (Exception e) {
 										e.printStackTrace();
 										reqmap.setAlertMsg(e.getMessage());
-										OperationLog.error(request, "个人信息修改", e
-												.getMessage());
+										OperationLog.info(request, "个人信息修改", e
+												.getMessage(), false);
 									}
 								} else {
 									reqmap.setAlertMsg("个人信息修改失败！");
-									OperationLog.error(request, "个人信息修改",
-											"个人信息修改失败！");
+									OperationLog.info(request, "个人信息修改",
+											truenamex + "个人信息修改失败！", false);
 								}
 							} else {
 								reqmap.setAlertMsg("原密码错误！");
-								OperationLog.error(request, "个人信息修改",
-										"个人信息修改失败！");
+								OperationLog.info(request, "个人信息修改", truenamex
+										+ "个人信息修改失败！", false);
 							}
 						} catch (Exception e) {
 							reqmap.setAlertMsg("旧密码输入错误,个人信息修改失败！");
-							OperationLog.error(request, "个人信息修改",
-									"旧密码输入错误,个人信息修改失败！");
+							OperationLog.info(request, "个人信息修改", truenamex
+									+ "旧密码输入错误,个人信息修改失败！", false);
 						}
 					} else {
 						reqmap.setAlertMsg("信息输入不完整,个人信息修改失败！");
-						OperationLog.error(request, "个人信息修改",
-								"信息输入不完整,个人信息修改失败！");
+						OperationLog.info(request, "个人信息修改", truenamex
+								+ "信息输入不完整,个人信息修改失败！", false);
 					}
 					Clerk newclerk = new Clerk();
 					newclerk = rmi.loadClerk(code, loginName);
@@ -210,12 +209,55 @@ public class SelfModifyAction extends Action {
 			} else {
 				// 用户没有登录
 				reqmap.setAlertMsg("您的登录已经过期，请重新登录！");
-				OperationLog.error(request, "个人信息修改", "您的登录已经过期，请重新登录！");
+				OperationLog.info(request, "个人信息修改", "您的登录已经过期，请重新登录！", false);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return mapping.findForward("index");
+	}
+
+	private Clerk passwordMode(String password, String username)
+			throws Exception {
+		ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+		String encryptionMode = "default";
+		try {
+			CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
+			encryptionMode=cupm.fetchConfig("EncryptionMode");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if ("md5".equalsIgnoreCase(encryptionMode)) {
+			String passwordx = MD5Util.MD5_UTF16LE(password);
+			Clerk user = rsrmi.loadClerk("0000", username);
+			if (!passwordx.equals(user.getPassword())) {
+				user.setDescription(null);
+			}
+			user.setPassword(passwordx);
+			return user;
+		} else {
+			return rsrmi.validationUserOpe("0000", username, password);
+		}
+	}
+
+	private String makePassword(String password)
+			throws Exception {
+		String encryptionMode = "default";
+		try {
+			CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
+			encryptionMode=cupm.fetchConfig("EncryptionMode");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if ("md5".equalsIgnoreCase(encryptionMode)) {
+			return MD5Util.MD5_UTF16LE(password);
+		} else {
+			CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
+			String key = cupmRmi.fetchConfig("EncrypKey");
+			return Encryption.encry(password, key, true);
+		}
+
 	}
 
 	public void change(String code, String loginName, ResourceRmi rmi,

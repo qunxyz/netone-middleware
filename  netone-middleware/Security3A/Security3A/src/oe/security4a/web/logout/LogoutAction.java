@@ -25,7 +25,7 @@ public class LogoutAction extends Action {
 			su.doLogout(request, response, gotourl);
 		} catch (IOException e) {
 			e.printStackTrace();
-			OperationLog.error(request, "注销用户", e.getMessage());
+			OperationLog.info(request, "注销用户", e.getMessage(),true);
 		}
 		return null;
 	}

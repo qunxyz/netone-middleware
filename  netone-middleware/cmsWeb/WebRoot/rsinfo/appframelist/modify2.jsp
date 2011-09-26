@@ -77,7 +77,11 @@
 			var description=document.getElementById("description").value;
 			var treeid=document.getElementById("needtree");
 			var neededit=document.getElementById("needcheck");
+			var forbidzb=document.getElementById("forbidzb");
 			var columnedit=document.getElementById("columnedit").value;
+			if(description==null||description==''){
+				description='0';
+			}
 			if(treeid.checked){
 				description=description+"-1";
 			}else{
@@ -85,9 +89,15 @@
 			}
 			
 			if(neededit.checked){
-				description=neededit+"$1#";
+				description=description+"$1#";
 			}else{
-				description=neededit+"$0#";
+				description=description+"$0#";
+			}
+			
+			if(forbidzb.checked){
+				description=description+"@1%";
+			}else{
+				description=description+"@0%";
 			}
 			description=description+columnedit;
 			document.getElementById("description").value=description;
@@ -268,6 +278,16 @@
 							<input type="checkbox" name="needtree" id="needtree" value="1"
 								<c:if test="${fn:substring(upo.description,2,3)==1}">checked</c:if> />
 							需要人员目录树
+						</td>
+					</tr>
+					<tr>
+						<td width="15%">
+							转办控制
+						</td>
+						<td>
+							<input type="checkbox" name="forbidzb" id="forbidzb" value="1"
+								<c:if test="${fn:substring(upo.description,7,8)==1}">checked</c:if> />
+							禁用转办
 						</td>
 					</tr>
 					<tr>

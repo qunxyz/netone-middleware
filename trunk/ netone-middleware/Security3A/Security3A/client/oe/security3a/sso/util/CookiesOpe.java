@@ -48,9 +48,7 @@ public class CookiesOpe {
 			ex.printStackTrace();
 		}
 		// 加密客户端的Cookies
-		cookiestr = Encryption
-				.encry(cookiestr, Cookie_Enc_Key, true)
-				+ "@@@";
+		cookiestr = Encryption.encry(cookiestr, Cookie_Enc_Key, true) + "@@@";
 		// 将cookies写入客户端
 		Cookie cookie = new Cookie(Userinfo_Cookie_Key, cookiestr);
 		cookie.setMaxAge(maxage);
@@ -81,8 +79,7 @@ public class CookiesOpe {
 				return null;
 			}
 			// 解析Cookie
-			userinfo = Encryption.encry(userinfo, "QueenHuang",
-					false);
+			userinfo = Encryption.encry(userinfo, "QueenHuang", false);
 			try {
 				userinfo = new String(userinfo.getBytes("ISO8859_1"), "GBK");
 
@@ -98,6 +95,29 @@ public class CookiesOpe {
 		} else {
 			return null;
 		}
+	}
+
+	public static void delcookie(HttpServletRequest req, HttpServletResponse rep) {
+		Cookie SsoCookie = null;
+		Cookie[] cookie = req.getCookies();
+		if (cookie != null) {
+			for (int i = 0; i < cookie.length; i++) {
+				System.out.println(cookie[i].getName() + ","
+						+ CookiesOpe.Userinfo_Cookie_Key);
+				if (cookie[i].getName().equals(CookiesOpe.Userinfo_Cookie_Key)) {
+					SsoCookie = cookie[i];
+					break;
+				}
+			}
+		}
+		if (SsoCookie != null) {
+			// 删除本身的cookie
+			SsoCookie.setMaxAge(0);
+			SsoCookie.setPath("/");
+			SsoCookie.setValue(null);
+			rep.addCookie(SsoCookie);
+		}
+
 	}
 
 }

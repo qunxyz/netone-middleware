@@ -8,6 +8,8 @@ package oe.security3a.sso.util;
 
 import java.util.*;
 
+import oe.frame.web.util.WebStr;
+
 public class Encryption {
 
 	private Encryption() {
@@ -57,7 +59,7 @@ public class Encryption {
 		} else // Decryption
 		{
 			// 空值加密的为2位
-			if (Src.length() == 2) {
+			if (Src==null||Src.length() == 2) {
 				return "";
 			}
 			offset = HexToInt(Src.substring(0, 2)); // Hexadecimal to decimal
@@ -98,5 +100,6 @@ public class Encryption {
 		}
 		return Result;
 	}
+
 
 }

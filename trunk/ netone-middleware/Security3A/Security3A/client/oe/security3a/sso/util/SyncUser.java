@@ -9,6 +9,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 
@@ -50,10 +52,11 @@ public class SyncUser {
 		CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
 		String str = "_SYNC_USER_CODE_" + code;
 		String all = cupm.fetchConfig(str);
-		if (null == all || "".equals(all.trim())) {
+		if (StringUtils.isEmpty(all)) {
 			return null;
 		} else {
 			String[] allx = all.split(",");
+			
 			if (allx.length > 0) {
 				for (int i = 0; i < allx.length; i++) {
 					String ai = allx[i];

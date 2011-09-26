@@ -50,9 +50,7 @@ public class BussDaoImpl implements BussDao {
 	FormDao formDao;
 
 	public boolean create(TCsBus bus) {
-		
-		
-		
+
 		if (bus == null) {
 			log.error("输入对象TCsBus为空");
 			return false;
@@ -71,7 +69,7 @@ public class BussDaoImpl implements BussDao {
 			TCsBus bustmp = (TCsBus) list.get(0);
 			String formcode = bustmp.getFormcode();
 			if (formcode == null || formcode.equals("")) {
-				log.error(formcode+" 表单不存在");
+				log.error(formcode + " 表单不存在");
 				return false;
 			} else {
 				DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode)
@@ -103,12 +101,12 @@ public class BussDaoImpl implements BussDao {
 						TCsBus element = (TCsBus) iterx.next();
 						// 创建BussObj对象属性
 						Map columnidvalue = new LinkedHashMap();
-//						// 处理Portal相关的字段
-//						BussDaoCoreTools.addToResourcePortal(element, dfo
-//								.getColumn(), tablename, formcode);
-//						// 添加 Fck的字段
-//						BussDaoCoreTools.addToResourceFck(element, dfo
-//								.getColumn(), tablename, formcode);
+						// // 处理Portal相关的字段
+						// BussDaoCoreTools.addToResourcePortal(element, dfo
+						// .getColumn(), tablename, formcode);
+						// // 添加 Fck的字段
+						// BussDaoCoreTools.addToResourceFck(element, dfo
+						// .getColumn(), tablename, formcode);
 						// 检查字段属性是否正确
 						BussDaoTools.columnTypeAndValueAvail(columnlist, tcf,
 								element, columnidvalue, false);
@@ -131,6 +129,12 @@ public class BussDaoImpl implements BussDao {
 					rs = true;
 
 				} catch (Exception e) {
+					// 如果创建出错 那么将lsh设置为空表示失败
+					for (Iterator iterx = list.iterator(); iterx.hasNext();) {
+						TCsBus element = (TCsBus) iterx.next();
+						element.setLsh(null);
+					}
+
 					try {
 						conn.rollback();
 					} catch (SQLException e1) {
@@ -184,7 +188,6 @@ public class BussDaoImpl implements BussDao {
 		try {
 			String ds = dfo.getSystemid();
 			conn = SQLTools.getConn(ds);
-			conn.setAutoCommit(false);
 
 			TCsBus element = bus;
 			// 创建BussObj对象属性
@@ -195,17 +198,19 @@ public class BussDaoImpl implements BussDao {
 
 			// 需要处理掉 participant
 			// 字段(因为表单修改中不可以修改该字段，如果被修改会导致原始创建者丢失，这将会导致安全识别出现问题)
-			TCsColumn objectRemove =null;
+			TCsColumn objectRemove = null;
 			for (Iterator iterator = availcolumnlist.iterator(); iterator
 					.hasNext();) {
 				TCsColumn object = (TCsColumn) iterator.next();
 				if (object.getColumnid().equalsIgnoreCase("participant")) {
-					objectRemove=object;
+					objectRemove = object;
 					break;
 				}
 			}
-			availcolumnlist.remove(objectRemove);
-			columnidvalue.remove(objectRemove.getColumnid().toLowerCase());
+			if (objectRemove != null) {
+				availcolumnlist.remove(objectRemove);
+				columnidvalue.remove(objectRemove.getColumnid().toLowerCase());
+			}
 			// ////////////////////////////////////////
 
 			// 创建SQL
@@ -229,8 +234,7 @@ public class BussDaoImpl implements BussDao {
 			// 执行修改
 			ps.executeUpdate();
 
-			conn.commit();
-			rs = true;
+			return true;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -240,7 +244,7 @@ public class BussDaoImpl implements BussDao {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			return false;
+
 		} finally {
 			try {
 				conn.close();
@@ -249,7 +253,7 @@ public class BussDaoImpl implements BussDao {
 			}
 		}
 
-		return rs;
+		return false;
 
 	}
 
@@ -295,7 +299,7 @@ public class BussDaoImpl implements BussDao {
 
 					BussDaoTools.columnTypeAndValueAvail(columnlist, tcf,
 							element, columnidvalue, false);
-					
+
 					// 需要处理掉 participant
 					// 字段(因为表单修改中不可以修改该字段，如果被修改会导致原始创建者丢失，这将会导致安全识别出现问题)
 					int participantIndex = 0;
@@ -502,6 +506,7 @@ public class BussDaoImpl implements BussDao {
 				}
 				return bus;
 			} catch (Exception e) {
+				e.printStackTrace();
 				return null;
 			} finally {
 				try {

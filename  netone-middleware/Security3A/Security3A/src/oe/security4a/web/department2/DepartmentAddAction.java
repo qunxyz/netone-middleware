@@ -44,17 +44,17 @@ public class DepartmentAddAction extends Action {
 					UmsProtectedobject f = rmi.loadResourceById(upo.getParentdir());
 					RequestUtil.loadObjectParam(reqmap, f);
 					request.setAttribute("CreateSuccess", "y");
-					OperationLog.info(request, "新建目录", "新建目录成功！");
+					OperationLog.info(request, "新建目录", upo.getName()+upo.getNaturalname()+"新建目录成功！",true);
 				} else {
 					reqmap.setAlertMsg("该名称已存在！");
 					request.setAttribute("CreateSuccess", "n");
-					OperationLog.error(request, "新建目录", "该名称已存在！新建目录失败！");
+					OperationLog.info(request, "新建目录",  upo.getName()+upo.getNaturalname()+"该名称已存在！新建目录失败！",false);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				reqmap.setAlertMsg(e.getMessage());
 				request.setAttribute("CreateSuccess", "n");
-				OperationLog.error(request, "新建目录", e.getMessage());
+				OperationLog.info(request, "新建目录", e.getMessage(),false);
 			}
 		}
 		return mapping.findForward("newnode");

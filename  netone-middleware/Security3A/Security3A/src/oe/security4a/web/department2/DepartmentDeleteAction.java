@@ -36,7 +36,7 @@ public class DepartmentDeleteAction extends Action {
 					file = upo.getActionurl();
 					if (!rmi.dropResource(id)) {
 						request.setAttribute("DeleteSuccess", "n");
-						OperationLog.error(request, "ɾ��Ŀ¼", "ɾ��Ŀ¼ʧ�ܣ�");
+						OperationLog.info(request, "ɾ��Ŀ¼", id+"ɾ��Ŀ¼ʧ�ܣ�",false);
 						return mapping.findForward("departmentright");
 					}
 				}
@@ -50,7 +50,7 @@ public class DepartmentDeleteAction extends Action {
 					delfile.delete();
 				}
 				request.setAttribute("DeleteSuccess", "y");
-				OperationLog.info(request, "ɾ��Ŀ¼", "ɾ��Ŀ¼�ɹ���");
+				OperationLog.info(request, "ɾ��Ŀ¼", "ɾ��Ŀ¼�ɹ���",true);
 			} else if ("del".equals(request.getParameter("task"))) {
 				if (request.getParameter("chkid") != null) {
 					String str[] = request.getParameterValues("chkid");
@@ -60,7 +60,7 @@ public class DepartmentDeleteAction extends Action {
 							file = upo.getActionurl();
 							if (!rmi.dropResource(str[i])) {
 								request.setAttribute("DeleteSuccess", "n");
-								OperationLog.error(request, "ɾ��Ŀ¼", "ɾ��Ŀ¼ʧ�ܣ�");
+								OperationLog.info(request, "ɾ��Ŀ¼", str[i]+"ɾ��Ŀ¼ʧ�ܣ�",false);
 								break;
 							}
 						}
@@ -73,7 +73,7 @@ public class DepartmentDeleteAction extends Action {
 							delfile.delete();
 						}
 						request.setAttribute("DelSuccess", "y");
-						OperationLog.info(request, "ɾ��Ŀ¼", "ɾ��Ŀ¼�ɹ���");
+						OperationLog.info(request, "ɾ��Ŀ¼", "ɾ��Ŀ¼�ɹ���",true);
 					}
 				}
 				UmsProtectedobject f = rmi.loadResourceById(id);

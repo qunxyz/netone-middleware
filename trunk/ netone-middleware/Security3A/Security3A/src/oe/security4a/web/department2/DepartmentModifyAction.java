@@ -27,10 +27,10 @@ public class DepartmentModifyAction extends Action {
 						.mappingReqParam(UmsProtectedobject.class, reqmap);
 				if (rmi.updateResource(f)) {
 					request.setAttribute("ModifySuccess", "y");
-					OperationLog.info(request, "修改目录", "修改目录成功！");
+					OperationLog.info(request, "修改目录", f.getName()+f.getNaturalname()+"修改目录成功！",true);
 				} else {
 					request.setAttribute("ModifySuccess", "n");
-					OperationLog.error(request, "修改目录", "修改目录失败！");
+					OperationLog.info(request, "修改目录",  f.getName()+f.getNaturalname()+"修改目录失败！",false);
 				}
 				return mapping.findForward("departmentright");
 			} else if ("edit".equals(request.getParameter("task"))) {
@@ -44,10 +44,10 @@ public class DepartmentModifyAction extends Action {
 				request.setAttribute("upo", f);
 				if (rmi.updateResource(f)) {
 					request.setAttribute("ModifySuccess", "y");
-					OperationLog.info(request, "修改目录", "修改目录成功！");
+					OperationLog.info(request, "修改目录", f.getName()+f.getNaturalname()+"修改目录成功！",true);
 				} else {
 					request.setAttribute("ModifySuccess", "n");
-					OperationLog.error(request, "修改目录", "修改目录失败！");
+					OperationLog.info(request, "修改目录",  f.getName()+f.getNaturalname()+"修改目录失败！",false);
 				}
 				return mapping.findForward("editnode");
 			}

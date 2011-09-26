@@ -68,6 +68,8 @@
 
 								<img src='image/Netone.PNG' />
 
+
+
 								<font color='red'><rs:logininfo /> </font><font color='blue'><a
 									href='<rs:loginout/>'>【注销】</a> </font><font color='blue'><a
 									href='<rs:changepassword/>' target='_blank'>【修改密码】</a> </font>
@@ -146,6 +148,9 @@
 								</select>
 								<A HREF="javascript:createpage()"><FONT class="OecLink">创建/管理应用</FONT>
 								</A> &nbsp;
+								
+								
+								<A HREF="<portal:envget envkey="WEBSER_APPFRAME"/>/department/department.do?method=onDepartmentManageView" target='_blank'><FONT class="OecLink">帐户</FONT>&nbsp;
 								<A HREF="/Security3A" target='_blank'><FONT class="OecLink">4A安全</FONT>
 								</A> &nbsp;
 								<A

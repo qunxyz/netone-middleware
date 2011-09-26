@@ -209,12 +209,12 @@ public class RbacModifyAction extends Action {
 
 				reqmap.setAlertMsg("角色修改成功！");
 				request.setAttribute("result", "y");
-				OperationLog.info(request, "修改角色", "角色修改成功！");
+				OperationLog.info(request, "修改角色", rolename+"角色修改成功！",true);
 			} catch (Exception e) {
 				e.printStackTrace();
 				reqmap.setAlertMsg(e.getMessage());
 				request.setAttribute("result", "n");
-				OperationLog.error(request, "修改角色", e.getMessage());
+				OperationLog.info(request, "修改角色", e.getMessage(),false);
 			}
 
 			return mapping.findForward("addindex");

@@ -51,7 +51,7 @@ public class RbacDelAction extends Action {
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
-								OperationLog.error(request, "É¾³ý½ÇÉ«", e.getMessage());
+								OperationLog.info(request, "É¾³ý½ÇÉ«", e.getMessage(),false);
 							}
 						}
 					}
@@ -74,14 +74,14 @@ public class RbacDelAction extends Action {
 						}
 						cupmRmi.initCacheRoleCore(str[i]);
 						if (rsrmi.dropRole(str[i])) {
-							OperationLog.info(request, "É¾³ý½ÇÉ«", "É¾³ý½ÇÉ«³É¹¦!");
+							OperationLog.info(request, "É¾³ý½ÇÉ«", str[i]+"É¾³ý½ÇÉ«³É¹¦!",true);
 						} else {
-							OperationLog.error(request, "É¾³ý½ÇÉ«", "É¾³ý½ÇÉ«Ê§°Ü!");
+							OperationLog.info(request, "É¾³ý½ÇÉ«", str[i]+"É¾³ý½ÇÉ«Ê§°Ü!",false);
 						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					OperationLog.error(request, "É¾³ý½ÇÉ«", e.getMessage());
+					OperationLog.info(request, "É¾³ý½ÇÉ«", e.getMessage(),false);
 				}
 			}
 		}

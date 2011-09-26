@@ -112,7 +112,7 @@ public class RbacAddAction extends Action {
 						if (list2 != null && list2.size() > 0) {
 							reqmap.setAlertMsg("角色名称已存在,新建角色失败！");
 							request.setAttribute("result", "n");
-							OperationLog.error(request, "新建角色", "角色名称已存在,新建角色失败！");
+							OperationLog.info(request, "新建角色", role.getNaturalname()+"角色名称已存在,新建角色失败！",false);
 							return mapping.findForward("addindex");
 						}
 					}
@@ -203,12 +203,12 @@ public class RbacAddAction extends Action {
 				}
 				reqmap.setAlertMsg("新建角色成功！");
 				request.setAttribute("result", "y");
-				OperationLog.info(request, "新建角色", "新建角色成功");
+				OperationLog.info(request, "新建角色", "新建角色成功",true);
 			} catch (Exception e) {
 				e.printStackTrace();
 				reqmap.setAlertMsg(e.getMessage());
 				request.setAttribute("result", "n");
-				OperationLog.info(request, "新建角色", e.getMessage());
+				OperationLog.info(request, "新建角色", e.getMessage(),false);
 			}
 
 			return mapping.findForward("addindex");

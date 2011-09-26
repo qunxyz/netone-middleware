@@ -91,19 +91,19 @@
 			<table width="96%" border="0" align="center" cellpadding="0"
 				cellspacing="1" id="hang_table">
 				<tr>
-					<td class="td_titt_bg">
+					<td class="td_titt_bg" nowrap>
 						登录名
 					</td>
-					<td class="td_titt_bg">
+					<td class="td_titt_bg" nowrap>
 						操作时间
 					</td>
-					<td class="td_titt_bg">
+					<td class="td_titt_bg" nowrap>
 						操作项
 					</td>
-					<td class="td_titt_bg">
+					<td class="td_titt_bg" nowrap>
 						操作结果
 					</td>
-					<td class="td_titt_bg">
+					<td class="td_titt_bg" nowrap>
 						备注
 					</td>
 				</tr>

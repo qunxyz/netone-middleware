@@ -24,7 +24,7 @@
 	
 		<init-param>
 			<param-name>AbortUrls</param-name>
-			<param-value>*.html</param-value>
+			<param-value>/mod/LoginMvl,/mod/RegeditMvl</param-value>
 		</init-param>
 		<init-param>
 			<param-name>AbortUrlType</param-name>
@@ -487,6 +487,20 @@
     <servlet-name>ForceOutSvl</servlet-name>
     <servlet-class>oe.security4a.web.department.ForceOutSvl</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LoginMvl</servlet-name>
+    <servlet-class>oe.security4a.mobile.LoginMvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RegeditMvl</servlet-name>
+    <servlet-class>oe.security4a.mobile.RegeditMvl</servlet-class>
+  </servlet>
+
+
 
 
 	<servlet-mapping>
@@ -500,5 +514,13 @@
   <servlet-mapping>
     <servlet-name>ForceOutSvl</servlet-name>
     <url-pattern>/servlet/ForceOutSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginMvl</servlet-name>
+    <url-pattern>/mod/LoginMvl</url-pattern> 
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RegeditMvl</servlet-name>
+    <url-pattern>/mod/RegeditMvl</url-pattern>
   </servlet-mapping>
 </web-app>

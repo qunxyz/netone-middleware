@@ -80,13 +80,13 @@ public class ConditionBuilder {
 										|| ColumnExtendInfo._HTML_TYPE_TIME
 												.equals(htmltype)) {
 									// 时间也当作字符串来处理
-									value = "'" + value + "'";
+									value = "'" + value + "%'";
 								} else {
-									value = "'" + value + "'";
+									value = "'" + value + "%'";
 								}
 
 								conditionInfo.append(" and "
-										+ element.getColumnid() + " = "
+										+ element.getColumnid() + " like "
 										+ value);
 							}
 						}

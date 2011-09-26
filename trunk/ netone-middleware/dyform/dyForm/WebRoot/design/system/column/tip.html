@@ -19,7 +19,7 @@
 					校验格式: checkrule$:expression$!
 				</td>
 				<td>
-					参考:数字 checkrule$:(-\+)?([0-9]+)\.?([0-9]*);需要数字;$!
+					脚本例子:checkrule$:/^[-]?([0-9]+)\\.?([0-9]*)$/;需要数字;$!
 				</td>
 			</tr>
 			<tr>
@@ -27,7 +27,7 @@
 					初始化处理脚本:initscript$:expression$!
 				</td>
 				<td>
-					参考: initscript$:alert('init');$!
+					脚本例子: initscript$:alert('init');$!
 				</td>
 			</tr>
 			<tr>
@@ -35,7 +35,7 @@
 					获得焦点时处理脚本:focusscript$:expression$!
 				</td>
 				<td>
-					参考: focusscript$:alert('focus');$!
+					脚本例子: focusscript$:alert('focus');$!
 				</td>
 			</tr>
 			<tr>
@@ -43,7 +43,15 @@
 					失去焦点时处理脚本:losefocusscript$:expression$!
 				</td>
 				<td>
-					参考:blurscript$:alert('losefocus');$!
+					脚本例子:blurscript$:alert('losefocus');$!
+				</td>
+			</tr>
+			<tr>
+				<td>
+					改变事件(通常是下拉列表框中使用):onchangescript$:expression$!
+				</td>
+				<td>
+					脚本例子:onchangescript$:alert('losefocus');$!
 				</td>
 			</tr>
 			<tr>
@@ -51,9 +59,26 @@
 					布局坐标脚本:offset$:expression$!
 				</td>
 				<td>
-					参考: offset$:1-2$!
+					脚本例子: offset$:1-2$!
 				</td>
 			</tr>
-
+			<tr>
+				<td>
+					字段长度:size$:expression$!
+				</td>
+				<td>
+					参考:字符长度1000 &nbsp;脚本例子: size$:1000$!
+					<br>
+					参考:数字类型6位长度，精度4位 &nbsp;脚本例子: size$:6,4$!
+				</td>
+			</tr>
+			<tr>
+				<td>
+					数组:groupsize$:size$!
+				</td>
+				<td>
+					参考:某个字段需要5个checkbox，那么配置为group$:5$!;
+				</td>
+			</tr>
 	</body>
 </html>

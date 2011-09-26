@@ -53,7 +53,7 @@
 			<table width="100" border="0" cellspacing="0" cellpadding="0"
 				align="right">
 				<tr>
-
+	<!-- 
 					<td>
 						<h:submit value="ÏÂÒÆ×Ö¶Î" action="/design/system/column/moveup.do"
 							validate="selectone" target="_self" styleClass="buttonOnTable" />
@@ -62,6 +62,7 @@
 						<h:submit value="ÉÏÒÆ×Ö¶Î" action="/design/system/column/movedown.do"
 							validate="selectone" target="_self" styleClass="buttonOnTable" />
 					</td>
+					 -->
 					<td>
 						&nbsp;&nbsp;&nbsp;
 					</td>

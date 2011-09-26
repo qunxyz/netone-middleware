@@ -10,7 +10,9 @@ import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import oe.cav.bean.logic.bus.FormEntry;
 import oe.cav.bean.logic.column.TCsColumn;
+import oe.cav.bean.logic.form.FormDao;
 import oe.cav.bean.logic.form.FormExtendInfo;
 import oe.cav.bean.logic.form.TCsForm;
 import oe.cav.web.design.form.template.CreateTemplate;
@@ -336,7 +338,7 @@ public class FormActionImpl extends BaseAction {
 		Security ser = new Security(ae.getRequest());
 		busForm.setParticipant(ser.getUserLoginName());
 		// 原先设计中用description来存储动态表单的实际库表
-		busForm.setDescription(busFormOld.getDescription());
+		busForm.setDescription(busFormOld.getTablename());
 		boolean dors = dys.updateForm(busForm);
 		ae.setAttribute("tip", WebTip.tip(dors));
 

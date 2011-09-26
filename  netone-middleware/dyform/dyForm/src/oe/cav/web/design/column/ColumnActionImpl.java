@@ -1,30 +1,20 @@
 package oe.cav.web.design.column;
 
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-
 import oe.cav.bean.logic.column.ColumnExtendInfo;
 import oe.cav.bean.logic.column.TCsColumn;
 import oe.cav.web.util.SearchObj;
 import oe.frame.web.util.WebTip;
 import oe.midware.dyform.service.DyFormDesignService;
-import oe.midware.dyform.service.DyFormService;
+
 import oe.rmi.client.RmiEntry;
 import oe.security3a.sso.Security;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.omg.CORBA.Request;
 
 import com.rongji.webframework.struts.ActionEvent;
 import com.rongji.webframework.struts.BaseAction;
-import com.sun.mail.iap.Response;
 
 public class ColumnActionImpl extends BaseAction {
-
-
 
 	protected boolean validateLogon() {
 		return false;
@@ -67,8 +57,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onCreateope(ActionEvent ae) throws Exception {
-		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
-		
+		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+
 		ColumnForm form = (ColumnForm) ae.getForm();
 		TCsColumn busForm = new TCsColumn();
 		BeanUtils.copyProperties(busForm, form);
@@ -88,13 +78,13 @@ public class ColumnActionImpl extends BaseAction {
 
 		String info = dys.addColumn(busForm);
 
-		WebTip.htmlInfo(info, true,true, ae.getResponse());
+		WebTip.htmlInfo(info, true, true, ae.getResponse());
 
 		return null;
 	}
 
 	public String onModifyview(ActionEvent ae) throws Exception {
-		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
 
 		ae.setAttribute("typeinfo", ColumnExtendInfo._TYPE_INFO_LIST);
 		ae.setAttribute("booleaninfo", ColumnExtendInfo._BOOLEAN_INFO_LIST);
@@ -108,8 +98,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onDropope(ActionEvent ae) throws Exception {
-		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
-		
+		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+
 		ColumnForm form = (ColumnForm) ae.getForm();
 		String columncode = form.getColumncode();
 		TCsColumn bufForm = dys.loadColumn(form.getFormcode(), columncode);
@@ -125,8 +115,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onModifyope(ActionEvent ae) throws Exception {
-		
-		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+
+		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
 
 		ColumnForm form = (ColumnForm) ae.getForm();
 		TCsColumn busForm = new TCsColumn();
@@ -149,8 +139,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onMoveup(ActionEvent ae) throws Exception {
-		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
-		
+		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+
 		ColumnForm form = (ColumnForm) ae.getForm();
 		String formcode = form.getFormcode();
 		String columncode = form.getColumncode();
@@ -162,8 +152,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onMovedown(ActionEvent ae) throws Exception {
-		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
-		
+		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+
 		ColumnForm form = (ColumnForm) ae.getForm();
 		String formcode = form.getFormcode();
 		String columncode = form.getColumncode();
@@ -179,8 +169,8 @@ public class ColumnActionImpl extends BaseAction {
 	}
 
 	public String onInitpoint(ActionEvent ae) throws Exception {
-		DyFormDesignService  dys = (DyFormDesignService) RmiEntry.iv("dydesign");
-		
+		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+
 		ColumnForm form = (ColumnForm) ae.getForm();
 		String formcode = form.getFormcode();
 		Security ser = new Security(ae.getRequest());

@@ -15,6 +15,7 @@
 			
 	
     String tip =(String)request.getParameter("errormsg");
+    System.out.println("-----"+tip);
     
 
 	request.setAttribute("gotourl", request.getParameter("gotourl"));

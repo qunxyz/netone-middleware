@@ -235,13 +235,13 @@ public class DyObjFromXmlImpl implements DyObjFromXml {
 			}
 		}
 
-		List list = dfo.getColumn();
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			TCsColumn object = (TCsColumn) iterator.next();
-			String ext = object.getExtendattribute();
-			ext = StringUtils.replace(ext, "%X@", "#");
-			object.setExtendattribute(ext);
-		}
+//		List list = dfo.getColumn();
+//		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+//			TCsColumn object = (TCsColumn) iterator.next();
+//			String ext = object.getExtendattribute();
+//			ext = StringUtils.replace(ext, "%X@", "#");
+//			object.setExtendattribute(ext);
+//		}
 		return dfo;
 	}
 }

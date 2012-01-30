@@ -215,6 +215,10 @@
 									<c:if test="${upo.objecttype=='creater'}">selected</c:if>>
 									创建者
 								</option>
+								<option value='flowrolecreater'
+									<c:if test="${upo.objecttype=='flowrolecreater'}">selected</c:if>>
+									流程创建者角色
+								</option>
 							</select>
 
 							<input type='text' name='extendattribute' id="extendattribute"

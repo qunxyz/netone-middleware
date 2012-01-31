@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+
 import oe.frame.orm.util.IdServer;
 import oe.frame.web.WebCache;
 import oe.rmi.client.RmiEntry;
@@ -86,12 +88,12 @@ public class LoginSvl extends HttpServlet {
 			request.setAttribute("errormsg", errormsg.toString());
 			request.getRequestDispatcher("sso/login.jsp").forward(request,
 					response);
-		} else if ("".equals(username.trim())) {
+		} else if (StringUtils.isEmpty(username)) {
 			errormsg.append(LoginInfo._ERROR_2[0]);
 			request.setAttribute("errormsg", errormsg.toString());
 			request.getRequestDispatcher("sso/login.jsp").forward(request,
 					response);
-		} else if ("".equals(password.trim())) {
+		} else if (StringUtils.isEmpty(password)) {
 			errormsg.append(LoginInfo._ERROR_3[0]);
 			request.setAttribute("errormsg", errormsg.toString());
 			request.getRequestDispatcher("sso/login.jsp").forward(request,
@@ -217,15 +219,28 @@ public class LoginSvl extends HttpServlet {
 						response.sendRedirect(url);
 					} else {
 						if (user != null) {
+							
+							if(user.getPassword().equals("9$9$")){
+								cupm.log("login", reqip, username,
+										"forbid account!", "");
+								
+								errormsg.append(user.getOperationinfo());
+								request.setAttribute("errormsg",
+										LoginInfo._ERROR_9[0]);
+								request.getRequestDispatcher("sso/login.jsp")
+										.forward(request, response);
+							}else{
+								cupm.log("login", reqip, username,
+										"password error!", "");
+								
+								errormsg.append(user.getOperationinfo());
+								request.setAttribute("errormsg",
+										LoginInfo._ERROR_6[0]);
+								request.getRequestDispatcher("sso/login.jsp")
+										.forward(request, response);
+							}
 
-							cupm.log("login", reqip, username,
-									"password error!", "");
 
-							errormsg.append(user.getOperationinfo());
-							request.setAttribute("errormsg",
-									LoginInfo._ERROR_6[0]);
-							request.getRequestDispatcher("sso/login.jsp")
-									.forward(request, response);
 
 						} else {
 							cupm

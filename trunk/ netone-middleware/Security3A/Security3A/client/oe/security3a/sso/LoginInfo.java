@@ -15,5 +15,7 @@ public interface LoginInfo {
 	String[] _ERROR_7 = { "6", "登陆失败,请检查四位代码！" };
 	
 	String[] _ERROR_8 = { "7", "登陆失败,该账户已在线!" };
+	
+	String[] _ERROR_9 = { "8", "登陆失败,该账户禁用!" };
 
 }

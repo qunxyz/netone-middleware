@@ -51,38 +51,38 @@ public class DbTools {
 	}
 
 	static {
-		ds = new BasicDataSource();
 
-		String driverName = messages.getString("driverName");
-		String dbURL = messages.getString("dbURL");
-		String userName = messages.getString("userName");
-		String userPwd = messages.getString("userPwd");
-
-		String maxActive = messages.getString("maxActive");
-		String maxWait = messages.getString("maxWait");
-		String maxIdle = messages.getString("maxIdle");
-		String initialSize = messages.getString("initialSize");
 		int maxActivev = 10;
 		int maxWaitv = 1000;
 		int maxIdlev = 20;
 		int initialSizev = 10;
 		try {
+			ds = new BasicDataSource();
+
+			String driverName = messages.getString("driverName");
+			String dbURL = messages.getString("dbURL");
+			String userName = messages.getString("userName");
+			String userPwd = messages.getString("userPwd");
+
+			String maxActive = messages.getString("maxActive");
+			String maxWait = messages.getString("maxWait");
+			String maxIdle = messages.getString("maxIdle");
+			String initialSize = messages.getString("initialSize");
 			maxActivev = Integer.parseInt(maxActive);
 			maxWaitv = Integer.parseInt(maxWait);
 			maxIdlev = Integer.parseInt(maxIdle);
 			initialSizev = Integer.parseInt(initialSize);
+			ds.setPassword(userPwd);
+			ds.setUrl(dbURL);
+			ds.setDriverClassName(driverName);
+			ds.setUsername(userName);
+			ds.setMaxActive(maxActivev);
+			ds.setMaxIdle(maxIdlev);
+			ds.setMaxWait(maxWaitv);
+			ds.setInitialSize(initialSizev);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		ds.setPassword(userPwd);
-		ds.setUrl(dbURL);
-		ds.setDriverClassName(driverName);
-		ds.setUsername(userName);
-		ds.setMaxActive(maxActivev);
-		ds.setMaxIdle(maxIdlev);
-		ds.setMaxWait(maxWaitv);
-		ds.setInitialSize(initialSizev);
 
 	}
 

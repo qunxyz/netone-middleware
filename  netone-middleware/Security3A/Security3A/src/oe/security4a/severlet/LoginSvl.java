@@ -82,7 +82,7 @@ public class LoginSvl extends HttpServlet {
 		String password = request.getParameter("password");
 		String code = request.getParameter("code");
 		StringBuffer errormsg = new StringBuffer();
-
+		String secu = request.getParameter("secu");
 		if (!imagecodeavail && !ImageCodeCheck.check(request)) {
 			errormsg.append(LoginInfo._ERROR_1[0]);
 			request.setAttribute("errormsg", errormsg.toString());
@@ -93,7 +93,7 @@ public class LoginSvl extends HttpServlet {
 			request.setAttribute("errormsg", errormsg.toString());
 			request.getRequestDispatcher("sso/login.jsp").forward(request,
 					response);
-		} else if (StringUtils.isEmpty(password)) {
+		} else if (StringUtils.isEmpty(password)&&!"yes".equals(secu)) {
 			errormsg.append(LoginInfo._ERROR_3[0]);
 			request.setAttribute("errormsg", errormsg.toString());
 			request.getRequestDispatcher("sso/login.jsp").forward(request,
@@ -107,7 +107,7 @@ public class LoginSvl extends HttpServlet {
 			}
 			try {
 				CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
-				String secu = request.getParameter("secu");
+				
 				if ("yes".equals(secu)) {// 从其他系统已经登录过
 					loginInOtherSys(request, response, oluser, username);
 					cupm.log("登陆", reqip, username, "成功 FROM OA", "");
@@ -176,7 +176,7 @@ public class LoginSvl extends HttpServlet {
 					}
 					// /////////////////////////////
 					String gotourl = request.getParameter("gotourl");
-					if (gotourlX != null && !gotourlX.equals("")) {
+					if (StringUtils.isNotEmpty(gotourlX)) {
 						// ru
 						gotourl = gotourlX;
 					}

@@ -24,7 +24,7 @@
 	
 		<init-param>
 			<param-name>AbortUrls</param-name>
-			<param-value>/mod/LoginMvl,/mod/RegeditMvl</param-value>
+			<param-value>/mod/LoginMvl,/mod/RegeditMvl,/SSOLoginSvl</param-value>
 		</init-param>
 		<init-param>
 			<param-name>AbortUrlType</param-name>
@@ -523,4 +523,15 @@
     <servlet-name>RegeditMvl</servlet-name>
     <url-pattern>/mod/RegeditMvl</url-pattern>
   </servlet-mapping>
+  
+  	<servlet>
+		<description>The Javascript Pool</description>
+		<display-name>JsFactory Controller</display-name>
+		<servlet-name>SSOLoginSvl</servlet-name>
+		<servlet-class>oe.security4a.severlet.SSOLoginSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SSOLoginSvl</servlet-name>
+		<url-pattern>/SSOLoginSvl</url-pattern>
+	</servlet-mapping>
 </web-app>

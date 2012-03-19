@@ -4,9 +4,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 
 import oe.frame.bus.workflow.RuntimeMonitor;
 import oe.frame.orm.OrmerEntry;
@@ -212,6 +215,9 @@ public class WorkflowViewImpl extends UnicastRemoteObject implements
 	}
 
 	public List coreSqlview(String sql) throws RemoteException {
+		if(StringUtils.isEmpty(sql)){
+			return new ArrayList();
+		}
 		Connection con = null;
 		try {
 			con = OrmerEntry.fetchDS().getConnection();

@@ -96,7 +96,7 @@ public class DbScriptTools {
 
 		String ext = column.getExtendattribute();
 		String sizeinfo = "";
-		if (ext != null && !ext.equals("")) {
+		if (StringUtils.isNotEmpty(ext)) {
 			sizeinfo = StringUtils
 					.substringBetween(ext, DymaticFormCheck._CHECK_SIZE,
 							DymaticFormCheck._FINAL_CHECK);
@@ -122,12 +122,13 @@ public class DbScriptTools {
 				.getHtmltype())||ColumnExtendInfo._HTML_TYPE_FCK_ITEM.equals(column
 				.getHtmltype())) {
 			type = "text " + " character set gbk";
-		} else {
-			if (StringUtils.isNotEmpty(sizeinfo) && sizeinfo.matches("\\d+")) {
-				type = "varchar(" + sizeinfo + ")" + " character set gbk";
-			} else {
-				type = "varchar(100)" + " character set gbk";
-			}
+		}else {
+        log.debug("sizeinfo:" + sizeinfo);
+        if ((StringUtils.isNotEmpty(sizeinfo)) && (sizeinfo.matches("\\d+")))
+          type = "varchar(" + sizeinfo + ")" + " character set gbk";
+        else {
+          type = "varchar(100) character set gbk";
+        }
 
 		}
 		String addScript = "alter table " + formObj.getDescription() + " "

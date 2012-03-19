@@ -57,6 +57,24 @@
 			form1.submit();
 		}
 		
+		function view(mode,value){
+					
+						if(mode==1){
+						
+							window.open('/cmsWeb/frames/AppFrame1.jsp?rs='+value+'&layout=left&needhidden=y&height=0&fckid=&initurl=');
+						}
+						if(mode==2){
+						   window.open('/cmsWeb/frames/AppFrame2.jsp?rs='+value+'&height=0&fckid=');
+						}
+						if(mode==3){
+						
+							window.open('/cmsWeb/extframes.do?listPath='+value);
+						}
+						if(mode==4){
+						   window.open('/cmsWeb/extframes.do?mode=4&listPath='+value);
+						}
+					}
+		
 		</script>
 	</head>
 	<body style="font-size: 12px;margin: 22px">
@@ -187,9 +205,18 @@
 							</td>
 
 							<td nowrap>
+								<A HREF="javascript:view(1,'${list.naturalname}')"><FONT class="OecLink">[纵型2级]</FONT>
+								</A>
+								<A HREF="javascript:view(3,'${list.naturalname}')"><FONT class="OecLink">[纵型N级]</FONT>
+								</A>
+								<A HREF="javascript:view(2,'${list.naturalname}')"><FONT class="OecLink">[横型2级]</FONT>
+								</A>
 								<a href="javascript:edit('${list.id}');">修改</a>
 								<a href="javascript:del('${list.id}');">删除</a>
 								<a href="javascript:checkthis('${list.id}');">选择</a>
+								
+
+
 							</td>
 						</tr>
 					</c:forEach>

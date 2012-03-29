@@ -30,7 +30,7 @@ public class WfIcon {
 				+ x
 				+ "px;TOP:"
 				+ y
-				+ "px;width:80;height:55;\" fillcolor=\"#66FF33\">\n"
+				+ "px;width:39;height:39;\" fillcolor=\"#66FF33\">\n"
 				+ "<v:Textbox class="
 				+ key
 				+ " print=\"t\" inset=\"1pt,1pt,1pt,1pt\"></v:Textbox>\n"
@@ -54,7 +54,7 @@ public class WfIcon {
 	public static String makeStartLineInfo(String x, String y, Activity act) {
 		String[] activityxy = fetchActivity(act);
 		float[] xyoffset = WfLine.makeMarkPointCenter(x, y, activityxy[0],
-				activityxy[1]);
+				activityxy[1], "start", act.getId());
 		String lineStr = "<v:line style='position:absolute;left:0;top:0;'from='"
 				+ xyoffset[0]
 				+ ","
@@ -72,7 +72,7 @@ public class WfIcon {
 	public static String makeEndLineInfo(String x, String y, Activity act) {
 		String[] activityxy = fetchActivity(act);
 		float[] xyoffset = WfLine.makeMarkPointCenter(x, y, activityxy[0],
-				activityxy[1]);
+				activityxy[1], "end", act.getId());
 		String lineStr = "<v:line style='position:absolute;left:0;top:0;'from='"
 				+ xyoffset[2]
 				+ ","

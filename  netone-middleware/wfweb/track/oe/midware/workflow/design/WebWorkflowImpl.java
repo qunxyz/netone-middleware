@@ -1,6 +1,5 @@
 package oe.midware.workflow.design;
 
-import oe.midware.workflow.xpdl.model.workflow.WorkflowProcess;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import oe.midware.workflow.XMLException;
 import oe.midware.workflow.xpdl.model.activity.Activity;
 import oe.midware.workflow.xpdl.model.activity.Implementation;
@@ -17,6 +17,8 @@ import oe.midware.workflow.xpdl.model.transition.Join;
 import oe.midware.workflow.xpdl.model.transition.Split;
 import oe.midware.workflow.xpdl.model.transition.Transition;
 import oe.midware.workflow.xpdl.model.transition.TransitionRestriction;
+import oe.midware.workflow.xpdl.model.workflow.WorkflowProcess;
+import oe.midware.workflow.track.WorkflowInfo;
 
 
 public class WebWorkflowImpl implements WebWorkflow {
@@ -75,17 +77,22 @@ public class WebWorkflowImpl implements WebWorkflow {
 			WorkflowProcess workflow = proc;
 			Activity[] action = workflow.getActivity();
 			int length = action.length;
+			
 			for (int i = 0; i < length; i++) {
 				String activityEditType = "tools";
 				Implementation imple = action[i].getImplementation();
-				if (imple == null) {
+
+				String subflowinfo = action[i].getExtendedAttributes().get(
+						"subflowId");
+
+				if(action[i].getName().equals("")) {
+					activityEditType = "turningpoint";		
+				} else if (imple == null) {
+
 					activityEditType = "route";
-				} else {
-					String subflowinfo = action[i].getExtendedAttributes().get(
-							"subflowId");
-					if (subflowinfo != null && !subflowinfo.equals("")) {
-						activityEditType = "subflow";
-					}
+				}else if(subflowinfo != null && !subflowinfo.equals("")){
+					activityEditType = "subflow";
+						
 				}
 				extendAction = "";
 				trueName = "";
@@ -250,13 +257,19 @@ public class WebWorkflowImpl implements WebWorkflow {
 			String extendAttribute, String offX, String offY, String deadline,
 			String eidttype) {
 		String actionstr = "";
+		//System.out.println(offX);
 		int trackTop = Integer.parseInt(offY) + trackOff;
 		String classChoice = "class='activity' />\n";
-		if ("route".equals(eidttype)) {
+		if("route".equals(eidttype)) {
 			classChoice = "class='route'/>\n";
 		} else if ("subflow".equals(eidttype)) {
 			classChoice = "class='subflow'/>\n";
+		} else if("turningpoint".equals(eidttype)){
+			classChoice = "class='turningpoint'/>\n";
+		} else if("activity".equals(eidttype)){
+			classChoice = "class='activity'/>\n";
 		}
+			
 		actionstr = "<div id='trackAction' name='"
 				+ id
 				+ "'isLink='false'\n"
@@ -277,10 +290,15 @@ public class WebWorkflowImpl implements WebWorkflow {
 				+ forwardCondition
 				+ "'\n"
 				+ "afterCondition ='"
-				+ afterCondition
-				+ "' style='position:absolute;visibility: visible;\n"
-				+ "padding:2px; height:30px; width:70px;\n"
-				+ "left:"
+				+ afterCondition;
+		if(classChoice == "class='turningpoint'/>\n"){
+			actionstr += "' style='position:absolute;visibility: visible;\n"
+				+ "padding:2px; height:27px; width:27px;\n";
+		}else{
+			actionstr += "' style='position:absolute;visibility: visible;\n"
+				+ "padding:2px; height:45px; width:110px;\n";
+		}
+			actionstr += "left:"
 				+ offX
 				+ "px; top:"
 				+ trackTop
@@ -379,10 +397,10 @@ public class WebWorkflowImpl implements WebWorkflow {
 			}
 			if ("beenLine".equals(lineTy)) {
 				lineString += fetchbeenLine(id, name, falseName, extendContent,
-						depict, fx, fy, tx, ty, condition);
+						depict, fx, fy, tx, ty, condition,"3", "");
 			} else {
-				lineString += fetchZLine(id, name, falseName, extendContent,
-						depict, fx, fy, tx, ty, condition);
+				//lineString += fetchZLine(id, name, falseName, extendContent,
+						//depict, fx, fy, tx, ty, condition);
 			}
 		}
 		return lineString;
@@ -413,10 +431,18 @@ public class WebWorkflowImpl implements WebWorkflow {
 	 */
 	public String fetchbeenLine(String id, String name, String falseName,
 			String extendContent, String depict, String fx, String fy,
-			String tx, String ty, String condition) {
+			String tx, String ty, String condition, String flag ,String nextId) {
 		String lineStr = "";
-
-		int[] linex = adjustXOffset(fx, tx, fy, ty);
+		String nextFlag = "";
+		if(id.equals(""))
+			nextFlag = nextId;
+		else
+			nextFlag = id;
+			
+		
+			
+		//System.out.println(id);
+		int[] linex = adjustXOffset(fx, tx, fy, ty, flag, nextFlag);
 		lineStr = "<div id='lineId' start='null' end='null' name='"
 				+ falseName
 				+ "' trueName ='"
@@ -445,35 +471,220 @@ public class WebWorkflowImpl implements WebWorkflow {
 		return lineStr;
 	}
 
-	private int[] adjustXOffset(String fx, String tx, String fy, String ty) {
+	private int[] adjustXOffset(String fx, String tx, String fy, String ty, String flag, String ids) {
 		int realfx = Integer.parseInt(fx);
 		int realtx = Integer.parseInt(tx);
-		int realfy = Integer.parseInt(fy) - off;
-		int realty = Integer.parseInt(ty) - off;
+		int realfy = Integer.parseInt(fy) ;
+		int realty = Integer.parseInt(ty) ;
+		String[] idArray = ids.split("_");
 
-		int len = Math.abs(realtx - realfx);
-		if (len < 80) {
-			if (realfy < realty) {
-				realty -= 25;
-			}else{
-				realty+= 35;
+		float height = 45;
+		float width = 110;
+		
+		double rate = height / width;
+		double rate1 = 1.0;
+		if (fx != tx) {
+			try {
+				rate1 = (realfy - realty) / (realfx - realtx);
+			} catch (ArithmeticException ae) {
+				// TODO Auto-generated catch block
+				rate1 = (realfy - realty) / 1;
 			}
-			realfx += 35;
-			realtx += 35;
+			rate1 = rate1 > 0 ? rate1 : -rate1;
+		}
+		
+		if(flag.equals("1")){
 
-		} else {
 
-			if (realfx < realtx) {
+			if(idArray[0].indexOf("turning") >= 0){
+				if (rate1 > rate) {
+					if (realfy < realty) {
+						realtx += 14;
+						realty -= 55;
+					}else{
+						realtx += 14;
+						realty -= 27;
+					}
+	
+	
+				} else {
+	
+					if (realfx < realtx) {	
+						realty -= 41;
+					} else {
+						realty -= 42;
+						realtx += 28;
+	
+					}
+	
+				}
+			}else{
+				if (rate1 > rate) {
+					if (realfy < realty) {
+						realtx += 55;
+						realty -= 55;
+					}else{
+						realtx += 55;
+						realty -= 5;
+					}
+	
+	
+				} else {
+	
+					if (realfx < realtx) {	
+						realty -= 33;
+					} else {
+						realty -= 33;
+						realtx += 114;
+	
+					}
+	
+				}
+			}
+			realfx += 18;
+			realfy -= 33;
 
-				realfx += 35;
-				realtx -= 10;
+		}else if(flag.equals("2")){
+			
+			if(idArray[0].indexOf("turning") >= 0){
+				realfx += 14;
+				realfy -= 40;
+			}else{
+				realfx += 55;
+				realfy -= 35;
+			}
+			if (rate1 > rate) {
+				if (realfy < realty) {
+					realtx += 18;
+					realty -= 55;
+				}else{
+					realtx += 18;
+					realty -= 16;
+				}
 
 			} else {
-				realfx += 35;
-				realtx += 85;
+
+				if (realfx < realtx) {	
+					realty -= 35;
+				} else {
+					realty -= 35;
+					realtx += 39;
+
+				}
 
 			}
+
+		}else{
+			
+			if(idArray[0].indexOf("turning") >= 0 && idArray[1].indexOf("turning") >= 0){
+				if (rate1 > rate) {
+					if (realfy < realty) {
+						realtx += 13;
+						realty -= 55;
+					}else{
+						realtx += 13;
+						realty -= 25;
+					}
+
+
+				} else {
+
+					if (realfx < realtx) {	
+						realty -= 40;
+						realtx -= 1;
+					} else {
+						realty -= 40;
+						realtx += 28;
+
+					}
+
+				}
+				
+				realfx += 14;
+				realfy -= 42;
+			}else if(idArray[1].indexOf("turning") >= 0){
+				if (rate1 > rate) {
+					if (realfy < realty) {
+						realtx += 13;
+						realty -= 55;
+					}else{
+						realtx += 13;
+						realty -= 25;
+					}
+
+
+				} else {
+
+					if (realfx < realtx) {	
+						realty -= 40;
+						realtx -= 1;
+					} else {
+						realty -= 40;
+						realtx += 28;
+
+					}
+
+				}
+				
+				realfx += 55;
+				realfy -= 33;
+			}else if(idArray[0].indexOf("turning") >= 0){
+				if (rate1 > rate) {
+					if (realfy < realty) {
+						realtx += 55;
+						realty -= 55;
+					}else{
+						realtx += 55;
+						realty -= 5;
+					}
+
+
+				} else {
+
+					if (realfx < realtx) {	
+						realty -= 33;
+						realtx -= 3;
+					} else {
+						realty -= 33;
+						realtx += 114;
+
+					}
+
+				}
+				
+				realfx += 14;
+				realfy -= 42;
+			}else{
+				if (rate1 > rate) {
+					if (realfy < realty) {
+						realtx += 55;
+						realty -= 55;
+					}else{
+						realtx += 55;
+						realty -= 5;
+					}
+
+
+				} else {
+
+					if (realfx < realtx) {	
+						realty -= 33;
+						realtx -= 3;
+					} else {
+						realty -= 33;
+						realtx += 114;
+
+					}
+
+				}
+				
+				realfx += 55;
+				realfy -= 33;
+			}
+
+
 		}
+
 
 		return new int[] { realfx, realtx, realfy, realty };
 
@@ -502,57 +713,57 @@ public class WebWorkflowImpl implements WebWorkflow {
 	 *            轨迹结束点的Y坐标
 	 * @return
 	 */
-	public String fetchZLine(String id, String name, String falseName,
-			String extendContent, String depict, String fx, String fy,
-			String tx, String ty, String condition) {
-		String lineStr = "";
-		int lineFY = Integer.parseInt(fy) + trackOff;
-		int lineTY = Integer.parseInt(ty) + trackOff;
-		lineStr = "<div id='lineId' start='null' end='null' name='"
-				+ falseName
-				+ "' trueName ='"
-				+ name
-				+ "' extendContent='"
-				+ extendContent
-				+ "' lineTrueId='"
-				+ id
-				+ "'; depict='"
-				+ depict
-				+ "'; condition='"
-				+ condition
-				+ "' type='ZLine'>"
-				+ "<v:line id='work"
-				+ falseName
-				+ "' style='Z-INDEX:0;POSITION:absolute;cursor:hand;' from='"
-				+ (Integer.parseInt(fx) + 55)
-				+ "px,"
-				+ (lineFY - off)
-				+ "px' to='"
-				+ (Integer.parseInt(fx) + 85)
-				+ "px,"
-				+ (lineFY - off)
-				+ "px' strokecolor='red'></v:line>"
-				+ "<v:line style=\"Z-INDEX:0;POSITION:absolute;cursor:hand;\" from=\""
-				+ (Integer.parseInt(fx) + 85)
-				+ "px,"
-				+ (lineFY - off)
-				+ "px\" to=\""
-				+ (Integer.parseInt(fx) + 85)
-				+ "px,"
-				+ (lineTY - off)
-				+ "px\" strokecolor=\"red\"></v:line>"
-				+ "<v:line style=\"Z-INDEX:0;POSITION:absolute;cursor:hand;\" from=\""
-				+ (Integer.parseInt(fx) + 85)
-				+ "px,"
-				+ (lineTY - off)
-				+ "px\" to=\""
-				+ (Integer.parseInt(tx) - 10)
-				+ "px,"
-				+ (lineTY - off)
-				+ "px\" strokecolor=\"blue\"><v:Stroke endarrow=\'classic\'/></v:line>"
-				+ "</div>\n";
-		return lineStr;
-	}
+//	public String fetchZLine(String id, String name, String falseName,
+//			String extendContent, String depict, String fx, String fy,
+//			String tx, String ty, String condition) {
+//		String lineStr = "";
+//		int lineFY = Integer.parseInt(fy) + trackOff;
+//		int lineTY = Integer.parseInt(ty) + trackOff;
+//		lineStr = "<div id='lineId' start='null' end='null' name='"
+//				+ falseName
+//				+ "' trueName ='"
+//				+ name
+//				+ "' extendContent='"
+//				+ extendContent
+//				+ "' lineTrueId='"
+//				+ id
+//				+ "'; depict='"
+//				+ depict
+//				+ "'; condition='"
+//				+ condition
+//				+ "' type='ZLine'>"
+//				+ "<v:line id='work"
+//				+ falseName
+//				+ "' style='Z-INDEX:0;POSITION:absolute;cursor:hand;' from='"
+//				+ (Integer.parseInt(fx) + 55)
+//				+ "px,"
+//				+ (lineFY - off)
+//				+ "px' to='"
+//				+ (Integer.parseInt(fx) + 85)
+//				+ "px,"
+//				+ (lineFY - off)
+//				+ "px' strokecolor='red'></v:line>"
+//				+ "<v:line style=\"Z-INDEX:0;POSITION:absolute;cursor:hand;\" from=\""
+//				+ (Integer.parseInt(fx) + 85)
+//				+ "px,"
+//				+ (lineFY - off)
+//				+ "px\" to=\""
+//				+ (Integer.parseInt(fx) + 85)
+//				+ "px,"
+//				+ (lineTY - off)
+//				+ "px\" strokecolor=\"red\"></v:line>"
+//				+ "<v:line style=\"Z-INDEX:0;POSITION:absolute;cursor:hand;\" from=\""
+//				+ (Integer.parseInt(fx) + 85)
+//				+ "px,"
+//				+ (lineTY - off)
+//				+ "px\" to=\""
+//				+ (Integer.parseInt(tx) - 10)
+//				+ "px,"
+//				+ (lineTY - off)
+//				+ "px\" strokecolor=\"blue\"><v:Stroke endarrow=\'classic\'/></v:line>"
+//				+ "</div>\n";
+//		return lineStr;
+//	}
 
 	/**
 	 * 获得轨迹的类型
@@ -586,7 +797,13 @@ public class WebWorkflowImpl implements WebWorkflow {
 		String ty;
 		Object extendKey;
 		ExtendedAttributes extend = proc.getExtendedAttributes();
+		
 		try {
+			Transition[] transition = proc.getTransition();
+			int length = transition.length;
+			for (int i = 0; i < transition.length; i++) {
+				//System.out.println("to:   "+transition[i].getTo());
+			}
 			Map extendMap = extend.getMap();
 			Set extendSet = extendMap.keySet();
 			Iterator ierExtend = extendSet.iterator();
@@ -597,7 +814,9 @@ public class WebWorkflowImpl implements WebWorkflow {
 				tx = "";
 				ty = "";
 				extendKey = ierExtend.next();
+
 				if ("StartOfWorkflow".equals(extendKey)) {
+
 					if (extend != null) {
 						List startlist = extend.getList("StartOfWorkflow");
 						int startlength = startlist.size();
@@ -614,15 +833,16 @@ public class WebWorkflowImpl implements WebWorkflow {
 									+ startIcon[1];
 							if ("NOROUTING".equals(startIcon[4])) {
 								IconLine += fetchbeenLine("", "", name, "", "",
-										fx, fy, tx, ty, "");
+										fx, fy, tx, ty, "", "1", startIcon[1]);
 							} else if ("SIMPLEROUTING".equals(startIcon[4])) {
-								IconLine += fetchZLine("", "", name, "", "",
-										fx, fy, tx, ty, "");
+//								IconLine += fetchZLine("", "", name, "", "",
+//										fx, fy, tx, ty, "");
 							}
 						}
 					}
 
 				} else if ("EndOfWorkflow".equals(extendKey)) {
+
 					if (extend != null) {
 						List endlist = extend.getList("EndOfWorkflow");
 						for (int i = 0; i < endlist.size(); i++) {
@@ -638,10 +858,10 @@ public class WebWorkflowImpl implements WebWorkflow {
 							name = endIcon[1] + "->" + "end_" + endIcon[1];
 							if ("NOROUTING".equals(endIcon[4])) {
 								IconLine += fetchbeenLine("", "", name, "", "",
-										fx, fy, tx, ty, "");
+										fx, fy, tx, ty, "", "2", endIcon[1]);
 							} else if ("SIMPLEROUTING".equals(endIcon[4])) {
-								IconLine += fetchZLine("", "", name, "", "",
-										fx, fy, tx, ty, "");
+//								IconLine += fetchZLine("", "", name, "", "",
+//										fx, fy, tx, ty, "");
 							}
 						}
 					}
@@ -677,7 +897,7 @@ public class WebWorkflowImpl implements WebWorkflow {
 				+ fx
 				+ "px;TOP:"
 				+ iconTop
-				+ "px;width:85;height:55;\" fillcolor=\"#007FFF\">"
+				+ "px;width:39;height:39;\" fillcolor=\"#007FFF\">"
 				+ "<v:Textbox name =\"textbox\" class=startIcon print=\"t\" inset=\"1pt,1pt,1pt,1pt\"></v:Textbox>"
 				+ "<input id=\"work2start_" + actionId + "\" type=\"hidden\">"
 				+ "</v:image>\n";
@@ -705,7 +925,7 @@ public class WebWorkflowImpl implements WebWorkflow {
 				+ tx
 				+ "px;TOP:"
 				+ iconTop
-				+ "px;width:85;height:55;\"fillcolor=\"#FFFF55\">"
+				+ "px;width:39;height:39;\"fillcolor=\"#FFFF55\">"
 				+ "<v:Textbox name =\"textbox\" class=endIcon print=\"t\" inset=\"1pt,1pt,1pt,1pt\"></v:Textbox>"
 				+ "<input id=\"work2end_" + actionId + "\" type=\"hidden\">"
 				+ "</v:image>\n";

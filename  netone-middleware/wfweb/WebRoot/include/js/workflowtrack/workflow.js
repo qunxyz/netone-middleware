@@ -35,8 +35,8 @@ var actionTrueId = "";
 var lineTrueId = "";
 var forwardTrackAction = null;//上次点击的活动；
 var createLineType = null;
-var off = 30;
-var offx = 33;
+var off = 47;
+var offx = 40;
 
 var activitycount=0; //活动总数管理
 var activitymaxcount=0; //活动最大个数管理
@@ -46,6 +46,9 @@ var maxactivitycount=20;
 var othercount=0;//其他元素总数管理
 
 var updateNow="false";
+
+var objectWidth = 0;
+var objectHeight = 0;
 
 
 
@@ -211,8 +214,8 @@ function toNextPoint(nextlinkName,nextActName){
                   if((selectActionObj!=null)&&(lineObj!=null)){
 				   var naxtActObj =  trackHandle.action[nextName];
                    var startPoint = selectActionObj.style.left+","+(parseint(selectActionObj.style.top)-off)+"";
-				   var centerPoint = (parseint(selectActionObj.style.left)+70)+"px,"+(parseint(selectActionObj.style.top)-off)+"";
-				   var endPoint = (parseint(selectActionObj.style.left)+70)+"px,"+(parseint(naxtActObj.style.top)-off)+"";
+				   var centerPoint = (parseint(selectActionObj.style.left)+110)+"px,"+(parseint(selectActionObj.style.top)-off)+"";
+				   var endPoint = (parseint(selectActionObj.style.left)+110)+"px,"+(parseint(naxtActObj.style.top)-off)+"";
 
 			       lineObj.children[0].from = startPoint;
 				   lineObj.children[0].to = centerPoint
@@ -226,12 +229,14 @@ function toNextPoint(nextlinkName,nextActName){
 //该活动连接上一个活动的点(折线移动的上一个接点)
 function toForwardPoint(forlineName,forwardActName){
 
+ var adjustNumy = 0;
  var forwardName = (forwardActName.split("&"))[0];
  var type = (forwardActName.split("&"))[1];
   var lineObj = trackHandle.line[forlineName];
+
   if((selectActionObj!=null)&&(lineObj!=null)){
 			 var forwardActObj = trackHandle.action[forwardName];
-			 var  startPoint = (parseint(forwardActObj.style.left)+70)+"px,"+(parseint(selectActionObj.style.top)-off)+"";
+			 var  startPoint = (parseint(forwardActObj.style.left)+110)+"px,"+(parseint(selectActionObj.style.top)-off)+"";
 			  var endPoint = (parseint(selectActionObj.style.left)-10)+","+(parseint(selectActionObj.style.top)-off)+"px";
 				   lineObj.children[1].to= startPoint;
 				  
@@ -242,22 +247,37 @@ function toForwardPoint(forlineName,forwardActName){
 
 function toNextBeenLinePoint(nextlinkName,nextActName){
 
+ 	var adjustNumx = 0;
+ 	var adjustNumy = 0;
     var nextName = (nextActName.split("&"))[0];
 	var nextdObj = trackHandle.action[nextName];
-    var fx,fy,tx,ty;
-    tx = parseint(nextdObj.style.left)+offx
-    ty = parseint(nextdObj.style.top)-off
-    fx = parseint(selectActionObj.style.left)+offx;
-    fy = parseint(selectActionObj.style.top)-off;
+	var fobjectHeight;
+    var fx,fy,tx,ty; 
+    var fobjectWidth = parseint(selectActionObj.style.width)/2+2;
+	
+    if(selectActionObj.style.height == "27px"){
+		adjustNumy = 27;
+	}else
+		adjustNumy = 12;
+	var fobjectHeight = parseint(selectActionObj.style.height)/2+adjustNumy;
+		//alert(nextdObj.style.height +"   " +selectActionObj.style.height);
+    objectWidth = parseint(nextdObj.style.width)/2;
+    objectHeight = parseint(nextdObj.style.height)/2;
+    tx = parseint(nextdObj.style.left)+parseint(nextdObj.style.width)/2;
+    ty = parseint(nextdObj.style.top)-parseint(nextdObj.style.height)/2
+    fx = parseint(selectActionObj.style.left)+objectWidth;
+    fy = parseint(selectActionObj.style.top)-objectHeight;
     
-    var naPoint = new  position(fx,fy,tx,ty);
+    
+    
+    var naPoint = new  position(fx,fy,tx,ty,objectWidth,objectHeight);
 	var lineObj = trackHandle.line[nextlinkName];
                   if((selectActionObj!=null)&&(lineObj!=null)){
-                   var startPoint = (parseint(selectActionObj.style.left)+45)+","+(parseint(selectActionObj.style.top)-off)+"";
+                   var startPoint = (parseint(selectActionObj.style.left)+fobjectWidth)+","+(parseint(selectActionObj.style.top)-fobjectHeight)+"";
 			       lineObj.children[0].from = startPoint;
 				   var endPoint = naPoint.point.x+","+naPoint.point.y;
 				   lineObj.children[0].to = endPoint;
-				}		
+				}
   }
   
   
@@ -267,15 +287,20 @@ function toForwardBeenLinePoint(forlineName,forwardActName){
  var forwardName = (forwardActName.split("&"))[0];
  var forwardObj = trackHandle.action[forwardName];
  var fx,fy,tx,ty;
- fx = parseint(forwardObj.style.left)+offx
- fy = parseint(forwardObj.style.top)-off
- tx = parseint(selectActionObj.style.left)+offx;
- ty = parseint(selectActionObj.style.top)-off;
+ objectWidth = parseint(selectActionObj.style.width)/2;
+ objectHeight = parseint(selectActionObj.style.height)/2;
  
- var fwPoint = new  position(fx,fy,tx,ty);
+ fx = parseint(forwardObj.style.left)+parseint(forwardObj.style.width)/2;
+ fy = parseint(forwardObj.style.top)-parseint(forwardObj.style.height)/2;
+ tx = parseint(selectActionObj.style.left)+objectWidth;
+ ty = parseint(selectActionObj.style.top)-objectHeight;
+
+
+ var fwPoint = new  position(fx,fy,tx,ty,objectWidth,objectHeight);
  var lineObj = trackHandle.line[forlineName];
       if((selectActionObj!=null)&&(lineObj!=null)){
              var lineObj = trackHandle.line[forlineName];
+
 			 var endPoint = fwPoint.point.x+"px,"+fwPoint.point.y+"px";
 			 lineObj.children[0].to= endPoint;
 	}
@@ -396,11 +421,9 @@ if(initmaxcount=="false"){
 
   } else if(sort=="beenLine"){//创建直线
    	this.createTrackBeenLine();
-   	    //创建轨迹表格
-  	createTrackTable();
+
   }else {
-  //创建轨迹表格
-  createTrackTable();
+
   /*创建节点*/
   if(sort=="trackAction"){
   this.createTrackAction();
@@ -416,6 +439,12 @@ if(initmaxcount=="false"){
   if(sort=="route"){
 
     this.createTrackRoute();
+
+  }
+  /*创建转折点*/
+  if(sort=="turningpoint"){
+
+    this.createTurningPoint();
 
   }
   /*创建空活动分支*/
@@ -477,6 +506,12 @@ trackFactory.prototype.createTrackRoute = function(){
 		
 }
 
+/*创建转折点*/
+trackFactory.prototype.createTurningPoint = function(){
+	this._createTurningPoint("转折点","turningpoint","#000000","turningpoint");
+		
+}
+
 /*创建路由分支*/
 trackFactory.prototype.createTrackRoute1 = function(){
 	this._createTrackRoute("分支","routesplit","#000000","route");
@@ -502,7 +537,7 @@ trackFactory.prototype._createTrack = function(dispname,type,bordercolor,activit
    var actName = "trackAction"+id.getTime();
 
    newAction.innerHTML ="<div id='trackAction' name='"+actName+"'isLink='false' "
-   +" forward='null' tracklink='null' actionType='"+type+ "' deadline='' actionTrueId='"+actName+"' actionExtendAttribute =''  forwardCondition='null' afterCondition ='null' style='position:absolute;visibility: visible; padding:2px; height:30px; width:70px; left:200px; top:50px;zIndex:10'>"
+   +" forward='null' tracklink='null' actionType='"+type+ "' deadline='' actionTrueId='"+actName+"' actionExtendAttribute =''  forwardCondition='null' afterCondition ='null' style='position:absolute;visibility: visible; padding:2px; height:45px; width:110px; left:200px; top:50px;zIndex:10'>"
    +"<table id = 'table2' cellspacing='0' cellpadding='0' width='100%' height='100%' " +"style='cursor:hand;font-size:12px;zIndex:50' oncontextmenu='return false' >"
    +"<tr><td id ='ping' name = 'track' align='center'  >"
    +"<input id='work"+actName+"' name='textarea' type='button' value='"+dispname+"' class='"+activityColor+"'>"
@@ -515,14 +550,18 @@ trackFactory.prototype._createTrack = function(dispname,type,bordercolor,activit
     document.getElementById("defineActionTrueId").value += actName+"&";
 	createActivityObj = newAction.children[0];
 }
+
+
 //创建空节点
 trackFactory.prototype._createTrackRoute = function(dispname,type,bordercolor,activityColor){
    othercount++;
    var newAction = document.createElement("span");
    dispname=dispname;
-   var actName = type+othercount;
+   var time = new Date();
+   var actName = type+time.getTime();
+
    newAction.innerHTML ="<div id='trackAction' name='"+actName+"'isLink='false' "
-   +" forward='null' tracklink='null' actionType='"+type+ "' deadline='' actionTrueId='"+actName+"' actionExtendAttribute =''  forwardCondition='null' afterCondition ='null' style='position:absolute;visibility: visible; padding:2px; height:30px; width:70px; left:200px; top:50px;zIndex:10'>"
+   +" forward='null' tracklink='null' actionType='"+type+ "' deadline='' actionTrueId='"+actName+"' actionExtendAttribute =''  forwardCondition='null' afterCondition ='null' style='position:absolute;visibility: visible; padding:2px; height:45px; width:110px; left:200px; top:50px;zIndex:10'>"
    +"<table id = 'table2' cellspacing='0' cellpadding='0' width='100%' height='100%' " +"style='cursor:hand;font-size:12px;zIndex:50' oncontextmenu='return false' >"
    +"<tr><td id ='ping' name = 'track' align='center'  >"
    +"<input id='work"+actName+"' name='textarea' type='button' value='"+dispname+"' class='"+activityColor+"'>"
@@ -535,9 +574,34 @@ trackFactory.prototype._createTrackRoute = function(dispname,type,bordercolor,ac
     document.getElementById("defineActionTrueId").value += actName+"&";
 	createActivityObj = newAction.children[0];
 }
-//创建轨迹表格//
-function createTrackTable(){
 
+//创建转折点
+trackFactory.prototype._createTurningPoint = function(dispname,type,bordercolor,activityColor){
+   othercount++;
+   var newAction = document.createElement("span");
+   var time = new Date();
+   var actName = type+time.getTime();
+   newAction.innerHTML ="<div id='trackAction' name='"+actName+"'isLink='false' "
+   +" forward='null' tracklink='null' actionType='"+type+ "' deadline='' actionTrueId='"+actName+"' actionExtendAttribute =''  forwardCondition='null' afterCondition ='null' style='position:absolute;visibility: visible; padding:2px; height:27px; width:27px; left:100px; top:50px;zIndex:10'>"
+   +"<table id = 'table3' cellspacing='0' cellpadding='0' width='100%' height='100%' " +"style='cursor:hand;font-size:12px;zIndex:50' oncontextmenu='return false' >"
+   +"<tr><td id ='ping' name = 'turningpoint' align='center'  >"
+   +"<input id='work"+actName+"' name='textarea' type='button' value='' class='"+activityColor+"'>"
+   +"</td></tr></table></div>";
+   document.body.appendChild(newAction);
+   var length = trackHandle.action.length;
+   trackHandle.action[actName] = trackHandle.action[length]=new TrackAttribute(newAction.children[0]);
+   trackHandle.action.length++;
+
+    document.getElementById("defineActionTrueId").value += actName+"&";
+	createActivityObj = newAction.children[0];
+}
+
+	var initRelationData = "busstype,业务类型,,,,;busstip,业务提示,,,,;bussid,业务参数,,,,;bussurl,业务地址,,,,;customer,参与者,,,,;worklisttitle,待办提示,,,,;";
+//创建轨迹表格//
+function submitInitField(){
+	this.relationDataObj = document.getElementById("relationData");
+	if(this.relationDataObj.value == "" || this.relationDataObj.value == null )
+		this.relationDataObj.value = "busstype,业务类型,,,,;busstip,业务提示,,,,;bussid,业务参数,,,,;bussurl,业务地址,,,,;customer,参与者,,,,;worklisttitle,待办提示,,,,;";
 }
 
 /*-------创建开始图片-----------*/
@@ -545,7 +609,7 @@ trackFactory.prototype.createStartIcon = function(){
  
    othercount++;
    var newIcon = document.createElement("span");
-   newIcon.innerHTML ='<v:image id="start" name="start_'+(othercount)+'"  isLink="false"  forward="null" tracklink="null" style="POSITION:absolute;Z-INDEX:1;LEFT:20px;TOP:50px;width:85;height:55;" fillcolor="#007FFF">'
+   newIcon.innerHTML ='<v:image id="start" name="start_'+(othercount)+'"  isLink="false"  forward="null" tracklink="null" style="POSITION:absolute;Z-INDEX:1;LEFT:20px;TOP:50px;width:39;height:39;" fillcolor="#007FFF">'
                 +'<v:Textbox name ="textbox" class=startIcon print="t" inset="1pt,1pt,1pt,1pt"></v:Textbox>'
 				+"<input id=\"work2start_"+(othercount)+"\" type=\"hidden\">"
                 +'</v:image>';
@@ -557,7 +621,7 @@ trackFactory.prototype.createEndIcon = function(){
 	
    othercount++;
    var newIcon = document.createElement("span");
-   newIcon.innerHTML ='<v:image id="end" name="end_'+(othercount)+'" isLink="false"  forward="null" tracklink="null" style="POSITION:absolute;Z-INDEX:1;LEFT:50px;TOP:50px;width:85;height:55;" fillcolor="#FFFF55">'
+   newIcon.innerHTML ='<v:image id="end" name="end_'+(othercount)+'" isLink="false"  forward="null" tracklink="null" style="POSITION:absolute;Z-INDEX:1;LEFT:50px;TOP:50px;width:39;height:39;" fillcolor="#FFFF55">'
                 +'<v:Textbox name ="textbox" class=endIcon print="t" inset="1pt,1pt,1pt,1pt"></v:Textbox>'
                 +"<input id=\"work2end_"+(othercount)+"\" type=\"hidden\">"
 				+'</v:image>';
@@ -659,7 +723,7 @@ var obj = window.event.srcElement;
      }else if((selectActionObj!=null)&&(beenLineObj!=null)){//在节点上绘制直线的事件
              
              this.fixBeenLine();
-             createTrackTable();
+
 	 }
 }
   
@@ -686,7 +750,7 @@ fixLine.prototype.fixZLine = function(){
 		   return;
 		  }
 	      var startPoint = x+"px,"+(y-off)+"px";
-		  var centerPoint =(x+70)+"px,"+(y-off)+"px";
+		  var centerPoint =(x+110)+"px,"+(y-off)+"px";
 		  var endPoint = (x+70)+"px,"+(event.clientY-off)+"px";
 		  createLineObj.children[0].from = startPoint;
 		  createLineObj.children[0].to = centerPoint;
@@ -757,7 +821,7 @@ fixLine.prototype.fixZLine = function(){
 		  var forwardLink = selectActionObj.forward;
 		  if(forwardLink=="null"){
 		     forwardLink = forwardTrackAction.name+"&"+createLineType+",";
-			
+
 		  }else if((forwardLink.split("_"))[0]=="start"){
 		        createLineObj.parentElement.removeChild(createLineObj);
 		        createLineObj = null;
@@ -790,8 +854,10 @@ fixLine.prototype.fixZLine = function(){
 }
     /*     ------------控制直线固定　　---------------      */
 fixLine.prototype.fixBeenLine = function(){
-       var x = parseint(selectActionObj.style.left)+offx;
-	   var y = parseint(selectActionObj.style.top)-off;
+
+		//parseint(forwardTrackAction.style.height)/2
+       var x = parseint(selectActionObj.style.left)+parseint(selectActionObj.style.width)/2;
+	   var y = parseint(selectActionObj.style.top)-parseint(selectActionObj.style.height)/2;
        if((beenLineObj.start=="null")&&(beenLineObj.end=="null")){
            var able = (new judgeNode(selectActionObj,"")).nextNodeIsEnd();
 	       if(!able){
@@ -810,7 +876,13 @@ fixLine.prototype.fixBeenLine = function(){
 		   alert("结束点，不允许有传出现");
 		   return;
 		  }
-	      var  point = (x)+"px,"+y+"px";
+		  var adjustmentY = 0;
+		  if(selectActionObj.style.height == "27px"){
+		  	adjustmentY = 28;
+		  }else{
+		  	adjustmentY = 13;
+		  }
+	      var  point = (x)+"px,"+(y-adjustmentY)+"px";
 	      beenLineObj.children[0].from = point;
           beenLineObj.start = "start";
 		  beenLineStartName = selectActionObj.name;
@@ -849,11 +921,16 @@ fixLine.prototype.fixBeenLine = function(){
 		   alert("此操作无法进行!!");
 		   return;
 		  }
-	      var fromX = parseint(forwardTrackAction.style.left)+offx;
-	      var fromY = parseint(forwardTrackAction.style.top)-off;
+		  
+		  objectWidth = parseint(selectActionObj.style.width)/2;
+	      objectHeight = parseint(selectActionObj.style.height)/2;
 	      
+	      var fromX = parseint(forwardTrackAction.style.left)+parseint(forwardTrackAction.style.width)/2;
+	      var fromY = parseint(forwardTrackAction.style.top)-parseint(forwardTrackAction.style.height)/2;
+	      
+
 	  
-          var positionPoint = new position(fromX,fromY,x,y);
+          var positionPoint = new position(fromX,fromY,x,y,objectWidth,objectHeight);
 	      var  point = positionPoint.point.x+"px,"+positionPoint.point.y+"px";
 		       beenLineObj.children[0].to = point;
                beenLineObj.end = "end";
@@ -959,7 +1036,7 @@ function deleteEvent(obj){
     if(obj=="action"){
      this.deleteAction();
 	 }
-	 createTrackTable();
+
 }
 
 //删除轨迹
@@ -1072,6 +1149,8 @@ deleteEvent.prototype.deleteAction = function(){
 	   if(elementid.substr(0,5)!="route"){
    		   activitycount--;//是节点，那么需要把总数减1，用于统计节点总数是否超过20个
    		}
+   	   if(elementid.substr(0,12)!="turningpoint")
+   	   	   activitycount--;//是节点，那么需要把总数减1，用于统计节点总数是否超过20个
  	}
          
      menuAction.parentElement.removeChild(menuAction);
@@ -1288,6 +1367,7 @@ function normalActivityAttribute(){
   var nameObj = document.getElementById("defineActionObjName");
   nameObj.value  = menuAction.name;
   var xtype=menuAction.name.substr(0,5);//获得route
+  var xtypeturning=menuAction.name.substr(0,12);//获得turningpoint
   var xtypenextjoin=menuAction.name.substr(0,9);//获得routesplit
   var xtypenextsplit=menuAction.name.substr(0,10);//获得routejoin;
  var pathinfo =  document.getElementById("pathinfo").value;
@@ -1300,6 +1380,10 @@ function normalActivityAttribute(){
   	   return;
   }
   if(xtype=="route"){
+  	 var attribute =window.showModalDialog(pathinfo+"/workflow/resource/track/extend/action/route/workTrackProperty.html",window,"status:0;help:0;dialogWidth=320px;dialogHeight=290px");
+  	 return;
+  }
+  if(xtypeturning=="turningpoint"){
   	 var attribute =window.showModalDialog(pathinfo+"/workflow/resource/track/extend/action/route/workTrackProperty.html",window,"status:0;help:0;dialogWidth=320px;dialogHeight=290px");
   	 return;
   }
@@ -1334,7 +1418,7 @@ window.showModalDialog(pathinfo+"/workflow/resource/track/extend/line/tansaction
 
 /***********************************鼠标事件  START ****************************/
 //选择工具条中的元素
-function engage(){
+function engage(){	
 
   offsetX = window.event.offsetX;//获得鼠标点，到当前Table的起始位置的X坐标，通常只用在活动和开始，结束 节点上
   offsetY = window.event.offsetY;//获得鼠标点，到当前Table的起始位置的Y坐标，通常只用在活动和开始，结束 节点上
@@ -1422,6 +1506,9 @@ function release(){
 /***********************        保存流程  STRAT  *********************************/
 function saveProcess(){
 
+	if(this.relationDataObj.value == "" || this.relationDataObj.value == null )
+		this.relationDataObj.value = "busstype,业务类型,,,,;busstip,业务提示,,,,;bussid,业务参数,,,,;bussurl,业务地址,,,,;customer,参与者,,,,;worklisttitle,待办提示,,,,;";
+	
    saveRelation();
   
    TrackItem();
@@ -1484,16 +1571,19 @@ function saveProcess(){
 		if(actionType==null ||actionType==""){
 			actionType='tools';
 		}
-	 	if(actionType.substr(0,5)=='route'){
+	 	if(actionType.substr(0,5)=='route' || actionType.substr(0,12)=='turningpoint'){
 	 		actionEditType =xmlblank4+'<Route/>';
 	 	}
+	 	//if(actionType.substr(0,12)=='turningpoint'){
+	 	//	actionEditType =xmlblank4+'<Rurningpoint/>';
+	 	//}
 
 	 	deadline = actionObj.deadline;
 	 	actionExtendAttribute = actionObj.actionExtendAttribute;
 	 	if('subflow'==actionType && (actionExtendAttribute==null||actionExtendAttribute=='')){
-	 		 if(!confirm('子流程:'+name+' 中没有定义子流程信息! 要将其转换成节点?')){
+	 		if(!confirm('子流程:'+name+' 中没有定义子流程信息! 要将其转换成节点?')){
 	 		 	return;
-	 		 }
+	 		}
 	 	}
 	 	forwardCondition = actionObj.forwardCondition;
 	 	afterCondition = actionObj.afterCondition;
@@ -1521,7 +1611,7 @@ function saveProcess(){
 	  	 	alert("一个或多个过程有不适当的连接元素!");
 	     	return;
 	 	}else if(forward.indexOf("start_",0)!=-1){
-			
+
 			
 		 	startx = parseint((trackHandle.action[forward.split("&")[0]]).style.left);
 
@@ -1580,7 +1670,7 @@ function saveProcess(){
 	}
 
 	xpdl+=xmlblank3+'</Activities>\n';
-	
+
 	xpdl+=xmlblank3+'<Transitions>\n';
 	//路径********************************
 	var lineLength = trackHandle.line.length;
@@ -1618,6 +1708,8 @@ function saveProcess(){
                 +extendStr
                 +xmlblank5+'</ExtendedAttributes>\n'
             	+xmlblank4+'</Transition>\n';
+            	
+            	
 	  }
    }
   }
@@ -1738,38 +1830,81 @@ function parseintPt(str){
  return p;
 }
 //箭头的指向位置
-function position(fx,fy,tx,ty){
+function position(fx,fy,tx,ty,objectwidth,objectheight){
 
-   var rate = 55/85;//底除于高
+   var rate = 45/110;//底除于高
    var rate1 = 1;
-   var offY,offX;
-   var objX,objY;
+   var offY=0,offX=0;
+   var objX=0,objY=0;
     if (fx != tx) {
-      rate1 = (fy - ty) / (fx - tx);
+	  if((fx - tx) == 0)    
+      	rate1 = (fy - ty) / 1;
+      else
+      	rate1 = (fy - ty) / (fx - tx);
       rate1 = rate1 > 0 ? rate1 : -rate1;
     }
-    if (rate1 <= rate) {
-      if (fx> tx) {
-        offX = 52;
-		offY=0;
-      }
-      else if (fx<tx) {
-        offX =  - 41;
-		offY = 0;
-      }
+    var lenx = Math.abs(fx - tx);
+    var leny = Math.abs(fy - ty);
+    if(objectwidth == 13.5){
+	    if (rate1 <= rate) {
+	      if (fx> tx) {
+	
+	        offX = objectwidth;
+			offY=-26;
+	      }
+	      else if (fx<tx) {
+	
+	        offX =  -objectwidth;
+			offY = -26;
+	      }
+	    }
+	    else{
+	      if (fy > ty) {
+	
+		    offX = 0
+	        offY = objectheight-21;
+	      }
+	      else if (fy < ty) {
+		    offX = 0
+	        offY = -objectheight-28;
+	      }
+	    }
+    }else{
+    	if (rate1 <= rate) {
+		    if (fx> tx) {
+		
+		        offX = objectwidth;
+				offY=-13;
+		      }
+		      else if (fx<tx) {
+		
+		        offX =  -objectwidth;
+				offY = -13;
+		      }
+		    }
+		    else{
+		      if (fy > ty) {
+		
+			    offX = 0
+		        offY = objectheight-8;
+		      }
+		      else if (fy < ty) {
+			    offX = 0
+		        offY = -objectheight-15;
+		      }
+		    }
+
     }
-    if (rate1 > rate) {
-      if (fy > ty) {
-	    offX = 0
-        offY = 33;
-      }
-      else if (fy < ty) {
-	    offX = 0
-        offY = -28;
-      }
-    }
+
    objX = tx + offX;
    objY = ty + offY;
+   				   //if(isNaN(objX) || isNaN(objY)){
+				   		//document.getElementById('xpo').innerHTML = offX;
+					    //document.getElementById('ypo').innerHTML = offY;
+				   		//alert("有报错了！");
+				   		//return;
+				   //}
+   
    this.point = new point(objX,objY);
 }
 
@@ -1777,12 +1912,12 @@ function position(fx,fy,tx,ty){
 //************************************   START**************************************************
 //重置
 function reset(type){
-  if(type=="tools")
-   this.resetTools();
-  if(type=="workFlowProperty")
-      this.resetWorkFlowProperty();
-   if(type=="extendValue")
-     this.resetOptions();
+  	if(type=="tools")
+   		this.resetTools();
+  	if(type=="workFlowProperty")
+      	this.resetWorkFlowProperty();
+	if(type=="extendValue")
+		this.resetOptions();
 }
 
 reset.prototype.resetTools = function(){
@@ -1840,7 +1975,7 @@ function button(type){
 	   sub3.style.background=""
 	   sub3.style.color="";
 	   var sub4 = document.getElementById("s4");
-	   sub4.style.background=""
+	   sub4.style.background="";
 	   sub4.style.color="";
 	   basicObj.style.visibility="hidden";
 	   toolObj.style.visibility="hidden";
@@ -1862,7 +1997,7 @@ function button(type){
        sub3.style.backgroundImage="url(../../image/wf/titChange.jpg)";
        extendedObj.style.visibility="hidden";
 	   basicObj.style.visibility="hidden";
-	   simuobj.style.visibility="hidden";  
+	   simuobj.style.visibility="hidden";
      }
      
      if(type=="simu"){

@@ -1,9 +1,7 @@
 package oe.cav.web.data.dyform;
 
 import java.lang.reflect.InvocationTargetException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +13,6 @@ import oe.cav.bean.logic.form.TCsForm;
 import oe.cav.bean.logic.tools.FormDymaticTable;
 import oe.cav.web.data.dyform.utils.DefaultElementAdder;
 import oe.cav.web.data.dyform.utils.DymaticFormButton;
-import oe.cav.web.data.dyform.utils.DymaticFormCheck;
 import oe.cav.web.data.dyform.utils.DynamicFormElementAdder;
 import oe.midware.dyform.service.DyFormService;
 import oe.rmi.client.RmiEntry;

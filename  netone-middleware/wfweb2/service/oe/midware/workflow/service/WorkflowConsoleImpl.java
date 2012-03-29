@@ -151,7 +151,7 @@ public class WorkflowConsoleImpl extends UnicastRemoteObject implements
 		if (status != null) {
 			String[][] statusx = RuntimeWorklistRef.STATUSLIST;
 			for (int i = 0; i < statusx.length; i++) {
-				if (statusx[i][0].equals(statusx)) {
+				if (statusx[i][0].equals(status)) {
 					availableStatus = true;
 					break;
 				}

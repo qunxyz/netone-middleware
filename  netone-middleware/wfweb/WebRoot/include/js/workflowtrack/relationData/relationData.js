@@ -95,19 +95,59 @@ bean.prototype.setValue =function (){
 		 relationDataValue = dataArray[i];
 		 createRelation(dataId,dataName,relationDataValue);
 	   }
+    }else{
+    	 var openerObj = document.frames("dlistFrame");
+		 var divObj = openerObj.document.createElement("div");
+	     var trObj=  "<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>&nbsp;"
+	            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='busstype' readOnly></td>&nbsp;"
+	            +"<td align='center'><input name='dataName' size='16' type='text' name='textfield' value='业务类型' readOnly>"
+				+"<input name='relationData' type='hidden' value='busstype,业务类型,,,,'>"
+				+"</td></tr></div>"
+				+"<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>&nbsp;"
+	            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='busstip' readOnly></td>&nbsp;"
+	            +"<td align='center'><input name='dataName' size='16' type='text' name='textfield' value='业务提示' readOnly>"
+				+"<input name='relationData' type='hidden' value='busstip,业务提示,,,,'>"
+				+"</td></tr></div>"
+				+"<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>&nbsp;"
+	            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='bussid' readOnly></td>&nbsp;"
+	            +"<td align='center'><input name='dataName' size='16' type='text' name='textfield' value='业务参数' readOnly>"
+				+"<input name='relationData' type='hidden' value='bussid,业务参数,,,,'>"
+				+"</td></tr></div>"
+				+"<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>&nbsp;"
+	            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='bussurl' readOnly></td>&nbsp;"
+	            +"<td align='center'><input name='dataName' size='16' type='text' name='textfield' value='业务地址' readOnly>"
+				+"<input name='relationData' type='hidden' value='bussurl,业务地址,,,,'>"
+				+"</td></tr></div>"
+				+"<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>&nbsp;"
+	            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='customer' readOnly></td>&nbsp;"
+	            +"<td align='center'><input name='dataName' size='16' type='text' name='textfield' value='参与者' readOnly>"
+				+"<input name='relationData' type='hidden' value='customer,参与者,,,,'>"
+				+"</td></tr></div>"
+				+"<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>&nbsp;"
+	            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='worklisttitle' readOnly></td>&nbsp;"
+	            +"<td align='center'><input name='dataName' size='16' type='text' name='textfield' value='待办提示' readOnly>"
+				+"<input name='relationData' type='hidden' value='worklisttitle,待办提示,,,,'>"
+				+"</td></tr></div>";
+		 divObj.innerHTML = trObj;
+	
+	     openerObj.document.body.appendChild(divObj);
+    	
     }
+    
+    
 }
 
 /*创建相关数据列表*/
 function createRelation(dataId,dataName,relationData){
 	 var openerObj = document.frames("dlistFrame");
 	 var divObj = openerObj.document.createElement("div");
-     var trObj=  "<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>"
-            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='"+dataId+"' readOnly></td>"
+     var trObj=  "<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>&nbsp;"
+            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='"+dataId+"' readOnly></td>&nbsp;"
             +"<td align='center'><input name='dataName' size='16' type='text' name='textfield' value='"+dataName+"' readOnly>"
 			+"<input name='relationData' type='hidden' value='"+relationData+"'>"
 			+"</td></tr></div>";
 	 divObj.innerHTML = trObj;
+
      openerObj.document.body.appendChild(divObj);
 }
 

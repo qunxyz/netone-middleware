@@ -14,56 +14,53 @@
 		</title>
 		<SCRIPT LANGUAGE="JavaScript" src="<%=path%>/include/js/workflowtrack/workflow.js"></script>
 		<link href="<%=path%>/include/css/workflowtrack/style.css" rel="stylesheet" type="text/css">
-	
+
 	</head>
-	
+
 <style>
 body{ margin:1px;}
 
 </style>
-	<body oncontextmenu="return false" onLoad="createTrackTable();" >
+	<body oncontextmenu="return false" onLoad="submitInitField();" >
 
-		<div align="center"></div>
-		<div align="right"></div>
-		<table align="right" width="100%" border="0"  cellpadding="0" cellspacing="0" height="27" style="border:1px solid #398ecf; background-image:url(<%=path%>/image/wf/lct.jpg);">
-			<tr>
-				<td align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:saveProcess()'>[保存流程]</a>&nbsp;&nbsp;<a href='javascript:simu();'>[调试流程]</a></strong></td>
-				
-				<td align="right"><img src="<%=path%>/image/wf/lctLeftPic.jpg" border="0"></td>
+		<table align="right" width="100%" border="0" cellpadding="0" cellspacing="0" height="30" style="background-image:url(<%=path%>/image/wf/lct.jpg);">
+			<tr style="padding-top:2px;">
+				<td align="left"><strong>&nbsp;&nbsp; &nbsp;<img src="<%=path%>/image/wf/saveprocess.png" onclick="saveProcess();this.src='<%=path%>/image/wf/saveprocess_c.png'" onmouseover="this.src='<%=path%>/image/wf/saveprocess_o.png'" onmouseout="this.src='<%=path%>/image/wf/saveprocess.png'"/>&nbsp;&nbsp;
+																 <img src="<%=path%>/image/wf/debugprocess.png" onclick="simu();this.src='<%=path%>/image/wf/debugprocess_c.png'" onmouseover="this.src='<%=path%>/image/wf/debugprocess_o.png'" onmouseout="this.src='<%=path%>/image/wf/debugprocess.png'"/>
+																 </strong></td>
 			</tr>
 		</table>
 		<br>
 		<div align="center">
-			<div id="tools" style="DISPLAY:; Z-INDEX: 102; POSITION: absolute;; left: 1; top: 28px; width:100%; height: 30px; background-image:url(<%=path%>/image/wf/lct2.jpg);border-bottom:1px solid #aec3e3;border-left:1px solid #aec3e3; border-right:1px solid #aec3e3; visibility: visible;">
-				<table border="0" align="right" cellpadding="0" cellspacing="0" style="font-size:14px;padding-top:5px; margin-left:7">
-					<tr  height="30">
-					  <td width="10" align="left">
-							<span  style="color:#0fe2e2">|</span>
+			<div id="tools" style="DISPLAY:; Z-INDEX: 102; POSITION: absolute;; left: 1; top: 15px; width:100%; height: 35px;background-image:url(<%=path%>/image/wf/lct2.jpg); visibility: visible;margin-top:20px;">
+				<table border="0" align="right" cellpadding="0" cellspacing="0" style="font-size:14px; margin-left:7; ">
+					<tr  height="35">
+					  <td width="70" align="left">
+							<img name="create" value="" onClick="new trackFactory('start');" style="cursor:hand;width:70px;height:30px;margin-right:10px;font-weight:bold;"src="<%=path%>/image/wf/right/n_start.png" onmousemove="this.src='<%=path%>/image/wf/right/n_start_o.png'" onmouseout="this.src='<%=path%>/image/wf/right/n_start.png'"/>
 					  </td>
-					  <td width="68" align="left">
-							<input class=Menu type="submit" name="create" value="开始" onClick="new trackFactory('start');" style="cursor:hand;color:#336699;font-weight:bold;" ><span  style="color:#336699">|</span>
+					  <td width="70" align="left">
+							<img name="create" value="" onClick="new trackFactory('end');" style="cursor:hand;width:70px;height:30px;margin-right:10px;font-weight:bold;"src="<%=path%>/image/wf/right/n_end.png" onmousemove="this.src='<%=path%>/image/wf/right/n_end_o.png'" onmouseout="this.src='<%=path%>/image/wf/right/n_end.png'"/>
 					  </td>
-					  <td width="68" align="left">
-							<input class=Menu type="submit" name="create" value="结束" onClick="new trackFactory('end');" style="cursor:hand;color:#336699;font-weight:bold;"><span  style="color:#336699">|</span>
+					  <td width="70" align="left">
+							<img name="create" value="" onClick="new trackFactory('trackAction');" style="cursor:hand;width:70px;height:30px;margin-right:10px;font-weight:bold;"src="<%=path%>/image/wf/right/n_act.png" onmousemove="this.src='<%=path%>/image/wf/right/n_act_o.png'" onmouseout="this.src='<%=path%>/image/wf/right/n_act.png'"/>
 					  </td>
-					  <td width="68" align="center">
-							<input class=Menu type="submit" name="create" value="节点" onClick="new trackFactory('trackAction');" style="cursor:hand;color:336699;font-weight:bold;">&nbsp;<span  style="color:#336699">|</span>
+					  <td width="70" align="left">
+							<img name="create" value="" onClick="new trackFactory('subWorkFlow');" style="cursor:hand;width:70px;height:30px;margin-right:10px;font-weight:bold;"src="<%=path%>/image/wf/right/n_subact.png" onmousemove="this.src='<%=path%>/image/wf/right/n_subact_o.png'" onmouseout="this.src='<%=path%>/image/wf/right/n_subact.png'"/> 
 					  </td>
-					  <td width="68" align="left">
-							<input class=Menu type="submit" name="create" value="子流程" onClick="new trackFactory('subWorkFlow');" style="cursor:hand;color:#336699;font-weight:bold;"><span  style="color:#336699">|</span>
+					  <td width="70" align="left">
+							<img name="create" value="" onClick="new trackFactory('route');" style="cursor:hand;width:70px;height:30px;margin-right:10px;font-weight:bold;"src="<%=path%>/image/wf/right/n_route.png" onmousemove="this.src='<%=path%>/image/wf/right/n_route_o.png'" onmouseout="this.src='<%=path%>/image/wf/right/n_route.png'"/> 
 					  </td>
-					  <td width="68" align="left">
-							<input class=Menu type="submit" name="create" value="路由" onClick="new trackFactory('route');" style="cursor:hand;color:#336699;font-weight:bold;"><span  style="color:#336699">|</span>
+					  <td width="70" align="left">
+							<img name="create" value="" onClick="new trackFactory('turningpoint');" style="cursor:hand;width:70px;height:30px;margin-right:10px;font-weight:bold;"src="<%=path%>/image/wf/right/n_turning.png" onmousemove="this.src='<%=path%>/image/wf/right/n_turning_o.png'" onmouseout="this.src='<%=path%>/image/wf/right/n_turning.png'"/> 
 					  </td>
-
-						<td width="68" align="left">
-							<input class=Menu type="submit" name="create" value="传输线" onClick="new trackFactory('beenLine');" style="cursor:hand;color:#336699;font-weight:bold;"><span  style="color:#336699">|</span>
+						<td width="70" align="left">
+							<img name="create" value="" onClick="new trackFactory('beenLine');" style="cursor:hand;width:70px;height:30px;margin-right:10px;font-weight:bold;"src="<%=path%>/image/wf/right/n_line.png" onmousemove="this.src='<%=path%>/image/wf/right/n_line_o.png'" onmouseout="this.src='<%=path%>/image/wf/right/n_line.png'"/> 
 					  </td>
-					  <td width="68" align="center" >
-							<input class=Menu type="button" name="Submit11" value="流程表单" onClick="relationData();" style="cursor:hand;color:#336699;font-weight:bold;"><span  style="color:#336699">|</span>
+					  <td width="70" align="left" >
+							<img name="Submit11" value="" onClick="relationData();" style="cursor:hand;width:70px;height:30px;margin-right:10px;font-weight:bold;"src="<%=path%>/image/wf/right/n_processform.png" onmousemove="this.src='<%=path%>/image/wf/right/n_processform_o.png'" onmouseout="this.src='<%=path%>/image/wf/right/n_processform.png'"/> 
 					  </td>
-					  <td width="68" align="center" >
-							<input class=Menu type="button" name="Submit11" value="流程属性" onClick="openWindowUpdataProcess();" style="cursor:hand;color:#336699;font-weight:bold;"><span  style="color:#336699">|</span>
+					  <td width="70" align="left" >
+							<img name="Submit11" value="" onClick="openWindowUpdataProcess();" style="cursor:hand;width:70px;height:30px;margin-right:10px;font-weight:bold;"src="<%=path%>/image/wf/right/n_property.png" onmousemove="this.src='<%=path%>/image/wf/right/n_property_o.png'" onmouseout="this.src='<%=path%>/image/wf/right/n_property.png'"/> 
      				  </td>
 
 					</tr>
@@ -71,7 +68,7 @@ body{ margin:1px;}
 		  </div>
 			<p>&nbsp;
 		  </p>
-			<div id="workFlowProperty" style="DISPLAY:; Z-INDEX: 102; POSITION: absolute; background-image:url(<%=path%>/image/wf/lct2.jpg);border-bottom:1px solid #c1dbf0;border-left:1px solid #c1dbf0; border-right:1px solid #c1dbf0;  left: 1px; top: 28px; width: 100%; height: 30px; visibility: hidden;">
+			<div id="workFlowProperty" style="DISPLAY:; Z-INDEX: 102; POSITION: absolute; "src="<%=path%>/image/wf/lct2.jpg);border-bottom:1px solid #c1dbf0;border-left:1px solid #c1dbf0; border-right:1px solid #c1dbf0;  left: 1px; top: 28px; width: 100%; height: 30px; visibility: hidden;">
 				<table  border="0" cellpadding="0" cellspacing="0" align="center"  style="font-size:14px;padding-top:5px;margin-left:7">
 					<tr height="30">
 
@@ -79,10 +76,10 @@ body{ margin:1px;}
 				</table>
 			</div>
 
-			<div id="simu" style="DISPLAY:; Z-INDEX: 102; POSITION: absolute; left: 1; top: 28px; width:100%; height: 30px; background-image:url(<%=path%>/image/wf/lct2.jpg);border-bottom:1px solid #aec3e3;border-left:1px solid #aec3e3; border-right:1px solid #aec3e3; height: 30px;visibility: hidden;">
+			<div id="simu" style="DISPLAY:; Z-INDEX: 102; POSITION: absolute; left: 1; top: 28px; width:100%; height: 30px;background-image:url(/image/wf/lct2.jpg);border-bottom:1px solid #aec3e3;border-left:1px solid #aec3e3; border-right:1px solid #aec3e3; height: 30px;visibility: hidden;">
 				<table align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:14px;padding-top:5px;margin-left:7">
 					<tr height="30">
-						<td width="68" align="center">
+						<td width="70" align="center">
 							
 								<input class=Menu type="button" name="Submit15" value="启动流程" onClick="simu();" style="cursor:hand;">
 							

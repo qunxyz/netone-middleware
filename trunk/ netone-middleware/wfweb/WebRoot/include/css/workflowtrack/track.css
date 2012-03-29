@@ -46,7 +46,8 @@ v\:* { Behavior: url(#default#VML) }
 .dynamic0405{background-color:#FFFFFF;background-image:url(../../../image/wf/dynExceptionActSub.gif)}/*忽略*/
 .dynamic0406{background-color:#FFCC00;background-image:url(../../../image/wf/dynStopActSub.gif)}/*等待*/
 .dynamic0407{background-color:#FFCC00;background-image:url(../../../image/wf/dynStopActSub.gif)}/*暂停*/
-
+/*////////转折点样式/////////*/
+.turningpoint{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:26; width:26;BORDER-BOTTOM:0px solid; background-image:url(../../../image/wf/turning.png); background-repeat: no-repeat; cursor:hand}
 /*活动的开始，结束*/
 .end{FONT-SIZE:13;COLOR:#CC3366;WORD-BREAK:-all;FONT-FbreakAMILY:黑体;background-image:url(../../../image/wf/end.gif);}
 .start{FONT-SIZE:13;COLOR:#CC3366;WORD-BREAK:-all;FONT-FbreakAMILY:黑体;background-image:url(../../../image/wf/start.gif);}

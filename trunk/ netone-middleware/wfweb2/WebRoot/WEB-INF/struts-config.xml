@@ -51,8 +51,17 @@
 		<action path="/listRuntimeprocess" type="oe.cav.web.workflow.monitor.process.RUseRuntimeAction" name="rform"
 			scope="request">
 			<forward name="console" path="/workflow/monitor/processuse_script.jsp"></forward>
-			
+
 		</action>
+		<action path="/listBiRuntimeprocess" type="oe.cav.web.workflow.monitor.process.RBiNewRuntimeAction" name="rform"
+			scope="request">
+			<forward name="console" path="/workflow/monitor/processuse_biscript.jsp"></forward>
+		</action>
+		<action path="/listBiProcessRuntimeprocess" type="oe.cav.web.workflow.monitor.process.RBiProcessRuntimeAction" name="rform"
+			scope="request">
+			<forward name="console" path="/workflow/monitor/processuse_biscript.jsp"></forward>
+		</action>
+
 		<action path="/listRuntimeprocessview" type="oe.cav.web.workflow.monitor.process.RUseRuntimeViewAction" name="rform"
 			scope="request">
 			

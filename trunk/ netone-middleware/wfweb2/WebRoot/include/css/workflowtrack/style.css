@@ -1,5 +1,5 @@
 /*菜单样式*/
-.Menu {border-style:none; WIDTH: 60px; COLOR:#193ac8;BACKGROUND-COLOR:#e0ebf8 }
+.Menu {border-style:none; WIDTH: 60px; COLOR:#193ac8; }
 
 /*子窗口菜单样式*/
 .MenuS {border-style:none; WIDTH: 54px; COLOR:#6600FF;BACKGROUND-COLOR:#CCCCCC }
@@ -37,15 +37,15 @@ v\:* { Behavior: url(#default#VML) }
 
 
 /*节点通用样式*/
-.activity{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:55; width:85;BORDER-BOTTOM:0px solid; background-image:url(../../../image/wf/staticAct.gif);cursor:hand}
-.subflow{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:55; width:85;BORDER-BOTTOM:0px solid; background-image:url(../../../image/wf/staticActSub.gif);cursor:hand}
-.route{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:55; width:85;BORDER-BOTTOM:0px solid; background-image:url(../../../image/wf/staticActRoute.gif);cursor:hand}
-
+.activity{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:45; width:109;BORDER-BOTTOM:0px solid; background-image:url(../../../image/wf/staticAct.gif);cursor:hand}
+.subflow{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:45; width:109;BORDER-BOTTOM:0px solid; background-image:url(../../../image/wf/staticActSub.gif);cursor:hand}
+.route{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:45; width:109;BORDER-BOTTOM:0px solid; background-image:url(../../../image/wf/staticActRoute.gif);cursor:hand}
+.turningpoint{BORDER-RIGHT:  0px solid; BORDER-TOP: 0px solid; BORDER-LEFT: 0px solid;height:26; width:26;BORDER-BOTTOM:0px solid; background-image:url(../../../image/wf/turning.gif); background-repeat: no-repeat; acursor:hand}
 
 /*开始图片样式*/
-.startIcon{cursor:hand;background-image:url(../../../image/wf/start.gif)}
+.startIcon{cursor:hand;background-image:url(../../../image/wf/start.png)}
 
 /*结束图片样式*/
-.endIcon{cursor:hand;background-image:url(../../../image/wf/end.gif)}
+.endIcon{cursor:hand;background-image:url(../../../image/wf/end.png)}
 
 .iconMenu{DISPLAY:none; Z-INDEX: 102; POSITION: absolute; BACKGROUND-COLOR: #CCCCCC;}

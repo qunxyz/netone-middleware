@@ -35,9 +35,9 @@ bean.prototype.getValue =function(){
 	}else if(judgeIdCreate(id)) {
 	   var openerObj  = opener.document.frames("dlistFrame");
        var divObj = openerObj.document.createElement("div");
-       var trObj=  "<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>"
-            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='"+id+"' readOnly></td>"
-            +"<td align='center'><input name='dataName' size='16' type='text' name='textfield' value='"+dataName+"' readOnly>"
+       var trObj=  "<div id='extendDataList'><tr><td><input name='checkData' type='checkbox' ></td>&nbsp;"
+            +"<td align='center'><input name='dataId' size='15' type='text' name='textfield' value='"+id+"' readOnly></td>&nbsp;"
+            +"<td align='center' style='margin-right: 10px;'><input name='dataName' size='16' type='text' name='textfield' value='"+dataName+"' readOnly>"
 			+"<input name='relationData' type='hidden' value='"+relationData+"'>"
 			+"</td></tr></div>";
 	 divObj.innerHTML = trObj;
@@ -51,6 +51,7 @@ bean.prototype.editRelationAttribute = function(){
   var parentObj = opener.document.frames("dlistFrame");
   var checkObj = parentObj.document.getElementsByName("checkData");
   var length = checkObj.length;
+
   	 for(var i=0;i<length;i++){
 		 if(checkObj[i].checked){
           var checkParentObj = checkObj[i].parentElement;
@@ -75,8 +76,8 @@ bean.prototype.editRelationAttribute = function(){
 function creatExtend(extendName,extendValue){
     var parentObj = document.frames("dExtendFrame");
 	var divObj =parentObj.document.createElement("div");
-    var trObj=  "<div id='extendDataList'><tr><td><input name='checkExtend' type='checkbox' ></td>"
-            +"<td align='center'><input name='dataExtendName' size='15' type='text' name='textfield' value='"+extendName+"' readOnly></td>"
+    var trObj=  "<div id='extendDataList'><tr><td><input name='checkExtend' type='checkbox' ></td>&nbsp;"
+            +"<td align='center'><input name='dataExtendName' size='15' type='text' name='textfield' value='"+extendName+"' readOnly></td>&nbsp;"
             +"<td align='center'><input name='dataExtendValue' size='16' type='text' name='textfield' value='"+extendValue+"' readOnly></td></tr></div>";
 	 divObj.innerHTML = trObj;
     parentObj.document.body.appendChild(divObj);
@@ -120,7 +121,7 @@ bean.prototype.editGetValue = function (){
 		  return ;
 	   }
    }
-   
+
 
 }
 

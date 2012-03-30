@@ -70,5 +70,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/java_memcached-release_2.0.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/Security3AClient.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/hsqldb.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/OeTag.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

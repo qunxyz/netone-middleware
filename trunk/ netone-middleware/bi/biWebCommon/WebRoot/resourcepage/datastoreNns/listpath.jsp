@@ -14,7 +14,7 @@
 	<head>
 		<base href="<%=basePath%>">
 
-		<title>报表设计管理</title>
+		<title>数据仓库神经元逻辑配置</title>
 
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -59,10 +59,15 @@
 			form1.action="PagelistpathRightSvl";
 			form1.submit();
 		}
-
+		var totalMap = new Map();
+		function mapinfo(){
+			<c:forEach items="${list}" var="list">
+			totalMap.put('${list.id}','${list.extendattribute}');
+			</c:forEach>
+		}
 		</script>
 	</head>
-	<body style="font-size: 12px; margin: 22px">
+	<body style="font-size: 12px; margin: 22px" onload='mapinfo()'>
 		<div style="width: 100%; height: 100%">
 			<form action="" method="post" name="form1">
 				<input type="hidden" name="pagename" value="${pagename}" />
@@ -135,13 +140,113 @@
 							<script type="text/javascript">
 
 								function newds(){
-									window.open('<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Opjreport.html?name=${upo.naturalname}','_blank');
-								}							
 								
-								function newds1(){
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>bi/chart.html?name=${upo.naturalname}','_blank');
-								}							
-															
+								   
+									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>NerveCell.html?naturalname=${upo.naturalname}','_blank');
+								}
+								function edits(){
+									var k = 0;
+									var value;
+									for(var i=0 ; i<form1.elements.length ; i++) {
+										if (form1.elements[i].name=="chkid") {
+											if(form1.elements[i].checked==true){
+												value = form1.elements[i].value;
+												k++;
+											}
+										}
+									}
+									if(k==0){
+										alert("请先选中需要修改的选项");
+										return;
+									}
+									if(k>1){
+										alert("只能选择单项进行修改");
+										return;
+									}
+									window.open('<%=path%>/ModifySummary.do?task=Modify&chkid='+value,'_blank');
+								}
+								
+								function syn(){
+									var k = 0;
+									var value;
+									for(var i=0 ; i<form1.elements.length ; i++) {
+										if (form1.elements[i].name=="chkid") {
+											if(form1.elements[i].checked==true){
+												value = form1.elements[i].value;
+												k++;
+											}
+										}
+									}
+									if(k==0){
+										alert("请先选中需要修改的选项");
+										return;
+									}
+									if(k>1){
+										alert("只能选择单项进行修改");
+										return;
+									}
+									window.open('<%=path%>/SynSummary.do?task=Syn&chkid='+value,'_blank');
+								}
+								
+								function exportexcel(){
+									var k = 0;
+									var value;
+									for(var i=0 ; i<form1.elements.length ; i++) {
+										if (form1.elements[i].name=="chkid") {
+											if(form1.elements[i].checked==true){
+												value = form1.elements[i].value;
+												k++;
+											}
+										}
+									}
+									if(k==0){
+										alert("请先选中需要修改的选项");
+										return;
+									}
+									if(k>1){
+										alert("只能选择单项进行修改");
+										return;
+									}
+									window.open('<%=path%>/Export.do?task=show&chkid='+value,'_blank');
+								}
+								
+								function editsdy(type){
+									var k = 0;
+									var value;
+									for(var i=0 ; i<form1.elements.length ; i++) {
+										if (form1.elements[i].name=="chkid") {
+											if(form1.elements[i].checked==true){
+												value = form1.elements[i].value;
+												k++;
+											}
+										}
+									}
+									if(k==0){
+										alert("请先选中需要修改的选项");
+										return;
+									}
+									if(k>1){
+										alert("只能选择单项进行修改");
+										return;
+									}
+									var formcode=totalMap.get(value);
+									
+									if(type=='formcolumn')
+									window.open('/dyForm/design/system/column/list.do?formcode='+formcode,'_blank');
+									if(type=='forminfo')
+									window.open('/dyForm/design/system/form/modifyview.do?formcode='+formcode,'_blank');
+									if(type=='template')
+									window.open('/dyForm/design/system/form/createviewTemplate.do?formcode='+formcode,'_blank');
+									if(type=='security')
+									window.open('/dyForm/design/system/form/addToPermission.do?rsid='+value,'_blank');
+									if(type=='dyrs')
+									window.open('/dyForm/DyDataToSelectSvl?formcode='+formcode,'_blank');
+									if(type=='removesecurity')
+									window.open('/dyForm/design/system/form/addToPermission.do?rsid='+value+'&remove=yes','_blank');
+									if(type=='forminfox')
+									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>UpdateDoForm.html?formid='+formcode,'_blank');
+									
+								}								
 
 							</script>
 
@@ -154,10 +259,9 @@
 							&nbsp;&nbsp;
 
 
-							<input type="button" value="新建报表" onclick="newds()" class="butt">
-							<input type="button" value="新建图表" onclick="newds1()" class="butt">
+							<input type="button" value="新建" onclick="newds()" class="butt">
 							&nbsp;&nbsp;
-							<input type="button" value="修改" onclick="edit();"
+							<input type="button" value="修改" onclick="newElemnt2();"
 								class="butt">
 							&nbsp;&nbsp;
 							<input type="button" name="btndelete" value="删 除"
@@ -174,13 +278,15 @@
 							<input type="checkbox" name="checkall" onclick="allcheck();">
 							选择
 						</td>
-						<td class="td_titt_bg" width="70" nowrap>
-							中文
+						<td class="td_titt_bg" nowrap>
+							中文名称
 						</td>
 						<td class="td_titt_bg" width="70" nowrap>
 							名称
 						</td>
-
+						<td class="td_titt_bg" width="70" nowrap>
+							分类
+						</td>
 						<td class="td_titt_bg" width="70" nowrap>
 							日期
 						</td>
@@ -227,28 +333,17 @@
 								</c:if>
 							</td>
 							<td nowrap>
-								<c:if test="${list.objecttype=='chart'}">
-									<a
-										href="<portal:envget envkey="WEBSER_SpeedyForm"/>bi/chartview.html?name=${list.naturalname}"
-										target="_blank"><font color='red'>[查看图表]</font></a>										
-								</c:if>
-								<c:if test="${list.objecttype!='chart'}">
 
 									<a
-										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=html"
-										target="_blank"><font color='red'>[报表Html]</font></a>	
+										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>Diagram.html?formcode=${list.extendattribute}&isedit=1','_parent');"
+										target="_blank"><font color='red'>[分析]</font></a>	
+							
 									<a
-										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=excel"
-										target="_blank"><font color='red'>[报表Excel]</font></a>							
-									<a
-										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=csv"
-										target="_blank"><font color='red'>[报表Csv]</font></a>
+										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>Diagram.html?formcode=${list.extendattribute}&isedit=1','_parent');"
+										target="_blank"><font color='red'>[修改]</font></a>	
 									   
 				
-									<a
-										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=pdf"
-										target="_blank"><font color='red'>[报表Pdf]</font></a>
-								</c:if>
+
 							</td>
 
 						</tr>

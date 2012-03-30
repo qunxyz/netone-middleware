@@ -14,7 +14,7 @@
 	<head>
 		<base href="<%=basePath%>">
 
-		<title>报表设计管理</title>
+		<title>聚合定制分析</title>
 
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -135,14 +135,32 @@
 							<script type="text/javascript">
 
 								function newds(){
-									window.open('<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Opjreport.html?name=${upo.naturalname}','_blank');
-								}							
+								 
+								   
+									window.open('<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Reportset.html?name=${upo.naturalname}','_blank');
+								}
+								function edits(){
+									var k = 0;
+									var value;
+									for(var i=0 ; i<form1.elements.length ; i++) {
+										if (form1.elements[i].name=="chkid") {
+											if(form1.elements[i].checked==true){
+												value = form1.elements[i].value;
+												k++;
+											}
+										}
+									}
+									if(k==0){
+										alert("请先选中需要修改的选项");
+										return;
+									}
+									if(k>1){
+										alert("只能选择单项进行修改");
+										return;
+									} 
+									window.open('<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Reportset.html?type=modify&id='+value,'_blank');
+								}
 								
-								function newds1(){
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>bi/chart.html?name=${upo.naturalname}','_blank');
-								}							
-															
-
 							</script>
 
 
@@ -154,8 +172,7 @@
 							&nbsp;&nbsp;
 
 
-							<input type="button" value="新建报表" onclick="newds()" class="butt">
-							<input type="button" value="新建图表" onclick="newds1()" class="butt">
+							<input type="button" value="新建" onclick="newds()" class="butt">
 							&nbsp;&nbsp;
 							<input type="button" value="修改" onclick="edit();"
 								class="butt">
@@ -175,12 +192,15 @@
 							选择
 						</td>
 						<td class="td_titt_bg" width="70" nowrap>
-							中文
+							中文名称
 						</td>
 						<td class="td_titt_bg" width="70" nowrap>
 							名称
 						</td>
 
+						<td class="td_titt_bg" width="70" nowrap>
+							分类
+						</td>
 						<td class="td_titt_bg" width="70" nowrap>
 							日期
 						</td>
@@ -196,7 +216,6 @@
 							<td>
 								<input type="checkbox" name="chkid" value="${list.id}">
 							</td>
-
 							<td align='left' nowrap>
 								<c:if test="${list.inclusion == '1'}">
 									<a href="javascript:inclusionlink('${list.id}','${list.ou}');"><img
@@ -212,6 +231,7 @@
 							<td nowrap>
 								${list.naturalname}
 							</td>
+
 							<td nowrap>
 								${list.objecttype}
 							</td>
@@ -227,28 +247,13 @@
 								</c:if>
 							</td>
 							<td nowrap>
-								<c:if test="${list.objecttype=='chart'}">
-									<a
-										href="<portal:envget envkey="WEBSER_SpeedyForm"/>bi/chartview.html?name=${list.naturalname}"
-										target="_blank"><font color='red'>[查看图表]</font></a>										
-								</c:if>
-								<c:if test="${list.objecttype!='chart'}">
+							
 
-									<a
-										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=html"
-										target="_blank"><font color='red'>[报表Html]</font></a>	
-									<a
-										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=excel"
-										target="_blank"><font color='red'>[报表Excel]</font></a>							
-									<a
-										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=csv"
-										target="_blank"><font color='red'>[报表Csv]</font></a>
-									   
-				
-									<a
-										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=pdf"
-										target="_blank"><font color='red'>[报表Pdf]</font></a>
-								</c:if>
+									<a  
+										href="javascript:window.open('<portal:envget envkey="WEBSER_APPFRAME"/>xreport.do?method=view&naturalname=${list.naturalname}','_parent');"
+										target="_blank"><font color='red'>[分析]</font></a>	
+					
+	
 							</td>
 
 						</tr>

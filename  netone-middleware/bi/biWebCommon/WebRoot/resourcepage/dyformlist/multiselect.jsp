@@ -9,13 +9,13 @@
 	//objecttype,name,naturalname,active,description,appid,parentdir,actionurl,ou,extendattribute,inclusion,reference,aggregation,created
 	//选择人员属性，不填写\默认的属性为naturalname，同时我们可以根据需要选择一下的其他人员属性
 	//email,phoneNO,description
-	String selectvalue="extendattribute";
+	String selectvalue="";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>表单单选</title>
+		<title>资源多选</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
@@ -28,6 +28,7 @@
 		function nodeAction(id,ou,naturalname,parentdir,url){
 			var usersel = document.all.users;
 			usersel.options.length=0;
+			
 			var ajax = xmlhttp("servlet/AjaxServiceSvl?class=<%=className%>&id="+id+"&selectvalue=<%=selectvalue%>");
 			var resp = ajax.responseText;
 			if(resp){
@@ -45,18 +46,52 @@
 			}
 		}
 		 
+		function add(){
+			var users = document.all.users;
+			for(var i=0 ; i<users.length ; i++){
+				if(users.options[i].selected){
+					var length = document.all.result.length;
+					var b = true;
+					for(var j=0;j<length;j++){
+						if(users.options[i].value==document.all.result.options[j].value){
+							b=false;
+							alert(users.options[i].text+"已经被选过了!");
+							break;
+						}
+					}
+					if(b){
+						document.all.result.add(new Option(users.options[i].text,users.options[i].value));
+					}
+				}
+			}
+		}
+		
+		function drop(){
+			var s = document.all.result;
+			var i = s.selectedIndex;
+			while(i != -1){
+				s.remove(i);
+				i = s.selectedIndex;
+			}
+		}
+		 
 		function checkthis(){
-			if(opener.sselected==undefined){
+			if(opener.mselected==undefined){
 				alert('非选择状态,父页面缺少回调函数');
 				return;
 			}
-			var usersel = document.all.users;
-			if(usersel.selectedIndex == -1){
-				alert("未选择");
+			var result = document.all.result;
+			if(result.length == 0){
+				alert("请至少选择一个用户");
 			}else{
-				var option = usersel.options[usersel.selectedIndex];
-				opener.sselected(option.text,option.value);
+				opener.mselected(result.options);
 				window.close();
+			}			
+		}
+		
+		function doclose(){
+			if(opener.userSelectClose){
+				opener.userSelectClose();
 			}
 		}
 	</script>
@@ -69,9 +104,10 @@
 				<tr>
 					<td align="center" valign="top" bgcolor="#fafdff">
 						<br>
-						<table border="0" width="90%" style="table-layout: fixed">
+						<table border="0" width="90%" height="80%"
+							style="table-layout: fixed">
 							<tr>
-								<td width="70%" valign="top" align="left">
+								<td width="30%" valign="top" align="left">
 									<div>
 										<select name="application"
 											onchange="document.forms[0].submit()">
@@ -83,18 +119,35 @@
 										</select>
 									</div>
 									<c:if test="${root != null}">
-										<div style="width: 90%; height: 200px; overflow: auto">
+										<div style="width: 98%; height: 98%; overflow: auto">
 											<script type="text/javascript">
-						  					var functree = new WebFXLoadTree("${root.name}","XMLFuncTreeSvl?parentid=${root.id}","javascript:nodeAction('${root.id}','${root.ou}','${root.naturalname}','${root.parentdir}','${root.actionurl}')");
-						  					functree.write();
-						  					functree.expand();
-						  					functree._setSelected(true);
-				  						</script>
+							  					var functree = new WebFXLoadTree("${root.name}","XMLFuncTreeSvl?parentid=${root.id}","javascript:nodeAction('${root.id}','${root.ou}','${root.naturalname}','${root.parentdir}','${root.actionurl}')");
+							  					functree.write();
+							  					functree.expand();
+							  					functree._setSelected(true);
+					  						</script>
 										</div>
 									</c:if>
 								</td>
 								<td align="center" valign="top">
-									<select size="13" name="users" style="width: 150px">
+									<select size="18" name="users" style="width: 150px"
+										multiple="multiple">
+									</select>
+								</td>
+								<td align="center" bgcolor="#FFFFFF" width="80px"
+									valign="middle">
+									<p>
+										<input type="button" value=" &gt;&gt; " class="butt"
+											onclick="add();">
+									</p>
+									<p>
+										<input type="button" value=" &lt;&lt; " class="butt"
+											onclick="drop();">
+									</p>
+								</td>
+								<td align="center" valign="top">
+									<select size="18" name="result" style="width: 150px"
+										multiple="multiple">
 									</select>
 								</td>
 							</tr>

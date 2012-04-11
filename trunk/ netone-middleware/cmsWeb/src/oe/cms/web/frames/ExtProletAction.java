@@ -105,6 +105,8 @@ public class ExtProletAction extends Action {
 				jsonBuffer.append("id:'" + object.getNaturalname()
 						+ "',");
 				jsonBuffer.append("text:'" + object.getName() + "'");
+				/*Dption:ªÒ»°√Ë ˆƒ⁄»›*/
+				jsonBuffer.append(",Dption:'" + object.getDescription() + "'");
 				if (nextNextlist.size() != 0) {
 					jsonBuffer.append(",leaf: false");
 				} else {

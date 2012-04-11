@@ -103,7 +103,10 @@
 			        rootVisible: false,// 隐藏根 
 			        listeners: {
 		           		click: function(n) {
-		               		addTab(n.attributes.text,n.attributes.id);
+		           			if(n.leaf){
+		           				addTab(n.attributes.text,n.attributes.id);
+							}else{
+							}		           		
 		           		}
 	       			}
 	    		});
@@ -192,8 +195,6 @@
       	var jsons  = eval(response.responseText);
       	//存放描述中的内容
    		var myDption = jsons[0].Dption;
-   		//alert(myDption);
-   		
 		if (window.DOMParser)
 		{
 			parser=new DOMParser();
@@ -206,7 +207,6 @@
 			xmlDoc.loadXML(myDption);
 		}
    		var myDptiontext= Ext.get('Dptiontext').dom; //获取html定义的ID 打印信息
-   		alert(xmlDoc.getElementsByTagName("body")[0].childNodes[0].nodeValue);
 		myDptiontext.innerHTML = xmlDoc.getElementsByTagName("body")[0].childNodes[0].nodeValue;
       	}
       });

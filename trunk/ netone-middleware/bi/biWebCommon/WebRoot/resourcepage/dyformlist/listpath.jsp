@@ -232,7 +232,6 @@
 										return;
 									}
 									var formcode=totalMap.get(value);
-									
 									if(type=='formcolumn')
 									window.open('/dyForm/design/system/column/list.do?formcode='+formcode,'_blank');
 									if(type=='forminfo')
@@ -246,8 +245,10 @@
 									if(type=='removesecurity')
 									window.open('/dyForm/design/system/form/addToPermission.do?rsid='+value+'&remove=yes','_blank');
 									if(type=='forminfox')
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>UpdateDoForm.html?formid='+formcode,'_blank');
-									
+									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>UpdateDoForm.html?naturalname=${upo.naturalname}&formid='+formcode,'_blank');
+							                if(type=='copy')
+									window.open('/dyForm/DyFormCopySvl?pagepath=${upo.naturalname}&formcode='+formcode,'_blank');
+
 								}								
 
 							</script>
@@ -263,6 +264,8 @@
 								onclick="editsdy('security');" class="butt">
 							<input type="button" name="btnmodify3" value="取消保护"
 								onclick="editsdy('removesecurity');" class="butt">
+							<input type="button" name="btnmodify4" value="复制表单"
+								onclick="editsdy('copy');" class="butt">
 							<!-- 
 							
 							<input type="button" name="btnmodify3" value="创建表单资源" onclick="editsdy('dyrs');" class="butt"> 

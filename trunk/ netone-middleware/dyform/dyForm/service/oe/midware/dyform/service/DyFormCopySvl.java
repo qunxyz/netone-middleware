@@ -84,8 +84,11 @@ public class DyFormCopySvl extends HttpServlet {
 		
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsColumn object = (TCsColumn) iterator.next();
-			object.setFormcode(datastr[1]);
-			dys.addColumn(object);
+		 	if( !object.getColumnid().equalsIgnoreCase("belongx")
+					&&  !object.getColumnid().equalsIgnoreCase("timex")){
+				object.setFormcode(datastr[1]);
+				dys.addColumn(object);
+		 	}
 		}
 		//创建资源信息
 		ResourceRmi rsrmi = null;

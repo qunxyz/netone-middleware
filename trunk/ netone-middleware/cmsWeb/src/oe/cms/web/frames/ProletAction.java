@@ -53,28 +53,32 @@ public class ProletAction extends Action {
 
 		if (StringUtils.isEmpty(reqmap.getParameter("task"))) {
 			try {
-				UmsProtectedobject rootElement = rsrmi
-						.loadResourceByNatural(root);
+				UmsProtectedobject rootElement = rsrmi.loadResourceByNatural(root);
 
-				List<UmsProtectedobject> nextlist = rsrmi
-						.subResource(rootElement.getId());
+				List<UmsProtectedobject> nextlist = rsrmi.subResource(rootElement.getId());
 
 				Collections.reverse(nextlist);
 
 				Map<String, List<UmsProtectedobject>> map = new LinkedHashMap<String, List<UmsProtectedobject>>();
-
-				for (Iterator iterator = nextlist.iterator(); iterator
-						.hasNext();) {
-					UmsProtectedobject object = (UmsProtectedobject) iterator
-							.next();
-					List<UmsProtectedobject> nextNextlist = rsrmi
-							.subResource(object.getId());
+				Map<String, List<UmsProtectedobject>> Mapone = new LinkedHashMap<String, List<UmsProtectedobject>>();
+				for (Iterator iterator = nextlist.iterator(); iterator.hasNext();) {
+					UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+					List<UmsProtectedobject> nextNextlist = rsrmi.subResource(object.getId());
 					Collections.reverse(nextNextlist);
 					map.put(object.getNaturalname(), nextNextlist);
+					
+					for (Iterator itera = nextNextlist.iterator(); itera.hasNext();) {
+						UmsProtectedobject obj = (UmsProtectedobject) itera.next();
+						List<UmsProtectedobject> objNextlist = rsrmi.subResource(obj.getId());
+						Collections.reverse(nextNextlist);
+						Mapone.put(obj.getNaturalname(), objNextlist);
+					}
+					
 				}
-
 				request.setAttribute("childrenlist", nextlist);
 				request.setAttribute("map", map);
+				request.setAttribute("Mapone", Mapone);
+				request.setAttribute("menu", "11");
 				String types = request.getParameter("type");
 				if ("menu".equals(types)) {
 					String initurl=request.getParameter("initurl");

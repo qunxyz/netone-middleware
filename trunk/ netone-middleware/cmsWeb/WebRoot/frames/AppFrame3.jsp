@@ -103,10 +103,9 @@
 			        rootVisible: false,// 隐藏根 
 			        listeners: {
 		           		click: function(n) {
-		           			if(n.leaf){
-		           				addTab(n.attributes.text,n.attributes.id);
-							}else{
-							}		           		
+			           		if(n.leaf){
+	                 			addTab(n.attributes.text,n.attributes.id);
+				            }else{}
 		           		}
 	       			}
 	    		});
@@ -195,6 +194,8 @@
       	var jsons  = eval(response.responseText);
       	//存放描述中的内容
    		var myDption = jsons[0].Dption;
+   		//alert(myDption);
+   		
 		if (window.DOMParser)
 		{
 			parser=new DOMParser();

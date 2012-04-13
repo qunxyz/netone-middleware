@@ -14,99 +14,79 @@
 		<base href="<%=basePath%>">
 
 		<title></title>
+	    <link rel="stylesheet" type="text/css" href="include/ext/resources/css/ext-all.css"/>
+	    <script type="text/javascript" src="include/ext/adapter/ext/ext-base.js"></script>
+	    <script type="text/javascript" src="include/ext/ext-all.js"></script>
+	    
+	    
+</head>
 
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-		<meta http-equiv="description" content="This is my page">
-		<style>
-ul {
-	padding: 0;
-	margin: 0;
-	list-style: none;
-}
-
-li {
-	float: left;
-	width: 100px;
-}
-
-ul li a {
-	display: block;
-	font-size: 12px;
-	border: 1px solid #ccc;
-	margin-top: 2px;
-	margin-left: 3px;
-	padding: 3px;
-	text-decoration: none;
-	color: #777;
-}
-
-ul li a:hover {
-	background-color: #ddd;
-}
-
-li ul {
-	display: none;
-	top: 20px;
-}
-
-li:hover ul,li.over ul {
-	display: block;
-}
-</style>
-	</head>
-	<script type="text/javascript">
-		function link(values){
-			document.frames["proletright"].location="frames.do?task="+values ;
-		}
-		startList = function() {
-	        if (document.all&&document.getElementById){
-	            navRoot = document.getElementById("nav");
-	            for (i=0; i<navRoot.childNodes.length;i++){
-	                node =navRoot.childNodes[i];
-	                if(node.nodeName=="LI"){
-	                  node.onmouseover=function() {
-	                        this.className+="over";
-	                        }
-	                    node.onmouseout=function() {
-	                        this.className=this.className.replace("over","");
-	                        }
-	                    }
-	                }
-	            }
-	        }
-	        window.onload=startList;    
-	</script>
-	<body BGCOLOR=#FFFFFF LEFTMARGIN=0 TOPMARGIN=0 MARGINWIDTH=0
-		MARGINHEIGHT=0>
-		<br>
-		<div style="position: absolute; z-index: 9999;">
-			<ul id="nav" style="height: 30">
-				<c:forEach items="${childrenlist}" var="getCol">
-					<li>
-						<a href="javascript:undefined;">${getCol.name}</a>
-						<ul>
-							<c:forEach items="${map}" var="map">
-								<c:if test="${map.key == getCol.naturalname}">
-									<c:forEach items="${map.value}" var="list">
-										<li>
-											<a href=javascript:link("${list.naturalname}")>${list.name}</a>
-										</li>
-									</c:forEach>
-								</c:if>
-							</c:forEach>
-						</ul>
-					</li>
-				</c:forEach>
-			</ul>
-
-		</div>
-		<div align='left'>
-			
-			<iframe id="proletright" src="${fn:replace(initurl,'$@','&')}" scrolling="no" resize="no"
-				height="100%" width="100%"></iframe>
-		</div>
-	</body>
+<body>
+    <script type="text/javascript"> 
+   	function link(values){
+		document.frames["proletright"].location="frames.do?task="+values ;
+		//document.location.href="frames.do?task="+values;
+	}	
+Ext.onReady(function(){
+	var tb = new Ext.Toolbar({  
+        width: '100%',  
+        renderTo: 'Tbar'  
+    });
+    var menu = new Array();
+    var menuone = new Array();
+    //var menu=new Ext.menu.Menu();
+    tb.render('Toolbar');
+    //第一级目录循法
+    var i = -1;
+    var j = -1;
+    <c:forEach items="${childrenlist}" var="getCol">
+    i++;
+    menu[i]=new Ext.menu.Menu();
+    text ="${getCol.name}";
+       tb.add('-',{   
+       text:text,
+       menu:menu[i] 
+     });
+     //第二级目录循法
+      <c:forEach items="${map}" var="map">
+	    <c:if test="${map.key == getCol.naturalname}">
+	     j++;
+	      <c:forEach items="${map.value}" var="list">
+	        menuone[j]=new Ext.menu.Menu();
+		    var text1 = "${list.name}";
+		    //界面问题当menuone[j]为空的时候 menu标签要去掉
+			menu[i].add({text:text1,
+			           menu:menuone[j],
+			           handler:function(){
+				           //link("${list.naturalname}");
+				           alert(menuone[j]);
+				       }
+		    });
+		    //第三级级目录循法
+		    <c:forEach items="${Mapone}" var="Mapone">
+		      <c:if test="${Mapone.key == list.naturalname}">
+	            <c:forEach items="${Mapone.value}" var="listone">
+	             var text2 = "${listone.name}";
+				 menuone[j].add({text:text2,
+				           handler:function(){
+				           link("${listone.naturalname}");
+				       	}  
+			    });
+	            </c:forEach>
+	          </c:if>
+		    </c:forEach>
+		    
+		  </c:forEach>
+	    </c:if>
+      </c:forEach>
+    </c:forEach> 
+    tb.doLayout();
+});              
+    </script>
+    <div id ="Tbar">
+    </div>
+    <iframe id="proletright" src="${fn:replace(initurl,'$@','&')}" scrolling="no" resize="no" marginheight="0"
+		    height="98%" width="100%"></iframe>
+	
+    </body>
 </html>

@@ -69,6 +69,16 @@
 			window.open(url);
 		}
 		
+		function editx(id){
+			var url='<portal:envget envkey="WEBSER_SpeedyForm"/>WConfigEngine.html?mode=edit&idcreated='+id;
+			window.open(url);
+		}
+		function newx(name){
+			var url='<portal:envget envkey="WEBSER_SpeedyForm"/>WConfigEngine.html?mode=new&parentdir='+name;
+			window.open(url);
+		}		
+
+		
 		function worklist(name){    
 			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=onMainView2&mode=1&height=460&listtype=01&sortfield=&sort=&psize=20&appname='+name;
 			window.open(url);
@@ -161,9 +171,12 @@
 					<tr>
 						<td colspan='9' align='right' nowrap>
 							&nbsp;&nbsp;
+							<input type="button" value="新建应用X" onclick="newx('${upo.naturalname}');"
+								class="butt">
 							<input type="button" value="新建应用" onclick="newElemnt();"
 								class="butt">
-							&nbsp;&nbsp; &nbsp;&nbsp;
+
+							&nbsp;&nbsp;
 							<input type="button" name="btndelete" value="删 除"
 								onclick="del();" class="butt">
 							&nbsp;&nbsp;
@@ -232,10 +245,11 @@
 
 							<td nowrap>
 								<c:if test="${list.inclusion!='1'}">
+									 <a href="javascript:editx('${list.id}');"><font color='red'>[框架配置]</font></a>
 									 <a
-										href="javascript:edit('${list.id}');"><font color='red'>[框架配置]</font></a> <a
-										href="javascript:cfg_p('${list.id}');"><font color='red'>[参与者配置]</font></a> <a
-										href="javascript:cfg_dy('${list.id}');"><font color='red'>[流程表单配置]</font></a> 
+										href="javascript:edit('${list.id}');"><font color='#999999'>[框架配置](旧)</font></a> <a
+										href="javascript:cfg_p('${list.id}');"><font color='#999999'>[参与者配置](旧)</font></a> <a
+										href="javascript:cfg_dy('${list.id}');"><font color='#999999'>[流程表单配置](旧)</font></a> 
 										
 									<a href="javascript:man('${list.naturalname}');"><font color='green'>过程:管理</font></a>
 									<a href="javascript:worklist('${list.naturalname}');"><font color='green'>待办应用</font></a>

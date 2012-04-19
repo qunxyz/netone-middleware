@@ -53,6 +53,36 @@ public class DbScriptTools {
 		return new String[] { tableName, "LSH" };
 	}
 
+	
+	
+	public static String[] createV(String ds,String sqlinfo) {
+		String tableName = "DYV_" + IdServer.xnumID();
+		// String createScript = "create table "
+		// + tableName
+		// +
+		// "(LSH VARCHAR(32) NOT NULL, FORMCODE VARCHAR(50) NOT NULL,PARTICIPANT
+		// VARCHAR(100) NOT NULL,CREATED VARCHAR(30) NOT NULL,FATHERLSH
+		// VARCHAR(32),STATUSINFO CHAR(2),EXTENDATTRIBUTE VARCHAR(1000),HIT
+		// numeric(10),BELONGX VARCHAR(255),TIMEX TIMESTAMP, PRIMARY KEY
+		// (LSH))";
+
+		/**
+		 * Linux 发布 SQL 创建/修改表编码问题 如果字段需要输入中文 就会报错 出错信息: Java.sql.SQLException:
+		 * Incorrect string value: '\xE9\xBB\x98\xE8\xAE\xA4...' for column
+		 * 'BELONG X' at row 1
+		 */
+		// character set gbk 添加字段编码以GBK保存
+		String createScript = "create View "
+				+ tableName
+				+ " as ("+sqlinfo+")";
+
+		Connection con = SQLTools.getConn(ds);
+		log.debug("create view form:" + createScript);
+		DbTools.execute(con, createScript);
+
+		return new String[] { tableName, "LSH" };
+	}
+
 	/**
 	 * 增加字段
 	 * 

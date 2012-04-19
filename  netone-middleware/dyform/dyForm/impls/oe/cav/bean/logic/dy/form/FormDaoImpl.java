@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import oe.cav.bean.logic.bus.FormEntry;
 import oe.cav.bean.logic.column.ColumnDao;
@@ -58,12 +56,18 @@ public class FormDaoImpl implements FormDao {
 		if (form == null || form.equals("")) {
 			return false;
 		} else {
+
 			String systemid = form.getSystemid();
 			if (systemid == null) {
 				systemid = "";
 			}
 			// Db Sys
-			String[] info = DbScriptTools.create(systemid);
+			String[] info = null;
+			if(StringUtils.isNotEmpty(form.getSqlinfo())){
+				info=DbScriptTools.createV(systemid,form.getSqlinfo());
+			}else{
+				info=DbScriptTools.create(systemid);
+			}
 			form.setDescription(info[0]);
 			form.setDesigner(info[1]);
 			if (form.getTypeinfo() == null) {

@@ -15,8 +15,16 @@ public class XmlWriter {
 
 	static Log log = LogFactory.getLog(XmlWriter.class);
 
-	static ResourceBundle message = ResourceBundle.getBundle("busscontext",
-			Locale.CHINESE);
+	static ResourceBundle message =null;
+	
+	static{
+		try{
+		message= ResourceBundle.getBundle("busscontext",
+					Locale.CHINESE);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * –¥»ÎXMLŒƒµµ

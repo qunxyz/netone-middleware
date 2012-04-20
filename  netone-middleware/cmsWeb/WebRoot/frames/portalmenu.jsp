@@ -54,14 +54,15 @@ Ext.onReady(function(){
 	      <c:forEach items="${map.value}" var="list">
 	        menuone[j]=new Ext.menu.Menu();
 		    var text1 = "${list.name}";
-		    //界面问题当menuone[j]为空的时候 menu标签要去掉
-			menu[i].add({text:text1,
-			           menu:menuone[j],
-			           handler:function(){
-				           //link("${list.naturalname}");
-				           alert(menuone[j]);
-				       }
-		    });
+		    var text2 = "${list.extendattribute}";
+		    	if(text2=="final"){
+			    	menu[i].add({text:text1
+			    	});
+			    }else{
+			    	menu[i].add({text:text1,
+			    	menu:menuone[j]
+			    	});
+			    }
 		    //第三级级目录循法
 		    <c:forEach items="${Mapone}" var="Mapone">
 		      <c:if test="${Mapone.key == list.naturalname}">
@@ -75,7 +76,6 @@ Ext.onReady(function(){
 	            </c:forEach>
 	          </c:if>
 		    </c:forEach>
-		    
 		  </c:forEach>
 	    </c:if>
       </c:forEach>

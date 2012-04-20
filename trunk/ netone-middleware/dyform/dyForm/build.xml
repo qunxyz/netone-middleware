@@ -11,13 +11,9 @@
 		<jar destfile="${dist.dir}/DyFormService.jar">
 			<fileset dir="${class.dir}">
 				<include name="**" />
-				<exclude name="NewFile.xml" />
-				<exclude name="rmiClient.properties" />
-				<exclude name="ssoconf.properties" />
+				<exclude name="*.xml" />
+				<exclude name="*.properties" />
 				<exclude name="oe/cav/web" />
-				<exclude name="form_config.xml" />
-				<exclude name="ds_config.xml" />
-				<exclude name="busscontext.properties"/>
 			</fileset>
 		</jar>
 		<jar destfile="${dist.dir}/DyFormClient.jar">

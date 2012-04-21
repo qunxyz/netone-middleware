@@ -367,6 +367,11 @@
 									<a
 										href="javascript:window.open('<%=path%>/Export.do?task=show&chkid=${list.id}','_parent');"
 										target="_blank">[导出]</a>
+										
+
+									<a
+										href="javascript:window.open('<portal:envget envkey="WEBSER_BIWEB"/>/PagelistRightSvl?pagename=dyformlist&appname=${list.naturalname}','_parent');"
+										target="_top">[功能配置]</a>
 										<!--  
 									<a
 										href="javascript:window.open('<%=path%>/SynSummary.do?task=Synbefore&chkid=${list.id}','_parent');"

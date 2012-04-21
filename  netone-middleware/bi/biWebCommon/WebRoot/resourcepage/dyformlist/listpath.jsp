@@ -254,7 +254,7 @@
 							</script>
 							<input type="button" value="新建表单" onclick="newds1()" class="butt">
 							<input type="button" value="修改表单" onclick="editsdy('forminfox')" class="butt">&nbsp;&nbsp;
-							<!-- 
+							
 							<input type="button" value="新建表单(旧)" onclick="newds()" class="butt">
 							
 							<input type="button" name="btnmodify1" value="修改表单(旧)"
@@ -265,7 +265,7 @@
 								onclick="editsdy('security');" class="butt">
 							<input type="button" name="btnmodify3" value="取消保护"
 								onclick="editsdy('removesecurity');" class="butt">
-							-->
+							
 							<input type="button" name="btnmodify4" value="复制表单"
 								onclick="editsdy('copy');" class="butt">
 							<!-- 
@@ -356,70 +356,21 @@
 							<td nowrap>
 
 								<c:if test="${list.inclusion != '1'}">
-									<select
-										onchange='if(this.value!=0){ window.open(this.value);}this.value=0'
-										style="width: 80">
-										<option value='0'>
-											-访问-
-										</option>
-										<option
-											value='/dyForm/data/data/list.do?lsh=1&formcode=${list.extendattribute}&mode=manage'>
-											普通列表
-										</option>
-										<option
-											value='/dyForm/data/data/listShare.do?lsh=1&formcode=${list.extendattribute}&mode=useview'>
-											共享应用列表
-										</option>
-										<option
-											value='/dyForm/data/data/listShare.do?lsh=1&formcode=${list.extendattribute}&mode=onlyview'>
-											共享视图列表1
-										</option>
-										<option
-											value='/dyForm/data/showdata/listviews.do?lsh=1&formcode=${list.extendattribute}'>
-											共享视图列表2
-										</option>
-										<option
-											value='/dyForm/data/showdata/createview.do?fatherlsh=1&formcode=${list.extendattribute}'>
-											快速创建
-										</option>
-									</select>
-									<!--  
-									<select onchange='if(this.value!=0){ window.open(this.value);}'
-										style="width: 80">
-										<option value='0'>
-											-管理-
-										</option>
-										<option
-											value='/dyForm/data/data/list.do?lsh=1&formcode=${list.extendattribute}'>
-											数据管理
-										</option>
-										<option value='<%=path%>/Export.do?task=show&chkid=${list.id}'>
-											导出数据
-										</option>
-										<option
-											value='<%=path%>/SynSummary.do?task=Synbefore&chkid=${list.id}'>
-											导入数据
-										</option>
-										<option
-											value='/dyForm/servlet/FormViewsvl?formcode=${list.extendattribute}'>
-											定义描述
-										</option>
-									</select>
-									-->
 
 									
 									<a
 										href="javascript:window.open('<portal:envget envkey="WEBSER_APPFRAME"/>frame.do?method=onPreviewMain&formcode=${list.extendattribute}&isedit=1','_parent');"
-										target="_blank">[预览]</a>									
-									<a
-										href="javascript:window.open('/dyForm/data/data/list.do?lsh=1&formcode=${list.extendattribute}','_parent');"
+										target="_blank"><font color='red'>[预览]</font></a>									
+									<a   
+										href="javascript:window.open('<portal:envget envkey="WEBSER_APPFRAME"/>/frame.do?method=onMainView&naturalname=${list.naturalname}','_parent');"
 										target="_blank">[管理]</a>
 									<a
 										href="javascript:window.open('<%=path%>/Export.do?task=show&chkid=${list.id}','_parent');"
 										target="_blank">[导出]</a>
+										<!--  
 									<a
 										href="javascript:window.open('<%=path%>/SynSummary.do?task=Synbefore&chkid=${list.id}','_parent');"
-										target="_blank">[导入]</a>
+										target="_blank">[导入]</a>-->
 									<a
 										href="javascript:window.open('/dyForm/servlet/FormViewsvl?formcode=${list.extendattribute}','_parent');"
 										target="_top">[描述]</a>

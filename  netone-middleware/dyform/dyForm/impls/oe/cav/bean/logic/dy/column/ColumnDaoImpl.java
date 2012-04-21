@@ -102,7 +102,11 @@ public class ColumnDaoImpl implements ColumnDao {
 			XmlWriter.write(dyObjToXML.parser(dfo), XmlPools
 					.writedPath(formcode));
 			// Db Sys
-			return DbScriptTools.updateColumn(column, form.getSystemid());
+			String sqlinfo = form.getSqlinfo();
+			if ("*".equals(form.getSqlinfo()) || StringUtils.isEmpty(sqlinfo)) {
+				return DbScriptTools.updateColumn(column, form.getSystemid());
+			}
+			return "done";
 
 		}
 	}
@@ -178,7 +182,7 @@ public class ColumnDaoImpl implements ColumnDao {
 					.writedPath(formcode));
 
 			// Db Sys
-			DbScriptTools.dropColumn(column,tcf.getSystemid());
+			DbScriptTools.dropColumn(column, tcf.getSystemid());
 			return "É¾³ý³É¹¦";
 		}
 	}

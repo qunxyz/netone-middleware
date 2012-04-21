@@ -146,12 +146,8 @@
 
 						<td align='right' nowrap>
 							&nbsp;
-							<input type="button" value="新建元素" onclick="newElemnt();"
+							<input type="button" value="新建功能" onclick="newElemnt();"
 								class="butt">
-							&nbsp;
-							<input type="button" value="新建流元素" onclick="newElementBinary();"
-								class="butt">
-
 							&nbsp;
 							<input type="button" name="btnmodify" value="修 改"
 								onclick="edit();" class="butt">

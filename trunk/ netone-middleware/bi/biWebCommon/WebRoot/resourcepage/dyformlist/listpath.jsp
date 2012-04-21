@@ -254,7 +254,7 @@
 							</script>
 							<input type="button" value="新建表单" onclick="newds1()" class="butt">
 							<input type="button" value="修改表单" onclick="editsdy('forminfox')" class="butt">&nbsp;&nbsp;
-							
+							<!-- 
 							<input type="button" value="新建表单(旧)" onclick="newds()" class="butt">
 							
 							<input type="button" name="btnmodify1" value="修改表单(旧)"
@@ -265,7 +265,7 @@
 								onclick="editsdy('security');" class="butt">
 							<input type="button" name="btnmodify3" value="取消保护"
 								onclick="editsdy('removesecurity');" class="butt">
-							
+							 -->
 							<input type="button" name="btnmodify4" value="复制表单"
 								onclick="editsdy('copy');" class="butt">
 							<!-- 

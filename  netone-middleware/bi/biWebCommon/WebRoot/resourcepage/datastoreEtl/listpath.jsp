@@ -135,11 +135,11 @@
 							<script type="text/javascript">
 								function newds(){
 								   
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>NewBIXML.html?name=${upo.naturalname}','_blank');
+									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>NewBIXML.html?name=${upo.naturalname}&mode=new','_blank');
 								}
 								function newds1(){
 								   
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>NewDMXML.html?name=${upo.naturalname}','_blank');
+									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>NewDMXML.html?name=${upo.naturalname}&mode=new','_blank');
 								}
 								function edits(){
 									var k = 0;
@@ -260,19 +260,23 @@
 										target="_blank"><font color='red'>[执行]</font>
 									</a>
 									<c:if test="${list.objecttype=='trans'}">
+									       
 										<a
 											href="<portal:envget envkey="WEBSER_DYFORM"/>/dyForm/data/data/list.do?lsh=1&formcode=${list.description}"
 											target="_blank"><font color='red'>[数据平滑]</font>
 										</a>
+										<a
+										href="<portal:envget envkey="WEBSER_SpeedyForm"/>NewDMXML.html?name=${list.naturalname}&mode=edit"
+										target="_blank"><font color='red'>[修改]</font></a>
+
 									</c:if>
+									<c:if test="${list.objecttype=='etl'}">
 
+										<a
+										href="<portal:envget envkey="WEBSER_SpeedyForm"/>NewBIXML.html?name=${list.naturalname}&mode=edit"
+										target="_blank"><font color='red'>[修改]</font></a>
 
-
-									<a href="javascript:edit('${list.id}')"><font
-										color='red'>[修改]</font>
-									</a>
-
-
+									</c:if>
 								</c:if>
 
 							</td>

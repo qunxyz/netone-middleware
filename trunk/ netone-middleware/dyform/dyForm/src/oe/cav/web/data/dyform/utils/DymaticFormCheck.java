@@ -24,7 +24,9 @@ public class DymaticFormCheck {
 	public final static String _CHECK_LOSEFOCUSSCRIPT = "blurscript$:";
 	public final static String _CHECK_SIZE = "size$:";
 	public final static String _CHECK_OFFSET = "offset$:";
-
+	public final static String _CHECK_WIDTH = "width$:";
+	public final static String _CHECK_SUMMARYTYPE = "summarytype$:";
+	
 	public final static String _FINAL_CHECK = "$!";
 
 	final static String SPLITMARK = "#kqx#";

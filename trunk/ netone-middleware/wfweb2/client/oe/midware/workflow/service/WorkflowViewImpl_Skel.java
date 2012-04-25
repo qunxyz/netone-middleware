@@ -7,6 +7,7 @@ public final class WorkflowViewImpl_Skel
     implements java.rmi.server.Skeleton
 {
     private static final java.rmi.server.Operation[] operations = {
+	new java.rmi.server.Operation("java.util.List coreSqlview(java.lang.String)"),
 	new java.rmi.server.Operation("oe.midware.workflow.xpdl.model.activity.Activity fetchActivity(java.lang.String, java.lang.String)"),
 	new java.rmi.server.Operation("java.util.List fetchDoneWorklist(java.lang.String)"),
 	new java.rmi.server.Operation("java.util.List fetchDoneWorklist(java.lang.String, java.lang.String)"),
@@ -41,7 +42,7 @@ public final class WorkflowViewImpl_Skel
 	new java.rmi.server.Operation("oe.midware.workflow.runtime.ormobj.TWfWorklist loadWorklist(java.lang.String)")
     };
     
-    private static final long interfaceHash = 5157497334341205571L;
+    private static final long interfaceHash = -6654306912399783810L;
     
     public java.rmi.server.Operation[] getOperations() {
 	return (java.rmi.server.Operation[]) operations.clone();
@@ -51,70 +52,72 @@ public final class WorkflowViewImpl_Skel
 	throws java.lang.Exception
     {
 	if (opnum < 0) {
-	    if (hash == -8055948456322794327L) {
+	    if (hash == -2884788289436715889L) {
 		opnum = 0;
-	    } else if (hash == 319365363648776725L) {
+	    } else if (hash == -8055948456322794327L) {
 		opnum = 1;
-	    } else if (hash == 6849107280703186059L) {
+	    } else if (hash == 319365363648776725L) {
 		opnum = 2;
-	    } else if (hash == -4622620688439750427L) {
+	    } else if (hash == 6849107280703186059L) {
 		opnum = 3;
-	    } else if (hash == -128649894363852587L) {
+	    } else if (hash == -4622620688439750427L) {
 		opnum = 4;
-	    } else if (hash == 5185763763696113086L) {
+	    } else if (hash == -128649894363852587L) {
 		opnum = 5;
-	    } else if (hash == 3070652372840052357L) {
+	    } else if (hash == 5185763763696113086L) {
 		opnum = 6;
-	    } else if (hash == -2746259965687491138L) {
+	    } else if (hash == 3070652372840052357L) {
 		opnum = 7;
-	    } else if (hash == -2800105377060275151L) {
+	    } else if (hash == -2746259965687491138L) {
 		opnum = 8;
-	    } else if (hash == -3903871619636022641L) {
+	    } else if (hash == -2800105377060275151L) {
 		opnum = 9;
-	    } else if (hash == -3919924863963329282L) {
+	    } else if (hash == -3903871619636022641L) {
 		opnum = 10;
-	    } else if (hash == -2685786969667383331L) {
+	    } else if (hash == -3919924863963329282L) {
 		opnum = 11;
-	    } else if (hash == -1885427205689292486L) {
+	    } else if (hash == -2685786969667383331L) {
 		opnum = 12;
-	    } else if (hash == -8284196820315722055L) {
+	    } else if (hash == -1885427205689292486L) {
 		opnum = 13;
-	    } else if (hash == -1848851944183664487L) {
+	    } else if (hash == -8284196820315722055L) {
 		opnum = 14;
-	    } else if (hash == 8305057968317744625L) {
+	    } else if (hash == -1848851944183664487L) {
 		opnum = 15;
-	    } else if (hash == -7525591794466240707L) {
+	    } else if (hash == 8305057968317744625L) {
 		opnum = 16;
-	    } else if (hash == -794017901512027711L) {
+	    } else if (hash == -7525591794466240707L) {
 		opnum = 17;
-	    } else if (hash == -4795387816105647208L) {
+	    } else if (hash == -794017901512027711L) {
 		opnum = 18;
-	    } else if (hash == 3948886456419098964L) {
+	    } else if (hash == -4795387816105647208L) {
 		opnum = 19;
-	    } else if (hash == 8352463183470863627L) {
+	    } else if (hash == 3948886456419098964L) {
 		opnum = 20;
-	    } else if (hash == -4845953675762149479L) {
+	    } else if (hash == 8352463183470863627L) {
 		opnum = 21;
-	    } else if (hash == 2266622520547910900L) {
+	    } else if (hash == -4845953675762149479L) {
 		opnum = 22;
-	    } else if (hash == -6492834046902318226L) {
+	    } else if (hash == 2266622520547910900L) {
 		opnum = 23;
-	    } else if (hash == 5389120783813265499L) {
+	    } else if (hash == -6492834046902318226L) {
 		opnum = 24;
-	    } else if (hash == -1683542496201090978L) {
+	    } else if (hash == 5389120783813265499L) {
 		opnum = 25;
-	    } else if (hash == 8157193636088483320L) {
+	    } else if (hash == -1683542496201090978L) {
 		opnum = 26;
-	    } else if (hash == -5269787735753088017L) {
+	    } else if (hash == 8157193636088483320L) {
 		opnum = 27;
-	    } else if (hash == -527294248846260131L) {
+	    } else if (hash == -5269787735753088017L) {
 		opnum = 28;
-	    } else if (hash == -3715443439483249074L) {
+	    } else if (hash == -527294248846260131L) {
 		opnum = 29;
-	    } else if (hash == -1125246968018751849L) {
+	    } else if (hash == -3715443439483249074L) {
 		opnum = 30;
-	    } else if (hash == -7884567548023638245L) {
+	    } else if (hash == -1125246968018751849L) {
 		opnum = 31;
+	    } else if (hash == -7884567548023638245L) {
+		opnum = 32;
 	    } else {
 		throw new java.rmi.UnmarshalException("invalid method hash");
 	    }
@@ -125,7 +128,30 @@ public final class WorkflowViewImpl_Skel
 	
 	oe.midware.workflow.service.WorkflowViewImpl server = (oe.midware.workflow.service.WorkflowViewImpl) obj;
 	switch (opnum) {
-	case 0: // fetchActivity(String, String)
+	case 0: // coreSqlview(String)
+	{
+	    java.lang.String $param_String_1;
+	    try {
+		java.io.ObjectInput in = call.getInputStream();
+		$param_String_1 = (java.lang.String) in.readObject();
+	    } catch (java.io.IOException e) {
+		throw new java.rmi.UnmarshalException("error unmarshalling arguments", e);
+	    } catch (java.lang.ClassNotFoundException e) {
+		throw new java.rmi.UnmarshalException("error unmarshalling arguments", e);
+	    } finally {
+		call.releaseInputStream();
+	    }
+	    java.util.List $result = server.coreSqlview($param_String_1);
+	    try {
+		java.io.ObjectOutput out = call.getResultStream(true);
+		out.writeObject($result);
+	    } catch (java.io.IOException e) {
+		throw new java.rmi.MarshalException("error marshalling return", e);
+	    }
+	    break;
+	}
+	    
+	case 1: // fetchActivity(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -150,7 +176,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 1: // fetchDoneWorklist(String)
+	case 2: // fetchDoneWorklist(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -173,7 +199,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 2: // fetchDoneWorklist(String, String)
+	case 3: // fetchDoneWorklist(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -198,7 +224,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 3: // fetchExceptionWorklist(String)
+	case 4: // fetchExceptionWorklist(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -221,7 +247,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 4: // fetchExceptionWorklist(String, String)
+	case 5: // fetchExceptionWorklist(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -246,7 +272,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 5: // fetchQuashWorklist(String)
+	case 6: // fetchQuashWorklist(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -269,7 +295,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 6: // fetchQuashWorklist(String, String)
+	case 7: // fetchQuashWorklist(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -294,7 +320,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 7: // fetchRelevantVar(String)
+	case 8: // fetchRelevantVar(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -317,7 +343,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 8: // fetchRelevantVar(String, String)
+	case 9: // fetchRelevantVar(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -342,7 +368,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 9: // fetchRelevantvarMap(String)
+	case 10: // fetchRelevantvarMap(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -365,7 +391,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 10: // fetchRunningWorklist(String)
+	case 11: // fetchRunningWorklist(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -388,7 +414,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 11: // fetchRunningWorklist(String, String)
+	case 12: // fetchRunningWorklist(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -413,7 +439,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 12: // fetchSubflowByRuntimeid(String)
+	case 13: // fetchSubflowByRuntimeid(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -436,7 +462,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 13: // fetchSubflowByWorkcode(String)
+	case 14: // fetchSubflowByWorkcode(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -459,7 +485,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 14: // fetchSyncWaittingWorkList(String)
+	case 15: // fetchSyncWaittingWorkList(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -482,7 +508,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 15: // fetchWorkList(String, String)
+	case 16: // fetchWorkList(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -507,7 +533,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 16: // fetchWorkflowProcess(String)
+	case 17: // fetchWorkflowProcess(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -530,7 +556,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 17: // fetchWorklist(String)
+	case 18: // fetchWorklist(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -553,7 +579,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 18: // haveRunningOrSubflowWaittingWorklist(String)
+	case 19: // haveRunningOrSubflowWaittingWorklist(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -576,7 +602,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 19: // listRelevantvar(String)
+	case 20: // listRelevantvar(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -599,7 +625,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 20: // listRelevartvarInstance(String)
+	case 21: // listRelevartvarInstance(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -622,7 +648,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 21: // listRelevartvarInstance(String, String)
+	case 22: // listRelevartvarInstance(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -647,7 +673,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 22: // listWorklist(String)
+	case 23: // listWorklist(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -670,7 +696,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 23: // listinstance(String)
+	case 24: // listinstance(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -693,7 +719,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 24: // listxRelevartvarInstance(String, String)
+	case 25: // listxRelevartvarInstance(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -718,7 +744,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 25: // listxWorkListInstance(String, String)
+	case 26: // listxWorkListInstance(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -743,7 +769,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 26: // listxinstance(String, String)
+	case 27: // listxinstance(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -768,7 +794,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 27: // loadProcess(String)
+	case 28: // loadProcess(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -791,7 +817,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 28: // loadProcessUrl(String)
+	case 29: // loadProcessUrl(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -814,7 +840,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 29: // loadRelevantvar(String)
+	case 30: // loadRelevantvar(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -837,7 +863,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 30: // loadRuntime(String)
+	case 31: // loadRuntime(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -860,7 +886,7 @@ public final class WorkflowViewImpl_Skel
 	    break;
 	}
 	    
-	case 31: // loadWorklist(String)
+	case 32: // loadWorklist(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {

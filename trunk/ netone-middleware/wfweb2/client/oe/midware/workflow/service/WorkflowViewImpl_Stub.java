@@ -8,6 +8,7 @@ public final class WorkflowViewImpl_Stub
     implements oe.midware.workflow.service.WorkflowView, java.rmi.Remote
 {
     private static final java.rmi.server.Operation[] operations = {
+	new java.rmi.server.Operation("java.util.List coreSqlview(java.lang.String)"),
 	new java.rmi.server.Operation("oe.midware.workflow.xpdl.model.activity.Activity fetchActivity(java.lang.String, java.lang.String)"),
 	new java.rmi.server.Operation("java.util.List fetchDoneWorklist(java.lang.String)"),
 	new java.rmi.server.Operation("java.util.List fetchDoneWorklist(java.lang.String, java.lang.String)"),
@@ -42,43 +43,44 @@ public final class WorkflowViewImpl_Stub
 	new java.rmi.server.Operation("oe.midware.workflow.runtime.ormobj.TWfWorklist loadWorklist(java.lang.String)")
     };
     
-    private static final long interfaceHash = 5157497334341205571L;
+    private static final long interfaceHash = -6654306912399783810L;
     
     private static final long serialVersionUID = 2;
     
     private static boolean useNewInvoke;
-    private static java.lang.reflect.Method $method_fetchActivity_0;
-    private static java.lang.reflect.Method $method_fetchDoneWorklist_1;
+    private static java.lang.reflect.Method $method_coreSqlview_0;
+    private static java.lang.reflect.Method $method_fetchActivity_1;
     private static java.lang.reflect.Method $method_fetchDoneWorklist_2;
-    private static java.lang.reflect.Method $method_fetchExceptionWorklist_3;
+    private static java.lang.reflect.Method $method_fetchDoneWorklist_3;
     private static java.lang.reflect.Method $method_fetchExceptionWorklist_4;
-    private static java.lang.reflect.Method $method_fetchQuashWorklist_5;
+    private static java.lang.reflect.Method $method_fetchExceptionWorklist_5;
     private static java.lang.reflect.Method $method_fetchQuashWorklist_6;
-    private static java.lang.reflect.Method $method_fetchRelevantVar_7;
+    private static java.lang.reflect.Method $method_fetchQuashWorklist_7;
     private static java.lang.reflect.Method $method_fetchRelevantVar_8;
-    private static java.lang.reflect.Method $method_fetchRelevantvarMap_9;
-    private static java.lang.reflect.Method $method_fetchRunningWorklist_10;
+    private static java.lang.reflect.Method $method_fetchRelevantVar_9;
+    private static java.lang.reflect.Method $method_fetchRelevantvarMap_10;
     private static java.lang.reflect.Method $method_fetchRunningWorklist_11;
-    private static java.lang.reflect.Method $method_fetchSubflowByRuntimeid_12;
-    private static java.lang.reflect.Method $method_fetchSubflowByWorkcode_13;
-    private static java.lang.reflect.Method $method_fetchSyncWaittingWorkList_14;
-    private static java.lang.reflect.Method $method_fetchWorkList_15;
-    private static java.lang.reflect.Method $method_fetchWorkflowProcess_16;
-    private static java.lang.reflect.Method $method_fetchWorklist_17;
-    private static java.lang.reflect.Method $method_haveRunningOrSubflowWaittingWorklist_18;
-    private static java.lang.reflect.Method $method_listRelevantvar_19;
-    private static java.lang.reflect.Method $method_listRelevartvarInstance_20;
+    private static java.lang.reflect.Method $method_fetchRunningWorklist_12;
+    private static java.lang.reflect.Method $method_fetchSubflowByRuntimeid_13;
+    private static java.lang.reflect.Method $method_fetchSubflowByWorkcode_14;
+    private static java.lang.reflect.Method $method_fetchSyncWaittingWorkList_15;
+    private static java.lang.reflect.Method $method_fetchWorkList_16;
+    private static java.lang.reflect.Method $method_fetchWorkflowProcess_17;
+    private static java.lang.reflect.Method $method_fetchWorklist_18;
+    private static java.lang.reflect.Method $method_haveRunningOrSubflowWaittingWorklist_19;
+    private static java.lang.reflect.Method $method_listRelevantvar_20;
     private static java.lang.reflect.Method $method_listRelevartvarInstance_21;
-    private static java.lang.reflect.Method $method_listWorklist_22;
-    private static java.lang.reflect.Method $method_listinstance_23;
-    private static java.lang.reflect.Method $method_listxRelevartvarInstance_24;
-    private static java.lang.reflect.Method $method_listxWorkListInstance_25;
-    private static java.lang.reflect.Method $method_listxinstance_26;
-    private static java.lang.reflect.Method $method_loadProcess_27;
-    private static java.lang.reflect.Method $method_loadProcessUrl_28;
-    private static java.lang.reflect.Method $method_loadRelevantvar_29;
-    private static java.lang.reflect.Method $method_loadRuntime_30;
-    private static java.lang.reflect.Method $method_loadWorklist_31;
+    private static java.lang.reflect.Method $method_listRelevartvarInstance_22;
+    private static java.lang.reflect.Method $method_listWorklist_23;
+    private static java.lang.reflect.Method $method_listinstance_24;
+    private static java.lang.reflect.Method $method_listxRelevartvarInstance_25;
+    private static java.lang.reflect.Method $method_listxWorkListInstance_26;
+    private static java.lang.reflect.Method $method_listxinstance_27;
+    private static java.lang.reflect.Method $method_loadProcess_28;
+    private static java.lang.reflect.Method $method_loadProcessUrl_29;
+    private static java.lang.reflect.Method $method_loadRelevantvar_30;
+    private static java.lang.reflect.Method $method_loadRuntime_31;
+    private static java.lang.reflect.Method $method_loadWorklist_32;
     
     static {
 	try {
@@ -90,38 +92,39 @@ public final class WorkflowViewImpl_Stub
 		    long.class
 		});
 	    useNewInvoke = true;
-	    $method_fetchActivity_0 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchActivity", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_fetchDoneWorklist_1 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchDoneWorklist", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchDoneWorklist_2 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchDoneWorklist", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_fetchExceptionWorklist_3 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchExceptionWorklist", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchExceptionWorklist_4 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchExceptionWorklist", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_fetchQuashWorklist_5 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchQuashWorklist", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchQuashWorklist_6 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchQuashWorklist", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_fetchRelevantVar_7 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRelevantVar", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchRelevantVar_8 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRelevantVar", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_fetchRelevantvarMap_9 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRelevantvarMap", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchRunningWorklist_10 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRunningWorklist", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchRunningWorklist_11 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRunningWorklist", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_fetchSubflowByRuntimeid_12 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchSubflowByRuntimeid", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchSubflowByWorkcode_13 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchSubflowByWorkcode", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchSyncWaittingWorkList_14 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchSyncWaittingWorkList", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchWorkList_15 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchWorkList", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_fetchWorkflowProcess_16 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchWorkflowProcess", new java.lang.Class[] {java.lang.String.class});
-	    $method_fetchWorklist_17 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchWorklist", new java.lang.Class[] {java.lang.String.class});
-	    $method_haveRunningOrSubflowWaittingWorklist_18 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("haveRunningOrSubflowWaittingWorklist", new java.lang.Class[] {java.lang.String.class});
-	    $method_listRelevantvar_19 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listRelevantvar", new java.lang.Class[] {java.lang.String.class});
-	    $method_listRelevartvarInstance_20 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listRelevartvarInstance", new java.lang.Class[] {java.lang.String.class});
-	    $method_listRelevartvarInstance_21 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listRelevartvarInstance", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_listWorklist_22 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listWorklist", new java.lang.Class[] {java.lang.String.class});
-	    $method_listinstance_23 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listinstance", new java.lang.Class[] {java.lang.String.class});
-	    $method_listxRelevartvarInstance_24 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listxRelevartvarInstance", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_listxWorkListInstance_25 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listxWorkListInstance", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_listxinstance_26 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listxinstance", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
-	    $method_loadProcess_27 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadProcess", new java.lang.Class[] {java.lang.String.class});
-	    $method_loadProcessUrl_28 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadProcessUrl", new java.lang.Class[] {java.lang.String.class});
-	    $method_loadRelevantvar_29 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadRelevantvar", new java.lang.Class[] {java.lang.String.class});
-	    $method_loadRuntime_30 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadRuntime", new java.lang.Class[] {java.lang.String.class});
-	    $method_loadWorklist_31 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadWorklist", new java.lang.Class[] {java.lang.String.class});
+	    $method_coreSqlview_0 = oe.midware.workflow.service.WorkflowView.class.getMethod("coreSqlview", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchActivity_1 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchActivity", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_fetchDoneWorklist_2 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchDoneWorklist", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchDoneWorklist_3 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchDoneWorklist", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_fetchExceptionWorklist_4 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchExceptionWorklist", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchExceptionWorklist_5 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchExceptionWorklist", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_fetchQuashWorklist_6 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchQuashWorklist", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchQuashWorklist_7 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchQuashWorklist", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_fetchRelevantVar_8 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRelevantVar", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchRelevantVar_9 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRelevantVar", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_fetchRelevantvarMap_10 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRelevantvarMap", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchRunningWorklist_11 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRunningWorklist", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchRunningWorklist_12 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchRunningWorklist", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_fetchSubflowByRuntimeid_13 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchSubflowByRuntimeid", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchSubflowByWorkcode_14 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchSubflowByWorkcode", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchSyncWaittingWorkList_15 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchSyncWaittingWorkList", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchWorkList_16 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchWorkList", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_fetchWorkflowProcess_17 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchWorkflowProcess", new java.lang.Class[] {java.lang.String.class});
+	    $method_fetchWorklist_18 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("fetchWorklist", new java.lang.Class[] {java.lang.String.class});
+	    $method_haveRunningOrSubflowWaittingWorklist_19 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("haveRunningOrSubflowWaittingWorklist", new java.lang.Class[] {java.lang.String.class});
+	    $method_listRelevantvar_20 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listRelevantvar", new java.lang.Class[] {java.lang.String.class});
+	    $method_listRelevartvarInstance_21 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listRelevartvarInstance", new java.lang.Class[] {java.lang.String.class});
+	    $method_listRelevartvarInstance_22 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listRelevartvarInstance", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_listWorklist_23 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listWorklist", new java.lang.Class[] {java.lang.String.class});
+	    $method_listinstance_24 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listinstance", new java.lang.Class[] {java.lang.String.class});
+	    $method_listxRelevartvarInstance_25 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listxRelevartvarInstance", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_listxWorkListInstance_26 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listxWorkListInstance", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_listxinstance_27 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("listxinstance", new java.lang.Class[] {java.lang.String.class, java.lang.String.class});
+	    $method_loadProcess_28 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadProcess", new java.lang.Class[] {java.lang.String.class});
+	    $method_loadProcessUrl_29 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadProcessUrl", new java.lang.Class[] {java.lang.String.class});
+	    $method_loadRelevantvar_30 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadRelevantvar", new java.lang.Class[] {java.lang.String.class});
+	    $method_loadRuntime_31 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadRuntime", new java.lang.Class[] {java.lang.String.class});
+	    $method_loadWorklist_32 = oe.frame.bus.workflow.RuntimeMonitor.class.getMethod("loadWorklist", new java.lang.Class[] {java.lang.String.class});
 	} catch (java.lang.NoSuchMethodException e) {
 	    useNewInvoke = false;
 	}
@@ -137,16 +140,55 @@ public final class WorkflowViewImpl_Stub
     
     // methods from remote interfaces
     
+    // implementation of coreSqlview(String)
+    public java.util.List coreSqlview(java.lang.String $param_String_1)
+	throws java.rmi.RemoteException
+    {
+	try {
+	    if (useNewInvoke) {
+		Object $result = ref.invoke(this, $method_coreSqlview_0, new java.lang.Object[] {$param_String_1}, -2884788289436715889L);
+		return ((java.util.List) $result);
+	    } else {
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 0, interfaceHash);
+		try {
+		    java.io.ObjectOutput out = call.getOutputStream();
+		    out.writeObject($param_String_1);
+		} catch (java.io.IOException e) {
+		    throw new java.rmi.MarshalException("error marshalling arguments", e);
+		}
+		ref.invoke(call);
+		java.util.List $result;
+		try {
+		    java.io.ObjectInput in = call.getInputStream();
+		    $result = (java.util.List) in.readObject();
+		} catch (java.io.IOException e) {
+		    throw new java.rmi.UnmarshalException("error unmarshalling return", e);
+		} catch (java.lang.ClassNotFoundException e) {
+		    throw new java.rmi.UnmarshalException("error unmarshalling return", e);
+		} finally {
+		    ref.done(call);
+		}
+		return $result;
+	    }
+	} catch (java.lang.RuntimeException e) {
+	    throw e;
+	} catch (java.rmi.RemoteException e) {
+	    throw e;
+	} catch (java.lang.Exception e) {
+	    throw new java.rmi.UnexpectedException("undeclared checked exception", e);
+	}
+    }
+    
     // implementation of fetchActivity(String, String)
     public oe.midware.workflow.xpdl.model.activity.Activity fetchActivity(java.lang.String $param_String_1, java.lang.String $param_String_2)
 	throws java.rmi.RemoteException
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchActivity_0, new java.lang.Object[] {$param_String_1, $param_String_2}, -8055948456322794327L);
+		Object $result = ref.invoke(this, $method_fetchActivity_1, new java.lang.Object[] {$param_String_1, $param_String_2}, -8055948456322794327L);
 		return ((oe.midware.workflow.xpdl.model.activity.Activity) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 0, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 1, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -183,10 +225,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchDoneWorklist_1, new java.lang.Object[] {$param_String_1}, 319365363648776725L);
+		Object $result = ref.invoke(this, $method_fetchDoneWorklist_2, new java.lang.Object[] {$param_String_1}, 319365363648776725L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 1, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 2, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -222,10 +264,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchDoneWorklist_2, new java.lang.Object[] {$param_String_1, $param_String_2}, 6849107280703186059L);
+		Object $result = ref.invoke(this, $method_fetchDoneWorklist_3, new java.lang.Object[] {$param_String_1, $param_String_2}, 6849107280703186059L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 2, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 3, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -262,10 +304,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchExceptionWorklist_3, new java.lang.Object[] {$param_String_1}, -4622620688439750427L);
+		Object $result = ref.invoke(this, $method_fetchExceptionWorklist_4, new java.lang.Object[] {$param_String_1}, -4622620688439750427L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 3, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 4, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -301,10 +343,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchExceptionWorklist_4, new java.lang.Object[] {$param_String_1, $param_String_2}, -128649894363852587L);
+		Object $result = ref.invoke(this, $method_fetchExceptionWorklist_5, new java.lang.Object[] {$param_String_1, $param_String_2}, -128649894363852587L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 4, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 5, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -341,10 +383,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchQuashWorklist_5, new java.lang.Object[] {$param_String_1}, 5185763763696113086L);
+		Object $result = ref.invoke(this, $method_fetchQuashWorklist_6, new java.lang.Object[] {$param_String_1}, 5185763763696113086L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 5, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 6, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -380,10 +422,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchQuashWorklist_6, new java.lang.Object[] {$param_String_1, $param_String_2}, 3070652372840052357L);
+		Object $result = ref.invoke(this, $method_fetchQuashWorklist_7, new java.lang.Object[] {$param_String_1, $param_String_2}, 3070652372840052357L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 6, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 7, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -420,10 +462,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchRelevantVar_7, new java.lang.Object[] {$param_String_1}, -2746259965687491138L);
+		Object $result = ref.invoke(this, $method_fetchRelevantVar_8, new java.lang.Object[] {$param_String_1}, -2746259965687491138L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 7, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 8, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -459,10 +501,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchRelevantVar_8, new java.lang.Object[] {$param_String_1, $param_String_2}, -2800105377060275151L);
+		Object $result = ref.invoke(this, $method_fetchRelevantVar_9, new java.lang.Object[] {$param_String_1, $param_String_2}, -2800105377060275151L);
 		return ((oe.midware.workflow.runtime.ormobj.TWfRelevantvar) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 8, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 9, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -499,10 +541,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchRelevantvarMap_9, new java.lang.Object[] {$param_String_1}, -3903871619636022641L);
+		Object $result = ref.invoke(this, $method_fetchRelevantvarMap_10, new java.lang.Object[] {$param_String_1}, -3903871619636022641L);
 		return ((java.util.Map) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 9, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 10, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -538,10 +580,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchRunningWorklist_10, new java.lang.Object[] {$param_String_1}, -3919924863963329282L);
+		Object $result = ref.invoke(this, $method_fetchRunningWorklist_11, new java.lang.Object[] {$param_String_1}, -3919924863963329282L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 10, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 11, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -577,10 +619,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchRunningWorklist_11, new java.lang.Object[] {$param_String_1, $param_String_2}, -2685786969667383331L);
+		Object $result = ref.invoke(this, $method_fetchRunningWorklist_12, new java.lang.Object[] {$param_String_1, $param_String_2}, -2685786969667383331L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 11, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 12, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -617,10 +659,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchSubflowByRuntimeid_12, new java.lang.Object[] {$param_String_1}, -1885427205689292486L);
+		Object $result = ref.invoke(this, $method_fetchSubflowByRuntimeid_13, new java.lang.Object[] {$param_String_1}, -1885427205689292486L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 12, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 13, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -656,10 +698,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchSubflowByWorkcode_13, new java.lang.Object[] {$param_String_1}, -8284196820315722055L);
+		Object $result = ref.invoke(this, $method_fetchSubflowByWorkcode_14, new java.lang.Object[] {$param_String_1}, -8284196820315722055L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 13, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 14, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -695,10 +737,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchSyncWaittingWorkList_14, new java.lang.Object[] {$param_String_1}, -1848851944183664487L);
+		Object $result = ref.invoke(this, $method_fetchSyncWaittingWorkList_15, new java.lang.Object[] {$param_String_1}, -1848851944183664487L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 14, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 15, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -734,10 +776,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchWorkList_15, new java.lang.Object[] {$param_String_1, $param_String_2}, 8305057968317744625L);
+		Object $result = ref.invoke(this, $method_fetchWorkList_16, new java.lang.Object[] {$param_String_1, $param_String_2}, 8305057968317744625L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 15, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 16, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -774,10 +816,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchWorkflowProcess_16, new java.lang.Object[] {$param_String_1}, -7525591794466240707L);
+		Object $result = ref.invoke(this, $method_fetchWorkflowProcess_17, new java.lang.Object[] {$param_String_1}, -7525591794466240707L);
 		return ((oe.midware.workflow.xpdl.model.workflow.WorkflowProcess) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 16, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 17, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -813,10 +855,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_fetchWorklist_17, new java.lang.Object[] {$param_String_1}, -794017901512027711L);
+		Object $result = ref.invoke(this, $method_fetchWorklist_18, new java.lang.Object[] {$param_String_1}, -794017901512027711L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 17, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 18, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -852,10 +894,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_haveRunningOrSubflowWaittingWorklist_18, new java.lang.Object[] {$param_String_1}, -4795387816105647208L);
+		Object $result = ref.invoke(this, $method_haveRunningOrSubflowWaittingWorklist_19, new java.lang.Object[] {$param_String_1}, -4795387816105647208L);
 		return ((java.lang.Boolean) $result).booleanValue();
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 18, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 19, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -889,10 +931,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_listRelevantvar_19, new java.lang.Object[] {$param_String_1}, 3948886456419098964L);
+		Object $result = ref.invoke(this, $method_listRelevantvar_20, new java.lang.Object[] {$param_String_1}, 3948886456419098964L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 19, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 20, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -928,10 +970,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_listRelevartvarInstance_20, new java.lang.Object[] {$param_String_1}, 8352463183470863627L);
+		Object $result = ref.invoke(this, $method_listRelevartvarInstance_21, new java.lang.Object[] {$param_String_1}, 8352463183470863627L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 20, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 21, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -967,10 +1009,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_listRelevartvarInstance_21, new java.lang.Object[] {$param_String_1, $param_String_2}, -4845953675762149479L);
+		Object $result = ref.invoke(this, $method_listRelevartvarInstance_22, new java.lang.Object[] {$param_String_1, $param_String_2}, -4845953675762149479L);
 		return ((oe.midware.workflow.runtime.ormobj.TWfRelevantvar) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 21, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 22, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1007,10 +1049,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_listWorklist_22, new java.lang.Object[] {$param_String_1}, 2266622520547910900L);
+		Object $result = ref.invoke(this, $method_listWorklist_23, new java.lang.Object[] {$param_String_1}, 2266622520547910900L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 22, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 23, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1046,10 +1088,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_listinstance_23, new java.lang.Object[] {$param_String_1}, -6492834046902318226L);
+		Object $result = ref.invoke(this, $method_listinstance_24, new java.lang.Object[] {$param_String_1}, -6492834046902318226L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 23, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 24, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1085,10 +1127,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_listxRelevartvarInstance_24, new java.lang.Object[] {$param_String_1, $param_String_2}, 5389120783813265499L);
+		Object $result = ref.invoke(this, $method_listxRelevartvarInstance_25, new java.lang.Object[] {$param_String_1, $param_String_2}, 5389120783813265499L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 24, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 25, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1125,10 +1167,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_listxWorkListInstance_25, new java.lang.Object[] {$param_String_1, $param_String_2}, -1683542496201090978L);
+		Object $result = ref.invoke(this, $method_listxWorkListInstance_26, new java.lang.Object[] {$param_String_1, $param_String_2}, -1683542496201090978L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 25, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 26, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1165,10 +1207,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_listxinstance_26, new java.lang.Object[] {$param_String_1, $param_String_2}, 8157193636088483320L);
+		Object $result = ref.invoke(this, $method_listxinstance_27, new java.lang.Object[] {$param_String_1, $param_String_2}, 8157193636088483320L);
 		return ((java.util.List) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 26, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 27, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1205,10 +1247,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_loadProcess_27, new java.lang.Object[] {$param_String_1}, -5269787735753088017L);
+		Object $result = ref.invoke(this, $method_loadProcess_28, new java.lang.Object[] {$param_String_1}, -5269787735753088017L);
 		return ((oe.midware.workflow.xpdl.model.workflow.WorkflowProcess) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 27, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 28, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1244,10 +1286,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_loadProcessUrl_28, new java.lang.Object[] {$param_String_1}, -527294248846260131L);
+		Object $result = ref.invoke(this, $method_loadProcessUrl_29, new java.lang.Object[] {$param_String_1}, -527294248846260131L);
 		return ((oe.midware.workflow.xpdl.model.workflow.WorkflowProcess) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 28, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 29, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1283,10 +1325,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_loadRelevantvar_29, new java.lang.Object[] {$param_String_1}, -3715443439483249074L);
+		Object $result = ref.invoke(this, $method_loadRelevantvar_30, new java.lang.Object[] {$param_String_1}, -3715443439483249074L);
 		return ((oe.midware.workflow.runtime.ormobj.TWfRelevantvar) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 29, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 30, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1322,10 +1364,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_loadRuntime_30, new java.lang.Object[] {$param_String_1}, -1125246968018751849L);
+		Object $result = ref.invoke(this, $method_loadRuntime_31, new java.lang.Object[] {$param_String_1}, -1125246968018751849L);
 		return ((oe.midware.workflow.runtime.ormobj.TWfRuntime) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 30, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 31, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);
@@ -1361,10 +1403,10 @@ public final class WorkflowViewImpl_Stub
     {
 	try {
 	    if (useNewInvoke) {
-		Object $result = ref.invoke(this, $method_loadWorklist_31, new java.lang.Object[] {$param_String_1}, -7884567548023638245L);
+		Object $result = ref.invoke(this, $method_loadWorklist_32, new java.lang.Object[] {$param_String_1}, -7884567548023638245L);
 		return ((oe.midware.workflow.runtime.ormobj.TWfWorklist) $result);
 	    } else {
-		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 31, interfaceHash);
+		java.rmi.server.RemoteCall call = ref.newCall((java.rmi.server.RemoteObject) this, operations, 32, interfaceHash);
 		try {
 		    java.io.ObjectOutput out = call.getOutputStream();
 		    out.writeObject($param_String_1);

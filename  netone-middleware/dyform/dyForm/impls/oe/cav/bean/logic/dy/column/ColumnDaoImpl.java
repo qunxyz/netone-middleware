@@ -195,7 +195,7 @@ public class ColumnDaoImpl implements ColumnDao {
 		if (formcode == null || formcode.equals("") || key == null) {
 			return null;
 		}
-
+		String columnid=key.toString().toUpperCase();
 		DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode).toString());
 		if (dfo == null) {
 			return null;
@@ -207,7 +207,7 @@ public class ColumnDaoImpl implements ColumnDao {
 				for (Iterator iter = columnlist.iterator(); iter.hasNext();) {
 					TCsColumn tcc = (TCsColumn) iter.next();
 					String uuid = tcc.getColumncode();
-					if (key.equals(uuid)) {
+					if (columnid.equalsIgnoreCase(uuid)) {
 						return tcc;
 					}
 				}

@@ -13,6 +13,7 @@ public final class WorkflowConsoleImpl_Skel
 	new java.rmi.server.Operation("void commitActivityByManual(java.lang.String, java.lang.String[])"),
 	new java.rmi.server.Operation("void commitActivityByManual(oe.midware.workflow.runtime.ormobj.TWfWorklist, java.util.List)"),
 	new java.rmi.server.Operation("void commitActivityByManual(oe.midware.workflow.runtime.ormobj.TWfWorklist, oe.midware.workflow.xpdl.model.activity.Activity)"),
+	new java.rmi.server.Operation("int coreSqlhandle(java.lang.String)"),
 	new java.rmi.server.Operation("oe.midware.workflow.client.Session descriptSession(java.lang.String)"),
 	new java.rmi.server.Operation("void dropProcess(java.lang.String)"),
 	new java.rmi.server.Operation("void dropProcess(oe.midware.workflow.runtime.ormobj.TWfRuntime)"),
@@ -33,11 +34,12 @@ public final class WorkflowConsoleImpl_Skel
 	new java.rmi.server.Operation("void updateRelevantvarUseLog(oe.midware.workflow.runtime.ormobj.TWfRelevantvar, java.lang.String)"),
 	new java.rmi.server.Operation("void updateRelevantvars(java.util.List)"),
 	new java.rmi.server.Operation("void updateRelevantvarsUseLog(java.util.List, java.lang.String)"),
+	new java.rmi.server.Operation("void updateWorklistExtendattribute(java.lang.String, java.lang.String)"),
 	new java.rmi.server.Operation("void updateWorklistStatus(java.lang.String, java.lang.String)"),
 	new java.rmi.server.Operation("void worklistAppBind(java.lang.String, java.lang.String, java.lang.String)")
     };
     
-    private static final long interfaceHash = -7795857648943114628L;
+    private static final long interfaceHash = -8887197952085828249L;
     
     public java.rmi.server.Operation[] getOperations() {
 	return (java.rmi.server.Operation[]) operations.clone();
@@ -59,50 +61,54 @@ public final class WorkflowConsoleImpl_Skel
 		opnum = 4;
 	    } else if (hash == -9170728608506728403L) {
 		opnum = 5;
-	    } else if (hash == -5491911163107160312L) {
+	    } else if (hash == -4002124289402209572L) {
 		opnum = 6;
-	    } else if (hash == 2731747658853194775L) {
+	    } else if (hash == -5491911163107160312L) {
 		opnum = 7;
-	    } else if (hash == 338460575635350289L) {
+	    } else if (hash == 2731747658853194775L) {
 		opnum = 8;
-	    } else if (hash == 8477265974883240214L) {
+	    } else if (hash == 338460575635350289L) {
 		opnum = 9;
-	    } else if (hash == -5036647559184159196L) {
+	    } else if (hash == 8477265974883240214L) {
 		opnum = 10;
-	    } else if (hash == -3785827562705672380L) {
+	    } else if (hash == -5036647559184159196L) {
 		opnum = 11;
-	    } else if (hash == -1270135615889412677L) {
+	    } else if (hash == -3785827562705672380L) {
 		opnum = 12;
-	    } else if (hash == -8392997652454200060L) {
+	    } else if (hash == -1270135615889412677L) {
 		opnum = 13;
-	    } else if (hash == -8351566676947975781L) {
+	    } else if (hash == -8392997652454200060L) {
 		opnum = 14;
-	    } else if (hash == -6173435621847002805L) {
+	    } else if (hash == -8351566676947975781L) {
 		opnum = 15;
-	    } else if (hash == -5081520500251258056L) {
+	    } else if (hash == -6173435621847002805L) {
 		opnum = 16;
-	    } else if (hash == 528665140188616162L) {
+	    } else if (hash == -5081520500251258056L) {
 		opnum = 17;
-	    } else if (hash == 366577428389685808L) {
+	    } else if (hash == 528665140188616162L) {
 		opnum = 18;
-	    } else if (hash == -7436835289920928677L) {
+	    } else if (hash == 366577428389685808L) {
 		opnum = 19;
-	    } else if (hash == -6005999721338886019L) {
+	    } else if (hash == -7436835289920928677L) {
 		opnum = 20;
-	    } else if (hash == 7988202451820941519L) {
+	    } else if (hash == -6005999721338886019L) {
 		opnum = 21;
-	    } else if (hash == -2157974926385165766L) {
+	    } else if (hash == 7988202451820941519L) {
 		opnum = 22;
-	    } else if (hash == 3994445439569230953L) {
+	    } else if (hash == -2157974926385165766L) {
 		opnum = 23;
-	    } else if (hash == -3338036758033165813L) {
+	    } else if (hash == 3994445439569230953L) {
 		opnum = 24;
-	    } else if (hash == 7762712804801303245L) {
+	    } else if (hash == -3338036758033165813L) {
 		opnum = 25;
-	    } else if (hash == -3429931525425157791L) {
+	    } else if (hash == 7762712804801303245L) {
 		opnum = 26;
-	    } else if (hash == 1535355903727829402L) {
+	    } else if (hash == -7748092936157074027L) {
 		opnum = 27;
+	    } else if (hash == -3429931525425157791L) {
+		opnum = 28;
+	    } else if (hash == 1535355903727829402L) {
+		opnum = 29;
 	    } else {
 		throw new java.rmi.UnmarshalException("invalid method hash");
 	    }
@@ -253,7 +259,30 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 6: // descriptSession(String)
+	case 6: // coreSqlhandle(String)
+	{
+	    java.lang.String $param_String_1;
+	    try {
+		java.io.ObjectInput in = call.getInputStream();
+		$param_String_1 = (java.lang.String) in.readObject();
+	    } catch (java.io.IOException e) {
+		throw new java.rmi.UnmarshalException("error unmarshalling arguments", e);
+	    } catch (java.lang.ClassNotFoundException e) {
+		throw new java.rmi.UnmarshalException("error unmarshalling arguments", e);
+	    } finally {
+		call.releaseInputStream();
+	    }
+	    int $result = server.coreSqlhandle($param_String_1);
+	    try {
+		java.io.ObjectOutput out = call.getResultStream(true);
+		out.writeInt($result);
+	    } catch (java.io.IOException e) {
+		throw new java.rmi.MarshalException("error marshalling return", e);
+	    }
+	    break;
+	}
+	    
+	case 7: // descriptSession(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -276,7 +305,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 7: // dropProcess(String)
+	case 8: // dropProcess(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -298,7 +327,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 8: // dropProcess(TWfRuntime)
+	case 9: // dropProcess(TWfRuntime)
 	{
 	    oe.midware.workflow.runtime.ormobj.TWfRuntime $param_TWfRuntime_1;
 	    try {
@@ -320,7 +349,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 9: // eai(String, String, String)
+	case 10: // eai(String, String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -347,7 +376,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 10: // exeScript(String, String)
+	case 11: // exeScript(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -372,7 +401,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 11: // getSessionAttribute(String, String)
+	case 12: // getSessionAttribute(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -397,7 +426,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 12: // initProcess(String)
+	case 13: // initProcess(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -419,7 +448,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 13: // initProcess(TWfRuntime)
+	case 14: // initProcess(TWfRuntime)
 	{
 	    oe.midware.workflow.runtime.ormobj.TWfRuntime $param_TWfRuntime_1;
 	    try {
@@ -441,7 +470,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 14: // judgementRule(String, String)
+	case 15: // judgementRule(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -466,7 +495,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 15: // newProcess(String)
+	case 16: // newProcess(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -489,7 +518,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 16: // newProcess(WorkflowProcess)
+	case 17: // newProcess(WorkflowProcess)
 	{
 	    oe.midware.workflow.xpdl.model.workflow.WorkflowProcess $param_WorkflowProcess_1;
 	    try {
@@ -512,7 +541,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 17: // removeSession(String)
+	case 18: // removeSession(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -534,7 +563,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 18: // runProcess(String)
+	case 19: // runProcess(String)
 	{
 	    java.lang.String $param_String_1;
 	    try {
@@ -556,7 +585,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 19: // runProcess(TWfRuntime)
+	case 20: // runProcess(TWfRuntime)
 	{
 	    oe.midware.workflow.runtime.ormobj.TWfRuntime $param_TWfRuntime_1;
 	    try {
@@ -578,7 +607,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 20: // runSubFlow(String, String, String, boolean)
+	case 21: // runSubFlow(String, String, String, boolean)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -606,7 +635,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 21: // setSessionAttribute(String, String, Object)
+	case 22: // setSessionAttribute(String, String, Object)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -632,7 +661,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 22: // updateRelevantvar(TWfRelevantvar)
+	case 23: // updateRelevantvar(TWfRelevantvar)
 	{
 	    oe.midware.workflow.runtime.ormobj.TWfRelevantvar $param_TWfRelevantvar_1;
 	    try {
@@ -654,7 +683,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 23: // updateRelevantvarUseLog(TWfRelevantvar, String)
+	case 24: // updateRelevantvarUseLog(TWfRelevantvar, String)
 	{
 	    oe.midware.workflow.runtime.ormobj.TWfRelevantvar $param_TWfRelevantvar_1;
 	    java.lang.String $param_String_2;
@@ -678,7 +707,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 24: // updateRelevantvars(List)
+	case 25: // updateRelevantvars(List)
 	{
 	    java.util.List $param_List_1;
 	    try {
@@ -700,7 +729,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 25: // updateRelevantvarsUseLog(List, String)
+	case 26: // updateRelevantvarsUseLog(List, String)
 	{
 	    java.util.List $param_List_1;
 	    java.lang.String $param_String_2;
@@ -724,7 +753,31 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 26: // updateWorklistStatus(String, String)
+	case 27: // updateWorklistExtendattribute(String, String)
+	{
+	    java.lang.String $param_String_1;
+	    java.lang.String $param_String_2;
+	    try {
+		java.io.ObjectInput in = call.getInputStream();
+		$param_String_1 = (java.lang.String) in.readObject();
+		$param_String_2 = (java.lang.String) in.readObject();
+	    } catch (java.io.IOException e) {
+		throw new java.rmi.UnmarshalException("error unmarshalling arguments", e);
+	    } catch (java.lang.ClassNotFoundException e) {
+		throw new java.rmi.UnmarshalException("error unmarshalling arguments", e);
+	    } finally {
+		call.releaseInputStream();
+	    }
+	    server.updateWorklistExtendattribute($param_String_1, $param_String_2);
+	    try {
+		call.getResultStream(true);
+	    } catch (java.io.IOException e) {
+		throw new java.rmi.MarshalException("error marshalling return", e);
+	    }
+	    break;
+	}
+	    
+	case 28: // updateWorklistStatus(String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;
@@ -748,7 +801,7 @@ public final class WorkflowConsoleImpl_Skel
 	    break;
 	}
 	    
-	case 27: // worklistAppBind(String, String, String)
+	case 29: // worklistAppBind(String, String, String)
 	{
 	    java.lang.String $param_String_1;
 	    java.lang.String $param_String_2;

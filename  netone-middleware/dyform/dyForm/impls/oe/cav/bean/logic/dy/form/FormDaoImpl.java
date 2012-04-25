@@ -89,6 +89,7 @@ public class FormDaoImpl implements FormDao {
 			for (Iterator iter = columnlist.iterator(); iter.hasNext();) {
 				TCsColumn column = (TCsColumn) iter.next();
 				String columnname = column.getColumname();
+				columnname=columnname.toUpperCase();
 				if (XMLReference.DIMETION_BELONGX.equals(columnname)) {
 					column.setUseable(true);
 					column.setHtmltype(ColumnExtendInfo._HTML_TYPE_TREE);

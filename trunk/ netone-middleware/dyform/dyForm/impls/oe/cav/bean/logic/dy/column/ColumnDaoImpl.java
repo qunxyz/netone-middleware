@@ -195,7 +195,7 @@ public class ColumnDaoImpl implements ColumnDao {
 		if (formcode == null || formcode.equals("") || key == null) {
 			return null;
 		}
-		String columnid=key.toString().toUpperCase();
+		String columnid = key.toString().toUpperCase();
 		DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode).toString());
 		if (dfo == null) {
 			return null;
@@ -366,27 +366,33 @@ public class ColumnDaoImpl implements ColumnDao {
 
 			DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode)
 					.toString());
-			if (dfo == null) {
-				return null;
-			} else {
-				List column = dfo.getColumn();
-				if (dfo.getFrom().getDescription().indexOf("DY") == 0) {
-					// 需要过滤掉系统属性[LSH,FORMCODE,PARTICIPANT,PARENTID,EXTENDATTRIBUE,CREATED,HIT]
-					if (column.size() > 7) {
-						List list = column.subList(8, column.size());
+			if (dfo != null) {
 
-						for (Iterator itr = list.iterator(); itr.hasNext();) {
-							TCsColumn cs = (TCsColumn) itr.next();
-							if (cs.isUseable()) {
-								returnList.add(cs);
-							}
-						}
-					} else {
-						throw new RuntimeException("DY表单创建异常");
+				String tablename = dfo.getFrom().getDescription();
+				if (StringUtils.isNotEmpty(tablename)) {
+					List column = dfo.getColumn();
+					if (tablename.startsWith("DYV_")) {
+						return column;
 					}
+
+					if (tablename.startsWith("DY_")) {
+						// 需要过滤掉系统属性[LSH,FORMCODE,PARTICIPANT,PARENTID,EXTENDATTRIBUE,CREATED,HIT]
+						if (column.size() > 7) {
+							List list = column.subList(8, column.size());
+
+							for (Iterator itr = list.iterator(); itr.hasNext();) {
+								TCsColumn cs = (TCsColumn) itr.next();
+								if (cs.isUseable()) {
+									returnList.add(cs);
+								}
+							}
+						} else {
+							throw new RuntimeException("DY表单创建异常");
+						}
+					}
+					// 从DB创建,没有系统属性
+					return returnList;
 				}
-				// 从DB创建,没有系统属性
-				return returnList;
 			}
 		}
 	}

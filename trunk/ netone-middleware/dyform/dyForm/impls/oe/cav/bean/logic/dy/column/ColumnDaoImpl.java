@@ -390,10 +390,11 @@ public class ColumnDaoImpl implements ColumnDao {
 							throw new RuntimeException("DY表单创建异常");
 						}
 					}
-					// 从DB创建,没有系统属性
-					return returnList;
+
 				}
 			}
+			// 从DB创建,没有系统属性
+			return returnList;
 		}
 	}
 

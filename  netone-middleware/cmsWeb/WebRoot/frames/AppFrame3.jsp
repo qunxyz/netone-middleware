@@ -162,7 +162,7 @@
         enableTabScroll:true,
 	    items: [{
 	        title: '首页',
-	        html:'<iframe name="iframe" scrolling="auto" frameborder="0" width="100%" height=800" src="http://www.baidu.com"></iframe>'
+	        html:'<iframe id="Actionurltext" name="iframe" scrolling="auto" frameborder="0" width="100%" height=800" ></iframe>'
 	    }]
 	});
 	new Ext.Viewport
@@ -194,7 +194,7 @@
       	var jsons  = eval(response.responseText);
       	//存放描述中的内容
    		var myDption = jsons[0].Dption;
-   		//alert(myDption);
+   		var myActionurl = jsons[0].Actionurl;
    		
 		if (window.DOMParser)
 		{
@@ -207,7 +207,8 @@
 			xmlDoc.async="false";
 			xmlDoc.loadXML(myDption);
 		}
-   		var myDptiontext= Ext.get('Dptiontext').dom; //获取html定义的ID 打印信息
+   		var myDptiontext = Ext.get('Dptiontext').dom; //获取html定义的ID 打印信息
+   		document.getElementById('Actionurltext').src="<c:url value='"+myActionurl+"'/>";
 		myDptiontext.innerHTML = xmlDoc.getElementsByTagName("body")[0].childNodes[0].nodeValue;
       	}
       });

@@ -107,6 +107,8 @@ public class ExtProletAction extends Action {
 				jsonBuffer.append("text:'" + object.getName() + "'");
 				/*Dption:获取描述内容*/
 				jsonBuffer.append(",Dption:'" + object.getDescription() + "'");
+				/*Actionurl:应用地址*/
+				jsonBuffer.append(",Actionurl:'" + object.getActionurl() + "'");
 				if (nextNextlist.size() != 0) {
 					jsonBuffer.append(",leaf: false");
 				} else {

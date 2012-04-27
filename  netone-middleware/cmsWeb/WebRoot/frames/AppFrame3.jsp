@@ -56,7 +56,7 @@
     	Ext.getCmp('mytab').add({
             title: title,
             iconCls: 'tabs',
-            html: '<iframe src="frames.do?task='+task+'" width="100%" height="100%"></iframe>',
+            html: '<iframe src="frames.do?task='+task+'" width="100%" height=800"></iframe>',
             closable:true
         }).show();
     }

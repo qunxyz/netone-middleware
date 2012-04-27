@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes.Name;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,10 +23,19 @@ import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.ObjectUtils.Null;
+import org.apache.commons.validator.Var;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
 
 
 /**
@@ -106,8 +116,12 @@ public class ExtProletAction extends Action {
 						+ "',");
 				jsonBuffer.append("text:'" + object.getName() + "'");
 				/*Dption:获取描述内容*/
-				jsonBuffer.append(",Dption:'" + object.getDescription() + "'");
-				/*Actionurl:应用地址*/
+				//jsonBuffer.append(",Dption:'" + object.getDescription() + "'");
+				
+				String Dptiontext = xmlshow(object.getDescription());
+				jsonBuffer.append(",Dption:'" + Dptiontext + "'");
+				
+				/*Actionurl:引用地址*/
 				jsonBuffer.append(",Actionurl:'" + object.getActionurl() + "'");
 				if (nextNextlist.size() != 0) {
 					jsonBuffer.append(",leaf: false");
@@ -143,6 +157,28 @@ public class ExtProletAction extends Action {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
+	//解析XML
+	private String xmlshow(String text) throws DocumentException{
+		String text1 = null;
+		if("".equals(text)){
+			return text;
+		}
+		else{
+			SAXReader reader = new SAXReader();
+			Document doc = DocumentHelper.parseText(text);
+			
+			Element root = doc.getRootElement();
+			//Element memberElm=root.element("note" ); 
+			text1=root.elementText("note" );
+			System.out.print(text1);
+		}
+		return text1;
+	}
+	
+	
 }

@@ -195,21 +195,9 @@
       	//存放描述中的内容
    		var myDption = jsons[0].Dption;
    		var myActionurl = jsons[0].Actionurl;
-   		
-		if (window.DOMParser)
-		{
-			parser=new DOMParser();
-			xmlDoc=parser.parseFromString(myDption,"text/xml");
-		}
-		else // Internet Explorer
-		{
-			xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-			xmlDoc.async="false";
-			xmlDoc.loadXML(myDption);
-		}
-   		var myDptiontext = Ext.get('Dptiontext').dom; //获取html定义的ID 打印信息
-   		document.getElementById('Actionurltext').src="<c:url value='"+myActionurl+"'/>";
-		myDptiontext.innerHTML = xmlDoc.getElementsByTagName("body")[0].childNodes[0].nodeValue;
+		var myDptiontext= Ext.get('Dptiontext').dom;
+		myDptiontext.innerHTML = myDption;
+		document.getElementById('Actionurltext').src="<c:url value='"+myActionurl+"'/>";
       	}
       });
     </script>

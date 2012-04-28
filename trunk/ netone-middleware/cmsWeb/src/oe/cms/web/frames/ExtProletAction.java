@@ -47,11 +47,21 @@ public class ExtProletAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		//Func.print_r(request);
+		// Func.print_r(request);
 		String ajax = request.getParameter("ajax");
 		String node = request.getParameter("node");
 		String mode = request.getParameter("mode");
 		String root = request.getParameter("listPath");
+
+		if (StringUtils.isEmpty(root)) {
+			return null;
+		}
+		try {
+			ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+			String html = rsrmi.loadResourceByNatural(root).getDescription();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		if (StringUtils.isNotEmpty(ajax)) {
 			if ("1".equals(node)) // 首次打印树
@@ -103,12 +113,13 @@ public class ExtProletAction extends Action {
 				jsonBuffer.append("{");
 				jsonBuffer.append("id:'" + object.getNaturalname() + "',");
 				jsonBuffer.append("text:'" + object.getName() + "'");
-				/*Dption:获取描述内容*/
-				//jsonBuffer.append(",Dption:'" + object.getDescription() + "'");
+				/* Dption:获取描述内容 */
+				// jsonBuffer.append(",Dption:'" + object.getDescription() +
+				// "'");
 				String Dptiontext = xmlshow(object.getDescription());
 				jsonBuffer.append(",Dption:'" + Dptiontext + "'");
 
-				/*Actionurl:引用地址*/
+				/* Actionurl:引用地址 */
 				jsonBuffer.append(",Actionurl:'" + object.getActionurl() + "'");
 				if (nextNextlist.size() != 0) {
 					jsonBuffer.append(",leaf: false");
@@ -146,19 +157,6 @@ public class ExtProletAction extends Action {
 		}
 	}
 
-	//解析XML
-	private String xmlshow(String text) throws DocumentException {
-		String text1 = null;
-		if (StringUtils.isNotEmpty(text)) { 
-			text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><node><note><![CDATA[" + text
-					+ "]]></note></node>";
-			System.out.println(text);
-			Document doc = DocumentHelper.parseText(text);
-			Element root = doc.getRootElement();
-			//Element memberElm=root.element("note" ); 
-			text1 = root.elementText("note");
-		}
-		return text1;
-	}
+
 
 }

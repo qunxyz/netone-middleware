@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+	<!-- 按照业务级别钻取图-->
+	<flow id='1' descrpition='默认地图'>
+		<display>
+			<!-- 配置背景地图的id 和对应的实际url地址 -->
+			<pic id='defualt' url='/images/map/default.gif' width='650' height='727' level='0'/>
+			<pic id='fj' url='/images/map/fj.png' width='650' height='727' level='0'/>
+			<pic id='fz' url='/images/map/fz.png' width='650' height='727' level='1'/>
+			<pic id='xm' url='/images/map/xm.png' width='650' height='727' level='1'/>
+			<pic id='pt' url='/images/map/pt.png' width='650' height='727' level='1'/>
+			<pic id='qz' url='/images/map/qz.png' width='650' height='727' level='1'/>
+			<pic id='zz' url='/images/map/zz.png' width='650' height='727' level='1'/>
+			<pic id='sm' url='/images/map/sm.png' width='650' height='727' level='1'/>
+			<pic id='nd' url='/images/map/nd.png' width='650' height='727' level='1'/>
+			<pic id='ly' url='/images/map/ly.png' width='650' height='727' level='1'/>
+			<pic id='zg' url='/images/map/zg.png' width='650' height='727' level='1'/>
+			<pic id='np' url='/images/map/np.png' width='650' height='727' level='1'/>
+	
+			<pic id='xmsq' url='/images/map/xmsq.png' width='650' height='727' level='2'/>
+			
+
+			<!-- 福州地级市 -->
+			<pic id='fzsq' url='/images/map/fzsq.png' width='650' height='727' level='2'/>
+			<pic id='fzljjx' url='/images/map/fzljjx.jpg' width='650' height='727' level='2'/>
+			<pic id='fzcljx' url='/images/map/fzcljx.jpg' width='650' height='727' level='2'/>
+			<pic id='fzfqjx' url='/images/map/fzfqjx.jpg' width='650' height='727' level='2'/>
+			<pic id='fzjx' url='/images/map/fzjx.png' width='650' height='727' level='2'/>	
+			<!-- 福州垂直郊县 -->
+			<pic id='fzmhjx' url='/images/map/fzmhjx.jpg' width='650' height='727' level='3'/>
+			<pic id='fzmqjx' url='/images/map/fzmqjx.jpg' width='650' height='727' level='3'/>
+			<pic id='fzytjx' url='/images/map/fzytjx.jpg' width='650' height='727' level='3'/>
+			<pic id='fzlyjx' url='/images/map/fzlyjx.jpg' width='650' height='727' level='3'/>
+			<pic id='fzptjx' url='/images/map/fzptjx.jpg' width='650' height='727' level='3'/>	
+				
+			<!-- 泉州地级市 -->
+			<pic id='qzsq' url='/images/map/qzsq.png' width='650' height='727' level='2'/>
+			<pic id='qzssjx' url='/images/map/qzssjx.png' width='650' height='727' level='2'/>
+			<pic id='qzjjjx' url='/images/map/qzjjjx.png' width='650' height='727' level='2'/>
+			<pic id='qzjx' url='/images/map/qzjx.png' width='650' height='727' level='2'/>	
+			<!-- 泉州垂直郊县 -->
+			<pic id='qznajx' url='/images/map/qznajx.png' width='650' height='727' level='3'/>
+			<pic id='qzycjx' url='/images/map/qzycjx.png' width='650' height='727' level='3'/>
+			<pic id='qzdhjx' url='/images/map/qzdhjx.png' width='650' height='727' level='3'/>
+			<pic id='qzaxjx' url='/images/map/qzaxjx.png' width='650' height='727' level='3'/>
+			<pic id='qzhajx' url='/images/map/fzptjx.png' width='650' height='727' level='3'/>
+			
+			<!-- 龙岩地级市 -->
+			<pic id='lysq' url='/images/map/lysq.png' width='650' height='727' level='2'/>	
+			<pic id='lyjx' url='/images/map/lyjx.png' width='650' height='727' level='2'/>	
+			<!-- 龙岩垂直郊县 -->
+			<pic id='lyctjx' url='/images/map/lyctjx.png' width='650' height='727' level='2'/>
+			<pic id='lylcjx' url='/images/map/lylcjx.png' width='650' height='727' level='2'/>
+			<pic id='lyshjx' url='/images/map/lyshjx.png' width='650' height='727' level='2'/>
+			<pic id='lywpjx' url='/images/map/lywpjx.png' width='650' height='727' level='2'/>
+			<pic id='lyydjx' url='/images/map/lyydjx.png' width='650' height='727' level='2'/>						
+			<pic id='lyzpjx' url='/images/map/lyzpjx.png' width='650' height='727' level='2'/>	
+			<pic id='lyydjx' url='/images/map/lyydjx.png' width='650' height='727' level='2'/>	
+			<pic id='lycdjx' url='/images/map/lycdjx.png' width='650' height='727' level='2'/>	
+			
+			<!-- 南平地级市 -->
+			<pic id='npsq' url='/images/map/np.png' width='650' height='727' level='2'/>
+		
+			<pic id='npypsq' url='/images/map/npypsq.png' width='650' height='727' level='2'/>
+			<pic id='npswjx' url='/images/map/npswjx.png' width='650' height='727' level='2'/>
+			<pic id='npwyjx' url='/images/map/npwyjx.png' width='650' height='727' level='2'/>
+			<pic id='npjojx' url='/images/map/npjojx.png' width='650' height='727' level='2'/>
+			<pic id='npscjx' url='/images/map/npscjx.png' width='650' height='727' level='2'/>
+			<pic id='npjyjx' url='/images/map/npjyjx.png' width='650' height='727' level='2'/>
+			<pic id='nppcjx' url='/images/map/nppcjx.png' width='650' height='727' level='2'/>
+			<pic id='npgzjx' url='/images/map/npgzjx.png' width='650' height='727' level='2'/>
+			<pic id='npsxjx' url='/images/map/npsxjx.png' width='650' height='727' level='2'/>
+			<pic id='npzhjx' url='/images/map/npzhjx.png' width='650' height='727' level='2'/>
+			<!-- 莆田地级市 -->
+			<pic id='ptsq' url='/images/map/pt.png' width='650' height='727' level='2'/>
+			<pic id='ptxyjx' url='/images/map/xysq.png' width='650' height='727' level='2'/>
+			<pic id='ptsqjd' url='/images/map/ptsq.png' width='650' height='727' level='2'/>
+			<!-- 漳州地级市 -->
+			<pic id='zzsq' url='/images/map/zzsq.png' width='650' height='727' level='2'/>
+			<pic id='zzjx' url='/images/map/zzjx.png' width='650' height='727' level='2'/>
+			<pic id='zzhajx' url='/images/map/zzhajx.png' width='650' height='727' level='2'/>
+			<pic id='zzctjx' url='/images/map/zzctjx.png' width='650' height='727' level='2'/>
+			<pic id='zznjjx' url='/images/map/zznjjx.png' width='650' height='727' level='2'/>
+			<pic id='zzphjx' url='/images/map/zzphjx.png' width='650' height='727' level='2'/>
+			<pic id='zzsajx' url='/images/map/zzsajx.png' width='650' height='727' level='2'/>						
+			<pic id='zzdsjx' url='/images/map/zzdsjx.png' width='650' height='727' level='2'/>	
+			<pic id='zzzpjx' url='/images/map/zzzpjx.png' width='650' height='727' level='2'/>	
+			<pic id='zzlhjx' url='/images/map/zzlhjx.png' width='650' height='727' level='2'/>	
+			<pic id='zzyxjx' url='/images/map/zzyxsq.png' width='650' height='727' level='2'/>	
+			
+			<!-- 三明地级市 -->
+			<pic id='smsq' url='/images/map/sm.png' width='650' height='727' level='2'/>
+			<pic id='smyajx' url='/images/map/smyajx.png' width='650' height='727' level='2'/>
+			<pic id='smsxjx' url='/images/map/smsxjx.png' width='650' height='727' level='2'/>
+			<pic id='smdtjx' url='/images/map/smdtjx.png' width='650' height='727' level='2'/>
+			<pic id='smyxjx' url='/images/map/smyxjx.png' width='650' height='727' level='2'/>
+			<pic id='smsqjx' url='/images/map/smsqjx.png' width='650' height='727' level='2'/>
+	
+			<!-- 宁化地级市 -->
+			<pic id='nhsq' url='/images/map/nh.png' width='650' height='727' level='2'/>
+
+			<pic id='smjljx' url='/images/map/smjljx.png' width='650' height='727' level='2'/>
+			<pic id='smtnjx' url='/images/map/smtnjx.png' width='650' height='727' level='2'/>
+			<pic id='smqljx' url='/images/map/smqljx.png' width='650' height='727' level='2'/>
+			<pic id='smnhjx' url='/images/map/smnhjx.png' width='650' height='727' level='2'/>	
+			<pic id='smmxjx' url='/images/map/smmxjx.png' width='650' height='727' level='2'/>		
+			<pic id='smjnjx' url='/images/map/smjnjx.png' width='650' height='727' level='2'/>				
+			<!-- 宁德地级市 -->
+			<pic id='ndsq' url='/images/map/ndsq.png' width='650' height='727' level='2'/>
+			<pic id='ndjx' url='/images/map/ndjx.png' width='650' height='727' level='2'/>
+			<pic id='ndfasq' url='/images/map/ndfasq.png' width='650' height='727' level='2'/>
+			<pic id='ndfdsq' url='/images/map/ndfdsq.png' width='650' height='727' level='2'/>
+			<pic id='ndxpsq' url='/images/map/ndxpsq.png' width='650' height='727' level='2'/>
+			
+			<pic id='ndpnjx' url='/images/map/ndfasq.png' width='650' height='727' level='2'/>
+			<pic id='ndsnjx' url='/images/map/ndfdsq.png' width='650' height='727' level='2'/>
+			<pic id='ndtrjx' url='/images/map/ndxpsq.png' width='650' height='727' level='2'/>
+			<pic id='ndsnjx' url='/images/map/ndsnjx.png' width='650' height='727' level='2'/>
+			<pic id='ndznjx' url='/images/map/ndznjx.png' width='650' height='727' level='2'/>
+			<pic id='ndgtjx' url='/images/map/ndgtjx.png' width='650' height='727' level='2'/>
+			<pic id='ndtrjx' url='/images/map/ndtrjx.png' width='650' height='727' level='2'/>
+		
+			<mark id='default' url='_mapFlag' width='0' height='0'/>
+			<mark id='m1' url='_mapFlag' width='0' height='0'/>
+			<mark id='m2' url='_mapMark' width='0' height='0'/>
+		</display>
+		<!-- 配置某个地图钻取的流程的每个环节，其中index表示钻取的层次 picid表示用到的图层，arealevel表示本层需要使用的地区级别 busslevel 表示本层需要显示的业务级别可以配置多个业务级别用逗号隔开 flexibleRate 伸缩比例，根据该比例对原图进行伸缩，同时对坐标位置也进行伸缩 -->
+		<!-- 福建 九地市 -->
+		<step index="0" picid='fj' arealevel='2' busslevel='2'
+			flexiblerate='0.8' />
+		<!-- 福建 九地市 -->
+		<step index="1" piclevel='1' arealevel='3' busslevel='3' flexiblerate='0.8'/>
+		<!-- picid为空表示可切换，根据坐标中配置的地图来决定 -->
+		<!-- 九地市 的区县 公司展示营销部-->
+		<step index="2"  piclevel='2' arealevel='4' busslevel='4' flexiblerate='1'/>
+		<!-- 九地市 的区县 公司展示分经销商-->
+		<step index="3"  piclevel='2' arealevel='4' busslevel='5' flexiblerate='1'/>
+		<step index="4"  piclevel='2' arealevel='4' busslevel='4' flexiblerate='1'/>
+	</flow>
+	<!-- 渠道分布图 -->
+	<flow id='2' descrpition='终端渠道酒店分布图'>
+			
+		<display>
+			<!-- 配置背景地图的id 和对应的实际url地址 -->
+			<pic id='defualt' url='/images/map/fj.png' width='650' height='727' level='0'/>
+			<pic id='fj' url='/images/map/fj.png' width='600' height='727' level='0'/>
+			<pic id='fz' url='/images/map/fz.png' width='600' height='727' level='1'/>
+			<pic id='xm' url='/images/map/xm.png' width='600' height='727' level='1'/>
+			<pic id='pt' url='/images/map/pt.png' width='600' height='727' level='1'/>
+			<pic id='qz' url='/images/map/qz.png' width='600' height='727' level='1'/>
+			<pic id='zz' url='/images/map/zz.png' width='600' height='727' level='1'/>
+			<pic id='sm' url='/images/map/sm.png' width='600' height='727' level='1'/>
+			<pic id='ld' url='/images/map/ld.png' width='600' height='727' level='1'/>
+			<pic id='ly' url='/images/map/ly.png' width='600' height='727' level='1'/>
+			<pic id='ld' url='/images/map/ld.png' width='600' height='727' level='1'/>
+			<mark id='m1' url='' width='0' height='0'/>
+			<mark id='m2' url='' width='0' height='0'/>
+		</display>
+		<!-- 配置某个地图钻取的流程的每个环节，其中index表示钻取的层次 picid表示用到的图层，arealevel表示本层需要使用的地区级别 busslevel 表示本层需要显示的业务级别可以配置多个业务级别用逗号隔开 flexibleRate 伸缩比例，根据该比例对原图进行伸缩，同时对坐标位置也进行伸缩 -->
+		<!-- 中国 福建首层 -->
+		<step index="0" picid='fj' arealevel='1' busslevel='4'
+			flexiblerate='0.8'>
+			<![CDATA[clientType='00023230']]>
+		</step>
+		<!-- 福建 九地市 -->
+		<step index="1" picid='fj' arealevel='2' busslevel='4' flexiblerate='0.8' extendattribute=''>
+			<![CDATA[clientType='00023230']]>
+		</step>
+		<!-- picid为空表示可切换，根据坐标中配置的地图来决定 -->
+		<!-- 九地市 的区县 公司展示营销部-->
+		<step index="2" piclevel='1' arealevel='3' busslevel='4' flexiblerate='0.8' extendattribute=''>
+			<![CDATA[clientType='00023230']]>
+		</step>
+	</flow>
+
+</map>
+
+
+

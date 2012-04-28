@@ -47,22 +47,47 @@ public class ExtProletAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		// Func.print_r(request);
+		//Func.print_r(request);
 		String ajax = request.getParameter("ajax");
 		String node = request.getParameter("node");
 		String mode = request.getParameter("mode");
 		String root = request.getParameter("listPath");
-
-		if (StringUtils.isEmpty(root)) {
-			return null;
-		}
-		try {
-			ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
-			String html = rsrmi.loadResourceByNatural(root).getDescription();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		String Dption = request.getParameter("Dption");
+		if(StringUtils.isNotEmpty(Dption)){
+			if (StringUtils.isEmpty(root)) {
+				return null;
+			}
+			try {
+				StringBuffer jsonBf = new StringBuffer();
+				String sp = "";
+				String html = "";
+				String Actionurl = "";
+				if ("FRAMEPG.FRAMEPG".equals(root)) {
+					html = "1";
+				}else{
+					ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+					/*Dption:获取描述内容*/
+					html = rsrmi.loadResourceByNatural(root).getDescription();
+					/*Actionurl:引用地址*/
+					Actionurl = rsrmi.loadResourceByNatural(root).getActionurl();
+					}
+					jsonBf.append(sp);
+					jsonBf.append("{");
+					jsonBf.append("Dption:'" + html + "',");
+					jsonBf.append("Actionurl:'" + Actionurl + "'");
+					jsonBf.append("}");
+					
+					PrintWriter pww = response.getWriter();
+					// 输出json
+					System.out.println("[" + jsonBf.toString() + "]");
+					pww.write("[" + jsonBf.toString() + "]");
+					pww.flush();
+					pww.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
+		
 		if (StringUtils.isNotEmpty(ajax)) {
 			if ("1".equals(node)) // 首次打印树
 			{
@@ -79,7 +104,7 @@ public class ExtProletAction extends Action {
 				return mapping.findForward("extportalframe1");
 			}
 		}
-
+	  }
 		return null;
 	}
 
@@ -100,7 +125,6 @@ public class ExtProletAction extends Action {
 			Collections.reverse(nextlist);
 
 			Map<String, List<UmsProtectedobject>> map = new LinkedHashMap<String, List<UmsProtectedobject>>();
-
 			for (Iterator iterator = nextlist.iterator(); iterator.hasNext();) {
 				UmsProtectedobject object = (UmsProtectedobject) iterator
 						.next();
@@ -108,19 +132,12 @@ public class ExtProletAction extends Action {
 						.subResource(object.getId());
 				Collections.reverse(nextNextlist);
 				map.put(object.getNaturalname(), nextNextlist);
-
+				
 				jsonBuffer.append(split);
 				jsonBuffer.append("{");
 				jsonBuffer.append("id:'" + object.getNaturalname() + "',");
 				jsonBuffer.append("text:'" + object.getName() + "'");
-				/* Dption:获取描述内容 */
-				// jsonBuffer.append(",Dption:'" + object.getDescription() +
-				// "'");
-				String Dptiontext = xmlshow(object.getDescription());
-				jsonBuffer.append(",Dption:'" + Dptiontext + "'");
-
-				/* Actionurl:引用地址 */
-				jsonBuffer.append(",Actionurl:'" + object.getActionurl() + "'");
+				
 				if (nextNextlist.size() != 0) {
 					jsonBuffer.append(",leaf: false");
 				} else {
@@ -151,12 +168,6 @@ public class ExtProletAction extends Action {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 	}
-
-
-
 }

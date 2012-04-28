@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans></form-beans>
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<!-- 部门/公司管理 -->
+		<action path="/department"
+			type="com.jl.web.controller.DepartmentAction"
+			parameter="method">
+			<forward contextRelative="true"
+				name="onDepartmentManageView"
+				path="/WEB-INF/jsp/department/departmentManageMain.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onEditView"
+				path="/WEB-INF/jsp/department/editDepartment.jsp">
+			</forward>
+			<!-- 选择 -->
+			<forward contextRelative="true"
+				name="onMultiSelectDepartment"
+				path="/WEB-INF/jsp/common/_departmentMultiSelect.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onSingleSelectDepartment"
+				path="/WEB-INF/jsp/common/_departmentSingleSelect.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onSingleSelectDepartment2"
+				path="/WEB-INF/jsp/common/_departmentSingleSelect2.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onDepartmentView"
+				path="/WEB-INF/jsp/department/departmentView.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onImportDAreaFile"
+				path="/WEB-INF/jsp/department/importDAreaMap.jsp">
+			</forward>
+		</action>
+		
+		<!-- 用户管理 -->
+		<action path="/user"
+			type="com.jl.web.controller.UserAction"
+			parameter="method">
+			<forward contextRelative="true"
+				name="onUserView"
+				path="/WEB-INF/jsp/department/userMain.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onEditUserView"
+				path="/WEB-INF/jsp/department/editUser.jsp">
+			</forward>
+			<!-- 选择 -->
+			<forward contextRelative="true"
+				name="onMultiSelectUser"
+				path="/WEB-INF/jsp/common/_userMultiSelect.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onMultiSelectUserFDL"
+				path="/WEB-INF/jsp/common/_userMultiSelectFDL.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onMultiSelectUserFDL2"
+				path="/WEB-INF/jsp/common/_userMultiSelectFDL2.jsp">
+			</forward>
+			
+			<!-- 多选用户 自定义部门树 -->
+			<forward contextRelative="true"
+				name="onMultiSelectUserX"
+				path="/WEB-INF/jsp/common/_userMultiSelectX.jsp">
+			</forward>
+			<!-- 单选用户 自定义部门树 -->
+			<forward contextRelative="true"
+				name="onSingleSelectUserX"
+				path="/WEB-INF/jsp/common/_userSingleSelectX.jsp">
+			</forward>
+			
+			
+			<forward contextRelative="true"
+				name="onSingleSelectUser"
+				path="/WEB-INF/jsp/common/_userSingleSelect.jsp">
+			</forward>
+		</action>
+		
+		<!-- 行政区域管理 -->
+		<action path="/area"
+			type="com.jl.web.controller.AreaAction"
+			parameter="method">
+			<forward contextRelative="true"
+				name="onAreaManageView"
+				path="/WEB-INF/jsp/area/areaManageMain.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onEditView"
+				path="/WEB-INF/jsp/area/editArea.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onAreaView"
+				path="/WEB-INF/jsp/area/areaView.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onAreaADepartmentMain"
+				path="/WEB-INF/jsp/area/areaADepartmentRelation.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onImportAreaFile"
+				path="/WEB-INF/jsp/area/importAreaMap.jsp">
+			</forward>
+		</action>
+		
+	</action-mappings>
+</struts-config>

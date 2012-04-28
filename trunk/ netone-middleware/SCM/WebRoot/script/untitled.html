@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<style type="text/css">
+._leaf
+{
+cursor: crosshair;
+display: block;
+color:#FF6666;
+}
+._branch
+{
+margin-left: 15px;
+cursor: pointer;
+display: none;
+}
+</style>
+<script type="text/javascript" src="prototype.js"></script>
+<script type="text/javascript" src="tree.js"></script>
+<body>
+<div id="treeDiv"></div>
+</body>
+<script type="text/javascript">
+var tree = new Tree("treeDiv","root");
+var branch1 = new Branch("branch1","LV1");
+var branch2 = new Branch("branch2","LV2");
+var branch3 = new Branch("branch3","LV1.1");
+var branch4 = new Branch("branch4","LV1.2");
+
+var leaf1 = new Leaf("LV1.3","http://www.163.com");
+var leaf2 = new Leaf("LV1.4","http://www.sina.com");
+var leaf3 = new Leaf("LV1.1.1","http://www.35.com");
+var leaf4 = new Leaf("LV1.1.2","http://www.tom.com");
+var leaf5 = new Leaf("LV2.1","http://www.hbue.edu.cn");
+var leaf6 = new Leaf("LV2.2","http://www.csdn.net");
+
+branch3.add(leaf3);
+branch3.add(leaf4);
+branch1.add(branch3);
+branch1.add(branch4);
+branch1.add(leaf1);
+branch1.add(leaf2);
+branch2.add(leaf5);
+branch2.add(leaf6);
+
+tree.add(branch1);
+tree.add(branch2);
+
+tree.write();</script>
+</html>

@@ -1,0 +1,9 @@
+ÐéÄâ»úoracle£º
+
+url=jdbc:oracle:thin:@192.168.120.35:1521:orcl
+
+password=12345678 
+
+username=OAUSER 
+
+driver=oracle.jdbc.driver.OracleDriver 

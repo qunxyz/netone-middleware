@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                    http://www.springframework.org/schema/beans/spring-beans.xsd 
+	                    http://www.springframework.org/schema/tx 
+	                    http://www.springframework.org/schema/tx/spring-tx.xsd 
+	                    http://www.springframework.org/schema/aop 
+	                    http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 加载属性文件配置器 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 数据库配置开始 -->
+ 	<bean id="dataSource" class="com.jl.dao.DynamicDataSource">     
+            <property name="targetDataSources">     
+               <map key-type="java.lang.String">     
+                  <entry key="0" value-ref="ds1"/>
+               </map>     
+            </property>     
+            <property name="defaultTargetDataSource" ref="ds1"/>     
+    </bean>  
+<!--  -->
+	<bean id="ds1"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="${pool.maxActive}"></property>
+		 <property name="maxIdle" value="${pool.maxIdle}"></property>
+		<property name="maxWait" value="${pool.maxWait}"></property>
+		<property name="removeAbandoned" value="${pool.removeA}"></property>
+		<property name="removeAbandonedTimeout" value="${pool.removeATimeOut}"></property>
+	</bean>
+	
+	
+	 <bean id="dataSource2"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${log.driver}" />
+		<property name="url" value="${log.url}" />
+		<property name="username" value="${log.user}" />
+		<property name="password" value="${log.password}" />
+	 </bean>
+	 	<!-- 领导视图Mysql镜像数据配置 -->
+	<bean id="dataSource3"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${mirror.driver}" />
+		<property name="url" value="${mirror.url}" />
+		<property name="username" value="${mirror.user}" />
+		<property name="password" value="${mirror.password}" />
+	</bean>
+	 
+	<!-- 数据源的 
+		<bean id="ds1"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:/IssDS</value>
+		</property>
+		</bean>
+	-->
+	<!-- ibatis map client 默认数据源配置 -->
+	<bean id="sqlMapClient"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation"
+			value="classpath:/config/SqlMapConfig.xml">
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- ibatis map client2 日志数据源配置 (未配置事务) -->
+	<!--  -->
+	<bean id="sqlMapClient2"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation"
+			value="classpath:/config/SqlMapConfig.xml">
+		</property>
+		<property name="dataSource" ref="dataSource2" />
+	</bean>
+	<!-- ibatis map client3 领导视图mysql镜像配置 (未配置事务) -->
+	<!--  -->
+	<bean id="sqlMapClient3"
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation"
+			value="classpath:/config/SqlMapConfig.xml">
+		</property>
+		<property name="dataSource" ref="dataSource3" />
+	</bean>
+	
+	 
+	<!-- 事务Bean  -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+
+	<!-- spring aop事务拦截配置 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="query*" read-only="true" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="modify*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="import*" propagation="REQUIRED" />
+			<tx:method name="reset*" propagation="REQUIRED" />
+			<tx:method name="new*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="interceptorPointCuts"
+			expression="execution(* com.jl.service.impl.*.*(..))" />
+			
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="interceptorPointCuts" />
+	</aop:config>
+
+	<!-- 
+		<bean id="msqDialect" class="oe.serialize.dao.MSSqlDialect" />
+		<bean id="sqlExecutor"
+		class="oe.serialize.dao.MSSqlExecutor">
+		<property name="dialect" ref="msqDialect" />
+		</bean>
+	-->
+</beans>

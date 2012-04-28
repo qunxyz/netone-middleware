@@ -1,0 +1,114 @@
+
+/**--×ó²àµ¼º½--*/
+.accordion .accordion-header{
+	background:#efefef;
+}
+
+.accordion-collapse{
+	background:url('images/collapse.gif') no-repeat;
+	margin-top: 5px;
+}
+.accordion-expand{
+	background:url('images/expand.gif') no-repeat;
+	margin-top: 5px;
+}
+/**-×ó²à±ß¿ò-*/
+.layout-panel-west{
+	border-right:5px solid #efefef;
+	border-left:5px solid #efefef;
+}
+.layout-split-west{
+
+}
+.layout-button-left{
+	background:url('images/layout_button_left.gif') no-repeat;
+}
+.layout-button-right{
+	background:url('images/layout_button_right.gif') no-repeat;
+}
+.layout-expand{
+	position:absolute;
+	padding:0px 5px;
+	padding:0px;
+	background:#F0F0F0;
+	font-size:1px;
+	cursor:pointer;
+	z-index:1;
+}
+/**--Ê÷½Úµã--*/
+.tree-folder{
+	display:inline-block;
+	background:url('images/tree_folder.gif') no-repeat;
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+	
+}
+.tree-folder-open{
+	background:url('images/tree_folder_open.gif') no-repeat;
+}
+.tree-file{
+	display:inline-block;
+	background:url('images/tree_leaf.gif') no-repeat;
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+}
+.tree-node-hover{
+	background-color:#eee;
+}
+.tree-node-selected{
+	background-color:#D3D3D3;
+}
+.tree-loading{
+	background:url('images/tree_loading.gif') no-repeat;
+}
+/**--ÓÒ²àpanel--*/
+
+.panel-header{
+	color:#15428b;
+	background:url('images/panel_title.gif') repeat-x;
+	position:relative;
+	border:1px solid #D3D3D3;
+}
+.panel-header-noborder{
+	border-bottom:1px solid #D3D3D3;
+}
+.panel-body{
+	border:1px solid #D3D3D3;
+}
+
+/****----µ×²¿-----*/
+.foot{
+background:#efefef;
+}
+/***--Ñ¡Ôñ¿ò -----*/
+.combo{
+	display:inline-block;
+	white-space:nowrap;
+	font-size:12px;
+	margin:0;
+	padding:0;
+	border:1px solid #d3d3d3;
+}
+.combo-text{
+	padding-left:5px;
+}
+.combo-arrow{
+	background:#E0ECF9 url('images/combo_arrow.gif') no-repeat 3px 4px;
+}
+.combo-arrow-hover{
+	opacity:1.0;
+	filter:alpha(opacity=100);
+}
+.combo-panel{
+	background:#fff;
+	overflow:auto;
+}
+.combobox-item-hover{
+	background:#fafafa;
+	cursor:pointer;
+}
+.combobox-item-selected{
+	background:#EFEFEF;
+}

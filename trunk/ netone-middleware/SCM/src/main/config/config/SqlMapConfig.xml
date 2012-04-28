@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<!-- 数据库 方案名 配置文件装载 -->
+	<properties resource="sqlmap.properties"/>
+	
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="32"
+		maxSessions="10" maxTransactions="5" useStatementNamespaces="true" />
+	<sqlMap resource="com/jl/entity/xml/Area.xml" />
+	<sqlMap resource="com/jl/entity/xml/Map.xml" />
+	<sqlMap resource="com/jl/entity/xml/Client.xml" />
+	<sqlMap resource="com/jl/entity/xml/Log.xml" />
+	<sqlMap resource="com/jl/entity/xml/Department.xml" />
+	<sqlMap resource="com/jl/entity/xml/User.xml" />
+	
+	<sqlMap resource="com/jl/entity/xml/Censorship.xml" />
+	<sqlMap resource="com/jl/entity/xml/File.xml" />
+	<sqlMap resource="com/jl/entity/xml/Shopping.xml" />
+	
+	<sqlMap resource="com/jl/entity/xml/SystemConfig.xml" />
+	<sqlMap resource="com/jl/entity/xml/GroupTerminal.xml" />
+	<sqlMap resource="com/jl/entity/xml/Yijian.xml" />
+	<sqlMap resource="com/jl/entity/xml/ContractMgr.xml"/>
+	<sqlMap resource="com/jl/entity/xml/leaderView.xml"/>
+	<sqlMap resource="com/jl/entity/xml/Dyform.xml" />
+	
+</sqlMapConfig>

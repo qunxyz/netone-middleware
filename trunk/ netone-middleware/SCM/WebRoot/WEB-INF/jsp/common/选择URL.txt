@@ -1,0 +1,14 @@
+#产品单选
+/products/product.do?method=onSingleSelectProduct
+#产品多选
+/products/product.do?method=onMultiSelectProduct
+
+
+
+/department/user.do?method=onMultiSelectUserX&hiddendept=1&includedept=1&node=402882e61d6fdb70011d7728fba10011 多选人员地址
+/department/user.do?method=onSingleSelectUserX&hiddendept=1&includedept=1&node=402882e61d6fdb70011d7728fba10011 单选人员地址
+
+参数说明
+node必填 值为部门ID
+includedept 是否包含部门目录  1:包含 0:不包含
+hiddendept 是否隐藏部门目录树 1:隐藏 0:不隐藏

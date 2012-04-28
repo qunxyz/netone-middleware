@@ -1,0 +1,5 @@
+delete from t_wf_participant;
+delete from t_wf_worklist;
+delete from t_wf_relevantvar;
+delete from t_wf_runtime;
+delete from t_wf_relevantvar_tmp;

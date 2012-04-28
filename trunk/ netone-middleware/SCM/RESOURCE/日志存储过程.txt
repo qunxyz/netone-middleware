@@ -1,0 +1,195 @@
+
+USE log;
+
+/**
+-- --------------------------------
+-- 动态创建日志表存储过程 每天生成一张表
+-- P_BuildLog  
+-- userId  操作者编号
+-- userName　操作者名称
+-- operateId　 操作项
+-- resultInfo 操作结果
+-- logSeq 日志序列
+-- userIp 操作者IP
+-- userHost HOST
+-- userAgent 用户客户端信息 (浏览器、操作系统)
+-- remark 日志备注
+-- 测试方法
+-- call P_BuildLog('1','2','3','4','5','6','7','8','9');
+-- --------------------------------
+**/
+DROP PROCEDURE IF EXISTS `P_BuildLog`;
+DELIMITER $$
+
+CREATE PROCEDURE `P_BuildLog`(userId varchar(45),userName varchar(45),operateId varchar(45),resultInfo char(10),logSeq text,userIp char(25),userHost varchar(1000),userAgent varchar(1000),remark varchar(1000))
+BEGIN
+	SET @TableName = CONCAT('t_log',REPLACE(CURDATE(),'-',''));
+	SET @SqlCmd = '';
+	if exists (select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME = @TableName and TABLE_SCHEMA='log') then
+		SET @SqlCmd = '';
+	else	
+		SET @SqlCmd = CONCAT('CREATE TABLE ',@TableName,' ( ');
+		SET @SqlCmd = CONCAT(@SqlCmd,'logId VARCHAR(32),');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'userId VARCHAR(45),');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'userName VARCHAR(45),');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'operateTime DATETIME,');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'operateId VARCHAR(45),');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'resultInfo CHAR(10),');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'logSeq TEXT,');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'userIp CHAR(25),');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'userHost VARCHAR(1000),');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'userAgent VARCHAR(1000),');
+		SET @SqlCmd = CONCAT(@SqlCmd,'remark VARCHAR(1000),');	
+		SET @SqlCmd = CONCAT(@SqlCmd,'INDEX userId(userId)');	
+		SET @SqlCmd = CONCAT(@SqlCmd,');');
+		PREPARE stmt FROM @SqlCmd;
+		EXECUTE stmt;
+	end if;
+	SET @SqlCmd = CONCAT('INSERT INTO ',@TableName,' (logId,userId,userName,operateTime,operateId,resultInfo,logSeq,userIp,userAgent,userHost,remark)');
+	SET @SqlCmd = CONCAT(@SqlCmd,' VALUES ( ');
+	SET @SqlCmd = CONCAT(@SqlCmd,
+		'\'',(REPLACE(UUID(),'-','')),
+		'\',\'',ifnull(userId,''),
+		'\',\'',ifnull(userName,''),
+		'\',\'',now(),
+		'\',\'',ifnull(operateId,''),
+		'\',\'',ifnull(resultInfo,''),
+		'\',\'',ifnull(logSeq,''),
+		'\',\'',trim(ifnull(userIp,'')),
+		'\',\'',trim(ifnull(userAgent,'')),
+		'\',\'',trim(ifnull(userHost,'')),
+		'\',\'',trim(ifnull(remark,'')),'\'');
+	SET @SqlCmd = CONCAT(@SqlCmd,'  ) ');
+	PREPARE stmt FROM @SqlCmd;
+	EXECUTE stmt;
+END$$
+
+DELIMITER ;
+
+/**
+-- --------------------------------
+-- 日志查询
+-- P_QueryLog  
+-- userId  操作者编号
+-- beginDate　查询开始时间 时间格式 2010-01-01或20100101
+-- endDate　查询结束时间 时间格式 2010-4-1或20100401
+-- operateItem 操作项
+-- startIndex 开始记录数
+-- pageSize 页码
+-- Return 返回日志结果集
+-- 测试方法
+-- call P_QueryLog(null,'2010-03-03','2010-05-04',null,null,null,0,100);
+-- --------------------------------
+**/
+DROP PROCEDURE IF EXISTS `P_QueryLog`;
+DELIMITER $$
+
+CREATE PROCEDURE `P_QueryLog`(userId varchar(45),beginDate char(10),endDate char(10),operateItem varchar(45),logseq varchar(500),remark varchar(500),startIndex int,pageSize int)
+BEGIN
+
+	DECLARE record_not_found INTEGER DEFAULT 0;
+	DECLARE Split char(15) DEFAULT '';
+	DECLARE TableName varchar(20) DEFAULT '';
+	DECLARE SqlCmd text DEFAULT '';
+
+	DECLARE _cursor CURSOR FOR 
+		select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME like 't_log%' 
+				  and TABLE_SCHEMA='log'
+			      and date(SUBSTR(TABLE_NAME,6)) >= date(beginDate) 
+			      and date(SUBSTR(TABLE_NAME,6)) <= date(endDate);
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET record_not_found = 1;     
+        OPEN _cursor;
+	allLogTable : LOOP 
+                 FETCH _cursor INTO TableName; 
+                 IF record_not_found THEN 
+                        LEAVE allLogTable; 
+                 END IF;
+		 
+		 SET SqlCmd = CONCAT(SqlCmd,split,' select * from ',TableName,' where 1=1 ');
+		  
+		 if (userId is not null || userId !='')  then
+			SET SqlCmd = CONCAT(SqlCmd,' and userId=',userId);
+		 end if;
+		 if (operateItem is not null || operateItem !='')   then
+			SET SqlCmd = CONCAT(SqlCmd,' and operateId like ''%',operateItem,'%''');
+		 end if;
+		 if (logseq is not null || logseq !='')   then
+			SET SqlCmd = CONCAT(SqlCmd,' and logseq like ''%',logseq,'%''');
+		 end if;		 
+		 if (remark is not null || remark !='')   then
+			SET SqlCmd = CONCAT(SqlCmd,' and remark like ''%',remark,'%''');
+		 end if;
+		 SET split = ' union all ';
+        END LOOP allLogTable;
+        CLOSE _cursor;
+	SET @a = CONCAT('select * from (',SqlCmd,') as t limit ',startIndex,',',pageSize);
+	
+	PREPARE stmt FROM @a;
+	EXECUTE stmt;
+	
+END$$
+
+DELIMITER ;
+
+/**
+-- --------------------------------
+-- 日志查询 总数
+-- P_QueryLogByCount
+-- userId  操作者编号
+-- beginDate　查询开始时间 时间格式 2010-01-01或20100101
+-- endDate　查询结束时间 时间格式 2010-4-1或20100401
+-- operateItem 操作项
+-- Return 返回日志总数
+-- 测试方法
+-- call P_QueryLogByCount(null,'2010-03-03','2010-05-04',null,0,100);
+-- --------------------------------
+**/
+DROP PROCEDURE IF EXISTS `P_QueryLogByCount`;
+DELIMITER $$
+
+CREATE PROCEDURE `P_QueryLogByCount`(userId varchar(45),beginDate char(10),endDate char(10),operateItem varchar(45),logseq varchar(500),remark varchar(500))
+BEGIN
+
+	DECLARE record_not_found INTEGER DEFAULT 0;
+	DECLARE Split char(15) DEFAULT '';
+	DECLARE TableName varchar(20) DEFAULT '';
+	DECLARE SqlCmd text DEFAULT '';
+
+	DECLARE _cursor CURSOR FOR 
+		select TABLE_NAME from INFORMATION_SCHEMA.TABLES where TABLE_NAME like 't_log%' 
+				  and TABLE_SCHEMA='log'
+			      and date(SUBSTR(TABLE_NAME,6)) >= date(beginDate) 
+			      and date(SUBSTR(TABLE_NAME,6)) <= date(endDate);
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET record_not_found = 1;     
+    OPEN _cursor;
+	allLogTable : LOOP 
+                 FETCH _cursor INTO TableName; 
+                 IF record_not_found THEN 
+                        LEAVE allLogTable; 
+                 END IF;
+		 
+		 SET SqlCmd = CONCAT(SqlCmd,split,' select logId from ',TableName,' where 1=1 ');
+		  
+		 if (userId is not null || userId !='')  then
+			SET SqlCmd = CONCAT(SqlCmd,' and userId=',userId);
+		 end if;
+		 if (operateItem is not null || operateItem !='')   then
+			SET SqlCmd = CONCAT(SqlCmd,' and operateId like ''%',operateItem,'%''');
+		 end if;
+		 if (logseq is not null || logseq !='')   then
+			SET SqlCmd = CONCAT(SqlCmd,' and logseq like ''%',logseq,'%''');
+		 end if;		 
+		 if (remark is not null || remark !='')   then
+			SET SqlCmd = CONCAT(SqlCmd,' and remark like ''%',remark,'%''');
+		 end if;
+		 SET split = ' union all ';
+        END LOOP allLogTable;
+    CLOSE _cursor;
+	SET @a = CONCAT('select count(*) as a from (',SqlCmd,') as t ');
+	
+	PREPARE stmt FROM @a;
+	EXECUTE stmt;
+	
+END$$
+
+DELIMITER ;

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans></form-beans>
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action path="/groupTerminal"
+			type="com.jl.web.controller.groupTerminal.GroupTerminalAction" parameter="method">
+			<forward contextRelative="true" name="onMainView"
+				path="/WEB-INF/jsp/groupTerminal/groupTerminalMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditViewMain"
+				path="/WEB-INF/jsp/groupTerminal/editGroupTerminalMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditView"
+				path="/WEB-INF/jsp/groupTerminal/editGroupTerminal.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditViewClient"
+				path="/WEB-INF/jsp/groupTerminal/groupTerminalClientChanage.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowView"
+				path="/WEB-INF/jsp/groupTerminal/showProcess.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowEndView"
+				path="/WEB-INF/jsp/groupTerminal/showEndProcess.jsp">
+			</forward>
+			<forward contextRelative="true" name="onAuditView"
+				path="/WEB-INF/jsp/groupTerminal/groupTerminalAudit.jsp">
+			</forward>
+			
+			<forward contextRelative="true" name="onQuery"
+				path="/WEB-INF/jsp/groupTerminal/lookGroupTerminal.jsp">
+			</forward>
+			<forward contextRelative="true" name="onAutorouteView"
+				path="/WEB-INF/jsp/groupTerminal/autoroute.html">
+			</forward>
+			
+		</action>
+	</action-mappings>
+</struts-config>

@@ -31,5 +31,13 @@ public interface RuleEngine {
 	 * @return
 	 */
 	public String todo(String elogicExpress, String runtimeid, String workcode);
+	
+	/**
+	 * 执行脚本处理
+	 * 
+	 * @param elogicExpress
+	 * @return 原始對象
+	 */
+	public Object todo(String elogicExpress);
 
 }

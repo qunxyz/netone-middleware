@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="CensorShip">
+	
+	<typeAlias alias="CensorShip" type="com.jl.entity.CensorShip" />
+	<typeAlias alias="CensorShipLog" type="com.jl.entity.CensorShipLog" />
+	<typeAlias alias="CensorShipStatus" type="com.jl.entity.CensorShipStatus" />
+	<!-- main -->
+	
+	<select id="loadCensorShipByUnid" parameterClass="string" resultClass="CensorShip">
+		select * from t_censorship where unid=#unid#
+	</select>
+	
+	<!-- 查找部门名 -->
+	<select id="findTransdept" parameterClass="string" resultClass="string">
+		select t2.departmentName from t_user t
+		left join t_department t2 on t2.departmentId=t.departmentId
+		where t.userCode=#userCode#
+	</select>
+	
+	<!-- 创建督办公单 -->
+	<insert id="insertCensorShip" parameterClass="CensorShip">
+	<selectKey resultClass="java.lang.String" keyProperty="unid" type="pre">
+		SELECT REPLACE(UUID(),'-','') as unid
+	</selectKey>
+	INSERT INTO `t_censorship` 
+		(`unid`, 
+		`subject`, 
+		`handler`, 
+		`chargedept`, 
+		`duetime`, 
+		`donetime`, 
+		`transdept`, 
+		`memo`, 
+		`newtime`, 
+		`frome`
+		)
+		VALUES
+		(#unid#, 
+		#subject#, 
+		#handler#,
+		#chargedept#, 
+		#duetime#, 
+		#donetime#, 
+		#transdept#, 
+		#memo#, 
+		#newtime#, 
+		#frome#
+		);
+	</insert>
+	
+	<!-- 更新督办公单 -->
+	<update id="updateCensorShip" parameterClass="CensorShip">
+	UPDATE `t_censorship` 
+		SET
+		`unid` = #unid# 
+		<isNotEmpty prepend="," property="subject">
+		`subject` = #subject#  
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="handler">
+		`handler` = #handler#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="chargedept">
+		`chargedept` = #chargedept#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="duetime">
+		`duetime` = #duetime#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="donetime">
+		`donetime` = #donetime#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="transdept">
+		`transdept` = #transdept#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="memo"> 
+		`memo` = #memo#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="newtime">
+		`newtime` = #newtime#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="frome"> 
+		`frome` = #frome#
+		</isNotEmpty>
+		WHERE
+		`unid` = #unid# ;
+
+	</update>
+
+	<!-- 更新督办办理部门  交办或提交下一节点 -->
+	<update id="updateCensorshipTransdept" parameterClass="CensorShip">
+		UPDATE t_censorship SET transdept=#transdept# where unid=#unid#  
+	</update>
+	
+	<!-- 根据督办ID删除督办公单 -->
+	<delete id="deleteCensorShip" parameterClass="string">
+	DELETE FROM `t_censorship` 
+		WHERE
+		`unid` = #unid# ;
+	</delete>
+
+	<!-- 已处理公效能督办公单 -->
+	<select id="selectCensorShipNotEndForPage" parameterClass="java.util.Map" resultClass="CensorShip">
+		select t.* from t_censorship t
+		left join t_censorshipstatus t2 on t.unid=t2.unid
+		where 1=1 and t2.state &gt;=1 and t2.state != 3
+		<isNotEmpty prepend="and" property="perunid">
+		perunid=#perunid#
+		</isNotEmpty>
+		$condition$
+		$ordersql$
+		LIMIT #startIndex#,#pageSize# 
+	</select>
+	<select id="selectCensorShipNotEndForPageCount" parameterClass="java.util.Map" resultClass="int">
+		select IFNULL(count(*),0) as vv from t_censorship t
+		left join t_censorshipstatus t2 on t.unid=t2.unid
+		where 1=1 and t2.state &gt;=1 and t2.state != 3
+		<isNotEmpty prepend="and" property="perunid">
+		perunid=#perunid#
+		</isNotEmpty>
+		$condition$
+	</select>
+	<!-- 已办结公效能督办公单 -->
+	<select id="selectCensorShipEndForPage" parameterClass="java.util.Map" resultClass="CensorShip">
+		select t.* from t_censorship t
+		left join t_censorshipstatus t2 on t.unid=t2.unid
+		where 1=1 and t2.state = 3
+		<isNotEmpty prepend="and" property="perunid">
+		perunid=#perunid#
+		</isNotEmpty>
+		$condition$
+		$ordersql$
+		LIMIT #startIndex#,#pageSize# 
+	</select>
+	<select id="selectCensorShipEndForPageCount" parameterClass="java.util.Map" resultClass="int">
+		select count(*) from t_censorship t
+		left join t_censorshipstatus t2 on t.unid=t2.unid
+		where 1=1 and t2.state = 3
+		<isNotEmpty prepend="and" property="perunid">
+		perunid=#perunid#
+		</isNotEmpty>
+		$condition$
+	</select>
+	<!-- 所有效能督办公单 -->
+	<select id="selectCensorShipForPage" parameterClass="java.util.Map" resultClass="CensorShip">
+		select t.* from t_censorship t
+		left join t_censorshipstatus t2 on t.unid=t2.unid
+		where 1=1 and t2.state &lt;= 3
+		<isNotEmpty prepend="and" property="perunid">
+		perunid=#perunid#
+		</isNotEmpty>
+		$condition$
+		$ordersql$
+		LIMIT #startIndex#,#pageSize# 
+	</select>
+	<select id="selectCensorShipForPageCount" parameterClass="java.util.Map" resultClass="int">
+		select count(*) from t_censorship t
+		left join t_censorshipstatus t2 on t.unid=t2.unid
+		where 1=1 and t2.state &lt;= 3
+		<isNotEmpty prepend="and" property="perunid">
+		perunid=#perunid#
+		</isNotEmpty>
+		$condition$
+	</select>
+	<!-- 待办效能督办工单 -->
+	<select id="selectCensorShipForPage_status" parameterClass="java.util.Map" resultClass="CensorShip">
+		select t.* from t_censorship t
+		left join t_censorshipstatus t2 on t.unid=t2.unid
+		where t2.state &lt; 3
+		<isNotEmpty prepend="and" property="perunid">
+		perunid=#perunid#
+		</isNotEmpty>
+		$condition$
+		$ordersql$
+		LIMIT #startIndex#,#pageSize# 
+	</select>
+	<select id="selectCensorShipForPageCount_status" parameterClass="java.util.Map" resultClass="int">
+		select IFNULL(count(*),0) as v from t_censorship t
+		left join t_censorshipstatus t2 on t.unid=t2.unid
+		where t2.state &lt; 3
+		<isNotEmpty prepend="and" property="perunid">
+		perunid=#perunid#
+		</isNotEmpty>
+		$condition$
+	</select>
+
+	<!-- 查找督办创建者所建底下督办处理是否处理完毕 -->
+	<select id="selectAllCensorShipStatusBystatus" parameterClass="CensorShip" resultClass="int">
+		select ifnull(count(*),0) as v from t_censorshipstatus where unid=#unid# and perunid!=#handlerid# and state &lt; 3
+	</select>
+	
+	<select id="loadCensorShipLogByCondition" parameterClass="CensorShipStatus" resultClass="CensorShipLog">
+		select * from t_censorshiplog where punid in (
+			select loglinkunid from t_censorshipstatus where perunid=#perunid# and unid=#unid#
+		)
+	</select>
+	
+	<!-- 查找督办状态 -->
+	<select id="loadCensorShipStatusByCondition" parameterClass="CensorShipStatus" resultClass="CensorShipStatus">
+		select * from t_censorshipstatus where perunid=#perunid# and unid=#unid#
+	</select>
+	<!-- 创建督办状态 -->
+	<insert id="insertCensorShipStatus" parameterClass="CensorShipStatus">
+	INSERT INTO `t_censorshipstatus` 
+		(`unid`, 
+		`perunid`, 
+		`parentunid`, 
+		`yijian`, 
+		`state`, 
+		`isdelete`, 
+		`loglinkunid`,
+		`addtime`
+		)
+		VALUES
+		(#unid#, 
+		#perunid#, 
+		#parentunid#, 
+		#yijian#, 
+		#state#, 
+		#isdelete#, 
+		#loglinkunid#,
+		#addtime#
+		);
+
+	</insert>
+	
+	<update id="updateCensorShipStatus" parameterClass="CensorShipStatus">
+	UPDATE `t_censorshipstatus` 
+		SET
+		`unid` = #unid# 
+		<isNotEmpty prepend="," property="perunid">
+		`perunid` = #perunid# , 
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="parentunid">
+		`parentunid` = #parentunid#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="yijian">
+		`yijian` = #yijian#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="state">
+		`state` = #state#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="isdelete">
+		`isdelete` = #isdelete#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="loglinkunid">
+		`loglinkunid` = #loglinkunid#
+		</isNotEmpty>
+		WHERE
+		`unid` = #unid# and state &lt;= 3;
+
+	</update>
+
+	<!-- 更新督办状态 -->
+	<update id="updateCensorShipStatus2" parameterClass="CensorShipStatus">
+	UPDATE `t_censorshipstatus` 
+		SET
+		`unid` = #unid# 
+		<isNotEmpty prepend="," property="yijian">
+		`yijian` = #yijian#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="state">
+		`state` = #state#
+		</isNotEmpty> 
+		WHERE
+		perunid=#perunid# and unid=#unid# and state &lt;= 3;
+
+	</update>	
+	
+	<update id="updateCensorShipStatus2X" parameterClass="CensorShipStatus">
+	UPDATE `t_censorshipstatus` 
+		SET
+		`unid` = `unid`
+		<isNotEmpty prepend="," property="perunid">
+		`perunid` = #perunid#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="parentunid">
+		`parentunid` = #parentunid#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="yijian">
+		`yijian` = #yijian#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="state">
+		`state` = #state#
+		</isNotEmpty> 
+		<isNotEmpty prepend="," property="isdelete">
+		`isdelete` = #isdelete#
+		</isNotEmpty>
+		<isNotEmpty prepend="," property="loglinkunid">
+		`loglinkunid` = #loglinkunid#
+		</isNotEmpty>
+		WHERE
+		perunid=#perunid# and unid=#unid#;
+
+	</update>	
+	
+	<update id="updateCensorShipStatus3" parameterClass="CensorShipStatus">
+	UPDATE `t_censorshipstatus` 
+		SET
+		`perunid` = #perunid#
+		<isNotEmpty property="yijian" prepend=",">
+		`yijian` = #yijian#
+		</isNotEmpty>
+		<isNotEmpty property="state" prepend=",">
+		`state` = #state#
+		</isNotEmpty>
+		WHERE
+		perunid=#perunid# and unid=#unid# and state &lt;= 3;
+
+	</update>	
+	
+	<!-- 根据督办ID删除督办状态表 -->
+	<delete id="deleteCensorShipStatus" parameterClass="string">
+	DELETE FROM `t_censorshipstatus` 
+	WHERE
+	`unid` = #unid# ;
+	</delete>
+	
+	<!-- 查找流程中是否存在重复用户 -->
+	<select id="findCensorShipStatusIsExistNper" parameterClass="CensorShipStatus" resultClass="int">
+	select IFNULL(count(*),0) as v from t_censorshipstatus 
+	where unid=#unid# and perunid=#perunid# and state &lt;= 3
+	</select>
+	
+	<!-- log -->
+	<!-- 查找日志是否存在 -->
+	<select id="findCensorShipLogIsExist" parameterClass="CensorShipLog" resultClass="int">
+		select ifnull(count(*),0) as v from t_censorshiplog
+		where unid=#unid# and sname=#sname# and actionname=#actionname# and tname=#tname# and tname!='-'
+	</select>
+	
+	<!-- 创建督办日志 -->
+	<insert id="insertCensorShipLog" parameterClass="CensorShipLog">
+	<selectKey resultClass="java.lang.String" keyProperty="punid" type="pre">
+		SELECT REPLACE(UUID(),'-','') as punid
+	</selectKey>
+	INSERT INTO `t_censorshiplog` 
+		(`punid`, 
+		`unid`, 
+		`sname`, 
+		`actionname`, 
+		`tname`, 
+		`addtime`
+		)
+		VALUES
+		(#punid#, 
+		#unid#, 
+		#sname#, 
+		#actionname#, 
+		#tname#, 
+		#addtime#
+		);
+
+	</insert>
+	
+	<update id="updateCensorShipLog" parameterClass="CensorShipLog">
+
+	UPDATE `t_censorshiplog` 
+		SET
+		`punid` = #punid# , 
+		`unid` = #unid# , 
+		`sname` = #sname# , 
+		`actionname` = #actionname# , 
+		`tname` = #tname# , 
+		`addtime` = #addtime#
+		
+		WHERE
+		`punid` = #punid# ;
+
+	</update>
+	
+	<update id="updateCensorShipLog2" parameterClass="CensorShipLog">
+
+	UPDATE `t_censorshiplog` 
+		SET
+		`unid` = #unid# , 
+		`sname` = #sname# , 
+		`actionname` = #actionname# , 
+		`tname` = #tname# , 
+		`addtime` = #addtime#
+		
+		WHERE
+		 unid=#unid# and sname=#sname# and actionname='办理完毕' 
+
+	</update>
+	
+	<!-- 更新已存在操作日志的操作时间 -->
+	<update id="updateCensorShipLogByExist" parameterClass="CensorShipLog">
+
+	UPDATE `t_censorshiplog` 
+		SET
+		`addtime` = #addtime#
+		
+		WHERE
+		 unid=#unid# and sname=#sname# and actionname=#actionname# and tname=#tname#
+
+	</update>
+	
+	<!-- 更新已存在操作日志的操作时间2 -->
+	<update id="updateCensorShipLogByExist2" parameterClass="CensorShipLog">
+
+	UPDATE `t_censorshiplog` 
+		SET
+		`addtime` = #addtime#
+		
+		WHERE
+		 unid=#unid# and sname=#tname# and actionname=#actionname#
+
+	</update>	
+	
+	<!-- 根据督办ID删除 -->
+	<delete id="deleteCensorShipLog" parameterClass="string">
+	DELETE FROM `t_censorshiplog` 
+		WHERE
+		`unid` = #unid# ;
+	</delete>
+	
+	<select id="loadCensorShipLogByFinish" parameterClass="CensorShipStatus" resultClass="CensorShipLog">
+		select t.*,t2.yijian,d.departmentName sdept from t_censorshiplog t
+		left join t_censorshipstatus t2 on t2.loglinkunid=t.punid
+		left join t_user u on u.usercode=t2.perunid
+		left join t_department d on d.departmentid=u.departmentid
+	 	where t.punid in (
+			select loglinkunid from t_censorshipstatus where unid = #unid# and perunid=#perunid#   and t2.state &lt;=2
+		) 
+		order by addtime asc
+	</select>
+	
+	<select id="loadCensorShipLogBy1" parameterClass="string" resultClass="CensorShipLog">
+	SELECT t.*,t2.yijian,d.departmentName sdept FROM t_censorshiplog t
+		LEFT JOIN t_censorshipstatus t2 ON t2.loglinkunid=t.punid
+		left join t_user u on u.usercode=t2.perunid
+		left join t_department d on d.departmentid=u.departmentid
+		where t.unid=#unid#  AND actionname='提交'  and t2.state &lt;=3 and t2.yijian is not null
+		ORDER BY ADDTIME ASC
+	</select>
+	<select id="loadCensorShipLogBy2" parameterClass="string" resultClass="CensorShipLog">
+	SELECT t.*,t2.yijian,d.departmentName sdept FROM t_censorshiplog t
+		LEFT JOIN t_censorshipstatus t2 ON t2.loglinkunid=t.punid
+		left join t_user u on u.usercode=t2.perunid
+		left join t_department d on d.departmentid=u.departmentid
+		where t.unid=#unid#  AND actionname='转办' and t2.state &lt;=3 and t2.yijian is not null
+		ORDER BY ADDTIME ASC
+	</select>
+	<select id="loadCensorShipLogBy3" parameterClass="string" resultClass="CensorShipLog">
+	SELECT t.*,t2.yijian,d.departmentName sdept FROM t_censorshiplog t
+		LEFT JOIN t_censorshipstatus t2 ON t2.loglinkunid=t.punid
+		left join t_user u on u.usercode=t2.perunid
+		left join t_department d on d.departmentid=u.departmentid
+		where t.unid=#unid#  and t2.state &lt;=3 and t2.yijian is not null
+		ORDER BY ADDTIME ASC
+	</select>
+
+	<select id="loadCensorShipLogByNode" parameterClass="string" resultClass="CensorShipLog">
+		select t.*,t2.yijian,d.departmentName sdept from t_censorshiplog t
+		left join t_censorshipstatus t2 on t2.loglinkunid=t.punid
+		left join t_user u on u.usercode=t2.perunid
+		left join t_department d on d.departmentid=u.departmentid
+		where t.unid=#unid# and t.addtime is not null
+		order by addtime asc
+	</select>
+	
+	<!-- 判断督办是否是创建者 -->
+	<select id="checkIsCreater" parameterClass="CensorShipStatus" resultClass="int">
+		SELECT IFNULL(COUNT(*),0) v FROM t_censorshipstatus t
+		LEFT JOIN t_censorshiplog t2 ON t.loglinkunid=t2.punid
+		WHERE t.perunid=#perunid# and t2.actionname='创建' and t.unid=#unid#
+	</select>
+	
+	<!-- 加载意见 -->
+	<select id="loadYijian" parameterClass="CensorShipStatus" resultClass="string">
+	select yijian from t_censorshipstatus where perunid=#perunid# and unid=#unid#
+	</select>
+	
+</sqlMap>

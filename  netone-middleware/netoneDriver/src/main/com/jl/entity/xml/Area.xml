@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Area">
+	<typeAlias alias="area" type="com.jl.entity.Area" />
+	<typeAlias alias="department" type="com.jl.entity.Department" />
+	
+	<select id="select2levelArea" resultClass="string" parameterClass="string">
+		select areaid from t_area where nlevel=2 limit 1
+	</select>
+	
+	<!-- 加载信息MAP -->
+	<resultMap id="pageResultMap" class="area">
+		<result property="areaId" column="areaId"/>
+		<result property="areaCode" column="areaCode" />
+		<result property="areaName" column="areaName" />
+		<result property="extension" column="extension" />
+		<result property="note" column="note" />
+		<result property="NLevel" column="NLevel" />
+		<result property="NLevelCode" column="NLevelCode" />
+		<result property="NLevelName" column="NLevelName" />
+		<result property="level" column="level" />
+		<result property="parentArea.areaId" column="parentAreaId" />
+		<result property="parentArea.areaCode" column="parentAreaCode" />
+		<result property="parentArea.areaName" column="parentAreaName" />
+	</resultMap>
+	
+	<!-- 删除部门/公司 -->
+	<delete id="deleteArea" parameterClass="java.lang.String">
+		delete from t_area where areaId=#areaId#
+	</delete>
+	
+	<!-- 插入部门/公司 -->
+	<insert id="insertArea" parameterClass="area">
+		<selectKey resultClass="java.lang.String" keyProperty="areaId" type="pre">
+			SELECT REPLACE(UUID(),'-','') as areaId
+		</selectKey>
+		INSERT INTO t_area(areaId,areaCode,areaName,parentAreaId)
+		VALUES(
+				#areaId#,
+				#areaCode#,
+				#areaName#,
+				#parentArea.areaId#
+		)
+	</insert>
+	
+	<!-- 更新部门/公司 -->
+	<update id="updateArea" parameterClass="area">
+       UPDATE t_area SET 
+	       areaCode=#areaCode#,
+		   areaName=#areaName#,
+		   parentAreaId=#parentAreaId#
+       WHERE areaId=#areaId#
+	</update>
+	
+	<!-- 通过ID查找部门/公司信息　-->
+	<select id="selectInfo" parameterClass="java.lang.String"
+		resultMap="pageResultMap">
+		SELECT 
+			   t.*,
+			   tt.areaCode parentAreaCode,
+			   tt.areaName parentAreaName
+	    FROM t_area t
+	    LEFT JOIN t_area tt on t.parentAreaId = tt.areaId
+	   	WHERE t.areaId = #areaId#
+	</select>
+	
+	<!-- 加载部门/公司父根节点 -->
+	<select id="loadAreaRoot" parameterClass="java.lang.String"
+		resultMap="pageResultMap">
+			SELECT 
+			   t.*,
+			   '0' parentAreaId,
+			   '' parentAreaCode,
+			   '' parentAreaName
+			FROM t_area t 
+			WHERE ifnull(t.parentAreaId,'0') = #areaId#
+			order by t.areaCode
+	</select>
+	
+	<!-- 根据上级分类查找子分类　-->
+	<select id="findChildArea" parameterClass="java.util.Map"
+		resultMap="pageResultMap">
+			SELECT 
+			   t.*,
+			   tt.areaCode parentAreaCode,
+			   tt.areaName parentAreaName
+			FROM t_area t
+			LEFT JOIN t_area tt on t.parentAreaId = tt.areaId
+			WHERE t.parentAreaId = #areaId#
+			<isNotEmpty property="areaCode" prepend="and">
+				(t.areaCode like '%$areaCode$%' or t.areaName like '%$areaCode$%')
+			</isNotEmpty>
+			order by t.areaCode
+	</select>
+	
+	<!-- 建立树关系结构 -->
+	<update id="buildTreeRelation" parameterClass="java.util.Map">
+		update t_area set  nLevel=#nLevel#,nLevelCode=#nLevelCode#,
+										nLevelName=#nLevelName#
+										<isNotNull property="level" prepend=",">
+											level=#level#
+										</isNotNull>
+										where areaId=#areaId#
+	</update>
+	
+	<!-- 部门、公司具体信息分页查询结果集 -->
+	<select id="queryAreaDetailInfoForPage" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+		   t.*,
+		   tt.areaCode parentAreaCode,
+		   tt.areaName parentAreaName,
+		   '行政区域' levelName
+		FROM t_area t
+		LEFT JOIN t_area tt on t.parentAreaId = tt.areaId
+		WHERE 1=1
+		<isNotEmpty property="level" prepend="and">
+			t.level=#level#
+		</isNotEmpty>
+		<isNotEmpty property="code" prepend="and">
+			(t.areaCode like '%$areaCode$%' or t.areaName like '%$areaCode$%')
+		</isNotEmpty>
+		order by t.areaCode,t.nLevel
+		<isEqual property="forPage" compareValue="1">
+		LIMIT #startIndex#,#pageSize#
+		</isEqual>
+	</select>
+	<!-- 部门、公司具体信息查询总数 -->
+	<select id="queryAreaDetailInfoForPageCount" parameterClass="java.util.Map" resultClass="int">
+		SELECT 
+		   count(*)
+		FROM t_area t
+		WHERE 1=1
+		<isNotEmpty property="level" prepend="and">
+			t.level=#level#
+		</isNotEmpty>
+		<isNotEmpty property="code" prepend="and">
+			(t.areaCode like '%$areaCode$%' or t.areaName like '%$areaCode$%')
+		</isNotEmpty>
+	</select>
+	
+	
+	<!-- 检查编码是否重复 -->
+	<select id="findCodeIsExist" parameterClass="area" resultClass="int">
+		select count(*) from t_area where areaCode=#areaCode# and areaId!=#areaId#
+	</select>
+	
+	<!-- 更新坐标信息 -->
+	<update id="importMap" parameterClass="area">
+		UPDATE t_area SET map=#map#
+		WHERE areaId=#areaId#
+	</update>
+	
+	<!-- 查找行政区划与组织机构的关联关系 -->
+	<select id="findAreaADepartmentRelation" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select
+			t.areaId,
+			t2.departmentId,
+			t2.departmentCode,
+			t2.departmentName,
+			t2.nLevel,
+			t2.level,
+			t2.nLevelName,
+		   (CASE WHEN t2.level='1' THEN '省公司'
+		   WHEN t2.level='2' THEN '大营销部'
+		   WHEN t2.level='3' THEN '营销部' 
+		   WHEN t2.level='4' THEN '经销商'
+		   WHEN t2.level='5' THEN '分销商'
+		   WHEN t2.level='-1' THEN '区域'
+		   ELSE '未知'
+		   END) levelName
+		from t_areadepartment t
+		left join t_department t2 on t2.departmentId=t.departmentId
+		where t.areaId = #areaId#
+		<isNotEmpty prepend="and" property="departmentCode">
+			(t2.departmentCode like '%$departmentCode$%' or t2.departmentName like '%$departmentCode$%')
+		</isNotEmpty>
+		order by t2.nLevel
+		LIMIT #startIndex#,#pageSize#
+	</select>
+	<select id="findAreaADepartmentRelationByCount" parameterClass="java.util.Map" resultClass="int">
+		select
+			count(*) as t
+		from t_areadepartment t
+		left join t_department t2 on t2.departmentId=t.departmentId
+		where t.areaId = #areaId#
+		<isNotEmpty prepend="and" property="departmentCode">
+			(t2.departmentCode like '%$departmentCode$%' or t2.departmentName like '%$departmentCode$%')
+		</isNotEmpty>
+	</select>
+	
+	<select id="findAreaADepartmentIsExist" parameterClass="java.util.Map" resultClass="int">
+		select count(*) from t_areadepartment where areaId = #areaId# and departmentId = #departmentId#
+	</select>
+	<!-- 添加关联 -->
+	<insert id="appendAreaADepartmentRelation" parameterClass="java.util.Map">
+		insert into t_areadepartment (rid,areaId,departmentId) values (
+			REPLACE(UUID(),'-',''),
+			#areaId#,
+			#departmentId#
+		)
+	</insert>
+	<!-- 移除关联 -->
+	<delete id="removeAreaADepartmentRelation" parameterClass="java.util.Map">
+		delete from t_areadepartment where areaId = #areaId# and departmentId = #departmentId#
+	</delete>
+	<!-- 添加关联包含下级 -->
+	<insert id="multAppendAreaADepartmentRelation" parameterClass="java.util.Map">
+		insert into t_areadepartment (rid,areaId,departmentId)
+		select REPLACE(UUID(),'-',''),#areaId#,departmentId
+		from t_department where departmentId not IN (
+			select departmentId from t_areadepartment where areaId=#areaId#
+		) and nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#departmentId#)
+				,'%')
+	</insert>
+	<!-- 移除关联包含下级 -->
+	<delete id="multRemoveAreaADepartmentRelation" parameterClass="java.util.Map">
+		delete from t_areadepartment where areaId = #areaId# and departmentId IN (
+			select departmentId from t_department 
+			where nlevelcode LIKE CONCAT(
+				(SELECT nlevelcode FROM t_department WHERE departmentId=#departmentId#)
+			,'%')
+		)
+	</delete>
+	
+</sqlMap>

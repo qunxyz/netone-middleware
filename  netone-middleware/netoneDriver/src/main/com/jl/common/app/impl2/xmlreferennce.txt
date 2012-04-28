@@ -1,0 +1,12 @@
+应用框架
+<csource>
+  <control yingyongform="人事管理[70adc4bcf24b11e083783f0ff8b587b9_]" yingyongwork="人事管理[BUSSWF.BUSSWF.RENSHI]" eatt=""/>
+</csource>   
+参与者
+<csource>
+  <control participantmode="team" ismanual="1" naturalname="APPFRAME.APPFRAME.RENSGUAN.TRACKACTION1318146554029" name="申请人" participantvalue="角色分类[SYSROLE.SYSROLE]," syncmode="2" coworkmode="1" needtree="1" fobidzb="1" formedit="工资[column5],姓名[column3],学历[column7],性别[column6],"/>
+</csource>
+
+<csource>
+  <control DivBlock="姓名" name="待办提示" naturalname="APPFRAME.APPFRAME.RENSGUAN.WORKLISTTITLE" ishidden="1" script="扩张"/>
+</csource>

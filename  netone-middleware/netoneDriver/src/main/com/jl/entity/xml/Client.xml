@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Client">
+	<!-- 别名设置 -->
+	<typeAlias alias="client" type="com.jl.entity.Client" />
+	<typeAlias alias="clientLevel" type="com.jl.entity.ClientPriceLevel" /><!-- 经销商级别划分实体 -->
+
+	<!-- 插入信息  SELECT @@IDENTITY AS Id  sql设置主键-->
+	<insert id="insertClientInfo" parameterClass="client">
+		<selectKey resultClass="java.lang.String" keyProperty="clientId" type="pre">
+			SELECT REPLACE(UUID(),'-','') as clientId
+		</selectKey>
+            INSERT INTO t_clientinformation(clientId, clientCode,clientName,telphone,mobile,email,operationDirector, linkman, companyAddress, 
+					                                servicestation, deliverGoodsAddress, remitAccounts, openAccountTitle, ratepayingType, lyBailMonery, 
+					                                remitPersion, remitTime,clientType,marketType,clientTag,tons,advanceTagPayment
+			)
+			VALUES(
+					#clientId#,
+					#clientCode#,
+					#clientName#,
+					#telphone#,
+					#mobile#,
+					#email#,
+					#operationDirector#,
+					#linkman#,
+					#companyAddress#,
+					#servicestation#,
+					#deliverGoodsAddress#,
+			        #remitAccounts#,
+			        #openAccountTitle#,
+					#ratepayingType#,
+					#lyBailMonery#,
+					#remitPersion#,
+					#remitTime:DATETIME#,
+					#clientType#,
+					#marketType#,
+					#clientTag#,
+					#tons#,
+					IFNULL(#advanceTagPayment#,0)
+			)
+	</insert>
+
+	<!-- 更新业务知识临时数据信息 -->
+	<update id="updateClientInfo" parameterClass="client">
+       UPDATE t_clientinformation SET 
+       				clientCode=#clientCode#,
+                    clientName=#clientName#,
+					telphone=#telphone#,
+					mobile=#mobile#,
+					email=#email:VARCHAR#,
+					operationDirector=#operationDirector#,
+					linkman=#linkman#,
+					companyAddress=#companyAddress#,
+					servicestation=#servicestation#,
+					deliverGoodsAddress=#deliverGoodsAddress#,
+			        remitAccounts=#remitAccounts#,
+			        openAccountTitle=#openAccountTitle#,
+					ratepayingType=#ratepayingType#,
+					lyBailMonery=#lyBailMonery#,
+					remitPersion=#remitPersion#,
+					remitTime=#remitTime:DATETIME#,
+					clientType=#clientType#,
+					marketType=#marketType#,
+					clientTag=#clientTag#,
+					tons=#tons#
+					<isNotEmpty prepend="," property="advanceTagPayment">
+					advanceTagPayment=#advanceTagPayment#
+					</isNotEmpty>
+					
+       WHERE clientId=#clientId#
+	</update>
+
+	<!-- 导入EXCEL批量更新业务知识临时数据信息 -->
+	<update id="importUpdateClientInfo" parameterClass="client">
+       UPDATE t_clientinformation SET 
+                    clientName=#clientName#,
+					telphone=#telphone#,
+					mobile=#mobile#,
+					email=#email#,
+					operationDirector=#operationDirector#,
+					linkman=#linkman#,
+					companyAddress=#companyAddress#,
+					servicestation=#servicestation#,
+					deliverGoodsAddress=#deliverGoodsAddress#,
+			        remitAccounts=#remitAccounts#,
+			        openAccountTitle=#openAccountTitle#,
+					ratepayingType=#ratepayingType#,
+					lyBailMonery=#lyBailMonery#,
+					remitPersion=#remitPersion#,
+					remitTime=#remitTime:DATETIME#,
+					clientType=#clientType#,
+					marketType=#marketType#,
+					clientTag=#clientTag#,
+					tons=#tons#
+        WHERE clientCode=#clientCode#
+	</update>	
+	
+	<!-- 根据ID加载客户信息 -->
+	<select id="loadClientInfoById" parameterClass="string" resultClass="client">
+		select 
+			*
+		from t_clientinformation
+		where clientId=#clientId#
+	</select>
+	
+	<!--  分页查询 -->
+	<select id="findClientPageByCondition" parameterClass="java.util.HashMap"
+		resultClass="client">
+			  SElECT * From t_clientinformation
+		<!-- 查询条件 -->
+		<dynamic prepend="WHERE">
+			<!-- 模糊查询 -->
+			<isNotEmpty prepend="AND" property="clientCode">
+				clientCode = #clientCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="belongTo1"><!-- 退回 -->
+				<![CDATA[
+				(  belongTo is null)
+				]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="belongTo2"><!-- 退回 -->
+				<![CDATA[
+				(  belongTo is not null)
+				]]>
+			</isNotEmpty>
+		</dynamic>
+		order by clientCode DESC 
+		LIMIT #startIndex#,#pageSize#
+	</select>
+
+	<!-- 统计总条数 -->
+	<select id="findClientPageCountByCondition"
+		parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+	     	 SELECT count(*) as dataCount FROM t_clientinformation			
+		<!-- 查询条件 -->
+		<dynamic prepend="WHERE">
+			<!-- 模糊查询 -->
+			<isNotEmpty prepend="AND" property="clientCode">
+				clientCode = #clientCode#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<!-- 客户级别 2009-1-5 Don Add -->
+	<!-- 加载客户级别父根节点 -->
+	<select id="loadClientLevelRoot" parameterClass="java.lang.String"
+		resultClass="clientLevel">
+				SELECT 
+				   levelCode,
+				   levelName,
+				   parentLevelCode
+				FROM t_clientpricelevel WHERE parentLevelCode IS NULL
+	</select>
+	
+	<!-- 根据上级客户级别查找子分类　-->
+	<select id="findChildClientLevel" parameterClass="java.lang.String"
+		resultClass="clientLevel">
+				SELECT 
+				   levelCode,
+				   levelName,
+				   parentLevelCode
+				FROM t_clientpricelevel
+				WHERE parentLevelCode = #levelCode#
+	</select>
+	
+	<!-- 查找已设置关联客户级别的客户 (只限经销商) -->
+	<select id="findClientLevelOfRelated" parameterClass="java.lang.String"
+		resultClass="client">
+			SELECT clientId,clientCode,clientName
+			FROM t_clientinformation 
+			WHERE priceLevelCode = #levelCode#
+			ORDER BY clientCode
+	</select>
+	
+	<!-- 查找未设置关联客户级别的客户 (只限经销商) -->
+	<select id="findClientLevelOfNotRelated" parameterClass="java.util.Map"
+		resultClass="client">
+			SELECT clientId,clientCode,clientName
+			FROM t_clientinformation 
+			WHERE priceLevelCode IS NULL
+			ORDER BY clientCode
+	</select>
+	
+	<!-- 批量更新客户级别 -->
+	<update id="updateClientLevel" parameterClass="java.util.Map">
+		UPDATE t_clientinformation SET priceLevelCode=#levelCode#
+		WHERE clientId IN 
+		<iterate property="clientId" open="(" close=")"
+			conjunction=",">
+			#clientId[]#
+		</iterate>
+	</update>
+	
+	<!-- 客户级别树管理 -->
+	<!-- 添加客户级别节点 -->
+	<insert id="appendClientLevelNode" parameterClass="clientLevel">
+		INSERT INTO t_clientpricelevel(levelCode,levelName,parentLevelCode)
+		VALUES (#levelCode#,#levelName#,#parentLevelCode#)
+	</insert>
+	
+	<!-- 查找客户级别节点是否存在 -->
+	<select id="findClientLevelNodeIsExist" parameterClass="string" resultClass="int">
+		select IFNULL(count(*),0) as v from t_clientpricelevel where levelCode=#levelCode#
+	</select>
+	
+	<!-- 编辑客户级别节点 -->	
+	<update id="modifyClientLevelNode" parameterClass="clientLevel">
+		UPDATE t_clientpricelevel SET levelName=#levelName#,parentLevelCode=#parentLevelCode#
+		WHERE levelCode=#levelCode#
+	</update>
+	
+	<!-- 移除客户级别节点 -->	
+	<delete id="removeClientLevelNode" parameterClass="java.lang.String">
+		DELETE FROM t_clientpricelevel WHERE levelCode=#levelCode#
+	</delete>
+	
+	<!-- 删除客户级别对应的产品价格 -->
+	<delete id="removePriceOfClientLevel" parameterClass="java.lang.String">
+		DELETE FROM t_productprice WHERE levelCode=#levelCode#
+	</delete>
+	
+	<!-- 判断这个clientTag是否存在-->
+	<select id="selectByClientTag" parameterClass="client" resultClass="int">
+		SELECT 
+			count(*) 
+		FROM t_clientinformation 
+		WHERE binary clientTag=#clientTag#
+		<isNotEmpty prepend="and" property="clientId">
+			clientId!=#clientId#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="clientCode">
+			clientCode!=#clientCode#
+		</isNotEmpty>		
+	</select>
+	
+	<!-- 通过ID查找部门/公司信息　-->
+	<select id="selectClientInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+		   t.*,
+		   c.*,
+		   r.*,
+		   tt.departmentCode parentDepartmentCode,
+		   tt.departmentName parentDepartmentName
+		FROM t_department t
+		left join t_clientinformation c on c.clientId=t.departmentId
+		left join t_departmentlevelrow r on r.departmentLevelItemId=t.departmentId
+		left join t_department tt on t.parentDepartmentId = tt.departmentId
+		where (t.departmentId = #code# or t.departmentCode = #code#)
+			<isNotEmpty prepend="and" property="departmentId">
+				t.nlevelcode LIKE CONCAT(
+						(SELECT nlevelcode FROM t_department WHERE departmentId=#departmentId#)
+					,'%')
+			</isNotEmpty> 
+	</select>
+	
+	<!-- 订单吨位费用管控 - 查找经销商订单限制吨数 -->
+	<select id="findClientIndentLimitTons" parameterClass="string" resultClass="java.lang.Double">
+		select IFNULL(tons,0) from t_clientinformation where clientId=#clientId#
+	</select>
+	
+	<!-- 更新状态 -->
+	<update id="updateClientStatus" parameterClass="client">
+		update t_clientinformation set cancelTime=#cancelTime#
+		where clientId=#clientId#
+	</update>
+	
+</sqlMap>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="User">
+	<typeAlias alias="User" type="com.jl.entity.User" />
+
+	<!-- 查询用户 -->
+	<select id="queryUserResultPage" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		 select 
+			t.*,t2.departmentName
+			/*replace(replace(replace(replace(t2.nLevelName,'[0]',''),'][','/'),'[','/'),']','') as departmentName*/
+		 from t_user t
+		 left join t_department t2 on t2.departmentId=t.departmentId
+		 where 1=1
+		 <isNotEmpty prepend="and" property="departmentId">
+		 	t.departmentId = #departmentId#
+		 </isNotEmpty>
+		<!-- 权限控制 -->
+		<isNotEqual property="permission" compareValue="0" prepend="and">
+			t2.nlevelcode like CONCAT(
+				(select nlevelcode from t_department where departmentId=#permission#)
+			,'%')
+		</isNotEqual>
+		<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+			<isNotEqual property="departmentId_" compareValue="0">
+				t2.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#departmentId_#)
+				,'%')
+			</isNotEqual>
+		</isEqual>		 
+	 	<isNotEmpty property="userCode" prepend="and">
+	 		(t.userCode like '%$userCode$%' or t.userName like '%$userCode$%')
+	 	</isNotEmpty>
+		 order by t.orders desc
+		 LIMIT #startIndex#,#pageSize#
+	</select>
+	<select id="queryUserPageCount" parameterClass="java.util.Map" resultClass="int">
+		 SELECT 
+			COUNT(*) AS countx
+		 FROM t_user t
+		 left join t_department t2 on t2.departmentId=t.departmentId
+		 where 1=1
+		 <isNotEmpty prepend="and" property="departmentId">
+		 	t.departmentId = #departmentId#
+		 </isNotEmpty>
+		<!-- 权限控制 -->
+		<isNotEqual property="permission" compareValue="0" prepend="and">
+			t2.nlevelcode like CONCAT(
+				(select nlevelcode from t_department where departmentId=#permission#)
+			,'%')
+		</isNotEqual>
+		<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+			<isNotEqual property="departmentId_" compareValue="0">
+				t2.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#departmentId_#)
+				,'%')
+			</isNotEqual>
+		</isEqual>	
+	 	<isNotEmpty property="userCode" prepend="and">
+	 		(userCode like '%$userCode$%' or userName like '%$userCode$%')
+	 	</isNotEmpty>
+	</select>
+	
+	<!-- 查询用户X 可能包含目录 -->
+	<select id="queryUserResultPageX" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	 SELECT 
+		t.userId,t.userCode,t.userName,'用户' AS types
+	 FROM t_user t
+	 LEFT JOIN t_department t2 ON t2.departmentId=t.departmentId
+	 where 1=1
+		<isNotEmpty prepend="and" property="departmentId">
+		 	t.departmentId = #departmentId#
+		 </isNotEmpty>
+		<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+			<isNotEqual property="departmentId_" compareValue="0">
+				t2.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#departmentId_#)
+				,'%')
+			</isNotEqual>
+		</isEqual>
+	 	<isNotEmpty property="userCode" prepend="and">
+	 		(t.userCode like '%$userCode$%' or t.userName like '%$userCode$%')
+	 	</isNotEmpty>
+	 <isEqual property="includedept" compareValue="1">
+	
+	 UNION ALL
+	 
+	 SELECT 
+		t.departmentId userId,t.departmentcode userCode,t.departmentname userName,'部门' AS types
+	 FROM t_department t
+	 where 1=1
+		<isNotEmpty prepend="and" property="departmentId">
+		 	t.parentdepartmentId = #departmentId#
+		 </isNotEmpty>
+		<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+			<isNotEqual property="departmentId_" compareValue="0">
+				t.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#departmentId_#)
+				,'%')
+			</isNotEqual>
+		</isEqual>
+	 	<isNotEmpty property="userCode" prepend="and">
+	 		(t.departmentcode like '%$userCode$%' or t.departmentname like '%$userCode$%')
+	 	</isNotEmpty>	
+	 </isEqual>	
+		 order by userCode
+		 LIMIT #startIndex#,#pageSize#
+	</select>
+	<select id="queryUserPageCountX" parameterClass="java.util.Map" resultClass="int">
+		 SELECT 
+			SUM(v) AS countx
+		 FROM (
+			 SELECT 
+				IFNULL(count(*),0) as v
+			 FROM t_user t
+			 LEFT JOIN t_department t2 ON t2.departmentId=t.departmentId
+			 where 1=1
+				<isNotEmpty prepend="and" property="departmentId">
+				 	t.departmentId = #departmentId#
+				 </isNotEmpty>
+				<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+					<isNotEqual property="departmentId_" compareValue="0">
+						t2.nlevelcode like CONCAT(
+							(select nlevelcode from t_department where departmentId=#departmentId_#)
+						,'%')
+					</isNotEqual>
+				</isEqual>
+			 	<isNotEmpty property="userCode" prepend="and">
+			 		(t.userCode like '%$userCode$%' or t.userName like '%$userCode$%')
+			 	</isNotEmpty>
+			<isEqual property="includedept" compareValue="1">
+			 UNION ALL
+			 
+			 SELECT 
+				IFNULL(count(*),0) as v
+			 FROM t_department t
+			 where 1=1
+				<isNotEmpty prepend="and" property="departmentId">
+				 	t.parentdepartmentId = #departmentId#
+				 </isNotEmpty>
+				<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+					<isNotEqual property="departmentId_" compareValue="0">
+						t.nlevelcode like CONCAT(
+							(select nlevelcode from t_department where departmentId=#departmentId_#)
+						,'%')
+					</isNotEqual>
+				</isEqual>
+			 	<isNotEmpty property="userCode" prepend="and">
+			 		(t.departmentcode like '%$userCode$%' or t.departmentname like '%$userCode$%')
+			 	</isNotEmpty>
+			 </isEqual>	
+		 ) as tttt
+	</select>
+	
+	<!-- 查询用户X 可能包含目录 无分页-->
+	<select id="queryUserResultNoPageX" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	 SELECT 
+		t.userId,t.userCode,t.userName,'用户' AS types
+	 FROM t_user t
+	 LEFT JOIN t_department t2 ON t2.departmentId=t.departmentId
+	 where 1=1
+		<isNotEmpty prepend="and" property="departmentId">
+		 	t.departmentId = #departmentId#
+		 </isNotEmpty>
+		<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+			<isNotEqual property="departmentId_" compareValue="0">
+				t2.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#departmentId_#)
+				,'%')
+			</isNotEqual>
+		</isEqual>
+	 	<isNotEmpty property="userCode" prepend="and">
+	 		(t.userCode like '%$userCode$%' or t.userName like '%$userCode$%')
+	 	</isNotEmpty>
+	
+	 <isEqual property="includedept" compareValue="1">
+	
+	 UNION ALL
+	 
+	 SELECT 
+		t.departmentId userId,t.departmentcode userCode,t.departmentname userName,'部门' AS types
+	 FROM t_department t
+	 where 1=1
+		<isNotEmpty prepend="and" property="departmentId">
+		 	t.parentdepartmentId = #departmentId#
+		 </isNotEmpty>
+		<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+			<isNotEqual property="departmentId_" compareValue="0">
+				t.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#departmentId_#)
+				,'%')
+			</isNotEqual>
+		</isEqual>
+	 	<isNotEmpty property="userCode" prepend="and">
+	 		(t.departmentcode like '%$userCode$%' or t.departmentname like '%$userCode$%')
+	 	</isNotEmpty>	
+	 </isEqual>	
+		 order by userCode
+	</select>
+	
+	
+	<!-- 根据ID加载用户信息 -->
+	<select id="loadUserById" parameterClass="string" resultClass="java.util.HashMap">
+		 select 
+			t.*,t2.departmentName
+		 from t_user t
+		 left join t_department t2 on t2.departmentId=t.departmentId
+		 where t.userId = #userId#
+	</select>
+	
+	<!-- 查找目录下所有用户 -->
+	<select id="selectUserByPID" parameterClass="string" resultClass="string">
+		select userId from t_user where departmentId=#departmentId#
+	</select>
+	
+	<!-- 更新用户状态 -->
+	<update id="updateUserStatus" parameterClass="User">
+		update t_user set modifyDate=now(),cancelDate=#cancelDate#,status=#status#
+		where userId=#userId#
+	</update>
+
+	<!-- 删除用户信息 -->
+	<delete id="deleteUser" parameterClass="java.lang.String">
+		delete from t_user where userId=#userId#
+	</delete>
+	
+	<!-- 插入用户信息 -->
+	<insert id="insertUser" parameterClass="User">
+		<selectKey resultClass="java.lang.String" keyProperty="userId" type="pre">
+			SELECT REPLACE(UUID(),'-','') as userId
+		</selectKey>
+		INSERT INTO t_user(
+				userId,
+				userCode,
+				userName,
+				departmentId,
+				extendinfo,
+				password,
+				types,
+				description,
+				email,
+				addressinfo,
+				fox,
+				phone,
+				bussiness,
+				participant,
+				sex,
+				marriage,
+				ids,
+				major,
+				createdDate,
+				zw,
+				accounttypes,
+				leavetime,
+				backtime,
+				dlr,
+				notice,
+				orders
+		) VALUES (
+			#userId#,
+			#userCode#,
+			#userName#,
+			#departmentId#,
+			#extendinfo#,
+			#password#,
+			#types#,
+			#description#,
+			#email#,
+			#addressinfo#,
+			#fox#,
+			#phone#,
+			#bussiness#,
+			#participant#,
+			#sex#,
+			#marriage#,
+			#ids#,
+			#major#,
+			#createdDate#,
+			#zw#,
+			#accounttypes#,
+			#leavetime#,
+			#backtime#,
+			#dlr#,
+			#notice#,
+			#orders#
+		)
+	</insert>
+	
+	<!-- 更新用户信息 -->
+	<update id="updateUser" parameterClass="User">
+       UPDATE t_user SET 
+			userCode=#userCode#,
+			userName=#userName#,
+			departmentId=#departmentId#,
+			extendinfo=#extendinfo#,
+			password=#password#,
+			types=#types#,
+			description=#description#,
+			email=#email#,
+			addressinfo=#addressinfo#,
+			fox=#fox#,
+			phone=#phone#,
+			bussiness=#bussiness#,
+			participant=#participant#,
+			sex=#sex#,
+			marriage=#marriage#,
+			ids=#ids#,
+			major=#major#,
+			zw=#zw#,
+			accounttypes=#accounttypes#,
+			leavetime=#leavetime#,
+			backtime=#backtime#,
+			dlr=#dlr#,
+			notice=#notice#,
+			orders=#orders#
+       WHERE userId=#userId#
+	</update>
+
+	<!-- 判断用户编码是否已存在 -->
+	<select id="findUserCodeIsExist" parameterClass="java.lang.String" resultClass="int">
+          SELECT count(*) as dataCount FROM t_user WHERE userCode=#userCode#  
+	</select>
+	
+	<!-- 更新对应用户级别关系 
+	<update id="buildTreeLevelRelation3" parameterClass="departmentLevel">
+		update t_departmentlevel set 
+			departmentLevel=#departmentLevel#,
+		    departmentLevelCode=(select departmentCode from t_department where departmentId=#departmentLevelId#),
+		    departmentLevelName=(select departmentName from t_department where departmentId=#departmentLevelId#),
+		    orders=#orders#
+		where departmentLevelItemId=#departmentLevelItemId# and departmentLevelId=#departmentLevelId#
+	</update>
+	-->
+	<!-- 删除对应用户级别关系 
+	<update id="buildTreeLevelRelation4" parameterClass="departmentLevel">
+		delete from t_departmentlevel 
+		where departmentLevelItemId=#departmentLevelItemId# and departmentLevelId=#departmentLevelId#
+	</update>	
+-->
+</sqlMap>

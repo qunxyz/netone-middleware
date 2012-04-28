@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Shopping">
+	<typeAlias alias="shopping" type="com.jl.entity.Shopping" />
+	<typeAlias alias="shoppingDetail" type="com.jl.entity.ShoppingDetail" />
+	
+	<insert id="insertShopping" parameterClass="shopping">
+		<selectKey resultClass="java.lang.String" keyProperty="shoppingId" type="pre">
+			SELECT REPLACE(UUID(),'-','') as shoppingId
+		</selectKey>		
+			INSERT INTO t_shopping (shoppingId,purchaseIllustrate,clientId,operateTime, operate, price, status)
+			VALUES(
+				#shoppingId#, 
+				#purchaseIllustrate#, 
+				#clientId#, 
+				#operateTime#, 
+				#operate#, 
+				#price#, 
+				#status#
+			)
+	</insert>
+	<!--  分页查询表信息 -->
+	<select id="findShoppingForPage" parameterClass="java.util.HashMap" resultClass="shopping">
+		   SELECT 
+				t1.shoppingId,
+				t1.purchaseIllustrate,
+				t1.clientId,
+				t2.userCode cid,
+				t2.userName cname,
+				t1.status,
+				t1.operate,
+				t1.operateTime
+			FROM t_shopping t1
+			LEFT JOIN t_user t2 ON t1.clientId=t2.userCode
+		<!-- 查询条件 -->
+			where 1=1
+		ORDER BY t1.operateTime desc
+		LIMIT #startIndex#,#pageSize#
+	</select>
+	<!-- 统计总条数 -->
+	<select id="findShoppingPageCount" parameterClass="java.util.HashMap"
+		resultClass="java.lang.Integer">
+    	  SELECT  count(*) AS Count
+	      FROM t_shopping t1
+	     LEFT JOIN t_user t2 ON t1.clientId=t2.userCode
+		<!-- 查询条件 -->
+			where 1=1
+	</select>
+	
+	<update id="updateShoppingStatus" parameterClass="shopping">
+		update t_shopping set status=#status# where shoppingId=#shoppingId#
+	</update>
+	
+	<!-- 根据ID查找 -->
+	<select id="selectShoppingById" parameterClass="string" resultClass="shopping">
+		SELECT 
+			t.*,t2.userCode cid,t2.userName cname
+		FROM t_shopping t
+		LEFT JOIN t_user t2 ON t2.userCode=t.clientId 
+		WHERE t.shoppingId=#shoppingId#
+	</select>
+	<!-- 更新信息-->
+	<update id="updateShopping" parameterClass="shopping">
+      UPDATE t_shopping SET
+			purchaseIllustrate=#purchaseIllustrate#,
+			clientId=#clientId#,
+			<isNotEmpty property="status">
+			status=#status#,
+			</isNotEmpty>
+			operateTime=#operateTime:DATETIME#
+       WHERE shoppingId=#shoppingId#
+	</update>
+	
+	<!-- 批量删除信息 -->
+	<delete id="deleteShopping" parameterClass="string">
+       	DELETE FROM t_shopping WHERE shoppingId=#shoppingId#
+	</delete>
+	
+	<!-- 插入生产计划订单明细信息  SELECT @@IDENTITY AS Id  sql设置主键-->
+	<insert id="insertShoppingDetail" parameterClass="shoppingDetail">
+		<selectKey resultClass="java.lang.String" keyProperty="shoppingDetailId" type="pre">
+			SELECT REPLACE(UUID(),'-','') as shoppingDetailId
+		</selectKey>	
+		INSERT INTO t_shoppingdetail(shoppingDetailId,shoppingId,deviceName,units,consignmentCount,unitPrice,hopeDeliveryTime,suggestBrand,note)
+		VALUES(#shoppingDetailId#,#shoppingId#,#deviceName#,#units#,#consignmentCount#, 
+				#unitPrice#, #hopeDeliveryTime#, #suggestBrand#, #note#
+		)
+	</insert>
+	<!-- 清空所有明细信息 -->
+	<delete id="deleteAllByShoppingId" parameterClass="string">
+       	DELETE FROM t_shoppingDetail WHERE shoppingId=#shoppingId#
+	</delete>
+	
+	<select id="queryShoppingDetail" parameterClass="string" resultClass="shoppingDetail">
+			SELECT 
+				shoppingDetailId,
+				shoppingId,
+				deviceName,
+				units,
+				consignmentCount,
+				unitPrice,
+				hopeDeliveryTime,
+				suggestBrand,
+				IFNULL(note,'') note
+			FROM t_shoppingdetail 
+			WHERE shoppingId = #shoppingId# 
+	</select>
+	
+</sqlMap>
+

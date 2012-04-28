@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ZPayment">
+	<!-- 转下线投入记账 -->
+	<typeAlias alias="zpayment" type="com.jl.entity.ZPayment"/>
+	
+ 	<!-- 通过条件对转下线投入记账 分页left join t_departmentlevel t2 on t.clientId=t2.departmentLevelItemId-->
+	<select id="resultPageByCondition" parameterClass="java.util.HashMap" resultClass="zpayment">
+			   SELECT
+			   		t.pid pid,
+					t.accountantYear accountantYear,
+					t.accountantMonth accountantMonth,
+					t.payCode payCode,
+					t.createdDate createdDate,
+					t.clientId clientId,
+					t2.departmentCode clientCode,
+					t2.departmentName clientName,
+					t1.departmentCodex departmentCodex,
+					t1.departmentNamex departmentNamex,
+					t1.departmentCode1 departmentCode1,
+					t1.departmentName1 departmentName1,
+					t1.departmentCode3 departmentCode3,
+					t1.departmentName3 departmentName3,
+					t.paySum paySum,
+					t.operate operate,
+					t.note note
+				FROM t_zpayment t
+				LEFT JOIN t_departmentlevelrow t1 on t.clientId=t1.departmentLevelItemId
+				LEFT JOIN t_department t2 on t2.departmentId=t.clientId
+			where 1=1
+			<isNotEqual property="permission" compareValue="0" prepend="and"><!-- 权限控制 -->
+				t2.nlevelcode like CONCAT(
+						(select nlevelcode from t_department where departmentId=#permission#)
+					,'%')
+			</isNotEqual>
+			<isNotEmpty prepend="AND" property="payCode">
+				t.payCode=#payCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="beginTime">
+				t.createdDate &gt;= CONCAT(#beginTime#,' 00:00:00')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endTime">
+				t.createdDate &lt;= CONCAT(#endTime#,' 23:59:59')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="clientIdList">
+			  	t.clientId  IN 
+			  <iterate property="clientIdList" open="(" close=")"
+					conjunction=",">
+					#clientIdList[]#
+			  </iterate>
+			</isNotEmpty>
+			<!-- <isNotEmpty prepend="AND" property="departmentId">
+				t2.departmentLevelId = #departmentId#
+			</isNotEmpty> -->
+		ORDER BY payCode desc
+		LIMIT #startIndex#,#pageSize#
+	</select>
+	
+	<!-- 统计总条数  left join t_departmentlevel t2 on t.clientId=t2.departmentLevelItemId-->
+	<select id="totalPageCountByCondition"
+		parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+	     SELECT count(*) AS invCount 
+		 FROM t_zpayment t
+		 left join t_department _c on _c.departmentId=t.clientId
+		 where 1=1
+			<isNotEqual property="permission" compareValue="0" prepend="and"><!-- 权限控制 -->
+				_c.nlevelcode like CONCAT(
+						(select nlevelcode from t_department where departmentId=#permission#)
+					,'%')
+			</isNotEqual>
+			<isNotEmpty prepend="AND" property="payCode">
+				t.payCode=#payCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="beginTime">
+				t.createdDate &gt;= CONCAT(#beginTime#,' 00:00:00')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endTime">
+				t.createdDate &lt;= CONCAT(#endTime#,' 23:59:59')
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="clientIdList">
+			  	t.clientId  IN 
+			  <iterate property="clientIdList" open="(" close=")"
+					conjunction=",">
+					#clientIdList[]#
+			  </iterate>
+			</isNotEmpty>
+	</select>
+	
+	<!-- 加载 转下线投入记账-->
+	<select id="loadPayment" parameterClass="java.lang.String" resultClass="zpayment">
+			SELECT
+				pid,
+				payCode,
+				accountantYear,
+				accountantMonth,
+				clientId,
+				operate,
+				paySum,
+				createdDate,
+				operate,
+				note
+			FROM t_zpayment	
+			WHERE pid = #pid#
+	</select>
+	
+	<!-- 插入 转下线投入记账  -->
+	<insert id="insertPayment" parameterClass="zpayment" >		
+		<selectKey resultClass="java.lang.String" keyProperty="pid" type="pre">
+			SELECT REPLACE(UUID(),'-','') as pid
+		</selectKey>
+			INSERT INTO t_zpayment(
+			    pid,
+				payCode,
+				accountantYear,
+				accountantMonth,
+				clientId,
+				operate,
+				paySum,
+				createdDate,
+				note,
+				status
+			)
+			VALUES(
+				#pid#,
+				#payCode#,
+				#accountantYear#,
+				#accountantMonth#,
+				#clientId#,
+				#operate#,
+				#paySum#,
+				#createdDate#,
+				#note#,
+				#status#
+			)
+	</insert>
+	
+	<!-- 更新 转下线投入记账信息 -->
+	<update id="updatePayment" parameterClass="zpayment">
+		      UPDATE t_zpayment SET 
+		        payCode=#payCode#,
+				accountantYear=#accountantYear#,
+				accountantMonth=#accountantMonth#,
+				clientId=#clientId#,
+				operate=#operate#,
+				paySum=#paySum#,
+				createdDate=#createdDate#,
+				note=#note#,
+				status=#status#
+		      WHERE pid=#pid#
+	</update>
+	
+	<!-- 批量删除转下线信息 -->
+	<delete id="deletePayment" parameterClass="java.lang.String">
+	<![CDATA[
+       	DELETE FROM t_zpayment WHERE pid=#pid#;
+    ]]>
+	</delete>
+	
+	
+	<!-- 查找最后一个转线下兑付单号 -->
+	<select id="selectLastPid" resultClass="java.lang.String" parameterClass="java.lang.String">
+			<![CDATA[
+				SELECT max(payCode) FROM t_zpayment WHERE payCode LIKE '$value$%';
+			]]>
+	</select>
+</sqlMap>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Log">
+	<typeAlias alias="log" type="com.jl.entity.Log" />
+		
+	<!-- 动态建立表并返回表名 -->
+	<parameterMap id="pMap" class="log">
+		<parameter property="userId" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="userName" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="operateId" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="resultInfo" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="logSeq" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="userIp" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="userAgent" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="userHost" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+		<parameter property="remark" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN" />
+	</parameterMap>
+	<procedure id="insertLog" parameterMap="pMap">
+	<![CDATA[
+		call P_BuildLog(?,?,?,?,?,?,?,?,?)
+	]]>
+	</procedure>
+	
+	<!-- 查询日志结果集 -->
+	<procedure id="queryLogForPage" parameterClass="java.util.Map" resultClass="log">
+	<![CDATA[
+		call P_QueryLog(#userId#,#beginDate#,#endDate#,#operateItem#,#logseq#,#remark#,#startIndex#,#pageSize#)
+	]]>
+	</procedure>
+
+	<!-- 查询日志总数 -->
+	<procedure id="queryLogForPageByCount" parameterClass="java.util.Map" resultClass="int">
+	<![CDATA[
+		call P_QueryLogByCount(#userId#,#beginDate#,#endDate#,#operateItem#,#logseq#,#remark#)
+	]]>
+	</procedure>
+	
+</sqlMap>

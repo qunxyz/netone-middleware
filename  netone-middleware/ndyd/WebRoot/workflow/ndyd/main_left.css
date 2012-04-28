@@ -1,0 +1,132 @@
+/* CSS Document */
+
+body{
+	margin: 0;
+}
+
+#left_main{
+	background-image:url(images/left_bg.gif);
+	width: 319px;
+	height:764px;
+}
+
+#sysmsg_box{
+	padding-top:8px;
+	width: 290px;
+	margin-bottom:6px;
+	height:180px;
+}
+
+#baseSituation{
+
+}
+
+#msg_bt{
+	padding-bottom:5px;
+	padding-left:3px;
+}
+
+#msgcontent{
+	width:290px;
+	background-image:url(images/systemmsg_bg.gif);
+	height:152px;
+	padding-top:5px;
+	background-repeat:no-repeat;
+}
+
+#textformat{
+	text-indent:4mm;
+	font-size:12px;
+	padding-top:8px;
+	padding-bottom8px;
+}
+
+#bossbasetext{
+	text-indent:4mm;
+	font-size:12px;
+	padding-top:20px;
+	width:274px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #C8C6C7;
+	text-align:left;
+}
+
+#boxview_box{
+	width:293px;
+	height:545px;
+
+}
+
+#bossview_bt{
+	padding-top:8px;
+	padding-bottom:5px;
+	padding-left:3px;
+}
+
+#bossviewcontent{
+/*background-image:url(images/bossview_bg.gif);*/
+	width:293px;
+	height:538px;
+	background-repeat:no-repeat;
+}
+
+#flowsearch{
+	font-size:12px;
+}
+
+#gongdantitail{
+	padding-bottom:10px;
+	font-size:12px;
+}
+
+#bossviewtab{
+	font-size:12px;
+	border: 2px solid #F2F2F2;	
+}
+
+.bossviewtab_tr{
+	background-image:url(images/bosstabletop_bg.gif);
+	background-repeat:repeat-x;
+	height:28px;
+}
+
+
+td{
+	border: 1px solid #DDDDDD;	
+}
+
+#datarankings{
+	margin-left: 23px;
+	display: none;
+}
+
+.rankingstitle{
+	background-color: #dddddd;
+	height: 30px;
+	width:245px;
+	padding-top:9px;
+	color: #197BAD;
+	font-weight: bold;
+}
+
+.rankingscontent{
+	padding-top: 6px;
+}
+
+.rankingstable{
+	font-size: 12px;
+}
+
+.rankingstable td{
+	border: 0 #ffffff hidden;
+
+}
+
+.agentbox{
+	margin-top:8px;
+	text-align: left;
+	font-size: 12px;
+	vertical-align: middle;
+}
+

@@ -1,0 +1,2 @@
+insert into `t_systemconfig` (`sid`, `name`, `type`, `operate`, `operateTime`) values('37444b8797e411e097xxxxxxx','其他','dubangfrome','adminx','2011-06-16 14:45:26');
+insert into `t_systemconfig` (`sid`, `name`, `type`, `operate`, `operateTime`) values('37444b8797e411e097xxxuyyx','其他2','dubangfrome','adminx','2011-06-16 14:45:26');

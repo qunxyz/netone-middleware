@@ -1,0 +1,22 @@
+【工作流Porlet用于首页展示】 
+URL：/ndyd/WorklistPortletSvl?ope=&limit=&simple=&appname=
+ope是操作模式待办、抄送为y、抄阅为n、
+limit为当前显示条数限制 0 表示展示所有
+simple=y 是否是简单模式
+appname是应用框架的naturalname、 APPFRAME.APPFRAME.NDYD    可以为空，表示所有流程
+
+【工作流针对单个流程的应用】 
+URL：/ndyd/WorkListSvl?appname=&ope=&limit=&status=
+参数说明:   
+appname是应用框架的naturalname、 APPFRAME.APPFRAME.NDYD   可以为空，表示所有流程
+ope是操作模式待办、抄送为y、抄阅为n、
+limit为当前显示条数限制 0 表示展示所有
+status表示是待办任务01还是已办任务02
+
+【所有应用的新建入口】
+<portal:envget envkey='WEBSER_CMSWEB'/>/PagelistpathRightSvl?pagename=appframelistx&appname=APPFRAME
+
+【所有流程相关列表】 取消不用了
+代办任务       /ndyd/workList.do?method=onMainView
+已办理但未归档 /ndyd/workList.do?method=onMainView&mode=1
+已归档         /ndyd/workList.do?method=onMainView&mode=2

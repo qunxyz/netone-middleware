@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+		<!-- 报表 -->
+	<bean id="xReportIfc" class="com.jl.common.report.XReportImple"/>
+	<bean id="securityIfc" class="com.jl.common.security3a.Security3AImpl"/>
+	<bean id="twfIfc" class="com.jl.common.workflow.TWfConsoleImpl"/>
+	 
+	<bean id="baseDAO"
+		class="com.jl.service.BaseDAO">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>
+	</bean>	 
+	<!-- 用户管理 -->
+	<bean id="clientService"
+		class="com.jl.service.impl.ClientServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>
+	</bean>
+	<!--  -->
+	<bean id="logService"
+		class="com.jl.service.impl.LogServiceImpl">
+		<property name="logDAO">
+			<ref bean="logDAO" />
+		</property>
+	</bean>
+	
+	
+  <!-- 部门/公司管理 -->
+  <bean id="departmentService"
+		class="com.jl.service.impl.DepartmentServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>
+  </bean>
+  <!-- 用户管理 -->
+  <bean id="userService"
+		class="com.jl.service.impl.UserServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>		
+  </bean>  
+  
+  <bean id="censorShipService" class="com.jl.service.impl.CensorShipServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>		
+  </bean>
+  <bean id="fileSerivce" class="com.jl.service.impl.FileServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>		
+  </bean>
+  
+    <bean id="shoppingService" class="com.jl.service.impl.ShoppingServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>		
+  </bean>
+  <!-- 意见 -->
+  	<bean id="yijianService"
+		class="com.jl.service.impl.YijianServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>
+	</bean>
+  <!-- 系统配制 -->
+	<bean id="systemConfigService"
+		class="com.jl.service.impl.SystemConfigServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>
+	</bean>
+	<!-- 集团 -->
+	<bean id="groupTerminalService"
+		class="com.jl.service.impl.GroupTerminalServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>
+	</bean>
+	
+	<bean id="frameService"
+		class="com.jl.service.impl.FrameServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>
+	</bean>
+	<!-- 定期执行领导视图计数 -->
+	<bean id="LeaderViewService"
+		class="com.jl.service.impl.LeaderViewServiceImpl">
+		<property name="commonDAOMirror">
+			<ref bean="commonDAOMirror" />
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<bean name="logger" class="com.jl.log.LoggingHandler" >
+		<property name="logDAO">
+			<ref bean="logDAO" />
+		</property>
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>
+	</bean>
+	<!-- 配置拦截器代理 -->
+	<bean name="loggingInterceptor" 
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor" >
+		<property name="advice"><!--  advice属性确定处理bean-->
+			<ref bean="logger" />
+		</property>
+		<property name="patterns"><!--  patterns确定正则表达式模式-->
+			<list>
+					<!-- 拦截具体业务方法配置 -->
+					<value>com.jl.service.DepartmentService.saveOrUpdateDepartment*.*</value>
+					<value>com.jl.service.DepartmentService.deleteDepartment*.*</value>
+					
+					<value>com.jl.service.UserService.saveOrUpdate*.*</value>
+					<value>com.jl.service.UserService.deleteInfo*.*</value>
+					
+					<!-- 公司应用 -->
+					<value>com.jl.service.FrameService.saveAndUpdate*.*</value>
+					<value>com.jl.service.FrameService.newEnd*.*</value>
+					<value>com.jl.service.FrameService.auditEnd*.*</value>
+					<value>com.jl.service.FrameService.saveYijian*.*</value>
+					<value>com.jl.service.FrameService.delete*.*</value>
+					<value>com.jl.service.FrameService.assignEnd*.*</value>
+					
+					<!-- 督办业务 -->
+					<value>com.jl.service.CensorShipService.delete*.*</value>
+					<value>com.jl.service.CensorShipService.save*.*</value>
+					<value>com.jl.service.CensorShipService.assign*.*</value>
+					<value>com.jl.service.CensorShipService.auditNext*.*</value>
+					<value>com.jl.service.CensorShipService.pack*.*</value>
+					<value>com.jl.service.CensorShipService.audit*.*</value>
+					<value>com.jl.service.CensorShipService.saveyijian*.*</value>
+					
+					<!-- 附件 -->
+					<value>com.jl.service.FileService.delete*.*</value>
+					<value>com.jl.service.FileService.save*.*</value>
+					<value>com.jl.service.FileService.deleteFileByUnidAndD_unid*.*</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 
+	<bean name="exceptionInterceptor" 
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor" >
+		<property name="advice">
+			<ref bean="exception" />
+		</property>
+		<property name="patterns">
+			<list>
+					
+			</list>
+		</property>
+	</bean>
+	-->
+	
+</beans>

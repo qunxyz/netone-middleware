@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans></form-beans>
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+
+		<!-- 客户管理 -->
+		<action path="/client"
+			type="com.jl.web.controller.client.ClientAction"
+			parameter="method">
+			<forward contextRelative="true" name="onMainView"
+				path="/WEB-INF/jsp/client/clientMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onChildMainView"
+				path="/WEB-INF/jsp/client/childClienttMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onQueryMainView"
+				path="/WEB-INF/jsp/client/clientQueryMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onQueryView"
+				path="/WEB-INF/jsp/client/querySellTargetList.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditClientInfoView"
+				path="/WEB-INF/jsp/client/editClient.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditChildView"
+				path="/WEB-INF/jsp/client/editChildClient.jsp">
+			</forward>
+			<forward contextRelative="true" name="onClienttReceipt"
+				path="/WEB-INF/jsp/client/clientReceipt.jsp">
+			</forward>
+			<forward contextRelative="true" name="onClientReceiptForm"
+				path="/WEB-INF/jsp/client/clientReceiptForm.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onAuditingClientReceiptForm"
+				path="/WEB-INF/jsp/client/auditingClientReceiptForm.jsp">
+			</forward>
+			<!-- 客户级别配置 -->
+			<forward contextRelative="true" name="onLevelConfigMainView"
+				path="/WEB-INF/jsp/client/clientLevelConfigMain.jsp">
+			</forward>
+			<!-- 未设置级别的客户选择 -->
+			<forward contextRelative="true" name="onClientRelationSelectView"
+				path="/WEB-INF/jsp/common/clientRelationSelect.jsp">
+			</forward>
+		</action>
+
+		<!-- 客户销售指标管理 -->
+		<action path="/sellTarget"
+			type="com.jl.web.controller.client.SellTargetAction"
+			parameter="method">
+			<forward contextRelative="true" name="onMainSellTargetView"
+				path="/WEB-INF/jsp/department/sellTargetMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditSellTargetView"
+				path="/WEB-INF/jsp/department/editSellTarget.jsp">
+			</forward>
+			
+			<!-- 分类指标比例 -->
+			<forward contextRelative="true"
+				name="onCategoriesSellTargetMainView"
+				path="/WEB-INF/jsp/client/categoriesTargetMain.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onEditCategoriesSellTargetView"
+				path="/WEB-INF/jsp/client/editCategoriesTarget.jsp">
+			</forward>
+			
+			
+			<!-- 客户销售指标导入 -->
+			<forward contextRelative="true"
+				name="onImportClientTargetView"
+				path="/WEB-INF/jsp/client/importClientTarget.jsp">
+			</forward>
+			<!-- 产品分类的指标导入 -->
+			<forward contextRelative="true"
+				name="onImportCategoriesTargetView"
+				path="/WEB-INF/jsp/client/importCategoriesTarget.jsp">
+			</forward>
+			
+			<forward contextRelative="true"
+				name="onCategoriesSellTargetMainView"
+				path="/WEB-INF/jsp/client/categoriesTargetMain.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onEditCategoriesSellTargetView"
+				path="/WEB-INF/jsp/client/editCategoriesTarget.jsp">
+			</forward>
+		</action>
+
+
+		<!-- 客户销售指标管理
+		<action path="/sellTargetNew"
+			type="com.jl.web.controller.client.SellTargetNewAction"
+			parameter="method">
+			<forward contextRelative="true" name="onMainView"
+				path="/WEB-INF/jsp/client/clientTargetNewMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onAddView"
+				path="/WEB-INF/jsp/client/editClientTargetNew.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditView"
+				path="/WEB-INF/jsp/client/editClientTargetNew.jsp">
+			</forward>
+			<forward contextRelative="true" name="onSelect"
+				path="/WEB-INF/jsp/client/categoriesSelect.jsp">
+			</forward>
+
+
+			<forward contextRelative="true"
+				name="onProductCategoriesSellTargetMainView"
+				path="/WEB-INF/jsp/client/productCategoriesTargetMain.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onProductCategoriesSellTargetEditView"
+				path="/WEB-INF/jsp/client/editProductCategoriesTarget.jsp">
+			</forward>
+			
+			<forward contextRelative="true"
+				name="onCategoriesSellTargetMainView"
+				path="/WEB-INF/jsp/client/categoriesTargetMain.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onEditCategoriesSellTargetView"
+				path="/WEB-INF/jsp/client/editCategoriesTarget.jsp">
+			</forward>
+
+			<forward contextRelative="true"
+				name="onTargetAnalysisMainView"
+				path="/WEB-INF/jsp/client/clientTargetAnalysisQueryMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onTargetAnalysis"
+				path="/WEB-INF/jsp/client/clientTargetAnalysisExcel.jsp">
+			</forward>
+
+
+		</action>
+ -->
+
+		<!--  分销商的数据导入 -->
+		<action path="/import"
+			type="com.jl.web.controller.ImportAction"
+			parameter="method">
+			<forward contextRelative="true"
+				name="onImportChildClientView"
+				path="/WEB-INF/jsp/client/importChildFile.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onImportClientInfoView"
+				path="/WEB-INF/jsp/client/importChientInfo.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onImportResourseView"
+				path="/WEB-INF/jsp/client/importResourse.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onExportResourseView"
+				path="/WEB-INF/jsp/client/exportResourse.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onExportResourse"
+				path="/WEB-INF/jsp/client/exportResourseFile.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onImportCaMapView"
+				path="/WEB-INF/jsp/client/importCaKeyMap.jsp">
+			</forward>
+			<forward contextRelative="true"
+				name="onImportClientTagView"
+				path="/WEB-INF/jsp/client/importChientTag.jsp">
+			</forward>
+			<!-- 客户销售指标导入 -->
+			<forward contextRelative="true"
+				name="onImportClientTarget"
+				path="/WEB-INF/jsp/client/importClientTarget.jsp">
+			</forward>
+			<!-- 客户销售指标导入 20110222-->
+			<forward contextRelative="true"
+				name="onImportPCTarget"
+				path="/WEB-INF/jsp/client/importPCategoriesTarget.jsp">
+			</forward>
+		</action>
+		<!-- 经销商三级码的上传 -->
+		<action path="/importFile"
+			type="com.jl.web.controller.ImportAction"
+			parameter="method">
+			<forward contextRelative="true"
+				name="onImportClientdFileView"
+				path="/WEB-INF/jsp/client/importChientFile.jsp">
+			</forward>
+			<forward contextRelative="true" name="onDowanLoadFileView"
+				path="/WEB-INF/jsp/client/dowanLoadFileView.jsp">
+			</forward>
+		</action>
+		
+	</action-mappings>
+</struts-config>

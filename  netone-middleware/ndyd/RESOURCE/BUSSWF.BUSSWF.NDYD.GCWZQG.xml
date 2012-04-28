@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="GB2312"?>
+<Package Id="163991906969" Name="page" xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/docs/TC-1025_schema_10_xpdl.xsd">
+	<PackageHeader>
+ 	<XPDLVersion>1.0</XPDLVersion>
+ 	<Vendor>oesee</Vendor>
+ 	<Created>2006-03-08 15:45:54</Created>
+	</PackageHeader>
+	<RedefinableHeader PublicationStatus="UNDER_TEST"/>
+	<ConformanceClass GraphConformance="NON_BLOCKED"/>
+	<WorkflowProcesses>
+ 	<WorkflowProcess AccessLevel="PUBLIC" Id="BUSSWF.BUSSWF.NDYD.GCWZQG" Name="gcwzqg[工程物资请购]">
+ 		<ProcessHeader DurationUnit="D">
+ 			<Created>2011-05-30 10:22:28</Created>
+ 		</ProcessHeader>
+ 	<RedefinableHeader PublicationStatus="UNDER_TEST"/>
+ 		<DataFields>
+ 			<DataField Id="rev3" IsArray="FALSE" Name="rev3">
+ 				<DataType>
+ 					<BasicType Type="STRING"/>
+ 				</DataType>
+ 				<InitialValue>null</InitialValue>
+ 				<Length>0</Length>
+ 				<Description>null</Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="valuemode" Value="dyform"/>
+ 					<ExtendedAttribute Name="value" Value="92f937d38a8311e08ee94945b9db990a_"/>
+ 				</ExtendedAttributes>
+ 			</DataField>
+ 			<DataField Id="customer" IsArray="FALSE" Name="customer">
+ 				<DataType>
+ 					<BasicType Type="STRING"/>
+ 				</DataType>
+ 				<InitialValue>null</InitialValue>
+ 				<Length>0</Length>
+ 				<Description>null</Description>
+ 				<ExtendedAttributes>
+ 				</ExtendedAttributes>
+ 			</DataField>
+ 			<DataField Id="bussid" IsArray="FALSE" Name="bussid">
+ 				<DataType>
+ 					<BasicType Type="STRING"/>
+ 				</DataType>
+ 				<InitialValue>null</InitialValue>
+ 				<Length>0</Length>
+ 				<Description>null</Description>
+ 				<ExtendedAttributes>
+ 				</ExtendedAttributes>
+ 			</DataField>
+ 			<DataField Id="bussurl" IsArray="FALSE" Name="bussurl">
+ 				<DataType>
+ 					<BasicType Type="STRING"/>
+ 				</DataType>
+ 				<InitialValue>null</InitialValue>
+ 				<Length>0</Length>
+ 				<Description>null</Description>
+ 				<ExtendedAttributes>
+ 				</ExtendedAttributes>
+ 			</DataField>
+ 			<DataField Id="busstype" IsArray="FALSE" Name="busstype">
+ 				<DataType>
+ 					<BasicType Type="STRING"/>
+ 				</DataType>
+ 				<InitialValue>null</InitialValue>
+ 				<Length>0</Length>
+ 				<Description>null</Description>
+ 				<ExtendedAttributes>
+ 				</ExtendedAttributes>
+ 			</DataField>
+ 			<DataField Id="busstip" IsArray="FALSE" Name="busstip">
+ 				<DataType>
+ 					<BasicType Type="STRING"/>
+ 				</DataType>
+ 				<InitialValue>null</InitialValue>
+ 				<Length>0</Length>
+ 				<Description>null</Description>
+ 				<ExtendedAttributes>
+ 				</ExtendedAttributes>
+ 			</DataField>
+ 			<DataField Id="status" IsArray="FALSE" Name="status">
+ 				<DataType>
+ 					<BasicType Type="STRING"/>
+ 				</DataType>
+ 				<InitialValue>null</InitialValue>
+ 				<Length>0</Length>
+ 				<Description>null</Description>
+ 				<ExtendedAttributes>
+ 				</ExtendedAttributes>
+ 			</DataField>
+ 		</DataFields>
+ 	<Activities>
+ 		<Activity Id="trackAction1306721554492" Name="需求人">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="53"/>
+ 				<ExtendedAttribute Name="YOffset" Value="164"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="trackAction1306721586819" Name="市公司中心经理">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="57"/>
+ 				<ExtendedAttribute Name="YOffset" Value="270"/>
+ 				<ExtendedAttribute Name="partvalue" Value="40288185261100960126162ec64300cc"/>
+ 				<ExtendedAttribute Name="partmode" Value="group"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="trackAction1306721645897" Name="市公司部门经理">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="55"/>
+ 				<ExtendedAttribute Name="YOffset" Value="361"/>
+ 				<ExtendedAttribute Name="partmode" Value="manual"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="trackAction1306721674148" Name="市公司财务部经理">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="226"/>
+ 				<ExtendedAttribute Name="YOffset" Value="360"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="trackAction1306721718905" Name="市公司分管副总">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="426"/>
+ 				<ExtendedAttribute Name="YOffset" Value="227"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="trackAction1306721758311" Name="市公司总经理">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="658"/>
+ 				<ExtendedAttribute Name="YOffset" Value="354"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="trackAction1306721777483" Name="市公司采购员">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="606"/>
+ 				<ExtendedAttribute Name="YOffset" Value="488"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="trackAction1306721799432" Name="市公司仓管员">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="759"/>
+ 				<ExtendedAttribute Name="YOffset" Value="487"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="trackAction1306721881284" Name="需求人">
+ 			<Implementation>
+ 				<No/>
+ 			</Implementation>
+ 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="906"/>
+ 				<ExtendedAttribute Name="YOffset" Value="486"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="route4" Name="路由">
+ 			<Route/> 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="371"/>
+ 				<ExtendedAttribute Name="YOffset" Value="359"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		<Activity Id="route5" Name="路由">
+ 			<Route/> 			<StartMode>
+ 				<Automatic/>
+ 			</StartMode>
+ 			<FinishMode>
+ 				<Automatic/>
+ 			</FinishMode>
+ 			<TransitionRestrictions>
+ 				<TransitionRestriction>
+ 				</TransitionRestriction>
+ 			</TransitionRestrictions>
+ 			<ExtendedAttributes>
+ 				<ExtendedAttribute Name="ParticipantID" Value="FreeTextExpressionParticipant"/>
+ 				<ExtendedAttribute Name="XOffset" Value="499"/>
+ 				<ExtendedAttribute Name="YOffset" Value="356"/>
+ 			</ExtendedAttributes>
+ 		</Activity>
+ 		</Activities>
+ 		<Transitions>
+ 			<Transition Name="" From="trackAction1306721554492" Id="trackAction1306721554492_trackAction1306721586819" To="trackAction1306721586819">
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="trackAction1306721586819" Id="trackAction1306721586819_trackAction1306721645897" To="trackAction1306721645897">
+ 				<Condition Type="CONDITION"><![CDATA[System.out.println("1111111111111111111111");]]></Condition>
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="trackAction1306721645897" Id="trackAction1306721645897_trackAction1306721674148" To="trackAction1306721674148">
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="trackAction1306721777483" Id="trackAction1306721777483_trackAction1306721799432" To="trackAction1306721799432">
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="trackAction1306721799432" Id="trackAction1306721799432_trackAction1306721881284" To="trackAction1306721881284">
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="trackAction1306721674148" Id="trackAction1306721674148_route4" To="route4">
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="route4" Id="route4_trackAction1306721718905" To="trackAction1306721718905">
+ 				<Condition Type="CONDITION"><![CDATA[String lsh=wf.get(runtimeid,"rev3");
+double price=dy.getd(lsh,"column6");
+return price>=300000;]]></Condition>
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="route4" Id="route4_trackAction1306721777483" To="trackAction1306721777483">
+ 				<Condition Type="CONDITION"><![CDATA[String lsh=wf.get(runtimeid,"rev3");
+double price=dy.getd(lsh,"column6");
+return price<300000;]]></Condition>
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="trackAction1306721718905" Id="trackAction1306721718905_route5" To="route5">
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="route5" Id="route5_trackAction1306721777483" To="trackAction1306721777483">
+ 				<Condition Type="CONDITION"><![CDATA[String lsh=wf.get(runtimeid,"rev3");
+double price=dy.getd(lsh,"column6");
+return (price>300000&&price<1000000);]]></Condition>
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="route5" Id="route5_trackAction1306721758311" To="trackAction1306721758311">
+ 				<Condition Type="CONDITION"><![CDATA[String lsh=wf.get(runtimeid,"rev3");
+double price=dy.getd(lsh,"column6");
+return price>=1000000;]]></Condition>
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 			<Transition Name="" From="trackAction1306721758311" Id="trackAction1306721758311_trackAction1306721777483" To="trackAction1306721777483">
+ 				<Description></Description>
+ 				<ExtendedAttributes>
+ 					<ExtendedAttribute Name="RoutingType" Value="NOROUTING"/>
+ 				</ExtendedAttributes>
+ 			</Transition>
+ 		</Transitions>
+ 		<ExtendedAttributes>
+ 			<ExtendedAttribute Name="StartOfWorkflow" Value="FreeTextExpressionParticipant;trackAction1306721554492;54;79;NOROUTING"/>
+ 			<ExtendedAttribute Name="EndOfWorkflow" Value="FreeTextExpressionParticipant;trackAction1306721881284;1061;483;NOROUTING"/>
+ 			<ExtendedAttribute Name="ParticipantVisualOrder" Value="FreeTextExpressionParticipant;"/>
+ 			<ExtendedAttribute Name="othercount" Value="5"/>
+ 			<ExtendedAttribute Name="othercount" Value="3"/>
+ 			<ExtendedAttribute Name="activitymaxcount" Value="11"/>
+ 			<ExtendedAttribute Name="activitymaxcount" Value="11"/>
+ 			<ExtendedAttribute Name="activitycount" Value="9"/>
+ 			<ExtendedAttribute Name="activitycount" Value="9"/>
+ 		</ExtendedAttributes>
+ 	</WorkflowProcess>
+	</WorkflowProcesses>
+	<ExtendedAttributes>
+ 	<ExtendedAttribute Name="MadeBy" Value="www.oesee.org"/>
+ 	<ExtendedAttribute Name="Version" Value="1.0"/>
+	</ExtendedAttributes>
+</Package>

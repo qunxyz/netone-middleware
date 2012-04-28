@@ -67,6 +67,29 @@ public class RuleEngine2Impl implements RuleEngine {
 					+ e.getMessage());
 		}
 	}
+	
+	
+	public Object todo(String elogicExpress) {
+		// 如果没有规则那么默认为真
+		if (elogicExpress == null || elogicExpress.equals("")) {
+			return null;
+		}
+
+		Interpreter itp = new Interpreter();
+
+		try {
+
+			Object revValue = itp.eval(scripthead + elogicExpress);
+			if (revValue != null) {
+				return revValue;
+			}
+			return null;
+
+		} catch (EvalError e) {
+			throw new RuntimeException("规则语法错误:" + elogicExpress + " detail:"
+					+ e.getMessage());
+		}
+	}
 
 	public String getScripthead() {
 		return scripthead;

@@ -15,7 +15,6 @@ import java.util.jar.Attributes.Name;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
 import oe.rmi.client.RmiEntry;
@@ -37,7 +36,6 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
-
 /**
  * 页框ExtJs展现程序
  * 
@@ -54,55 +52,46 @@ public class ExtProletAction extends Action {
 		String node = request.getParameter("node");
 		String mode = request.getParameter("mode");
 		String root = request.getParameter("listPath");
-		
-		if (StringUtils.isNotEmpty(ajax))
-		{
+
+		if (StringUtils.isNotEmpty(ajax)) {
 			if ("1".equals(node)) // 首次打印树
 			{
-				show( root, request, response,true);
+				show(root, request, response, true);
+			} else {
+				show(node, request, response, true);
 			}
-			else
+		} else {
+			if ("4".equals(mode)) // 横型预览2
 			{
-				show( node, request, response,true);
-			}
-		}
-		else
-		{
-			if("4".equals(mode)) // 横型预览2
-			{
-				show( root, request, response,false);
+				show(root, request, response, false);
 				return mapping.findForward("extportalframe2");
-			}
-			else
-			{
+			} else {
 				return mapping.findForward("extportalframe1");
 			}
 		}
-		
+
 		return null;
 	}
-	
-	private void show(String naturalName,HttpServletRequest request, HttpServletResponse response,boolean json)
-	{
+
+	private void show(String naturalName, HttpServletRequest request,
+			HttpServletResponse response, boolean json) {
 		StringBuffer jsonBuffer = new StringBuffer();
-		String split 			= "";
-		ResourceRmi rsrmi 		= null;
-		try 
-		{
+		String split = "";
+		ResourceRmi rsrmi = null;
+		try {
 			// 读取名为resource的rmi服务
 			rsrmi = (ResourceRmi) RmiEntry.iv("resource");
 			UmsProtectedobject rootElement = rsrmi
 					.loadResourceByNatural(naturalName);
 
-			List<UmsProtectedobject> nextlist = rsrmi
-					.subResource(rootElement.getId());
+			List<UmsProtectedobject> nextlist = rsrmi.subResource(rootElement
+					.getId());
 
 			Collections.reverse(nextlist);
 
 			Map<String, List<UmsProtectedobject>> map = new LinkedHashMap<String, List<UmsProtectedobject>>();
 
-			for (Iterator iterator = nextlist.iterator(); iterator
-					.hasNext();) {
+			for (Iterator iterator = nextlist.iterator(); iterator.hasNext();) {
 				UmsProtectedobject object = (UmsProtectedobject) iterator
 						.next();
 				List<UmsProtectedobject> nextNextlist = rsrmi
@@ -112,15 +101,13 @@ public class ExtProletAction extends Action {
 
 				jsonBuffer.append(split);
 				jsonBuffer.append("{");
-				jsonBuffer.append("id:'" + object.getNaturalname()
-						+ "',");
+				jsonBuffer.append("id:'" + object.getNaturalname() + "',");
 				jsonBuffer.append("text:'" + object.getName() + "'");
 				/*Dption:获取描述内容*/
 				//jsonBuffer.append(",Dption:'" + object.getDescription() + "'");
-				
 				String Dptiontext = xmlshow(object.getDescription());
 				jsonBuffer.append(",Dption:'" + Dptiontext + "'");
-				
+
 				/*Actionurl:引用地址*/
 				jsonBuffer.append(",Actionurl:'" + object.getActionurl() + "'");
 				if (nextNextlist.size() != 0) {
@@ -132,9 +119,8 @@ public class ExtProletAction extends Action {
 
 				split = ",";
 			}
-			
-			if(json)
-			{
+
+			if (json) {
 				// 输出json
 				System.out.println("[" + jsonBuffer.toString() + "]");
 				response.setContentType("text/json;charset=UTF-8");
@@ -142,14 +128,11 @@ public class ExtProletAction extends Action {
 				pw.write("[" + jsonBuffer.toString() + "]");
 				pw.flush();
 				pw.close();
-			}
-			else
-			{
+			} else {
 				request.setAttribute("childrenlist", nextlist);
 				request.setAttribute("map", map);
 			}
-		} 
-		catch (NotBoundException e) {
+		} catch (NotBoundException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -162,23 +145,20 @@ public class ExtProletAction extends Action {
 			e.printStackTrace();
 		}
 	}
+
 	//解析XML
-	private String xmlshow(String text) throws DocumentException{
+	private String xmlshow(String text) throws DocumentException {
 		String text1 = null;
-		if("".equals(text)){
-			return text;
-		}
-		else{
-			SAXReader reader = new SAXReader();
+		SAXReader reader = new SAXReader();
+		if (StringUtils.isNotEmpty(text)) {
+			text = "<?xml version=\"1.0\"?><node><note><![CDATA[" + text
+					+ "]]></note></node>";
 			Document doc = DocumentHelper.parseText(text);
-			
 			Element root = doc.getRootElement();
 			//Element memberElm=root.element("note" ); 
-			text1=root.elementText("note" );
-			System.out.print(text1);
+			text1 = root.elementText("note");
 		}
 		return text1;
 	}
-	
-	
+
 }

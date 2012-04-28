@@ -200,6 +200,24 @@
 		document.getElementById('Actionurltext').src="<c:url value='"+myActionurl+"'/>";
       	}
       });
+      
+     Ext.Ajax.request({  
+       url : 'extframes.do?Dption=1&listPath=${param.listPath}',
+       method : 'post',
+       success : function(response) {
+      	var jsons  = eval(response.responseText);
+      	//存放描述中的内容
+   		var myDption = jsons[0].Dption;
+   		var myActionurl = jsons[0].Actionurl;
+   		if(myDption=="1"){
+   			alert("请正确的选择配置根目录");
+   			myDption = "请正确的选择配置根目录";
+   		}
+		var myDptiontext= Ext.get('Dptiontext').dom;
+		myDptiontext.innerHTML = myDption;
+		document.getElementById('Actionurltext').src="<c:url value='"+myActionurl+"'/>";
+      	}
+      });
     </script>
 </head>
 <body>

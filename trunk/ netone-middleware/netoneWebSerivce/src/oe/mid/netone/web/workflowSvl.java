@@ -50,7 +50,8 @@ public class workflowSvl extends HttpServlet {
 		String sqlStr=null;
 		 if(model.equals("0")){
 			 String naturalname=request.getParameter("naturalname");
-			 sqlStr="SELECT naturalname,NAME,id,actionurl FROM netone.ums_protectedobject WHERE naturalname = '"+naturalname+"'";
+			 sqlStr="SELECT NAME,id FROM  netone.ums_protectedobject WHERE parentdir = (SELECT id " +
+			 		"FROM netone.ums_protectedobject WHERE naturalname = '"+naturalname+"')";
 		 }
 		 if(model.equals("1")){
 			 String parentdir =request.getParameter("parentdir");

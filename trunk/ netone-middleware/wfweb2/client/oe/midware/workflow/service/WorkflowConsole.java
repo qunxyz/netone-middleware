@@ -178,5 +178,12 @@ public interface WorkflowConsole extends Remote, ProcessEngine {
 	 * 可以最灵活的分析和获得工作流的详细信息
 	 */
 	int coreSqlhandle(String sql) throws RemoteException;
+	
+	/**
+	 * 执行脚本
+	 * @param script 脚本由外部做预处理，比如 $(var)表示变量可以处理
+	 * @return 可以返回任意类型
+	 */
+	Object exeScript(String script) throws RemoteException;
 
 }

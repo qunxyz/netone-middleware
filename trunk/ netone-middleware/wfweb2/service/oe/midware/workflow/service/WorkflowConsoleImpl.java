@@ -329,4 +329,10 @@ public class WorkflowConsoleImpl extends UnicastRemoteObject implements
 		
 	}
 
+	@Override
+	public Object exeScript(String script) throws RemoteException {
+		// TODO Auto-generated method stub
+		return processEngine.exeScript(script);
+	}
+
 }

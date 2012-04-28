@@ -55,6 +55,7 @@
 			import oe.frame.bus.workflow.rule.*;
 			import java.util.*;
 			import java.sql.*;
+			import java.text.*;
 			import oe.mid.soa.bean.SoaBean;
 			
 			MsgScriptFunction msg = (MsgScriptFunction) WfEntry.fetchBean("msg");

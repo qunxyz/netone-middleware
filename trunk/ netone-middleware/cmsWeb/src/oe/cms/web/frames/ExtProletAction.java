@@ -149,10 +149,10 @@ public class ExtProletAction extends Action {
 	//Ω‚ŒˆXML
 	private String xmlshow(String text) throws DocumentException {
 		String text1 = null;
-		SAXReader reader = new SAXReader();
-		if (StringUtils.isNotEmpty(text)) {
-			text = "<?xml version=\"1.0\"?><node><note><![CDATA[" + text
+		if (StringUtils.isNotEmpty(text)) { 
+			text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><node><note><![CDATA[" + text
 					+ "]]></note></node>";
+			System.out.println(text);
 			Document doc = DocumentHelper.parseText(text);
 			Element root = doc.getRootElement();
 			//Element memberElm=root.element("note" ); 

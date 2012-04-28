@@ -1,5 +1,6 @@
 package oe.midware.workflow.engine;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -166,6 +167,11 @@ public class ProcessEngineImp implements ProcessEngine {
 
 	public void setSubProcessActor(SubProcessActor subProcessActor) {
 		this.subProcessActor = subProcessActor;
+	}
+
+	@Override
+	public Object exeScript(String logicExp) throws RemoteException {
+		return ruleEngine.todo(logicExp);
 	}
 
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans></form-beans>
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action path="/shopping"
+			type="com.jl.web.controller.shopping.ShoppingAction" parameter="method">
+			<forward contextRelative="true" name="onMainView"
+				path="/WEB-INF/jsp/shopping/shoppingMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditView"
+				path="/WEB-INF/jsp/shopping/editShopping.jsp">
+			</forward>
+			<!-- 明细 -->
+			<forward contextRelative="true" name="onShoppingDetailMainView"
+				path="/WEB-INF/jsp/shopping/queryShopping.jsp">
+			</forward>
+			<forward contextRelative="true" name="onRollBackView"
+				path="/WEB-INF/jsp/shopping/rollBackShopping.jsp">
+			</forward>
+		</action>
+		<action path="/busstip"
+			type="com.jl.web.controller.shopping.BussTipAction" parameter="method">
+			<forward contextRelative="true" name="onMainView"
+				path="/WEB-INF/jsp/shopping/shoppingMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditView"
+				path="/WEB-INF/jsp/shopping/editShopping.jsp">
+			</forward>
+			<!-- 明细 -->
+			<forward contextRelative="true" name="onShoppingDetailMainView"
+				path="/WEB-INF/jsp/shopping/shoppingDetailView.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditPlanDetailView"
+				path="/WEB-INF/jsp/shopping/editShoppingDetail.jsp">
+			</forward>
+		</action>
+	</action-mappings>
+</struts-config>

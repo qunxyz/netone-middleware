@@ -1,0 +1,13 @@
+tzy 2011/06/26 17:36
+
+netone组织机构新建人员添加新字段：
+
+zw:职务字段
+accounttypes:账户类型
+leavetime：离开时间
+backtime：回来时间
+dlr：代理人
+notice：通知方式
+
+
+20110626t_user_structure.sql 为新的表结构

@@ -1,0 +1,158 @@
+@CHARSET "UTF-8";
+
+.addIcon {
+	background-image: url(../images/default/add.gif) !important;
+}
+
+.openIcon {
+	background-image: url(../images/default/open.gif) !important;
+}
+
+.saveIcon {
+	background-image: url(../images/default/save.gif) !important;
+}
+
+.resetIcon{
+	background-image: url(../images/default/reset.png) !important;
+}
+
+.deleteIcon {
+	background-image: url(../images/default/delete.gif) !important;
+}
+
+.editIcon {
+	background-image: url(../images/default/plugin.gif) !important;
+}
+
+.cancelIcon {
+	background-image: url(../images/default/cancel.gif) !important;
+}
+
+.exitIcon {
+	background-image: url(../images/default/exit.gif) !important;
+}
+
+.newIcon {
+	background-image: url(../images/default/new.gif) !important;
+}
+.leftIcon{
+	background-image: url(../images/multiselectItemSelector/left.gif) !important;
+}
+.rightIcon{
+	background-image: url(../images/multiselectItemSelector/right.gif) !important;
+}
+
+.reIcon{
+	background-image: url(../images/default/re.gif) !important;
+}
+
+.shIcon{
+	background-image: url(../images/default/sh.gif) !important;
+}
+	
+.savedIcon{
+	background-image: url(../images/default/saved.png) !important;
+}
+.okIcon{
+	background-image: url(../images/default/okbtn.png) !important;
+}
+.archiveIcon{
+	background-image: url(../images/default/archive.png) !important;
+}
+.addSIcon{
+	background-image: url(../images/default/addS.png) !important;
+}
+.copyIcon{
+	background-image: url(../images/default/copy.png) !important;
+}
+.viewIcon{
+	background-image: url(../images/default/view.png) !important;
+}
+.downLoadIcon{
+	background-image: url(../images/default/downLoad.png) !important;
+}
+.refreshIcon{
+	background-image: url(../images/default/nowait.gif) !important;
+}
+
+.excelIcon{
+	background-image: url(../images/default/excel.gif) !important;
+}
+
+.pdfIcon{
+	background-image: url(../images/default/pdf.gif) !important;
+}
+
+.wordIcon{
+	background-image: url(../images/default/word.gif) !important;
+}
+
+.picIcon{
+	background-image: url(../images/default/pic.gif) !important;
+}
+.ieIcon{
+	background-image: url(../images/appImage/btn/system/ie.png) !important;
+}
+.pptIcon{
+	background-image: url(../images/default/ppt.gif) !important;
+}
+
+.downloadIcon2{
+	background-image: url(../images/default/download.gif) !important;
+}
+
+.add-allIcon{
+	background-image: url(../images/appImage/btn/system/add-all.gif) !important;
+}
+
+.rem-allIcon{
+	background-image: url(../images/appImage/btn/system/rem-all.gif) !important;
+}
+.clientIcon{
+	background-image: url(../images/appImage/menus/system/user_menu.png) !important;
+}
+.selltargIcon{
+	background-image: url(../images/appImage/menus/personal/dutyStats.png) !important;
+}
+.selltarIcon{
+	background-image: url(../images/appImage/menus/system/report_menu.png) !important;
+}
+.addUserIcon{
+	background-image: url(../images/appImage/system/adduser.gif) !important;
+}
+.queryUIcon{
+	background-image: url(../images/appImage/btn/eyes.png) !important;
+}
+.configIcon{
+	background-image: url(../images/appImage/system/system_config.png) !important;
+}
+.manageIcon{
+	background-image: url(../images/appImage/menus/manage.png) !important;
+}
+.productIcon{
+	background-image: url(../images/appImage/menus/customer/product.png) !important;
+}
+.import{
+	background-image: url(../images/appImage/btn/info/receive.png) !important;
+}
+.editSpecial{
+	background-image: url(../images/appImage/btn/flow/flow_design.png) !important;
+}
+.print{
+	background-image: url(../images/appImage/btn/print.png) !important;
+}
+.flow_chartIcon{
+	background-image: url(../images/appImage/btn/flow/flow_chart.png) !important;
+}
+.job_checkIcon{
+	background-image: url(../images/appImage/menus/hrm/job_check.png) !important;
+}
+.topIcon{
+	background-image: url(../images/default/top2.gif) !important;
+}
+.upIcon{
+	background-image: url(../images/default/up2.gif) !important;
+}
+.infoIcon{
+	background-image: url(../images/appImage/btn/info/reply.png) !important;
+}

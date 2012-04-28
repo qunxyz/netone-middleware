@@ -1,0 +1,326 @@
+body {
+	FONT-SIZE: 12px;
+	font-family: "宋体";
+}
+/**-- 头部 --*/
+#app-header {
+	background: url(images/header_.gif) repeat-x;
+	background-color:#6E2A0A;
+	height: 66px;
+	width: 100%;
+}
+
+#header-left {
+	background: url(images/header.gif);
+	width: 674px;
+	height:66px;
+	float: left;
+}
+
+#header-main {
+	width: 520px;
+	float: left;
+	margin-left: 6px;
+}
+
+#header-right {
+	width: 260px;
+	float: right;
+}
+#setting {
+	float: right;
+	width: 80px;
+	padding-top: 6px;
+	padding-right: 6px;
+}
+#setting a{
+	color:#F4E4AD;
+	font-weight:bold;
+}
+#setting a:hover{
+	color:#AC6401;
+	font-weight:bold;
+}
+/**-- 左侧导航 --*/
+.accordion .accordion-header{
+	background-image: url(images/LTitle.gif);
+	background-repeat: no-repeat;
+	background-position:  center;
+	height: 20px;
+	width: 183px;
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+}
+/** 待定 */
+.LBody{
+	background-color: #fff;
+	padding-bottom: 15px;
+	background-attachment: scroll;
+	background-image: url(images/LBody.gif);
+	background-repeat: repeat-x;
+	background-position: left bottom;
+}
+/*超链接的样式*/
+span A:link{
+	FONT-SIZE:12px;
+	COLOR:#6e6e6e;
+	text-decoration: none;
+}
+span A:visited{
+	FONT-SIZE:12px;
+	COLOR:#6e6e6e;
+	text-decoration: none;
+}
+span A:hover{
+	FONT-SIZE:12px;
+	color:#177fbe;
+	text-decoration: none;
+}
+/***------------------------------------- 主体样式  内部  -------------------------------------- */
+/*---可移动 报表查询样式 ----start----*/
+#wrapper {
+    width: 500px;
+    margin: 0 auto;
+}
+
+h2 {
+    margin: 0;
+    margin-bottom: 14px;
+    padding: 0;
+}
+
+#slider {
+    width: 500px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.scroll {
+    width: 500px;
+    overflow: auto;
+    overflow-x: hidden;
+    position: relative;
+    clear: left;
+    background: #FFFFFF;
+	border:2px solid #875546;
+}
+
+.scrollContainer div.panel {
+    padding: 20px 5px;
+    height: 210px;
+    width: 500px;
+	font-size:12px;
+	line-height:18px;
+}
+#shade {
+    background: #EDEDEC;
+    height: 50px;
+}
+.navigation{ height:24px;}
+ul.navigation {
+    list-style: none;
+    margin: 0;
+    padding:0;
+   /* padding-bottom: 9px;*/
+    margin-top: 20px;
+}
+ul.navigation li {
+    display: inline;
+	 margin:0;
+    padding:0;
+}
+ul.navigation a {
+    padding: 20px;
+    color: #613611;
+    text-decoration: none;
+	line-height:24px;
+	font-size:12px;
+	background-attachment: scroll;
+	background-image: url(images/TableftB.gif);
+	background-repeat: no-repeat;
+	background-position: left;
+}
+ul.navigation a:hover {
+	background-attachment: scroll;
+	background-image: url(images/TableftA.gif);
+	background-repeat: no-repeat;
+	background-position: left;
+}
+
+ul.navigation a.selected {
+	 padding: 21px;
+	color:#fff;
+	font-weight:bold;
+	background-attachment: scroll;
+	background-image: url(images/TableftA.gif);
+	background-repeat: no-repeat;
+	background-position: left;
+}
+
+ul.navigation a:focus {
+    outline: none;
+}
+
+/*---可移动 报表查询样式----end----*/
+/**-查询页面-*/
+.divQuery{
+	margin:auto;
+	background-color: #fff;
+	height: 150px;
+}
+/*--所有编辑页面及出、入库查询、出入库（实际、账面）汇总 ---start---*/
+
+table.main {
+	/*border: 3px solid #875546;
+	border-collapse: collapse;
+	boder-spacing:2px;*/
+}
+td.label {
+	background-color: #fff;
+	color: #000066;
+	text-align: right;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-style: normal;
+	border: 1px solid #875546;
+}
+td.label_ {
+	color: #000;
+	text-align: right;
+	font-style: normal;
+	border: 0;
+}
+/** td导入文件标题等 （“请选择要导入数据文件”）*/
+td.labeltitle {
+	font-size: 14px;
+	font-family: "宋体";
+	padding-left: 10px;
+	padding-top: 15px;
+	color: #000066;
+	text-align: left;
+	border: 1px solid #875546;
+	background-color: #C09588;
+}
+td.labeltitle_td{
+	width: 100%;
+	height: 50px;
+	vertical-align: top;
+	padding-top: 25px;
+	padding-bottom: 20px;
+	text-align: center;
+	background-color: #fff;
+	border: 1px solid #875546;
+}
+/** td中的查询按钮 */
+td.labelbtn {
+	text-align: right;
+	border: 1px solid #875546;
+}
+/*--所有编辑页面及出、入库查询、出入库（实际、账面）汇总 ---end---*/
+
+/*----产销计划、订单\配送 -----strat -----*/
+table.mainPI{
+ border:0;
+ border-color: #9fd6ff;
+ border-collapse: collapse;
+ width: 100%;
+}
+td.labelPI{
+	background-color: #fff;
+	color: #000066;
+	text-align: right;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-style: normal;
+}
+.text {
+	border-left: 0px;
+	border-right: 0px;
+	border-top: 0px;
+	border-bottom-color: #3167B1;
+	border-bottom: 1px solid
+}
+/*----产销计划、订单\配送 -----end -----*/
+
+/*- workList------start--*/
+.titleList{
+	font-size: 14px;
+}
+.hrList{
+	color: #875546;
+}
+.titlebig{
+	color: red;
+	font-weight: bold;
+	font-size: 14px;
+}
+a.titlemid:link{
+	color: red;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.titlemid:visited {
+	color: red;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.titlemid:hover {
+	color: red;
+	font-size: 13px;
+	text-decoration:underline;
+}
+
+a.titlesmall:link{
+	color: blue;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.titlesmall:visited{
+	color: blue;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.titlesmall:hover {
+	color: blue;
+	font-size: 13px;
+	text-decoration:underline;
+}
+.title{
+	color: #999990;
+	font-size: 13px;
+}
+a.titles:link{/*正常*/
+	text-decoration:underline;
+	color: #999999;
+	font-size: 13px;
+}
+a.titles:visited{/*按下*/
+	text-decoration:underline;
+	color: #999999;
+	font-size: 13px;
+}
+a.titles:hover {
+	color: #999999;
+	font-size: 13px;
+	text-decoration:underline;
+}
+a.none:link{
+	color:blue;
+	font-size: 14px;
+	text-decoration: underline;
+}
+a.none:visited{
+	color:#800080;
+	font-size: 14px;
+	text-decoration: underline;
+}
+
+/** 产品选择页面中，提示输入产品编码、或名字进行查询 */
+.titleInfo{
+	width: 150px;
+	font:12px/14px arial;
+	color:#999;
+}

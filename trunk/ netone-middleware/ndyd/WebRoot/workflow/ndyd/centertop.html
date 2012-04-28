@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">   
+<html xmlns="http://www.w3.org/1999/xhtml">   
+<head>   
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />   
+<title></title>   
+<style>
+*{
+	font-size:12px;
+	padding:0;
+	margin:0 auto;
+	font-family:"arial","微软雅黑","宋体";
+}
+img {
+	border:0;
+}
+ol,ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+.tb_ {      
+    background-repeat: repeat-x;   
+    background-color: #FFF;   
+}   
+.tb_ ul {   
+    height:190px;   
+}   
+.tb_ li {   
+    float:left;   
+    height: 24px;   
+    line-height:1.9;   
+    width: 94px;   
+    cursor:pointer;   
+}   
+/* 控制显示与隐藏css类 */  
+.normaltab {   
+    background-repeat: no-repeat;   
+     color:#1F3A87;   
+}   
+.hovertab {      
+    background-repeat: no-repeat;   
+     color:#1F3A87;  
+}   
+.dis {   
+    display:block; 
+	  
+}   
+.undis {   
+    display:none;   
+}   
+</style>  
+<script type="text/javascript" language="javascript">   
+//<!CDATA[   
+function g(o){return document.getElementById(o);}   
+function HoverLi(n){   
+//如果有N个标签,就将i<=N;   
+for(var i=1;i<=2;i++){g('tb_'+i).className='normaltab';g('tbc_0'+i).className='undis';}g('tbc_0'+n).className='dis';g('tb_'+n).className='hovertab';   
+}     
+</script>   
+</head>   
+<body>  
+<div style="margin-left:20px;"> 
+ <div style="margin-top:10px;"> 
+      <span id="tb_1" class="hovertab" onclick="x:HoverLi(1);"> 我的代办</span>&nbsp;
+      <span id="tb_2" class="normaltab" onclick="i:HoverLi(2);">我的待阅</span> <br>
+</div>
+    <div class="dis" id="tbc_01" style="line-height:20px;margin-top:6px">
+         <div>中国移动集团福建省宁德分公司中国移动集团&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;张三&nbsp;&nbsp;&nbsp;&nbsp;[2010-03-03]</div>
+         <div>中国移动集团福建省宁德分公司中国移动集团&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;张三&nbsp;&nbsp;&nbsp;&nbsp;[2010-03-03]</div>
+         <div>中国移动集团福建省宁德分公司中国移动集团&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;张三&nbsp;&nbsp;&nbsp;&nbsp;[2010-03-03]</div>
+         <div>中国移动集团福建省宁德分公司中国移动集团&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;张三&nbsp;&nbsp;&nbsp;&nbsp;[2010-03-03]</div>
+    </div>  
+<div class="undis" id="tbc_02" style="line-height:20px;margin-top:6px">
+<div>中国移动集团福建省宁德分公司中国移动集团&nbsp;&nbsp;&nbsp;&nbsp;张三</div>
+<div>中国移动集团福建省宁德分公司中国移动集团&nbsp;&nbsp;&nbsp;&nbsp;张三</div>
+<div>中国移动集团福建省宁德分公司中国移动集团&nbsp;&nbsp;&nbsp;&nbsp;张三</div>
+<div>中国移动集团福建省宁德分公司中国移动集团&nbsp;&nbsp;&nbsp;&nbsp;张三</div>
+ </div>
+ 
+ </div>
+</body>   
+</html>  

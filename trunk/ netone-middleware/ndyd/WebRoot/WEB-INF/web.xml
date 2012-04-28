@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_9" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<distributable />
+	<!-- 加载spring配置文件 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/application.xml</param-value>
+	</context-param>
+	<!--start 配置log4j的File Appender 引用上下文路径 -->
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>NDYDWebApp.root</param-value>
+	</context-param>
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/classes/log4j-config.properties
+		</param-value>
+	</context-param>
+	<!--end 配置log4j的File Appender 引用上下文路径 -->
+	<context-param>
+		<param-name>log4jRefreshInterval</param-name>
+		<param-value>60000</param-value>
+	</context-param>
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>com.jl.common.EncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+
+
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>
+			org.springframework.web.util.Log4jConfigListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+	<!-- Session 监听 -->
+	<listener>
+		<listener-class>com.jl.common.SessionListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>ssofilter</filter-name>
+		<filter-class>oe.security3a.sso.SsoFilter</filter-class>
+		<init-param>
+			<param-name>AbortUrls</param-name>
+			<param-value>
+				/syscUser,/dataOuterBk.jsp,/SSOSvl,/servlet/SyncPhpCmsUserSvl,/servlet/ReturnRadomPasswordSvl
+			</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>ssofilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>logoutsvl</servlet-name>
+		<servlet-class>
+			oe.security3a.sso.listener.LogoutSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>logoutsvl</servlet-name>
+		<url-pattern>/logoutsvl</url-pattern>
+	</servlet-mapping>
+
+	<!-- Struts 控制配置 start -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.struts.action.ActionServlet
+		</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/censorship</param-name>
+			<param-value>
+				/WEB-INF/strutsConfig/censorship/struts-config.xml
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/shopping</param-name>
+			<param-value>
+				/WEB-INF/strutsConfig/shopping/struts-config.xml
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/client</param-name>
+			<param-value>
+				/WEB-INF/strutsConfig/client/struts-config.xml
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/common</param-name>
+			<param-value>
+				/WEB-INF/strutsConfig/common/struts-config.xml
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/department</param-name>
+			<param-value>
+				/WEB-INF/strutsConfig/department/struts-config.xml
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/groupTerminal</param-name>
+			<param-value>
+				/WEB-INF/strutsConfig/groupTerminal/struts-config.xml
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<!-- Standard Action Servlet Mapping -->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<!-- 	Struts 控制配置 End -->
+
+	<!-- 资源管理部分 -->
+	<servlet>
+		<servlet-name>MoveSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.common.MoveSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MoveSvl</servlet-name>
+		<url-pattern>/MoveSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SelectSvl</servlet-name>
+		<url-pattern>/SelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.MultiSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MSelectSvl</servlet-name>
+		<url-pattern>/MSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.SingleSelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SSelectSvl</servlet-name>
+		<url-pattern>/SSelectSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DownloadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.DownloadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadSvl</servlet-name>
+		<url-pattern>/DownloadSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DownloadSvl2</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.DownloadSvl2
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadSvl2</servlet-name>
+		<url-pattern>/DownloadSvl2</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.common.XMLFuncTreeSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>XMLFuncTreeSvl</servlet-name>
+		<url-pattern>/XMLFuncTreeSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.applist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistAddSvl</servlet-name>
+		<url-pattern>/ApplistAddSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistDeleteSvl</servlet-name>
+		<url-pattern>/ApplistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AppistModifySvl</servlet-name>
+		<url-pattern>/ApplistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistRightSvl</servlet-name>
+		<url-pattern>/ApplistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.applist.SelectSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ApplistSelectSvl</servlet-name>
+		<url-pattern>/ApplistSelectSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<servlet-class>oe.mid.web.rspage.pagelist.AddSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistAddSvl</servlet-name>
+		<url-pattern>/PagelistAddSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PagelistCopySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.CopySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistCopySvl</servlet-name>
+		<url-pattern>/PagelistCopySvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.DeleteSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistDeleteSvl</servlet-name>
+		<url-pattern>/PagelistDeleteSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ModifySvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistModifySvl</servlet-name>
+		<url-pattern>/PagelistModifySvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.ViewSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistViewSvl</servlet-name>
+		<url-pattern>/PagelistViewSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistRightSvl</servlet-name>
+		<url-pattern>/PagelistRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelist.UploadSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistUploadSvl</servlet-name>
+		<url-pattern>/PagelistUploadSvl</url-pattern>
+	</servlet-mapping>
+	<!-- rspage.pagelist 结束 -->
+
+	<!-- rspage.pagelistpath 开始-->
+	<servlet>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<servlet-class>
+			oe.mid.web.rspage.pagelistpath.RightSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PagelistpathRightSvl</servlet-name>
+		<url-pattern>/PagelistpathRightSvl</url-pattern>
+	</servlet-mapping>
+
+	<!-- rspage.pagelistpath 开始-->
+	<!-- rspage.pagelistpath 结束-->
+	<!-- 资源管理部分 -->
+
+	<servlet>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<servlet-class>oe.frame.web.util.AjaxServiceSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>syscUser</servlet-name>
+		<servlet-class>
+			com.jl.service.syncUser.SyncUserSvl
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<url-pattern>/servlet/AjaxServiceSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>syscUser</servlet-name>
+		<url-pattern>/syscUser</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!--  系统错误时候，过滤跳转到其他页面 -->
+	<filter>
+		<filter-name>Error Forward</filter-name>
+		<filter-class>com.jl.common.ErrorFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Error Forward</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+			<taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+			<taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>
+				http://java.sun.com/jsp/jstl/functions
+			</taglib-uri>
+			<taglib-location>/WEB-INF/tld/fn.tld</taglib-location>
+		</taglib>
+		<!-- <el-ignored>false</el-ignored> -->
+	</jsp-config>
+
+
+
+	<!-- Flex 整合 -->
+	<display-name>BlazeDS</display-name>
+	<description>BlazeDS Application</description>
+
+	<!-- Http Flex Session attribute and binding listener support -->
+	<listener>
+		<listener-class>flex.messaging.HttpFlexSession</listener-class>
+	</listener>
+
+	<!-- MessageBroker Servlet -->
+	<servlet>
+		<servlet-name>MessageBrokerServlet</servlet-name>
+		<servlet-class>
+			flex.messaging.MessageBrokerServlet
+		</servlet-class>
+		<init-param>
+			<param-name>services.configuration.file</param-name>
+			<param-value>/WEB-INF/flex/services-config.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>MessageBrokerServlet</servlet-name>
+		<url-pattern>/messagebroker/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- DWR -->
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>
+			org.directwebremoting.servlet.DwrServlet
+		</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>classes</param-name>
+			<param-value>java.lang.Object</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<description>
+			This is the description of my J2EE component
+		</description>
+		<display-name>
+			This is the display name of my J2EE component
+		</display-name>
+		<servlet-name>InitOuCache</servlet-name>
+		<servlet-class>
+			com.jl.common.security3a.InitOuCache
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<description>
+			This is the description of my J2EE component
+		</description>
+		<display-name>
+			This is the display name of my J2EE component
+		</display-name>
+		<servlet-name>SSOSvl</servlet-name>
+		<servlet-class>com.jl.common.security3a.SSOSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+			This is the description of my J2EE component
+		</description>
+		<display-name>
+			This is the display name of my J2EE component
+		</display-name>
+		<servlet-name>SyncPhpCmsUserSvl</servlet-name>
+		<servlet-class>
+			com.jl.common.portal.SyncPhpCmsUserSvl
+		</servlet-class>
+	</servlet>
+
+
+	<servlet>
+		<description>
+			This is the description of my J2EE component
+		</description>
+		<display-name>
+			This is the display name of my J2EE component
+		</display-name>
+		<servlet-name>CuibangSvl</servlet-name>
+		<servlet-class>com.jl.common.message.CuibangSvl</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+			This is the description of my J2EE component
+		</description>
+		<display-name>
+			This is the display name of my J2EE component
+		</display-name>
+		<servlet-name>ReturnRadomPasswordSvl</servlet-name>
+		<servlet-class>
+			com.jl.common.security3a.ReturnRadomPasswordSvl
+		</servlet-class>
+	</servlet>
+	<!-- tzy 领导视图计算
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TestLeaderView</servlet-name>
+    <servlet-class>com.jl.scheduler.job.TestLeaderView</servlet-class>
+  </servlet>
+-->
+
+
+
+
+
+
+
+
+
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>InitOuCache</servlet-name>
+		<url-pattern>/servlet/InitOuCache</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SSOSvl</servlet-name>
+		<url-pattern>/SSOSvl</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>SyncPhpCmsUserSvl</servlet-name>
+		<url-pattern>/servlet/SyncPhpCmsUserSvl</url-pattern>
+	</servlet-mapping>
+
+
+
+
+	<servlet-mapping>
+		<servlet-name>CuibangSvl</servlet-name>
+		<url-pattern>/CuibangSvl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ReturnRadomPasswordSvl</servlet-name>
+		<url-pattern>/servlet/ReturnRadomPasswordSvl</url-pattern>
+	</servlet-mapping>
+	<!-- tzy 领导视图计算 
+  <servlet-mapping>
+    <servlet-name>TestLeaderView</servlet-name>
+    <url-pattern>/TestLeaderView</url-pattern>
+  </servlet-mapping>
+  -->
+
+	<filter>
+		<filter-name>GZIPFilter</filter-name>
+		<filter-class>
+			com.tacitknowledge.filters.gzipfilter.GZIPFilter
+		</filter-class>
+		<init-param>
+			<param-name>AbortFiles</param-name>
+			<param-value>/dwr/</param-value>
+		</init-param>
+	</filter>
+	<!-- CacheFilter Definition -->
+	<filter>
+		<filter-name>CacheFilter</filter-name>
+		<filter-class>
+			com.tacitknowledge.filters.cache.CacheHeaderFilter
+		</filter-class>
+	</filter>
+
+	<!-- 这里按自己许多针对不同文件进行filter-mapping配置，比如*.css -->
+	<filter-mapping>
+		<filter-name>GZIPFilter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZIPFilter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+
+	<!-- CacheFilter Mappings  - Alter to fit your circumstances -->
+	<filter-mapping>
+		<filter-name>CacheFilter</filter-name>
+		<url-pattern>*.gif</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CacheFilter</filter-name>
+		<url-pattern>*.jpg</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CacheFilter</filter-name>
+		<url-pattern>*.png</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CacheFilter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+ <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>reportViewSvl</servlet-name>
+    <servlet-class>com.jl.common.report.servlet.ReportViewSvl</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>reportViewSvl</servlet-name>
+    <url-pattern>/reportViewSvl</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DataTrans</servlet-name>
+    <servlet-class>com.jl.common.report.DataTransSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>MessageSvl</servlet-name>
+    <servlet-class>com.jl.common.message.MessageSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>dyinfo</servlet-name>
+    <servlet-class>com.jl.common.dyform.Dyinfo</servlet-class>
+  </servlet>
+ <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>dyinfofull</servlet-name>
+    <servlet-class>com.jl.common.dyform.DyinfoFull</servlet-class>
+  </servlet>
+
+    <servlet-mapping>
+    <servlet-name>DataTrans</servlet-name>
+    <url-pattern>/servlet/DataTrans</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MessageSvl</servlet-name>
+    <url-pattern>/servlet/MessageSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+   <!-- json 数据包装模式（主表单）的数据一起返回-->
+    <servlet-name>dyinfo</servlet-name>
+    <url-pattern>/dyinfo</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+   <!-- json 数据包装模式（主表单与子表单）的数据一起返回-->
+    <servlet-name>dyinfofull</servlet-name>
+    <url-pattern>/dyinfofull</url-pattern>
+  </servlet-mapping>
+</web-app>

@@ -1,0 +1,506 @@
+/***------------------------------------- 通用样式【按钮】  -------------------------------------- */
+/** 按钮统一样式 */
+input.btn {
+	/*BORDER-RIGHT: #2C59AA 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #2C59AA 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 12px;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColorStr =   #ffffff, EndColorStr =#C3DAF5);
+	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C3DAF5)); 
+	background: -moz-linear-gradient(top,  #ffffff,  #C3DAF5); 
+	BORDER-LEFT: #2C59AA 1px solid;
+	CURSOR: hand;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #2C59AA 1px solid;
+	color: black;
+    background-color: #F6F6F6;
+    outline: medium none;
+    width: 65px;*/
+    
+    font-size: 9pt; /* 设定字体 */
+    background-image: url(104.gif); /* 设定背景图url */
+    background-repeat: no-repeat;/*设置背景图不平铺 */
+    height: 22px; /* 等于背景图高度 */
+    width: 64px; /* 等于背景图宽度 */
+    background-position: center center; /* 设定背景图居中 */
+    border: none; /* 取消边框 */
+    color: #000;
+    vertical-align: middle;
+    text-align: center;
+    
+}
+input.btn:hover{
+	font-size: 9pt; /* 设定字体 */
+    background-image: url(104.gif); /* 设定背景图url */
+    background-repeat: no-repeat;/*设置背景图不平铺 */
+    height: 22px; /* 等于背景图高度 */
+    width: 64px; /* 等于背景图宽度 */
+    background-position: center center; /* 设定背景图居中 */
+    border: none; /* 取消边框 */
+    color: #337FC1;
+    vertical-align: middle;
+    text-align: center;
+}
+
+input.nd_btn_yj_1{
+	background: url(cancel.png) ;
+	background-repeat: no-repeat;
+	background-position:center left;
+	
+	background-color:#f5f5f5;
+	border:1px solid #dedede;
+	border-top:1px solid #eee;
+	border-left:1px solid #eee;
+	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	
+	text-decoration:none;
+	font-weight:bold;
+	color:#2380B1;
+	padding:3px 5px 0px 12px; /* Links 上右下左*/
+	margin:3px 5px 0px 12px; /* Links 上右下左*/
+}
+input.nd_btn_yj_1:hover{
+	background: url(cancel.png) ;
+	background-repeat: no-repeat;
+	background-position:center left;
+
+	background-color:#f5f5f5;
+	border:1px solid #dedede;
+	border-top:1px solid #eee;
+	border-left:1px solid #eee;
+	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	
+	text-decoration:none;
+	font-weight:bold;
+	color:#565656;
+	padding:3px 5px 0px 12px; /* Links 上右下左*/
+	margin:3px 5px 0px 12px; /* Links 上右下左*/
+}
+
+input.nd_btn_yj_3{
+	background: url(cancel.png) ;
+	background-repeat: no-repeat;
+	background-position:center left;
+	
+	background-color:#f5f5f5;
+	border:1px solid #dedede;
+	border-top:1px solid #eee;
+	border-left:1px solid #eee;
+	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	
+	text-decoration:none;
+	font-weight:bold;
+	color:#2380B1;
+	padding:3px 5px 0px 12px; /* Links 上右下左*/
+	margin:3px 5px 0px 12px; /* Links 上右下左*/
+}
+input.nd_btn_yj_3:hover{
+	background: url(cancel.png) ;
+	background-repeat: no-repeat;
+	background-position:center left;
+
+	background-color:#f5f5f5;
+	border:1px solid #dedede;
+	border-top:1px solid #eee;
+	border-left:1px solid #eee;
+	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	
+	text-decoration:none;
+	font-weight:bold;
+	color:#565656;
+	padding:3px 5px 0px 12px; /* Links 上右下左*/
+	margin:3px 5px 0px 12px; /* Links 上右下左*/
+}
+input.nd_btn_yj_2{
+	background: url(edit_add.png) ;
+	background-repeat: no-repeat;
+	background-position:center left;
+	
+	background-color:#f5f5f5;
+	border:1px solid #dedede;
+	border-top:1px solid #eee;
+	border-left:1px solid #eee;
+	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	
+	text-decoration:none;
+	font-weight:bold;
+	color:#2380B1;
+	padding:3px 5px 0px 10px; /* Links 上右下左*/
+	margin:3px 5px 0px 10px; /* Links 上右下左*/
+}
+input.nd_btn_yj_2:hover{
+	background: url(edit_add.png) ;
+	background-repeat: no-repeat;
+	background-position:center left;
+	
+	background-color:#f5f5f5;
+	border:1px solid #dedede;
+	border-top:1px solid #eee;
+	border-left:1px solid #eee;
+	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	
+	text-decoration:none;
+	font-weight:bold;
+	color:#565656;
+	padding:3px 5px 0px 10px; /* Links 上右下左*/
+	margin:3px 5px 0px 10px; /* Links 上右下左*/
+}
+/*input.btn:active{
+
+}*/
+input.btn_mouseover {
+	BORDER-RIGHT: #7b9ebd 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #7b9ebd 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 12px;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColorStr =   #ffffff, EndColorStr =#9DBCEA);
+	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#9DBCEA)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #ffffff,  #9DBCEA); /* for firefox 3.6+ */
+	BORDER-LEFT: #7b9ebd 1px solid;
+	CURSOR: hand;
+	COLOR: black;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #7b9ebd 1px solid;
+}
+input.btn_mousedown {
+	BORDER-RIGHT: #FFE400 1px solid;
+	PADDING-RIGHT: 2px;
+	BORDER-TOP: #FFE400 1px solid;
+	PADDING-LEFT: 2px;
+	FONT-SIZE: 12px;
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColorStr =   #ffffff, EndColorStr =#C3DAF5);
+	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C3DAF5)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #ffffff,  #C3DAF5); /* for firefox 3.6+ */
+	BORDER-LEFT: #FFE400 1px solid;
+	CURSOR: hand;
+	COLOR: black;
+	PADDING-TOP: 2px;
+	BORDER-BOTTOM: #FFE400 1px solid;
+}
+
+/** 选择框 */
+fieldset{
+ border:solid 1px #fff;
+}
+fieldset select{
+ margin: -3px;
+  clear:both;
+}
+
+._mapFlag{
+	background: url(point.gif);
+	background-repeat: no-repeat;
+	width:10px;
+	height:12px;
+	text-align: center;
+	vertical-align: middle;
+}
+._mapMark{
+	background: url(female.png);
+	background-repeat: no-repeat;
+	width:12px;
+	height:16px;
+	text-align: center;
+	vertical-align: middle;
+}
+._mapFlagOver{
+	background: url(_point.gif);
+	background-repeat: no-repeat;
+	width:16px;
+	height:18px;
+	text-align: center;
+	vertical-align: middle;
+	z-index:99999;
+}
+._mapMarkOver{
+	background: url(_female.png);
+	background-repeat: no-repeat;
+	width:18px;
+	height:20px;
+	text-align: center;
+	vertical-align: middle;
+	z-index:99999;
+}
+/*超链接的样式*/
+A:link.map{
+	FONT-SIZE:12px;
+	COLOR:red;
+	font-weight:bold;
+	text-decoration: none;
+	background-color: yellow;
+	white-space: nowrap;
+}
+A:visited.map{
+	FONT-SIZE:12px;
+	COLOR:red;
+	font-weight:bold;
+	text-decoration: none;
+	background-color: yellow;
+	white-space: nowrap;
+}
+A:hover.map{
+	FONT-SIZE:18px;
+	color:red;
+	font-weight:bold;
+	text-decoration: none;
+	background-color: yellow;
+	white-space: nowrap;
+}
+span.right_ A:link{
+	FONT-SIZE:14px;
+	COLOR:blue;
+	text-decoration: none;
+	white-space: nowrap;
+}
+span.right_ A:visited{
+	FONT-SIZE:14px;
+	COLOR:blue;
+	text-decoration: none;
+	white-space: nowrap;
+}
+span.right_ A:hover{
+	FONT-SIZE:14px;
+	color:blue;
+	font-weight:bold;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+._mapGD {
+        scrollbar-face-color: #fff;
+        scrollbar-shadow-color: #808080;
+        scrollbar-3dlight-color: #fff;
+        scrollbar-arrow-color: #006C90;
+        scrollbar-darkshadow-color: #ffffff;
+        scrollbar-base-color: #ffffff;
+}
+.map_font_right{
+	FONT-SIZE: 14px;
+}
+
+
+
+#maptable { 
+    padding: 0; 
+    margin: 0; 
+} 
+
+caption._rhigtC { 
+    padding: 0 0 5px 0;  
+    font: italic 14px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; 
+    text-align: right; 
+} 
+
+th._rhigtTh { 
+    font: bold 14px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; 
+    color: #000; 
+    border-right: 1px solid #C0C0C0; 
+    border-bottom: 1px solid #C0C0C0; 
+    border-top: 1px solid #C0C0C0; 
+    letter-spacing: 2px; 
+    text-transform: uppercase; 
+    text-align: left; 
+    padding: 3px 3px 3px 6px; 
+    background: #C0C0C0; 
+} 
+td.alt { 
+    border-top: 1px solid #000;
+    background: #CCFFFF; 
+    font-size:14px; 
+    padding: 3px 0px 3px 6px; 
+    color: green; 
+}
+td.alt1 { 
+    background: #CCFFFF; 
+    font-size:14px; 
+    padding: 3px 0px 3px 6px; 
+    color: green; 
+}
+td.alt1_ { 
+    border-top: 1px solid #000;
+    background: #CCFFFF; 
+    font-size:14px; 
+    padding: 2px 3px 2px 3px;
+    color:blue;
+}
+td.alt_ { 
+    /*border-right: 1px solid #C1DAD7; 
+    border-bottom: 1px solid #C1DAD7; */
+    background: #CCFFFF; 
+    font-size:14px; 
+    padding: 2px 3px 2px 3px;
+    color:blue;
+} 
+td._rhigtTd { 
+    border-right: 1px solid #C1DAD7; 
+    border-bottom: 1px solid #C1DAD7; 
+    background: #fff; 
+    font-size:14px; 
+    padding: 6px 6px 6px 10px; 
+    color: #613611; 
+}
+th.spec { 
+    border-left: 1px solid #C1DAD7; 
+    border-top: 0; 
+    background: #fff; 
+    font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; 
+} 
+td.mapqd { 
+	border-top: 1px solid #000; 
+    background: #FEFF99; 
+    font-size:14px; 
+    padding: 3px 3px 3px 6px; 
+    color: green; 
+}
+td.mapqd1 { 
+    background: #FEFF99; 
+    font-size:14px; 
+    padding: 3px 3px 3px 6px; 
+    color: green; 
+}
+td.mapqd_ { 
+	border-top: 1px solid #000; 
+    background: #FFF6D9; 
+    font-size:14px; 
+    padding: 3px 3px 3px 6px; 
+    color: green; 
+}
+td.mapqd1_ {  
+    background: #FFF6D9; 
+    font-size:14px; 
+    padding: 3px 3px 3px 6px; 
+    color: green;
+}
+td._mapqd { 
+	border-top: 1px solid #000; 
+    background: #FFCB99; 
+    font-size:14px; 
+    padding: 3px 3px 3px 6px; 
+    color: green; 
+}
+td._mapqd1 { 
+    background: #FFCB99; 
+    font-size:14px; 
+    padding: 3px 3px 3px 6px; 
+    color: green; 
+}
+td._mapqd1_1 { 
+    background: #FFCB99; 
+    font-size:14px; 
+    padding: 2px 3px 2px 3px; 
+    color: blue; 
+}
+td.mapkc{
+	/*border-right: 1px solid #C1DAD7; 
+    border-bottom: 1px solid #C1DAD7; */
+    background: #B3E1FC; 
+    font-size:14px; 
+    padding: 3px 3px 3px 6px; 
+    color: green;
+}
+td.mapkc2{
+	border-top: 1px solid #000; 
+    background: #B3E1FC; 
+    font-size:14px; 
+    padding: 3px 0px 3px 6px; 
+    color: green;
+}
+td.mapkc1{
+	/*border-right: 1px solid #C1DAD7; 
+    border-bottom: 1px solid #C1DAD7; */
+    background: #B3E1FC; 
+    font-size:14px; 
+    padding: 2px 2px 2px 3px; 
+    color: green;
+}
+td.mapkc_{
+	/*border-right: 1px solid #C1DAD7; 
+    border-bottom: 1px solid #C1DAD7; */
+    background: #B3E1FC; 
+    font-size:14px; 
+    padding: 2px 2px 2px 3px;
+    color: green;
+}
+td.mapkc_1{
+	border-top: 1px solid #000;
+    background: #B3E1FC; 
+    font-size:14px; 
+    padding: 2px 2px 2px 3px;
+    color: green;
+}
+font.fontMap{
+	color: green;
+	font-weight: bold;
+}
+.fontMap_home{
+	color: green;
+	font-weight: bold;
+	text-align: right;
+}
+
+input.btn_file {
+	background-repeat: no-repeat;
+	background-position:center left;
+	
+	background-color:#E6F5FD;
+	border:1px solid #dedede;
+	border-top:1px solid #eee;
+	border-left:1px solid #eee;
+	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	
+	text-decoration:none;
+	font-weight:bold;
+	color:black;
+	padding:3px 3px 0px 20px; /* Links 上右下左*/
+	margin:3px 3px 0px 5px; /* Links 上右下左*/
+    
+}
+input.btn_file:hover{
+	background-repeat: no-repeat;
+	background-position:center left;
+	
+	background-color:#E6F5FD;
+	border:1px solid #dedede;
+	border-top:1px solid #eee;
+	border-left:1px solid #eee;
+	font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+	
+	text-decoration:none;
+	font-weight:bold;
+	color:#000066;
+	padding:3px 3px 0px 20px; /* Links 上右下左*/
+	margin:3px 3px 0px 5px; /* Links 上右下左*/
+}
+td.label_file{
+	color: #000;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-style: normal;
+	border-left: 1px solid #8D8D8D;
+	border-right: 1px solid #8D8D8D;
+	border-bottom: 1px solid #8D8D8D;
+	line-height: 26px;
+}
+td.label_file_td{
+	color: #000;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-style: normal;
+	border-left: 1px dashed #8D8D8D;
+	border-right: 1px dashed #8D8D8D;
+	border-bottom: 1px dashed #8D8D8D;
+	line-height: 24px;
+	font-style: 14px;
+}
+.bg_file_btn{/** 附件背景 */
+	background-color: #E6F5FD;
+}
+input.btn_fontColor{
+	color: #1E90CF;
+	font-weight: bold;
+	vertical-align:middle; 
+}

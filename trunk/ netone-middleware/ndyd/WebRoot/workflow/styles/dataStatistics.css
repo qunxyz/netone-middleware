@@ -1,0 +1,51 @@
+@CHARSET "UTF-8";
+
+#box{
+	width: 970px;
+	height: auto;
+	background-color: #E7F5FD;
+	font-size:12px;
+}
+
+#alltablebox{
+	width: 890px;
+	background-color: #FDFEFF;
+	margin-top:35px;
+	margin-bottom:20px;
+}
+
+#departmentDetailViewBox{
+	display: block;
+}
+
+#linkDetailViewBox{
+	display: none;
+}
+
+#processDetailViewBox{
+	display: none;
+}
+
+#subProcessTotalViewBox{
+	display: none;
+}
+
+#processOperate{
+	padding-bottom: 8px;
+	padding-left: 25px;
+}
+
+#processSelect{
+	float: left;
+}
+
+#queryTime{
+	float: left;
+	margin-left:90px;
+	width:560px;
+}
+
+td{
+	border: 1px solid #27A3ED;
+	font-size:12px;
+}

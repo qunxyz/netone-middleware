@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                    http://www.springframework.org/schema/beans/spring-beans.xsd">
+           
+	<!-- 要调用的工作类 -->
+	<bean id="expireJob" class="com.jl.scheduler.job.ExpireJob"/>  
+	<bean id="cronJob1" class="com.jl.scheduler.job.CronJob1"/>
+	
+    <!-- 定义调用对象和调用对象的方法 -->
+    <bean id="expireJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="expireJob"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>
+    </bean>
+    <bean id="cronJobTask1" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="cronJob1"/>
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>
+    </bean>
+    <!-- 合同管理定时调度 -->
+     <bean id="cronJobTask2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="cronJob1"/>
+        </property>
+        <!-- 调用类中的方法 -->
+          <property name="targetMethod">
+            <value>contractMgr_todo</value>
+        </property>
+    </bean>
+    <!-- 领导视图定期执行 -->
+        <bean id="cronJobTask3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="cronJob1"/>
+        </property>
+        <!-- 调用类中的方法 -->
+          <property name="targetMethod">
+            <value>leaderView_todo</value>
+        </property>
+    </bean>
+    <!--定期执行领导视图总工单数据多余更改处理  -->
+        <bean id="cronJobTask4" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="cronJob1"/>
+        </property>
+        <!-- 调用类中的方法 -->
+          <property name="targetMethod">
+            <value>modifyleaderView_todo</value>
+        </property>
+    </bean>
+    
+   <!-- 定时建立索引文件任务 配置调度任务,复杂定制模式,月份中的日期和星期不能同时设置   -->
+   <bean id="expireJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+      <property name="jobDetail">
+        <ref bean="expireJobTask"/>
+      </property>
+      <property name="cronExpression">
+        <value>0 0/5 * * * ?</value><!-- 每5分钟 --> 
+        <!-- 1.秒 0-59
+             2.分钟 0-59
+             3.小时 0-23
+             4.月份中的日期 1-31
+             5.月份 1-12或者Jan Feb Mar Apr May Jun Jul Aug Sept Oct Nov Dec
+             6.星期中的日期 1-7或者MON,TUE,WED,THU,FRI,SAT,SUN.
+        -->
+      </property>
+   </bean>
+   
+   <bean id="jobCronTrigger1" class="org.springframework.scheduling.quartz.CronTriggerBean">
+      <property name="jobDetail">
+        <ref bean="cronJobTask1"/>
+      </property>
+      <property name="cronExpression">
+        <value>0 0 9 ? * MON</value><!-- 每周一早上9:00 --> 
+        <!-- 1.秒 0-59
+             2.分钟 0-59
+             3.小时 0-23
+             4.月份中的日期 1-31
+             5.月份 1-12或者Jan Feb Mar Apr May Jun Jul Aug Sept Oct Nov Dec
+             6.星期中的日期 1-7或者MON,TUE,WED,THU,FRI,SAT,SUN.
+        -->
+      </property>
+   </bean>
+   <!-- 合同管理 -->
+    <bean id="contractMgr" class="org.springframework.scheduling.quartz.CronTriggerBean">
+      <property name="jobDetail">
+        <ref bean="cronJobTask2"/>
+      </property>
+      <property name="cronExpression">
+        <value>0 0 7 * * ?</value><!-- 每天早上7:00 --> 
+        <!-- 0 0 7 * * ?每天早上7点
+        	 0 0/1 * * * ? 每一分钟
+             1.秒 0-59 
+             2.分钟 0-59   
+             3.小时 0-23
+             4.月份中的日期 1-31
+             5.月份 1-12或者Jan Feb Mar Apr May Jun Jul Aug Sept Oct Nov Dec
+             6.星期中的日期 1-7或者MON,TUE,WED,THU,FRI,SAT,SUN.
+        -->
+      </property>
+   </bean>
+   <!-- 领导试图定期执行 -->
+       <bean id="leaderView" class="org.springframework.scheduling.quartz.CronTriggerBean">
+      <property name="jobDetail">
+        <ref bean="cronJobTask3"/>
+      </property>
+      <property name="cronExpression">
+        <value>0 0/60 * * * ?</value><!-- 每半小时 --> 
+        <!-- 0 0 7 * * ?每天早上7点
+        	 0 0/1 * * * ? 每一分钟
+             1.秒 0-59 
+             2.分钟 0-59   
+             3.小时 0-23
+             4.月份中的日期 1-31
+             5.月份 1-12或者Jan Feb Mar Apr May Jun Jul Aug Sept Oct Nov Dec
+             6.星期中的日期 1-7或者MON,TUE,WED,THU,FRI,SAT,SUN.
+        -->
+      </property>
+   </bean>
+      <!-- 定期执行领导视图总工单数据多余更改处理 -->
+       <bean id="ModifyLeaderViewData" class="org.springframework.scheduling.quartz.CronTriggerBean">
+      <property name="jobDetail">
+        <ref bean="cronJobTask4"/>
+      </property>
+      <property name="cronExpression">
+        <value>0 0 7 * * ?</value><!-- 每两小时 --> 
+        <!-- 0 0 7 * * ?每天早上7点
+        	 0 0/1 * * * ? 每一分钟
+             1.秒 0-59 
+             2.分钟 0-59   
+             3.小时 0-23
+             4.月份中的日期 1-31
+             5.月份 1-12或者Jan Feb Mar Apr May Jun Jul Aug Sept Oct Nov Dec
+             6.星期中的日期 1-7或者MON,TUE,WED,THU,FRI,SAT,SUN.
+        -->
+      </property>
+   </bean>
+   <!-- 启动调度 -->
+   <bean id="start" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+     <property name="triggers">
+       <list>
+       	 <!--  流程过期办理定时调度 -->
+         <ref bean="expireJobCronTrigger" />
+         
+         <!-- 每周一早上9:00调度 -->
+         <ref bean="jobCronTrigger1" />
+         
+    	<!-- 合同管理调度 每天早上7点 -->
+    	<ref bean="contractMgr"/>
+    	<!-- 领导试图定期执行 -->
+    	<ref bean="leaderView"/>
+       </list>
+     </property>
+   </bean>
+    
+</beans>  

@@ -1,0 +1,17 @@
+/* CSS Document */
+
+body{
+	background-image: url(images/bg1.gif);
+	background-repeat: repeat-x;
+	background-color: #e2eefe;
+	font-family: "ËÎÌו";
+	font-size: 12px;
+	font-weight: normal;
+	color: #5278b7;
+}
+.input{
+	background-color: #FFFFFF;
+	border: 1px solid #5278b7;
+	height: 20px;
+	width: 120px;
+}

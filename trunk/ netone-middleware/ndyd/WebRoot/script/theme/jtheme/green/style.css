@@ -1,0 +1,132 @@
+
+/**--×ó²àµ¼º½--*/
+.accordion .accordion-header{
+	background:#BCE2D5;
+}
+
+.accordion-collapse{
+	background:url('images/collapse.gif') no-repeat;
+	margin-top: 5px;
+}
+.accordion-expand{
+	background:url('images/expand.gif') no-repeat;
+	margin-top: 5px;
+}
+/**-×ó²à±ß¿ò-*/
+.layout-panel-west{
+	border-right:5px solid #D5EEE5;
+	border-left:5px solid #D5EEE5;
+}
+.layout-split-west{
+
+}
+/*.layout-button-left{
+	background:url('images/layout_button_left.gif') no-repeat;
+}
+.layout-button-right{
+	background:url('images/layout_button_right.gif') no-repeat;
+}*/
+.layout-expand{
+	position:absolute;
+	padding:0px 5px;
+	padding:0px;
+	background:#D0EBE2;
+	font-size:1px;
+	cursor:pointer;
+	z-index:1;
+}
+/**--Ê÷½Úµã--*/
+.tree-folder{
+	display:inline-block;
+	/*background:url('images/tree_folder.gif') no-repeat;*/
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+	
+}
+.tree-folder-open{
+	/*background:url('images/tree_folder_open.gif') no-repeat;*/
+}
+.tree-file{
+	display:inline-block;
+	background:url('images/tree_leaf.gif') no-repeat;
+	width:16px;
+	height:18px;
+	vertical-align:middle;
+}
+.tree-node-hover{
+	background-color:#eee;
+}
+.tree-node-selected{
+	background-color:#D0EBE2;
+}
+
+
+/**--ÓÒ²àpanel--*/
+
+.panel-header{
+	padding:5px;
+	line-height:15px;
+	color:#000000;
+	font-weight:bold;
+	font-size:12px;
+	background:url('images/panel_title.png') repeat-x;
+	position:relative;
+	border:1px solid #91CEB9;
+}
+.panel-header-noborder{
+	border-width:0px;
+	border-bottom:1px solid #91CEB9;
+}
+.panel-body{
+	overflow:auto;
+	border:1px solid #91CEB9;
+	border-top-width:0px;
+}
+
+/****----µ×²¿-----*/
+.foot{
+background:#C1E5D8;
+}
+/***--Ñ¡Ôñ¿ò -----*/
+.combo{
+	display:inline-block;
+	white-space:nowrap;
+	font-size:12px;
+	margin:0;
+	padding:0;
+	border:1px solid #9ACD68;
+}
+.combo-text{
+	font-size:12px;
+	border:0px;
+	line-height:22px;
+	height:20px;
+	padding:0px;
+	*height:18px;
+	*line-height:18px;
+	_height:18px;
+	_line-height:18px;
+	padding-left:5px;
+	
+}
+.combo-arrow{
+	/*background:#E0ECF9 url('images/combo_arrow.gif') no-repeat 3px 4px;*/
+	background:transparent url(images/trigger.gif) no-repeat 0 0;
+	width:17px;
+	height:20px;
+}
+.combo-arrow-hover{
+	background-position:-17px 0;
+}
+.combo-panel{
+	background:#fff;
+	overflow:auto;
+}
+.combobox-item-hover{
+	background:#fafafa;
+	cursor:pointer;
+}
+.combobox-item-selected{
+	background:#FFF6D9;
+}

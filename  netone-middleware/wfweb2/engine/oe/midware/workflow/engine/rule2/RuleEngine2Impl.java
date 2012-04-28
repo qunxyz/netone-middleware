@@ -78,7 +78,8 @@ public class RuleEngine2Impl implements RuleEngine {
 		Interpreter itp = new Interpreter();
 
 		try {
-
+			itp.set("runtimeid", "");
+			itp.set("workcode", "");
 			Object revValue = itp.eval(scripthead + elogicExpress);
 			if (revValue != null) {
 				return revValue;

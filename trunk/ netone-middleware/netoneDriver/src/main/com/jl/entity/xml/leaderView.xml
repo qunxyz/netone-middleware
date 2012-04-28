@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="leaderView">
+
+	<typeAlias alias="leaderViewPojo"
+		type="com.jl.entity.leaderViewPojo" />
+
+	<select id="week" parameterClass="java.util.Map"
+		resultClass="leaderViewPojo">
+		<![CDATA[
+	SELECT w3.lsh lsh,w4.NAME naturalname,w3.appname 
+	
+	naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.usercode usercode,w2.username username,w2.commitercode commiter FROM 
+	
+	netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid and w3.appname IN(#appname#) LEFT 
+	
+	JOIN netone.ums_protectedobject w4 ON w4.NATURALNAME in(#naturalname1#) WHERE w1.EXECUTESTATUS in('01') AND  w2.createtime<= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) -6 DAY)  
+	and w2.createtime>= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) DAY) AND w2.usercode IN (SELECT usercode FROM iss.t_user WHERE w3.appname IS NOT NULL AND
+	
+	departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode like '$did$') ) AND w2.statusnow in('01','02')AND w2.types IN('01') group by lsh ORDER BY w1.starttime 
+	
+	DESC  limit $start$,$end$
+    ]]>
+	</select>
+	<select id="dearling" parameterClass="java.util.Map"
+		resultClass="leaderViewPojo">
+		<![CDATA[
+	SELECT w3.lsh lsh,w4.NAME naturalname,w3.appname 
+	
+	naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.usercode usercode,w2.username username,w2.commitercode commiter FROM 
+	
+	netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid and w3.appname IN(#appname#) LEFT 
+	
+	JOIN netone.ums_protectedobject w4 ON w4.NATURALNAME IN(#naturalname1#)WHERE w1.EXECUTESTATUS IN('01') AND w2.usercode IN (SELECT usercode FROM iss.t_user 
+	
+	WHERE w3.appname IS NOT NULL AND departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode like '$did$') ) AND w2.statusnow IN('01')AND w2.types IN('01') ORDER BY w1.starttime 
+	
+	DESC limit $start$,$end$
+
+	]]>
+	</select>
+	<select id="after28" parameterClass="java.util.Map"
+		resultClass="leaderViewPojo">
+		<![CDATA[
+	SELECT w3.lsh lsh,w4.NAME naturalname,w3.appname 
+	
+	naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.usercode usercode,w2.username username,w2.commitercode commiter FROM 
+	
+	netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid and w3.appname IN(#appname#) LEFT 
+	
+	JOIN netone.ums_protectedobject w4 ON w4.NATURALNAME in(#naturalname1#)WHERE w1.EXECUTESTATUS in( '01')  and now()-DATE_SUB(w2.createtime, INTERVAL -48 HOUR)>0 AND 
+	
+	w2.usercode IN (SELECT usercode FROM iss.t_user WHERE w3.appname IS NOT NULL AND departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode like '$did$') )AND w2.statusnow 
+	
+	in( '01')AND w2.types IN('01') ORDER BY w1.starttime DESC limit $start$,$end$
+	]]>
+	</select>
+
+
+	<select id="week_all" parameterClass="java.util.Map"
+		resultClass="leaderViewPojo">
+		<![CDATA[
+SELECT w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.usercode usercode,w2.username username,w2.commitercode commiter 
+FROM netone.t_wf_worklist w1 
+LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE 
+LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid 
+LEFT JOIN iss.t_user u ON u.usercode=w2.usercode
+LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid
+LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID
+WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01') 
+ AND  w2.createtime<= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) -6 DAY)  
+and w2.createtime>= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) DAY) AND w2.usercode IN (SELECT usercode FROM iss.t_user WHERE 	
+w3.appname IS NOT NULL AND departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode LIKE '$did$') ) AND w2.statusnow in('01','02')AND w2.types IN('01') group by lsh ORDER BY w1.starttime 	
+DESC limit $start$,$end$
+    ]]>
+	</select>
+
+	<select id="dearling_all" parameterClass="java.util.Map"
+		resultClass="leaderViewPojo">
+		<![CDATA[
+SELECT
+w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.usercode usercode,w2.username username,w2.commitercode commiter 
+FROM netone.t_wf_worklist w1 
+LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE 
+LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid 
+LEFT JOIN iss.t_user u ON u.usercode=w2.usercode
+LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid
+LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID
+WHERE w3.appname IS NOT NULL AND po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01')  
+AND w2.statusnow IN('01') AND w2.types IN('01')
+AND w4.nLevelCode like '$did$' 
+ ORDER BY w1.starttime DESC limit $start$,$end$
+
+	]]>
+	</select>
+
+
+	<select id="after28_all" parameterClass="java.util.Map"
+		resultClass="leaderViewPojo">
+		<![CDATA[
+SELECT w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.usercode usercode,w2.username username,w2.commitercode commiter 
+FROM netone.t_wf_worklist w1 
+LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE 
+LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid 
+LEFT JOIN iss.t_user u ON u.usercode=w2.usercode
+LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid
+LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID
+WHERE w3.appname IS NOT NULL AND po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' and w1.EXECUTESTATUS in('01')  and now()-DATE_SUB(w2.createtime, INTERVAL -48 HOUR)>0 AND 
+w2.usercode IN (SELECT usercode FROM iss.t_user WHERE departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode like '$did$') )AND w2.statusnow 	
+in( '01')AND w2.types IN('01') ORDER BY w1.starttime 
+DESC limit $start$,$end$
+	]]>
+	</select>
+	
+    <!-- 统计领导视图计数 =============================================================================================================== -->	
+	<select id="week_count" parameterClass="java.util.Map"
+		resultClass="java.lang.String">
+		<![CDATA[
+	SELECT count(*) week_count FROM (
+	SELECT w3.lsh lsh,w4.NAME naturalname,w3.appname 
+	
+	naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.usercode usercode,w2.username username,w2.commitercode commiter from
+	
+	netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid and w3.appname IN(#appname#) LEFT 
+	
+	JOIN netone.ums_protectedobject w4 ON w4.NATURALNAME in(#naturalname1#) WHERE w1.EXECUTESTATUS in('01') AND  w2.createtime<= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) -6 DAY)  
+	and w2.createtime>= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) DAY) AND w2.usercode IN (SELECT usercode FROM iss.t_user WHERE w3.appname IS NOT NULL AND
+	
+	departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode like '$did$') ) AND w2.statusnow in('01','02')AND w2.types IN('01') group by lsh ORDER BY w1.starttime 
+	
+	DESC) v
+    ]]>
+	</select>
+	<select id="dearling_count" parameterClass="java.util.Map"
+		resultClass="java.lang.String">
+		<![CDATA[
+	SELECT  count(*) dearling_count FROM 
+	
+	netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid and w3.appname IN(#appname#) LEFT 
+	
+	JOIN netone.ums_protectedobject w4 ON w4.NATURALNAME IN(#naturalname1#)WHERE w1.EXECUTESTATUS IN('01') AND w2.usercode IN (SELECT usercode FROM iss.t_user 
+	
+	WHERE w3.appname IS NOT NULL AND departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode like '$did$') ) AND w2.statusnow IN('01')AND w2.types IN('01') ORDER BY w1.starttime 
+	
+	DESC
+
+	]]>
+	</select>
+	<select id="after28_count" parameterClass="java.util.Map"
+		resultClass="java.lang.String">
+		<![CDATA[
+	SELECT count(*) after28_count FROM 
+	
+	netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid and w3.appname IN(#appname#) LEFT 
+	
+	JOIN netone.ums_protectedobject w4 ON w4.NATURALNAME in(#naturalname1#)WHERE w1.EXECUTESTATUS in( '01')  and now()-DATE_SUB(w2.createtime, INTERVAL -48 HOUR)>0 AND 
+	
+	w2.usercode IN (SELECT usercode FROM iss.t_user WHERE w3.appname IS NOT NULL AND departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode like '$did$') )AND w2.statusnow 
+	
+	in( '01')AND w2.types IN('01') ORDER BY w1.starttime DESC
+	]]>
+	</select>
+
+
+	<select id="week_all_count" parameterClass="java.lang.String"
+		resultClass="java.lang.String">
+		<![CDATA[
+SELECT count(*) week_all_count from (
+SELECT w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.usercode usercode,w2.username username,w2.commitercode commiter 
+FROM netone.t_wf_worklist w1 
+LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE 
+LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid 
+LEFT JOIN iss.t_user u ON u.usercode=w2.usercode
+LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid
+LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID
+WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01') 
+ AND  w2.createtime<= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) -6 DAY)  
+and w2.createtime>= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) DAY) AND w2.usercode IN (SELECT usercode FROM iss.t_user WHERE 	
+w3.appname IS NOT NULL AND departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode LIKE '$did$') ) AND w2.statusnow in('01','02')AND w2.types IN('01') group by lsh ORDER BY w1.starttime 	
+DESC) v
+    ]]>
+	</select>
+
+	<select id="dearling_all_count" parameterClass="java.lang.String"
+		resultClass="java.lang.String">
+		<![CDATA[
+SELECT
+count(*) dearling_all_count
+FROM netone.t_wf_worklist w1 
+LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE 
+LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid 
+LEFT JOIN iss.t_user u ON u.usercode=w2.usercode
+LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid
+LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID
+WHERE w3.appname IS NOT NULL AND po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01')  
+AND w2.statusnow IN('01') AND w2.types IN('01')
+AND w4.nLevelCode like '$did$' 
+ ORDER BY w1.starttime DESC
+
+	]]>
+	</select>
+
+
+	<select id="after28_all_count" parameterClass="java.lang.String"
+		resultClass="java.lang.String">
+		<![CDATA[
+SELECT count(*) after28_all_count 
+FROM netone.t_wf_worklist w1 
+LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE 
+LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid 
+LEFT JOIN iss.t_user u ON u.usercode=w2.usercode
+LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid
+LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID
+WHERE w3.appname IS NOT NULL AND po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' and w1.EXECUTESTATUS in('01')  and now()-DATE_SUB(w2.createtime, INTERVAL -48 HOUR)>0 AND 
+w2.usercode IN (SELECT usercode FROM iss.t_user WHERE departmentid IN (SELECT departmentId FROM iss.t_department WHERE nLevelCode like '$did$') )AND w2.statusnow 	
+in( '01')AND w2.types IN('01') ORDER BY w1.starttime 
+DESC
+	]]>
+	</select>
+</sqlMap>

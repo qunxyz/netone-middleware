@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Map">
+	
+	<!-- 查询行政区划 -->
+	<select id="findArea" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT
+			IFNULL(areaId,'0') areaId,
+			IFNULL(areaCode,'') areaCode,
+			IFNULL(areaName,'') areaName,
+			IFNULL(parentAreaId,'0') parentAreaId,
+			level level,
+			IFNULL(map,'') map
+	    FROM t_area 
+		WHERE ifnull(parentAreaId,'0') = #areapointId# and ifnull(map,'') !=''
+			and ifnull(level,'0')=#arealevel#
+	</select>
+	
+
+	<!-- 查询公司 -->
+	<select id="findDepartment" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			IFNULL(t.departmentId,'0') departmentId,
+			IFNULL(t.departmentCode,'') departmentCode,
+			IFNULL(t.departmentName,'') departmentName,
+			IFNULL(t.parentDepartmentId,'0') parentDepartmentId,
+			t.nlevel level,
+			IFNULL(t.map,'') map,
+			IFNULL(t2.areaId,'0') areaId
+		FROM t_department t 
+		LEFT JOIN t_areadepartment t2 on t2.departmentId=t.departmentId
+		LEFT JOIN t_area t3 on t3.areaId=t2.areaId
+		WHERE ifnull(t.map,'') !='' and ifnull(t.nlevel,'0') IN
+			<iterate property="busslevel" open="(" close=")" conjunction=",">
+				#busslevel[]#
+			</iterate>
+		 and t3.areaId IN(
+			select areaId from t_area 
+			where nlevelcode like CONCAT(
+				(select nlevelcode from t_area where areaId=#areapointId#)
+			,'%')
+		)
+		<isNotEqual property="busspointId" compareValue="0" prepend="and"><!-- 从组织机构级别开始钻取 -->
+		t.nlevelcode like CONCAT(
+				(select nlevelcode from t_department where departmentId=#busspointId#)
+			,'%')
+		</isNotEqual>
+		group by t.departmentId,t2.areaId
+	</select>	
+	
+	<!-- 查询公司 平行-->
+	<select id="findDepartmentByLine" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			IFNULL(t.departmentId,'') departmentId,
+			IFNULL(t.departmentCode,'') departmentCode,
+			IFNULL(t.departmentName,'') departmentName,
+			IFNULL(t.parentDepartmentId,'0') parentDepartmentId,
+			t.nlevel level,
+			IFNULL(t.map,'') map,
+			IFNULL(t2.areaId,'') areaId
+		FROM t_department t 
+		LEFT JOIN t_areadepartment t2 on t2.departmentId=t.departmentId
+		LEFT JOIN t_area t3 on t3.areaId=t2.areaId
+		LEFT JOIN t_clientinformation t4 on t4.clientId=t.departmentId
+		WHERE ifnull(t.map,'') !='' and t.nlevel = #busslevel#
+		<isNotEqual property="busspointId" compareValue="0" prepend="and"><!-- 从组织机构级别开始钻取 -->
+			t.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#busspointId#)
+				,'%')
+		</isNotEqual>
+		<isNotEmpty property="extendbussinfo" prepend="and">
+			t4.clientType = #extendbussinfo#
+		</isNotEmpty>
+		group by t.departmentId,t2.areaId
+	</select>	
+	
+	<!-- 地图详细资料数据 -->
+	
+	<!-- 查找公司信息 -->
+	<select id="findCompanyInfo" parameterClass="string" resultClass="com.jl.entity.Client">
+		select 
+			IFNULL(companyAddress,'') as companyAddress,
+			IFNULL(clientCode,'') as clientCode,
+			IFNULL(clientName,'') as clientName,
+			IFNULL(linkman,'') as linkman,
+			IFNULL(telphone,'') as telphone,
+			IFNULL((select name from t_systemconfig where sid=t.marketType  limit 1),'') marketType,
+			IFNULL(t2.nlevel,'0') as clientTag /** 级别 */
+		from t_clientinformation t
+		left join t_department t2 on t2.departmentId=t.clientId
+		where t.clientId=#clientId#
+	</select>
+	<!-- 定位公司坐标 -->
+	<select id="findSubCompanyXY" parameterClass="string" resultClass="string">
+		select 
+			IFNULL(map,'') as map
+		from t_department where parentDepartmentId=#clientId#
+	</select>
+	
+	<select id="findCompanyXY" parameterClass="string" resultClass="string">
+		select 
+			IFNULL(map,'') as map
+		from t_department where departmentId=#clientId#
+	</select>
+	
+	<select id="findSubCompanyName" parameterClass="string" resultClass="string">
+		select 
+			departmentName
+		from t_department where parentDepartmentId=#clientId#
+	</select>
+	
+	<select id="findCompanyName" parameterClass="string" resultClass="string">
+		select 
+			departmentName
+		from t_department where departmentId=#clientId#
+	</select>
+	
+	<select id="findCompanyId" parameterClass="string" resultClass="string">
+		select 
+			departmentId
+		from t_department where parentDepartmentId=#clientId#
+	</select>
+	
+	
+</sqlMap>

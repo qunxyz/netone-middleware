@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="WarehouseLocation">
+	<!-- 别名设置    与库位关联 操作-->
+
+	<typeAlias alias="WarehouseLocationStorage"
+		type="com.jl.entity.WarehouseLocationStorage" />
+	<typeAlias alias="WarehouseLocationStorageDetail"
+		type="com.jl.entity.WarehouseLocationStorageDetail" />
+
+	<!-- 统计总条数 2009-09-09 dxl -->
+	<select id="getWareHouseLocationCount"
+		parameterClass="java.util.HashMap"
+		resultClass="WarehouseLocationStorage">
+		<![CDATA[
+	     	    SELECT Id, WlCode, Wl, WlProduct, WlCount, WlClientCode, Status, Sort, InDate, Used, WlId 
+                FROM t_warehouselocationstorage
+                Where WLCode=#WLCode# and (WlCount is null or WlCount='0' or WlCount='') 
+	    ]]>
+	</select>
+ 
+	<update id="update" parameterClass="WarehouseLocationStorage">
+		<![CDATA[
+	   UPDATE t_warehouselocationstorage
+	   SET 
+		    WlProduct=#wlProduct#,
+		    WlCount=#wlCount#,
+		    Status=#status#,
+		    InDate=#inDate#,
+		    Used=#used#,
+		    full=#full#,
+		    InDates=#inDates#,
+		    WlClientCode=#wlClientCode#   
+	 ]]>
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="wlCode">
+				WLCode=#wlCode#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="wl">
+			    Wl=#wl#
+			</isNotEmpty>
+		</dynamic>
+	</update>
+
+	<!-- 统计总条数是否被使用 2009-09-09 dxl -->
+	<select id="getWareHouseLocationIsUsed"
+		parameterClass="java.util.HashMap"
+		resultClass="WarehouseLocationStorage">
+		<![CDATA[
+	     	    SELECT Id, WlCode, Wl, WlProduct, WlCount, WlClientCode, Status, Sort, InDate, Used, WlId 
+                FROM t_warehouselocationstorage
+                Where WlCode=#WlCode# and  Used=#Used# 
+	    ]]>
+	</select>
+	
+	
+	
+    <!-- 汇总库位总所有的已生产物料总和 -->
+	<select id="selectProductTotalByProduced"
+		resultClass="java.util.HashMap">
+		<![CDATA[
+			select 
+				cast(F_BottleToBox(sum(F_BoxToBottle(wlcount,tt.bottle)),tt.bottle)as char) total,t.wlproduct productCode 
+			from t_warehouselocationstorage t
+			left join t_product tt on tt.productCode = t.wlproduct
+			where t.status=2 group by t.wlproduct
+	    ]]>
+	</select>
+	<!-- 汇总库位总所有物料总和 -->
+	<select id="selectProductTotalByAll"
+		resultClass="java.util.HashMap">
+		<![CDATA[
+			select 
+				cast(F_BottleToBox(sum(F_BoxToBottle(wlcount,tt.bottle)),tt.bottle)as char) total,t.wlproduct productCode 
+			from t_warehouselocationstorage t
+			left join t_product tt on tt.productCode = t.wlproduct
+			where t.status!=0 group by t.wlproduct
+	    ]]>
+	</select>
+
+	<select id="findAllWlInfoByStatus"
+		parameterClass="java.util.HashMap" resultClass="java.lang.String">
+		<![CDATA[
+	     	    SELECT 
+	     	    	F_BottleToBox(sum(F_BoxToBottle(ifnull(t.WlCount,'0'),tt.bottle)),tt.bottle) Datacount
+				FROM t_warehouseLocationStorage t
+				LEFT JOIN t_warehouseLocation t2 on t.WlId=t2.Id
+				LEFT join t_warehouse t3 on t2.WarehouseId=t3.Id
+				LEFT JOIN t_product tt on tt.productCode=t.WlProduct
+		        WHERE t.Status=2 
+	    ]]>
+		<isNotEmpty prepend="AND" property="productCode">
+			WlProduct=#productCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="clientCode">
+			WlClientCode=#clientCode#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="clientCodeList">
+			WlClientCode In 
+			<iterate property="clientCodeList" open="(" close=")"
+				conjunction=",">
+				#clientCodeList[]#
+			</iterate>
+		</isNotEmpty>
+	</select>
+
+	<!-- 统计总条数是否被使用 2009-09-09 dxl -->
+	<select id="getWareHouseLocation" parameterClass="java.lang.String"
+		resultClass="WarehouseLocationStorage">
+		<![CDATA[
+	     	    SELECT Id, WlCode, Wl, WlProduct, ifnull(WlCount,0) WlCount, WlClientCode, Status, Sort, InDate, Used, WlId ,InDates,Full
+                FROM t_warehouselocationstorage
+                Where WlCode=#value#
+	    ]]>
+	</select>
+
+	<select id="findAllWlInfo" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		<![CDATA[
+	     	           SELECT 
+							t5.productCode WlProduct,
+							ifnull(t5.isScan,0) isScan,
+							F_BottleToBox(t5.inProduceCount-ifnull(t6.outCount,0),t5.bottle) as Datacount
+						FROM (
+							SELECT t1.bottle,
+							       sum(ifnull(t2.BottleCount,0)) as inProduceCount,
+							       t1.productCode,
+							       ifnull(t1.isScan,0) isScan
+							FROM t_product  t1 
+							LEFT JOIN producttotal t2 ON t1.ProductCode=t2.productCode
+							LEFT JOIN t_productcategories t3 ON t3.categoriesId=t1.categoriesId
+							WHERE 1=1
+							 ]]>
+							 <isNotEmpty prepend="AND" property="productCodeList">
+									t1.productCode IN
+									<iterate property="productCodeList" open="(" close=")"
+										conjunction=",">
+										#productCodeList[]#
+									</iterate>
+							</isNotEmpty>
+							<isNotEmpty prepend="AND" property="categoriesNameList">
+									t3.categoriesName IN
+									<iterate property="categoriesNameList" open="(" close=")"
+										conjunction=",">
+										#categoriesNameList[]#
+									</iterate>
+							</isNotEmpty>
+							<isNotEmpty prepend="AND" property="beginTime">
+								substring(t2.MadeDate,1,7) &gt;= '$beginTime$'
+							</isNotEmpty>
+							<isNotEmpty prepend="AND" property="endTime">
+								substring(t2.MadeDate,1,7) &lt;= '$endTime$'
+							</isNotEmpty>
+							<![CDATA[
+							group by t1.productCode
+						) t5 
+						LEFT JOIN (
+							SELECT sum(F_BoxToBottle(ifnull(t2.consignmentCount,'0'),t1.bottle)) as outCount,
+								   t1.productCode,
+								   ifnull(t1.isScan,0) isScan
+							FROM t_product t1 
+							LEFT JOIN t_outstoragedetail t2 on t1.productId=t2.productId
+							LEFT JOIN t_outstorage t3 on t3.outStorageId=t2.outStorageId
+							LEFT JOIN t_productcategories t4 on t4.categoriesId=t1.categoriesId
+							WHERE t3.ckNumber like 'XSF%'
+							]]>
+							<isNotEmpty prepend="AND" property="productCodeList">
+									t1.productCode IN
+									<iterate property="productCodeList" open="(" close=")"
+										conjunction=",">
+										#productCodeList[]#
+									</iterate>
+							</isNotEmpty>
+							<isNotEmpty prepend="AND" property="categoriesNameList">
+									t4.categoriesName IN
+									<iterate property="categoriesNameList" open="(" close=")"
+										conjunction=",">
+										#categoriesNameList[]#
+									</iterate>
+							</isNotEmpty>
+							<isNotEmpty prepend="AND" property="beginTime">
+								substring(t3.operateTime,1,7) &gt;= '$beginTime$'
+							</isNotEmpty>
+							<isNotEmpty prepend="AND" property="endTime">
+								substring(t3.operateTime,1,7) &lt;= '$endTime$'
+							</isNotEmpty>
+							<![CDATA[
+							group by t1.productCode
+						) t6 on t5.productCode=t6.productCode
+						ORDER BY t5.productCode
+	                  ]]>
+	</select>
+	
+    <select id="findAllWlAll" parameterClass="java.lang.Integer" resultClass="WarehouseLocationStorage">
+		<![CDATA[
+	     	    	SELECT 
+							t1.Id,
+							WlCode,
+							Wl,
+							WlProduct,
+							WlCount,
+							WlClientCode,
+							Status,
+							Sort,
+							InDate,
+							Used,
+							WlId,
+							Full,
+							InDates
+					FROM t_warehouselocationstorage t1 left join t_warehouselocation t2 on t1.WlId=t2.Id
+					WHERE status=0 and  t2.Type ='location'
+					ORDER BY 
+							substring(WlCode,1,1),
+							SUBSTRING_INDEX(SUBSTRING_INDEX(WlCode,substring(WlCode,1,1),-1),'-',1)*1,
+							SUBSTRING_INDEX(SUBSTRING_INDEX(WlCode,'-',2),'-',-1)*1
+					LIMIT 0,#end#
+	                  ]]>
+	</select>
+	
+	<!--获得库位信息，通过三级码 -->
+	<select id="getWareHouseLocationByWl" parameterClass="java.lang.String"
+		resultClass="WarehouseLocationStorage">
+		<![CDATA[
+	     	     SELECT Id, t1.WlCode, t1.Wl, WlProduct, WlCount, WlClientCode, Status, Sort, InDate, Used, WlId ,t1.InDates,Full
+				 FROM t_warehouselocationstorage t1 left join t_warehouselocationstoragedetail t2 on t1.wlcode=t2.wlcode
+				 Where t2.stackCode=#value#
+	    ]]>
+	</select>
+	
+	<!-- 生产数数-出库数=已生产盘点数 -->
+	<select id="findProductLineData" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		<![CDATA[
+	     	             SELECT 
+							t5.productCode WlProduct,
+							ifnull(t5.isScan,0) isScan,
+							F_BottleToBox(t5.inProduceCount-ifnull(t6.outCount,0),t5.bottle) as Datacount
+						 FROM (
+							   SELECT  t1.bottle,
+								       ifnull(inProduceCount,'0') inProduceCount,
+								       t1.productCode,
+								       ifnull(t1.isScan,0) isScan
+								FROM t_product  t1  LEFT JOIN (
+											  SELECT 
+													 t2.productId,
+													 sum(ifnull(t2.BottleCount,0)) as inProduceCount
+											 FROM t_produceline t1 
+											 LEFT JOIN  t_producelinedetail t2 on t1.produceLineId=t2.produceLineId
+											 WHERE t1.status=3
+											  ]]>
+											    <isNotEmpty prepend="AND" property="beginTime">
+													substring(t1.operateTime,1,7) &gt;= '$beginTime$'
+												</isNotEmpty>
+												<isNotEmpty prepend="AND" property="endTime">
+													substring(t1.operateTime,1,7) &lt;= '$endTime$'
+												</isNotEmpty>
+											  <![CDATA[
+											 GROUP BY t2.productId
+									) t2 on t1.productId=t2.productId
+									LEFT JOIN t_productcategories t3 ON t3.categoriesId=t1.categoriesId
+									WHERE 1=1
+								 ]]>
+								 <isNotEmpty prepend="AND" property="productCodeList">
+										t1.productCode IN
+										<iterate property="productCodeList" open="(" close=")"
+											conjunction=",">
+											#productCodeList[]#
+										</iterate>
+								</isNotEmpty>
+								<isNotEmpty prepend="AND" property="categoriesNameList">
+										t3.categoriesName IN
+										<iterate property="categoriesNameList" open="(" close=")"
+											conjunction=",">
+											#categoriesNameList[]#
+										</iterate>
+								</isNotEmpty>
+								<![CDATA[
+								group by t1.productCode
+						) t5 
+						LEFT JOIN (
+							SELECT sum(F_BoxToBottle(ifnull(t2.consignmentCount,'0'),t1.bottle)) as outCount,
+								   t1.productCode,
+								   ifnull(t1.isScan,0) isScan
+							FROM t_product t1 
+							LEFT JOIN t_outstoragedetail t2 on t1.productId=t2.productId
+							LEFT JOIN t_outstorage t3 on t3.outStorageId=t2.outStorageId
+							LEFT JOIN t_productcategories t4 on t4.categoriesId=t1.categoriesId
+							WHERE t3.ckNumber like 'XSF%'
+							]]>
+							<isNotEmpty prepend="AND" property="productCodeList">
+									t1.productCode IN
+									<iterate property="productCodeList" open="(" close=")"
+										conjunction=",">
+										#productCodeList[]#
+									</iterate>
+							</isNotEmpty>
+							<isNotEmpty prepend="AND" property="categoriesNameList">
+									t4.categoriesName IN
+									<iterate property="categoriesNameList" open="(" close=")"
+										conjunction=",">
+										#categoriesNameList[]#
+									</iterate>
+							</isNotEmpty>
+							<isNotEmpty prepend="AND" property="beginTime">
+								substring(t3.operateTime,1,7) &gt;= '$beginTime$'
+							</isNotEmpty>
+							<isNotEmpty prepend="AND" property="endTime">
+								substring(t3.operateTime,1,7) &lt;= '$endTime$'
+							</isNotEmpty>
+							<![CDATA[
+							group by t1.productCode
+						) t6 on t5.productCode=t6.productCode
+						ORDER BY t5.productCode
+	                  ]]>
+	</select>
+	
+	<delete id="deleteWlDetail" parameterClass="WarehouseLocationStorageDetail">
+		<![CDATA[
+				 DELETE FROM t_warehouselocationstoragedetail WHERE stackCode=#stackCode#
+		  ]]>
+	</delete>
+	
+	<!-- 读取某经销商库位已生产数余额 dxl 2010-08-11 -->
+	<select id="getWlBalanceCount" parameterClass="WarehouseLocationStorage" resultClass="java.lang.String">
+	      <![CDATA[
+				SELECT 
+						F_BottleToBox(sum(F_BoxToBottle(t1.WlCount,t3.bottle)),t3.bottle) as dataCount 
+				FROM t_warehouselocationstorage t1 
+				LEFT JOIN t_warehouselocation t2 ON t1.WlId=t2.Id
+				LEFT JOIN t_product t3 ON t1.WlProduct=t3.productCode
+				WHERE t2.Type='location' AND t1.Status=2
+				]]>
+				<isNotEmpty property="wlClientCode" prepend="AND">
+				 	t1.WlClientCode=#wlClientCode#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="wlProduct">
+				    t1.WlProduct=#wlProduct#
+				</isNotEmpty>
+	</select>
+	
+	<!-- 加载拖盘位信息 dxl 2010-06-12 -->
+	<select id="loadWlInfo" parameterClass="java.lang.String" resultClass="WarehouseLocationStorage">
+	   <![CDATA[
+				 SELECT 
+				 		Id,
+				 		WlCode,
+				 		Wl,
+				 		WlProduct,
+				 		ifnull(WlCount,'0') WlCount,
+				 		WlClientCode,
+				 		Status,
+				 		Sort,
+				 		InDate,
+				 		Used,
+				 		WlId,
+				 		Full 
+				 FROM t_warehouselocationstorage
+				 WHERE WlCode=#WlCode#
+		 ]]>
+	</select>
+	
+	<!-- 加载拖盘位明细信息 dxl 2010-08-03 -->
+	<select id="loadWlDetailInfo" parameterClass="java.util.Map" resultClass="WarehouseLocationStorageDetail">
+	   <![CDATA[
+				 SELECT 
+					   t2.vId,
+					   t2.stackCode,
+					   t2.inDates,
+					   t2.bottleCount,
+					   t2.boxCount,
+					   t2.clientCode,
+					   t2.wlCode,
+					   ifnull(t2.total,0) total,
+					   t2.productCode
+				 FROM t_warehouselocationstorage t1 
+				 LEFT JOIN t_warehouselocationstoragedetail t2
+				 ON t1.wlcode=t2.wlcode
+				 WHERE 1=1
+		 ]]>
+		 <isNotEmpty prepend="AND" property="wlCode">
+		      t1.WlCode=#wlCode# 
+		 </isNotEmpty>
+		 <isNotEmpty prepend="AND" property="stackCode">
+	          t2.stackcode=#stackCode#
+		 </isNotEmpty>
+	</select>
+	
+	<!-- 更新生产存放托盘位明细三级码,互换 dxl 2010-06-12 -->
+	<update id="updateWlDetail" parameterClass="WarehouseLocationStorageDetail">
+	<![CDATA[
+		UPDATE t_warehouselocationstoragedetail 
+		SET 
+				  stackCode=#stackCode#,
+				  bottleCount=#bottleCount#,
+				  boxCount=#boxCount#,
+				  clientCode=#clientCode#,
+				  inDates=#inDates#,
+				  wlCode=#wlCode#,
+				  productCode=#productCode#,
+				  total=#total#
+		 WHERE    vId=#vid#
+	]]>
+	</update>
+	
+	<update id="updateWlDetailV" parameterClass="WarehouseLocationStorageDetail">
+	<![CDATA[
+		UPDATE t_warehouselocationstoragedetail 
+		SET 
+				  stackCode=null,
+				  bottleCount=#bottleCount#,
+				  boxCount=#boxCount#,
+				  clientCode=#clientCode#,
+				  inDates=#inDates#,
+				  wlCode=#wlCode#,
+				  productCode=#productCode#,
+				  total=#total#
+		 WHERE wlCode=#wlCode# and stackCode=#stackCode#
+	]]>
+	</update>
+	
+	<insert id="inertWlDetail" parameterClass="WarehouseLocationStorageDetail">
+		<![CDATA[
+			INSERT t_warehouselocationstoragedetail(vid, stackCode, inDates, bottleCount, boxCount, clientCode, wlCode, productCode,total)
+			value(
+			     REPLACE(UUID(),'-',''),
+			     #stackCode#,
+			     #inDates#,
+			     #bottleCount#,
+			     #boxCount#,
+			     #clientCode#,
+			     #wlCode#,
+			     #productCode#,
+			     #total#
+			)
+		]]>
+	</insert>
+	
+	<select id="getWlProductGj" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		 <isEqual property="status" compareValue="1">
+				 SELECT 
+							 lastP.productCode,
+							 lastP.productName,
+							 ifnull(lastP.limitUPCount,0) limitCount,
+							 F_BottleToBox(lastP.Dcount,lastP.bottle) Dcount
+				FROM (  
+				 SELECT 
+				        productCode,
+						productName,
+						limitUPCount,
+				        bottle,
+				        CASE WHEN isScan=0 THEN
+					   (
+					      SELECT 
+						     ifnull((
+								SELECT 
+									sum(F_BoxToBottle(ifnull(t2.consignmentCount,0),t3.bottle)) bottleCount
+								FROM t_instorage t1 
+								LEFT JOIN t_instoragedetail t2 on t1.inStorageId=t2.inStorageId
+								LEFT JOIN t_product t3 on t2.productId=t3.productId
+								WHERE t2.productId is not null AND t1.rkNumber like 'SCF%' AND t3.productCode=pw.productCode
+								GROUP BY t3.productId	
+							),0)-ifnull((
+								SELECT 
+									  sum(bottleCount) as bottleCount 
+								FROM t_allocatecargo t1 
+								LEFT JOIN t_allocatecargodetail t2 ON t1.allocateCargoId=t2.allocatecargoId
+								LEFT JOIN t_product t3 ON t2.productId=t3.productId
+								WHERE t1.status > 0 and t1.status &lt;=3  AND t3.productCode=pw.productCode AND t1.allocateCargoCode like 'PS%'
+								GROUP BY t2.productId
+							),0) as balance
+					      from t_product p where p.productCode=pw.productCode
+				             )
+				        ELSE
+					    (
+					      SELECT 
+						     ifnull((
+								SELECT 
+									sum(F_BoxToBottle(ifnull(t2.consignmentCount,0),t3.bottle)) bottleCount
+								FROM t_instorage t1 
+								LEFT JOIN t_instoragedetail t2 on t1.inStorageId=t2.inStorageId
+								LEFT JOIN t_product t3 on t2.productId=t3.productId
+								WHERE t2.productId is not null AND t1.rkNumber like 'SCF%' AND t3.productCode=pw.productCode
+								GROUP BY t3.productId	
+							),0)-ifnull((
+								SELECT 
+								      sum(t2.bottleCount) bottleCount 
+								FROM t_produceline t1 
+								LEFT JOIN t_producelinedetail t2 ON t1.produceLineId=t2.produceLineId
+								LEFT JOIN t_product t3 ON t3.productId=t2.productId
+								WHERE t1.status>=1 AND t1.status &lt;=3 AND t3.productCode=pw.productCode
+								GROUP BY t2.productId	
+							),0) as balance
+					      from t_product p where p.productCode=pw.productCode
+				             )
+				        END as 'Dcount'
+				 FROM t_product pw
+				) as lastP
+			WHERE F_BoxToBottle(ifnull(lastP.limitUPCount,0),lastP.bottle) > Dcount
+		 </isEqual>
+		 <isEqual property="status" compareValue="2">
+				 	 SELECT 
+							 lastP.productCode,
+							 lastP.productName,
+							 ifnull(lastP.limitAPCount,0) limitCount,
+							 F_BottleToBox(ifnull(lastP.Dcount,0),lastP.bottle) Dcount
+							FROM (  
+								 SELECT 
+									productCode,
+									productName,
+									limitAPCount,
+									bottle,
+									(
+									 SELECT 
+										ifnull((
+											SELECT 
+												  sum(t2.bottleCount) bottleCount
+											FROM t_produceline t1 
+											LEFT JOIN t_producelinedetail t2 ON t1.produceLineId=t2.produceLineId
+											LEFT JOIN t_product t3 ON t3.productId=t2.productId
+											WHERE t1.status>=1 AND t1.status &lt;=3 and t3.productCode=p.productCode
+											GROUP BY t2.productId
+										),0)-
+										ifnull((
+											SELECT 
+												  sum(bottleCount) as bottleCount 
+											FROM t_allocatecargo t1 
+											LEFT JOIN t_allocatecargodetail t2 ON t1.allocateCargoId=t2.allocatecargoId
+											LEFT JOIN t_product t3 ON t2.productId=t3.productId
+											WHERE t1.status > 0 and t1.status &lt;=3  and t3.productCode=p.productCode AND t1.allocateCargoCode like 'PS%'
+											GROUP BY t2.productId
+										),0)  as dataCount
+									  from t_product p  where p.productCode=pw.productCode and p.isScan=1
+									) as Dcount  
+								 from t_product pw 
+					) as lastP
+					WHERE F_BoxToBottle(ifnull(lastP.limitAPCount,0),lastP.bottle) > ifnull(lastP.Dcount,0)
+		 </isEqual>
+	</select>
+	
+    <select id="getwlDates" parameterClass="java.lang.String" resultClass="java.lang.String">
+	   <![CDATA[
+				SELECT 
+						InDates
+						FROM t_warehouselocationstorage t1 
+				WHERE WlProduct=#value#
+						and t1.InDates is not null
+				ORDER by t1.InDates desc
+				LIMIT 0,1
+		 ]]>
+	</select>
+	
+	<!-- 更新保存库位状态 状态4(占用)改成0(空闲) -->
+	<update id="updateOSaveLocationStatus" parameterClass="java.util.Map">
+		update t_warehouselocationstorage set status=0,used=0 
+		where status=4 and wlcode in
+		<iterate property="saveLocation" open="(" close=")" conjunction=",">
+			#saveLocation[]#
+		</iterate> 
+	</update>
+	
+</sqlMap>
+

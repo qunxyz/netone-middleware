@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="File">
+	<typeAlias alias="File" type="com.jl.entity.File" />
+	
+	<insert id="insert" parameterClass="File">
+		<selectKey resultClass="java.lang.String" keyProperty="unid" type="pre">
+		SELECT REPLACE(UUID(),'-','') as unid
+	</selectKey>
+	INSERT INTO `t_file` 
+		(`unid`, 
+		`d_unid`, 
+		`u_unid`, 
+		`f_size`, 
+		`f_type`, 
+		`address`, 
+		`filename`,
+		updatetime,
+		note
+		)
+		VALUES
+		(#unid#, 
+		#d_unid#, 
+		#u_unid#, 
+		#f_size#, 
+		#f_type#, 
+		#address#, 
+		#filename#,
+		#updatetime#,
+		#note#
+		);
+	</insert>
+	
+	<update id="update" parameterClass="File">
+	UPDATE `t_file` 
+	SET
+	`unid` = #unid# , 
+	`d_unid` = #d_unid# , 
+	`u_unid` = #u_unid# , 
+	`f_size` = #f_size# , 
+	`f_type` = #f_type# , 
+	`address` = #address# , 
+	`filename` = #filename#,
+	updatetime=#updatetime#,
+	note=#note#
+	
+	WHERE
+	`unid` = #unid# ;
+	</update>
+	
+	<delete id="delete" parameterClass="string">
+		DELETE FROM `t_file` 
+		WHERE
+		`unid` = #unid# ;
+	</delete>
+
+	<select id="selectFileById" parameterClass="string" resultClass="File">
+		SELECT * FROM `t_file` where unid=#unid# 
+	</select>
+
+	<select id="selectFileByD_id" parameterClass="string" resultClass="File">
+		SELECT * FROM `t_file` where d_unid=#d_unid#
+	</select>
+	<select id="selectFileCountByD_id" parameterClass="string" resultClass="java.lang.Integer">
+		SELECT COUNT(*) FROM t_file WHERE d_unid=#d_unid#
+	</select>
+	
+	<update id="updateD_unid" parameterClass="java.util.HashMap">
+		UPDATE t_file SET d_unid=#d_unid# 
+		WHERE unid in 
+		  <iterate property="unid" open="(" close=")"
+				conjunction=",">
+				#unid[]#
+		  </iterate>
+	</update>
+	
+	<delete id="deleteFileByUnidAndD_unid" parameterClass="java.util.HashMap">
+		DELETE FROM t_file 
+		WHERE unid=#unid# AND d_unid=#d_unid#
+	</delete>
+</sqlMap>
+

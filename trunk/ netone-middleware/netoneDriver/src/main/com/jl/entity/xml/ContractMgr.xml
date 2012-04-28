@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ContractMgr">
+	
+	<typeAlias alias="ContractMgr" type="com.jl.scheduler.job.ContractPojo" />
+
+	<insert id="insert_data" parameterClass="ContractMgr">
+	INSERT INTO dyform.dy_111321859523995
+		(lsh,FORMCODE,PARTICIPANT,CREATED,FATHERLSH,STATUSINFO,EXTENDATTRIBUTE,HIT,
+		TIMEX,column3,column4,column5,column6,column7,column8,column9,column10,
+		column11,column12,column13,column17,nexthandler,flag
+		)
+		VALUES
+		(
+		#lsh#,#FORMCODE#,#PARTICIPANT#,#CREATED#,#FATHERLSH#,#STATUSINFO#,#EXTENDATTRIBUTE#,#HIT#,
+		#timex#,#column3#,#column4#,#column5#,#column6#,#column7#,#column8#,#column9#,#column10#,
+		#column11#,#column12#,#column13#,#column17#,#nexthandler#,#flag#
+		);
+
+	</insert>
+
+	
+</sqlMap>

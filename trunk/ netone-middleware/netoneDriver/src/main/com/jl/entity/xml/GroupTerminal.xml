@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="GroupTerminal">
+	<typeAlias alias="groupTerminal" type="com.jl.entity.GroupTerminal" />
+	<typeAlias alias="groupTerminalDetail" type="com.jl.entity.GroupTerminalDetail" />
+	
+	<insert id="insertGroupTerminal" parameterClass="groupTerminal">
+		<selectKey resultClass="java.lang.String" keyProperty="groupTerminalId" type="pre">
+			SELECT REPLACE(UUID(),'-','') as groupTerminalId
+		</selectKey>		
+			INSERT INTO t_groupTerminal (groupTerminalId,subjectId,customerName,customerPhone, clientId, phone, groupName,
+										groupId,groupValueLevel,post,postLevel,phoneManufacturers,phoneModels,networkTime,phonePrice,phoneAmount,
+										applicationProject,storedOrGive,monthConsumption,monthAmount,preferentialSchemes,activityTitleAndDueTime,
+										applyNote,status
+										)
+			VALUES( #groupTerminalId#,#subjectId#,#customerName#,#customerPhone#,#clientId#, 
+				#phone#,#groupName#,#groupId#,#groupValueLevel#,#post#,#postLevel#,
+				#phoneManufacturers#,#phoneModels#,#networkTime#,#phonePrice#,
+				#phoneAmount#,#applicationProject#,#storedOrGive#,#monthConsumption#,
+				#monthAmount#,#preferentialSchemes#,#activityTitleAndDueTime#,
+				#applyNote#,#status#
+			  )
+	</insert>
+	
+	<update id="updateGroupTerminalStatus" parameterClass="groupTerminal">
+		update t_groupTerminal set status=#status# where groupTerminalId=#groupTerminalId#
+	</update>
+	
+	<!-- 根据ID查找 -->
+	<select id="selectGroupTerminalById" parameterClass="string" resultClass="java.util.HashMap">
+		SELECT 
+			t.*,t2.userCode cid,t2.userName cname,IFNULL((t.phonePrice * t.phoneAmount),0) priceCount
+		FROM t_groupTerminal t
+		LEFT JOIN t_user t2 ON t2.userCode=t.clientId 
+		WHERE t.groupTerminalId=#groupTerminalId#
+	</select>
+	<!-- 更新信息-->
+	<update id="updateGroupTerminal" parameterClass="groupTerminal">
+      UPDATE t_groupTerminal SET
+			subjectId=#subjectId#,
+			customerName=#customerName#,
+			customerPhone=#customerPhone#,
+			clientId=#clientId#,
+			phone=#phone#,
+			groupName=#groupName#,
+			groupId=#groupId#,
+			groupValueLevel=#groupValueLevel#,
+			post=#post#,
+			postLevel=#postLevel#,
+			phoneManufacturers=#phoneManufacturers#,
+			phoneModels=#phoneModels#,
+			networkTime=#networkTime#,
+			phonePrice=#phonePrice#,
+			phoneAmount=#phoneAmount#,
+			applicationProject=#applicationProject#,
+			storedOrGive=#storedOrGive#,
+			monthConsumption=#monthConsumption#,
+			monthAmount=#monthAmount#,
+			preferentialSchemes=#preferentialSchemes#,
+			activityTitleAndDueTime=#activityTitleAndDueTime#,
+			<isNotEmpty property="status">
+			STATUS=#status#,
+			</isNotEmpty>
+			applyNote=#applyNote#
+       WHERE groupTerminalId=#groupTerminalId#
+	</update>
+	
+	<!-- 批量删除信息 -->
+	<delete id="deleteGroupTerminal" parameterClass="string">
+       	DELETE FROM t_groupTerminal WHERE groupTerminalId=#groupTerminalId#
+	</delete>
+	
+	<!-- 插入生产计划订单明细信息  SELECT @@IDENTITY AS Id  sql设置主键-->
+	<insert id="insertGroupTerminalDetail" parameterClass="groupTerminalDetail">
+		<selectKey resultClass="java.lang.String" keyProperty="groupTerminalDetailId" type="pre">
+			SELECT REPLACE(UUID(),'-','') as groupTerminalDetailId
+		</selectKey>	
+		INSERT INTO t_groupTerminalDetail(groupTerminalDetailId,groupTerminalId,lastlastlastMonth,monthBeforeLast,lastMonth)
+		VALUES(#groupTerminalDetailId#,#groupTerminalId#,#lastlastlastMonth#, #monthBeforeLast#, #lastMonth#)
+	</insert>
+	
+	<!-- 清空所有明细信息 -->
+	<delete id="deleteAllByGroupTerminalId" parameterClass="string">
+       	DELETE FROM t_groupTerminalDetail WHERE groupTerminalId=#groupTerminalId#
+	</delete>
+	<!-- 加载明细 -->
+	<select id="loadGroupTerminalDetail" parameterClass="string" resultClass="groupTerminalDetail">
+			SELECT 
+				groupTerminalDetailId,
+				groupTerminalId,
+				lastlastlastMonth,
+				monthBeforeLast,
+				lastMonth
+			FROM t_groupTerminalDetail 
+			WHERE groupTerminalId = #groupTerminalId# 
+	</select>
+	
+	<!--  分页查询表信息 -->
+	<select id="findForPage" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	    SELECT t.groupTerminalId,t.subjectId,s1.name subjectName,t.customerName,
+			t.groupName,t.groupValueLevel groupValueLevelId,s2.name groupValueLevel,
+			t.post,t.postLevel,t.phoneManufacturers,t.phoneModels,t.networkTime,
+			IFNULL(t.phonePrice,0) phonePrice,t.phoneAmount,IFNULL((t.phonePrice * t.phoneAmount),0) priceCount,
+			t.applicationProject applicationProjectId,s3.name applicationProject,t.preferentialSchemes,t.clientId
+		FROM t_groupterminal t
+		LEFT JOIN t_systemconfig s1 ON t.subjectId = s1.sid
+		LEFT JOIN t_systemconfig s2 ON t.groupValueLevel = s2.sid
+		LEFT JOIN t_systemconfig s3 ON t.applicationProject = s3.sid
+		WHERE t.clientId = #clientId#
+		ORDER BY t.networkTime desc
+		LIMIT #startIndex#,#pageSize#
+	</select>
+	<!-- 统计总条数 -->
+	<select id="findPageCount" parameterClass="java.util.HashMap"
+		resultClass="java.lang.Integer">
+    	SELECT count(*) AS Count
+		FROM t_groupterminal t
+		LEFT JOIN t_systemconfig s1 ON t.subjectId = s1.sid
+		LEFT JOIN t_systemconfig s2 ON t.groupValueLevel = s2.sid
+		LEFT JOIN t_systemconfig s3 ON t.applicationProject = s3.sid
+		WHERE t.clientId = #clientId#
+	</select>
+</sqlMap>
+

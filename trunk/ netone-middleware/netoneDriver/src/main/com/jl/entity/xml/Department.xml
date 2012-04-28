@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Department">
+	<typeAlias alias="department" type="com.jl.entity.Department" />
+	<typeAlias alias="departmentLevel" type="com.jl.entity.DepartmentLevel" />
+	
+	<select id="selectRootDepartment" parameterClass="string" resultClass="string">
+		select departmentid from t_department where parentDepartmentId is null limit 1
+	</select>
+	
+	<!-- 加载信息MAP -->
+	<resultMap id="pageResultMap" class="department">
+		<result property="departmentId" column="departmentId"/>
+		<result property="departmentCode" column="departmentCode" />
+		<result property="departmentName" column="departmentName" />
+		<result property="extension" column="extension" />
+		<result property="note" column="note" />
+		<result property="map" column="map" />
+		<result property="areaId" column="areaId" />
+		<result property="NLevel" column="NLevel" />
+		<result property="NLevelCode" column="NLevelCode" />
+		<result property="NLevelName" column="NLevelName" />
+		<result property="level" column="level" />
+		<result property="orders" column="orders" />
+		<result property="levelName" column="levelName" />
+		<result property="parentDepartment.departmentId" column="parentDepartmentId" />
+		<result property="parentDepartmentId" column="parentDepartmentId" />
+		<result property="parentDepartment.departmentCode" column="parentDepartmentCode" />
+		<result property="parentDepartment.departmentName" column="parentDepartmentName" />
+		<result property="status" column="status" />
+		<result property="orders" column="orders" />
+	</resultMap>
+	
+	<!-- 删除部门/公司 -->
+	<delete id="deleteDepartment" parameterClass="java.lang.String">
+		delete from t_department where departmentId=#departmentId#
+	</delete>
+	
+	<!-- 插入部门/公司 -->
+	<insert id="insertDepartment" parameterClass="department">
+		<selectKey resultClass="java.lang.String" keyProperty="departmentId" type="pre">
+			SELECT REPLACE(UUID(),'-','') as departmentId
+		</selectKey>
+		INSERT INTO t_department(departmentId,departmentCode,departmentName,parentDepartmentId,orders)
+		VALUES(
+				#departmentId#,
+				#departmentCode#,
+				#departmentName#,
+				#parentDepartment.departmentId#,
+				#orders#
+		)
+	</insert>
+	
+	<!-- 更新部门/公司 -->
+	<update id="updateDepartment" parameterClass="department">
+       UPDATE t_department SET 
+	       departmentCode=#departmentCode#,
+		   departmentName=#departmentName#,
+		   parentDepartmentId=#parentDepartmentId#,
+		   orders=#orders#
+       WHERE departmentId=#departmentId#
+	</update>
+	
+	<!-- 查找部门 -->
+	<select id="selectDepartmentById" parameterClass="string" resultClass="department">
+		select 
+			departmentId,departmentCode,departmentName,IFNULL(parentDepartmentId,'') parentDepartmentId
+		from t_department
+		where departmentId=#departmentId#
+	</select>
+	
+	<!-- 通过ID查找部门/公司信息　-->
+	<select id="selectInfo" parameterClass="java.lang.String"
+		resultMap="pageResultMap">
+		SELECT 
+			   t.*,
+			  (CASE WHEN t.level='1' THEN '省公司'
+			   WHEN t.level='2' THEN '大营销部'
+			   WHEN t.level='3' THEN '营销部' 
+			   WHEN t.level='4' THEN '经销商'
+			   WHEN t.level='5' THEN '分销商'
+			   WHEN t.level='-1' THEN '区域'
+			   WHEN t.level='s' THEN '仓库'
+			   ELSE '未知'
+			   END) levelName,			   
+			   tt.departmentCode parentDepartmentCode,
+			   tt.departmentName parentDepartmentName,
+			   '0' areaId
+			   ,1 status
+	    FROM t_department t
+	    LEFT JOIN t_department tt on t.parentDepartmentId = tt.departmentId
+	   	WHERE t.departmentId = #departmentId#
+	</select>
+		<!-- 通过ID查找部门/公司信息　-->
+	<select id="selectInfoByCode" parameterClass="java.lang.String"
+		resultMap="pageResultMap">
+		SELECT 
+			   t.*,
+			  (CASE WHEN t.level='1' THEN '省公司'
+			   WHEN t.level='2' THEN '大营销部'
+			   WHEN t.level='3' THEN '营销部' 
+			   WHEN t.level='4' THEN '经销商'
+			   WHEN t.level='5' THEN '分销商'
+			   WHEN t.level='-1' THEN '区域'
+			   WHEN t.level='s' THEN '仓库'
+			   ELSE '未知'
+			   END) levelName,			   
+			   tt.departmentCode parentDepartmentCode,
+			   tt.departmentName parentDepartmentName,
+			   '0' areaId
+			   ,1 status
+	    FROM t_department t
+	    LEFT JOIN t_department tt on t.parentDepartmentId = tt.departmentId
+	   	WHERE t.departmentCode = #departmentId#
+	</select>
+
+	<!-- 通过ID查找部门/公司 上级信息　-->
+	<select id="selectDepartmentlevelrow" parameterClass="java.lang.String" resultClass="Department">
+		SELECT 
+			   t.*,
+			   t.departmentLevelItemId as departmentId
+	    FROM t_departmentlevelrow t
+	   	WHERE t.departmentLevelItemId = #departmentId#
+	</select>
+	
+	<!-- 加载部门/公司底下所有树节点 -->
+	<select id="loadDepartmentTree" parameterClass="string" resultMap="pageResultMap">
+			SELECT 
+			   t.*,
+			  (CASE WHEN t.level='1' THEN '省公司'
+			   WHEN t.level='2' THEN '大营销部'
+			   WHEN t.level='3' THEN '营销部' 
+			   WHEN t.level='4' THEN '经销商'
+			   WHEN t.level='5' THEN '分销商'
+			   WHEN t.level='-1' THEN '区域'
+			   WHEN t.level='s' THEN '仓库'
+			   ELSE '未知'
+			   END) levelName,
+			   IFNULL(tt.departmentId,'0') parentDepartmentId,
+			   tt.departmentCode parentDepartmentCode,
+			   tt.departmentName parentDepartmentName,
+			   '0' areaId
+			   ,1 status
+			FROM t_department t 
+			LEFT JOIN t_department tt on t.parentDepartmentId = tt.departmentId
+			WHERE ifnull(t.parentDepartmentId,'0') = #departmentId#
+			order by t.orders desc
+	</select>
+	
+	<!-- 加载部门/公司父根节点 -->
+	<select id="loadDepartmentRoot" parameterClass="java.util.Map"
+		resultMap="pageResultMap">
+			SELECT 
+			   t.*,
+			  (CASE WHEN t.level='1' THEN '省公司'
+			   WHEN t.level='2' THEN '大营销部'
+			   WHEN t.level='3' THEN '营销部' 
+			   WHEN t.level='4' THEN '经销商'
+			   WHEN t.level='5' THEN '分销商'
+			   WHEN t.level='-1' THEN '区域'
+			   WHEN t.level='s' THEN '仓库'
+			   ELSE '未知'
+			   END) levelName,
+			   '0' parentDepartmentId,
+			   '' parentDepartmentCode,
+			   '' parentDepartmentName,
+			   IFNULL((SELECT DISTINCT areaid FROM t_areadepartment WHERE departmentId=t.departmentId LIMIT 1),'0') areaId
+			   <isNotEmpty prepend="," property="isShowStatus">
+			   (select count(*) from t_clientinformation where clientId=t.departmentId and cancelTime is null)	as status
+			   </isNotEmpty>
+			   <isEmpty prepend="," property="isShowStatus">
+			   1 status
+			   </isEmpty>
+			FROM t_department t 
+			WHERE ifnull(t.parentDepartmentId,'0') = #departmentId#
+			<isNotEmpty prepend="and" property="filter"><!-- 过滤 精确定位 -->
+				t.departmentId = #filter#
+			</isNotEmpty>
+			order by t.orders desc
+	</select>
+	
+	<!-- 根据上级分类查找子分类　-->
+	<select id="findChildDepartment" parameterClass="java.util.Map"
+		resultMap="pageResultMap">
+			SELECT 
+			   t.*,
+			  (CASE WHEN t.level='1' THEN '省公司'
+			   WHEN t.level='2' THEN '大营销部'
+			   WHEN t.level='3' THEN '营销部' 
+			   WHEN t.level='4' THEN '经销商'
+			   WHEN t.level='5' THEN '分销商'
+			   WHEN t.level='-1' THEN '区域'
+			   WHEN t.level='s' THEN '仓库'
+			   ELSE '未知'
+			   END) levelName,			   
+			   tt.departmentCode parentDepartmentCode,
+			   tt.departmentName parentDepartmentName,
+			   IFNULL((SELECT DISTINCT areaid FROM t_areadepartment WHERE departmentId=t.departmentId LIMIT 1),'0') areaId
+			   <isNotEmpty prepend="," property="isShowStatus">
+			   (select count(*) from t_clientinformation where clientId=t.departmentId and cancelTime is null)	as status
+			   </isNotEmpty>
+			   <isEmpty prepend="," property="isShowStatus">
+			   1 status
+			   </isEmpty>			   
+			FROM t_department t
+			LEFT JOIN t_department tt on t.parentDepartmentId = tt.departmentId
+			WHERE 1=1
+			<!-- 权限控制 -->
+			<isNotEmpty prepend="and" property="permission">
+			<isNotEqual property="permission" compareValue="0" prepend="and">
+				t.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#permission#)
+				,'%')
+			</isNotEqual>
+			</isNotEmpty>
+			<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+				<isNotEqual property="departmentId_" compareValue="0">
+					t.nlevelcode like CONCAT(
+						(select nlevelcode from t_department where departmentId=#departmentId_#)
+					,'%')
+				</isNotEqual>
+			</isEqual>
+			<isNotEmpty prepend="and" property="departmentId"> 
+				IFNULL(t.parentDepartmentId,'0') = #departmentId#
+			</isNotEmpty>
+			<isNotEmpty property="departmentCode" prepend="and">
+				(t.departmentCode like '%$departmentCode$%' or t.departmentName like '%$departmentCode$%')
+			</isNotEmpty>
+			<isEqual prepend="and" property="excludeNode" compareValue="yes"><!-- 排除 -->
+				IFNULL(t.departmentId,'0') not in (
+					select clientId from t_clientinformation where cancelTime is not null
+				)
+			</isEqual>
+			<isEqual prepend="or" property="include" compareValue="1">
+				t.departmentId = #departmentId#
+			</isEqual>
+			order by t.orders desc
+	</select>
+	
+	<!-- 建立树关系结构 -->
+	<update id="buildTreeRelation" parameterClass="java.util.Map">
+		update t_department set  nLevel=#nLevel#,nLevelCode=#nLevelCode#,
+										nLevelName=#nLevelName#
+										<isNotNull property="level" prepend=",">
+											level=#level#
+										</isNotNull>
+										where departmentId=#departmentId#
+	</update>
+	
+	<!-- 建立树关系结构 -->
+	<delete id="buildTreeLevelRelation1" parameterClass="java.lang.String">
+		delete from t_departmentlevel where departmentLevelItemId=#departmentLevelItemId#
+	</delete>
+	<insert id="buildTreeLevelRelation2" parameterClass="departmentLevel">
+		insert into t_departmentlevel  (departmentLevelItemId,
+									  departmentLevelId,
+									  departmentLevel,
+									  departmentLevelCode,
+									  departmentLevelName,orders) values (
+									  #departmentLevelItemId#,
+									  #departmentLevelId#,
+									  #departmentLevel#,
+									  #departmentLevelCode#,
+									  #departmentLevelName#,
+									  #orders#
+									  )
+	</insert>
+	<!-- 查看树级别关系是否存在 -->
+	<select id="findTreeLevelRelationIsExist" parameterClass="departmentLevel" resultClass="int">
+		select count(*) from t_departmentlevel 
+		where departmentLevelItemId=#departmentLevelItemId# and departmentLevel=#departmentLevel#
+	</select>
+	<update id="buildTreeLevelRelation3" parameterClass="departmentLevel">
+		update t_departmentlevel set departmentLevelId=#departmentLevelId#,
+									 departmentLevelCode=#departmentLevelCode#,
+									 departmentLevelName=#departmentLevelName#,
+									 orders=#orders#
+		where departmentLevelItemId=#departmentLevelItemId# and departmentLevel=#departmentLevel#
+	</update>
+	
+	
+	<!-- 同步部门/公司信息 -->
+	<insert id="syncInsertInfo" parameterClass="department">
+		insert into t_clientinformation (clientId,clientCode,clientName) values (
+			#departmentId#,
+			#departmentCode#,
+			#departmentName#
+		)
+	</insert>
+	<insert id="syncUpdateInfo" parameterClass="department">
+		update t_clientinformation set
+			clientCode=#departmentCode#,
+			clientName=#departmentName#
+		where clientId=#departmentId#
+	</insert>
+	<delete id="syncDeleteInfo" parameterClass="string">
+		delete from  t_clientinformation
+		where clientId=#departmentId#
+	</delete>
+	<!-- 同步仓库信息 -->
+	<insert id="syncInsertStorageInfo" parameterClass="department">
+		insert into t_storage (storageId,storageCode,storageName) values (
+			#departmentId#,
+			#departmentCode#,
+			#departmentName#
+		)
+	</insert>
+	<insert id="syncUpdateStorageInfo" parameterClass="department">
+		update t_storage set
+			storageName=#departmentName#
+		where storageId=#departmentId#
+	</insert>
+	<delete id="syncDeleteStorageInfo" parameterClass="string">
+		delete from t_storage
+		where storageId=#departmentId#
+	</delete>
+	<!-- 同步帐号信息 -->
+	<insert id="syncInsertUserInfo" parameterClass="department">
+		insert into t_user (userId,userCode,userName,types,departmentId,createdDate,status) values (
+			REPLACE(UUID(),'-',''),
+			#departmentCode#,
+			#departmentName#,
+			#level#,
+			#departmentId#,
+			now(),
+			1
+		)
+	</insert>
+	<!-- 查找最后一个用户帐号 -->
+	<select id="selectLastUserCodeCount"  parameterClass="string" resultClass="int">
+		SELECT ifnull(count(*),0) FROM t_user WHERE userCode LIKE '$value$x%'
+	</select>
+	<insert id="syncUpdateUserInfo" parameterClass="department">
+		update t_user set
+			<isNotNull property="departmentCode">
+				userCode=#departmentCode#,
+			</isNotNull>
+			userName=#departmentName#,
+			types=#level#
+		where ifnull(departmentId,'')=#departmentId#
+	</insert>
+	<select id="selectDeleteUserByDepartmentId" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select userCode from t_user where ifnull(departmentId,'') = '$departmentId$'
+	</select>
+	<delete id="syncDeleteUserInfo" parameterClass="string">
+		delete from t_user
+		where ifnull(departmentId,'')=#departmentId#
+	</delete>	
+	
+	<!-- 部门、公司具体信息分页查询结果集 -->
+	<select id="queryDepartmentDetailInfoForPage" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+		   t.*,
+		   tt.departmentCode parentDepartmentCode,
+		   tt.departmentName parentDepartmentName,
+		   (CASE WHEN t.level='1' THEN '省公司'
+		   WHEN t.level='2' THEN '大营销部'
+		   WHEN t.level='3' THEN '营销部' 
+		   WHEN t.level='4' THEN '经销商'
+		   WHEN t.level='5' THEN '分销商'
+		   WHEN t.level='-1' THEN '区域'
+		   WHEN t.level='s' THEN '仓库'
+		   ELSE '未知'
+		   END) levelName
+		   <isNotEqual property="forPage" compareValue="1">
+		   	,t2.*
+		   </isNotEqual>
+		FROM t_department t
+		LEFT JOIN t_department tt on t.parentDepartmentId = tt.departmentId
+		LEFT JOIN t_clientinformation t2 on t2.clientId=t.departmentId
+		WHERE 1=1
+		<isNotEmpty property="level" prepend="and">
+			t.level=#level#
+		</isNotEmpty>
+		<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+			<isNotEqual property="departmentId" compareValue="0">
+				t.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#departmentId#)
+				,'%')
+			</isNotEqual>
+		</isEqual>
+		<isNotEqual property="list" compareValue="all"><!-- 列出当前孩子 -->
+			<isNotEmpty property="departmentId" prepend="and">
+				t.parentDepartmentId = #departmentId#
+			</isNotEmpty>
+		</isNotEqual>
+		<isNotEmpty property="code" prepend="and">
+			(t.departmentCode like '%$code$%' or t.departmentName like '%$code$%')
+		</isNotEmpty>
+		order by t.nLevel,t.departmentCode
+		<isEqual property="forPage" compareValue="1">
+		LIMIT #startIndex#,#pageSize#
+		</isEqual>
+	</select>
+	<!-- 部门、公司具体信息查询总数 -->
+	<select id="queryDepartmentDetailInfoForPageCount" parameterClass="java.util.Map" resultClass="int">
+		SELECT 
+		   count(*)
+		FROM t_department t
+		WHERE 1=1
+		<isNotEmpty property="level" prepend="and">
+			t.level=#level#
+		</isNotEmpty>
+		<isEqual property="list" compareValue="all" prepend="and"><!-- 列出所有孩子 -->
+			<isNotEqual property="departmentId" compareValue="0">
+			t.nlevelcode like CONCAT(
+					(select nlevelcode from t_department where departmentId=#departmentId#)
+				,'%')
+			</isNotEqual>
+		</isEqual>		
+		<isNotEqual property="list" compareValue="all"><!-- 列出当前孩子 -->
+			<isNotEmpty property="departmentId" prepend="and">
+				t.parentDepartmentId = #departmentId#
+			</isNotEmpty>
+		</isNotEqual>
+		<isNotEmpty property="code" prepend="and">
+			(t.departmentCode like '%$code$%' or t.departmentName like '%$code$%')
+		</isNotEmpty>		
+	</select>
+	
+	<!-- 判断业务角色类型 -->
+	<select id="checkBussType" parameterClass="string" resultClass="string">
+		select level from t_department where departmentId=#departmentId# 
+	</select>
+	
+	<!-- 查找父对象的业务类型及对应编码、名称 -->
+	<select id="findPDeptBussType" parameterClass="string" resultClass="java.util.HashMap">
+		select level,IFNULL(departmentCode,'') as departmentCode,IFNULL(departmentName,'') as departmentName from t_department where departmentid=#value#
+	</select>
+	
+	<!-- 检查编码是否重复 -->
+	<select id="findCodeIsExist" parameterClass="department" resultClass="int">
+		select count(*) from t_department where departmentCode=#departmentCode# and departmentId!=#departmentId#
+	</select>
+	
+	<!-- 更新部门地图信息 -->
+	<update id="importDMap" parameterClass="department">
+		UPDATE t_department SET map=#map#
+		WHERE departmentId=#departmentId#
+	</update>
+	
+	<!-- 删除公司横向数据 -->
+	<delete id="deleteDepartmentlevelrow" parameterClass="string">
+		delete from t_departmentlevelrow where departmentLevelItemId=#departmentId#
+	</delete>
+	
+	<!-- 初始化公司横向数据 -->
+	<select id="findDepartmentlevelrowIsExist" parameterClass="string" resultClass="int">
+		select count(*) from t_departmentlevelrow where departmentLevelItemId=#departmentId#
+	</select>
+	<insert id="initDepartmentlevelrow" parameterClass="string">
+		insert into t_departmentlevelrow (departmentLevelItemId) values (#departmentId#)
+	</insert>
+	
+	<!-- 更新公司横向数据 -->
+	<update id="updateDepartmentlevelrow" parameterClass="department">
+		update t_departmentlevelrow set 
+		departmentId1=IFNULL((SELECT departmentLevelId FROM t_departmentlevel WHERE departmentLevel='1' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),''),
+		departmentCode1=IFNULL((SELECT departmentLevelCode FROM t_departmentlevel WHERE departmentLevel='1' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),''),
+		departmentName1=IFNULL((SELECT departmentLevelName FROM t_departmentlevel WHERE departmentLevel='1' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),''),
+		departmentId2=IFNULL((SELECT departmentLevelId FROM t_departmentlevel WHERE departmentLevel='2' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),
+			IFNULL((SELECT departmentLevelId FROM t_departmentlevel WHERE departmentLevel='3' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),'')
+	    ),
+		departmentCode2=IFNULL((SELECT departmentLevelCode FROM t_departmentlevel WHERE departmentLevel='2' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),
+			IFNULL((SELECT departmentLevelCode FROM t_departmentlevel WHERE departmentLevel='3' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),'')
+	    ),
+		departmentName2=IFNULL((SELECT departmentLevelName FROM t_departmentlevel WHERE departmentLevel='2' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),
+			IFNULL((SELECT departmentLevelName FROM t_departmentlevel WHERE departmentLevel='3' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),'')
+	    ),
+		departmentId3=IFNULL((SELECT departmentLevelId FROM t_departmentlevel WHERE departmentLevel='3' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),
+			IFNULL((SELECT departmentLevelId FROM t_departmentlevel WHERE departmentLevel='2' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),'')
+	    ),
+		departmentCode3=IFNULL((SELECT departmentLevelCode FROM t_departmentlevel WHERE departmentLevel='3' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),
+			IFNULL((SELECT departmentLevelCode FROM t_departmentlevel WHERE departmentLevel='2' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),'')
+	    ),
+		departmentName3=IFNULL((SELECT departmentLevelName FROM t_departmentlevel WHERE departmentLevel='3' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),
+			IFNULL((SELECT departmentLevelName FROM t_departmentlevel WHERE departmentLevel='2' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),'')
+	    ),
+		departmentId4=IFNULL((SELECT departmentLevelId FROM t_departmentlevel WHERE departmentLevel='4' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),''),
+		departmentCode4=IFNULL((SELECT departmentLevelCode FROM t_departmentlevel WHERE departmentLevel='4' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),''),
+		departmentName4=IFNULL((SELECT departmentLevelName FROM t_departmentlevel WHERE departmentLevel='4' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),''),
+		departmentId5=IFNULL((SELECT departmentId FROM t_department WHERE LEVEL='5' AND departmentId=#departmentId# ),''),
+		departmentCode5=IFNULL((SELECT departmentCode FROM t_department WHERE LEVEL='5' AND departmentId=#departmentId# ),''),
+		departmentName5=IFNULL((SELECT departmentName FROM t_department WHERE LEVEL='5' AND departmentId=#departmentId# ),''),
+		departmentIdx=IFNULL((SELECT userId FROM t_user WHERE userId = (SELECT operationDirector FROM t_clientinformation WHERE clientId=#departmentId#) ),''),
+		departmentCodex=IFNULL((SELECT userCode FROM t_user WHERE userId = (SELECT operationDirector FROM t_clientinformation WHERE clientId=#departmentId#) ),''),
+		departmentNamex=IFNULL((SELECT userName FROM t_user WHERE userId = (SELECT operationDirector FROM t_clientinformation WHERE clientId=#departmentId#) ),''),
+		departmentIds1=IFNULL((SELECT departmentLevelId FROM t_departmentlevel WHERE departmentLevel='s1' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),#departmentId#),
+		departmentCodes1=IFNULL((SELECT departmentLevelCode FROM t_departmentlevel WHERE departmentLevel='s1' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),#departmentCode#),
+		departmentNames1=IFNULL((SELECT departmentLevelName FROM t_departmentlevel WHERE departmentLevel='s1' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),#departmentName#),
+		departmentIds2=IFNULL((SELECT departmentLevelId FROM t_departmentlevel WHERE departmentLevel='s2' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),#departmentId#),
+		departmentCodes2=IFNULL((SELECT departmentLevelCode FROM t_departmentlevel WHERE departmentLevel='s2' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),#departmentCode#),
+		departmentNames2=IFNULL((SELECT departmentLevelName FROM t_departmentlevel WHERE departmentLevel='s2' AND departmentLevelItemId=#departmentId# ORDER BY orders LIMIT 1 ),#departmentName#)
+		where departmentLevelItemId=#departmentId#
+	</update>
+	<!-- 更新本级横向数据 -->
+	<update id="updateCurrDepartmentlevelrow" parameterClass="department">
+		<isNotEmpty property="departmentId">
+			update t_departmentlevelrow set 
+				departmentLevelItemId=#departmentId#
+				<isEqual prepend="," property="level" compareValue="1">
+					departmentId1=(select departmentId from t_department where departmentId=#departmentId#),
+					departmentCode1=(select departmentCode from t_department where departmentId=#departmentId#),
+					departmentName1=(select departmentName from t_department where departmentId=#departmentId#)
+				</isEqual>
+				<isEqual prepend="," property="level" compareValue="2">
+					departmentId2=(select departmentId from t_department where departmentId=#departmentId#),
+					departmentCode2=(select departmentCode from t_department where departmentId=#departmentId#),
+					departmentName2=(select departmentName from t_department where departmentId=#departmentId#)
+				</isEqual>
+				<isEqual prepend="," property="level" compareValue="3">
+					departmentId3=(select departmentId from t_department where departmentId=#departmentId#),
+					departmentCode3=(select departmentCode from t_department where departmentId=#departmentId#),
+					departmentName3=(select departmentName from t_department where departmentId=#departmentId#)
+				</isEqual>
+				<isEqual prepend="," property="level" compareValue="4">
+					departmentId4=(select departmentId from t_department where departmentId=#departmentId#),
+					departmentCode4=(select departmentCode from t_department where departmentId=#departmentId#),
+					departmentName4=(select departmentName from t_department where departmentId=#departmentId#)
+				</isEqual>
+				<isEqual prepend="," property="level" compareValue="5">
+					departmentId5=(select departmentId from t_department where departmentId=#departmentId#),
+					departmentCode5=(select departmentCode from t_department where departmentId=#departmentId#),
+					departmentName5=(select departmentName from t_department where departmentId=#departmentId#)
+				</isEqual>
+			where departmentLevelItemId=#departmentId#
+		</isNotEmpty>
+	</update>
+	
+	<!-- 更新公司横向数据 - 业务主任 -->
+	<update id="updateDepartmentlevelrowX" parameterClass="java.util.Map">
+		update t_departmentlevelrow set 
+		departmentIdx=#departmentIdx#,
+		departmentCodex=#departmentCodex#,
+		departmentNamex=#departmentNamex#
+		where departmentLevelItemId=#departmentLevelItemId#
+	</update>
+	
+	<!-- 查找底下是否有人员 -->
+	<select id="findIsHaveChildren" parameterClass="java.util.Map" resultClass="int">
+		select IFNULL(count(*),0) as v from t_user t
+		left join t_department t2 on t2.departmentId=t.departmentId
+		where 1=1
+		<isNotEmpty prepend="and" property="node">
+			t2.parentDepartmentId=#node#
+		</isNotEmpty>
+		<isEmpty prepend="and" property="node">
+			t2.parentDepartmentId is null
+		</isEmpty>
+	</select>
+	
+</sqlMap>

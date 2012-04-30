@@ -14,7 +14,7 @@
 	<head>
 		<base href="<%=basePath%>">
 
-		<title>砖取管理</title>
+		<title>钻取管理</title>
 
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -172,7 +172,7 @@
 							&nbsp;&nbsp;
 
 
-							<input type="button" value="新建砖取" onclick="newds()" class="butt">
+							<input type="button" value="新建钻取" onclick="newds()" class="butt">
 							&nbsp;&nbsp;
 							<input type="button" value="修改" onclick="edit();"
 								class="butt">
@@ -250,12 +250,12 @@
 							        <c:if test="${list.objecttype=='Two'}">
 									<a  
 										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>TwoBTflashchartAction?naturalname=${list.naturalname}','_parent');"
-										target="_blank"><font color='red'>[砖取分析]</font></a>	
+										target="_blank"><font color='red'>[钻取分析]</font></a>	
 								</c:if>
 								<c:if test="${list.objecttype=='Many'}">
 									<a  
 										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>BTflashchartAction?naturalname=${list.naturalname}','_parent');"
-										target="_blank"><font color='red'>[砖取分析]</font></a>	
+										target="_blank"><font color='red'>[钻取分析]</font></a>	
 								</c:if>
 
 							</td>

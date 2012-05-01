@@ -1,9 +1,11 @@
 package oe.security3a.sso.util;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
+import oe.security3a.seucore.obj.Clerk;
 
 /**
  * SyncUser 调用SyncUser（）方法，实现用户的自动同步，同步到jndi中配置的系统中
@@ -71,9 +74,9 @@ public class SyncUser {
 
 	// http://192.168.2.100:8080/pms/TaskSynSvl?OPE=ADD&CODE=0001&USERCODE=adminx
 	// 构造URL
-	public List<String> initUrls(String ope, String code, String usercode) {
+	public List<String> initUrls(String ope, String code, Clerk clerk) {
 		List<String> urls = new ArrayList<String>();
-
+		
 		List<String> list = new ArrayList<String>();
 		String url = "";
 		try {
@@ -106,9 +109,19 @@ public class SyncUser {
 					}
 
 					param2 = SyncUserUtil._PAEAM_CODE + "=" + code;
-					param3 = SyncUserUtil._PARAM_USERCODE + "=" + usercode;
+					param3 = SyncUserUtil._PARAM_USERCODE + "=" + clerk.getNaturalname();
+					String param4=null;
+					try {
+						param4=SyncUserUtil._PARAM_USERNAME+"="+URLEncoder.encode(clerk.getName(),"UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
-					url = url + param1 + "&" + param2 + "&" + param3;
+					String param5 = SyncUserUtil._PARAM_PASSWORD + "=" + clerk.getPassword();
+					String param6 = SyncUserUtil._PARAM_TEL + "=" + clerk.getPhoneNO();
+					String param7 = SyncUserUtil._PARAM_MAIL + "=" + clerk.getEmail();
+					url = url + param1 + "&" + param2 + "&" + param3 + "&" + param4 + "&" + param5+ "&" + param6 + "&" + param7;
 
 					urls.add(url);
 
@@ -161,12 +174,12 @@ public class SyncUser {
 	 * @param usercode
 	 * @return
 	 */
-	public String[] SyncUser(String ope, String code, String usercode) {
+	public String[] syncUser(String ope, String code,Clerk clerk) {
 
 		if (this.needSync(code)) {
 			List<String> urls = new ArrayList<String>();
 			List<String> lists = new ArrayList<String>();
-			urls = initUrls(ope, code, usercode);
+			urls = initUrls(ope, code, clerk);
 			if (urls == null || urls.isEmpty()) {
 				return null;
 			} else {

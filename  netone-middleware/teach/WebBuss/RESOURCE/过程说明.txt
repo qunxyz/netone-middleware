@@ -1,0 +1,57 @@
+0: 改造成资产管理业务
+1: 演示核心的业务功能模块，分页列表应用
+
+更换dbtools 改进代码 
+
+WebTip 工具介绍下
+
+介绍 Log4j技术
+
+介绍连接池
+
+集成  4A安全
+
+集成  BI技术
+
+继承 Portal 展现
+
+2: 介绍其中的核心技术内容，主要有服务段Ormer工具自动化处理和前端的JSTL
+3: 外挂模块 4A 安全， 主要内容 1 演示帐户管理，2 集成安全，演示登陆保护  3 角色管理 演示字段 级的保护控制
+4: 外挂BI，分析不同资产的占总资产的比例饼图，分析不同资产的价值单价对比，分析个人资产的未来发展趋势，
+5: 本地安装中间件，本地调试使用 
+
+
+配置文件 安全
+
+	<filter>
+		<filter-name>ssofilter</filter-name>
+		<filter-class>oe.security3a.sso.SsoFilter</filter-class>
+
+		<init-param>
+			<param-name>AbortUrls</param-name>
+			<param-value>
+			</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>ssofilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<servlet-class>oe.frame.web.util.AjaxServiceSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AjaxServiceSvl</servlet-name>
+		<url-pattern>/servlet/AjaxServiceSvl</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>logoutsvl</servlet-name>
+		<servlet-class>
+			oe.security3a.sso.listener.LogoutSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>logoutsvl</servlet-name>
+		<url-pattern>/logoutsvl</url-pattern>
+	</servlet-mapping>

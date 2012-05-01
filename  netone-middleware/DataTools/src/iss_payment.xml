@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataTrans>
+
+	<source id='source1'
+		url='jdbc:mysql://localhost:3306/iss'
+		password='xanadu625' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source2'
+		url='jdbc:mysql://localhost:3307/iss'
+		password='' username='root' driver='com.mysql.jdbc.Driver' />
+	
+	<sql id='payment'>
+		 <![CDATA[select * from t_payment]]>
+	</sql>
+	<sql id='collectionpayment'>
+		 <![CDATA[select * from t_collectionpayment]]>
+	</sql>
+	<sql id='incentivepaymentcash'>
+		 <![CDATA[select * from t_incentivepaymentcash]]>
+	</sql>
+	<sql id='managepayment'>
+		 <![CDATA[select * from t_managepayment]]>
+	</sql>	
+	<sql id='otherpayment'>
+		 <![CDATA[select * from t_otherpayment]]>
+	</sql>		
+	<sql id='reimbursepayment'>
+		 <![CDATA[select * from t_reimbursepayment]]>
+	</sql>			
+	
+	
+	<out id='payment_out' sqlid='payment' sourceid='source2' />
+	<out id='collectionpayment_out' sqlid='collectionpayment' sourceid='source2' />
+	<out id='incentivepaymentcash_out' sqlid='incentivepaymentcash' sourceid='source2' />
+	
+	<out id='managepayment_out' sqlid='managepayment' sourceid='source2' />
+	<out id='otherpayment_out' sqlid='otherpayment' sourceid='source2' />
+	<out id='reimbursepayment_out' sqlid='reimbursepayment' sourceid='source2' />
+
+	<in id="payment_in" outid="payment_out" tosourceid='source1' commit='100'>
+		<column name='t_payment.pid' outname='' type='varchar'>
+			<![CDATA[return UUID.randomUUID().toString().replaceAll("-", "");]]>
+		</column>
+		<column name='t_payment.payCode' outname='paymentId' type='varchar'>
+		</column>
+		<column name='t_payment.accountantYear' outname='accountanYear' type='varchar'>
+		</column>
+		<column name='t_payment.accountantMonth' outname='accountantMonth' type='varchar'>
+		</column>
+		<column name='t_payment.balanceType' outname='balanceType' type='varchar'>
+		</column>
+		<column name='t_payment.createdDate' outname='createdDate' type='datetime'>
+		</column>
+		<column name='t_payment.clientId' outname='clientId' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#clientId#'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+					return dataAll[0];
+				}		
+			]]>
+		</column>
+		<column name='t_payment.operate' outname='levelTwoChecker' type='varchar'>
+		</column>
+		<column name='t_payment.normalSum' outname='normalSum' type='double'>
+		</column>
+		<column name='t_payment.produceWineSum' outname='produceWineSum' type='double'>
+		</column>
+		<column name='t_payment.awardSum' outname='awardSum' type='double'>
+		</column>
+		<column name='t_payment.rpNumber' outname='rpNumber' type='varchar'>
+		</column>
+		<column name='t_payment.remitDate' outname='remittanceTime' type='datetime'>
+		</column>
+		<column name='t_payment.note' outname='note' type='varchar'>
+		</column>
+		<column name='t_payment.adjustCount' outname='adjustCount' type='double'>
+		</column>		
+		<column name='t_payment.extendCode' outname='code' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select indentId from t_indent where code='#value#'", "indentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					return "";
+				}		
+			]]>					
+		</column>
+		<column name='t_payment.payTime' outname='payTime' type='datetime'></column>
+		
+	</in>	
+
+	<in id="incentivepaymentcash_in" outid="incentivepaymentcash_out" tosourceid='source1' commit='100'>
+		<column name='t_incentivepaymentcash.pid' outname='' type='varchar'>
+			<![CDATA[return UUID.randomUUID().toString().replaceAll("-", "");]]>
+		</column>
+		<column name='t_incentivepaymentcash.payCode' outname='cashCode' type='varchar'>
+		</column>
+		<column name='t_incentivepaymentcash.accountantYear' outname='accountantYear' type='varchar'>
+		</column>
+		<column name='t_incentivepaymentcash.accountantMonth' outname='accountantMonth' type='varchar'>
+		</column>
+		<column name='t_incentivepaymentcash.clientId' outname='clientId' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#clientId#'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+					return dataAll[0];
+				}		
+			]]>
+		</column>
+		<column name='t_incentivepaymentcash.operate' outname='levelTwoCompanyChecker' type='varchar'>
+		</column>
+		<column name='t_incentivepaymentcash.paySum' outname='cashMoney' type='double'>
+		</column>
+		<column name='t_incentivepaymentcash.createdDate' outname='createDate' type='datetime'>
+		</column>
+		<column name='t_incentivepaymentcash.note' outname='note' type='varchar'>
+		</column>
+		<column name='t_incentivepaymentcash.balanceType' outname='balanceType' type='varchar'>
+		</column>	
+	</in>	
+	
+	<in id="collectionpayment_in" outid="collectionpayment_out" tosourceid='source1' commit='100'>
+		<column name='t_collectionpayment.pid' outname='' type='varchar'>
+			<![CDATA[return UUID.randomUUID().toString().replaceAll("-", "");]]>
+		</column>
+		<column name='t_collectionpayment.payCode' outname='cashCode' type='varchar'>
+		</column>
+		<column name='t_collectionpayment.accountantYear' outname='accountantYear' type='varchar'>
+		</column>
+		<column name='t_collectionpayment.balanceType' outname='balanceType' type='varchar'>
+		</column>	
+		<column name='t_collectionpayment.accountantMonth' outname='accountantMonth' type='varchar'>
+		</column>
+		<column name='t_collectionpayment.clientId' outname='clientId' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#clientId#'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+					return dataAll[0];
+				}		
+			]]>
+		</column>
+		<column name='t_collectionpayment.operate' outname='levelTwoCompanyChecker' type='varchar'>
+		</column>
+		<column name='t_collectionpayment.paySum' outname='collectionMoney' type='double'>
+		</column>
+		<column name='t_collectionpayment.createdDate' outname='createDate' type='datetime'>
+		</column>
+		<column name='t_collectionpayment.note' outname='note' type='varchar'>
+		</column>
+	</in>	
+	
+	<in id="managepayment_in" outid="managepayment_out" tosourceid='source1' commit='100'>
+		<column name='t_managepayment.pid' outname='' type='varchar'>
+			<![CDATA[return UUID.randomUUID().toString().replaceAll("-", "");]]>
+		</column>
+		<column name='t_managepayment.payCode' outname='paymentCode' type='varchar'>
+		</column>
+		<column name='t_managepayment.accountantYear' outname='accountantYear' type='varchar'>
+		</column>
+		<column name='t_managepayment.accountantMonth' outname='accountantMonth' type='varchar'>
+		</column>
+		<column name='t_managepayment.clientId' outname='clientId' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#clientId#'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+					return dataAll[0];
+				}		
+			]]>
+		</column>
+		<column name='t_managepayment.operate' outname='levelTwoCompanyChecker' type='varchar'>
+		</column>
+		<column name='t_managepayment.paySum' outname='paySum' type='double'>
+		</column>
+		<column name='t_managepayment.createdDate' outname='createdDate' type='datetime'>
+		</column>
+		<column name='t_managepayment.balanceType' outname='balanceType' type='varchar'>
+		</column>
+
+	</in>	
+
+	<in id="otherpayment_in" outid="otherpayment_out" tosourceid='source1' commit='100'>
+		<column name='t_otherpayment.pid' outname='' type='varchar'>
+			<![CDATA[return UUID.randomUUID().toString().replaceAll("-", "");]]>
+		</column>
+		<column name='t_otherpayment.payCode' outname='paymentCode' type='varchar'>
+		</column>
+		<column name='t_otherpayment.accountantYear' outname='accountantYear' type='varchar'>
+		</column>
+		<column name='t_otherpayment.accountantMonth' outname='accountantMonth' type='varchar'>
+		</column>
+		<column name='t_otherpayment.clientId' outname='clientId' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#clientId#'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+					return dataAll[0];
+				}		
+			]]>
+		</column>
+		<column name='t_otherpayment.operate' outname='levelTwoCompanyChecker' type='varchar'>
+		</column>
+		<column name='t_otherpayment.paySum' outname='paySum' type='double'>
+		</column>
+		<column name='t_otherpayment.createdDate' outname='createdDate' type='datetime'>
+		</column>
+		<column name='t_otherpayment.note' outname='notes' type='varchar'>
+		</column>
+		<column name='t_otherpayment.balanceType' outname='balanceType' type='varchar'>
+		</column>
+	</in>	
+	
+	<in id="reimbursepayment_in" outid="reimbursepayment_out" tosourceid='source1' commit='100'>
+		<column name='t_reimbursepayment.pid' outname='' type='varchar'>
+			<![CDATA[return UUID.randomUUID().toString().replaceAll("-", "");]]>
+		</column>
+		<column name='t_reimbursepayment.payCode' outname='paymentId' type='varchar'>
+		</column>
+		<column name='t_reimbursepayment.accountantYear' outname='accountantYear' type='varchar'>
+		</column>
+		<column name='t_reimbursepayment.accountantMonth' outname='accountantMonth' type='varchar'>
+		</column>
+		
+		<column name='t_reimbursepayment.clientId' outname='clientId' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#clientId#'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+					return dataAll[0];
+				}		
+			]]>
+		</column>
+		<column name='t_reimbursepayment.operate' outname='levelTwoCompanyChecker' type='varchar'>
+		</column>
+		<column name='t_reimbursepayment.paySum' outname='collectionMoney' type='double'>
+		</column>
+		<column name='t_reimbursepayment.createdDate' outname='createDate' type='datetime'>
+		</column>
+		<column name='t_reimbursepayment.note' outname='notes' type='varchar'>
+		</column>
+		<column name='t_reimbursepayment.balanceType' outname='balanceType' type='varchar'>
+		</column>
+	</in>
+</dataTrans>

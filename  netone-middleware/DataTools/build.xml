@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project name="Newland3A" default="default" basedir=".">
+
+	<property name="src.dir" value="${basedir}" />
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="web.dir" value="${basedir}/WebRoot" />
+	<property name="dist.dir" value="${basedir}/RESOURCE" />
+	
+
+	<target name="rmi_stub">
+		<jar destfile="${dist.dir}/datatools.jar">
+			<fileset dir="${class.dir}">
+				<include name="**" />
+				<exclude name="*.xml" />
+				<exclude name="*.properties"/>
+				<exclude name="*.sql"/>
+			</fileset>
+		</jar>
+
+	</target>
+
+	<target name="default" depends="rmi_stub">
+	</target>
+
+
+
+</project>

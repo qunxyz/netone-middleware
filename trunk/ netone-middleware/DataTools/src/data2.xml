@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataTrans>
+	<source id='' url='' password='' username='' driver='' />
+	<source id='' url='' password='' username='' driver='' />
+	<source id='' url='' password='' username='' driver='' />
+	<sql id=''>Select * from xxx</sql>
+	<out id='' sqlid='' sourceid='' />
+	<in id="aa" outid="id" tosourceid='' commit='100'>
+		<column name='t_allocatecargo.id' outname='id' type='varchar'>
+			expression java code here
+		</column>
+		<column name='tablename.columnname' outname='' type=''>
+			expression java code here
+		</column>
+		<columnref name='t_allocatecargo.id'
+			refertoname='t_allocatecargodetail.allocatecargoid'>
+		</columnref>
+	</in>
+</dataTrans>

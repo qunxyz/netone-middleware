@@ -1,0 +1,110 @@
+还存在的问题，客户信息user中的中文名丢失，财务的创建时间丢失
+
+注意 后期迁移系统的时候，营销部的销售指标 要注意重新输入旧系统没有地方录入营销部的指标
+
+总共需要导入的库表
+t_clientinformation,
+t_clientlevel,
+t_department,
+t_departmentlevel,
+t_user,
+ums_protectedobject,
+t_cs_user,
+t_systemconfect,
+t_storage,
+
+t_group,
+t_groupcategories,
+t_product,
+t_productcategories,
+t_productcategoriesselltarget,
+t_productprice,
+t_selltarget,
+
+t_plan,
+t_plandetail,
+t_indent,
+t_indentdetail,
+t_allocatecargo,
+t_allocatecargodetail,
+t_stackcoderelevance,
+/////----这部分不要导入，后期通过冲账单来做
+t_instorage,
+t_instoragedetail,
+t_outstorage,
+t_outstoragedetail,
+/////---------------------
+t_payment,
+t_collectionpayment
+t_incentivepaymentcash,
+t_managepayment,
+t_otherpayment
+,t_reimbursepayment,
+
+
+0\数据准备  将中心系统的iss数据全部导入临时库、到仓库中去导出入库&明细、出库&明细、配送&明细&配送三级吗关联和生产&明细表 去覆盖iss数据
+
+1\ 新数据的DEPT.DEPT资源的ID是旧系统的DEPT.DEPT的ID，在导入时会导致重复，需要将新数据的ID改成任意一个UUID 比如：840d0e02d42c4b04bf43fa487bc77af0
+同时注意新数据的OU也要对应的改过来
+注意到 新的组织结构中，旧系统的数据的DEPT.DEPT根目录变成新系统中的 DEPT.DEPT的下一级目录，所以要改造旧数据
+把旧数据的DEPT.DEPT的PARENTDIR的值 设置为新系统的DEPT.DEPT的ID,中间件的DEPT.DEPT 的 parentDir 要设置为null、
+并且中文改为 福建 
+旧数据的改造SQL update ums_protectedobject set name='福建',objectType='sgs',parentdir='840d0e02d42c4b04bf43fa487bc77af0'  where NATURALNAME ='DEPT.DEPT'
+2\ t_systemconfect 旧表需要改造，加入type字段 alter table t_systemconfect add column type varchar(10);
+配置值  specif、payment、units、marketType、clientType。 同时注意 没有 systemconfectCode 的记录要删除
+3\ 产品价格表中有些产品已经不存在 产品表中，通过该sql检查select distinct productId from t_productprice where productId not in(select distinct productId from t_product)
+然后加以删除，当前查到的是 190，197 delete from t_productprice  where ProductId in(190,197)
+4\ t_productprice 中发现有些levelcode为空的数据，在迁移脚本的sql中加以过滤
+5\ t_clientInfomation 表中 有些levelcode 不在对应的productprice中，需要检查出select levelcode from t_clientinformation where levelcode not in(select levelcode from t_productprice);
+6\ indent 和 plan 这两个表 中tinyint 要改成 int  否则 读取到的数据是boolean值
+7\ 注意要修改 保护对象ums_protectedobject 中naturalname和id的 字符集 是 GBK 而不是gb2312
+8\ 旧表t_productcategoriesselltarget中找出引用已经删除掉的分类ID的记录
+select productCategoriesSellTargetId from t_productcategoriesselltarget where  productCategoriesId not in(select CategoriesId from t_productcategories)
+要删掉该数据
+9\ 新的组织结构要求 大营销部下面必须要有小营销部，对于原先没有小营销部的自动加入一个 默认营销部 这个在旧数据中加
+10\组织结构中存在一些编码重复的分销商，这些需要删除
+11\ t_otherpayment 的accountantMonth类型旧数据中不对，要修改 alter table t_otherpayment modify  accountantMonth int;
+12\ ums_protectedobject 的 dept.dept 的actionurl 要设为上自己的id
+13\ 旧的入库表tznumber在明细表中，新的库表tznumber在主表中，之前旧数据有些问题比如instorageid=1297的数据
+同一个主表下2个明细单的tz号是不同的导致，导入时程序构造出重复的主表，这个问题可以不修复，只是导入时会报个错误可忽略
+14、到仓库中把 库位相关的4张表，直接导入新库中，然后手工给这些表改名，表名前加个t_
+
+
+
+3\ 旧表 t_zpayment,t_transfergoodsdetail,t_transfergoods,t_tagpriceinstorage,t_tagpricedamage,t_storagedamaged 无需做导入
+
+详细处理过程
+1、基于旧数据的中间件Ums_protectedobject导入iss 的t_departemnt 的数据信息，
+2、遍历t_departemnt 根据经销商创建其统计支持表t_departmentlevel（将所有的上级罗列出插入）
+3、遍历t_departemnt 创建 中间件中的 ums_protectedobject 信息
+4、导入t_systemconfig数据
+5、遍历旧表t_clientInfomation  结合新表t_departemnt 的信息插入 新表t_clientInfomation
+6、根据新表 t_clientInfomation 结合新表t_departemnt创建 新表t_clientpricelevel 注意LEVELCODE是UUID不变
+7、根据新表 t_clientInfomation 追加表t_departmentlevel 信息，根据业务主任数据，抽取数据插入
+8、根据新表 t_clientInfomation 创建t_user表只针对经销商 默认是编码加01（暂时不做，后面在ISS工程中批量执行下安全api即可）（公司帐户数据后期手工加入）
+9、新表t_user表 创建 中间件 t_cs_user数据 （公司帐户数据后期手工加入）
+10、导入t_productprice 表
+11、导入所有的财务报表
+12、产品及其指标的相关表
+13、订单表、产销计划和 配送单 还有 配送关联表
+14、出入库和调帐生产表 全部清零，通过调帐来处理。库位数据重新开始绘制
+
+
+producetotal 和  库位相关的表 直接迁移 无需用程序导入
+注意原先的入库表的 factcount 和consignmentcount 写反了
+只能导入已经执行结束的业务表，在处理中的不能导入，因为无法与工作流一直
+t_paymentindent 表的数据是原先工作流中的关联信息，这些数据在流程清理的时候已经被删除，所以不做导入
+迁移数据程序对于那种主表和明细表的导入操作 是写一条主表和明细的连接SQL全视图，然后根据数据进行导入，导入程序能识别
+重复产生的主表插入SQL，并且忽略掉重复的
+迁移数据程序有个缺陷，一个in操作最多只能创建2个SQL
+注意编写脚本中的字段时注意字段数据库中的大小写，如果要调试字段可以在脚本中加入  System.out.println("#value#");
+2、张裕公司人的数据手工建，系统只导入经销商的数据
+3、t_departmentlevel 表是在创建经销商的时候，带出，系统找出所有的上级目录然后写入 departmentLevelItemId 是经销商公司的ID
+
+目前暂时忽略分销商的 数据
+有些经销商部门不存在的，统一都转为 05900000
+t_clientinfomation表的 业务主任 opearteDirector 不存在的默认用 3501 这个人
+遇到非法数据，需要忽略的只要 在脚本到返回 $99$ 即可，同时在脚本中主要要在控制台输出错误
+必须使用到连接池，否则导入数据会耗尽资源
+
+

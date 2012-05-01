@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataTrans>
+	<source id='source0' url='jdbc:mysql://localhost:3306/netone'
+		password='xanadu625' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source1' url='jdbc:mysql://localhost:3306/iss'
+		password='xanadu625' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source2' url='jdbc:mysql://localhost:3307/iss'
+		password='' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source3' url='jdbc:mysql://localhost:3307/netone'
+		password='' username='root' driver='com.mysql.jdbc.Driver' />
+
+	<sql id='department'>
+		<![CDATA[Select ID,ACTIONURL,NAME,PARENTDIR,OU,objectType from ums_protectedobject where naturalname like 'DEPT.DEPT%' and objecttype!='fxs' order by length(naturalname)]]>
+	</sql>
+	<sql id='t_systemconfect'>
+		<![CDATA[Select * from t_systemconfect]]>
+	</sql>
+	<sql id='t_departmentlevel'>
+		<![CDATA[select *,0 orders  from t_department where level=4]]>
+	</sql>
+	<sql id='ums_protectedobject'>
+		<![CDATA[select *,0 orders  from t_department order by nlevel]]>
+	</sql>
+	<sql id='t_user'>
+		<![CDATA[select t1.*,t2.objectType from t_cs_user t1 left join ums_protectedobject t2 on t1.systemid=t2.id]]>
+	</sql>
+	<sql id='t_clientinformation'>
+		<![CDATA[select * from t_clientinformation where belongto is null]]>
+	</sql>
+	<sql id='t_storage'>
+		<![CDATA[select * from t_department]]>
+	</sql>
+	<!-- 原先的clientinfomation只导入经销商和分销商的，新的结构里还有公司和部门的 -->
+	<sql id='t_clientinformation_append'>
+		<![CDATA[select * from t_department where level<4]]>
+	</sql>
+
+	<sql id='selltarget'>
+		<![CDATA[select * from t_selltargetnew]]>
+	</sql>
+	<sql id='productprice'>
+		<![CDATA[select * from t_productprice where levelcode!='' and levelcode is not null]]>
+	</sql>
+	<out id='selltarget_out' sqlid='selltarget' sourceid='source2' />
+	<out id='productprice_out' sqlid='productprice' sourceid='source2' />
+
+	<out id='department' sqlid='department' sourceid='source3' />
+	<out id='t_user_out' sqlid='t_user' sourceid='source3' />
+	<out id='t_systemconfect_out' sqlid='t_systemconfect'
+		sourceid='source2' />
+	<out id='t_departmentlevel_out' sqlid='t_departmentlevel'
+		sourceid='source1' />
+	<out id='ums_protectedobject_out' sqlid='ums_protectedobject'
+		sourceid='source1' />
+	<out id='t_clientinformation_out' sqlid='t_clientinformation'
+		sourceid='source2' />
+	<out id='t_storage_out' sqlid='t_storage' sourceid='source1' />
+	<out id='t_clientinformation_append_out'
+		sqlid='t_clientinformation_append' sourceid='source1' />
+
+	<in id="t_department" outid="department" tosourceid='source1'
+		commit='1'>
+		<column name='t_department.departmentId' outname='ID'
+			type='varchar'>
+		</column>
+		<column name='t_department.departmentCode' outname='ACTIONURL'
+			type='varchar'>
+			<![CDATA[
+				if("#value#".equals("")){
+					return UUID.randomUUID().toString().replaceAll("-", ""); 
+				}else{
+				   return "#value#";
+				}
+			]]>
+		</column>
+		<column name='t_department.departmentName' outname='NAME'
+			type='varchar'>
+		</column>
+		<column name='t_department.parentDepartmentId'
+			outname='PARENTDIR' type='varchar'>
+			<![CDATA[
+			/*针对新数据结构中省公司根目录是null*/
+			if("#ACTIONURL#".equals("35")){
+				return "";
+			}else{
+				return "#value#";
+			}
+		]]>
+		</column>
+		<column name='t_department.nLevel' outname='OU'
+			type='varchar'>
+			<![CDATA[return "#value#".split("\\.").length;]]>
+		</column>
+		<column name='t_department.nLevelCode' outname='OU'
+			type='varchar'>
+			<![CDATA[
+				String[] xx = "#value#".split("\\.");
+				StringBuffer but = new StringBuffer();
+				but.append("[0]");
+				for (int i = 1; i < xx.length; i++) {
+					but.append("[" + xx[i] + "]");
+				}
+				return but.toString();
+			]]>
+		</column>
+		<column name='t_department.note' outname='' type='varchar'>
+			<![CDATA[
+			/*针对新数据结构中省公司根目录是null,无法保持父ID所以将父ID暂时存到note中去，以供下一步到ums_protectobject时使用*/
+			if("#ACTIONURL#".equals("35")){
+				return "#PARENTDIR#";
+			}
+		]]>
+		</column>
+		<column name='t_department.nLevel' outname='OU'
+			type='varchar'>
+			<![CDATA[return "#value#".split("\\.").length-1;]]>
+		</column>
+		<column name='t_department.nLevelName' outname='OU'
+			type='varchar'>
+			<![CDATA[
+			String[] xx = "#value#".split("\\.");
+	
+			StringBuffer ids = new StringBuffer();
+			for (int j = 1; j < xx.length; j++) {
+				ids.append(",'" + xx[j] + "'");
+	
+			}
+			String sql = "select name from ums_protectedobject where id in("
+					+ ids.substring(1) + ") order by ou";
+	
+			Connection con = DB.conByDs("source3");
+			String[] dataAll = DB.fetchOneData(sql, "NAME", con);
+			
+			StringBuffer data = new StringBuffer();
+			data.append("[0]");
+			for (int i = 0; i < dataAll.length; i++) {
+				data.append("[" +dataAll[i]+ "]");
+			}
+			return data.toString();
+				
+			]]>
+		</column>
+		<column name='t_department.level' outname='objectType'
+			type='varchar'>
+			<![CDATA[
+			 	
+				if("#value#".equals("jxs")){
+					return "4";
+				}else if("#value#".equals("yxbm")){
+					if("#OU#".split("\\.").length==3){
+					   return "2";
+					}else{
+					   return "3";
+					}
+				}else if("#value#".equals("fxs")){
+					 return "5";
+				}else if("#value#".equals("sgs")){
+				      return "1";
+				}else if("#value#".equals("qy")){
+				      return "-1";
+				}
+
+			]]>
+		</column>
+	</in>
+
+	<in id="t_departmentlevel" outid="t_departmentlevel_out"
+		tosourceid='source1' commit='100'>
+		<column name='t_departmentlevel.departmentLevelItemId'
+			outname='departmentId' type='varchar'>
+		</column>
+		<column name='t_departmentlevel.departmentLevelId'
+			outname='nLevelCode' type='varchar'>
+			<![CDATA[
+		String req = "\\[\\w+\\]";
+
+		Pattern pat = Pattern.compile(req);
+		Matcher mat = pat.matcher("#nLevelCode#");
+		List eachFatherId = new ArrayList();
+		while (mat.find()) {
+			String findinfo = mat.group();
+			findinfo = StringUtils.substringBetween(findinfo, "[", "]");
+			if (findinfo.equals("0")) {
+				continue;
+			}
+			eachFatherId.add(findinfo);
+		}
+		Connection conIn = DB.conByDs("source1");
+		int order = eachFatherId.size() - 1;
+		for (Iterator iterator = eachFatherId.iterator(); iterator.hasNext();) {
+			String fatherId = (String) iterator.next();
+			Connection con = DB.conByDs("source1");
+			String sql1 = "select departmentCode,departmentName,level from t_department where departmentId='"
+					+ fatherId + "'";
+			List data1 = DB.queryData(sql1, con);
+			if (data1.size() != 1) {
+				continue;
+			}
+			Map data1_0 = (Map) data1.get(0);
+			String departmentCode = (String) data1_0.get("departmentCode");
+			String departmentName = (String) data1_0.get("departmentName");
+			String level = (String) data1_0.get("level");
+			String sql = "insert into t_departmentlevel(departmentLevelItemId,departmentLevelId,departmentLevel,departmentLevelCode,departmentLevelName,orders)"
+					+ "values('#departmentId#','"
+					+ fatherId
+					+ "','"
+					+ level
+					+ "','"
+					+ departmentCode
+					+ "','"
+					+ departmentName
+					+ "',"
+					+ order + ")";
+
+			DB.executeTransaction(sql, conIn);
+		}
+		DB.freeDbConnectoin(conIn, null, null);
+			]]>
+		</column>
+		<column name='t_departmentlevel.departmentLevel'
+			outname='nLevel' type='varchar'>
+		</column>
+		<column name='t_departmentlevel.departmentLevelCode'
+			outname='departmentCode' type='varchar'>
+		</column>
+		<column name='t_departmentlevel.departmentLevelName'
+			outname='departmentName' type='varchar'>
+		</column>
+		<column name='t_departmentlevel.orders' outname='orders'
+			type='int'>
+		</column>
+	</in>
+
+	<in id="ums_protectedobject_dept" outid="ums_protectedobject_out"
+		tosourceid='source0' commit='1'>
+		<column name='ums_protectedobject.id' outname='departmentId'
+			type='varchar'>
+		</column>
+		<column name='ums_protectedobject.actionurl'
+			outname='departmentId' type='varchar'>
+		</column>
+		<column name='ums_protectedobject.name' outname='departmentName'
+			type='varchar'>
+		</column>
+		<column name='ums_protectedobject.naturalname'
+			outname='parentDepartmentId' type='varchar'>
+			<![CDATA[
+			String parentid="#value#";
+			if(parentid.equals("")){
+				parentid="#note#";/*现在将根目录的父节点ID暂存在note字段里*/
+			}
+			Connection con = DB.conByDs("source0");
+			String[] dataAll = DB.fetchOneData(
+			"select naturalname from ums_protectedobject where id='"+parentid+"'", "NATURALNAME", con);
+			String datatmp = "";
+			if (dataAll.length > 0) {
+				datatmp = dataAll[0];
+			}
+			return datatmp+".#departmentCode#";
+		]]>
+		</column>
+		<column name='ums_protectedobject.PARENTDIR'
+			outname='parentDepartmentId' type='varchar'>
+			<![CDATA[
+			String parentid="#parentDepartmentId#";
+			if(parentid.equals("")){
+				parentid="#note#";/*现在将根目录的父节点ID暂存在note字段里*/
+			}
+			return parentid;
+		]]>
+		</column>
+		<column name='ums_protectedobject.appid' outname=''
+			type='varchar'>
+			<![CDATA[return "1";]]>
+		</column>
+		<column name='ums_protectedobject.inclusion' outname=''
+			type='varchar'>
+			<![CDATA[return "1";]]>
+		</column>
+
+		<column name='ums_protectedobject.ou'
+			outname='parentDepartmentId' type='varchar'>
+			<![CDATA[
+			String parentid="#parentDepartmentId#";
+			if(parentid.equals("")){
+				parentid="#note#";/*现在将根目录的父节点ID暂存在note字段里*/
+			}
+			
+			Connection con = DB.conByDs("source0");
+			String[] dataAll = DB.fetchOneData(
+			"select ou from ums_protectedobject where id='"+parentid+"'", "OU", con);
+		
+			String datatmp = "";
+			if (dataAll.length > 0) {
+				datatmp = dataAll[0];
+			}
+			return datatmp+".#departmentId#";
+
+		]]>
+		</column>
+	</in>
+
+	<in id="t_cs_user" outid="t_user_out" tosourceid='source0'
+		commit='1'>
+		<column name='t_cs_user.USERCODE' outname='USERCODE'
+			type='varchar'>
+		</column>
+		<column name='t_cs_user.SYSTEMID' outname='SYSTEMID'
+			type='varchar'>
+		</column>
+		<column name='t_cs_user.name' outname='name' type='varchar'>
+		</column>
+		<column name='t_cs_user.DESCRIPTION' outname='DESCRIPTION'
+			type='varchar'>
+		</column>
+		<column name='t_cs_user.PASSWORDX' outname='PASSWORDX'
+			type='varchar'>
+		</column>
+		<column name='t_cs_user.PHONE' outname='PHONE' type='varchar'>
+		</column>
+		<column name='t_cs_user.EMAIL' outname='EMAIL' type='varchar'>
+		</column>
+		<column name='t_cs_user.STATUSINFO' outname='STATUSINFO'
+			type='varchar'>
+		</column>
+		<column name='t_cs_user.extendinfo' outname='extendinfo'
+			type='varchar'>
+		</column>
+		<column name='t_cs_user.BUSSINESS' outname='BUSSINESS'
+			type='varchar'>
+		</column>
+	</in>
+
+	<in id="t_user" outid="t_user_out" tosourceid='source1'
+		commit='1'>
+		<column name='t_user.userId' outname='' type='varchar'>
+			<![CDATA[return UUID.randomUUID().toString().replaceAll("-", "");]]>
+		</column>
+		<column name='t_user.userCode' outname='USERCODE'
+			type='varchar'>
+		</column>
+		<column name='t_user.userName' outname='name' type='varchar'>
+		</column>
+		<column name='t_user.departmentId' outname='SYSTEMID'
+			type='varchar'>
+		</column>
+		<column name='t_user.types' outname='objectType'
+			type='varchar'>
+			<![CDATA[
+				if("#value#".equals("jxs")){
+					return "4";
+				}
+				return "x";
+			]]>
+		</column>
+		<column name='t_user.email' outname='EMAIL' type='varchar'>
+		</column>
+		<column name='t_user.phone' outname='PHONE' type='varchar'>
+		</column>
+	</in>
+
+	<in id="productprice_in" outid="productprice_out"
+		tosourceid='source1' commit='100'>
+		<column name='t_productprice.levelCode' outname='levelCode'
+			type='varchar'>
+		</column>
+		<column name='t_productprice.productId' outname='productId'
+			type='varchar'>
+		</column>
+		<column name='t_productprice.invoicePrice'
+			outname='invoicePrice' type='double'>
+		</column>
+		<column name='t_productprice.awardPrice' outname='awardPrice'
+			type='double'>
+		</column>
+	</in>
+
+	<in id="t_systemconfig" outid="t_systemconfect_out"
+		tosourceid='source1' commit='100'>
+		<column name='t_systemconfig.sid' outname='systemConfectCode'
+			type='varchar'>
+		</column>
+		<column name='t_systemconfig.name' outname='systemConfectName'
+			type='varchar'>
+		</column>
+		<column name='t_systemconfig.type' outname='type'
+			type='varchar'>
+		</column>
+		<column name='t_systemconfig.operate' outname='operate'
+			type='varchar'>
+		</column>
+		<column name='t_systemconfig.operateTime' outname='operateTime'
+			type='datetime'>
+		</column>
+	</in>
+
+	<in id="t_clientinformation" outid="t_clientinformation_out"
+		tosourceid='source1' commit='1'>
+		<column name='t_clientinformation.clientId'
+			outname='clientLoginName' type='varchar'>
+			<![CDATA[
+			    Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#value#'", "departmentId", con);
+				
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					System.err.println("error:[客户 #value# 丢失部门]");	
+					return "$99$";
+				}
+			]]>
+		</column>
+		<column name='t_clientinformation.clientCode'
+			outname='clientLoginName' type='varchar'>
+		</column>
+		<column name='t_clientinformation.clientName'
+			outname='clientName' type='varchar'>
+		</column>
+		<column name='t_clientinformation.operationDirector'
+			outname='operationDirector' type='varchar'>
+			<![CDATA[
+				String usercode=StringUtils.substringBetween("#value#", "[", "]");
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select userId from t_user where userCode='"+usercode+"'", "userId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+			    	con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select userId from t_user where userCode='3501'", "userId", con);	
+					return dataAll[0];		
+				}			
+			]]>
+		</column>
+		<column name='t_clientinformation.linkman' outname='linkman'
+			type='varchar'>
+		</column>
+		<column name='t_clientinformation.telphone'
+			outname='systemConfectCode.telphone' type='varchar'>
+		</column>
+		<column name='t_clientinformation.mobile'
+			outname='systemConfectName.mobile' type='varchar'>
+		</column>
+		<column name='t_clientinformation.email' outname='email'
+			type='varchar'>
+		</column>
+		<column name='t_clientinformation.companyAddress'
+			outname='companyAddress' type='varchar'>
+		</column>
+		<column name='t_clientinformation.servicestation'
+			outname='servicestation' type='varchar'>
+		</column>
+		<column name='t_clientinformation.deliverGoodsAddress'
+			outname='deliverGoodsAddress' type='varchar'>
+		</column>
+		<column name='t_clientinformation.remitAccounts'
+			outname='remitAccounts' type='varchar'>
+		</column>
+		<column name='t_clientinformation.openAccountTitle'
+			outname='openAccountTitle' type='varchar'>
+		</column>
+		<column name='t_clientinformation.ratepayingType'
+			outname='ratepayingType' type='varchar'>
+		</column>
+		<column name='t_clientinformation.lyBailMonery'
+			outname='lyBailMonery' type='double'>
+		</column>
+
+		<column name='t_clientinformation.remitPersion'
+			outname='remitPersion' type='varchar'>
+		</column>
+		<column name='t_clientinformation.remitTime' outname='remitTime'
+			type='datetime'>
+		</column>
+		<column name='t_clientinformation.clientType'
+			outname='clientType' type='varchar'>
+		</column>
+		<column name='t_clientinformation.marketType'
+			outname='marketType' type='varchar'>
+		</column>
+		<column name='t_clientinformation.priceLevelCode'
+			outname='levelCode' type='varchar'>
+		</column>
+
+		<column name='t_clientinformation.password' outname='password'
+			type='varchar'>
+		</column>
+		<column name='t_clientinformation.clientTag' outname='clientTag'
+			type='varchar'>
+		</column>
+		<column name='t_clientinformation.tons' outname='tons'
+			type='double'>
+		</column>
+		<column name='t_clientinformation.advanceTagPayment'
+			outname='advanceTagPayment' type='double'>
+		</column>
+
+		<columnref name='t_clientpricelevel.levelCode'
+			refertoname='t_clientinformation.clientId'>
+		</columnref>
+		<columnref name='t_clientpricelevel.levelName'
+			refertoname='t_clientinformation.clientName'>
+		</columnref>
+		<column name='t_clientpricelevel.parentLevelCode'
+			outname='clientLoginName' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#value#'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+					return dataAll[0];
+				
+				}			
+			]]>
+		</column>
+	</in>
+
+	<in id="t_storage" outid="t_storage_out" tosourceid='source1'
+		commit='100'>
+		<column name='t_storage.storageId' outname='departmentId'
+			type='varchar'>
+		</column>
+		<column name='t_storage.storageCode' outname='departmentCode'
+			type='varchar'>
+		</column>
+		<column name='t_storage.storageName' outname='departmentName'
+			type='varchar'>
+		</column>
+	</in>
+
+
+	<in id="t_clientinformation_append"
+		outid="t_clientinformation_append_out" tosourceid='source1'
+		commit='100'>
+		<column name='t_clientinformation.clientId'
+			outname='departmentId' type='varchar'>
+		</column>
+		<column name='t_clientinformation.clientCode'
+			outname='departmentCode' type='varchar'>
+		</column>
+		<column name='t_clientinformation.clientName'
+			outname='departmentName' type='varchar'>
+		</column>
+	</in>
+
+	<in id="selltarget_in" outid="selltarget_out" tosourceid='source1'
+		commit='100'>
+		<column name='t_selltarget.selltargetId' outname=''
+			type='varchar'>
+			<![CDATA[return UUID.randomUUID().toString().replaceAll("-", "");]]>
+		</column>
+		<column name='t_selltarget.categoriesId' outname='categoriesId'
+			type='varchar'>
+		</column>
+		<column name='t_selltarget.departmentId'
+			outname='clientLoginName' type='varchar'>
+			<![CDATA[
+			    String deptCode="#value#";
+			    if(StringUtils.contains(deptCode,'[')){
+			    	deptCode=StringUtils.substringBetween(deptCode, "[", "]");
+			    }
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='"+deptCode+"'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+						con = DB.conByDs("source1");
+						dataAll = DB.fetchOneData(
+						"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+						return dataAll[0];
+	
+				}				
+			]]>
+		</column>
+		<column name='t_selltarget.sellTargetValue'
+			outname='sellTargetValue' type='varchar'>
+		</column>
+		<column name='t_selltarget.sellYear' outname='sellYear'
+			type='varchar'>
+		</column>
+		<column name='t_selltarget.operate' outname='operate'
+			type='varchar'>
+		</column>
+	</in>
+
+</dataTrans>

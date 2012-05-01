@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataTrans>
+	<source id='source0' url='jdbc:mysql://localhost:3306/netone'
+		password='xanadu625' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source1' url='jdbc:mysql://localhost:3306/iss'
+		password='xanadu625' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source2' url='jdbc:mysql://localhost:3307/iss'
+		password='' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source3' url='jdbc:mysql://localhost:3307/netone'
+		password='' username='root' driver='com.mysql.jdbc.Driver' />
+
+	<sql id='department'>
+		<![CDATA[Select ID,ACTIONURL,NAME,PARENTDIR,OU,objectType from ums_protectedobject where naturalname like 'DEPT.DEPT%' and objecttype!='fxs' order by length(naturalname)]]>
+	</sql>
+	<sql id='t_systemconfect'>
+		<![CDATA[Select * from t_systemconfect]]>
+	</sql>
+	<sql id='t_departmentlevel'>
+		<![CDATA[select *,0 orders  from t_department where level=4]]>
+	</sql>
+	<sql id='ums_protectedobject'>
+		<![CDATA[select *,0 orders  from t_department order by nlevel]]>
+	</sql>
+	<sql id='t_user'>
+		<![CDATA[select t1.*,t2.objectType from t_cs_user t1 left join ums_protectedobject t2 on t1.systemid=t2.id]]>
+	</sql>
+	<sql id='t_clientinformation'>
+		<![CDATA[select * from t_clientinformation where belongto is null]]>
+	</sql>
+	<sql id='t_storage'>
+		<![CDATA[select * from t_department]]>
+	</sql>
+	<!-- 原先的clientinfomation只导入经销商和分销商的，新的结构里还有公司和部门的 -->
+	<sql id='t_clientinformation_append'>
+		<![CDATA[select * from t_department where level<4]]>
+	</sql>
+
+	<sql id='selltarget'>
+		<![CDATA[select * from t_selltargetnew]]>
+	</sql>
+	<sql id='productprice'>
+		<![CDATA[select * from t_productprice where levelcode!='' and levelcode is not null]]>
+	</sql>
+	<out id='selltarget_out' sqlid='selltarget' sourceid='source2' />
+	<out id='productprice_out' sqlid='productprice' sourceid='source2' />
+
+	<out id='department' sqlid='department' sourceid='source3' />
+	<out id='t_user_out' sqlid='t_user' sourceid='source3' />
+	<out id='t_systemconfect_out' sqlid='t_systemconfect'
+		sourceid='source2' />
+	<out id='t_departmentlevel_out' sqlid='t_departmentlevel'
+		sourceid='source1' />
+	<out id='ums_protectedobject_out' sqlid='ums_protectedobject'
+		sourceid='source1' />
+	<out id='t_clientinformation_out' sqlid='t_clientinformation'
+		sourceid='source2' />
+	<out id='t_storage_out' sqlid='t_storage' sourceid='source1' />
+	<out id='t_clientinformation_append_out'
+		sqlid='t_clientinformation_append' sourceid='source1' />
+
+	<in id="productprice_in" outid="productprice_out"
+		tosourceid='source1' commit='100'>
+		<column name='t_productprice.levelCode' outname='levelCode'
+			type='varchar'>
+		</column>
+		<column name='t_productprice.productId' outname='productId'
+			type='varchar'>
+		</column>
+		<column name='t_productprice.invoicePrice'
+			outname='invoicePrice' type='double'>
+		</column>
+		<column name='t_productprice.awardPrice' outname='awardPrice'
+			type='double'>
+		</column>
+	</in>
+</dataTrans>

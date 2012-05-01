@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataTrans>
+
+	<source id='source1'
+		url='jdbc:mysql://localhost:3306/iss'
+		password='xanadu625' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source2'
+		url='jdbc:mysql://localhost:3307/iss'
+		password='' username='root' driver='com.mysql.jdbc.Driver' />
+	
+	<sql id='productcategories'>
+		 <![CDATA[select * from t_productcategories order by parentCategoriesId ]]>
+	</sql>
+	<sql id='product'>
+		 <![CDATA[select * from t_product]]>
+	</sql>
+	<sql id='group'>
+		 <![CDATA[select * from t_group]]>
+	</sql>
+	<sql id='groupcategories'>
+		 <![CDATA[select * from t_groupcategories]]>
+	</sql>
+
+	<sql id='productcategoriesselltarget'>
+		 <![CDATA[select * from t_productcategoriesselltarget]]>
+	</sql>		
+
+	
+	<out id='productcategories_out' sqlid='productcategories' sourceid='source2' />
+	<out id='product_out' sqlid='product' sourceid='source2' />
+	<out id='group_out' sqlid='group' sourceid='source2' />
+			 
+	<out id='groupcategories_out' sqlid='groupcategories' sourceid='source2' />
+	
+	<out id='productcategoriesselltarget_out' sqlid='productcategoriesselltarget' sourceid='source2' />
+	
+
+		
+	<in id="product_in" outid="product_out" tosourceid='source1' commit='100'>
+		<column name='t_product.productId' outname='productId' type='varchar'>
+		</column>
+		<column name='t_product.productCode' outname='productCode' type='varchar'>
+		</column>
+		<column name='t_product.productName' outname='productName' type='varchar'>
+		</column>
+		<column name='t_product.specifications' outname='specifications' type='varchar'>
+		</column>
+		<column name='t_product.units' outname='units' type='varchar'>
+		</column>
+		<column name='t_product.categoriesId' outname='categoriesId' type='varchar'>
+		</column>
+		<column name='t_product.invoicePrice' outname='invoicePrice' type='double'>
+		</column>
+		<column name='t_product.awardPrice' outname='awardPrice' type='double'>
+		</column>
+		<column name='t_product.minOrder' outname='minOrder' type='int'>
+		</column>
+		<column name='t_product.operate' outname='operate' type='varchar'>
+		</column>
+		<column name='t_product.operateTime' outname='operateTime' type='datetime'>
+		</column>
+		<column name='t_product.tagPrice' outname='tagPrice' type='double'>
+		</column>
+		<column name='t_product.bottle' outname='bottle' type='int'>
+		</column>
+		<column name='t_product.box' outname='box' type='int'>
+		</column>
+		<column name='t_product.ton' outname='ton' type='double'>
+		</column>
+		<column name='t_product.grossWeight' outname='grossWeight' type='double'>
+		</column>
+		<column name='t_product.storageTag' outname='storageTag' type='int'>
+		</column>
+		<column name='t_product.isScan' outname='isScan' type='int'>
+		</column>
+		<column name='t_product.bottle2' outname='bottle2' type='int'>
+		</column>
+		<column name='t_product.limitAPCount' outname='limitAPCount' type='varchar'>
+		</column>
+		<column name='t_product.limitUPCount' outname='limitUPCount' type='varchar'>
+		</column>
+		<column name='t_product.stacking' outname='stacking' type='int'>
+		</column>
+	</in>
+</dataTrans>

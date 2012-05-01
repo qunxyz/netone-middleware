@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataTrans>
+
+	<source id='source1' url='jdbc:mysql://localhost:3306/iss'
+		password='xanadu625' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source2' url='jdbc:mysql://localhost:3307/iss'
+		password='' username='root' driver='com.mysql.jdbc.Driver' />
+
+	<sql id='allocate_and_detail'>
+		<![CDATA[select a1.*,a2.* from t_allocatecargo a1,t_allocatecargodetail a2 where
+		a1.allocateCargoId=a2.allocatecargoId
+		]]>
+	</sql>
+
+	<sql id='plan_and_detail'>
+		<![CDATA[
+			select t1.*,t2.* from t_plan t1,t_plandetail t2 where t1.planId=t2.planId
+		]]>
+	</sql>
+	<sql id='indent_and_detail'>
+		<![CDATA[
+			select t1.*,t2.* from t_indent t1,t_indentdetail t2 where t1.indentId=t2.indentId
+		]]>
+	</sql>
+	<sql id='stackcoderelevance'>
+		<![CDATA[
+			select * from t_stackcoderelevance
+		]]>
+	</sql>
+	<!-- 只导入公司的库存忽略经销商的库存
+	需要注意的是原先公司的库存是没有公司帐户对应着的，所以全部默认为 05900000这个特殊经销商的仓库ID，后期
+	还需要用SQL将storageId全部定位到省公司的ID去
+	 -->
+	<sql id='instorage_and_detail'>
+		<![CDATA[
+			select * from t_instorage t1,t_instoragedetail t2 where t1.inStorageId=t2.inStorageId and length(clientId)<8
+		]]>
+	</sql>
+	<sql id='outstorage_and_detail'>
+		<![CDATA[
+			select * from t_outstorage t1,t_outstoragedetail t2 where t1.outStorageId=t2.outStorageId
+		]]>
+	</sql>
+	<sql id='produceline_and_detail'>
+		<![CDATA[
+			select t1.*,t2.* from t_produceline t1,t_producelinedetail t2 where t1.producelineId=t2.producelineId
+		]]>
+	</sql>	
+	
+	
+	<out id='plan_and_detail_out' sqlid='plan_and_detail'
+		sourceid='source2' />
+	<out id='indent_and_detail_out' sqlid='indent_and_detail'
+		sourceid='source2' />
+	<out id='allocate_and_detail_out' sqlid='allocate_and_detail'
+		sourceid='source2' />
+	<out id='stackcoderelevance_out' sqlid='stackcoderelevance'
+		sourceid='source2' />
+	<out id='instorage_and_detail_out' sqlid='instorage_and_detail'
+		sourceid='source2' />
+	<out id='outstorage_and_detail_out' sqlid='outstorage_and_detail'
+		sourceid='source2' />
+
+	<out id='produceline_and_detail_out' sqlid='produceline_and_detail'
+		sourceid='source2' />
+
+	<in id="indent_and_detail_in" outid="indent_and_detail_out"
+		tosourceid='source1' commit='1'>
+		<column name='t_indent.indentId' outname='indentId' type='varchar'>
+		</column>
+		<column name='t_indent.code' outname='code' type='varchar'></column>
+		<column name='t_indent.tdNumber' outname='tdNumber' type='varchar'></column>
+		<column name='t_indent.tdDate' outname='tdNumber' type='varchar'>
+		<![CDATA[
+		if("#tdNumber#".length()==14){
+			return "#tdNumber#".substring(2,6)+"-"+"#tdNumber#".substring(6,8)+"-"+"#tdNumber#".substring(8,10);
+		}
+		return "";
+		]]>
+		</column>
+		
+		<column name='t_indent.qtNumber' outname='qtNumber' type='varchar'></column>
+		<column name='t_indent.clientId' outname='clientId' type='varchar'>
+		<![CDATA[
+			Connection con = DB.conByDs("source1");
+			String[] dataAll = DB.fetchOneData(
+			"select departmentId from t_department where departmentCode='#value#'", "departmentId", con);
+			if (dataAll.length > 0) {
+				return dataAll[0];
+			}else{
+				con = DB.conByDs("source1");
+				dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+				return dataAll[0];
+			}
+						
+		]]>
+		</column>
+		<column name='t_indent.type' outname='type' type='varchar'>
+		<![CDATA[
+		if("#value#".equals("正常订单")){
+		return "1";
+		}else if("#value#".equals("广告用酒")){
+		return "2";
+		}else if("#value#".equals("退货订单")){
+		return "3";
+		}else {
+		return "4";
+		}			
+		]]>
+		</column>
+		<column name='t_indent.status' outname='' type='varchar'>
+		<![CDATA[
+		if("#oneStatus#".equals("3")){
+		return -1;
+		}				
+		if("#oneStatus#".equals("")){
+		return 0;
+		}
+		if("#oneStatus#".equals("1")&&"#twoStatus#".equals("1")){
+		return 1;
+		}
+		if("#oneStatus#".equals("2")&&"#twoStatus#".equals("1")){
+		return 2;
+		}
+		if("#oneStatus#".equals("2")&&"#twoStatus#".equals("2")){
+		return 3;
+		}
+		if("#oneStatus#".equals("2")&&"#twoStatus#".equals("2")&&"#invoiceStatus#".equals("")){
+		return 4;
+		}
+		if("#oneStatus#".equals("2")&&"#twoStatus#".equals("2")&&"#invoiceStatus#".equals("1")){
+		return 5;
+		}
+		if("#oneStatus#".equals("2")&&"#twoStatus#".equals("2")&&"#invoiceStatus#".equals("2")){
+		return 6;
+		}
+		]]>
+		
+		</column>
+		<column name='t_indent.note' outname='note' type='varchar'></column>
+		<column name='t_indent.operateTime' outname='operateTime' type='datetime'></column>
+		<column name='t_indent.invoiceId' outname='invoiceId' type='varchar'></column>
+		<column name='t_indent.file' outname='invoiceId' type='varchar'></column>
+		<column name='t_indent.isProduce' outname='isProduce' type='int'></column>
+		
+		<column name='t_indentdetail.indentDetailId' outname='indentDetailId'
+		type='varchar'>
+		</column>
+		<column name='t_indentdetail.consignmentCount' outname='consignmentCount' type='varchar'></column>
+		<column name='t_indentdetail.productId' outname='productId' type='varchar'></column>
+		<columnref name='t_indentdetail.indentId' refertoname='t_indent.indentId'></columnref>
+		<column name='t_indentdetail.note' outname='note' type='varchar'></column>
+		<column name='t_indentdetail.invoicePrice' outname='invoicePrice' type='double'></column>
+		<column name='t_indentdetail.awardPrice' outname='awardPrice' type='double'></column>
+		<column name='t_indentdetail.bottleCount' outname='bottleCount' type='double'></column>
+	</in>
+		
+
+	<in id="plan_and_detail_in" outid="plan_and_detail_out"
+		tosourceid='source1' commit='100'>
+		<column name='t_plan.planId' outname='planId' type='varchar'>
+		</column>
+		<column name='t_plan.code' outname='scNumber' type='varchar'></column>
+		<column name='t_plan.planTime' outname='planTime' type='varchar'></column>
+		<column name='t_plan.type' outname='type' type='varchar'>
+		<![CDATA[
+			if("#value#".equals("正常计划")){
+			return "1";
+			}else if("#value#".equals("追加计划")){
+			return "2";
+			}else {
+			return "3";
+			}				
+		]]>
+		</column>
+		<column name='t_plan.note' outname='note' type='varchar'></column>
+		<column name='t_plan.operateTime' outname='operateTime' type='datetime'></column>
+		<column name='t_plan.clientId' outname='clientId'
+		type='varchar'>
+		<![CDATA[
+		Connection con = DB.conByDs("source1");
+		String[] dataAll = DB.fetchOneData(
+		"select departmentId from t_department where departmentCode='#clientId#'", "departmentId", con);
+		if (dataAll.length > 0) {
+			return dataAll[0];
+		}else{
+			con = DB.conByDs("source1");
+			dataAll = DB.fetchOneData(
+			"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+			return dataAll[0];
+		
+		}
+					
+		]]>
+		</column>
+		<column name='t_plan.status' outname='' type='int'>
+		<![CDATA[
+		
+			if("#oneStatus#".equals("3")){
+			return -1;
+			}	
+			if("#oneStatus#".equals("")){
+			return 0;
+			}
+			if("#oneStatus#".equals("1")&&"#twoStatus#".equals("1")){
+			return 1;
+			}
+			if("#oneStatus#".equals("2")&&"#twoStatus#".equals("1")){
+			return 2;
+			}
+			if("#oneStatus#".equals("2")&&"#twoStatus#".equals("2")){
+			return 3;
+			}
+		]]>
+		
+		</column>
+		
+		<column name='t_plandetail.planDetailId' outname='planDetailId' type='varchar'>
+		</column>
+		<column name='t_plandetail.consignmentCount' outname='consignmentCount' type='varchar'></column>
+		<column name='t_plandetail.planId' outname='outname1' type='varchar'></column>
+		<columnref name='t_plandetail.planId' refertoname='t_plan.planId'></columnref>
+		<column name='t_plandetail.productId' outname='productId' type='varchar'></column>
+		<column name='t_plandetail.note' outname='note' type='varchar'></column>
+		<column name='t_plandetail.invoicePrice' outname='invoicePrice' type='double'></column>
+		<column name='t_plandetail.bottleCount' outname='bottleCount' type='double'></column>
+	</in>
+		
+	<in id="allocate_in" outid="allocate_and_detail_out" tosourceid='source1'
+		commit='1'>                                           
+		<column name='t_allocatecargo.allocatecargoid' outname='allocateCargoId' type='varchar'>
+		</column>
+		<column name='t_allocatecargo.allocateCargoCode' outname='allocateCargoCode' type='varchar'></column>
+		<column name='t_allocatecargo.operate' outname='operate' type='varchar'></column>
+		<column name='t_allocatecargo.operateTime' outname='operateTime' type='datetime'></column>
+		<column name='t_allocatecargo.status' outname='status' type='int'></column>
+		<column name='t_allocatecargo.note' outname='note' type='varchar'></column>
+		<column name='t_allocatecargo.clientId'
+		outname='clientLoginName' type='varchar'>
+		<![CDATA[
+		Connection con = DB.conByDs("source1");
+		String[] dataAll = DB.fetchOneData(
+		"select departmentId from t_department where departmentCode='#value#'", "departmentId", con);
+		if (dataAll.length > 0) {
+			return dataAll[0];
+		}else{
+			con = DB.conByDs("source1");
+			dataAll = DB.fetchOneData(
+			"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+			return dataAll[0];
+		}
+		]]>
+		</column>
+		<column name='t_allocatecargo.chauffeur' outname='chauffeur' type='varchar'></column>
+		<column name='t_allocatecargo.idCard' outname='idCard' type='varchar'></column>
+		<column name='t_allocatecargo.tel' outname='tel' type='varchar'></column>
+		<column name='t_allocatecargo.affirmancePerson' outname='affirmancePerson' type='varchar'></column>
+		<column name='t_allocatecargo.affirmanceTime' outname='affirmanceTime' type='datetime'></column>
+		<column name='t_allocatecargo.affimanacesuggestion' outname='affimanacesuggestion' type='varchar'></column>
+		<column name='t_allocatecargo.CarNumber' outname='CarNumber' type='varchar'></column>
+		<column name='t_allocatecargo.TdNumber' outname='TdNumber' type='varchar'></column>
+		<column name='t_allocatecargo.mark' outname='mark' type='varchar'></column>
+		<column name='t_allocatecargo.otherNote' outname='otherNote' type='varchar'></column>
+																			
+		<column name='t_allocatecargodetail.allocateCargoDetailId' outname='allocatecargoDetailId' type='varchar'>
+		</column>												
+		<columnref name='t_allocatecargodetail.allocateCargoId' refertoname='t_allocatecargo.allocatecargoid'></columnref>
+		<column name='t_allocatecargodetail.productid' outname='productId' type='varchar'></column>
+		<column name='t_allocatecargodetail.consignmentCount' outname='consignmentCount' type='varchar'></column>
+		<column name='t_allocatecargodetail.bottleCount' outname='bottleCount' type='int'></column>
+		<column name='t_allocatecargodetail.factbottleCount' outname='factbottleCount' type='varchar'></column>
+		<column name='t_allocatecargodetail.shortbottleCount' outname='shortbottleCount' type='varchar'></column>
+		<column name='t_allocatecargodetail.damagedbottleCount' outname='damagedbottleCount' type='varchar'></column>
+		<column name='t_allocatecargodetail.storagefactbottleCount' outname='storagefactbottleCount' type='varchar'></column>
+		<column name='t_allocatecargodetail.inWarehouseLocation' outname='inWarehouseLocation'  type='varchar'></column>
+		<column name='t_allocatecargodetail.pendingCount' outname='pendingCount'  type='varchar'></column>
+	</in>
+	<!-- 被忽略的记录返回$99$ -->
+	<in id="stackcoderelevance_in" outid="stackcoderelevance_out" tosourceid='source1' commit='100'>
+		<column name='t_stackcoderelevance.relevanceId' outname='' type='varchar'>
+		<![CDATA[return UUID.randomUUID().toString().replaceAll("-", "");]]>
+		</column>
+		<column name='t_stackcoderelevance.allocateCargoId' outname='allocateCargoCode' type='varchar'>
+		<![CDATA[
+		Connection con = DB.conByDs("source1");
+		String[] dataAll = DB.fetchOneData(
+		"select allocateCargoId from t_allocatecargo where allocateCargoCode='#value#'", "allocateCargoId", con);
+		if (dataAll.length > 0) {
+			return dataAll[0];
+		}
+		return "$99$";
+		]]>
+		
+		</column>
+		<column name='t_stackcoderelevance.stackCode' outname='stackCode' type='varchar'/>
+		<column name='t_stackcoderelevance.isPass' outname='isPass' type='varchar'/>
+		<column name='t_stackcoderelevance.operateTime' outname='operateTime' type='datetime'/>
+		<column name='t_stackcoderelevance.operate' outname='operate' type='varchar'/>
+		<column name='t_stackcoderelevance.productCode' outname='productCode' type='varchar'/>
+		<column name='t_stackcoderelevance.boxnumber' outname='boxnumber' type='varchar'/>		
+		</in>
+
+	<in id="instorage_and_detail_in" outid="instorage_and_detail_out"
+		tosourceid='source1' commit='1'>
+		<column name='t_instorage.inStorageId' outname='inStorageId'
+			type='varchar'>
+		</column>
+		<column name='t_instorage.storageId' outname=''
+			type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#clientId#'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return dataAll[0];
+				}else{
+					con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+					return dataAll[0];
+				}
+							
+			]]>
+		</column>
+		<column name='t_instorage.rkNumber' outname='rkNumber' type='varchar'>
+		</column>
+		<column name='t_instorage.tzNumber' outname='tzNumber' type='varchar'>
+		</column>
+		<column name='t_instorage.status' outname='status' type='int'>
+		</column>
+		<column name='t_instorage.operate' outname='operate' type='varchar'>
+		</column>
+		<column name='t_instorage.operateTime' outname='operateTime'
+			type='datetime'>
+		</column>
+		<column name='t_instorage.note' outname='note'
+			type='varchar'>
+		</column>		
+		
+		<column name='t_instoragedetail.inStorageDetailId' outname='inStorageDetailId'
+			type='varchar'>
+		</column>
+		<columnref name='t_instoragedetail.inStorageId'
+			refertoname='t_instorage.inStorageId'>
+		</columnref>
+		<column name='t_instoragedetail.productid' outname='productId' type='varchar'>
+		</column>
+		<column name='t_instoragedetail.pbNumber' outname='pbNumber' type='varchar'>
+		</column>
+		<column name='t_instoragedetail.damagedCount' outname='damagedCount' type='varchar'>
+		</column>
+		<column name='t_instoragedetail.shortCount' outname='shortCount' type='varchar'>
+		</column>
+
+		<column name='t_instoragedetail.factCount' outname='consignmentCount' type='varchar'>
+		</column>
+		<column name='t_instoragedetail.consignmentCount' outname='factCount' type='varchar'>
+		</column>
+		<column name='t_instoragedetail.note' outname='note' type='varchar'>
+		</column>
+		<column name='t_instoragedetail.bottleCount' outname='bottleCount' type='int'>
+		</column>
+		<column name='t_instoragedetail.inWarehouseLocation' outname='inWarehouseLocation' type='varchar'>
+		</column>
+		<column name='t_instoragedetail.pendingcount' outname='pendingcount' type='varchar'>
+		</column>
+	</in>
+
+
+
+    <in id="outstorage_and_detail_in" outid="outstorage_and_detail_out" tosourceid='source1' commit='1'>
+		<column name='t_outstorage.outStorageId' outname='outStorageId' type='varchar'>
+		</column>
+		<column name='t_outstorage.ckNumber' outname='ckNumber' type='varchar'>
+			if("#value#".equals("")){
+				return "CK"+UUID.randomUUID().toString().replaceAll("-", "");
+			}else{
+				return "#value#";
+			}
+		</column>
+		<column name='t_outstorage.tdNumber' outname='tdNumber' type='varchar'>
+		</column>
+		<column name='t_outstorage.storageId' outname='' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='2207'", "departmentId", con);
+				if (dataAll.length > 0) {
+					datatmp = dataAll[0];
+				}
+				return datatmp;					
+			]]>
+		</column>
+		<column name='t_outstorage.status' outname='status' type='int'>
+		</column>
+		<column name='t_outstorage.operate' outname='operate' type='varchar'>
+		</column>
+		<column name='t_outstorage.operateTime' outname='operateTime' type='varchar'>
+		</column>
+		<column name='t_outstorage.note' outname='note' type='varchar'>
+		</column>
+		
+		
+		<column name='t_outstoragedetail.outStorageDetailId' outname='outStorageDetailId' type='varchar'>
+		</column>
+		<columnref name='t_outstoragedetail.outStorageId'
+			refertoname='t_outstorage.outStorageId'>				 
+		</columnref>
+		<column name='t_outstoragedetail.productid' outname='productId' type='varchar'>
+		</column>
+		<column name='t_outstoragedetail.consignmentCount' outname='consignmentCount' type='varchar'>
+		</column>
+		<column name='t_outstoragedetail.bottleCount' outname='bottleCount' type='int'>
+		</column>
+		<column name='t_outstoragedetail.damagedCount' outname='damagedCount' type='varchar'>
+		</column>
+		<column name='t_outstoragedetail.shortCount' outname='shortCount' type='varchar'>
+		</column>
+		<column name='t_outstoragedetail.factCount' outname='factCount' type='varchar'>
+		</column>
+	</in>
+
+	<in id="produceline_and_detail_in" outid="produceline_and_detail_out" tosourceid='source1' commit='100'>
+		<column name='t_produceline.produceLineId' outname='produceLineId' type='varchar'>
+		</column>
+		<column name='t_produceline.produceLineCode' outname='produceLineCode' type='varchar'>
+		</column>
+		<column name='t_produceline.clientId' outname='clientLoginName' type='varchar'>
+			<![CDATA[
+				Connection con = DB.conByDs("source1");
+				String[] dataAll = DB.fetchOneData(
+				"select departmentId from t_department where departmentCode='#value#'", "departmentId", con);
+				if (dataAll.length > 0) {
+					return  dataAll[0];
+				}else{
+					con = DB.conByDs("source1");
+					dataAll = DB.fetchOneData(
+					"select departmentId from t_department where departmentCode='05900000'", "departmentId", con);
+					return  dataAll[0];
+				}
+							
+			]]>
+		</column>
+		<column name='t_produceline.operate' outname='operate' type='varchar'>
+		</column>
+		<column name='t_produceline.operateTime' outname='operateTime' type='datetime'>
+		</column>
+		<column name='t_produceline.tdNumber' outname='tdNumber' type='varchar'>
+		</column>
+		<column name='t_produceline.warehouseLocation' outname='warehouseLocation' type='varchar'>
+		</column>
+		<column name='t_produceline.status' outname='status' type='int'>
+		</column>
+		<column name='t_produceline.auditPerson' outname='auditPerson' type='varchar'>
+		</column>
+		
+		<column name='t_produceline.operate' outname='operate' type='varchar'>
+		</column>
+		<column name='t_produceline.auditTime' outname='auditTime' type='datetime'>
+		</column>
+		<column name='t_produceline.note' outname='note' type='varchar'>
+		</column>
+		<column name='t_produceline.saveWarehouseLocation' outname='saveWarehouseLocation' type='varchar'>
+		</column>
+		<column name='t_produceline.produceStatus' outname='produceStatus' type='int'>
+		</column>
+		<column name='t_produceline.inDateStr' outname='inDateStr' type='varchar'>
+		</column>
+		<column name='t_produceline.produceType' outname='produceType' type='int'>
+		</column>
+		
+		<column name='t_producelinedetail.produceLineDetailId' outname='produceLineDetailId' type='varchar'>
+		</column>
+		<columnref name='t_producelinedetail.produceLineId'
+			refertoname='t_produceline.produceLineId'>				 
+		</columnref>
+		<column name='t_producelinedetail.productid' outname='productid' type='varchar'>
+		</column>
+		<column name='t_producelinedetail.produceLineCount' outname='produceLineCount' type='varchar'>
+		</column>
+		<column name='t_producelinedetail.bottleCount' outname='bottleCount' type='int'>
+		</column>
+		<column name='t_producelinedetail.storageTag' outname='storageTag' type='int'>
+		</column>
+	</in> 
+
+</dataTrans>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataTrans>
+	<source id='source1' url='jdbc:mysql://localhost/iss' password='123' username='root' driver='com.mysql.jdbc.Driver' />
+	<source id='source2' url='jdbc:mysql://localhost/iss' password='123' username='root' driver='com.mysql.jdbc.Driver' />
+	<sql id='sql1'>Select * from t_allocatecargo</sql>
+	<out id='out1' sqlid='sql1' sourceid='source1' />
+	<in id="in1" outid="out1" tosourceid='source2' commit='100'>
+		<column name='tablename.columnid' outname='outname1' type='type'>
+			expression java code here
+		</column>
+		<column name='tablename.columnname' outname='outname2' type='type'>
+			expression java code here
+		</column>
+		<columnref name='tablename.columnname'
+			refertoname='tablename.columnid'>
+		</columnref>
+	</in>
+</dataTrans>

@@ -15,7 +15,6 @@ import oe.frame.web.WebCache;
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
 import oe.frame.web.page.PageInfo;
-import oe.frame.web.util.WebTip;
 import oe.midware.doc.excel.ExcelHandlerImp;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
@@ -52,8 +51,9 @@ public class HumanIndexAction extends Action {
 		String code = oluser.getBelongto();
 		
 		if(!"adminx".equals(oluser.getLoginname())){
-			WebTip.htmlInfo("您不是超级管理员", false, response);
-			return null;
+
+			return mapping.findForward("limituser");
+		
 		}
 
 		Map<String, String> comparisonKey = new LinkedHashMap<String, String>();

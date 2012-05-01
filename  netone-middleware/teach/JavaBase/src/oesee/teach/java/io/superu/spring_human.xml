@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "spring-beans.dtd">
+
+<beans>
+	<bean id="human" class="oesee.teach.java.io.xml.superu.Human">
+		<property name="name">
+			<value></value>
+		</property>
+		<property name="age">
+			<value></value>
+		</property>
+		<property name="id">
+			<value></value>
+		</property>
+		<property name="mobile">
+			<value></value>
+		</property>
+		<property name="mail">
+			<value></value>
+		</property>
+	</bean>
+</beans>

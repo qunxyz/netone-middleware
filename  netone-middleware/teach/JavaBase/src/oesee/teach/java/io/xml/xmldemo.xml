@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root name="base" create="2003-12-21">
+	<author name="James" location="UK">James Strachan</author>
+	<author name="Bob" location="US">Bob McWhirter</author>
+	<team name="A" location="US" weburl="http://www.yahoo.org">
+		<member name="ahead">mike</member>
+		<member name="support">tom</member>
+		<member name="backup">jim</member>
+	</team>
+	<team name="B" location="US" weburl="http://www.oesee.org">
+		<member name="ahead">tomse</member>
+		<member name="support">okas</member>
+		<member name="backup">toyo</member>
+	</team>
+</root>
+

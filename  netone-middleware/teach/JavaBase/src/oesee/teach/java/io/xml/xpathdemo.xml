@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Oesee IT consultation organization-->
+<org id="oesee">
+	<!-- IT relevant training-->
+	<course id="java">
+		<java id="base">
+			<forum id="forum1" name="exchange" />
+			<forum id="forum2" name="question" />
+		</java>
+	</course>
+	<course id="administration">
+		<administration id="IT">
+			<forum id="forum3" />
+			<forum id="forum4" />
+		</administration>
+	</course>
+	<!-- IT technical reserach focus on j2ee way-->
+	<research>
+		<middleware id="j2ee">
+			<com name="workflow" />
+			<com name="protal" />
+			<com name="ormapping" />
+		</middleware>
+		<specification />
+	</research>
+	<!-- server for software development and build infomation environment-->
+	<consultation>
+		<administration />
+		<course id="teamMananger" />
+		<forum />
+	</consultation>
+</org>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="Newland3A" default="default" basedir=".">
+
+	<property name="src.dir" value="${basedir}/client" />
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	<property name="web.dir" value="${basedir}/WebRoot" />
+	<property name="dist.dir" value="${basedir}/RESOURCE" />
+	
+
+	<target name="rmi_stub">
+		<jar destfile="${dist.dir}/msgService.jar">
+			<fileset dir="${class.dir}">
+				<include name="**" />
+				<exclude name="log4j.properties" />
+			</fileset>
+		</jar>
+
+	</target>
+
+	<target name="default" depends="rmi_stub">
+	</target>
+
+
+
+</project>

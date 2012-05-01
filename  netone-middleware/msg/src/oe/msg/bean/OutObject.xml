@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soabean>
+	<class name="oe.mid.soa.bean.OutObject">
+		<property column="types" length="100" name="类型"
+			type="java.lang.String" />
+	</class>
+</soabean>

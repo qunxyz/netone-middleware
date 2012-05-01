@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soabean>
+	<class name="oe.mid.soa.bean.InObject">
+		<property column="mobile" length="100" name="mobile"
+			type="java.lang.String" />
+		<property column="context" length="100" name="context"
+			type="java.lang.String" />
+	</class>
+</soabean>

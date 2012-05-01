@@ -1,0 +1,4 @@
+该服务需要做成RMI应用
+
+客户端 oecEnvClient.jar  只需要打 EnvService.java 和 EnvServiceImpl_Stub.java
+服务端 oecEnvService.jar 全部类

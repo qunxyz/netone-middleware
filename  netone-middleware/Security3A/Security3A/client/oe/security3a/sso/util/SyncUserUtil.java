@@ -22,6 +22,18 @@ public class SyncUserUtil {
 
 	// 地址栏参数，表示用户ID
 	public static String _PARAM_USERCODE = "USERCODE";
+	
+	
+	// 地址栏参数，表示用户ID
+	public static String _PARAM_USERNAME = "USERNAME";
+	// 地址栏参数，表示用户ID
+	public static String _PARAM_PASSWORD = "PASSWORD";
+	
+	// 地址栏参数，表示用户ID
+	public static String _PARAM_MAIL = "MAIL";
+	
+	// 地址栏参数，表示用户ID
+	public static String _PARAM_TEL = "TEL";
 
 
 }

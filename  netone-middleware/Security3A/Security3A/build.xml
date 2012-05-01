@@ -24,6 +24,9 @@
 				<exclude name="log4j.properties" />
 				<exclude name="ds_config_log.xml" />
 				<exclude name="ds_config_user.xml" />
+				<exclude name="log4j.properties" />
+				<exclude name="ds_config_log.xml" />
+				<exclude name="ds_config_user.xml" />
 			</fileset>
 		</jar>
 		<jar destfile="${dist.dir}/Security3AClient.jar">
@@ -44,10 +47,10 @@
 				<exclude name="oe/security3a/severlet/" />
 				<exclude name="oe/security3a/web/" />
 				<exclude name="rs.tld" />
-				<include name="CupmWeb.xml" />
+				<exclude name="CupmWeb.xml" />
 				<include name="ssoconf.properties" />
 				<include name="ssoserver.properties" />
-				<include name="webservice.properties" />
+				<exclude name="webservice.properties" />
 				<include name="urlRedirect.properties" />
 			</fileset>
 		</jar>

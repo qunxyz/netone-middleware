@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="WfRmiService.jar" sourcepath="/wfweb"/>
+	<classpathentry kind="lib" path="commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="commons-dbcp-1.2.1.jar"/>
+	<classpathentry kind="lib" path="commons-digester-1.7.jar"/>
+	<classpathentry kind="lib" path="commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="commons-io-1.3.2.jar"/>
+	<classpathentry kind="lib" path="commons-lang-2.0.jar"/>
+	<classpathentry kind="lib" path="commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="commons-logging-api.jar"/>
+	<classpathentry kind="lib" path="commons-modeler-1.1.jar"/>
+	<classpathentry kind="lib" path="commons-pool-1.2.jar"/>
+	<classpathentry kind="lib" path="commons-validator-1.1.4.jar"/>
+	<classpathentry kind="lib" path="dom4j-full.jar"/>
+	<classpathentry kind="lib" path="DyFormClient.jar"/>
+	<classpathentry kind="lib" path="log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="MessageClient.jar" sourcepath="/Message"/>
+	<classpathentry kind="lib" path="OecbeanClient.jar"/>
+	<classpathentry kind="lib" path="oecEnvClient.jar"/>
+	<classpathentry kind="lib" path="OrmFrame.jar"/>
+	<classpathentry kind="lib" path="rmiService.jar"/>
+	<classpathentry kind="lib" path="Security3AClient.jar" sourcepath="/Security3A"/>
+	<classpathentry kind="lib" path="xbean.jar"/>
+	<classpathentry kind="lib" path="bsh-2.0b4.jar"/>
+	<classpathentry kind="lib" path="hibernate2.jar"/>
+	<classpathentry kind="lib" path="jta.jar"/>
+	<classpathentry kind="lib" path="jug.jar"/>
+	<classpathentry kind="lib" path="OrmDbImpl.jar"/>
+	<classpathentry kind="lib" path="spring.jar"/>
+	<classpathentry kind="lib" path="spring-mock.jar"/>
+	<classpathentry kind="lib" path="springmodules-validator-0.1.jar"/>
+	<classpathentry kind="lib" path="mysql-connector-java-3.1.13-bin.jar"/>
+	<classpathentry kind="lib" path="MessageService.jar"/>
+	<classpathentry kind="lib" path="OecSpeciPage.jar"/>
+	<classpathentry kind="lib" path="mail.jar"/>
+	<classpathentry kind="lib" path="acegi-security-0.8.2.jar"/>
+	<classpathentry kind="lib" path="activation.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

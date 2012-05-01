@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<!-- 综合交互应用-->
+
+
+
+	<!-- ######################## -->
+	<!-- 查询列表 -->
+	<servlet>
+		<servlet-name>ListOri</servlet-name>
+		<servlet-class>oe.teach.web.turnpageori.ListSvl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ListOri</servlet-name>
+		<url-pattern>/turnpageori/list</url-pattern>
+	</servlet-mapping>
+	<!-- 创建 -->
+	<servlet>
+		<servlet-name>Create</servlet-name>
+		<servlet-class>
+			oe.teach.web.turnpageori.CreateSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Create</servlet-name>
+		<url-pattern>/turnpageori/create</url-pattern>
+	</servlet-mapping>
+	<!-- 修改 -->
+	<servlet>
+		<servlet-name>Update</servlet-name>
+		<servlet-class>
+			oe.teach.web.turnpageori.UpdateSvl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Update</servlet-name>
+		<url-pattern>/turnpageori/update</url-pattern>
+	</servlet-mapping>
+	<!-- 删除 -->
+	<servlet>
+		<servlet-name>Delete</servlet-name>
+		<servlet-class>
+			oe.teach.web.turnpageori.DeleteSvl
+		</servlet-class>
+	</servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AccoutAddSvl</servlet-name>
+    <servlet-class>oe.service.app.AccoutAddSvl</servlet-class>
+  </servlet>
+
+	<servlet-mapping>
+		<servlet-name>Delete</servlet-name>
+		<url-pattern>/turnpageori/delete</url-pattern>
+	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AccoutAddSvl</servlet-name>
+    <url-pattern>/AccoutAddSvl</url-pattern>
+  </servlet-mapping>
+	<!-- 基础WEB业务编程-->
+	<!-- ######################## -->
+	<welcome-file-list>
+		<welcome-file>turnpageori/list</welcome-file>
+	</welcome-file-list>
+</web-app>

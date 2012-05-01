@@ -490,7 +490,7 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 			throws RemoteException {
 		SyncUser syncUser = new SyncUser();
 		Clerk clerk=this.loadClerk(code, usercode);
-		return syncUser.syncUser(ope, clerk);
+		return syncUser.syncUser(ope,code, clerk);
 
 	}
 

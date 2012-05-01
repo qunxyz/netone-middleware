@@ -197,10 +197,7 @@ public class SyncUser {
 	}
 
 	public static void main(String[] args) {
-		SyncUser s = new SyncUser();
-		String[] list = s.SyncUser("ADD", "0001", "adminx");
-		for (String ss : list) {
-		}
+
 	}
 
 }

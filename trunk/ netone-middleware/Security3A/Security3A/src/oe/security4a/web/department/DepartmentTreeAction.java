@@ -45,17 +45,15 @@ public class DepartmentTreeAction extends Action {
 
 			List<UmsApplication> applist = new ArrayList<UmsApplication>();
 			String naturalname = request.getParameter("naturalname");
-			
-			if(StringUtils.isEmpty(naturalname)){
-				OnlineUserMgr olmgr = new DefaultOnlineUserMgr();
-				OnlineUser oluser = olmgr.getOnlineUser(request);
-				String loginName = oluser.getLoginname();
-				String code = oluser.getBelongto();
-				if (!"adminx".equals(loginName)) {
-					Clerk user = rsrmi.loadClerk(code,loginName);
-					naturalname = user.getExtendattribute();//部门
-				}
+			OnlineUserMgr olmgr = new DefaultOnlineUserMgr();
+			OnlineUser oluser = olmgr.getOnlineUser(request);
+			String loginName = oluser.getLoginname();
+			String code = oluser.getBelongto();
+			if (!"adminx".equals(loginName)) {
+				Clerk user = rsrmi.loadClerk(code,loginName);
+				naturalname = user.getExtendattribute();//部门
 			}
+
 			
 			if (StringUtils.isNotEmpty(naturalname)) {
 				String[] nas = StringUtils.split(naturalname, ",");

@@ -1,0 +1,12 @@
+
+function getParam(name){    
+	var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");    
+	if (reg.test(location.href)) 
+		return unescape(RegExp.$2.replace(/\+/g, " ")); 
+	return "";
+}
+
+function test(){
+	var parm1=getParam('parm1');
+	alert(parm1);
+}

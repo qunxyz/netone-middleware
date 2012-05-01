@@ -132,7 +132,7 @@ $.fn.autogrow = function(options) {
 		        msg: '对不起！您无权创建。'
 		    });
 		    **/
-			//alert('该业务无权创建该公单');
+			//alert('该业务无权创建该工单');
 			//window.opener=null;
 			//window.close();
 		</c:if>

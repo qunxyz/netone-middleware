@@ -11,6 +11,7 @@
 	<action-mappings>
 		<action input="/human/humanindex.jsp" parameter="task" path="/humanIndex" scope="request"
 			type="oe.security4a.web.human.HumanIndexAction">
+			<forward name="limituser" path="/human/null.jsp"></forward>
 		</action>
 		<action input="/human/humanadd.jsp" parameter="task" path="/humanAdd" scope="request"
 			type="oe.security4a.web.human.HumanAddAction">

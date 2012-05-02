@@ -1,6 +1,7 @@
 package oe.teach.oescript;
 
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,13 +9,13 @@ import oe.cav.bean.logic.bus.TCsBus;
 import oescript.parent.OeScript;
 
 /**
- * 应用脚本内部对象 DY
+ * 应用脚本内部对象 DY  <br> 该模式通过在流程驱动的表单中应用，通过工作流的相关变量对接表单数据
  * 
  * @author chen.jia.xun(Robanco)<br>
  *         mail:56414429@qq.com, chenjx@fjycit.com<br>
  *         tel:13328675083<br>
  */
-public class dyFomDemo extends OeScript {
+public class DyFomDemo1 extends OeScript {
 
 	public static void main(String[] args) throws RemoteException {
 
@@ -29,6 +30,13 @@ public class dyFomDemo extends OeScript {
 		// query(formNaturalname);
 		// 删除数据
 		// delete(formNaturalname);
+		
+		
+		System.out.println("flag!-------------------------------------");
+		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+		String a1=dateformat.format(new java.util.Date());
+		dy.set("$(lsh)"+":"+"$(formcode)","column18" , a1);
+		dy.set("$(lsh)"+":"+"$(formcode)","column21" , "$(participant)");
 	}
 
 	/**

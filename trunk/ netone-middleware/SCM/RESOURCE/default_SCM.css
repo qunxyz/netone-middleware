@@ -44,7 +44,7 @@ html.VIE7 nobr{font-size:9pt;font-family:微软雅黑}
 {
 
 }
-/** 公单标题表格TD */
+/** 工单标题表格TD */
 .table_td_title{
 	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColorStr =   #D9ECF9, EndColorStr =#62BBE8);
 	background: -webkit-gradient(linear, left top, left bottom, from(#D9ECF9), to(#62BBE8)); /* for webkit browsers */
@@ -57,11 +57,11 @@ html.VIE7 nobr{font-size:9pt;font-family:微软雅黑}
 	border: 1px solid #86B4E5;
 	line-height: 20px;
 }
-/** 公单字段表格TR */
+/** 工单字段表格TR */
 .table_tr_header{
 
 }
-/** 公单字段表格TD */
+/** 工单字段表格TD */
 .table_td_header{
 	FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColorStr =   #FEF9FF, EndColorStr =#DBDCDE);
 	background: -webkit-gradient(linear, left top, left bottom, from(#FEF9FF), to(#DBDCDE)); /* for webkit browsers */
@@ -75,11 +75,11 @@ html.VIE7 nobr{font-size:9pt;font-family:微软雅黑}
 	line-height: 20px;
 }
 
-/** 公单内容表格TD */
+/** 工单内容表格TD */
 .table_tr_content{
 
 }
-/** 公单内容表格TD */
+/** 工单内容表格TD */
 .table_td_content{
 	line-height:25px;border:1px dashed #ddd;
 }

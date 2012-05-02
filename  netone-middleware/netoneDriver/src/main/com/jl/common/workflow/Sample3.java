@@ -13,6 +13,7 @@ import oe.midware.workflow.xpdl.model.activity.Activity;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.app.AppEntry;
+import com.jl.common.workflow.worklist.WlEntry;
 
 /**
  * 该Sample在针对高级的流程应用相关例子
@@ -41,7 +42,19 @@ public class Sample3 {
 		
 		//WebCache.removeCache("NA_APPFRAME.APPFRAME.JTZDSP.trackAction1307596177031");
 		
-		WfEntry.iv().outTimeAlarm();
+//		WfEntry.iv().outTimeAlarm();
+//		
+//		//獲得全部代辦任務
+//		WfEntry.iv().worklist(clientId);
+//		//所有已辦
+//		WfEntry.iv().worklistDone(clientId);
+//		// 获得待办 listtype={01 代办、02以办未归档、03 已办且归档、04全部工单}
+//		WfEntry.iv().worklist(clientId, processid, true, limit, listtype)
+//		// 获得待阅单
+//		WfEntry.iv().worklist(clientId, processid, false, limit, "01");	
+//		
+//		
+//		WlEntry.iv().count(clientid, appname, mode, listtype, query)
 
 	}
 }

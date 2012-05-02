@@ -51,7 +51,7 @@ public class DyAnalysisXml {
 			}
 			if (!mxlstr.equals("") || mxlstr != null) {
 				String script = dyxml.readXML(mxlstr, fatherNode);
-				System.out.println(script);
+
 				if (StringUtils.isNotEmpty(lsh)) {
 					DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 					TCsBus bus = dy.loadData(lsh,formid);
@@ -69,8 +69,12 @@ public class DyAnalysisXml {
 						Object obj5 = BeanUtils.getProperty(bus, "column" + i);
 						script = dealWithScrpit(script, "column" + i, obj5);
 					}
+				}else{
+			
+					script = dealWithScrpit(script, "fatherlsh", fatherNode);
+					script = dealWithScrpit(script, "formcode", formid);
 				}
-				System.out.println("--"+script);
+
 				return ScriptTools.todo(script);
 			}
 		}

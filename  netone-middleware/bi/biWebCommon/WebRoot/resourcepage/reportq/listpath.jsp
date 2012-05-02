@@ -137,7 +137,7 @@
 								function newds(){
 								 
 								   
-									window.open('<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Reportset.html?name=${upo.naturalname}','_blank');
+									window.open('<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Reportset.html?name=${upo.naturalname}&mode=new','_blank');
 								}
 								function edits(){
 									var k = 0;
@@ -247,7 +247,9 @@
 								</c:if>
 							</td>
 							<td nowrap>
-							
+							                <a   
+										href="<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Reportset.html?name=${list.naturalname}&mode=edit"
+										target="_blank"><font color='red'>[ÐÞ¸Ä]</font></a>	
 
 									<a  
 										href="javascript:window.open('<portal:envget envkey="WEBSER_APPFRAME"/>xreport.do?method=view&naturalname=${list.naturalname}','_parent');"

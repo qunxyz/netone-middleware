@@ -14,7 +14,7 @@
 	<head>
 		<base href="<%=basePath%>">
 
-		<title>钻取管理</title>
+		<title>手机配置管理</title>
 
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -137,7 +137,7 @@
 								function newds(){
 								 
 								   
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>BrickTakeEntry.html?naturalname=${upo.naturalname}&mode=new','_blank');
+									window.open('<portal:envget envkey="WEBSER_REPORT"/>/Opjreport-debug/ApplicationConfig.html?naturalname=${upo.naturalname}','_blank');
 								}
 								function edits(){
 									var k = 0;
@@ -172,7 +172,7 @@
 							&nbsp;&nbsp;
 
 
-							<input type="button" value="新建钻取" onclick="newds()" class="butt">
+							<input type="button" value="新建配置" onclick="newds()" class="butt">
 							&nbsp;&nbsp;
 							<input type="button" value="修改" onclick="edit();"
 								class="butt">
@@ -247,23 +247,11 @@
 								</c:if>
 							</td>
 							<td nowrap>
-							        <c:if test="${list.objecttype=='Two'}">
-									
+							       
 									<a  
-										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>BrickTakeEntry.html?naturalname=${list.naturalname}&mode=edit','_parent');"
-										target="_blank"><font color='red'>[修改]</font></a>
-									<a  
-										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>TwoBTflashchartAction?naturalname=${list.naturalname}','_parent');"
-										target="_blank"><font color='red'>[钻取分析]</font></a>	
-								</c:if>
-								<c:if test="${list.objecttype=='Many'}">
-									<a  
-										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>BrickTakeEntry.html?naturalname=${list.naturalname}&mode=edit','_parent');"
-										target="_blank"><font color='red'>[修改]</font></a>		
-									<a  
-										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>BTflashchartAction?naturalname=${list.naturalname}','_parent');"
-										target="_blank"><font color='red'>[钻取分析]</font></a>	
-								</c:if>
+										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>/servlet/DelFile?naturalname=${list.naturalname}','_parent');"
+										target="_blank"><font color='red'>[删除]</font></a>	
+		
 
 							</td>
 

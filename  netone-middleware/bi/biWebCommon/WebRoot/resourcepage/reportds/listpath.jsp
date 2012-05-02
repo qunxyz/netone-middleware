@@ -135,11 +135,11 @@
 							<script type="text/javascript">
 
 								function newds(){
-									window.open('<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Opjreport.html?name=${upo.naturalname}','_blank');
+									window.open('<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Opjreport.html?name=${upo.naturalname}&mode=new','_blank');
 								}							
 								
 								function newds1(){
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>bi/chart.html?name=${upo.naturalname}','_blank');
+									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>chart.html?name=${upo.naturalname}&mode=new','_blank');
 								}							
 															
 
@@ -229,10 +229,16 @@
 							<td nowrap>
 								<c:if test="${list.objecttype=='chart'}">
 									<a
-										href="<portal:envget envkey="WEBSER_SpeedyForm"/>bi/chartview.html?name=${list.naturalname}"
+										href="<portal:envget envkey="WEBSER_SpeedyForm"/>chart.html?name=${list.naturalname}&mode=edit"
+										target="_blank"><font color='red'>[修改]</font></a>	
+									<a
+										href="<portal:envget envkey="WEBSER_SpeedyForm"/>/PieChartAction?naturalname=${list.naturalname}"
 										target="_blank"><font color='red'>[查看图表]</font></a>										
 								</c:if>
 								<c:if test="${list.objecttype!='chart'}">
+									<a
+										href="<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Opjreport.html?name=${list.naturalname}&mode=edit"
+										target="_blank"><font color='red'>[修改]</font></a>	
 
 									<a
 										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=html"

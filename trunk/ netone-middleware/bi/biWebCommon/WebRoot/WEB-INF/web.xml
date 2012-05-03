@@ -462,6 +462,18 @@
     <servlet-name>SaveSql</servlet-name>
     <url-pattern>/servlet/SaveSql</url-pattern>
   </servlet-mapping>
+  
+  	<!-- 表单复制的服务-->
+	 <servlet>
+	  <servlet-name>DyFormCopySvl</servlet-name>
+	    <servlet-class>oe.bi.common.DyFormCopySvl</servlet-class>
+	  </servlet>
+	<servlet-mapping>
+	    <servlet-name>DyFormCopySvl</servlet-name>
+	    <url-pattern>/DyFormCopySvl</url-pattern>
+	  </servlet-mapping>
+  
+	<!-- ###################### -->
 
 </web-app>
 

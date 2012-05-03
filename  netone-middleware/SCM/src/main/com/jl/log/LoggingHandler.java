@@ -140,7 +140,7 @@ public class LoggingHandler extends BaseLogging implements AfterReturningAdvice 
 
 		jsonObject.put("JavaMethod", StringUtils.substringBefore(service, "@")
 				+ "." + method);
-		log.setLogSeq(jsonObject.toString());
+		log.setLogSeq(jsonObject.toString().replaceAll("'", "''"));
 		log.setResultInfo("SUCCESS");
 		log.setOperateTime(new Date());
 		log.setUserIp(getIpAddr(request));

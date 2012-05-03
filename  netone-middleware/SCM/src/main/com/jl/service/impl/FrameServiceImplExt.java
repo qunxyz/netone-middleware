@@ -211,13 +211,13 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 
 	public String load(String workcode, String naturalname, DyForm dyform,
 			String lsh, boolean isedit, Map subformmode, String userinfo,
-			String parameter, User user,boolean isprint) throws Exception {
+			String parameter, User user, boolean isprint) throws Exception {
 		// long start = new Date().getTime();
 		StringBuffer html = new StringBuffer();
 		userinfo = userinfo.replace("//", "/");
-		if (isprint){
-		html.append(loadPrint_(dyform, isedit, subformmode, userinfo, workcode,
-				naturalname, lsh, parameter, user));
+		if (isprint) {
+			html.append(loadPrint_(dyform, isedit, subformmode, userinfo,
+					workcode, naturalname, lsh, parameter, user));
 		} else {
 			html.append(load_(dyform, isedit, subformmode, userinfo, workcode,
 					naturalname, lsh, parameter, user));
@@ -431,7 +431,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 						"north",
 						"north",
 						"toolbar",
-						"{text:' 保 存 ',id:'ext_b_add',iconCls:'addIcon',handler: _save},{text:' 删 除 ',id:'ext_b_delete',iconCls:'deleteIcon',handler: _delete},{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: _print},{text:' 取 消 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}",
+						"{text:' 保 存 ',id:'ext_b_add',iconCls:'addIcon',handler:function(){ _save();}},{text:' 删 除 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},{text:' 取 消 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}",
 						null, "");
 		String viewport = DyFormComp.getExtBorderViewport(center, east, west,
 				south, north);
@@ -448,7 +448,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		DyForm[] subdyforms = dyform.getSubform_();
 		isedit = false;
 		html.append(DyFormBuildHtmlExt.buildMainForm(dyform, isedit, userinfo,
-				naturalname, lsh, false, false, parameter,user));
+				naturalname, lsh, false, false, parameter, user));
 		if (subdyforms != null && subdyforms.length > 0) {
 			Boolean issubedit = false;
 

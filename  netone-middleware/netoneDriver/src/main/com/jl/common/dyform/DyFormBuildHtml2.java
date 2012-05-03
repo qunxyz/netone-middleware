@@ -851,20 +851,20 @@ public final class DyFormBuildHtml2 {
 
 		// 输出文档普通字段内容开始
 		DyFormData dydata = new DyFormData();
-		if (StringUtils.isNotEmpty(lsh)) {
-			if (issub) {
-				dydata.setFormcode(formcode);
-				dydata.setFatherlsh(lsh);
-				List list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
-				if (list.size() > 0) {
-					dydata = (DyFormData) list.get(0);
-				} else {
-					dydata = new DyFormData();
-				}
+		// if (StringUtils.isNotEmpty(lsh)) {
+		if (issub) {
+			dydata.setFormcode(formcode);
+			dydata.setFatherlsh(lsh);
+			List list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
+			if (list.size() > 0) {
+				dydata = (DyFormData) list.get(0);
 			} else {
-				dydata = DyEntry.iv().loadData(formcode, lsh);
+				dydata = new DyFormData();
 			}
+		} else {
+			dydata = DyEntry.iv().loadData(formcode, lsh);
 		}
+		// }
 		Method[] ms = DyFormData.class.getMethods();
 		Map<Double, String> htmlresult = new TreeMap<Double, String>();// 存放每行HTML代码
 
@@ -981,20 +981,20 @@ public final class DyFormBuildHtml2 {
 
 		// 输出文档普通字段内容开始
 		DyFormData dydata = new DyFormData();
-		if (StringUtils.isNotEmpty(lsh)) {
-			if (issub) {
-				dydata.setFormcode(formcode);
-				dydata.setFatherlsh(lsh);
-				List list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
-				if (list.size() > 0) {
-					dydata = (DyFormData) list.get(0);
-				} else {
-					dydata = new DyFormData();
-				}
+		// if (StringUtils.isNotEmpty(lsh)) {
+		if (issub) {
+			dydata.setFormcode(formcode);
+			dydata.setFatherlsh(lsh);
+			List list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
+			if (list.size() > 0) {
+				dydata = (DyFormData) list.get(0);
 			} else {
-				dydata = DyEntry.iv().loadData(formcode, lsh);
+				dydata = new DyFormData();
 			}
+		} else {
+			dydata = DyEntry.iv().loadData(formcode, lsh);
 		}
+		// }
 		Method[] ms = DyFormData.class.getMethods();
 		Map<Double, String> htmlresult = new TreeMap<Double, String>();// 存放每行HTML代码
 
@@ -1111,20 +1111,20 @@ public final class DyFormBuildHtml2 {
 
 		// 输出文档普通字段内容开始
 		DyFormData dydata = new DyFormData();
-		if (StringUtils.isNotEmpty(lsh)) {
-			if (issub) {
-				dydata.setFormcode(formcode);
-				dydata.setFatherlsh(lsh);
-				List list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
-				if (list.size() > 0) {
-					dydata = (DyFormData) list.get(0);
-				} else {
-					dydata = new DyFormData();
-				}
+		// if (StringUtils.isNotEmpty(lsh)) {
+		if (issub) {
+			dydata.setFormcode(formcode);
+			dydata.setFatherlsh(lsh);
+			List list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
+			if (list.size() > 0) {
+				dydata = (DyFormData) list.get(0);
 			} else {
-				dydata = DyEntry.iv().loadData(formcode, lsh);
+				dydata = new DyFormData();
 			}
+		} else {
+			dydata = DyEntry.iv().loadData(formcode, lsh);
 		}
+		// }
 		Method[] ms = DyFormData.class.getMethods();
 		Map<Double, String> htmlresult = new TreeMap<Double, String>();// 存放每行HTML代码
 
@@ -1817,9 +1817,9 @@ public final class DyFormBuildHtml2 {
 		dydata.setFormcode(formcode);
 		dydata.setFatherlsh(fatherlsh);
 		List list = new ArrayList();
-		if (StringUtils.isNotEmpty(fatherlsh)) {
+//		if (StringUtils.isNotEmpty(fatherlsh)) {
 			list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
-		}
+//		}
 		html.append("<tbody>");
 		if (list.size() > 0) {// 有记录
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {

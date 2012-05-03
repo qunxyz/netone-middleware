@@ -341,7 +341,7 @@
 	<!-- 表单复制的服务-->
 	 <servlet>
 	  <servlet-name>DyFormCopySvl</servlet-name>
-	    <servlet-class>oe.midware.dyform.service.DyFormCopySvl</servlet-class>
+	    <servlet-class>oe.bi.common.DyFormCopySvl</servlet-class>
 	  </servlet>
 	<servlet-mapping>
 	    <servlet-name>DyFormCopySvl</servlet-name>

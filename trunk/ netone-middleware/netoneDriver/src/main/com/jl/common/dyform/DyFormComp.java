@@ -475,9 +475,9 @@ public final class DyFormComp {
 		} else {
 			checkstr = " ";
 		}
-
-		return getComp("<input type=\"radio\" ", checkstr + " />", id, "",
-				style, classname, readonly, extvalue);
+		return getComp("<input type=\"radio\" ", checkstr + " />", id
+				+ DyFormBuildHtml.uuid(), "", style, classname, readonly,
+				extvalue);
 	}
 
 	/**
@@ -501,6 +501,7 @@ public final class DyFormComp {
 
 		comp.append(getHiddenInput(id, value));
 
+		String radioid = DyFormBuildHtml.uuid();
 		for (int i = 0; i < v.length; i++) {
 			String key_ = v[i].split("-")[0];
 			String value_ = v[i].split("-")[1];
@@ -519,7 +520,8 @@ public final class DyFormComp {
 			clickscript += "  }\" ";
 			comp.append(value_
 					+ getComp("<input type=\"radio\" ", clickscript + checkstr
-							+ " />", id + "_radio", "", "", "", readonly, ""));
+							+ " />", id + "_radio" + radioid, "", "", "",
+							readonly, ""));
 			comp.append(" ");
 		}
 
@@ -594,7 +596,7 @@ public final class DyFormComp {
 		String checkstr = "";
 
 		comp.append(getHiddenInput(id, value));
-
+		String radioid = DyFormBuildHtml.uuid();
 		if ("1".equals(value)) {
 			checkstr = " checked=\"checked\" ";
 		} else {
@@ -608,8 +610,8 @@ public final class DyFormComp {
 		clickscript += "  }\" ";
 
 		comp.append(getComp("<input type=\"radio\" value=1 ", clickscript
-				+ checkstr + " />", id + "_radio", "", style, classname,
-				readonly, "")
+				+ checkstr + " />", id + "_radio" + radioid, "", style,
+				classname, readonly, "")
 				+ "Õæ");
 		comp.append(" ");
 
@@ -625,8 +627,8 @@ public final class DyFormComp {
 		clickscript += "   o.val(0);";
 		clickscript += "  }\" ";
 		comp.append(getComp("<input type=\"radio\" value=0 ", clickscript
-				+ checkstr + " />", id + "_radio", "", style, classname,
-				readonly, "")
+				+ checkstr + " />", id + "_radio" + radioid, "", style,
+				classname, readonly, "")
 				+ "¼Ù");
 		return comp.toString();
 	}

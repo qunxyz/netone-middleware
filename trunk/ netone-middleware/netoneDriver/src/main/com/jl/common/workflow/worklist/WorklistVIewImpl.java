@@ -513,11 +513,12 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 //System.out.println("list_sql="+loadworklist);
 		}
 		List list = new ArrayList();
-		if(SecurityEntry.iv().permission(clientId, naturalname_detail)){
-			list=wfview.coreSqlview(loadworklist_detail);
-		}else{
-			list=wfview.coreSqlview(loadworklist);
-		}
+		list=wfview.coreSqlview(loadworklist);
+//		if(SecurityEntry.iv().permission(clientId, naturalname_detail)){
+//			list=wfview.coreSqlview(loadworklist_detail);
+//		}else{
+//			
+//		}
 		// 获得所有许可的活动实例和相关变量信息构造TWfWorklistExt对象返回
 		List listWorklist = new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {

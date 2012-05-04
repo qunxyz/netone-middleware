@@ -9,7 +9,8 @@
 	<settings cacheModelsEnabled="true" enhancementEnabled="true"
 		lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="32"
 		maxSessions="10" maxTransactions="5" useStatementNamespaces="true" />
-	
+	<sqlMap resource="com/jl/entity/xml/Area.xml" />
+	<sqlMap resource="com/jl/entity/xml/Map.xml" />	
 	<sqlMap resource="com/jl/entity/xml/Client.xml" />
 	<sqlMap resource="com/jl/entity/xml/Log.xml" />
 	<sqlMap resource="com/jl/entity/xml/Department.xml" />

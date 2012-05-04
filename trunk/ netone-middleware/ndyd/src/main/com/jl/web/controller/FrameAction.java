@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import oe.midware.workflow.runtime.ormobj.TWfRuntime;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
+import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import oe.serialize.dao.PageInfo;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,6 +37,7 @@ import com.jl.common.dyform.DyFormData;
 import com.jl.common.resource.Resource;
 import com.jl.common.resource.ResourceNode;
 import com.jl.common.security3a.Client3A;
+import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfActivePass;
 import com.jl.common.workflow.TWfParticipant;
@@ -47,6 +49,13 @@ import com.sun.org.apache.commons.beanutils.BeanUtils;
 
 public class FrameAction extends AbstractAction {
 
+	public ActionForward portalView(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		loadAccordtree(mapping, form, request, response);
+		return mapping.findForward("portalView");
+	}
+	
 	public ActionForward onMainView(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -1778,5 +1787,35 @@ public class FrameAction extends AbstractAction {
 		return mapping.findForward("onContractMgr");
 	}
 
+	// º”‘ÿ ÷∑Á«Ÿ ˜HTML
+	private void loadAccordtree(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String naturalurl = request.getParameter("naturalurl");
+		List<Map<String, String>> jsonList = new ArrayList<Map<String, String>>();
+		User user = getOnlineUser(request);
+		String usercode = user.getUserCode();
+		List<UmsProtectedobject> list = FrameResource.findByPId(naturalurl,
+				usercode);
+		for (UmsProtectedobject umsProtectedobject : list) {
 
+			boolean perm = SecurityEntry.iv().permission(usercode,
+					umsProtectedobject.getNaturalname());
+
+			if (perm) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("title", umsProtectedobject.getName());
+				map.put("json", FrameResource.buildRootTreeRelation(
+						umsProtectedobject.getNaturalname(), true, false,
+						usercode));
+
+				jsonList.add(map);
+			}
+		}
+
+		String html = DyFormComp.getEasyuiAccordionTree(jsonList);
+		request.setAttribute("accordhtml", html);
+	}
+
+	
 }

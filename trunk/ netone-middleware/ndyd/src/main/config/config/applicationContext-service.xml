@@ -101,4 +101,21 @@
 			<ref bean="commonDAOMirror" />
 		</property>
 	</bean>
+	
+	
+	<!-- 地图 -->
+	<bean id="mapService"
+		class="com.jl.service.impl.MapServiceImpl">
+		<property name="commonDAO">
+			<ref bean="commonDAO" />
+		</property>
+	</bean>
+	  <!-- 行政区域管理 -->
+	  <bean id="areaService"
+			class="com.jl.service.impl.AreaServiceImpl">
+			<property name="commonDAO">
+				<ref bean="commonDAO" />
+			</property>
+	  </bean>  
+	
 </beans>

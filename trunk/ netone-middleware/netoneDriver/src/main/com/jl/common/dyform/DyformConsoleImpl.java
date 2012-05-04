@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.workflow.TWfActive;
 
-
 public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	static final String number_c = "/^[-]?([0-9]+)\\.?([0-9]*)$/";
@@ -51,7 +50,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		busx.setTimex((new Timestamp(System.currentTimeMillis()).toString()));
 		busx.setFormcode(formid);
 		String lsh = dy.addData(formid, busx);
-		System.out.println("lsh:"+lsh);
+		System.out.println("lsh:" + lsh);
 		if (StringUtils.isNotEmpty(lsh)) {
 			DyAnalysisXml dayx = new DyAnalysisXml();
 			dayx.script(formid, lsh, "NewSave");
@@ -274,7 +273,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		TCsBus bus = dy.loadData(bussid, formcode);
 		DyFormData data = new DyFormData();
 		BeanUtils.copyProperties(data, bus);
-		if (data != null && !data.getLsh().equals("")) {
+		if (data != null && !"".equals(data.getLsh())) {
 			DyAnalysisXml dayx = new DyAnalysisXml();
 			dayx.script(formcode, bussid, "SelectRead");
 		}
@@ -287,7 +286,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		TCsBus bus = dy.loadData(bussid, formcode);
 		DyFormData data = new DyFormData();
 		BeanUtils.copyProperties(data, bus);
-		if (data != null && !data.getLsh().equals("")) {
+		if (data != null && !"".equals(data.getLsh())) {
 			DyAnalysisXml dayx = new DyAnalysisXml();
 			dayx.script(formcode, bussid, "SelectUpdate");
 		}

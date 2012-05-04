@@ -1073,17 +1073,25 @@ public final class DyFormComp {
 		tinymcescript
 				.append("  media_external_list_url: \"lists/media_list.js\",");
 		tinymcescript.append("  relative_urls: false,");
-		tinymcescript.append("  remove_script_host: true,");
+		tinymcescript.append("  remove_script_host: true");
 		tinymcescript
-				.append("  onchange_callback: function(inst){$(&quot;#&quot;+this.id).siblings(&quot;#"
-						+ id + "&quot;).val(inst.getBody().innerHTML);}");
+				.append(" ,onchange_callback:function(inst){$(\"#\"+this.id).siblings(\"#"
+						+ id + "\").text(inst.getBody().innerHTML);}");
+
+		tinymcescript.append(",setup:function(ed) {");
+		tinymcescript
+				.append("      ed.onKeyDown.add(function(ed, e) {$(\"#\"+this.id).siblings(\"#"
+						+ id + "\").text(ed.getBody().innerHTML);");
+		tinymcescript.append("})}");
+
 		tinymcescript.append("});");
 
 		String s = getTag("<script type=\"text/javascript\">$(function() {",
 				"});</script>", tinymcescript.toString());
 		String mess = "<div style=\"width: 100%;height: 10px;clear: both;overflow: hidden;\"></div><span id=\"contentMessagePosition"
 				+ textareaClassId + "\"></span>";
-		String hiddenInput = getHiddenInput(id, value);
+		String hiddenInput = getComp("<textarea style=\"display:none\" ", " >"
+				+ value + "</textarea>", id, "", "", "", false, "");
 		return hiddenInput
 				+ getComp(
 						"<textarea ",
@@ -1092,8 +1100,8 @@ public final class DyFormComp {
 						"",
 						style,
 						textareaClassId
-								+ " {messagePosition: &quot;#contentMessagePosition"
-								+ textareaClassId + "&quot;}", readonly,
+								+ " {messagePosition: \"#contentMessagePosition"
+								+ textareaClassId + "\"}", readonly,
 						" rows=\"2\" cols=\"20\" " + extvalue) + mess + s;
 	}
 

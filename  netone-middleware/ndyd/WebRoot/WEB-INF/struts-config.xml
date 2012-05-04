@@ -28,6 +28,9 @@
 		
 		<action path="/frame"
 			type="com.jl.web.controller.FrameAction" parameter="method">
+			<forward contextRelative="true" name="portalView"
+				path="/frame/portalmain.jsp">
+			</forward>
 			<forward contextRelative="true" name="onMainView"
 				path="/frame/frameMain.jsp">
 			</forward>
@@ -193,6 +196,17 @@
 			</forward>
 			<forward contextRelative="true" name="moreWorklist" 
 				path="/WEB-INF/jsp/common/moreWorklist.jsp">
+			</forward>
+		</action>
+		
+		<action path="/map" parameter="method"
+			type="com.jl.web.controller.MapAction">
+			<!-- µØÍ¼ -->
+			<forward name="onQMap" contextRelative="true"
+				path="/WEB-INF/jsp/map.jsp">
+			</forward>
+			<forward name="onQMapCoordinatesModify" contextRelative="true"
+				path="/coordinateSet.jsp">
 			</forward>
 		</action>
 		

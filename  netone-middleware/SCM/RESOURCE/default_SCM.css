@@ -195,7 +195,7 @@ html.VIE7 .form_fieldinput
 
 /** */
 #top_nd-header {
-	background: url(/ndyd/script/theme/main/blue/images/first_top.gif) ;
+	background: url(/scm/script/theme/main/blue/images/first_top.gif) ;
 	background-repeat: no-repeat;
 	height: 11px;
 	width: 12px;
@@ -210,7 +210,7 @@ html.VIE7 .form_fieldinput
 	vertical-align:middle; 
 }
 #top_nd-title {
-	background: url(/ndyd/script/theme/main/blue/images/title.gif) ;
+	background: url(/scm/script/theme/main/blue/images/title.gif) ;
 	background-repeat: no-repeat;
 	width: 28px;
 	height: 11px;

@@ -685,9 +685,11 @@ public final class DyFormComp {
 		String checkstr = "";
 		if ("1".equals(value)) {
 			checkstr = " value=1 checked=\"checked\" ";
-		} else {
+		} else if ("0".equals(value)) {
 			checkstr = " value=0 ";
 			value = "0";
+		} else {
+			value = null;
 		}
 		String uuid = DyFormBuildHtml.uuid();
 

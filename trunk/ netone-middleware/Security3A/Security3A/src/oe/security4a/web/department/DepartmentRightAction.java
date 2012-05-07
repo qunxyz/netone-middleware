@@ -37,6 +37,10 @@ public class DepartmentRightAction extends Action {
 			OnlineUser oluser = olmgr.getOnlineUser(request);
 			String code =oluser.getBelongto();
 			
+			if(!"adminx".equals(oluser.getLoginname())){
+				return null;
+			}
+			
 			ResourceRmi rmi = (ResourceRmi) RmiEntry.iv("resource");
 			String id = request.getParameter("id");
 			UmsProtectedobject upo = rmi.loadResourceById(id);

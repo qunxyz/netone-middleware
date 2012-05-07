@@ -2,7 +2,10 @@ package oe.mid.netone.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,17 +51,31 @@ public class workflowSvl extends HttpServlet {
 			model="0";
 		}
 		String sqlStr=null;
+		String jsonString=null;
+		List list1=new ArrayList();
 		 if(model.equals("0")){
 			 String naturalname=request.getParameter("naturalname");
-			 sqlStr="SELECT NAME,id FROM  netone.ums_protectedobject WHERE parentdir = (SELECT id " +
+			 sqlStr="SELECT name,id,naturalname FROM  netone.ums_protectedobject WHERE parentdir = (SELECT id " +
 			 		"FROM netone.ums_protectedobject WHERE naturalname = '"+naturalname+"')";
 		 }
 		 if(model.equals("1")){
 			 String parentdir =request.getParameter("parentdir");
-			 sqlStr="select naturalname,name,id,actionurl from netone.ums_protectedobject where parentdir='"+parentdir+"'  LIMIT 20";
+			 sqlStr="select name,actionurl,naturalname from netone.ums_protectedobject where parentdir='"+parentdir+"'  LIMIT 20";
 		 }
 		List list=DbTools.queryData(sqlStr);
-		String jsonString=JSONArray.fromObject(list).toString();
+		if(model.equals("1")){
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				Map map = (Map)iterator.next();
+				String url=(String) map.get("actionurl");
+				String [] strarr= url.split("&appname=");
+				map.put("appname", strarr[1]);
+				map.remove("actionurl");
+				list1.add(map);
+			} 
+			jsonString=JSONArray.fromObject(list1).toString();
+		}else{
+			jsonString=JSONArray.fromObject(list).toString();
+		}
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().print(jsonString);
 	}

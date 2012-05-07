@@ -15,6 +15,7 @@ import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.derby.tools.sysinfo;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -74,8 +75,9 @@ public class DyAnalysisXml {
 					script = dealWithScrpit(script, "fatherlsh", fatherNode);
 					script = dealWithScrpit(script, "formcode", formid);
 				}
-
+               if(StringUtils.isNotEmpty(script)){
 				return ScriptTools.todo(script);
+               }
 			}
 		}
 		return "";

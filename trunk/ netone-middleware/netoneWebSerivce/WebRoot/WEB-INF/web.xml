@@ -25,7 +25,44 @@
     <servlet-name>workflowSvl</servlet-name>
     <servlet-class>oe.mid.netone.web.workflowSvl</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>worklistSvl</servlet-name>
+    <servlet-class>oe.mid.netone.web.worklistSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>workcountSvl</servlet-name>
+    <servlet-class>oe.mid.netone.web.workcountSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Photograph</servlet-name>
+    <servlet-class>oe.mid.netone.web.Photograph</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>QueryTime</servlet-name>
+    <servlet-class>oe.mid.netone.web.QueryTime</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UploadFileAction</servlet-name>
+    <servlet-class>oe.mid.netone.web.UploadFileAction</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DyformTestSvl</servlet-name>
+    <servlet-class>oe.mid.netone.web.DyformTestSvl</servlet-class>
+  </servlet>
 
+ 
     <!-- json 手机上使用的 我的代办-->
   <servlet-mapping>
     <servlet-name>MyframeSvl</servlet-name>
@@ -41,4 +78,35 @@
     <servlet-name>workflowSvl</servlet-name>
     <url-pattern>/workflowSvl</url-pattern>
   </servlet-mapping>
+   <!-- json 手机上使用的  流程上代办工单、已处理工单、已办结工单、所有工单-->
+  <servlet-mapping>
+    <servlet-name>worklistSvl</servlet-name>
+    <url-pattern>/worklistSvl</url-pattern>
+  </servlet-mapping>
+  <!-- json 手机上使用的  流程上代办工单、已处理工单、已办结工单、所有工单 总数-->
+  <servlet-mapping>
+    <servlet-name>workcountSvl</servlet-name>
+    <url-pattern>/workcountSvl</url-pattern>
+  </servlet-mapping>
+  <!-- json 手机上使用的  上传图片和保存经纬度 -->
+  <servlet-mapping>
+    <servlet-name>Photograph</servlet-name>
+    <url-pattern>/photograph</url-pattern>
+  </servlet-mapping>
+    <!-- json 手机上使用的   根据时间数据查询经纬度 -->
+  <servlet-mapping>
+    <servlet-name>QueryTime</servlet-name>
+    <url-pattern>/querytime</url-pattern>
+  </servlet-mapping>
+   <!-- json 手机上使用的   手机上传图片的Action -->
+  <servlet-mapping>
+    <servlet-name>UploadFileAction</servlet-name>
+    <url-pattern>/uploadfileAction</url-pattern>
+  </servlet-mapping>
+    <!-- json 手机上使用的   根据id 获取创建一条表单记录并返回lsh-->
+  <servlet-mapping>
+    <servlet-name>DyformTestSvl</servlet-name>
+    <url-pattern>/dyformtestSvl</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

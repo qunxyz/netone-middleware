@@ -398,6 +398,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		if (StringUtils.isEmpty(condition)) {
 			condition = " order by timex";
 		}
+		if (StringUtils.isEmpty(bus.getFatherlsh())) {
+			return new ArrayList();
+		}
 		List list = dy.queryData(bux, form, to, condition);
 
 		if (list == null || list.size() == 0) {

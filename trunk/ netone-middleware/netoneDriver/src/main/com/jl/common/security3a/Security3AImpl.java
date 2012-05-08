@@ -459,23 +459,13 @@ public final class Security3AImpl implements Security3AIfc {
 				if (isflowrole) {
 					// 流程角色
 					addUserWhenIsSameDept(but, list, deptinfo);
-					if (but.length() == 0 && list.size() > 0) {
-						// 如果当前部门没有人员，那么系统自动往上一级部门查找
-						String parentid = rs.loadResourceById(deptinfo)
-								.getParentdir();
-						addUserWhenIsSameDept(but, list, parentid);
-					}
-					if (but.length() == 0 && list.size() > 0) {
-						// 如果当前部门没有人员，那么系统自动往上一级部门查找
-						String parentid = rs.loadResourceById(deptinfo)
-								.getParentdir();
-						addUserWhenIsSameDept(but, list, parentid);
-					}
-					if (but.length() == 0 && list.size() > 0) {
-						// 如果当前部门没有人员，那么系统自动往上一级部门查找
-						String parentid = rs.loadResourceById(deptinfo)
-								.getParentdir();
-						addUserWhenIsSameDept(but, list, parentid);
+					if(list.size()>0&&but.length()==0){
+						for(int j=0;j<5;j++){
+						// 橫向縱向掃描
+							if(but.length()==0){
+								deptinfo=nextMen(but,list,deptinfo,rs);
+							}
+						}
 					}
 				} else {
 					// 静态角色
@@ -485,10 +475,44 @@ public final class Security3AImpl implements Security3AIfc {
 				// 如果没有提供当前登录者，系统默认按照静态角色来处理
 				addUser(but, list);
 			}
-
 		}
 
 		return but.toString();
+	}
+	
+	private String nextMen(StringBuffer but,List user,String dept,ResourceRmi rs){
+		// 如果当前部门没有人员，那橫向掃描部門
+		UmsProtectedobject upopar=null;
+		try {
+			upopar = rs.loadResourceById(dept);
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String parentid = upopar.getParentdir();
+		String parentName=null;
+		try {
+			parentName = rs.loadResourceById(parentid).getNaturalname();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+			if(StringUtils.split(parentName,'.').length>=4){//不能超出顶级区域 dept.dept.宁德移动.顶级区域
+				List depts=new ArrayList();
+				try {
+					depts = rs.subResource(parentid);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				for (Iterator iterator = depts.iterator(); iterator
+						.hasNext();) {
+					UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+					addUserWhenIsSameDept(but, user, object.getNaturalname());
+				}
+			}
+				return parentid;
+
 	}
 
 	private void addUser(StringBuffer but, List list) {
@@ -500,6 +524,9 @@ public final class Security3AImpl implements Security3AIfc {
 
 	private void addUserWhenIsSameDept(StringBuffer but, List list,
 			String deptinfo) {
+		if(StringUtils.split(deptinfo,'.').length<4){
+			return;
+		}
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Clerk clerk = (Clerk) iterator.next();
 			if (!deptinfo.equals(clerk.getDeptment())) {
@@ -750,4 +777,6 @@ public final class Security3AImpl implements Security3AIfc {
 		
 		return this.permission(clientid, name);
 	}
+
+
 }

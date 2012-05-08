@@ -37,6 +37,8 @@ public interface AppHandleIfc {
 	// 提交者
 	String _PARTICIPANT_MODE_CREATER = "creater";
 	String _PARTICIPANT_MODE_FLOWROLECREATER="flowrolecreater";
+	String _PARTICIPANT_MODE_FLOWROLECREATER_AREA="flowrolecreaterarea";
+	String _PARTICIPANT_MODE_FLOWROLE_AREA="flowrolearea";
 
 	/**
 	 * 装载应用

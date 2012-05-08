@@ -1793,24 +1793,14 @@ public class FrameAction extends AbstractAction {
 			throws Exception {
 		String naturalurl = request.getParameter("naturalurl");
 		List<Map<String, String>> jsonList = new ArrayList<Map<String, String>>();
-		User user = getOnlineUser(request);
-		String usercode = user.getUserCode();
-		List<UmsProtectedobject> list = FrameResource.findByPId(naturalurl,
-				usercode);
+		List<UmsProtectedobject> list = FrameResource.findByPId(naturalurl);
 		for (UmsProtectedobject umsProtectedobject : list) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("title", umsProtectedobject.getName());
+			map.put("json", FrameResource.buildRootTreeRelation(
+					umsProtectedobject.getNaturalname(), true, false));
 
-			boolean perm = SecurityEntry.iv().permission(usercode,
-					umsProtectedobject.getNaturalname());
-
-			if (perm) {
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("title", umsProtectedobject.getName());
-				map.put("json", FrameResource.buildRootTreeRelation(
-						umsProtectedobject.getNaturalname(), true, false,
-						usercode));
-
-				jsonList.add(map);
-			}
+			jsonList.add(map);
 		}
 
 		String html = DyFormComp.getEasyuiAccordionTree(jsonList);

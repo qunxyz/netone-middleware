@@ -480,14 +480,14 @@ public final class DyFormBuildHtmlExt {
 			}
 			return DyFormComp.getSelectText(value, selectedvalue);
 		} else if (arr[8][0].equals(htmltype)) {// 11:列表信息K-V
-			// if ("ext".equals(type)) {
-			// return DyFormComp.getJsSelectTextKV(value, selectedvalue);
-			// }
-			// return DyFormComp.getSelectTextKV(value, selectedvalue);
 			if ("ext".equals(type)) {
-				return null;
+				return DyFormComp.getJsSelectTextKV(value, selectedvalue);
 			}
-			return value;
+			return DyFormComp.getSelectTextKV(value, selectedvalue);
+			// if ("ext".equals(type)) {
+			// return null;
+			// }
+			// return value;
 		} else if (arr[9][0].equals(htmltype)) {// 12:IP地址
 			if ("ext".equals(type)) {
 				return null;
@@ -581,7 +581,8 @@ public final class DyFormBuildHtmlExt {
 		} else if (arr[26][0].equals(htmltype)) {// 29:URL
 			if ("ext".equals(type)) {
 				String columnid = value;
-				DyFormComp.getJsGroupRadioTextKV(columnid, selectedvalue);
+				return DyFormComp
+						.getJsGroupRadioTextKV(columnid, selectedvalue);
 			}
 			return DyFormComp.getGroupRadioTextKV(value, selectedvalue);
 		} else if (arr[27][0].equals(htmltype)) {// 31:真假radio
@@ -2482,7 +2483,7 @@ public final class DyFormBuildHtmlExt {
 			if (hidden == false) {
 				String ext = routeAppointValue(_qc1.getViewtype(), columnid,
 						_qc1.getValuelist(), "ext");// 扩展脚本控制
-				ext = null;
+				//ext = null;
 
 				String musktip = _qc1.isMusk_() == true ? "<span style=\"color:red\">*</span>"
 						: "";

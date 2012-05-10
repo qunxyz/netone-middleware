@@ -64,49 +64,55 @@ public class DyFormCopySvl extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String formid= (String) request.getParameter("formcode");//获取要复制的formcode
-		String pagepath = (String)request.getParameter("pagepath");
-		
-		DyFormDesignService dys=null;
-		DyFormService dysc=null;
+
+		String formid = (String) request.getParameter("formcode");// 获取要复制的formcode
+		String pagepath = (String) request.getParameter("pagepath");
+
+		DyFormDesignService dys = null;
+		DyFormService dysc = null;
 		try {
-			 //获取对象
-			 dys = (DyFormDesignService) RmiEntry.iv("dydesign");
-			 dysc = (DyFormService) RmiEntry.iv("dyhandle");
+			// 获取对象
+			dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+			dysc = (DyFormService) RmiEntry.iv("dyhandle");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		List list =dysc.fetchColumnList(formid);
-		TCsForm tcf =dysc.loadForm(formid);
-		
-		
-		String datastr []=dys.create(tcf, pagepath);
+		List list = dysc.fetchColumnList(formid);
+		TCsForm tcf = dysc.loadForm(formid);
 
-		
+		TCsForm busForm = dysc.loadForm(formid);
+		String tablename = busForm.getTablename();
+
+		String datastr[] = dys.create(tcf, pagepath);
+
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsColumn object = (TCsColumn) iterator.next();
 			object.setFormcode(datastr[1]);
- 		 	if(object.getColumnid().equalsIgnoreCase("belongx")
- 					||   object.getColumnid().equalsIgnoreCase("timex")){
+			if (object.getColumnid().equalsIgnoreCase("belongx")
+					|| object.getColumnid().equalsIgnoreCase("timex")) {
 				dys.updateColumn(object);
- 		 	}else{
+			} else {
 				dys.addColumn(object);
- 		 	}
+			}
 		}
-		//创建资源信息
+		// 创建资源信息
 		ResourceRmi rsrmi = null;
 		try {
-			rsrmi =(ResourceRmi)RmiEntry.iv("resource");
+			rsrmi = (ResourceRmi) RmiEntry.iv("resource");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-	
-		UmsProtectedobject upo = rsrmi.loadResourceByNatural(pagepath+"."+datastr[0]);
-		upo.setName(upo.getName()+"-复制");
 
+		UmsProtectedobject upobj = rsrmi.loadResourceByNatural(pagepath + "."
+				+ tablename);
+
+		UmsProtectedobject upo = rsrmi.loadResourceByNatural(pagepath + "."
+				+ datastr[0]);
+		upo.setName(upo.getName() + "-复制");
+		upo.setActionurl(upobj.getActionurl());
 		rsrmi.updateResource(upo);
-		
+
 		WebTip.htmlInfo("OK", true, true, response);
 	}
 

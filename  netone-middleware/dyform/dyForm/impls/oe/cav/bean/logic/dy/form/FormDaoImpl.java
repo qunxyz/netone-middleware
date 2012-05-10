@@ -151,26 +151,36 @@ public class FormDaoImpl implements FormDao {
 						belongname = "BUSSFORM.BUSSFORM";
 					}
 					rsrmi.addResource(upo, belongname);
+					
+					String [][]ope_role={{"add","新增"},{"modi","修改"},{"conf","确认"},{"uconf","反确认"},{"que","查询"}};
+					for (int i = 0; i < ope_role.length; i++) {
+						UmsProtectedobject upo1 = new UmsProtectedobject();
+						upo1.setNaturalname(ope_role[i][0]);
+						upo1.setName(ope_role[i][1]);
+						upo1.setActionurl("");
+						upo1.setObjecttype("DYFROM");
+						rsrmi.addResource(upo1, belongname+"."+tcf.getDescription());
+					}
 
-					// 在注册一个到页中,用于管理所有的表单记录
-					UmsProtectedobject upo1 = new UmsProtectedobject();
-					upo1.setNaturalname(tcf.getDescription());
-					upo1.setName(tcf.getFormname());
-					upo1.setActionurl("");
-					upo1.setInclusion("1");// 是目录
-					upo1.setExtendattribute(tcf.getFormcode());
-					upo1.setObjecttype("DYFROM");
-					rsrmi.addResource(upo1, "PORTALPG.PORTALPG.DYFORM");
-
-					// 在注册一个到多彩文档中,用于管理所有的表单记录
-					UmsProtectedobject upo2 = new UmsProtectedobject();
-					upo2.setNaturalname(tcf.getDescription());
-					upo2.setName(tcf.getFormname());
-					upo2.setActionurl("");
-					upo2.setInclusion("1");// 是目录
-					upo2.setExtendattribute(tcf.getFormcode());
-					upo2.setObjecttype("DYFROM");
-					rsrmi.addResource(upo2, "FCK.FCK.DYFORM");
+//					// 在注册一个到页中,用于管理所有的表单记录
+//					UmsProtectedobject upo1 = new UmsProtectedobject();
+//					upo1.setNaturalname(tcf.getDescription());
+//					upo1.setName(tcf.getFormname());
+//					upo1.setActionurl("");
+//					upo1.setInclusion("1");// 是目录
+//					upo1.setExtendattribute(tcf.getFormcode());
+//					upo1.setObjecttype("DYFROM");
+//					rsrmi.addResource(upo1, "PORTALPG.PORTALPG.DYFORM");
+//
+//					// 在注册一个到多彩文档中,用于管理所有的表单记录
+//					UmsProtectedobject upo2 = new UmsProtectedobject();
+//					upo2.setNaturalname(tcf.getDescription());
+//					upo2.setName(tcf.getFormname());
+//					upo2.setActionurl("");
+//					upo2.setInclusion("1");// 是目录
+//					upo2.setExtendattribute(tcf.getFormcode());
+//					upo2.setObjecttype("DYFROM");
+//					rsrmi.addResource(upo2, "FCK.FCK.DYFORM");
 
 				} catch (NotBoundException e) {
 					e.printStackTrace();

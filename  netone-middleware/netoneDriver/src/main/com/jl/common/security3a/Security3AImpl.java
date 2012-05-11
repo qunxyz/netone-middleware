@@ -455,15 +455,19 @@ public final class Security3AImpl implements Security3AIfc {
 			List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
 			if (StringUtils.isNotEmpty(commiter)) {
 				Client3A curUser = this.loadUser(commiter);
-				String deptinfo = curUser.getBelongto();
+				String deptid = curUser.getBelongto();
 				if (isflowrole) {
 					// 流程角色
-					addUserWhenIsSameDept(but, list, deptinfo);
+					String deptname=rs.loadResourceById(deptid).getNaturalname();
+					addUserWhenIsSameDept(but, list, deptid,deptname);
 					if(list.size()>0&&but.length()==0){
 						for(int j=0;j<5;j++){
 						// 橫向縱向掃描
 							if(but.length()==0){
-								deptinfo=nextMen(but,list,deptinfo,rs);
+								deptid=nextMen(but,list,deptid,rs);
+								if(StringUtils.isEmpty(deptid)){
+									break;
+								}
 							}
 						}
 					}
@@ -508,10 +512,13 @@ public final class Security3AImpl implements Security3AIfc {
 				for (Iterator iterator = depts.iterator(); iterator
 						.hasNext();) {
 					UmsProtectedobject object = (UmsProtectedobject) iterator.next();
-					addUserWhenIsSameDept(but, user, object.getNaturalname());
+					addUserWhenIsSameDept(but, user, object.getId(),object.getNaturalname());
 				}
-			}
 				return parentid;
+			}else{
+				return "";
+			}
+				
 
 	}
 
@@ -523,16 +530,16 @@ public final class Security3AImpl implements Security3AIfc {
 	}
 
 	private void addUserWhenIsSameDept(StringBuffer but, List list,
-			String deptinfo) {
-		if(StringUtils.split(deptinfo,'.').length<4){
+			String deptid,String deptname) {
+		if(StringUtils.split(deptname,'.').length<4){
 			return;
 		}
+
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Clerk clerk = (Clerk) iterator.next();
-			if (!deptinfo.equals(clerk.getDeptment())) {
-				continue;
+			if (deptid.equals(clerk.getDeptment())) {
+				but.append(clerk.getName() + "[" + clerk.getDescription() + "],");
 			}
-			but.append(clerk.getName() + "[" + clerk.getDescription() + "],");
 		}
 	}
 

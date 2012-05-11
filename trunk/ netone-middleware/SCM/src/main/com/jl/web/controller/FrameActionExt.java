@@ -600,11 +600,11 @@ public class FrameActionExt extends AbstractAction {
 		load(mapping, form, request, response, isedit, ispermission, false);
 		return mapping.findForward("onEditView");
 	}
-	
-	//打印
-	public ActionForward onPrintViewMain(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+
+	// 打印
+	public ActionForward onPrintViewMain(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		String naturalname = request.getParameter("naturalname");
 		String excel = request.getParameter("excel");
 		AppObj app = AppEntry.iv().loadApp(naturalname);
@@ -623,14 +623,14 @@ public class FrameActionExt extends AbstractAction {
 		ispermission = pmap.get("ispermission");
 
 		load(mapping, form, request, response, isedit, ispermission, true);
-		
-		if ("1".equals(excel)){
+
+		if ("1".equals(excel)) {
 			return mapping.findForward("onPrintExcelView");
 		} else {
 			return mapping.findForward("onPrintView");
 		}
 	}
-	
+
 	// 表单预览
 	public ActionForward onPreviewMain(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -1313,7 +1313,9 @@ public class FrameActionExt extends AbstractAction {
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("htmltitleinfo", dyform.getHtmltitleinfo_());
-
+		TWfWorklist wlx = bean;
+		TWfActive active = WfEntry.iv().loadRuntimeActive(wlx.getProcessid(),
+				wlx.getActivityid(), naturalname, "", wlx.getRuntimeid());
 		if (chooseFlag.equals("0")) {
 
 			// 获得所有的下一步节点
@@ -1359,10 +1361,6 @@ public class FrameActionExt extends AbstractAction {
 					}
 				}
 				// 判断存在归档按钮 显示归档按钮
-				TWfWorklist wlx = WfEntry.iv().loadWorklist(workcode);
-				TWfActive active = WfEntry.iv().loadRuntimeActive(
-						wlx.getProcessid(), wlx.getActivityid(), naturalname,
-						"", wlx.getRuntimeid());
 				boolean isfirst = WfEntry.iv().loadProcess(wlx.getProcessid())
 						.getActivity(wlx.getActivityid()).isStartActivity();
 				// 是否是创建者
@@ -1397,10 +1395,6 @@ public class FrameActionExt extends AbstractAction {
 				result.addAll(listTrackAction2("0"));
 			}
 			// 判断分布式提交
-			TWfWorklist wlx = WfEntry.iv().loadWorklist(workcode);
-			TWfActive active = WfEntry.iv().loadRuntimeActive(
-					wlx.getProcessid(), wlx.getActivityid(), naturalname, "",
-					wlx.getRuntimeid());
 			// 1 start
 			if (active.isSyncto()) {
 				if ((filteractiveids == null || "".equals(filteractiveids) || FrameService.trackActionSpecialType3

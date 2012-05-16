@@ -409,12 +409,11 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				"", null, opemode, actid, actname);
 	}
 
-	private void specifyOperateByWorkcode(String commiter, String workcode,
+	private void specifyOperateByWorkcode(String uuid,String commiter, String workcode,
 			String participant, String types, boolean sync, String ext,
 			String status, String opemode, String actid, String actname)
 			throws Exception {
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
-		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 		String usercode = StringUtils.substringBetween(participant, "[", "]");
 		String username = StringUtils.substringBefore(participant, "[");
 		String commitercode = StringUtils.substringBetween(commiter, "[", "]");
@@ -467,6 +466,14 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			this.pendingProcess(wok.getRuntimeid());
 		}
 
+	}
+	
+	private void specifyOperateByWorkcode(String commiter, String workcode,
+			String participant, String types, boolean sync, String ext,
+			String status, String opemode, String actid, String actname)
+			throws Exception {
+		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		this.specifyOperateByWorkcode(uuid, commiter, workcode, participant, types, sync, ext, status, opemode, actid, actname);
 	}
 
 	private void addWorklistExtInfo(String workcode, String info)
@@ -553,7 +560,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		String actid = worklist.getActivityid();
 		String actname = this.loadProcess(worklist.getProcessid()).getActivity(
 				actid).getName();
-		specifyOperateByWorkcode(commiter, workcode, participant, types, false,
+		
+		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		specifyOperateByWorkcode(uuid,commiter, workcode, participant, types, false,
 				"", null, opemode, actid, actname);
 		
 		
@@ -567,8 +576,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			auditnode = (String) list.get(0).get("auditnode");
 		
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
-		String sql_done = "update t_wf_participant set statusnow='02',auditnode='" + auditnode
-				+ "' where types='04' and statusnow!='02' and usercode='normaluser' and workcode='"
+		String time=(new Timestamp(System.currentTimeMillis())).toString();
+		String sql_done = "update t_wf_participant set statusnow='02',donetime='"+time+"',auditnode='" + auditnode
+				+ "' where lsh='"+uuid+"' and types='04' and statusnow!='02' and usercode='normaluser' and workcode='"
 				+ workcode + "'";
 		console.coreSqlhandle(sql_done);
 
@@ -610,7 +620,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 	public List<TWfParticipant> listAllParticipantinfo(String runtimeid)
 			throws Exception {
 		String sql = "select * from t_wf_participant where workcode in (select workcode from t_wf_worklist where runtimeid='"
-				+ runtimeid + "') order by createtime";
+				+ runtimeid + "') and statusnow='02' order by createtime";
 		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
 		List list = wfview.coreSqlview(sql);
 		List listrt = new ArrayList();
@@ -845,8 +855,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				+ "' where usercode='" + participant + "' and workcode='"
 				+ workcode + "'";
 		console.coreSqlhandle(sql_done);
-
 	}
+	
+	
 
 	public List<TWfWorklistExt> worklistDoneAndProcessDone(String customer)
 			throws Exception {

@@ -13,7 +13,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import oe.bi.common.StringUtil;
 import oe.env.client.EnvService;
 import oe.frame.web.WebCache;
 import oe.midware.workflow.service.WorkflowView;

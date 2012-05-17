@@ -72,11 +72,11 @@ public final class CuibangSvl extends HttpServlet {
 				String noticetitle = revtemp != null ? revtemp.getValuenow()
 						: "";
 
-				String context = "电子工作流平台催办提醒：您在新版电子工作流平台有待办任务.文件标题:" + noticetitle
-						+ ", 发送人:" + username + " 请尽快登陆10.51.176.5处理";
+				String context = "电子工作流平台催办提醒：您在新版电子工作流平台有待办任务.文件标题:" + noticetitle;
 				request.setAttribute("context", context);
 				request.setAttribute("workcode", workcode);
-
+				request.setAttribute("username", ", 发送人:" + username + " 请尽快登陆10.51.176.5处理");
+				request.setAttribute("usernamex",username);
 				// 获得所有 可被催办的对象信息
 				StringBuffer butx = new StringBuffer();
 				String runtimeid = WfEntry.iv().loadWorklist(workcode)
@@ -105,6 +105,9 @@ public final class CuibangSvl extends HttpServlet {
 
 			} else {
 				String context = request.getParameter("context");
+				String usernamex=request.getParameter("username");
+
+				context=context+usernamex;
 				String runtimeid = WfEntry.iv().loadWorklist(workcode)
 						.getRuntimeid();
 				List listx = WfEntry.iv().listAllRunningWorklistByRuntimeid(

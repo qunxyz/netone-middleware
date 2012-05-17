@@ -461,15 +461,7 @@ public final class Security3AImpl implements Security3AIfc {
 					String deptname=rs.loadResourceById(deptid).getNaturalname();
 					addUserWhenIsSameDept(but, list, deptid,deptname);
 					if(list.size()>0&&but.length()==0){
-						for(int j=0;j<5;j++){
-						// 橫向縱向掃描
-							if(but.length()==0){
-								deptid=nextMen(but,list,deptid,rs);
-								if(StringUtils.isEmpty(deptid)){
-									break;
-								}
-							}
-						}
+						continue;// 如果配置了2个以上的角色保证每个角色先找一次，在最近的范围内
 					}
 				} else {
 					// 静态角色
@@ -480,7 +472,54 @@ public final class Security3AImpl implements Security3AIfc {
 				addUser(but, list);
 			}
 		}
-
+		
+		if(isflowrole&&but.length()==0){// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次
+			for (int i = 0; i < roleid.length; i++) {
+				String partCoreCode = StringUtils.substringBetween(roleid[i], "[",
+				"]");
+				List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
+				Client3A curUser = this.loadUser(commiter);
+				String deptid = curUser.getBelongto();
+				nextMen(but,list,deptid,rs);
+			}
+		}
+		
+		if(isflowrole&&but.length()==0){// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次，并且往上一级再做横向搜索
+			for (int i = 0; i < roleid.length; i++) {
+				String partCoreCode = StringUtils.substringBetween(roleid[i], "[",
+				"]");
+				List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
+				Client3A curUser = this.loadUser(commiter);
+				String deptid = curUser.getBelongto();
+				for(int j=0;j<2;j++){//保证每个角色横向搜索一次，并且往上一级再做横向搜索 该写法有重复上面的搜索将来需要改进
+					// 橫向縱向掃描
+							deptid=nextMen(but,list,deptid,rs);
+							if(StringUtils.isEmpty(deptid)){
+								break;
+							}
+					}
+				
+			}
+		}
+		
+		if(isflowrole&&but.length()==0){
+			for (int i = 0; i < roleid.length; i++) {
+				String partCoreCode = StringUtils.substringBetween(roleid[i], "[",
+				"]");
+				List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
+				Client3A curUser = this.loadUser(commiter);
+				String deptid = curUser.getBelongto();
+				for(int j=0;j<3;j++){
+					// 橫向縱向掃描
+							deptid=nextMen(but,list,deptid,rs);
+							if(StringUtils.isEmpty(deptid)){
+								break;
+							}
+					}
+				
+			}
+		}
+		
 		return but.toString();
 	}
 	

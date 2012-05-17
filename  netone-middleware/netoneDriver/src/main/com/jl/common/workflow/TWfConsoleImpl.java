@@ -617,10 +617,14 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		return wfview.fetchDoneWorklist(runtimeid);
 	}
 
-	public List<TWfParticipant> listAllParticipantinfo(String runtimeid)
+	public List<TWfParticipant> listAllParticipantinfo(String runtimeid,boolean onlyDone)
 			throws Exception {
+		String extcondition="";
+		if(onlyDone){
+			extcondition=" and statusnow='02' ";
+		}
 		String sql = "select * from t_wf_participant where workcode in (select workcode from t_wf_worklist where runtimeid='"
-				+ runtimeid + "') and statusnow='02' order by createtime";
+				+ runtimeid + "')"+extcondition+"  order by donetime";
 		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
 		List list = wfview.coreSqlview(sql);
 		List listrt = new ArrayList();
@@ -853,7 +857,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
 		String sql_done = "update t_wf_participant set auditnode='" + note
 				+ "' where usercode='" + participant + "' and workcode='"
-				+ workcode + "'";
+				+ workcode + "' and statusnow='01'";
 		console.coreSqlhandle(sql_done);
 	}
 	
@@ -1610,6 +1614,11 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		if (StringUtils.isNotEmpty(workcode)) {
 			String actid = this.loadWorklist(workcode).getActivityid();
 			String processid = this.loadWorklist(workcode).getProcessid();
+			System.out.println("--------------------------------------");
+			System.out.println("actid:"+this.loadWorklist(workcode).getActivityid());
+			System.out.println("processid:"+processid);
+			System.out.println("1111:"+this.loadProcess(processid).getActivity(actid).getName());
+			System.out.println("--------------------------------------");
 			return this.loadProcess(processid).getActivity(actid).getName();
 		}
 		if (StringUtils.isEmpty(appid)) {
@@ -1674,5 +1683,6 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		}
 
 	}
+
 
 }

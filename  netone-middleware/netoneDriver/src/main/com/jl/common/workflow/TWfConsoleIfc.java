@@ -520,6 +520,7 @@ public interface TWfConsoleIfc {
 	public void saveAuditNote(String workcode, String participant, String note)
 			throws Exception;
 
+	
 	/**
 	 * 装载活动
 	 * 
@@ -567,10 +568,11 @@ public interface TWfConsoleIfc {
 	 * 获得所有流程办理信息
 	 * 
 	 * @param runtimeid
+	 * @param onlyDone  是否仅显示所有已经完成的
 	 * @return
 	 * @throws Exception
 	 */
-	public List<TWfParticipant> listAllParticipantinfo(String runtimeid)
+	public List<TWfParticipant> listAllParticipantinfo(String runtimeid,boolean onlyDone)
 			throws Exception;
 
 	/**

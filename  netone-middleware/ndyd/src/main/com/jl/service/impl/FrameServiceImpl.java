@@ -888,7 +888,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			if (relevantvar_tmp != null) {
 				String runtimeid = (String) relevantvar_tmp.get("runtimeid");
 				List<TWfParticipant> listx = WfEntry.iv()
-						.listAllParticipantinfo(runtimeid);
+						.listAllParticipantinfo(runtimeid,true);
 				for (TWfParticipant wfParticipant : listx) {
 					dealdetail.append(wfParticipant.getUsername() + ":"
 							+ wfParticipant.getCreatetime() + "#"
@@ -952,7 +952,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 				String d0 = (String) relevantvar_tmp.get("d0");
 
 				List<TWfParticipant> listx = WfEntry.iv()
-						.listAllParticipantinfo(runtimeid);
+						.listAllParticipantinfo(runtimeid,true);
 				for (TWfParticipant wfParticipant : listx) {
 					TableRow trdata = new TableRow();
 

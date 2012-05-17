@@ -34,86 +34,76 @@ public class Soasvl extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
-	 * 
+	 *
 	 * This method is called when a form has its tag value method equals to get.
 	 * 
-	 * @param request
-	 *            the request send by the client to the server
-	 * @param response
-	 *            the response send by the server to the client
-	 * @throws ServletException
-	 *             if an error occurred
-	 * @throws IOException
-	 *             if an error occurred
+	 * @param request the request send by the client to the server
+	 * @param response the response send by the server to the client
+	 * @throws ServletException if an error occurred
+	 * @throws IOException if an error occurred
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		String name = request.getParameter("naturalname");
-		if (StringUtils.isEmpty(name)) {
+		
+		String name=request.getParameter("naturalname");
+		if(StringUtils.isEmpty(name)){
 			response.getWriter().write("-1");
 		}
-		ResourceRmi rs = null;
+		ResourceRmi rs=null;
 		try {
-			rs = (ResourceRmi) RmiEntry.iv("resource");
+			rs = (ResourceRmi)RmiEntry.iv("resource");
 		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String script = rs.loadResourceByNatural(name).getExtendattribute();
-		if (StringUtils.isEmpty(script)) {
+		String script=rs.loadResourceByNatural(name).getExtendattribute();
+		if(StringUtils.isEmpty(script)){
 			response.getWriter().write("0");
 		}
-
-		Map param = request.getParameterMap();
+		
+		
+		Map param=request.getParameterMap();
 		for (Iterator iterator = param.keySet().iterator(); iterator.hasNext();) {
 			String key = (String) iterator.next();
-			if (key != null && key.startsWith("sr_")) {
-				String keyuse = key;
-				String value = (String) param.get(key);
-				value = new String(value.getBytes("ISO-8859-1"), "UTF-8");
-				script = StringUtils
-						.replace(script, "$(" + keyuse + ")", value);
+			if(key!=null&&key.startsWith("sr_")){
+				String keyuse=key;
+				String value=request.getParameter(keyuse);
+				script=StringUtils.replace(script, "$("+keyuse+")", value);
 			}
 		}
-
-		Object obj = ScriptTools.todo(script);
-		if (obj == null) {
+		
+		Object obj= ScriptTools.todo(script);
+		if(obj==null){
 			response.getWriter().write("0");
 		}
 		String datatype = request.getParameter("datatype");
 		if ("json".equals(datatype)) {
 			response.setContentType("text/json;charset=UTF-8");
 		}
-		response.getWriter().write(obj.toString());
+		response.getWriter().write( obj.toString());
 
 	}
 
 	/**
 	 * The doPost method of the servlet. <br>
+	 *
+	 * This method is called when a form has its tag value method equals to post.
 	 * 
-	 * This method is called when a form has its tag value method equals to
-	 * post.
-	 * 
-	 * @param request
-	 *            the request send by the client to the server
-	 * @param response
-	 *            the response send by the server to the client
-	 * @throws ServletException
-	 *             if an error occurred
-	 * @throws IOException
-	 *             if an error occurred
+	 * @param request the request send by the client to the server
+	 * @param response the response send by the server to the client
+	 * @throws ServletException if an error occurred
+	 * @throws IOException if an error occurred
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doGet(request, response);
+		doGet(request,response);
 	}
 
 	/**
 	 * Initialization of the servlet. <br>
-	 * 
-	 * @throws ServletException
-	 *             if an error occurs
+	 *
+	 * @throws ServletException if an error occurs
 	 */
 	public void init() throws ServletException {
 		// Put your code here

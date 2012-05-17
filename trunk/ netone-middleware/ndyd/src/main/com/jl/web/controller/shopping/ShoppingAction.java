@@ -133,7 +133,7 @@ public class ShoppingAction extends AbstractAction {
 			} else {
 				runtimeid = WfEntry.iv().getRuntimeIdByWorkcode(workcode);
 			}
-			List list = WfEntry.iv().listAllParticipantinfo(runtimeid);
+			List list = WfEntry.iv().listAllParticipantinfo(runtimeid,true);
 
 			if (list.size() != 0) {
 				// TWfWorklistExt o = (TWfWorklistExt) list.get(0);

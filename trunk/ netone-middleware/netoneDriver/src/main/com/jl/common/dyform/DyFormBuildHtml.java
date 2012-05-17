@@ -1545,7 +1545,10 @@ public final class DyFormBuildHtml {
 					.getStyleinfo_(), "", 0, TableExtProperties);
 		}
 
-		htmlall.append(eventListenScripts.toString() + html_ + html_btn);
+		htmlall
+				.append(eventListenScripts.toString()
+						+ "<div style=\"overflow-x:auto; overflow-y:hidden; width:900px;\">"
+						+ html_ + html_btn + "</div>");
 		return htmlall.toString();
 	}
 

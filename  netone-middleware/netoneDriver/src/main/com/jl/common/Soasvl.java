@@ -76,6 +76,10 @@ public class Soasvl extends HttpServlet {
 		if(obj==null){
 			response.getWriter().write("0");
 		}
+		String datatype = request.getParameter("datatype");
+		if ("json".equals(datatype)){
+			response.setContentType("text/json;charset=UTF-8");
+		}
 		response.getWriter().write( obj.toString());
 
 	}

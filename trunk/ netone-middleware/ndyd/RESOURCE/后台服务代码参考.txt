@@ -1,0 +1,27 @@
+	/**
+	autocomplete联想下拉组件所需要JSON生成数据后台方法参考
+	生成JSON
+	*/
+	public void buildJson(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		CommonDAO dao=(CommonDAO) SpringBeanUtil.getInstance().getBean("commonDAO");
+		Map map = new HashMap();
+		String q = request.getParameter("q");//搜索条件
+		if (StringUtils.isNotEmpty(q)){
+			q=new String(q.getBytes("ISO-8859-1"),"UTF-8") ;
+			map.put("code", q.trim());
+		}
+		List result = (List) dao.select("Department.queryDepartmentDetailInfoForPage", map);
+		StringBuffer jsonBuffer = new StringBuffer();
+		String split = "";
+		for (Iterator iterator = result.iterator(); iterator.hasNext();) {
+			Map info = (Map) iterator.next();
+			String jsonStr = JSONUtil2.fromBean(info).toString();
+			jsonBuffer.append(split);
+			jsonBuffer.append(jsonStr);
+			split = ",";
+		}
+		System.out.println(map.toString()+":"+jsonBuffer.toString());
+		super.writeJsonStr(response, "["+jsonBuffer.toString()+"]");
+	}

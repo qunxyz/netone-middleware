@@ -73,7 +73,7 @@ public class RegeditMvl extends HttpServlet {
 			}
 
 			Clerk clerk = new Clerk();
-			clerk.setName(dispname);
+			clerk.setName(WebStr.encode(request, dispname));
 			clerk.setNaturalname(clientId);
 			clerk.setDeptment(upo.getId());
 			clerk.setDescription(clientId);

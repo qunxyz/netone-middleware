@@ -64,6 +64,7 @@ body
 					</td>
 					<td>
 						<textarea rows="5" cols="55" id="context" name="context">${context}</textarea>
+						<input type='hidden' id='username' name='username' value='${username}'/>
 					</td>
 				</tr>
 				<tr>

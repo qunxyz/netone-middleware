@@ -17,6 +17,7 @@ public final class Resource {
 	/** 资源类型 */
 	private String types;
 	private String parentid;
+	private String inclusion;
 	
 	//ext 
 	private String id;
@@ -76,6 +77,14 @@ public final class Resource {
 
 	public void setParentid(String parentid) {
 		this.parentid = parentid;
+	}
+
+	public String getInclusion() {
+		return inclusion;
+	}
+
+	public void setInclusion(String inclusion) {
+		this.inclusion = inclusion;
 	}
 
 }

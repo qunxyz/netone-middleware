@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" xmlns:ns1="BIAnalysis.*">
+	<mx:ViewStack id="ViewStack1" width="100%" height="100%">
+		<ns1:TabularAnalysis1 id="TabularAnalysis" label="图表展示" width="100%" height="100%">
+		</ns1:TabularAnalysis1>
+		<ns1:FormChoice id="FormChoice" label="表单选择" width="100%" height="100%">
+		</ns1:FormChoice>
+	</mx:ViewStack>
+</mx:Canvas>

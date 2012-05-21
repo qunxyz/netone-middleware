@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<control>
+<control label="控件">
+  <control label="真假" data="ActionForm.From.CustomControl.LableCheckBox" icon="ICON_LABLECHECKBOX"/>
+  <control label="通用" data="ActionForm.From.CustomControl.LableText" icon="ICON_TEXTAREA"/>
+  <control label="单选资源" data="ActionForm.From.CustomControl.LableTextButton" icon="ICON_LABLEBUTTON"/>
+  <control label="多选资源" data="ActionForm.From.CustomControl.leLableButtonMultip" icon="ICON_MULTIPLEOLABLEBUTTON"/>
+  <control label="数字/金额" data="ActionForm.From.CustomControl.LableTextInput" icon="ICON_LABLETEXTINPUT"/>
+  <control label="大文本框" data="ActionForm.From.CustomControl.LableTextLarge" icon="ICON_LABLETEXTLARGE"/>
+  <control label="文件" data="ActionForm.From.CustomControl.LableFile" icon="ICON_LableFile"/>
+  <control label="列表信息" data="ActionForm.From.CustomControl.LableComboBoxKV" icon="ICON_COMBOBOX"/>
+  <control label="IP地址" data="ActionForm.From.CustomControl.LableTextInputIP" icon="ICON_LABLETEXTINPUTIP"/>
+  <control label="时间" data="ActionForm.From.CustomControl.LableTime" icon="ICON_LABLETIME"/>
+  <control label="时间日期" data="ActionForm.From.CustomControl.LableTimeField" icon="ICON_DATETIME"/>
+  <control label="日期" data="ActionForm.From.CustomControl.LableDateField" icon="ICON_DATEFIELD"/>
+  <control label="邮箱" data="ActionForm.From.CustomControl.LableEmail" icon="ICON_LABLEEMAIL"/>
+  <control label="多彩文档" data="ActionForm.From.CustomControl.LableColourfulea" icon="ICON_LABLETEXTROLE"/>
+  <control label="组织人员单选" data="ActionForm.From.CustomControl.LableTextButtonzhuzhi" icon="ICON_LABLETEXTBUTTONZHUZHI"/>
+  <control label="组织人员多选" data="ActionForm.From.CustomControl.LableTextButtonzhuzhiduo" icon="ICON_LABLETEXTBUTTONZHUZHIDUO"/>
+  <control label="当前用户" data="ActionForm.From.CustomControl.LableTextpersonnel" icon="ICON_LABLETEXTPERSONNEL"/>
+  <control label="部门角色" data="ActionForm.From.CustomControl.LableTextrole" icon="ICON_LABLETEXTROLE"/>
+  <control label="组织机构单选" data="ActionForm.From.CustomControl.Lablezhuzhijigou" icon="ICON_LABLEZHUZHIJIGOU"/>
+  <control label="组织机构多选" data="ActionForm.From.CustomControl.Lablezhuzhijiguoduo" icon="ICON_LABLEZHUZHIJIGUODUO"/>
+  <control label="多选组" data="ActionForm.From.CustomControl.LableMulCheckBox" icon="ICON_LableMulCheckBox"/>
+  <control label="单选组" data="ActionForm.From.CustomControl.LableRadioGroup" icon="ICON_RadioGroup"/>
+  <control label="URL" data="ActionForm.From.CustomControl.LableURL" icon="ICON_LableURL"/>
+  <control label="按钮" data="ActionForm.From.CustomControl.LableButton" icon="ICON_Button"/>
+  <control label="图片" data="ActionForm.From.CustomControl.LableImage" icon="ICON_Image"/>
+  <control label="真假radio" data="ActionForm.From.CustomControl.LableTAndF" icon="ICON_TAndF"/>
+  </control> 
+</control>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:TitleWindow x="0" y="0" width="100%" height="100%" layout="absolute" title="个人信息" fontSize="15">
+	
+	<mx:Canvas width="100%" height="100%" x="0" y="0">
+		
+
+		<mx:TextInput y="21" width="301" horizontalCenter="-85"/>
+		<mx:TextInput y="61" width="301" horizontalCenter="-85"/>
+		<mx:TextInput y="103" width="301" horizontalCenter="-85"/>
+		<mx:TextInput y="147" horizontalCenter="-156"/>
+		<mx:TextInput y="189" width="301" horizontalCenter="-85"/>
+		<mx:TextInput y="228" width="301" horizontalCenter="-85"/>
+		<mx:TextInput y="268" width="301" height="71" horizontalCenter="-85"/>
+		<mx:Label y="25" text="姓  名" horizontalCenter="-296"/>
+		<mx:Label y="65" text="帐  号" horizontalCenter="-296"/>
+		<mx:Label y="105" text="机  构" horizontalCenter="-296"/>
+		<mx:Label y="149" text="组  别" horizontalCenter="-296"/>
+		<mx:Label y="191" text="联系电话" horizontalCenter="-286"/>
+		<mx:Label y="230" text="E-mail" horizontalCenter="-293"/>
+		<mx:Label y="270" text="描  述" horizontalCenter="-296"/>
+		<mx:Button y="369" label="提 交" horizontalCenter="-113"/>
+		<mx:Button y="369" label="取 消" horizontalCenter="10"/>
+		<mx:Image y="21" width="148" height="172" horizontalCenter="214"/>
+		<mx:Text y="214" text="选  择  相  片"  horizontalCenter="216"/>
+	</mx:Canvas>
+	</mx:TitleWindow>
+</mx:Canvas>

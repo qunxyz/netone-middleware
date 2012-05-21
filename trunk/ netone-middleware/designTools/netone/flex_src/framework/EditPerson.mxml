@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow width="100%" height="900" fontSize="15" 
+		fontWeight="bold" title="修改应用配置" x="0" y="0" showCloseButton="true" close="SetExit();"  xmlns:mx="http://www.adobe.com/2006/mxml"     creationComplete="init()">
+    <mx:XMLList id="htsource">
+    <Resourceinfo name="组"     code="SYSTEMTEAM.SYSTEMTEAM"/>
+	<Resourceinfo name="人员"    code="DEPT.DEPT"/>
+	<Resourceinfo name="角色"    code="SYSROLE.SYSROLE"/>
+	<Resourceinfo name="流程角色" code="SYSROLE.SYSROLE"/>
+	<Resourceinfo name="组织"    code="DEPT.DEPT"/>
+	 <Resourceinfo name="创建者"/>
+	 <Resourceinfo name="创建流程者角色"    code="SYSROLE.SYSROLE"/>
+</mx:XMLList>
+    <mx:RemoteObject id="queryrenyuan31" destination="Queryrenyuan1" showBusyCursor="true"   result="handerResult31(event)"/>	
+  <mx:RemoteObject id="queryrenyuan21" destination="Queryrenyuan1" showBusyCursor="true"   result="handerResult21(event)"/>	
+    <mx:RemoteObject id="queryrenyuan2" destination="Queryrenyuan1" showBusyCursor="true"   result="handerResult2(event)"/>	
+    <mx:RemoteObject id="addrenyuan1" destination="Addrenyuan1" showBusyCursor="true"   result="handerResult1(event)"/>	
+
+		<mx:Canvas width="714" height="41">
+			<mx:Button label="确定" click="{queding()}" height="39" width="104" x="0" y="0"/>
+			<mx:Button label="取消"  click="{SetExit()}" height="39" width="104" x="118" y="0"/>
+		</mx:Canvas>
+		<mx:Canvas fontSize="15" width="100%" height="900" x="90" y="0">
+			<mx:Label text="名       称 :" y="12"/>
+			<mx:Label text="中 文 名 称:" y="55"/>
+			<mx:Label text="参与 者模式:" y="92" x="0"/>
+		    <mx:Label text="并 发 控 制:" x="0" y="128"/>
+		    <mx:Label text="协       办:" x="0" y="170"/>
+		    <mx:Label text="目  录  树  :" x="0" y="207"/>
+		    <mx:CheckBox id="NeedPerson"  label="需要人员目录树" x="108" width="145"  height="24" y="207"/>
+		    <mx:TextInput id="Name" x="103" y="10" width="510" text="{variable.zhiyuan}" editable="false" />
+		    <mx:TextInput id="chinesename" x="103" y="53" width="510" text="{variable.zhiyuanname}"/>
+		    <mx:ComboBox id="pModel" change="{changezhuagtai()}" labelField="@name" x="103" y="89" width="121" dataProvider="{htsource}"/>
+		    <mx:TextArea id="txtperson" x="232" y="89" height="26" width="256" fontSize="11" text="{variable.treearr}"/>
+		    <mx:Button id="selectperson"  label="选择参与者" x="496" y="88" width="117" click="canyuezhu()"/>
+		    <mx:Canvas height="39" y="122" width="613">
+		        <mx:RadioButton  id="t1" x="103" y="2" label="单人审批"/>
+		        <mx:RadioButton id="t2" x="196" y="2" label="多人审批-不控制同步"/>
+		        <mx:RadioButton id="t3" x="371" y="2" label="多人审批-控制同步"/>
+		    </mx:Canvas>
+		    <mx:Canvas height="35" y="166" width="613">
+			    <mx:RadioButton id="r1" x="104" y="3" label="无协办" groupName="radiogroup4"/>
+			    <mx:RadioButton id="r2" x="192" y="3" label="抄送" groupName="radiogroup4" width="100"/>
+			    <mx:RadioButton id="r3" x="287" y="3" label="抄阅" groupName="radiogroup4"/>
+		        <mx:RadioButton  id="r4" x="373" y="3" label="抄送且抄阅" groupName="radiogroup4"/>
+		    </mx:Canvas>
+		    <mx:Canvas id="bianjikongzi" x="99" y="348" width="600" height="408">
+		    </mx:Canvas>
+		    <mx:Label x="2" y="322" text="编 辑 控 制："/>
+			<mx:Label x="0" y="234" text="可用子表单："/>
+		    <mx:Canvas id="zibiaodan" x="102" y="235" width="936" height="55">
+		    </mx:Canvas>
+		    <mx:Label x="1" y="289" text="阶段性回复："/>
+		    <mx:CheckBox id="fenbushi" x="102" y="288" label="是否需要分布式提交"/>
+		    <mx:CheckBox id="checkbox1" x="102" y="320" label="是否需要编辑" change="chageis()"/>
+		    <mx:Script>
+    	<![CDATA[
+    		import BI.EvTjFs;
+    		import mx.core.IFlexDisplayObject;
+    		import mx.managers.PopUpManager;
+    		import mx.controls.List;
+    		import mx.controls.Label;
+    		import mx.events.ListEvent;
+    		import mx.collections.ArrayCollection;
+    		import mx.controls.Alert;
+    		import mx.rpc.events.ResultEvent;
+    		     import mx.containers.Canvas; 
+			     import mx.containers.ViewStack; 
+			     [Bindable]
+			     public static var bool:Boolean=true;
+			     private var vs:ViewStack; 
+			     [Bindable] 
+			     public var loginsuccess:String; 
+			     [Bindable]
+			     public var wpersonDisplay:WpersonDisplay;
+			      public var test1:test;
+			     [Bindable]
+			     public var arrform:Array=new Array();
+			     [Bindable]
+			     public var arrform1:Object;
+			       [Bindable]
+			     public var ziduan:Array=new Array();
+			     [Bindable]
+			     public var ziduan1:ArrayCollection=new ArrayCollection();
+			     [Bindable]
+			     [Bindable] 
+			     private var i:int=3; 
+			        [Bindable]
+			     public var  dataxml:XML;
+				 [Bindable]
+				 public  var idcreated1:String;
+			    public var  Parent:XML;
+			    
+			    public   var fll:Boolean=true;
+			    
+			    //list1 表单 控件
+			    public var list1:List;
+			     //list12 表单 控件
+			    public var list2:List;
+			    //子表单的个数
+			    [Bindable]
+			    public var zibiaodangshu:int;
+			     //初始化界面
+			     private function init():void{ 	
+			          queryrenyuan31.zibiaodanshu(variable._idcreated1);		     
+			    	  queryrenyuan21.puzirenyuan(variable.zhiyuan);
+			     	 vs=this.parent as ViewStack;
+			     } 
+			     //匹配跳转的界面
+			       private function getChild(str:String):Object{ 
+			       for each(var obj:* in vs.getChildren()){ 
+			           if(obj.name==str){ 
+			           break; 
+					} 
+					} 
+					return obj;
+					} 
+			     //添加配置人员
+			 public function queding():void{
+			 	    if(Parent==null){
+ 				 Parent=<csource></csource>
+ 			     }else{
+ 			      Parent=null;
+ 			      Parent=<csource></csource>
+ 			     }
+ 			     if(dataxml==null){
+ 				 dataxml=<control></control>
+ 			     }else{
+ 			      dataxml=null;
+ 			      dataxml=<control></control>
+ 			     }
+ 			    var str:String=pModel.selectedItem.@name;
+ 			     switch (str.toString()) {
+			           	case "人员":
+			               	    dataxml.@participantmode="human";
+	                    	break;
+	                    case "组":
+			               	     dataxml.@participantmode="team";
+			                    	break;
+	                   	case "组织":
+		               	     dataxml.@participantmode="dept";
+		                    	break;
+		               	case "角色":
+		               	     dataxml.@participantmode="role";
+		                    	break;
+		              	case "流程角色":
+		               	     dataxml.@participantmode="flowrole";
+		                    	break;
+		                case "创建流程者角色":
+		               	     dataxml.@participantmode="flowrolecreater";
+		                    	break;
+		              	case "创建者":
+		               	     dataxml.@participantmode="creater";
+		                    	break;
+		                    	
+ 			       }
+         		 dataxml.@ismanual="1";	 
+ 			     dataxml.@naturalname=Name.text;
+ 			     dataxml.@name=chinesename.text;
+ 			     
+ 			     dataxml.@participantvalue=txtperson.text;
+ 			 
+ 			      if(t1.selected){
+ 			        dataxml.@syncmode="1";
+ 			      }
+ 			       if(t2.selected){
+ 			        dataxml.@syncmode="2";
+ 			      }
+ 			        if(t3.selected){
+ 			        dataxml.@syncmode="3";
+ 			      }
+ 			      
+ 			      if(r1.selected){
+ 			       dataxml.@coworkmode="1";
+ 			      }
+ 			      if(r2.selected){
+ 			      	  dataxml.@coworkmode="2";
+ 			      }
+ 			       if(r3.selected){
+ 			      	  dataxml.@coworkmode="3";
+ 			      }
+ 			       if(r4.selected){
+ 			      	  dataxml.@coworkmode="4";
+ 			      }
+ 			      if(NeedPerson.selected){
+ 			        dataxml.@needtree="1";
+ 			      }else{
+ 			       dataxml.@needtree="0";
+ 			      }
+ 			      if(checkbox1.selected){
+ 			        dataxml.@fobidzb="1";
+ 			      }else{
+ 			       dataxml.@fobidzb="0";
+ 			       }
+ 			      
+ 		           var str1:String="";
+ 		           if(list2!=null){
+ 		          if( list2.dataProvider.toString()!=null || list2.dataProvider.toString()!="") {
+ 			       var brr:ArrayCollection=list2.dataProvider as ArrayCollection;
+ 			       if(brr.length>0){
+ 			        for(var i:int=0;i<brr.length;i++){
+ 			        str1+=brr[i]+",";
+ 			        }
+ 			       }
+ 		          }
+ 		           }
+ 		          if(checkbox1.selected){
+ 		           dataxml.@needformedit="1";
+ 		          }else{
+ 		           dataxml.@needformedit="0";
+ 		          }
+ 			     dataxml.@formedit=str1;	 
+         		var zibiaodanstr:String="";
+         		for(var index:int=0;index<zibiaodangshu;index++){
+         		
+         		  if(CheckBox(zibiaodan.getChildAt(index)).selected){
+         		     if(index==zibiaodangshu-1){
+         		     zibiaodanstr=zibiaodanstr+"1";
+         		     }else{
+         		     zibiaodanstr=zibiaodanstr+"1"+",";
+         		     }
+         		  }else{
+         		  	 if(index==zibiaodangshu-1){
+         		       zibiaodanstr=zibiaodanstr+"0";
+         		  	 }else{
+         		  	   zibiaodanstr=zibiaodanstr+"0"+",";
+         		  	 }
+         		  }
+         		}
+         		dataxml.@subfrommode=zibiaodanstr;
+         		if(fenbushi.selected){
+         		dataxml.@zibiaodanmoshi="1";
+         		}else{
+         		dataxml.@zibiaodanmoshi="0";
+         		}
+         			
+                Parent.appendChild(dataxml);
+			    addrenyuan1.AddrenyuanQuery(Name.text,chinesename.text,Parent.toString());
+              }
+			 public function changezhuagtai():void
+			 {
+			 	if(pModel.selectedItem.@name=="创建者"){
+			 	txtperson.enabled=false;
+			 	selectperson.enabled=false;
+			 	}else{
+			 	txtperson.enabled=true;
+			 	selectperson.enabled=true;
+			 	}
+			  txtperson.text=null;
+			 }
+			public function chageis():void{
+			    if(checkbox1.selected){			 
+			    queryrenyuan2.formcounid(variable._idcreated1);		    	 
+			    /* queryrenyuan21.puzirenyuan(variable.zhiyuan); */
+			    }else{
+			      list1.dataProvider=null;
+			      list2.dataProvider=null;
+			      listdelect();
+			    }
+			}
+			 //实现list1 与list2 
+			 public function listadd():void{
+			          list1=new List();
+			    	  list1.id="list1";
+			    	  list1.labelField="name";
+			    	  list1.x=292;
+			    	  list1.y=0; 
+			    	  list1.width=224;
+			    	  list1.height=218;
+			    	  list1.dragEnabled=true; 
+			    	  list1.dataProvider=arrform;
+			    	  list1.dragMoveEnabled=true ;
+			    	  list1.dropEnabled=true;
+			    	  
+			    	  list2=new List();
+			    	  list2.id="list2";
+			    	  list2.labelField="name";
+			    	  list2.dataProvider=ziduan;
+			    	  list2.x=0;
+			    	  list2.y=0;
+			    	  list2.width=221;
+			    	  list2.height=218;
+			    	  list2.dragEnabled=true; 
+	      	    	  list2.dragMoveEnabled=true;
+	      	          list2.dropEnabled=true;
+	      	          bianjikongzi.addChild(list2);
+	      	          bianjikongzi.addChild(list1);
+			 }
+			  public function listdelect():void{
+			  	bianjikongzi.removeAllChildren();
+			  }
+			 
+			  //t退到配置人员界面
+			private function SetExit():void{
+				PopUpManager.removePopUp( this as IFlexDisplayObject);
+			}
+                   //添加配置文件的
+             public  function  handerResult1(event:ResultEvent):void{
+                EvTjFs.getInstance().dispatchEvent(new MouseEvent("pzshuju"));
+		 	    PopUpManager.removePopUp(this as IFlexDisplayObject);
+               } 
+               public  function  handerResult2(event:ResultEvent):void{
+               var str:String=event.result as String;
+               if(str!=null || str!=""){
+                 arrform=str.split(",");
+                 arrform.pop();  
+                    if(ziduan.length!=0){
+		                   for( var i:int=0;i<arrform.length;i++){
+			                      for(var j:int=0;j<ziduan.length;j++){              	 
+				                       if(arrform[i]==ziduan[j]){             
+					                      arrform.splice(i,1);
+					                     }
+				                  }
+		                   }
+		                } 
+                   }  
+                     if(checkbox1.selected){
+                     listadd();
+                     }
+                 
+               } 
+               
+               //配置人员返回的数据 接收
+           public  function  handerResult21(event:ResultEvent):void{
+                 arrform1=event.result as Object;
+               if(arrform1!=null){
+                 if(arrform1.ismanual=="1"){
+                 	 
+                 }else{
+                   
+                 }
+                    arrform1.naturalname=arrform1[1];
+                    arrform1.name=arrform1[2];
+                  	switch(arrform1.participantmode){
+                       	case "human":
+                  	        pModel.selectedIndex=1;
+                  	        break;
+                  	        case "team":
+                  	        pModel.selectedIndex=0;
+                  	        break;
+                  	          case "dept":
+                  	        pModel.selectedIndex=4;
+                  	        break;
+                  	          case "role":
+                  	        pModel.selectedIndex=2;
+                  	        break;
+                  	         case "flowrole":
+                  	        pModel.selectedIndex=3;
+                  	         break;
+                  	       case "flowrolecreater":
+                  	         pModel.selectedIndex=6;
+                  	         break;
+                  	          case "creater":
+                  	        pModel.selectedIndex=5;
+                  	        txtperson.enabled=false;
+                  	        selectperson.enabled=false;
+                  	        break;
+                  	}
+                  	if(bool){
+                     txtperson.text=arrform1.participantvalue;
+                   }                
+                   if(arrform1.syncmode=="1"){
+                     	t1.selected=true;
+ 			      }
+ 			       if(arrform1.syncmode=="2"){
+ 			        	t2.selected=true;
+ 			      }
+ 			      if(arrform1.syncmode=="3"){
+ 			        	t3.selected=true;
+ 			      }
+ 			      if(arrform1.coworkmode=="1"){
+ 			      	r1.selected=true;
+ 			      }
+ 			      if(arrform1.coworkmode=="2"){
+ 			      	 	r2.selected=true;
+ 			      }
+ 			       if(arrform1.coworkmode=="3"){
+ 			      	r3.selected=true;  
+ 			      }
+ 			       if(arrform1.coworkmode=="4"){
+ 			       	r4.selected=true;
+ 			      }
+ 	     
+                    if( arrform1.needtree=="1"){
+                      NeedPerson.selected=true;
+                    }else{
+                    NeedPerson.selected=false;
+                     }
+                     if(arrform1.fobidzb!="" || arrform1.fobidzb!=null){
+                    ziduan=String(arrform1.fobidzb).split(",");
+                    ziduan.pop();
+                    if(ziduan.length!=0){
+		                   for( var i:int=0;i<arrform.length;i++){
+			                      for(var j:int=0;j<ziduan.length;j++){
+			                      	                      	 
+				                       if(arrform[i]==ziduan[j]){             
+					                      arrform.splice(i,1);
+					                     }
+				                      }
+				                  }
+		                   }
+		                }
+                    if( arrform1.needformedit=="1"){
+                    checkbox1.selected=true;
+				    queryrenyuan2.formcounid(variable._idcreated1);
+                    }else{
+                     checkbox1.selected=false;
+                    }
+	                    if(arrform1.subfrommode!="" || arrform1.subfrommode!=null){
+	                    	var zibiaodangshuarr:Array=arrform1.subfrommode.split(",");
+	                   		 for(var gshu:int=0;gshu<zibiaodangshuarr.length;gshu++){
+	                    	  if(zibiaodangshuarr[gshu].toString()=="1"){
+	                    	   CheckBox(zibiaodan.getChildAt(gshu)).selected=true;
+		                       }else{
+		                        CheckBox(zibiaodan.getChildAt(gshu)).selected=false;
+		                       } 
+		                    }
+	                    }
+	                  if(arrform1.zibiaodanmoshi=="1"){
+	                 	 fenbushi.selected=true;
+	                  } else{
+	                  	fenbushi.selected=false;
+	                  } 
+                  }
+                  else{
+                  	if(bool){
+                  	variable.treearr=null;
+                  	}
+                  }
+                } 
+               public function canyuezhu():void{
+               
+               	variable.rname=pModel.selectedItem.@name;
+                variable.rcode=pModel.selectedItem.@code;
+
+				   test1=new test();
+               	   PopUpManager.addPopUp(test1,this,true);
+               	   PopUpManager.centerPopUp(test1 as IFlexDisplayObject);
+	 
+               }
+               
+               public function handerResult31(event:ResultEvent):void{
+               	var str:String=event.result as String;
+                 if(str==""  || str==null){
+                 }else{
+                    var xx:int=0;
+               		var zibiaodanarr:Array=str.split(",");
+               		zibiaodanarr.pop();
+               	   zibiaodangshu=zibiaodanarr.length;
+                   for(var zi:int=0;zi<zibiaodanarr.length;zi++){
+                 		var strname:String=zibiaodanarr[zi].toString().substring(0, zibiaodanarr[zi].toString().indexOf("["));
+                         var check:CheckBox=new CheckBox();    			  
+	                 	 check.y=0;
+	                 	 check.x=xx;
+	                    check.label=strname;
+	                    check.width=150;
+	            	    check.id="zibiaodanshu"+zi;
+	                 	zibiaodan.addChild(check);
+	                    xx=xx+check.width+15;
+                        }
+                 	 }
+                  } 
+               
+    	]]>
+    </mx:Script>
+ 		</mx:Canvas>
+	</mx:TitleWindow>
+ 

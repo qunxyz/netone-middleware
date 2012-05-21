@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<mx:TitleWindow width="100%" height="100%"  xmlns:mx="http://www.adobe.com/2006/mxml"
+	  	fontSize="13"  creationComplete="init()"  showCloseButton="false"
+	  	fontWeight="bold"   close="Etix(event)"
+	    title="选择业务维度数据" x="0" y="0">
+ <mx:Script>
+ 	<![CDATA[
+ 		import mx.events.CloseEvent;
+ 		import mx.core.IFlexDisplayObject;
+ 		import mx.managers.PopUpManager;
+ 		import mx.containers.TitleWindow;
+ 	        	import ActionForm.From.com.hitb.event.GlobalEvent;
+ 		        import ActionForm.From.com.hitb.component.Data;
+ 	        	import ActionForm.From.com.hitb.component.Data1;
+ 		        import ActionForm.From.com.hitb.event.Component;
+ 		        import ActionForm.From.com.hitb.util.GlobalManager;
+ 		        import mx.events.FlexEvent;
+ 		        import mx.collections.HierarchicalData;
+         		import mx.containers.ViewStack;
+         		import mx.events.ListEvent;
+         	    import mx.rpc.events.ResultEvent;
+         		import mx.events.DragEvent;
+         		import mx.collections.XMLListCollection;
+         		import mx.collections.ArrayCollection;
+         		import mx.controls.Alert;
+         		import mx.events.TreeEvent;
+         		[Bindable]
+         	    public var selectedNode:ArrayCollection;
+         	    [Bindable]
+         	    public var backresult:ArrayCollection;
+         	    [Bindable]
+                public  var rsarr:Array=null;
+         	     [Bindable]
+                public var comarr:ArrayCollection=new ArrayCollection(); 
+             public function treeEvent(event:ListEvent):void
+         	 {   
+         		     Lleft.dataProvider=null;
+     		     	 var ds:String =event.itemRenderer.data.rcode;
+     		         backObject.selectTreeInDir(ds);
+             }
+              private function backResult(event:ResultEvent):void
+              {
+                backresult =ArrayCollection(event.result);
+                Lleft.dataProvider=backresult;
+              }
+               private function scResult(event:ResultEvent):void
+              {    rsarr =ArrayCollection(event.result).toArray() ;
+                   var root:Object=findChildren("", rsarr); 
+                   var tree:Object=platToHierarchical(rsarr, root[0]); 
+                   var hier:HierarchicalData=new HierarchicalData(tree); 
+                   adg1.dataProvider=hier; 
+              }
+          [Bindable]
+          public var rname:String;
+          [Bindable]
+          public var rcode:String;
+          private function comResult(event:ResultEvent):void
+             {      
+              comarr =ArrayCollection(event.result);
+              rname=comarr[0].resourcename;
+              rcode=comarr[0].resourcename;
+             }
+            private function init():void
+          {  
+                 SrtreeObject.todo();
+           }
+          private function findChildren(parentId:String, source:Array , parentIdField:String="parentid"):Array
+          {  
+             var children:Array=new Array(); 
+             for each (var item:Object in source){ 
+             if (item[parentIdField]==parentId){ 
+             children.push(item); 
+               } 
+            } 
+             return children; 
+            } 
+       private function platToHierarchical(platData:Array, startNode:Object, childrenField:String="children",parentIdField:String="parentid"):Object
+         { 
+          var children:Array=findChildren(startNode.rcode, platData, parentIdField); 
+          var temp:Array=new Array(); 
+          for each (var item:Object in children){ 
+          temp.push(platToHierarchical(platData, item, childrenField, parentIdField)); 
+          }  
+          startNode[childrenField]=temp; 
+          return startNode; 
+         } 
+      public function valuechange(event:ListEvent):void
+         {    
+            rname=needsource.selectedItem.resourcename;
+            rcode=needsource.selectedItem.resourcecode;
+            gettreeObject.selectTreeSource(rname,rcode);
+         }
+
+      [Bindable]
+        public var arr:ArrayCollection;
+        public function clickbttok():void  
+       {  
+                if(rname=="" && rcode==""){
+                 Alert.show("不能为空");
+                }else{
+               	  vivid.bussData=rname+"["+rcode+"]";
+       	          vivid.updateform=false;
+       	          PopUpManager.removePopUp(this as IFlexDisplayObject)
+               	  Lleft.dataProvider=null;
+       	      }
+       }
+       public function clickcannel():void
+       {
+         PopUpManager.removePopUp(this as IFlexDisplayObject);
+         Lleft.dataProvider=null;
+       }
+       public function Etix(event:CloseEvent):void{
+         PopUpManager.removePopUp(this as IFlexDisplayObject);
+         Lleft.dataProvider=null;
+       }
+  	]]>
+ </mx:Script>
+     <mx:RemoteObject id="gettreeObject" destination="selectchirdrenform" result="scResult(event)" 
+       showBusyCursor="true"/>  
+     <mx:RemoteObject id="SrtreeObject" destination="selectchirdrenform" result="comResult(event)" 
+       showBusyCursor="true"/>  
+      <mx:RemoteObject id="backObject" destination="selectchirdrenform" result="backResult(event)" 
+      showBusyCursor="true"/>  
+
+    <mx:HBox height="457" width="939" fontSize="15">
+       <mx:Canvas height="454" width="290">
+       <mx:Label  text="请选择业务维度数据所需资源:"/>
+       <mx:ComboBox id="needsource" dataProvider="{comarr}" labelField="resourcename"   change="valuechange(event)"  width="280" y="38"/>
+         <mx:AdvancedDataGrid x="0" y="74" id="adg1"  itemClick="treeEvent(event)"  designViewDataType="tree" width="280" height="100%"> 
+            <mx:columns> 
+                  <mx:AdvancedDataGridColumn headerText="业务维度数据目录" dataField="rname"/> 
+            </mx:columns> 
+        </mx:AdvancedDataGrid> 
+	   	</mx:Canvas>
+	    <mx:Canvas  width="633" height="455">
+	    <mx:Label text="选中数据:" fontSize="17" x="10"/>
+	       <mx:List id="Lleft" 
+	      	     labelField="resourcename"
+	      	     allowMultipleSelection="true"
+	      		 dragEnabled="true" 
+	      	     dragMoveEnabled="true"
+	      	     dropEnabled="true"
+	      		 width="609" height="421" x="10" y="34"/>
+	   </mx:Canvas>
+	  </mx:HBox>
+	  <mx:Canvas  width="943">
+	   <mx:Button id="bttok" label="确定" click="clickbttok()" x="745" width="87"/>
+	   <mx:Button id="bttCannel" label="取消" x="840" width="93" click="clickcannel()"/>
+	  </mx:Canvas>
+</mx:TitleWindow>

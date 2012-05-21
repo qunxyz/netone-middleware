@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas  xmlns:mx="http://www.adobe.com/2006/mxml" 
+>
+	<mx:Script>
+		<![CDATA[
+		import  mx.collections.ArrayCollection;
+		[Bindable]
+          public var cards:ArrayCollection = new ArrayCollection(
+                [ {label:"zh+m1"}, 
+                  {label:"zh+m2", data:2}, 
+                  {label:"zh+m3", data:3}, 
+                  {label:"zh+m4", data:4},
+                  {label:"zh+m5", data:5},
+                  {label:"zh+f1", data:7},
+                  {label:"zh+f2", data:8},
+                  {label:"zh+f3", data:9},
+                  {label:"zh+f4", data:10},
+                  {label:"zh+f5", data:11},
+                  {label:"zh+whisper", data:12},
+                  {label:"zh+croak", data:13},
+                  ]);
+
+			public function exit():void
+			{
+				exiteffect.play([pvoice]);
+				
+			}
+			public function start():void
+			{
+			  starteffect.play([pvoice])
+			}
+			public function outvoice():void
+			{ 
+				
+				jj.SetSpeech(textinput.text,int(hSlider1.value/100),int(hSlider2.value/100),comvoice.selectedItem.toString());
+			}
+		]]>
+	</mx:Script>
+	
+<mx:RemoteObject  id="jj"   destination="test" endpoint="messagebroker/amf"
+	showBusyCursor="true" />
+<mx:Parallel  id="starteffect">
+	  <mx:Blur blurXFrom="50" blurXTo="0" blurYFrom="50" blurYTo="0" duration="1000"/>
+	  <mx:Zoom  zoomHeightFrom="0" zoomWidthFrom="0" duration="1000"/>
+	  <mx:Move  xFrom="0"  yFrom="52" xTo="372" yTo="52"  duration="1000"/> 
+</mx:Parallel >
+<mx:Parallel  id="exiteffect">
+	  <mx:Blur blurXFrom="50" blurXTo="0" blurYFrom="50" blurYTo="0" duration="1000"/>
+	  <mx:Zoom   zoomHeightTo="0" zoomWidthTo="0" duration="1000"/>
+	  <mx:Move  xFrom="372"  yFrom="52" xTo="-20" yTo="-20"  duration="1000"/>  	 
+</mx:Parallel >
+<!--<mx:Model id="myvoice">
+	<voices>
+	       <voicetype label="联想" ></voicetype>
+	       <voicetype label="步步高"></voicetype>
+	       <voicetype label="金立"></voicetype>
+	       <voicetype label="海尔"></voicetype>
+	</voices>
+</mx:Model>-->
+<mx:Panel id="pvoice"  title="发音设置" width="406" height="307" layout="absolute" x="207" y="78">
+        <mx:Label fontSize="15" text="发音规则:" 
+        height="24" x="8.5" y="13"/>
+		<mx:Label fontSize="15" text="朗读音速:"  x="7" y="112"/>
+		<mx:HSlider  id="hSlider1" width="283"  x="88.5" y="120"/>
+		<mx:Label   fontSize="15" text="朗读音量:" x="7" y="146" />
+		<mx:HSlider id="hSlider2" width="285" x="88.5" y="151"/>
+		<mx:Label text="语音选择" x="7" y="178" fontSize="15"/>
+		<mx:ComboBox id="comvoice" dataProvider="{cards}" 
+		x="88.5" y="181" width="285"/>
+		<mx:Button label="发音"  x="221.5" y="225"  width="72" click="{outvoice()}"/>
+		<mx:Button label="退出"  x="301.5" y="225" width="72" click="exit()" />
+		<mx:TextInput  id="textinput" x="88.5" y="13" width="282.5" height="88"/>
+</mx:Panel>
+<mx:Button id="bttvoice" click="start()" x="52" y="49" width="56"/>
+</mx:Canvas>

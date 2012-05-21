@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" xmlns:ns1="framework.*"    
+      xmlns:ns2="PolymerizationShow.*" fontSize="12"  width="100%" height="100%" >
+  <mx:Script>
+  	<![CDATA[
+  		import BI.EvTjFs;
+  		import BrickTake.DelEvent;
+	  	  /**
+	  	  *  手机端配置    手机模式选择
+	  	  *  xuwei（2012-2-22）
+	  	  * 
+	  	  * 
+	  	  * */
+  	  	import mx.events.ScrollEvent;
+  		import mx.events.FlexEvent;
+  		import mx.logging.ILogger;
+  		import com.blitzagency.xray.logger.Log;
+  		import com.blitzagency.xray.logger.Logger;
+  		import mx.containers.TitleWindow;
+  		import mx.containers.ViewStack;
+ 
+  		import mx.controls.Button;
+  		import mx.collections.ArrayCollection;
+  		import mx.rpc.events.ResultEvent;
+  		import mx.controls.Alert;
+
+  	      [Bindable]
+  	      public var params:Object;
+  	       [Bindable]
+  	       public var vs:ViewStack;
+  	       [Bindable]
+  	       public var textpath:String="";
+  	        [Bindable]//添加控件的索引
+  	       public var index:int=0;
+  	       [Bindable]
+  	       public var arrID:Array=new Array();
+  	    public function init():void{ //初始化的方法	
+  	        EvTjFs.getInstance().addEventListener("ADDSelectControl",ADDSelectControl);  
+            EvTjFs.getInstance().addEventListener("DelSelectControl",ADDSelectControl);                
+	             vs=this.parent as ViewStack;
+                 textpath="路径： "+PhoneData.URLname+" 第2步，共4步";
+              var ic:ItemizeControl=new ItemizeControl();
+                    ic.x=10;
+		            ic.y=10;
+		            ic.id="Itemize"+index;
+		            ic.index="1";
+		            arrID.push(ic);
+		            canvas1.addChild(ic);
+		            index++; 
+  	    }
+  	     	    
+  	     //添加ADDSelectControl 方法
+ 			public function AddSelectChart(event:DelEvent):void{    
+ 				Alert.show("sss");
+             var ic:ItemizeControl=new ItemizeControl();
+                    ic.x=10;
+		            ic.y=event.Comp().y+event.Comp().height+10;
+		            ic.id="Itemize"+index;
+            for(var Add:int=0;Add<arrID.length;Add++){
+               if(arrID[Add]==event.Comp()){
+               	  if(Add==arrID.length-1){
+               	  arrID.push(ic);
+               	  }else{
+                    arrID.splice(Add+1,0,ic);
+                    for(var d:int=Add+2;d<arrID.length; d++){
+                    arrID[d].y= arrID[d].y+event.Comp().height+10;
+                   }
+                  }
+               }
+            }
+            canvas1.removeAllChildren();
+            for(var i:int=0;i<arrID.length;i++){
+            arrID[i].index=(i+1).toString();
+ 			canvas1.addChild(arrID[i]);
+ 			}	
+            index++;
+ 			}
+ 			
+ 			//删除 ADDSelectControl 方法
+ 		   public function ADDSelectControl(event:DelEvent):void{
+ 		   	if(arrID.length>1){
+ 			canvas1.removeAllChildren();
+ 			for(var Del:int=0;Del<arrID.length;Del++){
+ 				if(arrID[Del]==event.Comp()){
+ 				  if(Del!=arrID.length-1){
+ 				  	for(var j:int=arrID.length-1;j>Del;j--){		
+ 					 arrID[j].y=arrID[j-1].y;			
+ 				  } 
+ 				  }
+ 				  arrID.splice(Del,1);
+ 				}
+ 			 }	
+ 			
+	 			for(var i:int=0;i<arrID.length;i++){
+	 		    arrID[i].index=(i+1).toString();
+	 			canvas1.addChild(arrID[i]);
+	 			}			
+ 		    	}
+ 			}
+         //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ModelConfig1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+          
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+   
+		  	]]>
+  </mx:Script>
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+ 		<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+ 		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="手机端配置"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="应用程序发布配置" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置主界面分类，然后单击“下一步”。" color="#53585C" fontSize="18"/>
+		</mx:Canvas>
+ 	<mx:Canvas id="canvas1"  width="100%" height="328"  x="137" y="207">
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>
+

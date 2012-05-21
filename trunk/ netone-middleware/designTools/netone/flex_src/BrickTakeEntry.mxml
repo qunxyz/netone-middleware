@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" preloader="CustomPreloader"  layout="absolute" xmlns:ns1="BrickTake.*"   initialize="init()" >
+		<mx:Script>
+			<![CDATA[
+				import BrickTake.BTData;
+				import BIAnalysis.BIData;
+				import BI.BIid;
+			public var params:Object;
+				public function init():void{
+				 var args:Object = getParams(); 
+				 if(args.naturalname!=""){
+				  BTData.URLname=args.naturalname;
+				 }
+				  if(args.mode=="new"){
+				 BTData.modeltype=true;
+				 }
+				 if(args.mode=="edit"){
+				 BTData.modeltype=false;
+				 }
+				}
+		  private function getParams():Object { 
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                   
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+			]]>
+		</mx:Script>
+   <mx:ViewStack  id="ViewStack1" x="0" y="0" width="100%" height="100%">
+        <ns1:BTResource id="BTResource1" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+        <ns1:BTModelSelect id="BTModelSelect1" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+        <ns1:BTTrecenti id="BTTrecenti1"  width="100%" height="100%"  backgroundColor="#FFFFFF"/>
+        <ns1:BTValue id="BTValue1" width="100%" height="100%"  backgroundColor="#FFFFFF"/>
+        <ns1:BTTwoTier id="BTTwoTier1" width="100%" height="100%"  backgroundColor="#FFFFFF"/>
+        <ns1:BTTwoValue id="BTTwoValue1" width="100%" height="100%"  backgroundColor="#FFFFFF"/>
+   </mx:ViewStack>
+</mx:Application>

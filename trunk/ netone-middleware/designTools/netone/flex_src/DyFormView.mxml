@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application  preloader="CustomPreloader"  xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:ns1="DyformView.*" layout="absolute" initialize="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import DyformView.DateView;
+		   public var params:Object="";
+			
+			public function init():void{
+             var args:Object = getParams();    
+       	    if(args.name!= null) {  
+              DateView.Urlname=args.name;
+             } 
+             if(args.model=="new") {  
+              DateView.modletype=true;
+             } 
+             if(args.model=="edits"){
+             DateView.modletype=false;
+             }
+             if(args.parentdir!=null){
+             DateView.parentdir1=args.parentdir;
+             }
+            
+			}
+			
+			 //更具js 获取到url上的数据    
+       private function getParams():Object { 
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+		]]>
+	</mx:Script>
+	<mx:ViewStack id="ViewStack1" width="100%"  height="100%" x="0"  y="0" >
+		<ns1:dyformviewpage id="dyformviewpage1" width="100%"  height="100%" x="0"  y="0"  borderColor="#FFFFFF" themeColor="#FFFFFF" backgroundColor="#FFFFFF"/>
+		<ns1:Dyformsqlview id="Dyformsqlview1" width="100%"  height="100%" x="0"  y="0"  borderColor="#FFFFFF" themeColor="#FFFFFF" backgroundColor="#FFFFFF"/>
+	    <ns1:dyformfield id="dyformfield1"  width="100%"  height="100%" x="0"  y="0"  borderColor="#FFFFFF" themeColor="#FFFFFF" backgroundColor="#FFFFFF"/>
+	</mx:ViewStack>
+</mx:Application>

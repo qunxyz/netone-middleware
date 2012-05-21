@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" xmlns:ns1="framework.*"  creationComplete="ccp()"   
+      xmlns:ns2="PolymerizationShow.*" fontSize="12"  width="100%" height="300" >
+  <mx:Script>
+  	<![CDATA[
+  		import BI.EvTijiao;
+  		import BI.EvTjFs;
+  		import framework.variable;
+  		import BrickTake.SelectValue;
+  		import framework.SelectTree;
+  		import ActionForm.From.com.hitb.component.Data;
+  		import mx.core.IFlexDisplayObject;
+  		import mx.managers.PopUpManager;
+  		import mx.events.ScrollEvent;
+  		import mx.events.FlexEvent;
+  		import mx.logging.ILogger;
+  		import com.blitzagency.xray.logger.Log;
+  		import com.blitzagency.xray.logger.Logger;
+  		import mx.containers.TitleWindow;
+  		import mx.containers.ViewStack;
+  		import ActionForm.From.com.hitb.util.GlobalManager;
+  		import mx.controls.Button;
+  		import mx.collections.ArrayCollection;
+  		import mx.rpc.events.ResultEvent;
+  		import mx.controls.Alert;
+  	      [Bindable]
+  	      public var params:Object;
+   
+  	       
+  	       [Bindable]//节点上的数据
+  	       public var Nodearr:ArrayCollection=new ArrayCollection();
+  	       [Bindable]//text上的提示绑定
+  	       public var text:String;
+  	        [Bindable]//text上的提示绑定节点name
+  	       public var Nodename:String;
+  	       [Bindable]//当前节点的
+  	       public var index:int=1;
+  	       [Bindable]
+  	       public var Ylable:int=0;  	      	        
+  	       [Bindable]
+  	       public var vs:ViewStack;
+  	       [Bindable]//xml 数据的解析
+  	      public  var xmllist:XMLList;
+  	       [Bindable]
+  	       public var textpath:String="";
+  	    public function init():void{ //初始化的方法	     
+	             vs=this.parent as ViewStack;
+                 textpath="路径： "+DateView.Urlname+" 第3步，共"+DateView.sum+"步"; 
+  				 ziduanshuju();
+  	    }
+  	    public function ccp():void{
+  	       if(!DateView.modletype){
+  	     
+  	       }
+  	    }
+  	    public function ziduanshuju():void{
+  	         var arr:Array=DateView.fieldname.split("$_$");
+  	         var arrname:Array=String(arr[0]).split(",");
+  	         var arrtype:Array=String(arr[1]).split(",");
+  	         arrtype.pop();
+  	         arrname.pop(); 
+  	         var h:int=10; 
+  	         canvas1.removeAllChildren();        
+  	         for(var i:int=0;i<arrtype.length;i++){
+  	           var fc:FieldControl=new FieldControl();
+	  	       fc.x=55;
+	  	       fc.y=h;	   
+	  	       fc.id="fc"+i;   
+	  	       fc.Name=arrname[i];
+	  	       fc.type=arrtype[i];
+	  	       canvas1.addChild(fc);
+	  	       h=h+43;
+  	         }
+  	    }
+ 
+ 
+  	    //选择需要的表单
+  	    public function xuanbiaodan():void{
+  	    		variable.modelname="视图表单"; 
+  	            var schir:SelectView=new SelectView();
+       	        PopUpManager.addPopUp(schir,this,true);
+       	        PopUpManager.centerPopUp(schir as IFlexDisplayObject);
+  	    }
+  	      //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("Dyformsqlview1");
+            vs.selectedChild=o as Canvas;
+          }
+          //完成
+         public function DownNode(event:MouseEvent):void{
+   			for(var i:int=0;i<canvas1.getChildren().length;i++){
+   				if(FieldControl(canvas1.getChildren()[i]).textinput.text==""){
+   				Alert.show("中文名不能为空");
+   				}else{
+            	dropc.updateColumn(DateView.Formcode,FieldControl(canvas1.getChildren()[i]).Name,FieldControl(canvas1.getChildren()[i]).textinput.text,(i+1).toString());
+                }
+          }
+           
+         }
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+        public function result(event:ResultEvent):void{
+	        if(event.result as String==String(canvas1.getChildren().length)){
+	        navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+	        }
+        }
+
+		]]>
+  </mx:Script>
+ <mx:RemoteObject id="dropc"   destination="dropColumn" showBusyCursor="true"  result="result(event)"/>
+   <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		    <mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="配置字段的名称"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="视图表单" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示: 需要手工识别BELONGX的类型和CREATED的类型,然后单击“完成”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  id="canvas1" width="100%" height="307"  x="137" y="235" fontSize="18">
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="完成" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 	<mx:Label x="203" y="197"  fontSize="18" text="字段别名"/>
+ 	<mx:Label x="357" y="197"  fontSize="18" text="字段类型"/>
+ 	<mx:Label x="557" y="197"  fontSize="18" text="中文名称"/>
+</mx:Canvas>

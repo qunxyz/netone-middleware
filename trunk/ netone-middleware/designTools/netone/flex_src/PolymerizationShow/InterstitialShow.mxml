@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow  xmlns:mx="http://www.adobe.com/2006/mxml" showCloseButton="true"     
+      title="{}"  initialize="init()" close="Exest()" width="100%" height="100%" xmlns:ns1="framework.*" >
+	 <mx:Script>
+	 	<![CDATA[
+	 		import BI.EvTijiao;
+	 		import BI.EvTjFs;
+	 		import mx.containers.Canvas;
+	 		import mx.containers.ViewStack;
+	 	     
+	 	     [Bindable]
+	 	     public var vs:ViewStack;
+	 	     [Bindable]
+	 	     public var url:String;
+	 	    public function init():void{//初始化的方法
+	 	    EvTjFs.getInstance().addEventListener("URLshuanxin",URLshuanxin);
+	 	    vs=this.parent as ViewStack;
+	 	    iframe.source=url;
+	 	    }
+	 		public function Exest():void{//退出全屏的方法
+	 		var o:Object=this.parent.getChildByName("PSMain1");
+	 		vs.selectedChild=o as Canvas;
+	 		  ExternalInterface.call("zIndex", "iFrame10","1");  
+	 		}
+           public function  URLshuanxin(event:EvTijiao):void{
+          iframe.source=event.Formcode();
+           }
+	 	]]>
+	 </mx:Script>
+	  <mx:Canvas x="0" y="0" width="100%" height="100%">
+	  	<ns1:IFrame id="iframe"  width="100%" height="100%" x="0" y="0"/>
+	  </mx:Canvas>
+</mx:TitleWindow>

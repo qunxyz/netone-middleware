@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="920"  initialize="zbfunction()"   height="100%">
+	<mx:Script>
+		<![CDATA[
+			import mx.charts.PieChart;
+			import mx.charts.series.PieSeries;
+			import mx.controls.Alert;
+			[Bindable]
+			public var xmllist:XMLList;
+			[Bindable]
+			public var num:int;
+       public function changeChartData():void
+	   {
+	      	
+	   }   
+	   public function zbfunction():void
+	   {  
+	   
+	 
+	   }
+	   public function  loadxml(sourcexml:XML):void
+	    {
+	           xmllist=new XMLList(sourcexml);
+	         
+	    }
+	    public function displayData(data:Object,field:String, index:Number, percentValue:Number):String
+	    {
+	    	 var temp:String= (" " + percentValue).substr(0,6);
+             return data.@x + ": " + '\n' + "Total Value: " + data.@y + '\n' + temp + "%";
+	   
+	     }
+	   ]]>
+	</mx:Script>
+	 <mx:SolidColor id="up" color="green" alpha=".8"/>
+    <mx:SolidColor id="down" color="red" alpha=".8"/>
+
+    <!-- Define custom Stroke for the candle wick. -->
+    <mx:Stroke id="wick" color="black" weight="2"/>
+
+    <!-- Define custom Stroke for the candle box. -->
+    <mx:Stroke id="box" color="black" weight="1"/>
+
+
+	 <!-- Define custom colors for use as fills in the AreaChart control. -->
+    <mx:SolidColor id="sc1" color="blue" alpha=".3"/>
+    <mx:SolidColor id="sc2" color="red" alpha=".3"/>
+    <mx:SolidColor id="sc3" color="green" alpha=".3"/>
+    <mx:SolidColor id="sc4" color="yellow" alpha=".3"/>
+    <mx:SolidColor id="sc5" color="black" alpha=".3"/>
+    <mx:SolidColor id="sc6" color="purple" alpha=".3"/>
+    <!-- Define custom Strokes. -->
+    <mx:Stroke id = "s1" color="blue" weight="2"/>
+    <mx:Stroke id = "s2" color="red" weight="2"/>
+    <mx:Stroke id = "s3" color="green" weight="2"/>
+    <mx:Stroke id="s4" color="yellow" weight="2"/>
+    <mx:Stroke id="s5" color="black" weight="2"/>
+    <mx:Stroke id="s6" color="purple" weight="2"/>
+
+	<mx:states>
+		<mx:State name="One">
+			<mx:SetProperty target="{PanelChart2}"
+							name="x"
+							value="192"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="y"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="width"
+							value="100%"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="height"
+							value="100%"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="y"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="width"
+							value="194"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="height"
+							value="118"/>
+			 </mx:State>
+     <mx:State name="Two">
+			<mx:SetProperty target="{PanelChart3}"
+							name="x"
+							value="192"/>
+			<mx:SetProperty target="{PanelChart3}"
+							name="y"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart3}"
+							name="width"
+							value="100%"/>
+			<mx:SetProperty target="{PanelChart3}"
+							name="height"
+							value="100%"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="y"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="width"
+							value="194"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="height"
+							value="118"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="y"
+							value="126"/>
+		</mx:State>
+		<mx:State name="Three">
+			<mx:SetProperty target="{PanelChart4}"
+							name="x"
+							value="192"/>
+			<mx:SetProperty target="{PanelChart4}"
+							name="y"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart4}"
+							name="width"
+							value="100%"/>
+			<mx:SetProperty target="{PanelChart4}"
+							name="height"
+							value="100%"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="y"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="width"
+							value="194"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="height"
+							value="118"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="y"
+							value="126"/>
+			<mx:SetProperty target="{PanelChart3}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart3}"
+							name="y"
+							value="249"/>
+			<mx:SetProperty target="{PanelChart5}"
+							name="x"
+							value="0"/>
+		</mx:State>
+		<mx:State name="Four">
+			<mx:SetProperty target="{PanelChart5}"
+							name="x"
+							value="192"/>
+			<mx:SetProperty target="{PanelChart5}"
+							name="y"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart5}"
+							name="width"
+							value="100%"/>
+			<mx:SetProperty target="{PanelChart5}"
+							name="height"
+							value="100%"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="y"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="width"
+							value="192"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="height"
+							value="118"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="y"
+							value="126"/>
+			<mx:SetProperty target="{PanelChart3}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart3}"
+							name="y"
+							value="249"/>
+			<mx:SetProperty target="{PanelChart4}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart4}"
+							name="y"
+							value="375"/>
+		</mx:State>
+		<mx:State name="Five">
+			<mx:SetProperty target="{PanelChart1}"
+							name="x"
+							value="192"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="y"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="width"
+							value="100%"/>
+			<mx:SetProperty target="{PanelChart1}"
+							name="height"
+							value="100%"/>
+ 
+			<mx:SetProperty target="{PanelChart3}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart3}"
+							name="y"
+							value="126"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="x"
+							value="0"/>
+			<mx:SetProperty target="{PanelChart2}"
+							name="y"
+							value="249"/>
+			<mx:SetProperty target="{PanelChart4}"
+							name="x"
+							value="0"/>
+	    	<mx:SetProperty target="{PanelChart4}"
+							name="y"
+							value="375"/>
+			<mx:SetProperty target="{PanelChart5}"
+							name="y"
+							value="0"/>
+		</mx:State>
+	</mx:states>
+	<mx:transitions>
+		<mx:Transition fromState="*"
+					   toState="*">
+			<mx:Sequence id="t1"
+						 duration="1200"
+						 targets="{[PanelChart2,PanelChart3,PanelChart1,PanelChart4,PanelChart5]}">
+				<mx:Parallel>
+		           <mx:Parallel>
+						<mx:Move/>
+						<mx:Resize/>
+					</mx:Parallel>
+				</mx:Parallel>
+			</mx:Sequence>
+		</mx:Transition>
+	</mx:transitions>
+   <mx:Panel id="PanelChart1" width="100%" height="100%"  click="currentState='Five'"  y="0"   title="条线图 barchart" x="192">	
+    	 <mx:BarChart id="bar" height="100%" width="45%" 
+            paddingLeft="5" paddingRight="5" 
+            showDataTips="true" dataProvider="{xmllist.dsinfo}">
+                
+            <mx:verticalAxis>
+                <mx:CategoryAxis categoryField="@x"/>
+            </mx:verticalAxis>
+                
+            <mx:series>
+                <mx:BarSeries 
+                    yField="@x" 
+                    xField="@y" 
+                    displayName="@y"
+                    fill="{sc1}"
+                    stroke="{s1}"
+                />
+                <mx:BarSeries 
+                    yField="@x" 
+                    xField="@y1" 
+                    displayName="@y1"
+                    fill="{sc2}"
+                    stroke="{s2}"
+                />
+                <mx:BarSeries 
+                    yField="@x" 
+                    xField="@y2" 
+                    displayName="@y2"
+                    fill="{sc3}"
+                    stroke="{s3}"
+                />
+                  <mx:BarSeries 
+                    yField="@x" 
+                    xField="@y3" 
+                    displayName="@y3"
+                    fill="{sc4}"
+                    stroke="{s4}"
+                />
+                <mx:BarSeries 
+                    yField="@x" 
+                    xField="@y4" 
+                    displayName="@y4"
+                    fill="{sc5}"
+                    stroke="{s5}"
+                />
+                <mx:BarSeries 
+                    yField="@x" 
+                    xField="@y5" 
+                    displayName="@y5"
+                    fill="{sc6}"
+                    stroke="{s2}"
+                />
+                <mx:BarSeries 
+                    yField="@x" 
+                    xField="@y6" 
+                    displayName="@y6"
+                    fill="{sc3}"
+                    stroke="{s3}"
+                />
+            </mx:series>
+        </mx:BarChart>
+ </mx:Panel>
+    <mx:Panel id="PanelChart4" width="194" height="118" y="249"  click="currentState='Three'" x="0" title="散点图 plotchart">
+    	  
+        <mx:PlotChart id="plot" 
+            height="100%" 
+            width="100%"
+         
+            showDataTips="true" 
+            dataProvider="{xmllist.dsinfo}"
+        >                
+            <mx:series>
+                <mx:PlotSeries
+                    xField="@x"
+                    yField="@y"
+                    displayName="Plot 1"
+                    fill="{sc1}"
+                    stroke="{s1}"
+                />
+                <mx:PlotSeries
+                    xField="@x"
+                    yField="@y1"
+                    displayName="Plot 2"
+                    fill="{sc2}"
+                    stroke="{s2}"
+                />
+                <mx:PlotSeries
+                    xField="@x"
+                    yField="@y3"
+                    displayName="Plot 3"
+                    fill="{sc3}"
+                    stroke="{s3}"
+                />
+            </mx:series>
+        </mx:PlotChart>
+        <mx:Legend dataProvider="{plot}"/>
+
+    </mx:Panel>
+    <mx:Panel id="PanelChart5" width="194" height="118" click="currentState='Four'" y="375">
+		      <mx:HLOCChart id="hlocChart"
+               showDataTips="true"
+              dataProvider="{xmllist.dsinfo}"
+               width="100%"
+             height="100%">
+
+            <!-- vertical axis -->
+            <mx:verticalAxis>
+                <mx:LinearAxis baseAtZero="false" />
+          </mx:verticalAxis>
+
+            <!-- horizontal axis -->
+            <mx:horizontalAxis>
+                <mx:CategoryAxis categoryField="@x" title="Date"/>
+            </mx:horizontalAxis>
+ 
+            <!-- series -->
+            <mx:series>
+                <mx:HLOCSeries id="series1"
+                        highField="@y"
+                        lowField="@y1"
+                        openField="@y2"
+                        closeField="@y3"/>
+            </mx:series>
+        </mx:HLOCChart>
+     </mx:Panel>
+         <mx:Panel id="PanelChart2" width="194"  horizontalScrollPolicy="off" verticalScrollPolicy="off" height="118"  click="currentState='One'" y="0" title="气泡图 bubblechart">
+          <mx:BubbleChart id="bubblechart" 
+            height="100%" width="100%"
+         showDataTips="true" maxRadius="20"
+            dataProvider="{xmllist.dsinfo}">
+            <mx:series>
+                <mx:BubbleSeries 
+                    displayName="@y" 
+                    xField="@x" 
+                    yField="@y" 
+                     radiusField="@y1"
+                    fill="{sc1}"
+                    stroke="{s1}"
+                />
+                    <mx:BubbleSeries 
+                    displayName="@y1" 
+                    xField="@x" 
+                    yField="@y1" 
+                    fill="{sc2}"
+                    stroke="{s2}"
+                />
+                    <mx:BubbleSeries 
+                    displayName="@y2" 
+                    xField="@x" 
+                    yField="@y2" 
+                    fill="{sc3}"
+                    stroke="{s3}"
+                />
+                    <mx:BubbleSeries 
+                    displayName="@y3" 
+                    xField="@x" 
+                    yField="@y3" 
+                    fill="{sc4}"
+                    stroke="{s4}"
+                />
+                    <mx:BubbleSeries 
+                    displayName="@y4" 
+                    xField="@x" 
+                    yField="@y4" 
+                    fill="{sc5}"
+                    stroke="{s5}"
+                />
+                      <mx:BubbleSeries 
+                    displayName="@y5" 
+                    xField="@x" 
+                    yField="@y5" 
+                    fill="{sc6}"
+                    stroke="{s6}"
+                />
+            </mx:series>            
+        </mx:BubbleChart>            
+     
+		</mx:Panel>
+          	<mx:Panel id="PanelChart3" width="194" horizontalScrollPolicy="off" verticalScrollPolicy="off" height="127" click="currentState='Two'" y="126" title="烛台图 candlestickChart">
+          	   <mx:CandlestickChart id="candlestickchart" 
+            height="100%" 
+            width="100%"
+            paddingRight="5" 
+            paddingLeft="5" 
+            showDataTips="true"
+            dataProvider="{xmllist.dsinfo}"
+        >            
+            <mx:verticalAxis>
+                <mx:LinearAxis id="vaxis" baseAtZero="false" title="Price"/>
+            </mx:verticalAxis>
+
+            <mx:horizontalAxis>
+                <mx:CategoryAxis id="haxis" categoryField="Date" title="Date"/>
+            </mx:horizontalAxis>
+
+            <mx:horizontalAxisRenderers>
+                <mx:AxisRenderer axis="{haxis}" canDropLabels="true"/>
+            </mx:horizontalAxisRenderers>
+
+            <mx:series>
+                <mx:CandlestickSeries 
+                    openField="@y" 
+                    highField="@y2" 
+                    lowField="@y3" 
+                    closeField="@y1"
+                    fill="{up}"
+                    declineFill="{down}"
+                    stroke="{wick}"
+                    boxStroke="{box}"
+                />
+            </mx:series>
+        </mx:CandlestickChart>
+
+          	</mx:Panel>
+ </mx:Canvas>

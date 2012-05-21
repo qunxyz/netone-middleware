@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  width="100%" height="100%"
+	 initialize="init()">
+<mx:Script>
+	<![CDATA[
+	  /**
+	  * 应用框架   应用环节配置
+	  * xuwei（2012-2-23）
+	  * 
+	  * 
+	  * **/
+		import BI.EvTjFs;
+		import mx.core.IFlexDisplayObject;
+		import mx.managers.PopUpManager;
+		import mx.rpc.events.ResultEvent;
+		import mx.collections.ArrayCollection;
+		import mx.controls.Alert;
+	    import mx.containers.Canvas; 
+        import mx.containers.ViewStack; 
+        import mx.events.ListEvent;
+     	import mx.controls.DataGrid;
+     	import mx.controls.dataGridClasses.DataGridListData;
+     	public static var daibanname:String;
+     	public var editflowFrom:EditflowFrom;
+     	[Bindable]
+     	public var arrdaiban:ArrayCollection=new ArrayCollection();
+     private var vs:ViewStack; 
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable] 
+     private var i:int=3; 
+      [Bindable]
+       public static var idcreated:String;
+     private function init():void{ 
+     	EvTjFs.getInstance().addEventListener("shuxin",shuxin);  
+       querdaiban1.step2(variable._idcreated1);
+     } 
+     public function shuxin(event:MouseEvent):void{
+     querdaiban1.step2(variable._idcreated1);
+     }
+      private function getChild(str:String):Object{ 
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+		} 
+		} 
+		return obj;
+		} 
+
+		 public  function clickEvent(name:String,naturalname:String,Objecttype:String):void{
+		                  	variable.daiban=naturalname;
+		                      daibanname=name;
+		                      variable.daibanname=name;
+		                    variable.Objecttype=Objecttype;
+		                   	editflowFrom=new EditflowFrom();
+		 		          PopUpManager.addPopUp(editflowFrom,this.parent.parent,true);
+		 		          PopUpManager.centerPopUp(editflowFrom as IFlexDisplayObject);
+		 }
+		 
+		 public function handerResult2(event:ResultEvent):void{
+		 arrdaiban=event.result as ArrayCollection;
+		 }
+	]]>
+</mx:Script>
+       	<mx:RemoteObject  id="querdaiban1" destination="Querdaiban1" showBusyCursor="true"   result="handerResult2(event)"/>	
+    	  <mx:TitleWindow width="100%" height="100%"
+    	 fontSize="15" fontWeight="bold"
+    	  title="应用环节配置"
+    	  backgroundColor="#ffffff"   >
+        <mx:DataGrid 
+        	fontSize="15"  dataProvider="{arrdaiban}"
+        	width="100%" height="100%" y="0">
+            <mx:columns>
+                <mx:DataGridColumn headerText="中文名称" dataField="name"/>
+                <mx:DataGridColumn headerText="名    称" dataField="naturalname"/>
+                 <mx:DataGridColumn headerText="配    置"  width="80">
+	                <mx:itemRenderer>
+                	<mx:Component> 
+					<mx:LinkButton label="配置" color="blue"  click="{outerDocument.clickEvent(data.naturalname,data.name,data.objecttype)}"/>
+					</mx:Component>
+				 </mx:itemRenderer>
+				</mx:DataGridColumn>
+            </mx:columns>
+           </mx:DataGrid>
+    </mx:TitleWindow>
+</mx:Canvas>

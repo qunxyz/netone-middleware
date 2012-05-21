@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+<mx:Script>
+	<![CDATA[
+	    import mx.controls.Alert;
+	    //加载个人信息
+	    private function loadinfo():void{
+	    	accid.text="";
+	    	Eid.text="";
+	    	
+	    }
+	    //验证2次密码一致性
+	    private function checknewpwd():void{
+	    	if(newpwdid.text!=againid.text)
+	    	{
+	    		Alert.show("两次密码不一致！");
+	    		return;
+	    	}
+	    	if(newpwdid.text=="")
+	    	{
+	    		Alert.show("密码不能为空");
+	    		return;
+	    	}
+	    	
+		} 
+	    //验证旧密码正确性
+	     
+	    	private function checkoldpwd(oldpwd:String):void{
+	    	if(oldpwd!="123")
+	    	{
+	    		Alert.show("旧密码错误！");
+	    		return;
+	    	}
+	    	
+		}
+		//修改密码
+		private function changpwd(newpwd:String):void{
+			checknewpwd();
+			checkoldpwd(oldpwdid.text);
+			Alert.show(newpwd);
+		} 
+	]]>
+</mx:Script>
+	<mx:TitleWindow width="100%" height="100%" layout="vertical" title="修改密码" fontSize="15" horizontalCenter="0" verticalCenter="0">
+	   <mx:Canvas width="100%" height="100%">
+	   	
+
+		<mx:Label y="44" text="帐 号"  horizontalCenter="-283"/>
+		<mx:Label y="85" text="E-mail"  horizontalCenter="-277"/>
+		<mx:Label y="128" text="旧密码" horizontalCenter="-278"/>
+		<mx:Label y="173" text="新密码"  horizontalCenter="-278"/>
+		<mx:Label y="215" text="确  认"  horizontalCenter="-280"/>
+		<mx:TextInput id="accid" y="44" width="448" editable="false" horizontalCenter="-16"/>
+		<mx:TextInput id="Eid" y="85" width="448" editable="false" horizontalCenter="-16"/>
+		<mx:TextInput id="oldpwdid" y="128" width="448" horizontalCenter="-16"/>
+		<mx:TextInput id="newpwdid" y="173" width="448" horizontalCenter="-16"/>
+		<mx:TextInput id="againid" y="215" width="448" horizontalCenter="-16"/>
+		<mx:Button y="278" label="提交" click="{changpwd(newpwdid.text)}" horizontalCenter="-35"/>
+			   </mx:Canvas>
+	</mx:TitleWindow>
+	
+</mx:Canvas>

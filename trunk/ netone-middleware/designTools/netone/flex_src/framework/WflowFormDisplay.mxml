@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:ns1="framework.*" initialize="init()" >
+ <mx:Script>
+ 	<![CDATA[
+ 		import mx.controls.Alert;
+ 		import BI.EvTjFs;
+ 		import mx.rpc.events.ResultEvent;
+ 		import mx.events.ResizeEvent;
+ 		import mx.containers.ViewStack;
+ 	    private var vs:ViewStack;  
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable]//textpath
+     public var textpath:String="";
+     
+    private function init():void{ 
+     textpath="路径： "+variable.URLname+" 第6步，共6步";  
+      vs=this.parent as ViewStack; 
+      trace(vs.id); 
+     } 
+     
+          //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("WpersonDisplay");
+            vs.selectedChild=o as Canvas;
+          }
+          //完成的方法
+          public function DownNode(event:MouseEvent):void{
+            Alert.show("保持成功");  
+          navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close();window.close()'),'_self');
+         }
+ 
+  
+ 	]]>
+ </mx:Script>
+	       <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="应用环节配置"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="业务框架" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置应用环节的代办提示, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="100%" height="313"  x="0" y="212" fontSize="15"  >  
+			<ns1:flowFormDisplay  x="0" y="0" id="updateappliction" label="应用环节配置" width="100%" height="100%">
+			</ns1:flowFormDisplay>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="完成" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+
+</mx:Canvas>

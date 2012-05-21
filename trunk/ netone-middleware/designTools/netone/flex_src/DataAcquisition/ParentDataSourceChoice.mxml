@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:ns1="DataAcquisition.*" initialize="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.core.IFlexDisplayObject;
+			import framework.SelectTree;
+			import framework.variable;
+			import BI.EvTjFs;
+			import mx.managers.PopUpManager;
+			import mx.controls.Alert;
+			import mx.containers.ViewStack;
+			import mx.rpc.events.ResultEvent;
+			import BI.EvTijiao;
+			 
+          public var vs:ViewStack;
+          [Bindable]//textpath
+          public var textpath:String;
+          
+          //连接数据库
+	      public static var   urlString:String;
+		  public static var   username:String;
+		  public static var   pwd:String;
+		  public static var   driver:String;
+		  
+		  [Bindable]
+		  public static var   arrurlString:String;
+		  [Bindable]
+		  public static var   arrusername:String;
+		  [Bindable]
+		  public static var   arrpwd:String;
+		  [Bindable]
+		  public static var   arrdriver:String;
+		   [Bindable]
+		  public static var   arrsql:String;
+		  
+          public function init():void{
+          vs=this.parent as ViewStack;
+          textpath="路径： "+AcquisitionDeliver.URLname+" 第2步，共6步";
+          if(!AcquisitionDeliver.modeltype){
+              var xml:XML=AcquisitionDeliver.controlxml;
+              var xmllist:XMLList=new XMLList(xml.child("source"));
+               arrurlString=String(xmllist[0].@url);
+               arrusername=String(xmllist[0].@username);
+               arrpwd=String(xmllist[0].@password);
+               arrdriver=String(xmllist[0].@driver);
+             }
+          }
+          
+		 public function  Savefile1(event:ResultEvent):void{
+	      }
+			//选择驱动
+			public function xuanzhequdong():void{
+			  variable.modelname="DATASOURCE"; 
+			  var sf:SelectTree=new SelectTree();
+			  PopUpManager.addPopUp(sf,this,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);  
+			}
+          //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("GatherResource1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+          	 if(s1.text!="" && s2.text!="" && s3.text!="" && s4.text!=""){
+          	 	AcquisitionDeliver.s1=s1.text;
+        		AcquisitionDeliver.s2=s2.text;
+        		AcquisitionDeliver.s3=s3.text;
+        	 	AcquisitionDeliver.s4=s4.text;
+          	   var o:Object=this.parent.getChildByName("Checksheet1");
+               vs.selectedChild=o as Canvas;
+             }else{
+               Alert.show("选择的驱动不为空");
+             }
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+         }
+		]]>
+	</mx:Script>
+	<mx:RemoteObject id="Savef" destination="savexmlfile" showBusyCursor="true" result="Savefile1(event)" />
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="数据源"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="数据采集" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:选择驱动成功, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="863" height="282"  x="137" y="223" fontSize="18">
+		<mx:Label x="21" y="23" text="数据库地址"  fontWeight="bold"/>
+		<mx:TextInput x="124" y="21" id="s1" width="348" tabIndex="1" text="{arrurlString}" />
+		<mx:Label x="21" y="74" text="帐  号" width="70" fontWeight="bold"/>
+		<mx:Label x="21" y="125" text="密  码  " fontWeight="bold"/>
+		<mx:Label x="21" y="170" text="驱  动" fontWeight="bold"/>
+		<mx:TextInput x="124" y="72" width="348" id="s2" tabIndex="2" text="{arrusername}" />
+		<mx:TextInput x="124" y="123" width="348" id="s3" tabIndex="3" text="{arrpwd}" />
+		<mx:TextInput x="124" y="168" width="348" id="s4" tabIndex="4" text="{arrdriver}" />
+		<mx:Button x="491" y="21" label="选择驱动"  click="{xuanzhequdong()}"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

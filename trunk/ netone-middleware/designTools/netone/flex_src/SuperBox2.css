@@ -1,0 +1,73 @@
+/* CSS file */
+        .app
+		{
+		 backgroundColor:		#FFFFFF;
+		 backgroundImage:        Embed("img/9bj.png");  
+		}
+		Application
+		{
+		 backgroundColor:		#FFFFFF;
+		 backgroundImage:        Embed("img/9bj_2.png");  
+		}
+		.menuid
+		{    
+			backgroundImage:        Embed("img1/d.png");
+		}
+	/* 	.cvsid
+		{
+			backgroundImage:        Embed("img/9bj_1.png");
+		} */
+
+		.ToggleButton
+		{
+		    cornerRadius:           0;
+		    fillAlphas:             0, 0;
+		    highlightAlphas:        .5, .25;
+		    fontWeight:             "normal";
+		    fontSize:               14;
+		    color:                  #FFFFFF;
+		    selectedOverSkin:       Embed("img1/ck.png");
+		    selectedUpSkin:         Embed("img1/b-01.png");
+		    selectedDownSkin:       Embed("img1/c-01.png");
+		    textSelectedColor:      #06B4A5;
+		    textSelectedUpColor:    #06B4A5; 
+		        
+		}
+        Alert {
+        	backgroundImage:    Embed("img/alertimg.jpg");  
+            titleStyleName: "alertTitle";
+            messageStyleName: "alertMessage";
+            buttonStyleName: "alertButton";
+            borderThicknessBottom: 0;
+            borderThicknessTop:0;
+            borderThicknessLeft: 0;
+            borderThicknessRight: 0;
+            borderAlpha: 0.6;
+            borderColor: #8DD2D3;
+            dropShadowEnabled: false;
+        }
+         .alertTitle {
+            letterSpacing: 0;
+            fontSize: 12;
+            color: #3BA7FF;
+        }
+        .alertMessage {
+            letterSpacing: 0;
+            fontSize: 14;
+            fontWeight: normal;
+            color: #3BA7FF;
+        }
+        .alertButton {
+            color: #3BA7FF;
+            cornerRadius: 12;
+            fontFamily: myComicSansMS;
+            fontSize: 10;
+            fontWeight: normal;
+            textDecoration: underline;
+            themeColor: #3BA7FF;
+        }
+        
+        MenuBar{
+        	rollOverColor : #095b94;
+        	selectionColor :  #095c94
+        }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  xmlns:ns1="safe.*" width="100%" height="100%" fontSize="15" xmlns:ns2="safetwo.*">
+	<mx:VBox width="84" height="390" horizontalScrollPolicy="off" fontSize="15">
+		<mx:ToggleButtonBar dataProvider="{viewstack1}" height="214" width="81" fontSize="12" direction="vertical">
+		</mx:ToggleButtonBar>
+</mx:VBox>
+	<mx:ViewStack x="83" y="0" id="viewstack1" width="100%" height="100%" fontSize="15">
+		<ns1:UserCom label="用户管理" id="userm" width="100%" height="100%">
+		</ns1:UserCom>
+		<ns1:userinfo label="个人信息" id="useri" width="100%" height="100%">
+		</ns1:userinfo>
+		<ns1:changepwd label="修改密码" id="pwdc" width="100%" height="100%">
+		</ns1:changepwd>
+		<ns1:NewClass label="部门人员" id="depp" width="100%" height="100%">
+		</ns1:NewClass>
+		<ns1:ClassRoleCom label="部门角色" id="depr" width="100%" height="100%">
+		</ns1:ClassRoleCom>
+		<ns1:RoleCom label="角色管理" id="rolem" width="100%" height="100%">
+		</ns1:RoleCom>
+		<ns1:syslog label="系统日志"  id="sysl" width="100%" height="100%">
+		</ns1:syslog>
+
+	</mx:ViewStack>
+</mx:Canvas>

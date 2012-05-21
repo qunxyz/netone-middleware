@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" fontSize="20"
+	 initialize="{init()}"	 	  >
+	
+	 <mx:Script>
+	 	<![CDATA[
+	 	
+	 import mx.containers.ViewStack;   //导入viwstack包，下面要用到viewstack类型
+     import mx.controls.Alert;
+      [Bindable] 
+      public var info:String; 
+      
+     import mx.containers.Canvas;  
+     private var vs:ViewStack; 
+     [Bindable] 
+     public var loginsuccess:String; 
+
+    private function init():void{ 
+      vs=this.parent as ViewStack; 
+      trace(vs.id); 
+     } 
+     
+    private function getChild(str:String):Object{ 
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+} 
+} 
+return obj; 
+} 
+//新建目录的方法
+private function SteExit():void{ 
+var o:Object=this.getChild("workflowHP"); 
+vs.selectedChild=o as Canvas; 
+} 
+	
+
+	 	]]>
+	 </mx:Script>
+      <mx:TitleWindow  x="0" y="0" width="100%" height="100%" layout="absolute" title="新建目录" 
+			fontSize="15" showCloseButton="true" close="SteExit();">
+		<mx:Label x="92" y="27" text="有      效:" fontSize="15"/>
+		<mx:Label x="92" y="68" text="名      称:" fontSize="15"/>
+		<mx:Label x="92" y="105" text="中文名称:" fontSize="15"/>
+		<mx:Label x="420" y="68" text="选择分类:" fontSize="15"/>
+		<mx:Label x="420" y="109" text="引      用:" fontSize="15"/>
+		<mx:Label x="92" y="144" text="扩张属性:" fontSize="15"/>
+		<mx:Label x="97" y="260" text="描     述:" fontSize="15"/>
+		<mx:CheckBox x="208" y="27"/>
+		<mx:TextInput x="172" y="66"/>
+		<mx:TextInput x="172" y="149" width="488" height="80"/>
+		<mx:TextInput x="172" y="254" width="488" height="80"/>
+		<mx:TextInput x="172" y="108"/>
+		<mx:TextInput x="500" y="66"/>
+		<mx:TextInput x="500" y="107"/>
+		<mx:Button x="486" y="344" label="新建" width="71"/>
+		<mx:Button x="580" y="344" label="关闭" width="71" click="{SteExit()}" />
+		<mx:CheckBox x="185" y="221" label="持久化"/>
+	</mx:TitleWindow>
+</mx:Canvas>
+

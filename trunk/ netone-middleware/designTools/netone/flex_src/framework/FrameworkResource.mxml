@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" xmlns:ns1="framework.*"    
+      xmlns:ns2="PolymerizationShow.*" fontSize="12"  width="100%" height="300" >
+  <mx:Script>
+  	<![CDATA[
+  	  /**
+  	  *  业务框架  创建资源页面
+  	  *  xuwei（2012-2-22）
+  	  * 
+  	  * 
+  	  * */
+  	  	import mx.events.ScrollEvent;
+  		import mx.events.FlexEvent;
+  		import mx.logging.ILogger;
+  		import com.blitzagency.xray.logger.Log;
+  		import com.blitzagency.xray.logger.Logger;
+  		import mx.containers.TitleWindow;
+  		import mx.containers.ViewStack;
+ 
+  		import mx.controls.Button;
+  		import mx.collections.ArrayCollection;
+  		import mx.rpc.events.ResultEvent;
+  		import mx.controls.Alert;
+
+  	      [Bindable]
+  	      public var params:Object;
+  	       [Bindable]
+  	       public var vs:ViewStack;
+  	       [Bindable]
+  	       public var textpath:String="";
+  	    public function init():void{ //初始化的方法	           
+	             vs=this.parent as ViewStack;
+                 textpath="路径： "+variable.URLname+" 第1步，共6步";   
+                 if(!variable. Updatakuabgjian){
+                  query23.step2(variable._idcreated1);
+                 }
+  	    }
+         public function DownNode(event:MouseEvent):void{
+         	
+         	if(repid.text.toString()!="" && repdimxplay.text.toString()!=""){
+         		if(!variable. Updatakuabgjian){
+                  variable.repidID=repid.text.toString();
+	         	  variable.repdimxpla=repdimxplay.text.toString();
+	           	  var o:Object=this.parent.getChildByName("FmFwSelect1");
+	         	  vs.selectedChild=o as Canvas
+          		 }else{
+          		  queryID1.QueryID(variable.URLname,repid.text);
+          		 }
+         	}else{
+         	 Alert.show("业务框架ID或业务框架中文名没有填写");
+         	 }
+         }
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+         }
+         
+          public function handerResult3(event:ResultEvent):void{ 
+          	variable.URLname="";
+		      var arr:ArrayCollection=event.result as ArrayCollection;
+			     repid.text=arr[5];
+			     repdimxplay.text=arr[6];
+			     variable.formendtitle=arr[2];
+			     variable.formtitle=arr[3];
+			    variable.worklistsize=arr[4];
+			     variable._formchoose=arr[0];
+			     variable._woekchoose=arr[1];
+			     var strworklist:String=arr[7];
+			     var worklistarr:Array=strworklist.split(",");
+			     if(worklistarr[0]==1){
+			    variable. huodongming=true;
+			     }else{
+			       variable. huodongming=false;
+			     }
+			     if(worklistarr[1]==1){
+			     variable.tijiaoshijian=true;
+			     }else{
+			     variable.tijiaoshijian=false;
+			     }
+			     if(worklistarr[2]==1){
+			     variable.tijiaozhe=true;
+			     }else{
+			     variable.tijiaozhe=false;
+			     }
+			    
+			     var arrurl:Array=arr[5].toString().split(".");
+			     for(var i:int;i<arrurl.length;i++){
+			   
+			      if(i<arrurl.length-2){
+			      	variable.URLname=variable.URLname+arrurl[i]+".";			     	
+			      }else{
+			      	if(i==arrurl.length-2){
+			         variable.URLname=variable.URLname+arrurl[i];
+			       		}
+			      }
+			       repid.text=arrurl[arrurl.length-1];
+			     }
+			      textpath="路径： "+variable.URLname+" 第1步，共6步";
+		     }
+             
+             //判断naturalname是否存在
+             public function handerResult1(event:ResultEvent):void{
+             	if(event.result as String =="0"){
+             	 Alert.show("ID已经存在");
+             	}else{
+             	  variable.repidID=repid.text.toString();
+	         	  variable.repdimxpla=repdimxplay.text.toString();
+	           	  var o:Object=this.parent.getChildByName("FmFwSelect1");
+	         	  vs.selectedChild=o as Canvas
+             	}
+             }
+		  	]]>
+  </mx:Script>
+     <mx:RemoteObject id="queryID1" destination="QueryID1" showBusyCursor="true"   result="handerResult1(event)" />
+   <mx:RemoteObject id="query23" destination="Query22" showBusyCursor="true"   result="handerResult3(event)" />
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="创建资源"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="业务框架" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:从以下填写需要的资源ID与资源名称 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="863" height="282"  x="137" y="207">
+	<mx:HBox x="0" y="50" verticalAlign="middle" width="445" height="64">
+		<mx:Label  text="业 务  框 架 ID:"  fontSize="19" width="171" fontWeight="bold"/>
+		<mx:TextInput id="repid" width="240" restrict="a-zA-Z0-9"  height="34" fontSize="14" />
+	</mx:HBox>
+	<mx:HBox x="0" y="153" verticalAlign="middle" width="445" height="64">
+		<mx:Label  text="业务框架中文名:" fontSize="19"  width="171" fontWeight="bold"/>
+		<mx:TextInput x="147" y="84" id="repdimxplay" width="240" height="34" fontSize="14"/>
+	</mx:HBox>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

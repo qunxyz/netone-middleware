@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"   
+       fontSize="12"  width="544" height="48">
+  <mx:Script>
+  	<![CDATA[
+  		 [Bindable]
+  		 public var Name:String;
+  		 [Bindable]
+  		 public var type:String;
+  		  [Bindable]
+  		 public var zhongName:String;
+  	]]>
+  </mx:Script>
+  <mx:Label x="10" y="10" text="{Name}" width="123" height="28"/>
+  <mx:Label x="178" y="10" text="{type}" width="117" height="28"/>
+  <mx:TextInput id="textinput" x="334" text="{zhongName}" y="10"/>
+</mx:Canvas>

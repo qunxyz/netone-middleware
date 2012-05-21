@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="468" height="28" fontSize="13" fontWeight="bold">
+   <mx:Script>
+      <![CDATA[
+      	  import workflow.viewevent;
+          private function GetAConfing(event:Event):void
+             {
+	        this.dispatchEvent(new viewevent(viewevent.SOApoint));
+	         } 
+	        private function GetRevise(event:Event):void
+             {
+	        this.dispatchEvent(new viewevent(viewevent.OsWorkFlow));
+	         }   
+	         private function Getnewfolw(event:Event):void
+             {
+	        this.dispatchEvent(new viewevent(viewevent.huodongList));
+	         }   
+	         
+      ]]>
+   </mx:Script>
+     <mx:LinkButton id="Cactivity" label="[装载]" color="red"/>
+	 <mx:LinkButton id="AConfing" label="[服务配置]" x="60" y="1" click="GetAConfing(event)" color="red"/>
+	 <mx:LinkButton id="revise" label="[设计修订]" x="151" y="1" click="GetRevise(event)" color="blue"/>
+	 <mx:LinkButton id="folw" label="[查看流程]"  x="233" y="1" color="blue"/>
+	 <mx:LinkButton id="newfolw" label="[流程实例]" x="315" y="1" color="green" click="Getnewfolw(event);" />
+	 <mx:LinkButton id="del" label="[删除]"  x="409" y="1"/>
+</mx:Canvas>

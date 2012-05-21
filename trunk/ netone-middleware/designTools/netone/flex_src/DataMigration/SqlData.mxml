@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()">
+  <mx:Script>
+  	<![CDATA[
+  		import mx.controls.Alert;
+  		import mx.containers.ViewStack;
+         //定义vs的类型
+         public var vs:ViewStack;
+         [Bindable]
+         public var textpath:String;
+         [Bindable]
+         public var ThdT:ThresholdTerm;
+         public function init():void  //初始化的方法
+         {
+          textpath="路径： "+MigrationData.URLname+" 第4步，共5步";
+          vs=this.parent as ViewStack;
+         }
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("SQLStatement1");
+            vs.selectedChild=o as Canvas;
+          }
+          public function DownNode(event:MouseEvent):void{
+          if(sqltext.text.toString()!=""){
+          	 MigrationData.SQLstr=sqltext.text.toString();
+          	var o:Object=this.parent.getChildByName("DataBase1");
+            vs.selectedChild=o as Canvas;
+            }else{
+             Alert.show("SQL语句不能为空");
+            }
+            if(checkBox.selected==true){
+         	 MigrationData.TTerm=ThdT.TTtext.text.toString();
+	         }else{
+	         MigrationData.TTerm="";
+	         }
+         }
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+         }
+         public function WhetherAdd():void{
+         if(checkBox.selected==true){
+         	ThdT=new ThresholdTerm();
+         	ThdT.x=10;
+         	ThdT.id="thdt";
+         	ThdT.y=checkBox.y+checkBox.height+10;
+            canvas1.addChild(ThdT);
+         }else{
+          canvas1.removeChild(ThdT); 
+         }
+         }
+  	]]>
+  </mx:Script>
+		<mx:Canvas width="100%" height="200" >
+	    <mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="数据源SQL"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="数据迁移" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置OUT数据源的SQL语句, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  id="canvas1" width="885" height="338"  x="115" y="208">		
+		 <mx:Label x="10" y="26" text="SQL语句：" fontSize="15" fontWeight="bold"/>
+         <mx:TextArea x="91" y="27" id="sqltext" width="743" height="118" tabIndex="25" fontSize="14"/>
+         <mx:CheckBox id="checkBox" x="91" y="153" label="是否添加迁移条件" fontSize="15" change="WhetherAdd()"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

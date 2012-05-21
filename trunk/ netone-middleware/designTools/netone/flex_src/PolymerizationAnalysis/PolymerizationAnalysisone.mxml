@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"  showCloseButton="true"  x="-200"
+	 close="Exit(event)" title="{Name}"  width="1200" height="768"  fontSize="18"  initialize="init()">
+   <mx:Script>
+   	<![CDATA[
+   		import BI.EvTjFs;
+   		import mx.core.IFlexDisplayObject;
+   		import mx.managers.PopUpManager;
+   		import mx.events.CloseEvent;
+   		import mx.collections.ArrayCollection;
+   		import mx.charts.DateTimeAxis;
+   		import mx.controls.Alert;
+   		import mx.rpc.events.ResultEvent;
+   		import mx.containers.ViewStack;
+   		import PolymerizationAnalysis.*;
+   		import mx.controls.LinkButton;
+   		import mx.controls.TextInput;
+   		import BIAnalysis.*;
+     	public var index:int=1;
+     	[Bindable]//naturalname的传递
+     	public var naturalname:String;
+     	[Bindable]//name的传递
+     	public var Name :String;
+     	[Bindable]//聚合的xml
+     	public var polymeri:XML;
+     	[Bindable]
+     	public var vs:ViewStack;
+     	public function init():void{
+     		    vs=this.parent as ViewStack;
+     		    
+   				Processnode1.Query(naturalname);
+     	}
+   		public function Updatemodel():void{
+   			index=modeltype.selectedItem.@type;
+   			modelcontent.removeAllChildren();
+   			if(index==1){
+   				var detailviewstack:Detail=new Detail();
+   				detailviewstack.x=0;
+   				detailviewstack.y=0;
+   				detailviewstack.percentHeight=100;
+   				detailviewstack.percentWidth=100;
+   				modelcontent.addChild(detailviewstack);
+   			}
+   			if(index==2){
+   				var reportviewstack:ReportForms=new ReportForms();
+   				reportviewstack.x=0;
+   				reportviewstack.y=0;
+   				reportviewstack.percentHeight=100;
+   				reportviewstack.percentWidth=100;
+   				modelcontent.addChild(reportviewstack);
+   			}
+   			if(index==3){
+   				var reportviewstackset:ReportFormsset=new ReportFormsset();
+   				reportviewstackset.x=0;
+   				reportviewstackset.y=0;
+   				reportviewstackset.percentHeight=100;
+   				reportviewstackset.percentWidth=100;
+   				modelcontent.addChild(reportviewstackset);
+   			}
+   			if(index==4){
+   				var chartviewstack:ChartAnalysis=new ChartAnalysis();
+   				chartviewstack.x=0;
+   				chartviewstack.y=0;
+   				chartviewstack.percentWidth=100;
+   				chartviewstack.percentHeight=100;
+   				modelcontent.addChild(chartviewstack);
+   			}
+   			if(index==5){
+   				var pvs:PageAnalysis=new PageAnalysis();
+   				pvs.x=0;
+   				pvs.y=0;
+   				pvs.percentHeight=100;
+   				pvs.percentWidth=100;
+   				modelcontent.addChild(pvs);
+   			}
+   			if(index==6){
+   				var Portalviewstack:PortalAnalysis=new PortalAnalysis();
+   				Portalviewstack.x=0;
+   				Portalviewstack.y=0;
+   				Portalviewstack.percentHeight=100;
+   				Portalviewstack.percentWidth=100;
+   				modelcontent.addChild(Portalviewstack);
+   			}
+   		}
+   		
+   		public function TypeDate(xml:XML):XML{
+   		  index=modeltype.selectedItem.@type;
+   			if(index==1){
+   				xml.@Date=DataTransfer.Detail;
+   			}
+   			if(index==2){
+   				xml.@Date=DataTransfer.Report;
+   			}
+   			if(index==3){
+   				xml.@Date=DataTransfer.ReportSet;
+   			}
+   			if(index==4){
+   				xml.@Date=DataTransfer.Chart;
+   			}
+   			if(index==5){
+   				xml.@Date=DataTransfer.page;
+   			}
+   			if(index==6){
+   				xml.@Date=DataTransfer.portal;
+   			}
+   			
+   			return xml;
+   		}
+ 
+          public function handerResult2(event:ResultEvent):void{
+          }
+          //初始化接收配置数据
+          public function handerResult3(event:ResultEvent):void{
+          	modelcontent.removeAllChildren();
+          	var o:ArrayCollection=event.result as ArrayCollection;
+          	if(o.length==0){
+          		var detailviewstack:Detail=new Detail();
+   				detailviewstack.x=0;
+   				detailviewstack.y=0;
+   				detailviewstack.percentHeight=100;
+   				detailviewstack.percentWidth=100;
+   				modelcontent.addChild(detailviewstack);
+          	}else{
+          	
+	          	if(o[0].interactive=="1"){
+	          	interactive.selected=true
+	          	}if(o[0].interactive=="0"){
+	          	 interactive.selected=false;
+	          	}
+	           var strmodel:String=o[0].modeltype;
+	          
+   			 if(strmodel=="明细"){
+   				var detailviewstack1:Detail=new Detail();
+   				detailviewstack1.x=0;
+   				detailviewstack1.y=0;
+   				detailviewstack1.percentHeight=100;
+   				detailviewstack1.percentWidth=100;
+   				DataTransfer.Detail=o[0].date; 
+   				modeltype.selectedIndex=0; 				
+   				modelcontent.addChild(detailviewstack1);
+   			}
+   			if(strmodel=="报表"){
+   				var reportviewstack:ReportForms=new ReportForms();
+   				reportviewstack.x=0;
+   				reportviewstack.y=0;
+   				reportviewstack.percentHeight=100;
+   				reportviewstack.percentWidth=100;
+   				DataTransfer.Report=o[0].date;
+   				modeltype.selectedIndex=1; 	
+   				modelcontent.addChild(reportviewstack);
+   			}
+   			if(strmodel=="报表集"){
+   				var reportviewstackset:ReportFormsset=new ReportFormsset();
+   				reportviewstackset.x=0;
+   				reportviewstackset.y=0;
+   				reportviewstackset.percentHeight=100;
+   				reportviewstackset.percentWidth=100;
+   				DataTransfer.ReportSet=o[0].date;
+   			    modeltype.selectedIndex=2; 	
+   				modelcontent.addChild(reportviewstackset);
+   			}
+   			if(strmodel=="图表"){
+   				var chartviewstack:ChartAnalysis=new ChartAnalysis();
+   				chartviewstack.x=0;
+   				chartviewstack.y=0;
+   				chartviewstack.percentWidth=100;
+   				chartviewstack.percentHeight=100;
+   				DataTransfer.Chart=o[0].date;
+   				 modeltype.selectedIndex=3; 	
+   				modelcontent.addChild(chartviewstack);
+   			}
+   			if(strmodel=="页"){
+   				var pvs:PageAnalysis=new PageAnalysis();
+   				pvs.x=0;
+   				pvs.y=0;
+   				pvs.percentHeight=100;
+   				pvs.percentWidth=100;
+   				DataTransfer.page=o[0].date;
+   				 modeltype.selectedIndex=4; 	
+   				modelcontent.addChild(pvs);
+   			}
+   			if(strmodel=="portal"){
+   				var Portalviewstack:PortalAnalysis=new PortalAnalysis();
+   				Portalviewstack.x=0;
+   				Portalviewstack.y=0;
+   				Portalviewstack.percentHeight=100;
+   				Portalviewstack.percentWidth=100;
+   				DataTransfer.portal=o[0].date;
+   			    modeltype.selectedIndex=5; 	
+   				modelcontent.addChild(Portalviewstack);
+   			}
+          	}  	
+          }
+           public function Exit(evt:CloseEvent):void   
+			{
+			  EvTjFs.getInstance().dispatchEvent(new MouseEvent("DataRefresh"));
+			  PopUpManager.removePopUp(evt.target as IFlexDisplayObject);
+			} 
+			//保存配置好的数据
+			public function baocun():void
+			{
+			  polymeri=<polymeri></polymeri>;
+           	var xml:XML=<Node></Node>;
+           	xml.@modeltype=modeltype.selectedItem;
+           	if(interactive.selected==true){
+           	xml.@interactive="1";
+           	}if(interactive.selected==false){
+            xml.@interactive="0";
+           	}
+           	xml=TypeDate(xml);
+           	polymeri.appendChild(xml);
+            adddate1.AddLogNodeDBInit(Name,naturalname,polymeri.toString());
+            EvTjFs.getInstance().dispatchEvent(new MouseEvent("DataRefresh"));
+            PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			
+			//取消配置
+			public function quxiao():void{
+			 EvTjFs.getInstance().dispatchEvent(new MouseEvent("DataRefresh"));
+			 PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+   	]]>
+   </mx:Script>
+     <mx:XMLList id="model">
+          <moshi type="1">明细</moshi>
+          <moshi type="2">报表</moshi>
+          <moshi type="3">报表集</moshi>
+          <moshi type="4">图表</moshi>
+          <moshi type="5">页</moshi>
+          <moshi type="6">portal</moshi>
+  </mx:XMLList> 
+  <mx:RemoteObject id="adddate1" destination="AddDate1" showBusyCursor="true"   result="handerResult2(event)"/>	
+  <mx:RemoteObject id="Processnode1" destination="ProcessNode1" showBusyCursor="true"   result="handerResult3(event)"/>	
+     	 	 
+  <mx:Canvas y="0" x="0" width="100%" height="100%">
+	<mx:ComboBox dataProvider="{model}" id="modeltype"  change="Updatemodel()" x="122" y="59" width="232" height="32"></mx:ComboBox>
+	<mx:Label x="22" y="63" text="选择模式：" />
+	<mx:Canvas id="modelcontent"  x="0" y="148" width="100%" height="100%" >
+	</mx:Canvas>
+	<mx:CheckBox id="interactive" x="22" y="106" label="是否交换"/>
+	<mx:Button x="30" y="10" label="保存" width="91" click="baocun()"/>
+	<mx:Button x="129" y="10" label="取消" width="91" click="quxiao()"/>
+  </mx:Canvas>
+</mx:TitleWindow>

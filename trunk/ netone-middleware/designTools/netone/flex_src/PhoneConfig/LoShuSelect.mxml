@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300"  initialize="init()">
+	<mx:Script>
+		<![CDATA[
+		 /**
+	  	  *  手机端配置    九宫图行列配置
+	  	  *  xuwei（2012-2-22）
+	  	  * 
+	  	  * 
+	  	  * */
+			import mx.collections.ArrayCollection;
+			import mx.containers.ViewStack;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Alert;
+			[Bindable]
+		   public var arr:Array=["1","2","3","4","5","6","7","8","9"];
+          [Bindable]//流程的id
+          public var flowid:String;
+          
+          [Bindable]
+          public var vs:ViewStack;
+          [Bindable]//流程的节点数
+          public var index:int;
+          [Bindable]//textpath
+		  public var textpath:String;
+          public function init():void{
+          	textpath="路径： "+ PhoneData.URLname+" 第3步，共4步";
+          	vs=this.parent as ViewStack;
+          
+          }
+
+             //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ModeSelect1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步方法
+          public function DownNode(event:MouseEvent):void{
+         	var o:Object=this.parent.getChildByName("URLConfig1");
+             vs.selectedChild=o as Canvas;
+             PhoneData.rowkey=row.selectedItem.toString();
+             PhoneData.crowkey=crow.selectedItem.toString();
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+         }
+		]]>
+	</mx:Script>
+
+      <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="布局制定"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="手机端配置" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:聚合展示的布局制定, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="734" height="313"  x="144" y="212" fontSize="15"  >  
+				  <mx:Label x="26" y="70" text="行：" fontWeight="bold"/>
+				  <mx:Label x="26" y="129" text="列：" fontWeight="bold"/>
+				  <mx:ComboBox  id="row"  dataProvider="{arr}" x="94" y="67" width="178"></mx:ComboBox>
+				  <mx:ComboBox  id="crow" dataProvider="{arr}" x="94" y="126" width="178"></mx:ComboBox>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 
+</mx:Canvas>

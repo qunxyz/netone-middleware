@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="482" height="69">
+<mx:Script>
+	<![CDATA[
+		import mx.controls.Alert;
+		import mx.rpc.events.ResultEvent;
+		import mx.collections.ArrayCollection;
+		public var dorpb:Boolean=false;
+		public var zd:String;
+		public var syzd:String;
+	 [Bindable]
+	public var arrname:ArrayCollection;
+	[Bindable]
+	public var arrziduan:Array;
+	
+			//连接数据库
+	      public  var   urlString:String;
+		  public  var   username:String;
+		  public  var   pwd:String;
+		  public  var   driver:String;
+		
+			public function set THEID(value:String):void{
+				if(value!=""){
+				this.id=value;
+				}
+			}
+		public function drop1():void
+            {    
+              this.removeAllChildren();
+              dorpb=true;
+            } 
+            
+          public function biaomingxiu():void{ 
+         	   selecttable.GetTableField2(urlString,username,pwd,driver,"select * from  "+biaoming.selectedItem as String);
+            }
+          public function handerResult(event:ResultEvent):void{ 
+               var arr:ArrayCollection=event.result as ArrayCollection;
+               if(arr.length>0){
+               	arrziduan=new Array();
+               for(var i:int=0;i<arr.length;i++){
+                arrziduan[arrziduan.length]=arr[i].columnname as String;
+               }
+               }
+            }
+	]]>
+</mx:Script>
+ <mx:RemoteObject id="selecttable"   destination="tablename" showBusyCursor="true"  result="handerResult(event)"/>
+	<mx:Label x="0" y="0" text="字段名" fontSize="12"/>
+	<mx:Label x="212" y="2" text="使用字段" fontSize="12"/>
+	<mx:ComboBox x="40" y="0" width="167" id="biaoming" dataProvider="{arrname}" change="biaomingxiu()" fontSize="9" height="30"></mx:ComboBox>
+	<mx:ComboBox x="40" y="34" width="167" id="ziduanming"  prompt="选择字段" dataProvider="{arrziduan}" fontSize="9" height="30"></mx:ComboBox>
+	<mx:ComboBox x="267" y="3" width="167" id="ziduanming0"  prompt="选择字段" dataProvider="{arrziduan}" fontSize="9" height="30"></mx:ComboBox>
+	<mx:Button x="440" y="4" label="删" click="drop1()"  fontSize="12"/>
+</mx:Canvas>

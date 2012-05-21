@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow title="选择工作流" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="init()"
+	 showCloseButton="true" close="Exit(event)" fontSize="20">
+  <mx:Script>
+         	<![CDATA[
+         		import mx.core.IFlexDisplayObject;
+         		import mx.managers.PopUpManager;
+         		import mx.events.CloseEvent;
+         		import ActionForm.vivid;
+         		import framework.*;
+         		import mx.collections.HierarchicalData;
+         		import mx.containers.ViewStack;
+         		import mx.events.ListEvent;
+         	    import mx.rpc.events.ResultEvent;
+         		import mx.events.DragEvent;
+         		import mx.collections.XMLListCollection;
+         		import mx.collections.ArrayCollection;
+         		import mx.controls.Alert;
+         		import mx.events.TreeEvent;
+         		[Bindable]
+         	    public var selectedNode:ArrayCollection;
+         	    [Bindable]
+         	    public var backresult:ArrayCollection;
+         	    [Bindable]
+         	    public static var fal:Boolean=false;
+
+         	    [Bindable]
+                public  var rsarr:Array=null;
+
+             public function treeEvent(event:ListEvent):void
+         	 { 
+         		     Lleft.dataProvider=null;
+     		     	 var ds:String =event.itemRenderer.data.rcode;
+     		         backObject.selectRsInDir(ds);
+             }
+              private function backResult(event:ResultEvent):void
+              {
+                backresult =ArrayCollection(event.result);
+                Lleft.dataProvider=backresult;
+              }
+               private function scResult(event:ResultEvent):void
+              {     
+                    rsarr =ArrayCollection(event.result).toArray() ;
+                    var root:Object=findChildren("", rsarr); 
+                    var tree:Object=platToHierarchical(rsarr, root[0]); 
+                    var hier:HierarchicalData=new HierarchicalData(tree); 
+                    adg1.dataProvider=hier; 
+               }
+              private function init():void
+              {  
+                  rfromObject.selectFlowRs();
+              }
+          private function findChildren(parentId:String, source:Array , parentIdField:String="parentid"):Array
+          {  
+             var children:Array=new Array(); 
+             for each (var item:Object in source){ 
+             if (item[parentIdField]==parentId){ 
+             children.push(item); 
+              } 
+             } 
+             return children; 
+            } 
+       private function platToHierarchical(platData:Array, startNode:Object, childrenField:String="children",parentIdField:String="parentid"):Object
+         { 
+          var children:Array=findChildren(startNode.rcode, platData, parentIdField); 
+          var temp:Array=new Array(); 
+          for each (var item:Object in children){ 
+          temp.push(platToHierarchical(platData, item, childrenField, parentIdField)); 
+          }  
+          startNode[childrenField]=temp; 
+          return startNode; 
+        } 
+        private function dgevent():void
+       { 
+    
+ 
+       }
+       [Bindable]
+        public var brr:ArrayCollection;
+        
+        public function clickbttok():void
+       {     var ss:String=null;
+              var bs:Array=new Array();
+
+            brr=Lright.dataProvider as ArrayCollection;
+             if(brr.length==1){
+       	         ss=brr[0].rname+"["+brr[0].extendattribute+"]";
+       	       variable._woekchoose=ss;
+       	         PopUpManager.removePopUp(this as IFlexDisplayObject); 
+	        Lright.dataProvider=null;
+	        Lleft.dataProvider=null;
+       	     }else{
+       	       Alert.show("只能选择一个流程");
+       	     }
+        }
+	       public function clickbttcannel():void
+	       {  
+	         PopUpManager.removePopUp(this as IFlexDisplayObject); 
+	        Lright.dataProvider=null;
+	        Lleft.dataProvider=null;
+	     }
+	    public function   Exit(event:CloseEvent):void{
+	       PopUpManager.removePopUp(this as IFlexDisplayObject);
+	          Lright.dataProvider=null;
+	        Lleft.dataProvider=null;
+	    }
+    ]]>
+     </mx:Script>
+     <mx:RemoteObject id="rfromObject" destination="selectchirdrenform" result="scResult(event)" 
+      showBusyCursor="true"/>  
+      <mx:RemoteObject id="backObject" destination="selectchirdrenform" result="backResult(event)" 
+      showBusyCursor="true"/>  
+   <mx:HBox height="100%" width="100%" fontSize="15" x="78" y="34">
+       <mx:Canvas height="100%" width="161">
+         <mx:AdvancedDataGrid x="0" y="10" id="adg1"  itemClick="treeEvent(event)"  designViewDataType="tree" width="161" height="100%"> 
+            <mx:columns> 
+               <mx:AdvancedDataGridColumn headerText="目录" dataField="rname"/> 
+            </mx:columns> 
+        </mx:AdvancedDataGrid> 
+	   	</mx:Canvas>
+	    <mx:Canvas  width="721" height="100%">
+	    <mx:Label text="选中数据:" fontSize="17" x="10"/>
+	       <mx:Button id="bttok" label="确定" x="501" y="399" click="clickbttok()"/>
+	       <mx:Button id="bttCannel" label="取消" x="567" y="399" click="clickbttcannel()"/>
+	      <mx:Label text="所需数据:" fontSize="17" x="279" id="rightList"/>
+	      <mx:List id="Lright" 
+	     	      labelField="rname"
+			      allowMultipleSelection="true"
+			      dragEnabled="true" 
+			      dragMoveEnabled="true"
+			      dropEnabled="true"
+			      width="223" height="100%" x="279" y="29"/>
+	      <mx:List id="Lleft" 
+	      	     labelField="rname"
+	      	     allowMultipleSelection="true"
+	      		 dragEnabled="true" 
+	      	     dragMoveEnabled="true"
+	      	     dropEnabled="true"
+	      		 width="251" height="100%" x="10" y="29"/>
+	     </mx:Canvas>
+ </mx:HBox>
+</mx:TitleWindow>

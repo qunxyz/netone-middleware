@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"  showCloseButton="true"  
+			   width="630" height="530" close="titlewindow1_closeHandler(event)"
+			   creationComplete="init(event)" dragDrop="group1_dragDropHandler(event)"
+			   dragEnter="onDragEnter(event)" fontSize="18"  >
+	<mx:Script>
+		<![CDATA[
+			import DataMigration.SuperChooseDataSource;
+			import DataAcquisition.ParentTagetDataSources;
+			import DataAcquisition.Checksheet;
+			import DataAcquisition.ParentDataSourceChoice;
+			import BI.EvTjFs;
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.core.DragSource;
+			import mx.core.EventPriority;
+			import mx.core.IFlexDisplayObject;
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.DragManager;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			private var _reptree:XML;
+			private var _selectlist:XML=<replist></replist>;
+			private var sidx:int;
+			private var isdrop:Boolean=false;
+		
+			[Bindable]
+			public function get selectlist():XML
+			{
+				return _selectlist;
+			}
+
+			public function set selectlist(value:XML):void
+			{
+				_selectlist = value;
+			}
+
+			[Bindable]
+			public function get reptree():XML
+			{
+				return _reptree;
+			}
+
+			public function set reptree(value:XML):void
+			{
+				_reptree = value;
+			}
+			
+			[Bindable]
+			public var treeDataList:XML
+			
+				
+			
+			[Embed(source="ActionForm/From/assets/wenj.png")]         
+			[Bindable] 
+			public var foldericon:Class; 
+			
+			[Embed(source="ActionForm/From/assets/rep.png")]          
+			[Bindable] 
+			public var fileicon:Class;  
+
+			[Embed(source="ActionForm/From/assets/itf.png")]          
+			[Bindable] 
+			public var itficon:Class;  
+ 
+			         
+			private function iconFun(item:Object):* 
+			{ 
+				var xml:XML     = item as XML; 
+				
+				if(xml.attribute("type") == "gen") 
+					return foldericon; 
+				else 
+					return fileicon; 
+			}  
+
+			private function selecticonFun(item:Object):* 
+			{ 
+				var xml:XML     = item as XML; 
+				
+				if(xml.attribute("type") == "gen") 
+					return fileicon; 
+				else 
+					return itficon; 
+			}  
+			
+			protected function onDragEnter(event:DragEvent):void
+			{
+				DragManager.acceptDragDrop(UIComponent(event.currentTarget));
+			}
+			private function onDragOver( event:DragEvent ) : void
+			{
+				
+				
+				var dropTarget:Tree = Tree(event.currentTarget);
+				var r:int = dropTarget.calculateDropIndex(event);
+			
+				var node:XML =reporttree.selectedItem as XML;
+
+				var data:XMLListCollection=new XMLListCollection(selectlist.repfile);
+				for (var i:int = 0; i < data.length; i++) 
+				{
+					if(data[i].@naturalname==node.@naturalname)
+					{
+						DragManager.showFeedback(DragManager.NONE);
+//						Alert.show("已有该报表");
+						return;
+					}
+				}
+				
+				
+				
+				if(node.@type == "gen" ) {
+					DragManager.showFeedback(DragManager.NONE);
+					return;
+				}
+	
+				if (event.ctrlKey)
+					DragManager.showFeedback(DragManager.COPY);
+				else if (event.shiftKey)
+					DragManager.showFeedback(DragManager.LINK);
+				else {
+					DragManager.showFeedback(DragManager.MOVE);
+				}
+			}
+			
+
+			public var  notep:XML;
+			protected function onDragDrop(event:DragEvent):void
+			{
+				var ds:DragSource = event.dragSource;
+				var dropTarget:Tree = Tree(event.currentTarget);
+				
+				var node:XML =reporttree.selectedItem as XML;
+				var node1:XML=<repfile></repfile>
+				node1.@name=node.@name;
+				node1.@type="gen";
+				node1.@naturalname=node.@naturalname
+				notep=node1;
+				selectlist.appendChild(node1);
+			}
+			
+			protected function clearn(event:MouseEvent):void
+			{
+				Alert.show(selectlist.toString());
+				
+			}
+
+			protected function group1_dragEnterHandler(event:DragEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function group1_dragDropHandler(event:DragEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function init(event:FlexEvent):void
+			{	if(variable.modelname=="BUSSFORM"){
+				 this.title="表单选择"
+				 lable1.text="表单目录";
+				 Xmltree1.formdataxml("BUSSFORM");	
+				}
+				if(variable.modelname=="BUSSWF"){
+				 this.title="工作流选择";
+				 lable1.text="工作流目录";
+				 Xmltree1.dataxml("BUSSWF");
+				}	 
+				if( variable.modelname=="DATASOURCE"){
+				 this.title="驱动选择";
+				 lable1.text="驱动目录";
+				 Xmltree1.dataxml("DATASOURCE");
+				}
+				if( variable.modelname=="shujucaiji"){
+				 this.title="表单选择"
+				 lable1.text="表单目录";
+				 Xmltree1.formdataxml("BUSSFORM");
+				}
+				if(variable.modelname=="Data1"){
+				 this.title="驱动选择";
+				 lable1.text="驱动目录";
+				 Xmltree1.dataxml("DATASOURCE");
+				}
+				if(variable.modelname=="tubiaozhiding"){
+				 this.title="表单选择"
+				 lable1.text="表单目录";
+				 Xmltree1.formdataxml("dyview");	
+				}
+			}
+ 
+			protected function getface_resultHandler(event:ResultEvent):void
+			{
+				
+				var xml:XML=new XML(event.result.toString());
+				var xml2:XMLListCollection=new XMLListCollection(xml.Interface); 
+				
+				for (var i:int = 0; i < xml2.length; i++) 
+				{
+					var xmllis:XML=<Inface></Inface>;
+					xmllis.@name=xml2.getItemAt(i).@displayname;
+					xmllis.@displayname=xml2.getItemAt(i).@displayname;
+					xmllis.@columns=xml2.getItemAt(i).@columns;
+					xmllis.@bindclr="无";
+					xmllis.@text="无";
+					xmllis.@remark=xml2.getItemAt(i).@remark;
+					xmllis.@stringtype=xml2.getItemAt(i).@stringtype;
+					notep.appendChild(xmllis);
+				}
+			}
+			
+			private function tree_labelFunc(item:XML):String 
+			{
+				if (item.@type=="gen") 
+				{
+					return item.@name;
+				}
+				else
+				{
+					return "表单选择："+item.@displayname ;
+				}
+			} 
+			
+			//退出选择表单面板
+			protected function titlewindow1_closeHandler(event:CloseEvent):void
+			{
+				// TODO Auto-generated method stub
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			//选择表单确定
+			public function queding():void{
+				var sx:XMLList= new XMLList(selectlist).children();
+				 if(sx.length()==1){
+			 		if(variable.modelname=="BUSSFORM"){
+					  variable._formchoose=sx[0].@name+"["+sx[0].@naturalname+"]";
+					   PopUpManager.removePopUp(this as IFlexDisplayObject);
+					}
+					if(variable.modelname=="BUSSWF"){
+					  variable._woekchoose=sx[0].@name+"["+sx[0].@naturalname+"]";
+					   PopUpManager.removePopUp(this as IFlexDisplayObject);
+					}	
+					if(variable.modelname=="DATASOURCE"){
+					Biselecttable1.qudongxuanz(String(sx[0].@naturalname)); 
+       	            }   
+       	            if( variable.modelname=="shujucaiji"){
+					 var  ss:String=sx[0].@name+"["+sx[0].@naturalname+"]";    
+	       	         ParentTagetDataSources.tname=ParentTagetDataSources.tname+sx[0].@name;
+	       	         ParentTagetDataSources.formcode=sx[0].@naturalname;
+       	             gfn.selectRsInDir(String(sx[0].@naturalname));
+					} 
+					if(variable.modelname=="Data1"){
+					 Biselecttable1.qudongxuanz(String(sx[0].@naturalname)); 
+					}
+					if(variable.modelname=="tubiaozhiding"){
+	       	          variable._formchoose=sx[0].@name+"["+sx[0].@naturalname+"]"; 	
+	       	           PopUpManager.removePopUp(this as IFlexDisplayObject);
+					}
+				 }else{
+				   Alert.show("只能选择一个");
+				 }	
+			}
+			//取消
+			public function quxiao():void{
+			 PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			//取消
+			public function Exit(event:CloseEvent):void{
+			 PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			protected function seletlist_itemClickHandler(event:ListEvent):void
+			{
+				// TODO Auto-generated method stub
+				var sx:XMLList= new XMLList(selectlist).children();
+				for(var i:int;i<sx.length();i++){
+					if(XML(event.itemRenderer.data).@naturalname.toString()==sx[i].@naturalname.toString()){
+						delete sx[i]; 
+					}
+				}
+			}
+ 
+			
+			public function getfolderxml_resultHandler(event:ResultEvent):void{
+				treeDataList=new XML(event.result.toString());		 
+			}
+			  //接收返回的表
+            public function BihanderResult(event:ResultEvent):void
+            {
+              var str:String=event.result as String;
+              var arr:Array=str.split("#");
+              if(variable.modelname=="DATASOURCE"){
+               ParentDataSourceChoice.arrdriver=arr[0]; 
+               ParentDataSourceChoice.arrurlString=arr[1];
+			   ParentDataSourceChoice.arrusername=arr[2];
+			   ParentDataSourceChoice.arrpwd=arr[3]; 
+			   Checksheet.Sqlstr="";  
+              }
+			  if(variable.modelname=="Data1"){
+		       	    SuperChooseDataSource.arr1=arr[1];  
+	                SuperChooseDataSource.arr2=arr[2];
+				    SuperChooseDataSource.arr3=arr[3];
+				    SuperChooseDataSource.arr0=arr[0]; 
+				    EvTjFs.getInstance().dispatchEvent(new MouseEvent("选择驱动"));
+				    EvTjFs.getInstance().dispatchEvent(new MouseEvent("xiayibu"));
+				 }
+            PopUpManager.removePopUp(this as IFlexDisplayObject);
+            }
+             //数据采集的选择表单
+             private function backstring(event:ResultEvent):void
+              {         	
+                   var a:String =event.result as String;
+                    ParentTagetDataSources.Tname1=a;
+                    PopUpManager.removePopUp(this as IFlexDisplayObject); 
+	              EvTjFs.getInstance().dispatchEvent(new MouseEvent("SelectShow"));
+               }
+		]]>
+	</mx:Script>
+	    <mx:RemoteObject id="gfn" destination="getformname" result="backstring(event)" showBusyCursor="true"/> 
+	    <mx:RemoteObject id="Biselecttable1"   destination="tablename" showBusyCursor="true"    result="BihanderResult(event)"/>	  
+	    <mx:RemoteObject id="Xmltree1" destination="xmltree1" showBusyCursor="true"  result="getfolderxml_resultHandler(event)"/> 
+	   	<mx:Canvas x="0" y="0" width="100%" height="100%">
+		<mx:Tree id="seletlist" width="272" height="390"
+				 alternatingItemColors="[#E2FAF3, #FBF5F5]" borderColor="#D6D9DB" borderThickness="2"
+				 cornerRadius="5" dataProvider="{selectlist.repfile}" doubleClickEnabled="true"
+				 dragDrop="onDragDrop(event)" dragEnabled="true" dragEnter="onDragEnter(event)"
+				 dragMoveEnabled="true" dragOver="onDragOver(event)" fontSize="10"
+				 iconFunction="selecticonFun" itemDoubleClick="seletlist_itemClickHandler(event)"
+				 labelField="@name" labelFunction="tree_labelFunc" x="326" y="35"></mx:Tree>
+ 
+	 	 <mx:Tree id="reporttree" x="10" y="35" width="264" height="390" allowMultipleSelection="true"
+			 alternatingItemColors="[#F6F3F3, #FBFCFD]" borderColor="#D7D7D7" borderStyle="solid"
+			 borderThickness="2" cornerRadius="7" dataProvider="{treeDataList}" dragEnabled="true"
+			 dragMoveEnabled="false" fontSize="10" iconFunction="iconFun" labelField="@name"></mx:Tree>
+		<mx:Label id="lable1" x="27" y="8" color="#062486" fontSize="12" text="表单目录"/>
+		<mx:Label id="lable2" x="340" y="8" color="#041985" fontSize="12" text="已选列表"/>
+		<mx:Button x="249" y="433" label="确定" click="queding()"/>
+		<mx:Button x="324" y="433" label="取消" click="quxiao()"/>
+	   </mx:Canvas>
+</mx:TitleWindow>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="{setExtend()}" fontSize="17" initialize="init()" width="516" height="372" title="扩展条件">
+<mx:Script>
+	<![CDATA[
+		import mx.controls.Alert;
+		import mx.collections.ArrayCollection;
+		import mx.core.IFlexDisplayObject;
+		import mx.managers.PopUpManager;
+	    [Bindable]
+		    public	var wdresource:String=null;
+		    public var wdfh:String=null;
+		    [Bindable]
+		    public var wdcolumnsource:ArrayCollection=null;
+		    public function setExtend():void
+		    {  
+		    	 if(BIid.extendsource!=null){
+		    
+				   Lbottontext.text=BIid.extendsource;
+				 }
+		    }
+		    public function init():void
+		    {  
+		    	
+		    	wdcolumnsource=BIid.columnarr;
+		    }
+            public  function clickbttadd():void
+            {
+           
+            var wdresource:String=zdsource.selectedItem.columnid.toString();
+            var wdsymbol:String=ysf.selectedItem.toString();
+            wdsymbol=ysf.selectedItem.toString();
+		    if(wdsymbol=="等于所需数据"){
+		      	wdfh="=";
+		      	Lbottontext.text+=wdresource+wdfh; 
+		      }
+		    if(wdsymbol=="大于所需数据"){
+		    	    
+		    	   wdfh=">";
+		    	   Lbottontext.text+=wdresource+wdfh; 
+		    	  }
+		    	 if(wdsymbol=="小于所需数据"){
+		    	  wdfh="<";
+		    	  Lbottontext.text+=wdresource+wdfh; 
+		    	 }
+		    	 if(wdsymbol=="大于且等于所需数据"){
+		    	  wdfh=">=";
+		    	  Lbottontext.text+=wdresource+wdfh; 
+		    	 }
+		    	 if(wdsymbol=="小于且等于所需数据"){
+		    	  wdfh="<=";
+		    	  Lbottontext.text+=wdresource+wdfh; 
+		    	 }
+		    	 if(wdsymbol=="不等于所需数据"){
+		    	   wdfh="!=";
+		    	   Lbottontext.text+=wdresource+wdfh; 
+		    	   }
+		    	 if(wdsymbol=="and"){
+		    	   wdfh="and";
+		    	   Lbottontext.text+=wdfh; 
+		    	  }
+		    	 if(wdsymbol=="or"){
+		    	   wdfh="or";
+		    	      Lbottontext.text+=wdfh; 
+		    	 }
+		    	 if(wdsymbol=="like")
+		    	 {
+		         wdfh="like";
+		           Lbottontext.text+=wdresource+wdfh; 
+		    	 }
+               
+               wdresource=zdsource.selectedItem.columnid.toString();
+			
+            }
+	      	public function bttok():void
+			{       
+				 BIid.extendsource=Lbottontext.text;
+				 PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+  public function changeValue():void
+  {
+   	
+   }
+  public function closeWindow():void
+  {
+  	PopUpManager.removePopUp(this as IFlexDisplayObject);
+  }
+	]]>
+</mx:Script>
+<mx:XMLList id="content">
+          <moshi name="equal">等于所需数据</moshi>
+          <moshi name="morethan">大于所需数据</moshi>
+          <moshi name="lessthan">小于所需数据</moshi>
+          <moshi name="moreandequal">大于且等于所需数据</moshi>
+          <moshi name="lessandequal">小于且等于所需数据</moshi>
+          <moshi name="noequal">不等于所需数据</moshi>
+          <moshi name="and">and</moshi>
+          <moshi name="or">or</moshi>
+          <moshi name="like">like</moshi>
+      </mx:XMLList> 
+  <mx:Canvas width="100%" height="100%">
+  	<mx:Label  fontWeight="bold" text="所选条件运算：" width="132" x="10" y="73"/>
+	<mx:Label  fontWeight="bold" text="条件语句：" width="96" x="10" y="149"/>
+	<mx:ComboBox id="ysf" dataProvider="{content}" change="changeValue()" width="476" height="34" x="10" y="107"/>
+	<mx:ComboBox id="zdsource" dataProvider="{wdcolumnsource}" labelField="columname" x="10" y="35" width="476"/>
+	<mx:Button id="bttAdd" click="clickbttadd()" label="添加条件" width="119" x="367" y="147"/>
+	<mx:Button id="bttcanel" click="closeWindow()" label="取消" width="71" x="415" y="281"/>
+	<mx:Button id="bttYES" click="bttok()" label="确定"  x="339" y="281" width="71"/>
+	<mx:TextArea id="Lbottontext" width="476" height="90" x="10" y="183"/>
+	<mx:Label  fontWeight="bold" text="所选字段：" width="132" x="10" y="10"/>
+	</mx:Canvas>
+</mx:Panel>
+
+	
+

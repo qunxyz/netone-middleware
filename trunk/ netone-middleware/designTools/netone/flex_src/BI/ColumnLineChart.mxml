@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+		[Bindable]
+	    public var xmllist:XMLList;
+	    public function  loadxmllist(sourcexmllist:XMLList):void
+	    {      
+	        xmllist=sourcexmllist;
+	    }
+		]]>
+	</mx:Script>
+	<mx:Panel id="PanelChart4" width="100%" height="100%"  title="柱线图" x="0">
+    	  
+         <mx:ColumnChart id="myChart"  
+                        showDataTips="true"  
+                        fontSize="14" width="100%" height="100%">  
+           <mx:horizontalAxis>  
+             <mx:CategoryAxis dataProvider="{xmllist.dsinfo}"  
+                                 categoryField="@x"/>  
+            </mx:horizontalAxis>  
+           
+                <!--设定左边Y轴坐标的数值范围 -->  
+                <mx:verticalAxis>
+						 	 <mx:CategoryAxis  dataProvider="{xmllist.dsinfo}"   categoryField="@y"/>
+				</mx:verticalAxis>
+            
+            <mx:series>  
+              <mx:ColumnSeries id="cs1"  
+                                dataProvider="{xmllist.dsinfo}"  
+                                xField="@x"  
+                                yField="@y"  
+                                displayName="x"/>  
+            </mx:series>  
+           <mx:secondVerticalAxis>  
+               <!--设定Y轴坐标的数值范围 -->  
+               <mx:LinearAxis  displayName="@y1" />  
+            </mx:secondVerticalAxis>  
+            <!--定义第二个Series -->  
+           <mx:secondSeries>  
+                <mx:LineSeries id="cs2"  
+                              dataProvider="{xmllist.dsinfo}"  
+                               xField="@x"  
+                               yField="@y1"  
+                               displayName="y1"/>  
+                <mx:LineSeries id="cs3"  
+                              dataProvider="{xmllist.dsinfo}"  
+                              xField="@x"  
+                               yField="@y1"   
+                              displayName="y1"/>  
+            </mx:secondSeries>  
+        </mx:ColumnChart>  
+    </mx:Panel>
+</mx:Canvas>

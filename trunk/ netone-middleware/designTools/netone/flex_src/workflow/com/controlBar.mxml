@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="524" height="20">
+    <mx:LinkButton id="start" label="[启动]"/>
+	<mx:LinkButton id="init" label="[初始]" x="60" y="0"/>
+	<mx:LinkButton id="monitoring" label=" [监控]" x="120" y="0"/>
+	<mx:LinkButton id="childrenprocess" label="[子流程]" x="183" y="0"/>
+	<mx:LinkButton id="select" label="[选择]" x="254" y="0"/>
+	<mx:LinkButton id="hlsl" label="[活动流程实例列表]" x="302" y="0"/>
+	<mx:LinkButton id="aboutDataList" label="[相关数据列表] " x="428" y="0"/>
+</mx:Canvas>

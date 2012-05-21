@@ -763,6 +763,10 @@ public final class Security3AImpl implements Security3AIfc {
 			rsx.setResourcecode(object.getNaturalname());
 			rsx.setResourcename(parseDnName(object) + rsname);
 			rsx.setTypes(object.getObjecttype());
+			rsx.setId(object.getId());
+			rsx.setParentid(object.getParentdir());
+			rsx.setText(object.getExtendattribute());
+			rsx.setInclusion(object.getInclusion());
 			listData.add(rsx);
 		}
 		return listData;

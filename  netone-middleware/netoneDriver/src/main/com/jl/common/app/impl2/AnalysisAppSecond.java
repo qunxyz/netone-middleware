@@ -73,7 +73,6 @@ public class AnalysisAppSecond {
 				appSecond.setNeedformedit(new String(personNode.getAttribute("needformedit")));
 				appSecond.setFormedit(new String(personNode.getAttribute("formedit")));
 				appSecond.setSubfrommode(new String(personNode.getAttribute("subfrommode")));
-				appSecond.setZibiaodan(new String(personNode.getAttribute("zibiaodan")));
 				appSecond.setZibiaodanmoshi(new String(personNode.getAttribute("zibiaodanmoshi")));
 				
 			return appSecond;

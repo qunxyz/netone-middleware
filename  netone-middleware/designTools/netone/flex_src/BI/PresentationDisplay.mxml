@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" 
+    initialize="initData()"  close="PopUpManager.removePopUp(this);" title="图表展示"
+	width="100%" height="100%" layout="absolute" xmlns:local="*"  fontSize="15"
+	xmlns:BI="BI.*" xmlns:components="com.webgriffe.components.*" xmlns:components1="BI.components.*">
+    	   	<mx:Script>
+		<![CDATA[
+			import mx.containers.Panel;
+			import mx.controls.DateField;
+			import BI.components.TreeComboBoxEvent;
+			import mx.events.ListEvent;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import ActionForm.vivid;
+			import mx.rpc.events.ResultEvent;
+			import mx.managers.PopUpManager;
+			[Bindable]
+			public var tableid:String=null;
+			import mx.utils.ObjectUtil;
+			[Bindable]
+			public var allcolumn:ArrayCollection;
+			[Bindable]
+			public var pxml:XML;
+			public var cxml:XML;
+			public var params:Object;
+		    public var tArr:Array;
+       	    public var Tableinfo:ArrayCollection=null;
+            public var Tablename:String;
+            public var arrtype:ArrayCollection=new ArrayCollection();
+			private function getParams():Object { 
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                   
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+			
+
+			public function tijiaoData(event:MouseEvent):void
+			{   
+	          var zbarr:ArrayCollection=new ArrayCollection();
+		     if(zhibiaosource.selectedItems==null || zhibiaosource.selectedItems.toString()=="" ){
+		           Alert.show("请选择指标");
+       		}else{
+       		 for each(var item:Object in zhibiaosource.selectedItems){
+                       zbarr.addItem(item.columnid);
+              }
+             if(typesource.text=="请选择维度字段" && wdValuetext.text=="")
+             {
+             	getzbObject.getzhibiao(typesourcex.selectedItem.columnid.toString(),zbarr,vivid.Tablename,wdValuetext.text,typesource.selectedItem.columnid.toString(),extendtext.text);
+             }
+             if(typesourcex.selectedItem.columnid.toString()!=null &&zbarr.toString()!=null&&vivid.Tablename!=null&&wdValuetext.text!=null&&typesource.selectedItem.columnid.toString()!=null)
+             {
+               getzbObject.getzhibiao(typesourcex.selectedItem.columnid.toString(),zbarr,vivid.Tablename,wdValuetext.text,typesource.selectedItem.columnid.toString(),extendtext.text);
+             }
+       		 }
+	        }
+	     [Bindable]
+	     public var xyarr:ArrayCollection;
+	     public function xyDir(event:ResultEvent):void
+	     {
+	     	       xyarr= event.result as ArrayCollection;
+	     	       paselect.sarr=xyarr;
+	     }
+
+		
+			[Bindable]
+			public var vs:ViewStack;
+			public function initData():void
+			{
+			     var args:Object = getParams(); 
+				 tableid=args.formcode;
+				 vivid.formcode=tableid;
+				 vs=this.parent as ViewStack;
+				  
+			if(tableid!=null)
+				{
+			 	  getTablenameObject.gettablename(tableid);
+				  getWdObject.allColumn(tableid);
+				 
+				}
+				
+			}
+			
+		public var fd:ArrayCollection=new ArrayCollection();
+	    [Bindable]
+	    public var sarr:ArrayCollection=new ArrayCollection();
+	     [Bindable]
+	    public var barr:ArrayCollection=new ArrayCollection();
+		 public function RsColunm(event:ResultEvent):void
+			{
+			 allcolumn=event.result as ArrayCollection;
+	        for(var i:int=0;i<allcolumn.length;i++)
+			{     
+		           if(allcolumn.getItemAt(i).viewtype.toString()!="01" )
+			        {   	
+			            arrtype.addItem(allcolumn.getItemAt(i).viewtype.toString());
+                        sarr.addItem(allcolumn.getItemAt(i));
+			        }
+			}
+			 for(var j:int=0;j<allcolumn.length;j++)
+			{      
+		           if(allcolumn.getItemAt(j).viewtype.toString()=="01")
+			        {  
+                        barr.addItem(allcolumn.getItemAt(j));
+			        }
+			}
+			  if(allcolumn!=null){
+			         typesource.dataProvider=sarr;
+		             zhibiaosource.dataProvider=barr;
+                     zhibiaosource.selectedItem=null;
+              }
+                BIid.columnarr=sarr;
+			 	WdValueObject.getData(allcolumn.getItemAt(1).columnid.toString(),Tablename);
+			}
+			
+			[Bindable]
+			 public var Scolunm:String;
+			 [Bindable]
+			 public var typexArr:ArrayCollection=null;
+			public function changevalue():void
+			{    
+			 BIid.nathername=typesource.selectedItem.columnid.toString();
+			 wdValuetext.text=null;
+		     Bxml=<selectxml></selectxml>;
+		     var typearr:ArrayCollection=new ArrayCollection();
+		     typexArr=new ArrayCollection();
+		     for(var j:int=0;j<sarr.length;j++){
+		     typexArr.addItem(sarr.getItemAt(j));
+		     }
+			
+		       typesourcex.dataProvider=typexArr;
+		
+
+            var vt:String=typesource.selectedItem.viewtype.toString();
+           
+            if(vt=="17"||vt=="18"||vt=="22"||vt=="23")
+            {   
+                var startindex:int=typesource.selectedItem.valuelist.toString().indexOf("[",0);
+                var endindex:int=typesource.selectedItem.valuelist.toString().indexOf("]",0); 
+                var strstring:String=typesource.selectedItem.valuelist.toString().substring(startindex+1,endindex);
+                BIid.columncode=strstring;
+                if(vt=="22"||vt=="23")
+                 { 
+                 	BIid.sid=1;
+                 	 
+                 }
+                else
+                {
+                   BIid.sid=0;
+                 }
+              }
+              else{
+              	 if(typesource.selectedItem.columnid!="init"){
+                   BIid.Scolunm=typesource.selectedItem.columnid.toString();
+                 }
+              }
+            }
+		   [Bindable]
+		   public var Bxml:XML=<selectxml></selectxml>;
+		  [Bindable]
+		  public var sletearr:ArrayCollection=new ArrayCollection();
+			public function wdvalue(event:ResultEvent):void
+			{ 
+                var cxml:XML=null;
+			    sletearr=event.result as ArrayCollection;
+		        for(var k:int=0;k<sletearr.length;k++)
+			    {    
+			    	if(sletearr.getItemAt(k).toString()=="请选择维度值")
+			    	{
+			    	Bxml.@name=sletearr.getItemAt(k).toString();
+			    	}
+			    	cxml=new XML();
+			    	cxml=<Dataxml></Dataxml>;
+			    	if(sletearr.getItemAt(k).toString()!="请选择维度值"){
+			    	cxml.@name=sletearr.getItemAt(k).toString();
+			    	Bxml.appendChild(cxml);
+			    	}
+			    }
+			   
+		
+			}
+			public function gettimevalue(event:ResultEvent):void
+			{
+		        
+			}
+			public function bttopenzq():void
+			{   
+			   var da:Canvas=this.parent.getChildByName("selectZQType") as Canvas;
+			   vs.selectedChild=da;
+			
+			}
+	
+			public var xmlarr:ArrayCollection;
+			[Bindable]
+			public var zbarr:ArrayCollection;
+			public function zbResult(event:ResultEvent):void
+			{   
+			    zbarr=event.result as ArrayCollection;
+				if(vivid.backarr!=null)
+				{ for(var b:int=0;b<vivid.backarr.length;b++)
+				  {
+				       zbarr.addItem(vivid.backarr.getItemAt(b));
+				  } 
+				  vivid.backarr=null;
+				}
+				 pxml=<info></info>;
+			    for(var i:int=0;i<zbarr.length;i++)
+			    {
+					cxml=new XML();
+					cxml=<dsinfo></dsinfo>;
+					if(zbarr.getItemAt(i).xdata!=null)
+					cxml.@x=zbarr.getItemAt(i).xdata.toString();
+					if(zbarr.getItemAt(i).ydata!=null)
+					cxml.@y=zbarr.getItemAt(i).ydata.toString();
+					if(zbarr.getItemAt(i).y1data!=null)
+				    cxml.@y1=zbarr.getItemAt(i).y1data.toString();
+				    if(zbarr.getItemAt(i).y2data!=null)
+				    cxml.@y2=zbarr.getItemAt(i).y2data.toString();
+				    if(zbarr.getItemAt(i).y3data!=null)
+				    cxml.@y3=zbarr.getItemAt(i).y3data.toString();
+				    if(zbarr.getItemAt(i).y4data!=null)
+				    cxml.@y4=zbarr.getItemAt(i).y4data.toString();
+				    if(zbarr.getItemAt(i).y5data!=null)
+				    cxml.@y5=zbarr.getItemAt(i).y5data.toString();
+				    if(zbarr.getItemAt(i).y6data!=null)
+				    cxml.@y6=zbarr.getItemAt(i).y6data.toString();
+				    if(zbarr.getItemAt(i).y7data!=null)
+				    cxml.@y7=zbarr.getItemAt(i).y7data.toString();
+			        pxml.appendChild(cxml);
+				  }
+				display1View.loadxml(pxml);
+			}
+			 public function clickData(event:ListEvent):void
+			{      
+				   Alert.show(event.itemRenderer.data.@name.toString());
+			}
+			[Bindable]
+			public   var paselect:PredictiveAnalysis;
+			public function predictiveAnalysis():void
+		    {   
+		   if(typesourcex.selectedIndex>=2){//选择的typesourcex的指数只能大于等于2
+		      if(typesourcex.selectedIndex==2 || arrtype[typesourcex.selectedIndex-3]=="02" || arrtype[typesourcex.selectedIndex-3]=="03" || arrtype[typesourcex.selectedIndex-3]=="04"){
+		      if(wdValuetext.text!=null){
+		         	 if(zhibiaosource.selectedItems==null || zhibiaosource.selectedItems.toString()=="" ){
+		         	 Alert.show("请选择指标");
+       				}else{
+       				  EvTjFs.getInstance().addEventListener("yuce",tijiaoData);
+			         expendXyObject.ExpendXydata(typesourcex.selectedItem.columnid.toString(),zhibiaosource.selectedItem.columnid.toString(),typesource.selectedItem.columnid,wdValuetext.text,vivid.Tablename);
+			         paselect=PopUpManager.createPopUp(this,PredictiveAnalysis,true) as PredictiveAnalysis ;
+		     		  }
+		       }else{
+		       Alert.show("所需数据不符条件！");
+		       }
+		      }else
+		      {
+		      	Alert.show("预测分析应该在时间维度上进行!");
+		      }
+		      }
+		    }
+		  public function getTablename(event:ResultEvent):void
+           {
+           	       Tableinfo=event.result as ArrayCollection;
+           	       Tablename=Tableinfo.getItemAt(0).tablename;
+           	       vivid.Tablename=Tableinfo.getItemAt(0).tablename;
+            }
+
+        public function changevaluex():void
+        {
+   	         
+        }
+      public function selectwdValue():void
+      {   BIid.backstrr=null; 
+      	  if(typesource.text!="请选择维度字段"){  
+      	  var vt:String=typesource.selectedItem.viewtype.toString();
+          if(vt=="17"||vt=="18"||vt=="22"||vt=="23")
+          { 
+         	PopUpManager.createPopUp(this,SelectWdValue1,false);
+           }
+           else
+           {  
+             if(vt=="11")
+             {
+             	BIid.statetype="11";
+             }
+           	 PopUpManager.createPopUp(this,SelectWdValue,false);
+          }
+       }else{
+       Alert.show("请选择维度字段");
+       }
+      }
+      public function selectextend():void
+      { 
+      	PopUpManager.createPopUp(this,extendtiaojian,false);
+      }
+  ]]>
+	</mx:Script>
+    	   		<mx:RemoteObject id="getTablenameObject" destination="getwd" result="getTablename(event)" 
+	showBusyCursor="true"/>
+	<mx:RemoteObject id="expendXyObject" destination="getwd" result="xyDir(event)" 
+      showBusyCursor="true"/> 
+
+	   <mx:RemoteObject id="getzbObject" showBusyCursor="true" result="zbResult(event)"
+	 	 destination="getwd"/>
+	 <mx:RemoteObject id="getWdObject" showBusyCursor="true" result="RsColunm(event)"
+	 	 destination="getwd"/>
+	 <mx:RemoteObject id="WdValueObject" showBusyCursor="true" result="wdvalue(event)"
+	 	 destination="getwd"/>
+	 <mx:RemoteObject id="WdtiemObject" showBusyCursor="true" result="gettimevalue(event)"
+	 	 destination="getwd"/>
+    <mx:Canvas width="100%" height="100%">
+    <mx:Canvas id="leftOperate" x="0" y="0" width="100%" height="100%">
+    	<mx:Canvas id="operateArea" width="100%" height="100%" x="{display1View.width}" y="0">
+    	   <mx:Panel id="wdz0" width="242" height="89" title="展开轴维度（X坐标）" y="284" x="0">
+    	   <mx:Canvas width="100%" height="44">
+    	   	<mx:ComboBox id="typesourcex"  dataProvider="{sarr}"  change="changevaluex()" labelField="columname" width="195" x="7" y="3" height="32"/>
+    	   </mx:Canvas>
+    	   </mx:Panel>
+    	   <mx:Panel id="wdz1" width="242" height="82" title="指标选择（Y轴）" x="0" y="376">
+    	   <mx:Canvas width="100%" height="100%">
+    	   	<BI:MyComboBox id="zhibiaosource"  prompt=""   labelField="columname" width="196" x="5" y="2" height="32"/>
+    	   </mx:Canvas>
+    	   </mx:Panel>
+    	   <mx:Panel id="wdz2" width="242" height="91" y="466" x="0">
+    	   <mx:Canvas width="100%" height="100%" color='red'>
+    	   	<mx:Button id="bttok"  click="tijiaoData(event)"  x="10" y="10" width="92" label="分析"/>
+    	   	<mx:Button id="bttAnalysis"  click="predictiveAnalysis()" 
+    	   	           label="预测" x="128" y="10" width="92"/>
+    	   </mx:Canvas>
+    	   </mx:Panel>
+    	   <mx:Panel id="wdz" width="242" height="153" title="切片维度">
+    	   <mx:Canvas width="100%" height="100%">
+    	   	<mx:ComboBox id="typesource"   change="changevalue()" dataProvider="{sarr}" labelField="columname" width="193" x="0" y="8" height="27"/>
+    	   	<mx:Button id="selectwd" click="selectwdValue()" fontSize="11" fontWeight="bold" label="请选择所选维度值" x="0" y="43" width="136"/>
+    	   	<mx:TextArea id="wdValuetext" x="4" y="70" width="193" fontWeight="bold" height="35"  text="{BIid.backstrr}"/>
+    	   </mx:Canvas>
+    	   </mx:Panel>
+    	   <mx:Panel id="wdz3" width="242.5" height="124" title="切片扩展条件" y="152" x="-0.5">
+    	   <mx:Canvas width="100%" height="100%">
+    	   	<mx:TextArea id="extendtext" text="{BIid.extendsource}" x="0" y="-92" width="150" fontWeight="bold" height="42"/>
+    	   	<mx:Button id="selectwextend" click="selectextend()" fontSize="11" fontWeight="bold" label="编辑" x="10" y="15" width="136"/>
+    	   </mx:Canvas>
+    	   </mx:Panel>
+    	</mx:Canvas>
+       <mx:ViewStack id="leftViews" width="80%" height="100%" creationPolicy="all" x="0" y="0">
+       <BI:BIDisplay    showEffect="WipeDown" hideEffect="WipeUp"  id="display1View"  horizontalScrollPolicy="on" verticalScrollPolicy="on" width="100%" height="100%"/>
+      </mx:ViewStack>
+   </mx:Canvas>
+</mx:Canvas>
+</mx:TitleWindow>

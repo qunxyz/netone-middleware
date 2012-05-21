@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:ns1="framework.*"   initialize="init()" >
+
+	     
+	     <mx:Script>
+	     	<![CDATA[
+	     		import mx.controls.Alert;
+	     		import mx.events.MoveEvent;
+	     		import BI.EvTjFs;
+	     	  [Bindable]
+	     	  public var Urltext:String="";
+	     	  [Bindable]//pz
+	     	  public var fal:Boolean=true;
+	     	  public function init():void{
+	     	  	 EvTjFs.getInstance().addEventListener("chenggong",chenggong);
+	     	  }
+	     		public function moveIF():void{
+	     		EvTjFs.getInstance().dispatchEvent(new MouseEvent("xianshigongzuoliu"));
+	     		if(fal){
+	     		image.source="img1/return1.png";
+	     		fal=false;
+	     		}else{
+	     		image.source="img1/return21.png";
+	     		fal=true;
+	     		}
+	     		} 
+	     		public function chenggong(evevnt:MouseEvent):void{
+	     		 iFrame1.source=URL1.liucheng+"/viewreadonlyprocess.do?processid="+Urltext; 
+	     		}
+	     	]]>
+	     </mx:Script>
+		  <ns1:IFrame id="iFrame1"  cachePolicy="off" width="100%" height="100%" x="74" y="0" />  
+		  <mx:Image y="0" x="0" id="image"  source="@Embed('img1/return21.png')" click="moveIF()" width="73" height="33"/>
+</mx:Canvas>

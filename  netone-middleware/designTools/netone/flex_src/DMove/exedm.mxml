@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="{init()}">
+<mx:Script>
+	<![CDATA[
+		import mx.containers.ViewStack;
+		import mx.controls.Alert;
+		import flash.events.Event;  
+		import BI.BIid;
+			    private var vs:ViewStack; 
+			public function  init():void{
+			vs=this.parent as ViewStack; 
+			ename.text=BIid.xmlename;
+			cname.text=BIid.xmlname;
+			daima.text=BIid.thexml;
+			}
+			 public function clickbttcannel():void
+            {    
+            	  var o:Object= this.parent.getChildByName("dmMain");
+       	           vs.selectedChild=o as Canvas; 
+       	     
+            }
+             public function domyxml(myxml:String):void{
+             doxml.exml(myxml);
+             Alert.show("代码已执行!");
+             var o:Object= this.parent.getChildByName("dmMain");
+       	     vs.selectedChild=o as Canvas; 
+             }
+           public function  handerResult(event:Event):void{
+          //Alert.show(event.result.toString());
+           }
+	]]>
+</mx:Script>
+ <mx:RemoteObject id="doxml"   destination="theexml" showBusyCursor="true"    result="handerResult(event)">
+</mx:RemoteObject>
+<mx:Panel y="0" width="100%" height="120%" layout="absolute" title="执行采集" fontSize="18" horizontalCenter="0">
+	<mx:Label x="13" y="19" text="名称" fontSize="12"/>
+	<mx:Label x="302" y="19" text="中文名称" fontSize="12"/>
+	<mx:TextInput x="91" y="17" id="ename" editable="false" height="22" fontSize="12"/>
+	<mx:TextInput x="387" y="17" width="286" id="cname" fontSize="12"/>
+	<mx:TextArea x="91" y="63" width="642" height="403" id="daima"/>
+	<mx:Label x="13" y="64" text="代码" fontSize="12"/>
+	<mx:Button x="741" y="62" label="执行" fontSize="12" click="{domyxml(daima.text.toString())}"/>
+	<mx:Button x="741" y="94" label="取消" fontSize="12" click="{clickbttcannel()}"/>
+	</mx:Panel>
+</mx:Canvas>

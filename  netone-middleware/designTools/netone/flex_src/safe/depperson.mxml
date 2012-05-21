@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="700" height="500" 
+	xmlns:renderer="my.renderer.checkbox1.*"  xmlns:ns1="safe.*" fontSize="15"
+	 initialize="init()">
+	 <mx:Script>
+		<![CDATA[
+		import mx.events.ListEvent;
+     	import mx.controls.DataGrid;
+     	import mx.controls.dataGridClasses.DataGridListData;
+     	import mx.controls.Alert;
+     	
+		     	[Bindable] 
+		     public var info:String; 
+		     import mx.containers.Canvas; 
+		     import mx.containers.ViewStack; 
+		     public var vs:ViewStack; 
+		     [Bindable] 
+		     public var loginsuccess:String; 
+		     [Bindable] 
+		     private var i:int=3; 
+		     private function init():void{ 
+		     vs=this.parent as ViewStack;
+		      trace(vs.id); 
+		     } 
+		      private function getChild(str:String):Object{ 
+		       for each(var obj:* in vs.getChildren()){ 
+		           if(obj.name==str){ 
+		           break; 
+		} 
+		} 
+		return obj; 
+		 } 
+     	
+
+			private function changeEmpl():void{
+				var allEmplArray:Array = empl_infor_arrayCollection.toArray();
+				var curEmplArray:Array = allEmplArray.filter(selectedEmpl);
+				
+				dg.dataProvider = curEmplArray;
+			}
+			
+			//选择对应部门的员工
+			private function selectedEmpl(element:*, index:int, arr:Array):Boolean{
+				return element.DeptCode == dept_tree.selectedItem.@code;
+			}
+			
+			public function clickEvent(name:String):void{
+	               Alert.show(name);
+	         }
+	       private function clickHandler():void{
+				//新建部门
+			 if (MenuBar1.selectedIndex==0) {
+			 	var o1:Object=this.getChild("depCreate");
+			    vs.selectedChild=o1 as Canvas; 
+			 }
+			
+			}
+			
+			private function clickHandler1():void{
+				//新建目录的方法
+			 if (MenuBar.selectedIndex==0) {
+			 	var o1:Object=this.getChild("depCreate");
+			    vs.selectedChild=o1 as Canvas; 
+			 }
+			 //修改
+			  if (MenuBar.selectedIndex==1) {
+			 	var o2:Object=this.getChild("depUpdate"); 
+			    vs.selectedChild=o2 as Canvas; 
+			 }
+			}
+			
+
+		]]>
+	</mx:Script>
+	<!--树的源-->
+	<mx:XML id="dept_xml">
+		<depts label="部门角色" code="0">
+			<dept label="市场部" code="1" />
+			<dept label="开发部" code="2">
+				<dTeam label="开发1组" code="2.1"/>
+				<dTeam label="开发2组" code="2.2"/>
+			</dept>
+			<dept label="测试部" code="3" />
+			<dept label="后勤部" code="4"/>
+		</depts>
+	</mx:XML>
+	<mx:Panel x="0" y="0" width="200" height="100%" layout="horizontal" title="目录" fontSize="15">
+	<!--树-->
+			<mx:Tree id="dept_tree" width="191" height="100%"
+			   dataProvider="{dept_xml}" labelField="@label"
+			   showRoot="true"
+			   change="changeEmpl()">
+			</mx:Tree>
+	</mx:Panel>
+	<mx:Panel x="200" y="0" width="100%" height="100%" layout="vertical" title="部门人员" fontSize="15" borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<mx:Panel width="100%" height="170" layout="absolute" borderThicknessTop="-30" borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0">
+			<mx:MenuBar  id="MenuBar1" width="100%"
+			 labelField="@label"  
+			 height="43" y="0" x="0" click="{clickHandler()}">
+		 <mx:XMLList>
+		 <menuitem label="新建" data="createApplication" />
+         <menuitem label="删除" data="createApplication"/>
+         <menuitem label="编辑" data="createApplication"/>
+		 </mx:XMLList>	 	
+		 </mx:MenuBar>
+			<mx:Label x="10" y="56" text="名    称"/>
+			<mx:Label x="10" y="84" text="编    号"/>
+			<mx:Label x="10" y="112" text="部门编号"/>
+			<mx:TextInput x="72" y="54"  width="400"/>
+			<mx:TextInput x="72" y="84" width="400"/>
+			<mx:TextInput x="72" y="112" width="400"/>
+		
+			</mx:Panel>
+		<mx:Panel width="100%" height="100%" layout="absolute" borderThicknessTop="-30" borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0">
+		  <mx:MenuBar  id="MenuBar" width="100%"
+			 labelField="@label"  
+			 height="43" y="0" x="0"
+			  click="clickHandler1()">
+		 <mx:XMLList>
+		 <menuitem label="新 建" data="createApplication"/>
+         <menuitem label="修 改" data="createApplication"/>
+         <menuitem label="删 除" data="createApplication"/>
+         <menuitem label="禁 用" data="createApplication"/>
+         <menuitem label="重置密码" data="createApplication"/>
+		 </mx:XMLList>	 	
+		 </mx:MenuBar>
+		   <mx:Canvas height="100%" y="43" width="100%">
+			<mx:DataGrid x="0" y="0" width="100%" height="300" id="dg">
+				<mx:columns>
+					<renderer:CheckBoxColumn id="column" enableField="disable" dataField="fucked"/>
+					<mx:DataGridColumn headerText="姓名" dataField="name"/>
+					<mx:DataGridColumn headerText="帐号" dataField="cname"/>
+					<mx:DataGridColumn headerText="状态" dataField="type"/>
+					<mx:DataGridColumn headerText="角色描述">
+					  <mx:itemRenderer>
+					    <mx:Component>
+						 <mx:LinkButton label="描述" color="blue" click="{outerDocument.clickEvent(data.name)}"/>
+					    </mx:Component>
+					  </mx:itemRenderer>
+					</mx:DataGridColumn>
+				</mx:columns>
+			</mx:DataGrid>
+			<ns1:PageController x="0" y="300" TargetUI="{dg}" PerPage="8">
+			</ns1:PageController>
+		 </mx:Canvas>
+		</mx:Panel>
+	</mx:Panel>
+	
+	<mx:ArrayCollection id="empl_infor_arrayCollection">
+		<mx:Object>
+			<mx:name>张三</mx:name>
+			<mx:cname>zs</mx:cname>
+			<mx:type>正常</mx:type>
+			<mx:DeptCode>1</mx:DeptCode>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李四</mx:name>
+			<mx:cname>ls</mx:cname>
+			<mx:type>正常</mx:type>
+			<mx:DeptCode>2.1</mx:DeptCode>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>王武</mx:name>
+			<mx:cname>ww</mx:cname>
+			<mx:type>正常</mx:type>
+			<mx:DeptCode>2.2</mx:DeptCode>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>赵柳</mx:name>
+			<mx:cname>zl</mx:cname>
+			<mx:type>正常</mx:type>
+			<mx:DeptCode>2.2</mx:DeptCode>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>钱起</mx:name>
+			<mx:cname>qq</mx:cname>
+			<mx:type>正常</mx:type>
+			<mx:DeptCode>3</mx:DeptCode>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>小王</mx:name>
+			<mx:cname>xw</mx:cname>
+			<mx:type>正常</mx:type>
+			<mx:DeptCode>3</mx:DeptCode>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李师师</mx:name>
+			<mx:cname>lss</mx:cname>
+			<mx:type>正常</mx:type>
+			<mx:DeptCode>4</mx:DeptCode>
+		</mx:Object>
+	</mx:ArrayCollection>
+</mx:Canvas>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  width="100%" height="100%" initialize="init()">
+<mx:Script>
+	<![CDATA[
+		import BI.EvTijiao;
+		import BI.EvTjFs;
+		       import mx.containers.ViewStack;
+       		   private var vs:ViewStack; 
+      private function init():void{ 
+		      vs=this.parent as ViewStack; 
+		      trace(vs.id);
+		   
+		     } 
+     		public function Styling():void
+    		{
+    			var url:String=index.WEBSER_CMSWEB+"/PagelistpathRightSvl?pagename=stylelist&appname=CSSFILE";
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}   
+    	 public function portlet():void{
+		       var url:String=index.WEBSER_CMSWEB+"/PagelistpathRightSvl?pagename=jspapp&appname=JSPAPP";
+  			    var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+		  }
+	    public function Drpdoor():void{
+                var url:String=index.WEBSER_SECURITY3A+"/SSOLoginSvl";
+  			    var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request);
+         }
+         public function AentranceComponent():void{
+                var url:String=index.WEBSER_CMSWEB+"/PagelistpathRightSvl?pagename=appframeEntry&appname=APPENTRY";
+  			    var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request);  
+         }
+      public function portal():void{
+               var url:String=index.WEBSER_CMSWEB+"/PagelistpathRightSvl?pagename=pagegroup&appname=PORTALPG";
+  			    var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request);
+         }
+      public function SetExte():void{
+         	     EvTjFs.getInstance().dispatchEvent(new EvTijiao("cssquehuan","SuperBox2.swf")); 
+		            var o:Object=this.getChild("StateZHU1"); 
+		            vs.selectedChild=o as Canvas;
+		    }
+      private function getChild(str:String):Object{ 
+		       for each(var obj:* in vs.getChildren()){ 
+		           if(obj.name==str){ 
+		           break; 
+				} 
+				} 
+			return obj; 
+		  } 
+	]]>
+</mx:Script>
+	    <mx:Button y="20" click="SetExte()" width="50" height="29" x="1000" overSkin="@Embed(source='img1/fanhui.png')" upSkin="@Embed(source='img1/fanhui1.png')" downSkin="@Embed(source='img1/fanhui1.png')"/>
+	    <mx:Button x="88.5" y="45" label=""  height="119" width="144" click="{AentranceComponent()}" overSkin="@Embed(source='img1/1.1-01.png')" upSkin="@Embed(source='img1/1-01.png')" downSkin="@Embed(source='img1/1-01.png')" />
+	    <mx:Button x="388.5" y="45" label=""  height="119" width="144" click="{Drpdoor()}" overSkin="@Embed(source='img1/5.1.png')" upSkin="@Embed(source='img1/5.png')" downSkin="@Embed(source='img1/5.png')"/>
+	    <mx:Button x="688.5" y="45" label=""  height="119" width="144" click="{portlet()}"  overSkin="@Embed(source='img1/13.1.png')" upSkin="@Embed(source='img1/13.png')" downSkin="@Embed(source='img1/13.png')"/>
+	    <mx:Button x="88.5" y="211"  height="119" width="144" click="{Styling()}" overSkin="@Embed(source='img1/12.1.png')" upSkin="@Embed(source='img1/12.png')" downSkin="@Embed(source='img1/12.png')"/>
+	    <mx:Button x="388.5" y="221" label="" height="119" width="144" click="{portal()}" overSkin="@Embed(source='img1/10.1.png')" upSkin="@Embed(source='img1/10.png')" downSkin="@Embed(source='img1/10.png')" />
+	   
+	  </mx:Canvas>

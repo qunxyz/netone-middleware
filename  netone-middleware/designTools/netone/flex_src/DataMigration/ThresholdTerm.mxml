@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="853" height="128"  x="0" y="91">
+		 <mx:Label x="0" y="0" text="迁移条件：" fontSize="15" fontWeight="bold"/>
+         <mx:TextArea x="81" y="0" id="TTtext" width="743" height="118" tabIndex="25" fontSize="14"/>
+</mx:Canvas>

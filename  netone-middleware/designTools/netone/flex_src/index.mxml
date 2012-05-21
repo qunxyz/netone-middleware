@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  resize=""
+	xmlns:viewStackEffects="org.efflex.mx.viewStackEffects.*" layout="vertical"  preloader="CustomPreloader"   initialize="init()" height="110%" width="100%" xmlns:ns1="*">
+	<mx:Style source="SuperBox2.css"/>
+	 <!--<viewStackEffects:FlipPapervision3D id="effect" /> -->
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Label;
+			import BI.EvTjFs;
+			import BI.EvTijiao;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+		    import mx.controls.Alert;
+		    import mx.events.MoveEvent;
+			private var Mcf:MovieClip;
+            private var Muf:MovieClip;
+            private var Mdf:MovieClip;
+            private var Mbf:MovieClip;
+            private var Mmf:MovieClip;
+            private var Msf:MovieClip;
+            private var Mzy:MovieClip;
+            private var Maq:MovieClip;
+            private var Mzn:MovieClip;
+ 			    //门户框架
+ 			    [Bindable]
+				  public static var WEBSER_PHPCMS:String;
+				//报表模板 和 portlet设计管理
+				[Bindable]
+				   public  static var WEBSER_BIWEB:String;
+				//计划任务
+				[Bindable]
+				  public static var WEBSER_WFWEB:String
+				//PORTAL 是 	业务组件管理 
+				[Bindable] 
+				public static var WEBSER_CMSWEB:String;
+				//DRP分销资源计划产品 
+				[Bindable] 
+				public static var  WEBSER_ISS:String;
+				//OA系统办公
+				[Bindable] 
+				public static var OAWBESER_PHPCMS:String;
+				//知识库管理 
+				[Bindable]
+				public  static var WEBSER_KPORTAL:String;
+				[Bindable]//3A安全
+				public static var WEBSER_SECURITY3A:String;
+				
+				[Bindable]
+				public static var WEBSER_WEBSPECI:String;
+				[Bindable]
+				public static var SpeedyForm:String;
+            public var Url:URL1;
+            [Bindable]
+            public var arrRMI:ArrayCollection=new ArrayCollection();
+               [Bindable]
+            public var arrayr:ArrayCollection=new ArrayCollection(); 
+            public function init():void{
+            query23.Querty();
+            Url=new URL1();
+            Url.init();
+            RMI_SER.RMI_SER();
+            EvTjFs.getInstance().addEventListener("cssquehuan",changeTheme);
+            } 
+    		public function handerResult2(event:ResultEvent):void{            
+		    	 arrayr=event.result as ArrayCollection;  
+			 }
+			 private function changeTheme(event:EvTijiao):void{
+		      //切换CSS文件
+		     StyleManager.loadStyleDeclarations(event.Formcode(),true); 
+		     }
+		     //获取到rmi里面的数据 
+			 public function xmlResult(event:ResultEvent):void{ 
+			 arrRMI=event.result as ArrayCollection;
+			 WEBSER_PHPCMS=arrRMI[0];
+			 WEBSER_BIWEB=arrRMI[1];
+		     WEBSER_WFWEB=arrRMI[2];
+			 WEBSER_CMSWEB=arrRMI[3];
+			 WEBSER_ISS=arrRMI[4];
+			 OAWBESER_PHPCMS=arrRMI[5];
+			 WEBSER_KPORTAL=arrRMI[6];  
+			 WEBSER_SECURITY3A=arrRMI[7];
+			 WEBSER_WEBSPECI=arrRMI[8];
+			 SpeedyForm=arrRMI[9];
+			 }
+			 //注销用户
+			 public function zuxiao():void{
+			 
+			   var url1:String=WEBSER_CMSWEB+"/logoutsvl?gotourl="+SpeedyForm+"/index.html";  
+				var request1:URLRequest=new URLRequest(url1);  
+				navigateToURL(request1,""); 
+			 }
+			 //修改个人信息
+			 public function Updata():void{
+			    var url1:String=WEBSER_SECURITY3A+"/selfmodify/selfModify.do?flag=pass";  
+				var request1:URLRequest=new URLRequest(url1);  
+				navigateToURL(request1); 
+			 }
+			 //查看个人信息
+			 public function Query():void{
+				var url1:String=WEBSER_SECURITY3A+"/selfmodify/selfModify.do?flag=me";  
+				var request1:URLRequest=new URLRequest(url1);  
+				navigateToURL(request1);
+			 }
+			 //鼠标经过事件
+			 public function zxmousemove(event:MouseEvent):void{
+			   zx.setStyle("color","#F51F0E");
+			 }
+			public function  zxmousemoveout(event:MouseEvent):void{
+			 zx.setStyle("color","#3D73C5");
+			}
+			 public function  xgmmmousemove(event:MouseEvent):void{
+			 xgmm.setStyle("color","#F51F0E");
+			 }
+			 public function xgmmmouseout(event:MouseEvent):void{
+			 xgmm.setStyle("color","#3D73C5");
+			}
+			 public function  grxxmousemove(event:MouseEvent):void{
+			 grxx.setStyle("color","#F51F0E");
+			 }
+			  public function grxxmouseout(event:MouseEvent):void{
+			 grxx.setStyle("color","#3D73C5");
+			}
+			 
+		]]>
+	</mx:Script>
+		<mx:RemoteObject id="query23" destination="Query22" showBusyCursor="true"   result="handerResult2(event)" />
+   <mx:RemoteObject id="RMI_SER" destination="Strength1" result="xmlResult(event)" 
+		showBusyCursor="true"/>	
+    <mx:Canvas  x="0" y="0" width="100%" height="100%">
+      <mx:Image x="97" y="19" width="807" height="56"  source="img1/11a.png"/>
+    	<mx:ViewStack  width="100%"  height="531" x="102" y="52">
+	   	   <ns1:StateZHU showEffect="effect" id="StateZHU1" label="主界面" width="100%" height="100%">
+	   	   </ns1:StateZHU>
+          <ns1:shujuguanli   id="shujuguanli1" label="数据仓库" width="100%" height="100%">
+           </ns1:shujuguanli>
+	   	   <ns1:SafeManage showEffect="effect" id="SafeManage1" label="子界面" width="100%" height="100%">
+	   	   </ns1:SafeManage>
+	   	   <ns1:Shujuyizhi  showEffect="effect" id="Shujuyizhi1" label="" width="100%" height="100%">
+	   	   </ns1:Shujuyizhi>
+	   	   <ns1:DoorInterface id="DoorInterface1" showEffect="effect" label="" width="100%" height="100%"/>
+    </mx:ViewStack>	
+    	<mx:Canvas x="749" y="26" width="369" height="34">
+    	<mx:Label id="zx"  text="【注销】"  x="43" y="0"  fontSize="18" color="#3D73C5"  mouseMove="zxmousemove(event)" mouseOut="zxmousemoveout(event)"  click="zuxiao()"/>
+    	<mx:Label id="xgmm" text="【修改密码】"  x="116" y="0"  fontSize="18" color="#3D73C5"   mouseMove="xgmmmousemove(event)" mouseOut="xgmmmouseout(event)" click="Updata()"/>
+    	<mx:Label id="grxx"  text="【个人信息】"  x="224" y="0"  fontSize="18" color="#3D73C5" mouseMove="grxxmousemove(event)" mouseOut="grxxmouseout(event)" click="Query()"/>
+    	</mx:Canvas>
+    </mx:Canvas>
+	<mx:RemoteObject id="speech1" destination="Speech1" showBusyCursor="true"/>	
+</mx:Application>

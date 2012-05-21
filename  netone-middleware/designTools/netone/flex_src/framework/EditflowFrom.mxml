@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="init()"
+	 width="100%" height="100%"
+    	  fontSize="15" fontWeight="bold"
+    	  title="修改表单资源" 
+    	  backgroundColor="#ffffff" showCloseButton="true" close="SetExit()"> 
+	 <mx:Script>
+	 	<![CDATA[
+	 		import BI.EvTjFs;
+	 		import mx.core.IFlexDisplayObject;
+	 		import mx.managers.PopUpManager;
+	 		import ActionForm.vivid;
+	 		import mx.controls.Alert;
+	 		import mx.rpc.events.ResultEvent;
+	 		import mx.collections.ArrayCollection;
+	 	    import mx.containers.Canvas; 
+			     import mx.containers.ViewStack; 
+			      
+			  	 [Bindable]
+			     public var dataxml:XML;
+				 [Bindable]
+			   	 public var  Parent:XML;
+			   	 public var wflowFormDisplay:WflowFormDisplay;
+			     [Bindable]
+			     public var arrform:ArrayCollection=new ArrayCollection();
+			     [Bindable]
+			     public var daiban:ArrayCollection=new ArrayCollection();
+			     [Bindable] 
+			     public var loginsuccess:String; 
+			     [Bindable] 
+			     private var i:int=3; 
+			     [Bindable]
+			     public static var idcreated:String;
+			     [Bindable]
+				  public static  var  daibanname:String;
+			     private function init():void{
+			     fname.text=flowFormDisplay.daibanname;
+			     queryrenyuan3.renyaunid(variable._idcreated1); 
+			     querdaiban2.chanxunshuju(flowFormDisplay.daibanname);
+			     } 
+			 
+              // 查询表单字段 返回的数据
+			  public  function  handerResult2(event:ResultEvent):void{
+                 arrform=event.result as  ArrayCollection;
+               } 
+               
+                 public  function  handerResult1(event:ResultEvent):void{
+                 	PopUpManager.removePopUp(this as IFlexDisplayObject);
+ 			        EvTjFs.getInstance().dispatchEvent(new MouseEvent("shuxin"));
+               } 
+               public function baocun():void{
+               	    if(Parent==null){
+ 				 Parent=<csource></csource>
+ 			     }else{
+ 			     Parent=null;
+ 			      Parent=<csource></csource>
+ 			     }
+ 			     if(dataxml==null){
+ 				 dataxml=<control></control>
+ 			     }else{
+ 			      dataxml=null;
+ 			      dataxml=<control></control>
+ 			     }
+
+                var a1:String="<![CDATA[";
+				 var a2:String="]]";
+				 var a3:String=">";
+ 			     dataxml.@DivBlock=tableField.selectedItem.name+"["+tableField.selectedItem.Naturalname+"]";
+ 			     dataxml.@name=chinesename.text;
+ 			     dataxml.@naturalname=fname.text;
+ 			     if(ishidden.selected){
+ 			       dataxml.@ishidden="1";
+ 			     }else{
+ 			      dataxml.@ishidden="0";
+ 			     }
+ 			dataxml.@Length=daibanziduanchangdu.text;
+ 			dataxml.@actname=morenhuodongziduan.text;
+ 			dataxml.@commitername=morencanyuzheziduan.text;
+ 			dataxml.@starttime=morenchuangjianshijianziduan.text;
+ 			 var script:XML=<script>{a1+ziduanjiaoben.text+a2+a3}</script>
+ 		      	dataxml.appendChild(script);
+ 			     Parent.appendChild(dataxml);
+ 			     adddaiban1.step2(flowFormDisplay.daibanname,Parent.toString());
+               }
+               public function SetExit():void{
+                     PopUpManager.removePopUp(this as IFlexDisplayObject);
+               }
+               
+               public function handerResult3(event:ResultEvent):void{
+                 daiban=event.result as ArrayCollection;
+                if(daiban!=null){
+	                 fname.text=daiban[0];
+	 			     chinesename.text=daiban[1];
+	 			     
+	 			     for(var i:int=0;i<arrform.length;i++){
+	                   if(daiban[2]==arrform[i].name+"["+arrform[i].Naturalname+"]"){
+	                    tableField.selectedIndex=i;
+	                    }
+	                 }
+	                     if(daiban[3]=="1"){
+	 			       ishidden.selected=true;
+		 			     }else{
+		 			       ishidden.selected=false;
+	 			         }
+	                  daibanziduanchangdu.text=daiban[4];
+	 				  morenhuodongziduan.text=daiban[5];
+	 				  morencanyuzheziduan.text=daiban[6];
+	 				  morenchuangjianshijianziduan.text=daiban[7];
+	 				  ziduanjiaoben.text=daiban[8];
+                   }
+               }
+               
+               public function bangzhu():void{
+                var url:String="";  
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request,"_self");
+               }
+	 	]]>
+	 </mx:Script>
+	   	<mx:RemoteObject  id="querdaiban2" destination="Querdaiban1" showBusyCursor="true"   result="handerResult3(event)"/>
+	 	 <mx:RemoteObject id="adddaiban1" destination="Adddaiban1" showBusyCursor="true"   result="handerResult1(event)"/>	
+	   <mx:RemoteObject id="queryrenyuan3" destination="Queryrenyuan1" showBusyCursor="true"   result="handerResult2(event)"/>	
+	 
+    	  <mx:Canvas x="0" y="0" width="777" height="43">
+    	  	<mx:Button id="bttOk" y="0" label="确定" click="baocun()" x="0" height="39" width="104"/>
+    	  	<mx:Button id="bttCannel" y="0" label="取消" click="SetExit()" x="110" height="39" width="104" />
+    	  </mx:Canvas>
+    	 <mx:Canvas width="100%" height="658">
+
+    	  <mx:Label text="名            称:"  y="12"  x="10"/>
+    	  <mx:TextInput id="fname" y="10" x="179" width="274" text="{variable.daibanname}" editable="false"/>
+    	  <mx:Label text="中  文  名  称:" y="57"  x="10" />
+    	 <mx:Label text="代办字段默认长度:"   x="10" y="207"/>
+    	  <mx:TextInput id="chinesename" y="55"  x="179" width="274" text="{variable.daiban}"/>
+    	  <mx:Label text="引用表单字段:" y="116"  x="10"/>
+    	  <mx:TextInput id="daibanziduanchangdu"  restrict="0-9" y="205" width="274" text="100" x="179"/>
+    	  <mx:TextInput id="morenhuodongziduan" restrict="0-9"  y="253" x="179" width="274" />
+    	  <mx:TextInput id="morencanyuzheziduan" restrict="0-9"  y="296" x="179" width="274" />
+    	  <mx:Label x="10" y="298" text="默认参与者字段长度：" width="173"/>
+    	  <mx:TextInput id="morenchuangjianshijianziduan" restrict="0-9" y="344" x="179" width="274" />
+    	  <mx:Label x="10" y="346" text="默认创建时间长度："  width="173"/>
+    	  <mx:ComboBox id="tableField" dataProvider="{arrform}" labelField="name"  y="108.5" width="274" x="179" height="37"/>
+    	  <mx:Label  x="10" y="400" text="字段处理脚本：" width="161"/>
+    	  <mx:TextInput id="ziduanjiaoben" x="179" y="398" width="278" height="78"/>
+    	  <mx:Label  x="10" y="166" text="是  否  显  示:" width="107"/>
+    	  <mx:CheckBox   id="ishidden"  x="179"  y="166"/> 		
+    	  <mx:Label x="10" y="255" text="默认活动字段长度：" width="161"/>
+    	  <mx:LinkButton x="489" y="418" label="帮助" color="#121312" click="bangzhu()"/>
+    	 </mx:Canvas>
+  </mx:TitleWindow>
+

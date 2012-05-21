@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" xmlns:ns1="framework.*"    
+      xmlns:ns2="PolymerizationShow.*" fontSize="12"  width="100%" height="300" >
+  <mx:Script>
+  	<![CDATA[
+  		import BI.EvTjFs;
+  		import mx.core.IFlexDisplayObject;
+  		import mx.managers.PopUpManager;
+  	  /**
+  	  *  业务框架   配置表头表尾
+  	  *  xuwei（2012-2-23）
+  	  * 
+  	  * 
+  	  * */
+  	  	import mx.events.ScrollEvent;
+  		import mx.events.FlexEvent;
+  		import mx.logging.ILogger;
+  		import com.blitzagency.xray.logger.Log;
+  		import com.blitzagency.xray.logger.Logger;
+  		import mx.containers.TitleWindow;
+  		import mx.containers.ViewStack;
+ 
+  		import mx.controls.Button;
+  		import mx.collections.ArrayCollection;
+  		import mx.rpc.events.ResultEvent;
+  		import mx.controls.Alert;
+
+  	      [Bindable]
+  	      public var params:Object;
+  	       [Bindable]
+  	       public var vs:ViewStack;
+  	       [Bindable]
+  	       public var textpath:String="";
+  	       [Bindable]
+  	       public var index:int=1;
+  	       [Bindable]
+  	       public var  dataxml:XML;
+		 [Bindable]
+   		 public var  Parent:XML;
+  	    public function init():void{ //初始化的方法	  
+  	         	var  url1:URL1=new URL1();
+     	 		  url1.init();         
+	             vs=this.parent as ViewStack;
+                 textpath="路径： "+variable.URLname+" 第4步，共6步";   
+  	    }
+  	       public function Xml():XML{
+  	           if(Parent==null){
+ 				 Parent=<csource></csource>
+ 			     }else{
+ 			     	 Parent=null;
+ 			     	 Parent=<csource></csource>
+ 			     }
+ 			     if(dataxml==null){
+ 				 dataxml=<control></control>
+ 			     }else{
+ 			      dataxml=null;
+ 			      dataxml=<control></control>
+ 			     } 
+ 	   			 var a1:String="<![CDATA[";
+				 var a2:String="]]";
+				 var a3:String=">";
+ 			     var yingyongform:String=variable._formchoose; 
+ 			     var yingyongwork:String=variable._woekchoose;
+ 			     var worklistDefaultColumn:String;
+ 		 
+ 			     worklistDefaultColumn= variable.worklistDefaultColumn
+
+ 			     var formtitle:String=formtitle.text;
+ 			     var formendtitle:String=formendtitle.text;
+ 			     var worklistsize:String=variable.worklistsize;
+ 			     var Parentxml:XML=<csource></csource>;
+ 			     Parent=<csource><control yingyongform={yingyongform} yingyongwork={yingyongwork} worklistDefaultColumn={worklistDefaultColumn} worklistsize={worklistsize}></control></csource>;
+
+                var con:XML=<formtitle>{a1+formtitle+a2+a3}</formtitle>;
+                 var conxml:XML=<formendtitle>{a1+formendtitle+a2+a3}</formendtitle>;
+  				Parent.appendChild(con);
+  			    Parent.appendChild(conxml); 
+                Parentxml.appendChild(Parent);
+  	    	    return   Parent;
+  	       }
+
+          //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("AgencyPrompt1");
+            vs.selectedChild=o as Canvas;
+          }
+          
+    
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+         var xml:XML= Xml();
+             	   if(index>1){
+			     		  addcatalog3.Updata(variable._idcreated1,xml.toString(),variable. repdimxpla);  
+			     	 }else{
+					     	if(variable.Updatakuabgjian){	 
+					     		addcatalog1.AddCatalog(variable.repidID,variable. repdimxpla,xml.toString(),variable.URLname); 
+		                        index++;
+					     	}else{   
+		                      addcatalog3.Updata(variable._idcreated1,xml.toString(),variable. repdimxpla); 
+		                      }
+                          }
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+         
+          public function handerResult2(event:ResultEvent):void{ 
+		        variable._idcreated1=event.result as String;
+		         if(event.result!=null)  
+		         { 
+		      var o:Object=this.parent.getChildByName("WpersonDisplay");
+              vs.selectedChild=o as Canvas;
+                }
+		    }	
+      public function handerResult3(event:ResultEvent):void{
+            variable._idcreated1=event.result as String;
+            if(event.result!=null){
+      		  EvTjFs.getInstance().dispatchEvent(new MouseEvent("shuxianshuju1"));  
+		      var o:Object=this.parent.getChildByName("WpersonDisplay");
+              vs.selectedChild=o as Canvas;
+		   	 }  
+		   	}
+		  	]]>
+  </mx:Script>
+     <mx:RemoteObject id="addcatalog3" destination="AddCatalog1" showBusyCursor="true"   result="handerResult3(event)"/>	
+ 	<mx:RemoteObject id="addcatalog1" destination="AddCatalog1" showBusyCursor="true"   result="handerResult2(event)"/>	
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />  
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="表头表尾的配置"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="业务框架" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置需要的表头表尾 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="919" height="325"  x="137" y="207" fontSize="20">
+ 	 	<mx:TextArea id="formtitle" y="9" x="130" width="386" height="65" text="{variable.formtitle}"/>
+ 	 	<mx:Label text="表         头:" x="10" y="29"/>
+ 	 	<mx:Label text="表         尾:" x="10" y="137"/>
+ 	 	<mx:TextArea id="formendtitle" y="117" x="130" text="{ variable.formendtitle}" width="386" height="65"/>
+ 	 	<mx:Label text="描         述:" x="0" y="237"/>
+ 	 	<mx:TextArea id="miaosu" y="219" x="130" width="386" height="65"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />  
+</mx:Canvas>

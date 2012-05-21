@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" 
+    initialize="initData()"   creationComplete="cci()"
+	width="100%" height="100%" xmlns:local="*"  fontSize="15"  xmlns:BIAnalysis="BIAnalysis.*"
+	xmlns:BI="BI.*" xmlns:components="com.webgriffe.components.*" xmlns:components1="BI.components.*">
+    	   	<mx:Script>
+		<![CDATA[
+			import BI.BIid;
+			import framework.variable;
+			import BI.EvTijiao;
+			import BI.EvTjFs;
+			import BIAnalysis.PredictiveAnalysis;
+			import mx.containers.ViewStack;
+			import mx.containers.Panel;
+			import mx.controls.DateField;
+			import BI.components.TreeComboBoxEvent;
+			import mx.events.ListEvent;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import ActionForm.vivid;
+			import mx.rpc.events.ResultEvent;
+			import mx.managers.PopUpManager;
+ 
+            
+            [Bindable] //获取父级中ViewStack的id
+            public var vs:ViewStack;
+	 
+	     [Bindable]//textpath
+	     public var textpath:String;
+
+
+			public function initData():void
+			{
+				textpath="路径： "+BIData.URLname+" 第7步，共9步"; 
+				 vs=this.parent as ViewStack; 
+               
+			}
+			
+			public function cci():void{
+			  if(!BIData.modeltype){
+                      var xml:XML=BIData.controlxml;
+		              var xmllist:XMLList=new XMLList(xml.child("Graphic"));
+		              for(var i:int=0;i<BIid.columnarr.length;i++){
+		               if(BIid.columnarr[i].columnid==xmllist[0].@zhankaiX){
+		                 typesourcex.selectedIndex=i;
+		               }
+		              
+		              }
+                 }
+			}
+			//展开轴维度（X坐标）的变化
+		 public function changevaluex():void
+        {
+        	BIData.predictionbegan="";
+        	BIData.predictionend="";
+        	BIData.Predictiontype="";
+        	 if(typesourcex.selectedIndex>=2){//选择的typesourcex的指数只能大于等于2
+		      if(typesourcex.selectedIndex==2 || BIid.arrarrtype[typesourcex.selectedIndex-3]=="02" || BIid.arrarrtype[typesourcex.selectedIndex-3]=="03" || BIid.arrarrtype[typesourcex.selectedIndex-3]=="04"){
+		         	   BIid.indextype=true;
+		      }else
+		      {
+		        BIid.indextype=false;
+		      }
+		      }
+        }
+        //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ChartIndex1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+          	
+          	    if(BIid.indextype){//预测
+          	    	 predictiveAnalysis();
+                     var o1:Object=this.parent.getChildByName("PredictiveAnalysis1");
+                      vs.selectedChild=o1 as Canvas; 
+		          }else{//接口
+		        	   var o:Object=this.parent.getChildByName("Setitf1");
+                       vs.selectedChild=o as Canvas;
+                       BIData.predictionbegan="";
+                       BIData.predictionend="";
+                       BIData.Predictiontype="";
+                       BIData.zhankaiX=typesourcex.selectedItem.columnid.toString();
+                       BIid.ArrData=BIid.columnarr;
+	          		 }
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+         
+      public function predictiveAnalysis():void{
+      	 
+      	BIData.zhankaiX=typesourcex.selectedItem.columnid.toString();
+ 
+		    }
+		   [Bindable]
+	     public var xyarr:ArrayCollection;
+	     [Bindable]
+	     public  var paselect:PredictiveAnalysis=new PredictiveAnalysis;
+	  public function xyDir(event:ResultEvent):void
+	     {
+	     	       xyarr= event.result as ArrayCollection;
+	     	       paselect.sarr=xyarr;
+	     }
+  ]]>
+	</mx:Script>
+	<mx:RemoteObject id="expendXyObject" destination="getwd" result="xyDir(event)" 
+      showBusyCursor="true"/> 
+    <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="展开维度"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="图表制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:选择需要x展示的字段, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="865" height="297"  x="114" y="225" fontSize="20"  >  
+    	  	<mx:Label text="展开轴维度（X坐标）:" x="45" y="57" fontWeight="bold"/>
+    	   	<mx:ComboBox id="typesourcex"  dataProvider="{BIid.columnarr}"  change="changevaluex()" labelField="columname" width="195" x="291" y="55.5" height="32"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 	    
+    	    
+</mx:Canvas>

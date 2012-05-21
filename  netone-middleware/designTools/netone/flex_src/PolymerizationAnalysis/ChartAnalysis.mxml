@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" fontSize="15" title="图表" initialize="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			import framework.variable;
+			import mx.containers.Canvas;
+			import mx.containers.ViewStack;
+		   [Bindable]
+		   public var vs:ViewStack;
+			public function init():void{
+			vs=this.parent as ViewStack;
+			}
+			
+			public function tubaioxuanzhe():void{
+			   variable.modelname="选择图表";  
+			  var sf:SelectDate=new SelectDate();  
+			  PopUpManager.addPopUp(sf,this.parent.parent,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Canvas x="0" y="0" width="100%" height="100%">			
+	<mx:LinkButton x="519" y="29" label="选择图表" click="tubaioxuanzhe()"/>
+	<mx:TextInput id="textinput1"  text="{DataTransfer.Chart}" x="37" y="29" height="33" width="464"/>	
+	</mx:Canvas>
+</mx:Panel>

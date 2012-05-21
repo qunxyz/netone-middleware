@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="{init()}" width="100%" height="100%">
+ <mx:Script>
+ 	<![CDATA[
+ 		import mx.core.IFlexDisplayObject;
+ 		import mx.managers.PopUpManager;
+ 		import mx.containers.TitleWindow;
+ 	        	import ActionForm.From.com.hitb.event.GlobalEvent;
+ 		        import ActionForm.From.com.hitb.component.Data;
+ 	        	import ActionForm.From.com.hitb.component.Data1;
+ 		        import ActionForm.From.com.hitb.event.Component;
+ 		        import ActionForm.From.com.hitb.util.GlobalManager;
+ 		        import mx.events.FlexEvent;
+ 		        import mx.collections.HierarchicalData;
+         		import mx.containers.ViewStack;
+         		import mx.events.ListEvent;
+         	    import mx.rpc.events.ResultEvent;
+         		import mx.events.DragEvent;
+         		import mx.collections.XMLListCollection;
+         		import mx.collections.ArrayCollection;
+         		import mx.controls.Alert;
+         		import mx.events.TreeEvent;
+         		[Bindable]
+         	    public var selectedNode:ArrayCollection;
+         	    [Bindable]
+         	    public var backresult:ArrayCollection;
+         	    [Bindable]
+                public  var rsarr:Array;
+                [Bindable]
+         	    private var vs:ViewStack;
+               
+            private function init():void
+          {    vs=this.parent as ViewStack;
+              selecttabletree.GetTableName2(BIXML.arrurlString,BIXML.arrusername,BIXML.arrpwd,BIXML.arrdriver);
+           }
+
+    
+        public function handerResult(event:ResultEvent):void{
+            selectedNode=event.result as ArrayCollection;
+        }
+	  private function getChild(str:String):Object{ 
+	       for each(var obj:* in vs.getChildren()){ 
+	           if(obj.name==str){ 
+	           break; 
+				} 
+				} 
+	     return obj; 
+		} 
+		//退出
+        public function clickcanal():void{
+          var o:Object=this.getChild("BIXML1"); 
+           vs.selectedChild=o as Canvas;
+        }
+        //确定
+        public function clickbttok():void{
+         var brr:ArrayCollection=Lright.dataProvider as ArrayCollection;
+        	brr=Lright.dataProvider as ArrayCollection;
+        	if(brr.length>0){
+        	if(brr.length==1){
+	           var o:Object=this.getChild("BIXML1"); 
+	           vs.selectedChild=o as Canvas;
+	           BIXML(o).sqltext.text="Select * from  "+brr[0];
+	           BIXML(o).Dateform=brr[0];
+           }else{ Alert.show("只能选择一张表");}
+         }else{
+          Alert.show("不能为空");
+         }
+        }
+  	]]>
+ </mx:Script>
+ <mx:RemoteObject id="selecttabletree"   destination="tablename" showBusyCursor="true"  result="handerResult(event)"/>
+	 <mx:Panel width="968" height="776" 
+	  	fontSize="13"
+	  	fontWeight="bold"
+	    title="选择表" x="0" y="0">
+    <mx:HBox height="457" width="939" fontSize="15">
+	    <mx:Canvas  width="633" height="455">
+	    <mx:Label text="选中数据:" fontSize="17" x="10"/>
+	       <mx:List id="Lleft" 
+	      	     allowMultipleSelection="true"
+	      		 dragEnabled="true" 
+	      	     dragMoveEnabled="true"
+	      	     dropEnabled="true" dataProvider="{selectedNode}"
+	      		 width="283" height="421" x="10" y="34"/>
+	      		 <mx:Label text="所需数据:" fontSize="17" x="301" id="rightList"/>
+	      <mx:List id="Lright" 
+			      allowMultipleSelection="true"
+			      dragEnabled="true" 
+			      dragMoveEnabled="true"
+			      dropEnabled="true"
+			      width="291" height="100%" x="301" y="34"/>
+	   </mx:Canvas>
+	  </mx:HBox>
+	  <mx:Canvas  width="943">
+	   <mx:Button id="bttok" label="确定" click="clickbttok()" x="745" width="87"/>
+	   <mx:Button id="bttCannel" label="取消" click="clickcanal()" x="840" width="93"/>
+	  </mx:Canvas>
+</mx:Panel>
+</mx:Canvas>

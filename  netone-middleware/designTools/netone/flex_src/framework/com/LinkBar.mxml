@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="76" height="40">
+	<mx:LinkButton label="[配置]" id="peizhi" 
+		 fontWeight="bold"
+		 fontSize="13" x="10" y="10" color="#25CBEF"/>
+</mx:Canvas>

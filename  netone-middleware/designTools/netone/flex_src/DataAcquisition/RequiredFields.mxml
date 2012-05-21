@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="{init()}" creationComplete="ccl()" x="83" y="-62">
+	<mx:Script>
+	<![CDATA[
+	/***
+	 * 数据采集  必填字段页面
+	 * xuwei（2012-3-2）
+	 * 
+	 **/
+		import mx.controls.List;
+		import mx.containers.TitleWindow;
+		import mx.rpc.events.ResultEvent;
+		import mx.core.UIComponent;
+		import mx.collections.ArrayCollection;
+		import mx.controls.Label;
+		import mx.controls.Alert;
+		import mx.controls.List;
+		import mx.managers.PopUpManager;
+		import BI.*;
+		import mx.containers.ViewStack;
+		public var titleWindow:TitleWindow;
+		//fc
+		public var lx:RequiredControl;
+		public var lx1:caiincolumnref;
+		
+		//fc0
+		public var alx:incolumn;
+		public var alx1:incolumnref;
+		public var ic:int=1;
+		public var arr:Array=new Array();
+		//控件Y位子
+		public var cc:int=0;
+		public var cc1:int=0;
+		public var ss:int=0;
+		public var fss1:int=0;
+		//用于循环控件ID的
+		public var i:int=0;
+		public var j:int=0;
+		public var formcode:String;
+		public var formcode1:String;
+		
+		//定义变量和属性,保存xml
+        [Bindable]
+        private var vs:ViewStack;
+        
+        	//连接数据库
+	      public static var   urlString:String;
+		  public static var   username:String;
+		  public static var   pwd:String;
+		  public static var   driver:String;
+		  
+		  [Bindable]
+		  public static var   arrurlString:String;
+		  [Bindable]
+		  public static var   arrusername:String;
+		  [Bindable]
+		  public static var   arrpwd:String;
+		  [Bindable]
+		  public static var   arrdriver:String;
+		   [Bindable]
+		  public static var   arrsql:String;
+		  public var Dateform:String;
+		   [Bindable]
+	     public var  inxml:XML=new XML();
+		  [Bindable]
+	      public var  columnxml:XML=new XML();
+		    public var a1:String="<![CDATA[";
+			public var a2:String="]]";
+			public var a3:String=">";
+		  [Bindable]//textpath
+		  public var textpath:String;
+           [Bindable]//绑定数据的数组
+           public var arrdiyi:ArrayCollection;
+	       [Bindable]//提示那个字段为空
+	       public var index:int=0;
+		public function  init():void{
+			textpath="路径： "+AcquisitionDeliver.URLname+" 第5步，共6步";
+		 	vs=this.parent as ViewStack;
+		 	Required();
+		 	gfn.RequiredColumname(AcquisitionDeliver.formcode);
+		}
+		//组件加载完成的方法
+		public function ccl():void{
+		  if(!AcquisitionDeliver.modeltype){
+		   var xml:XML=AcquisitionDeliver.controlxml;
+           var inxml:XMLList=new XMLList(xml.child("in"));
+           var xmllist:XMLList=new XMLList(XML(inxml[0]).child("column"));
+           var fal:Boolean=true;
+           for(var ij:int=0;ij<xmllist.length();ij++){
+		     for(var w:int=0;w<i;w++){
+		  		 if((AcquisitionDeliver.tablename+"."+RequiredControl(fc.getChildAt(w)).CoumnData)==xmllist[ij].@name){
+			  		RequiredControl(fc.getChildAt(w)).jiaoben.text=xmllist[ij];
+			        RequiredControl(fc.getChildAt(w)).yuanziduan.prompt=xmllist[ij].@outname;
+			      	RequiredControl(fc.getChildAt(w)).leixing.text=xmllist[ij].@type;
+			      	fal=false;
+			    	} 
+		      	}
+		      	if(fal){
+		      	AcquisitionDeliver.pzziduan.push(xmllist[ij]);
+		      	}
+		      	fal=true;
+		    }
+		  }		
+		}
+		
+		//加载出必填字段
+		public function Required():void{
+		    arrsql=AcquisitionDeliver.sqltext;
+            for(var j:int=0;j<6;j++){
+					if(AcquisitionDeliver.formcode!=null ){
+				    lx =new RequiredControl();
+				    lx.formcode=AcquisitionDeliver.formcode;
+				    lx.formcode1=formcode1;
+				    lx.Index=i+1;
+				    if(j==0){
+				    lx.jb="return UUID.randomUUID().toString().replaceAll(\"-\", \"\");";
+				    lx.ziduan="LSH";
+				    lx.CoumnData="LSH";
+				    lx.liexing=1;
+				    }
+				    if(j==1){
+				    lx.jb="return \""+AcquisitionDeliver.formcode+"\";";
+				    lx.ziduan="FORMCODE";
+				    lx.CoumnData="FORMCODE";
+				    lx.liexing=1;
+				    }
+				    if(j==2){
+				    lx.jb="return  \"etlmen\";";
+				    lx.ziduan="PARTICIPANT";
+				    lx.CoumnData="PARTICIPANT";
+				    lx.liexing=1;
+				    }
+				    if(j==3){
+				     lx.jb="return  (new Timestamp(System.currentTimeMillis())).toString();";
+				     lx.ziduan="CREATED";
+				     lx.CoumnData="CREATED";
+				     lx.liexing=1;
+				    }
+				    if(j==4){
+				     lx.jb="return  1;";
+				     lx.ziduan="Fatherlsh";
+				     lx.CoumnData="Fatherlsh";
+				     lx.liexing=0;
+				    }
+				    if(j==5){
+				     lx.jb="return \"00\";";
+				     lx.ziduan="STATUSINFO";
+				     lx.CoumnData="STATUSINFO";
+				     lx.liexing=1;
+				    }
+				    lx.x=0;
+				    lx.y=cc;
+				    lx.id="rc"+i;
+				    lx.zd=Dateform+".";
+				    lx.tablename=AcquisitionDeliver.tablename;
+				    lx.urlString=urlString;
+				    lx.username=username;
+				    lx.pwd=pwd;
+				    lx.driver=driver;
+				     lx.urlString1=AcquisitionDeliver.ss1;
+				     lx.username1=AcquisitionDeliver.ss2;
+				     lx.pwd1=AcquisitionDeliver.ss3;
+				     lx.driver1=AcquisitionDeliver.ss4;
+				     lx. sqlstr=AcquisitionDeliver.sqltext;
+				    fc.addChild(lx);
+				    cc=cc+lx.height;
+				    i++;
+				 	
+				 }else{
+				  Alert.show("没有选择表名");
+				 }
+		 }
+		}
+		public function xml():Boolean{
+			var fal:Boolean=true;
+		       if(i!=0)
+		        {
+			      inxml=new XML();
+			      columnxml=new XML();
+		      	  inxml=<in></in>
+			      inxml.@id="in1";
+			      inxml.@outid="outid";
+			      inxml.@tosourceid="source2";
+			      inxml.@commit=100;
+			      inxml.@name=AcquisitionDeliver.tablezhongname;
+			      inxml.@formcode= AcquisitionDeliver.formcode;
+		      	for(var w:int=0;w<i;w++){
+		      	columnxml=<column>{a1+RequiredControl(fc.getChildAt(w)).jiaoben.text.toString()+a2+a3}</column>
+		      	columnxml.@name=AcquisitionDeliver.tablename+"."+RequiredControl(fc.getChildAt(w)).CoumnData;
+		      	columnxml.@outname=RequiredControl(fc.getChildAt(w)).yuanziduan.selectedItem;
+		      	columnxml.@type=RequiredControl(fc.getChildAt(w)).leixing.text.toString();
+			    AcquisitionDeliver.xmlData=inxml.appendChild(columnxml);
+		      	}
+		      }
+		      return fal;
+		}
+		
+	     public function handerResult(event:ResultEvent):void{
+          	   arrdiyi=event.result as ArrayCollection;
+          	   if(arrdiyi!=null){
+          	    for(var j:int=0;j<arrdiyi.length;j++){
+          	      lx =new RequiredControl();
+				    lx.formcode=AcquisitionDeliver.formcode;
+				    lx.formcode1=formcode1;
+				    lx.Index=i+1;
+				    lx.ziduan=arrdiyi[j].columname;
+				    lx.CoumnData=arrdiyi[j].columnid;
+				    lx.x=0;
+				    lx.y=cc;
+				    lx.id="rc"+i;
+				    lx.zd=Dateform+".";
+				    lx.tablename=AcquisitionDeliver.tablename;
+				    lx.urlString=urlString;
+				    lx.username=username;
+				    lx.pwd=pwd;
+				    lx.driver=driver;
+				     lx.urlString1=AcquisitionDeliver.ss1;
+				     lx.username1=AcquisitionDeliver.ss2;
+				     lx.pwd1=AcquisitionDeliver.ss3;
+				     lx.driver1=AcquisitionDeliver.ss4;
+				     lx. sqlstr=AcquisitionDeliver.sqltext;
+				    fc.addChild(lx);
+				    cc=cc+lx.height;
+				    i++;
+          	    }
+          	   }
+  
+            }
+	       //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ParentTagetDataSources1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+           var fal:Boolean=xml();
+           var o:Object=this.parent.getChildByName("FieldSelection1");
+            vs.selectedChild=o as Canvas;
+          }
+         //取消的方法
+         public function Cancel():void{
+          navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+	]]>
+</mx:Script>
+<mx:RemoteObject id="gfn" destination="getformname" result="{handerResult(event)}" showBusyCursor="true"/> 
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="必须填写字段"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="数据采集" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:这些字段是必须填写的, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="1245" height="345"  x="64" y="207" fontSize="20"  >  
+ 	<mx:Canvas x="216" y="0" width="699" height="100%" id="fc" fontSize="12" horizontalScrollPolicy="off">
+		</mx:Canvas>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 
+</mx:Canvas>

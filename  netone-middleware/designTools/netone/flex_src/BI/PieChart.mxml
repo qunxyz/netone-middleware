@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:Script>
+	    <![CDATA[
+	    import mx.controls.Alert;
+	    [Bindable]
+	    public var xmllist:XMLList;
+	    public function  loadxmllist(sourcexmllist:XMLList):void
+	    {      
+	        xmllist=sourcexmllist;
+	    }
+	      public function displayData(data:Object,field:String, index:Number, percentValue:Number):String
+	    {
+	    	 var temp:String= (" " + percentValue).substr(0,6);
+             return data.@x + ": " +'\n'+ "Total Value: " + data.@y + '\n' + temp + "%";
+	   
+	     }
+	    	]]>
+	    </mx:Script>
+	    <mx:Panel id="PanelChart2" width="100%"  horizontalScrollPolicy="off" verticalScrollPolicy="off" height="100%"  title="立体饼图">
+           <mx:PieChart id="pt3"
+           	 width="100%"
+           	 height="250"
+             showDataTips="true"
+           	 fontSize="12"
+           	 dataProvider="{xmllist.dsinfo}">
+             <mx:series>
+             	    <mx:PieSeries
+             	      nameField="@x"
+             	      labelPosition="callout"
+             	      field="@y">
+             	    </mx:PieSeries>
+             </mx:series>
+            </mx:PieChart>
+           <mx:PieChart id="pt4"
+						 width="100%"
+						 height="250"
+					     showDataTips="true"
+						 fontSize="12"
+						 dataProvider="{xmllist.dsinfo}"
+						 >
+				   <mx:series>
+				   	    <mx:PieSeries
+				   	      nameField="@x"
+				   	      labelPosition="callout"
+				   	      field="@y1"
+				   	      labelFunction="displayData" 
+				   	    	>
+				   	    </mx:PieSeries>
+				   </mx:series>
+				   	   
+			</mx:PieChart>
+			  <mx:PieChart id="pt5"
+						 width="100%"
+						 height="250"
+					     showDataTips="true"
+						 fontSize="12"
+						 dataProvider="{xmllist.dsinfo}"
+						 >
+				   <mx:series>
+				   	    <mx:PieSeries
+				   	      nameField="@x"
+				   	      labelPosition="callout"
+				   	      field="@y2"
+				   	      labelFunction="displayData" 
+				   	    	>
+				   	    </mx:PieSeries>
+				   </mx:series>
+				   	   
+			</mx:PieChart>
+			 <mx:PieChart id="pt6"
+						 width="100%"
+						 height="250"
+					     showDataTips="true"
+						 fontSize="12"
+						 dataProvider="{xmllist.dsinfo}"
+						 >
+				   <mx:series>
+				   	    <mx:PieSeries
+				   	      nameField="@x"
+				   	      labelPosition="callout"
+				   	      field="@y3"
+				   	      labelFunction="displayData" 
+				   	    	>
+				   	    </mx:PieSeries>
+				   </mx:series>
+				   	   
+			</mx:PieChart>
+			 <mx:PieChart id="pt7"
+						 width="100%"
+						 height="250"
+					     showDataTips="true"
+						 fontSize="12"
+						 dataProvider="{xmllist.dsinfo}"
+						 >
+				   <mx:series>
+				   	    <mx:PieSeries
+				   	      nameField="@x"
+				   	      labelPosition="callout"
+				   	      field="@y4"
+				   	      labelFunction="displayData" 
+				   	    	>
+				   	    </mx:PieSeries>
+				   </mx:series>
+				   	   
+			</mx:PieChart>
+			 <mx:PieChart id="pt8"
+						 width="100%"
+						 height="250"
+					     showDataTips="true"
+						 fontSize="12"
+						 dataProvider="{xmllist.dsinfo}"
+						 >
+				   <mx:series>
+				   	    <mx:PieSeries
+				   	      nameField="@x"
+				   	      labelPosition="callout"
+				   	      field="@y5"
+				   	      labelFunction="displayData" 
+				   	    	>
+				   	    </mx:PieSeries>
+				   </mx:series>
+				   	   
+			 </mx:PieChart>
+			 <mx:PieChart id="pt9"
+						 width="100%"
+						 height="250"
+					     showDataTips="true"
+						 fontSize="12"
+						 dataProvider="{xmllist.dsinfo}"
+						 >
+				   <mx:series>
+				   	    <mx:PieSeries
+				   	      nameField="@x"
+				   	      labelPosition="callout"
+				   	      field="@y6"
+				   	      labelFunction="displayData" 
+				   	    	>
+				   	    </mx:PieSeries>
+				   </mx:series>
+			</mx:PieChart>
+			 <mx:PieChart id="pt10"
+						 width="100%"
+						 height="250"
+					     showDataTips="true"
+						 fontSize="12"
+						 dataProvider="{xmllist.dsinfo}"
+						 >
+				   <mx:series>
+				   	    <mx:PieSeries
+				   	      nameField="@x"
+				   	      labelPosition="callout"
+				   	      field="@y7"
+				   	      labelFunction="displayData" 
+				   	    >
+				   	    </mx:PieSeries>
+				   </mx:series>
+			</mx:PieChart>
+	
+		</mx:Panel>
+</mx:Canvas>

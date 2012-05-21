@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="{init()}" creationComplete="ccl()" x="83" y="-62">
+	<mx:Script>
+	<![CDATA[
+		import mx.controls.TextInput;
+		import mx.core.IUIComponent;
+		import BI.EvTijiao;
+		import BI.EvTjFs;
+	 /**
+  	  *  砖取制定 多层模式的界面
+  	  *  xuwei（2012-2-15）
+  	  * 
+  	  * 
+  	  * */
+		import mx.controls.Alert;
+		import ActionForm.vivid;
+		import framework.variable;
+		import mx.managers.PopUpManager;
+		import mx.containers.ViewStack;
+            
+            [Bindable]//vs定义
+            public var vs:ViewStack;
+            [Bindable]//textpath
+            public var textpath:String;
+            [Bindable]
+            public var index:int=1;
+            [Bindable]
+            public var Yindex:int=10;
+            [Bindable]
+            public var arrID:Array=new Array(); 
+            public function init():void{
+            EvTjFs.getInstance().addEventListener("AddChart",AddChart);
+            EvTjFs.getInstance().addEventListener("ADDSelectChart",AddSelectChart);
+            EvTjFs.getInstance().addEventListener("DelSelectChart",DelSelectChart);
+            textpath="路径： "+ BTData.URLname+" 第3步，共4步"; 
+            vs=this.parent as ViewStack;
+          if(BTData.modeltype){
+            var SC:SelectChart=new SelectChart();
+            SC.x=10;
+            SC.y=10;
+            SC.index="1";
+            SC.id="Form"+index.toString();
+            arrID.push(SC);
+            canvas1.addChild(SC);
+            index++;
+            
+          var textinput:BTLayersValue=new BTLayersValue();
+           	  textinput.x=10;
+           	  textinput.y=10;
+           	 BTData.ArrCinfigt.push(textinput);
+           }
+            }
+            public function ccl():void{
+             if(!BTData.modeltype){
+             	
+             	var wh:int=10;
+             	var wh1:int=10;
+                var xml:XML=BTData.controlxml;
+                var xmllist1:XMLList=new XMLList(xml.child("TwoBrickTake"));
+                var xmllist:XMLList=new XMLList(xml.TwoBrickTake.child("Chart"));
+              if(xmllist1[0].@BTModel=="1"){
+               for(var i:int=0;i<xmllist.length();i++){
+                   var SC:SelectChart=new SelectChart();
+		            SC.x=10;
+		            SC.y=wh;
+		            SC.index=(i+1).toString();
+		            SC.id="Form"+index.toString();
+		            arrID.push(SC);
+		            SC.textChart=xmllist[i].@ID;
+		            canvas1.addChild(SC);
+		            wh=wh+42;
+		            index++;
+		         if(i<xmllist.length())  {
+			      var textinput:BTLayersValue=new BTLayersValue();
+	           	  textinput.x=10;
+	           	  textinput.y=wh1;
+	           	  textinput.textChart=xmllist[i].@Value;
+	           	  BTData.ArrCinfigt.push(textinput);
+	           	  wh1=wh1+42;
+	             }
+                }
+              }
+             }
+            } 
+            //添加AddSelectChart 方法
+ 			public function AddSelectChart(event:DelEvent):void{
+            var SC:SelectChart=new SelectChart();
+            SC.x=10;
+            SC.y=event.Comp().y+event.Comp().height+10;
+            SC.id="Form"+index.toString();
+            
+             var textinput:BTLayersValue=new BTLayersValue();
+           	  textinput.x=10;
+           	  textinput.y=event.Comp().y+event.Comp().height+10;
+ 
+            for(var Add:int=0;Add<arrID.length;Add++){
+               if(arrID[Add]==event.Comp()){
+               	  if(Add==arrID.length-1){
+               	  arrID.push(SC);
+               	  BTData.ArrCinfigt.push(textinput);
+               	  }else{
+                    arrID.splice(Add+1,0,SC);
+                    BTData.ArrCinfigt.splice(Add+1,0,textinput);
+                    for(var d:int=Add+2;d<arrID.length; d++){
+                    arrID[d].y= arrID[d].y+event.Comp().height+10;
+                    BTData.ArrCinfigt[d].y=BTData.ArrCinfigt[d].y+event.Comp().height+10;
+                   }
+                  }
+               }
+            }
+            canvas1.removeAllChildren();
+            for(var i:int=0;i<arrID.length;i++){
+            arrID[i].index=(i+1).toString();
+ 			canvas1.addChild(arrID[i]);
+ 			}	
+ 			
+            index++;
+ 			}
+ 			
+ 			//删除 DelSelectChart 方法
+ 		   public function DelSelectChart(event:DelEvent):void{
+ 		   	if(arrID.length>1){
+ 			canvas1.removeAllChildren();
+ 			for(var Del:int=0;Del<arrID.length;Del++){
+ 				if(arrID[Del]==event.Comp()){
+ 				  if(Del!=arrID.length-1){
+ 				  	for(var j:int=arrID.length-1;j>Del;j--){		
+ 					 arrID[j].y=arrID[j-1].y;
+ 					 BTData.ArrCinfigt[j].y= BTData.ArrCinfigt[j-1].y;
+ 				  } 
+ 				  }
+ 				  arrID.splice(Del,1);
+ 				  BTData.ArrCinfigt.splice(Del,1);
+ 				}
+ 			 }	
+ 			
+	 			for(var i:int=0;i<arrID.length;i++){
+	 		    arrID[i].index=(i+1).toString();
+	 			canvas1.addChild(arrID[i]);
+	 			}			
+ 		    	}
+ 		   
+ 			}
+ 			
+ 			//选择图表的方法
+ 			public function AddChart(event:EvTijiao):void{
+		    	 for(var i:int=0;i<arrID.length;i++)
+		    	 {
+		    	    if(arrID[i].id==BTData.ChartID){
+		    	     arrID[i].textChart=event.Formcode();
+		    	    }
+		    	 }
+		 	}
+ 		 
+	       //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("BTModelSelect1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("BTValue1");
+            vs.selectedChild=o as Canvas;
+	          if( BTData.ArrChart!=null){
+	          	  BTValue(o).init();    
+	          }
+           BTData.ArrChart=arrID;
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+	]]>
+</mx:Script>
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="多层砖取关系对应"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="砖取制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置砖取需要的图表关系, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="754" height="321"  x="252" y="216" fontSize="20"  >  
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+
+</mx:Canvas>

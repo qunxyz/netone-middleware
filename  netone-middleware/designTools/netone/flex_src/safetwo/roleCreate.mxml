@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+	 initialize="init()">
+   <mx:Script>
+   	<![CDATA[
+   		    	 	 	 import mx.containers.ViewStack;   //导入viwstack包，下面要用到viewstack类型
+				     import mx.controls.Alert;
+				      [Bindable] 
+				      public var info:String; 
+				      
+				     import mx.containers.Canvas;  
+				     private var vs:ViewStack; 
+				     [Bindable] 
+				     public var loginsuccess:String; 
+				
+				    private function init():void{ 
+				      vs=this.parent as ViewStack; 
+				      trace(vs.id); 
+				     } 
+				     
+				    private function getChild(str:String):Object{ 
+				       for each(var obj:* in vs.getChildren()){ 
+				           if(obj.name==str){ 
+				           break; 
+				} 
+				} 
+				return obj; 
+				} 
+				
+				 private function SetExit():void{
+				//返回 
+				  if(vs.id=="classrolecom"){
+				    	var o2:Object=this.getChild("deprole"); 
+				        vs.selectedChild=o2 as Canvas; 
+				   }
+				   if(vs.id=="roleCom"){
+				 	var o1:Object=this.getChild("rolemanage"); 
+				    vs.selectedChild=o1 as Canvas; 
+				    }
+		    }
+		]]>
+   </mx:Script>
+<mx:Panel title="角色创建" width="100%" layout="absolute" height="100%" fontSize="12">
+	<mx:Label y="42" text="角色名称" fontSize="12" horizontalCenter="-603"/>
+	<mx:Label y="79" text="中文名称" fontSize="12" horizontalCenter="-603"/>
+	<mx:Label y="119" text="所属部门" fontSize="12" horizontalCenter="-603"/>
+	<mx:Label y="163" text="角色描述" fontSize="12" horizontalCenter="-603"/>
+	<mx:Label y="217" text="赋予用户" fontSize="12" horizontalCenter="-603"/>
+	<mx:TextInput y="42" width="266" horizontalCenter="-435"/>
+	<mx:TextInput y="163" width="266" horizontalCenter="-435"/>
+	<mx:TextInput y="119" width="266" horizontalCenter="-435"/>
+	<mx:TextInput y="79" width="266" horizontalCenter="-435"/>
+    <mx:List y="216" height="80" width="266" horizontalCenter="-435"/>	
+    <mx:LinkButton y="117" label="选择" fontSize="12" horizontalCenter="-257"/>
+    <mx:Button y="217" label="添加" fontSize="12" horizontalCenter="-254"/>
+    <mx:Button y="256" label="删除" fontSize="12" horizontalCenter="-254"/>
+    <mx:Button y="336" label="确定" fontSize="12" horizontalCenter="-518"/>
+    <mx:Button y="336" label="取消" fontSize="12" click="SetExit()" horizontalCenter="-410"/>
+    </mx:Panel>
+</mx:Canvas>

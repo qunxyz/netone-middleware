@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="{init()}" x="83" y="-62">
+	<mx:Script>
+	<![CDATA[
+		import mx.core.IFlexDisplayObject;
+		import framework.SelectTree;
+		import BI.EvTjFs;
+		import mx.controls.Alert;
+		import ActionForm.vivid;
+		import framework.variable;
+		import mx.managers.PopUpManager;
+		import mx.containers.ViewStack;
+            
+            [Bindable]//vs定义
+            public var vs:ViewStack;
+            [Bindable]//textpath
+            public var textpath:String;
+            public function init():void{
+            textpath="路径： "+BIData.URLname+" 第2步，共9步"; 
+            vs=this.parent as ViewStack;
+            if(!BIData.modeltype){
+              var xml:XML=BIData.controlxml;
+              var xmllist:XMLList=new XMLList(xml.child("Formcode"));
+              variable._formchoose=xmllist[0].@name+"["+xmllist[0].@formcode+"]";
+             }
+            }
+            
+            //选择表单的方法
+            public function xuanzhebiaodan():void{
+              variable.modelname="tubiaozhiding"; 
+			  var sf:SelectTree=new SelectTree();  
+			  PopUpManager.addPopUp(sf,this,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);
+            }
+            
+	       //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ChartResource1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+           if(textID.text.toString()!=""){
+           	   var strform:String=textID.text.toString().substring(textID.text.toString().indexOf("[")+1,textID.text.toString().indexOf("]"));
+			   vivid.formcode=strform;	  
+			   BIData.formcode=strform;
+			   var namestr:String=textID.text.toString().substring(0,textID.text.toString().indexOf("["));
+			   BIData.namestr=namestr;
+            	var o:Object=this.parent.getChildByName("ChartType");
+                vs.selectedChild=o as Canvas; 
+                EvTjFs.getInstance().dispatchEvent(new MouseEvent("NextsStepRefresh"));
+           }else{
+            Alert.show("请选择表单");
+           }      
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+	]]>
+</mx:Script>
+<mx:RemoteObject id="Savef" destination="savexmlfile" showBusyCursor="true"/>
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="选择表单"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="图表制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:从动态表单中选择需要配置的表单, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="865" height="194"  x="99" y="264" fontSize="20"  >  
+  	        <mx:TextInput id="textID" x="11" y="10" width="696" text="{variable._formchoose}"/>
+    	   	<mx:Button x="725" y="10" label="选择表单"  click="xuanzhebiaodan()" color="#050505"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 
+</mx:Canvas>

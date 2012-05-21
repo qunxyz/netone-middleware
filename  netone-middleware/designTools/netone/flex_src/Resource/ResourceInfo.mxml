@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"   width="100%" height="100%"
+    xmlns:renderer="ActionForm.my.renderer.checkbox1.*"
+	 fontSize="15" 
+	
+	 initialize="init();" xmlns:ns1="safe.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import ActionForm.From.com.hitb.util.GlobalManager;
+			import mx.events.ListEvent;
+			import ActionForm.com.dgList;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.containers.Canvas; 
+    	    import mx.events.CloseEvent;
+    	    import mx.controls.Alert;
+            import mx.containers.ViewStack; 
+		     private var vs:ViewStack; 
+		     [Bindable] 
+		     public var loginsuccess:String; 
+		     [Bindable] 
+		     private var i:int=3; 
+		     [Bindable]
+		     private var fsArr:ArrayCollection=new ArrayCollection();
+           [Bindable]	
+  			public  var Fsrid:String=null;
+            private function init():void{ 
+              vs=this.parent as ViewStack;	 
+   
+		     selectformObject.todo();
+	
+		     } 
+			 private function getChild(str:String):Object{ 
+			       for each(var obj:* in vs.getChildren()){ 
+			           if(obj.name==str){ 
+			           break; 
+			} 
+			} 
+			return obj; 
+			} 
+			//给vivid的变量赋值
+			public var arr:Array=null;	
+			public var Fname:String=null;
+				public   var ys:String=null;
+					public   var comtype:String=null;
+			protected function getValues(event:ListEvent):void
+			{     
+    		   
+	              Fsrid=event.itemRenderer.data.resourcecode.toString();
+	              Rvivid.Nname=Fsrid;
+	              Fname=event.itemRenderer.data.resourcename.toString();
+	              Rvivid.Cname=Fname;
+	              Rvivid.type =event.itemRenderer.data.types.toString();
+	              Rvivid.YNst=event.itemRenderer.data.resourceid.toString();
+	              arr=column.selectItems;
+	              Rvivid.Fid=event.itemRenderer.data.id.toString();
+	              Alert.show(Rvivid.Fid);
+				
+			 }	
+			private function clickHandler():void {
+			if (MenuBar.selectedIndex==0) {
+			
+			 PopUpManager.createPopUp(this,NewResouceinfo);
+						}
+			if (MenuBar.selectedIndex==1) {
+			 PopUpManager.createPopUp(this,UpdateResource);
+			 
+			 
+			 }
+		   if (MenuBar.selectedIndex==5) {
+		   	if(arr.length==1&&Fsrid!=null&&Fname!=null){
+			var fd:Canvas=vs.getChildByName("ResourceTree") as Canvas;
+	         (fd as ResourceTree).resourcecode=Fsrid;
+	         (fd as ResourceTree).resourcename=Fname;
+		     vs.selectedChild=fd;
+             }
+            else
+            {
+            	Alert.show("需单选");
+            }
+         }
+           if(MenuBar.selectedIndex==6)
+		   {   
+			 if(arr.length==1&&Fsrid!=null&&Fname!=null){
+			var MR:Canvas=vs.getChildByName("MulResourceInfo") as Canvas;
+	         (MR as MulResourceInfo).resourcecode=Fsrid;
+	         (MR as MulResourceInfo).resourcename=Fname;
+		     vs.selectedChild=MR;
+             }
+            else
+            {
+            	Alert.show("需单选");
+            }    
+		   }
+			 if(MenuBar.selectedIndex==7)
+		   {   
+			 if(arr.length==1&&Fsrid!=null&&Fname!=null){
+			var sr:Canvas=vs.getChildByName("SingleResource") as Canvas;
+	         (sr as SingleResource).resourcecode=Fsrid;
+	         (sr as SingleResource).resourcename=Fname;
+		     vs.selectedChild=sr;
+             }
+            else
+            {
+            	Alert.show("需单选");
+            }    
+		   }
+              }
+		
+	   [Bindable] //绑定XML的数据
+	     public var catalog:ArrayCollection=new ArrayCollection();
+				
+		
+				
+	  private function productServiceResultHandler(event:ResultEvent):void{
+             catalog = event.result.catalog.employee;
+          } 
+  
+	 public function ClickMc():void
+	 {
+	      var name:String=nameinput.text;
+	 	  var st:String=startTime.text;
+	 	  var et:String=endTime.text;
+	 	  var Cname:String=chineseName.text;
+	 	  selectMHObject.selectMoHu(name,Cname,st,Cname);
+	 	
+	 }	
+	 public function MHresultset(event:ResultEvent):void
+	 {
+	 	fsArr=event.result as ArrayCollection;
+	 		for(var i:int=0;i<fsArr.length;i++)
+			 {
+						fsArr[i]["BID"]=i+1;
+			 }
+	 }
+     private function Setinit(evt:CloseEvent):void{
+     
+     }	
+    public function resultset(event:ResultEvent):void
+     {       
+     	fsArr=event.result as ArrayCollection;
+     	for(var i:int=0;i<fsArr.length;i++)
+			 {
+						fsArr[i]["BID"]=i+1;
+			 }
+     }		
+       
+		]]>
+	</mx:Script>
+
+    <mx:RemoteObject id="deleteformObject" destination="selectchirdrenform" showBusyCursor="true"/>
+
+	<mx:RemoteObject id="selectMHObject" destination="selectchirdrenform" result="MHresultset(event)" 
+		showBusyCursor="true"/>	
+	<mx:RemoteObject id="selectformObject" destination="selectchirdrenform" result="resultset(event)" 
+		showBusyCursor="true"/>
+	
+   <mx:TitleWindow width="100%" height="100%" y="0" title="资源管理" backgroundSize="100%" horizontalCenter="0"  backgroundColor="#ffffff" 
+   	fontSize="15"   showCloseButton="true"  close="Setinit(event);">
+   	
+   <mx:Canvas width="100%" height="100%">
+   <mx:Canvas x="0" y="80" width="100%" height="100%">
+   <mx:DataGrid id="dg" x="0" y="40" width="100%" height="100%" dataProvider="{fsArr}" verticalScrollPolicy="on" horizontalScrollPolicy="off" itemClick="{getValues(event)}" >
+    	<mx:columns>
+     	    <renderer:CheckBoxColumn id="column" enableField="disable" dataField="fucked"/>
+    		<mx:DataGridColumn headerText="序号" width="45"     dataField="BID"/>
+    		<mx:DataGridColumn headerText="ID" width="45"     dataField="id"/>
+    		<mx:DataGridColumn headerText="中文名称" width="150" dataField="resourcename"/>
+    		<mx:DataGridColumn headerText="名称"   width="150"  dataField="resourcecode"/>
+    		<mx:DataGridColumn headerText="分类" width="50"    dataField="types"/>
+    		<mx:DataGridColumn headerText="日期"   width="150" dataField="text"/>
+    		<mx:DataGridColumn headerText="有效" width="50"    dataField="Resourceid"/>
+    	</mx:columns>
+    </mx:DataGrid>
+    <mx:MenuBar  id="MenuBar" width="100%"
+    			 labelField="@label"
+    			  click="{clickHandler()}" 
+    			 height="43" y="0" x="0">
+    		 <mx:XMLList>
+    		    <menuitem label="新建资源"/>
+    		    <menuitem label="修改资源"/>
+    		    <menuitem label="删除资源"/>
+    		    <menuitem label="资源管理" />
+    		    <menuitem label="聚合管理" />
+    		    <menuitem label="目录树"/>
+    		    <menuitem label="资源多选"/>
+    		    <menuitem label="资源单选"/>
+    		    <menuitem label="资源映射"/>
+    		 </mx:XMLList>	
+    	      </mx:MenuBar>
+   </mx:Canvas>
+   <mx:Text x="10" y="10" text="中文名称：" fontSize="15"/>
+   <mx:Text x="278" y="10" text="英文名称：" fontSize="15"/>
+   <mx:Text x="540.5" y="10" text="开始时间："/>
+   <mx:Text x="832" y="10" text="结束时间：" width="83"/>
+   <mx:TextInput id="nameinput" x="85" y="8" height="31" width="185"/>
+   <mx:TextInput x="347.5" y="8" id="chineseName" height="31" width="185"/>
+   <mx:DateField x="616" id="startTime" y="8" width="199"/>
+   <mx:DateField x="907" y="8" id="endTime" width="199"/>
+   <mx:Button  id="select" x="1001" y="44" click="ClickMc()" label="查询" width="95" />
+    </mx:Canvas>
+	</mx:TitleWindow>
+</mx:Canvas>

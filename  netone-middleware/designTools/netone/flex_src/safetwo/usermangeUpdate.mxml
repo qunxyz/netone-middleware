@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+   initialize="init()">
+<mx:Script>
+	<![CDATA[
+			 import mx.containers.Canvas; 
+     import mx.containers.ViewStack; 
+     public var vs:ViewStack; 
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable] 
+     private var i:int=3; 
+     private function init():void{ 
+     vs=this.parent as ViewStack;
+      trace(vs.id); 
+     } 
+      private function getChild(str:String):Object{ 
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+		} 
+		} 
+		return obj; 
+		 } 
+		private function SetExit():void{
+				//退出方法
+		    	var o1:Object=this.getChild("usermanage"); 
+			    vs.selectedChild=o1 as Canvas; 
+		}
+	]]>
+</mx:Script>
+<!--部门人员中的修改也是用该页-->
+	<mx:TitleWindow x="0" y="0" width="100%" height="100%" layout="absolute" title="个人信息" fontSize="15">
+		<mx:TextInput y="35" width="448" editable="false" horizontalCenter="-155"/>
+		<mx:TextInput y="75" width="448" editable="false" horizontalCenter="-155"/>
+		<mx:TextInput y="117" width="448" editable="false" horizontalCenter="-155"/>
+		<mx:TextInput y="161" editable="false" horizontalCenter="-299"/>
+		<mx:TextInput y="203" width="448" horizontalCenter="-155"/>
+		<mx:TextInput y="242" width="448" horizontalCenter="-155"/>
+		<mx:TextInput y="282" width="448" height="57" horizontalCenter="-155"/>
+		<mx:Label y="39" text="姓  名" horizontalCenter="-440"/>
+		<mx:Label y="79" text="帐  号" horizontalCenter="-440"/>
+		<mx:Label y="119" text="机  构" horizontalCenter="-440"/>
+		<mx:Label y="163" text="组  别" horizontalCenter="-440"/>
+		<mx:Label y="205" text="联系电话" horizontalCenter="-430"/>
+		<mx:Label y="244" text="E-mail" horizontalCenter="-437"/>
+		<mx:Label y="284" text="描  述" horizontalCenter="-440"/>
+		<mx:Button y="383" label="提 交" horizontalCenter="-257"/>
+		<mx:Button y="383" label="取 消" click="{SetExit()}" horizontalCenter="-134"/>
+	</mx:TitleWindow>
+</mx:Canvas>

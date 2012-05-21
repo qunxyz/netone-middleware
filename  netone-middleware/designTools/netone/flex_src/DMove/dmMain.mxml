@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"  initialize="{init()};" xmlns:ns1="safe.*"    xmlns:renderer="ActionForm.my.renderer.checkbox1.*"  fontSize="15" >
+	<mx:Script>
+		<![CDATA[
+			import ActionForm.From.com.hitb.util.GlobalManager;
+			import mx.events.ListEvent;
+			import ActionForm.com.dgList;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.containers.Canvas; 
+    	    import mx.events.CloseEvent;
+    	    import mx.controls.Alert;
+            import mx.containers.ViewStack; 
+            import BI.BIid;
+		    private var vs:ViewStack; 
+		    [Bindable] 
+		     public var loginsuccess:String; 
+		     [Bindable] 
+		     private var i:int=3; 
+		     [Bindable]
+		     private var fsArr:ArrayCollection=new ArrayCollection();
+		     
+		     public var udm:updm;
+		     public var edm:exedm;
+
+           [Bindable]	
+  			public  var Fsrid:String=null;
+            private function init():void{ 
+            	 vs=this.parent as ViewStack; 
+	         selectBIObject.selectDMlv();
+	         
+		    } 
+			 private function getChild(str:String):Object{ 
+			       for each(var obj:* in vs.getChildren()){ 
+			           if(obj.name==str){ 
+			           break; 
+			} 
+			} 
+			return obj; 
+			} 
+			public var arr:Array=null;	
+			protected function getValues(event:ListEvent):void
+			{    
+	         BIid.xmlid=event.itemRenderer.data.FID.toString();
+	         BIid.xmlname=event.itemRenderer.data.rname.toString();
+	         BIid.xmlename=event.itemRenderer.data.rcode.toString();	   
+	         BIid.thexml=event.itemRenderer.data.extendattribute.toString();       
+			 arr=column.selectItems;
+				
+			}	
+			private function clickHandler():void {
+			
+				if (MenuBar.selectedIndex==0) {
+	               		var o2:Object=this.getChild("DataMove"); 
+					     vs.selectedChild=o2 as Canvas; 
+					     
+				}
+			    if (MenuBar.selectedIndex==1) {
+			    	if(arr.length==1){
+			    	  udm=new updm();
+                      vs.addChild(udm as Canvas);
+                      vs.selectedChild=udm as Canvas;
+						}
+			    }
+			     if (MenuBar.selectedIndex==2) {
+                    if(arr.length==1){
+			    	 SetExit();
+			    	 
+					   }
+					     else if(arr.length>2 || arr==null)
+					     {
+					     	Alert.show("删除只能单选哦！");
+					     }
+                       }
+                 if (MenuBar.selectedIndex==3) {
+                 	if(arr.length==1){
+			    	  edm=new exedm();
+                      vs.addChild(edm as Canvas);
+                      vs.selectedChild=edm as Canvas;
+                       }
+                 }
+                       
+}
+private function SetExit():void{ 
+		Alert.show("是否删除'"+BIid.xmlname+"'这条记录", "删除提示", 3, this, alertClickHandler);
+        }
+	public function alertClickHandler(event:CloseEvent):void{
+		if (event.detail==Alert.YES){ 
+			doxml.dropxml(BIid.xmlid);
+		 Alert.show("删除成功!");
+		 }
+	}
+	 public function ClickMc():void
+	 {
+	      var name:String=nameinput.text;
+	 	  var st:String=startTime.text;
+	 	  var et:String=endTime.text;
+	 	  var Cname:String=chineseName.text;
+	 	  selectMHObject.selectMoHu(name,"DATAMOVE."+Cname,st,"DATAMOVE");
+	 	
+	 }	
+	 public function MHresultset(event:ResultEvent):void
+	 {
+	 	fsArr=event.result as ArrayCollection;
+	 	for(var i:int=0;i<fsArr.length;i++)
+			{
+						fsArr[i]["ID"]=i+1;
+			}
+	 }
+     private function Setinit(evt:CloseEvent):void{
+   
+       
+     }	
+       public function resultset(event:ResultEvent):void
+      {       
+     	
+     	     fsArr=event.result as ArrayCollection;
+     	     for(var i:int=0;i<fsArr.length;i++)
+			{
+						fsArr[i]["ID"]=i+1;
+			}
+		
+			
+      }		
+      
+		]]>
+	</mx:Script>
+
+    <mx:RemoteObject id="deleteformObject" destination="selectchirdrenform" showBusyCursor="true"/>
+
+	<mx:RemoteObject id="selectMHObject" destination="selectchirdrenform" result="{MHresultset(event)}" 
+		showBusyCursor="true"/>	
+	<mx:RemoteObject id="selectBIObject" destination="getwd" result="{resultset(event)}" 
+		showBusyCursor="true"/>
+	 <mx:RemoteObject id="doxml"   destination="aboutxml" showBusyCursor="true" >
+</mx:RemoteObject>
+
+   <mx:TitleWindow width="100%" height="100%" y="0" title="数据迁移" backgroundSize="100%" horizontalCenter="0"  backgroundColor="#ffffff" 
+   	fontSize="15"   showCloseButton="true">
+   	<mx:Canvas width="100%" height="100%">
+   <mx:Canvas x="0" y="80" width="100%" height="100%">
+   <mx:DataGrid id="dg" x="0" y="40" width="100%" height="100%" dataProvider="{fsArr}" verticalScrollPolicy="on" horizontalScrollPolicy="off" itemClick="{getValues(event)}" >
+    	<mx:columns>
+     	    <renderer:CheckBoxColumn id="column" enableField="disable" dataField="fucked"/>
+    		<mx:DataGridColumn headerText="序号" width="45" dataField="ID"/>
+    		  <mx:DataGridColumn headerText="中文名称" width="150" dataField="rname"/>
+    		<mx:DataGridColumn headerText="名称"   width="150"  dataField="rcode"/>
+    		<mx:DataGridColumn headerText="分类" width="50"   dataField="objecttype"/>
+    		<mx:DataGridColumn headerText="日期"   width="150"   dataField="dateTime"/>
+    		<mx:DataGridColumn headerText="有效" width="50"   dataField="ACTIVE"/>
+    	 </mx:columns>
+    </mx:DataGrid>
+   
+    <mx:MenuBar  id="MenuBar" width="100%"
+    			 labelField="@label"
+    			  click="{clickHandler()}" 
+    			 height="43" y="0" x="0">
+    		 <mx:XMLList>
+    		    
+    		    <menuitem label="新建迁移器"/>
+    		    <menuitem label="修改迁移器" />
+    		    <menuitem label="删除迁移器" />
+    		    <menuitem label="执行迁移" />
+    		 </mx:XMLList>	
+    		</mx:MenuBar>
+   </mx:Canvas>
+   <mx:Text x="10" y="10" text="中文名称：" fontSize="15"/>
+   <mx:Text x="278" y="10" text="英文名称：" fontSize="15"/>
+   <mx:Text x="540.5" y="10" text="开始时间："/>
+   <mx:Text x="832" y="10" text="结束时间：" width="83"/>
+   <mx:TextInput id="nameinput" x="85" y="8" height="31" width="185"/>
+   <mx:TextInput x="347.5" y="8" id="chineseName" height="31" width="185"/>
+   <mx:DateField x="616" id="startTime" y="8" width="199"/>
+   <mx:DateField x="907" y="8" id="endTime" width="199"/>
+   <mx:Button  id="select" x="1001" y="44" click="ClickMc()" label="查询" width="95" />
+    </mx:Canvas>
+	</mx:TitleWindow>
+</mx:Canvas>

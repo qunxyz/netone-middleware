@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.SortField;
+			import mx.collections.Sort;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.events.DataGridEvent;
+			import mx.collections.ListCollectionView;
+			import mx.collections.IList;
+			import mx.collections.XMLListCollection;
+			import mx.collections.ICollectionView;
+			import mx.events.CollectionEvent;
+			import mx.events.FlexEvent;
+			import mx.controls.DataGrid;
+			import mx.collections.ArrayCollection;
+			import mx.controls.listClasses.ListBase;
+			import mx.core.UIComponent;
+		
+			private var _dataProvider:ICollectionView;
+			private var _totalPages:Number;
+			private var _totalCounts:Number;
+			private var _perPage:Number;
+			private var _targetUI:ListBase;
+			private var _currIndex:int=0;
+			private var _currDS:Array;
+			private var _endIndex:Number;
+			
+			/**指定控件数据源**/
+			public function set DataProvider(value:Object):void{
+		        if (value is Array)
+		        {
+		            _dataProvider = new ArrayCollection(value as Array);
+		        }
+		        else if (value is ICollectionView)
+		        {
+		            _dataProvider = ICollectionView(value);
+		        }
+		        else if (value is IList)
+		        {
+		            _dataProvider = new ListCollectionView(IList(value));
+		        }
+		        else if (value is XMLList)
+		        {
+		            _dataProvider = new XMLListCollection(value as XMLList);
+		        }
+		        else if (value is XML)
+		        {
+		            var xl:XMLList = new XMLList();
+		            xl += value;
+		            _dataProvider = new XMLListCollection(xl);
+		        }
+		        else
+		        {
+		            var tmp:Array = [];
+		            if (value != null)
+		                tmp.push(value);
+		            _dataProvider = new ArrayCollection(tmp);
+		        }
+				if(_targetUI)
+					BeginControll();
+			}
+			/**设置每页显示数据条数，默认10条**/
+			public function set PerPage(value:Number):void{
+				if(!value||value==0){value=10;}
+				_perPage=value;
+			}
+			/**指定被控制的控件**/
+			public function set TargetUI(value:UIComponent):void{
+				_targetUI=value as ListBase;
+				if(_dataProvider)
+					BeginControll();
+				else if(_targetUI.dataProvider){
+					DataProvider=_targetUI.dataProvider;
+				}else{
+					trace("控制器对象，以及控制器都没有设置数据源，监听控制器对象数据源更改事件！");
+					_targetUI.addEventListener(CollectionEvent.COLLECTION_CHANGE,onDataChange);
+				}
+			}
+			private function onDataChange(event:CollectionEvent):void{
+				trace("触发控制器对象数据源更改事件！");
+				TargetUI=_targetUI;
+			}
+			/**开始控制，当手动更改数据源时，必须启动此方法**/
+			public function BeginControll():void{
+				if(!_targetUI||!_dataProvider){
+					throw new Error("没有设置控制器对象！");
+					return;
+				}
+				if(_targetUI.hasEventListener(CollectionEvent.COLLECTION_CHANGE)){
+					_targetUI.removeEventListener(CollectionEvent.COLLECTION_CHANGE,onDataChange);
+				}
+				_totalCounts=_dataProvider.length;
+				_totalPages=Math.ceil(_totalCounts/_perPage);
+				btnGo.enabled=true;
+				if(_targetUI is DataGrid){
+					_targetUI.addEventListener(DataGridEvent.HEADER_RELEASE,onDGHeaderRelease);
+				}
+				RefershData();
+			}
+			private function onDGHeaderRelease(event:DataGridEvent):void{
+				var column:DataGridColumn = DataGridColumn(event.currentTarget.columns[event.columnIndex]);
+                DataGrid(event.currentTarget).callLater(onCallLater, [column]);
+                function onCallLater(column:DataGridColumn):void {
+	                sortDataSourceItem(column.dataField);
+	            }
+            }
+            private var sort:Sort=new Sort();
+            private var descending:Boolean=false;
+            private function sortDataSourceItem(target:Object):void{
+				descending=!descending;
+            	sort.fields=[new SortField(target.toString(),true,descending,true)];
+            	_dataProvider.sort=sort;
+            	_dataProvider.refresh();
+            	RefershData();
+            }
+			private function goto(value:Number):void{
+				_currIndex+=value;
+				RefershData();
+			}
+			private function gotoIndex():void{
+				var index:int=int(Number(txtPageIndex.text));
+				if(index==_currIndex+1){
+					trace("提交的页数与当前显示页数一致，不管它!");
+					return;
+				}else if(index>=1&&index<=_totalPages){
+					_currIndex=index-1;
+				}else{
+					trace("页数超过指定范围");
+				}
+				if(txtPageIndex.text==null){
+				   trace("页数超过指定范围");
+				   return;
+				}
+				RefershData();
+			}
+			private function RefershData():void{
+				filterFunction();
+				_targetUI.dataProvider=_currDS;
+				lblInfo.text="第 "+(_currIndex+1)+" 页/共 "+_totalPages+" 页";
+				txtPageIndex.text=String(_currIndex+1);
+				btnNext.enabled=_currIndex>=_totalPages-1?false:true;
+				btnPrevious.enabled=_currIndex<=0?false:true;
+			}
+			private function filterFunction():void{
+				_currDS=[];
+				var start:int=_currIndex*_perPage;
+				var end:int=_perPage*(_currIndex+1);
+				if(end>=_dataProvider.length)
+					end=_dataProvider.length;
+				for(var index:int=start;index<end;index++){
+					_currDS.push(_dataProvider[index]);
+				}
+				/**使用Array数据源时
+				 * 可以将本方法内以上代码修改为
+				 * _currDS=_dataProvider.slice(_currIndex*_perPage,_perPage*(_currIndex+1));
+				 * **/
+			}
+			
+			
+		]]>
+	</mx:Script>
+	<mx:Button label="上一页" id="btnPrevious" click="goto(-1);" enabled="false"/>
+	<mx:Button label="下一页" id="btnNext" click="goto(1);" enabled="false"/>
+	<mx:Label text="转到"/>
+	<mx:TextInput width="48" id="txtPageIndex" restrict="0-9" text="" />
+	<mx:Label text="页"/>
+	<mx:Button label="确定" id="btnGo" click="gotoIndex();" enabled="false"/>
+	<mx:Label id="lblInfo" text=""/>
+</mx:HBox>

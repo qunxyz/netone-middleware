@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300"  initialize="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.containers.ViewStack;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Alert;
+			[Bindable]
+		   public var arr:Array=["1","2","3","4","5","6","7","8","9"];
+          [Bindable]//流程的id
+          public var flowid:String;
+          
+          [Bindable]
+          public var vs:ViewStack;
+          [Bindable]//流程的节点数
+          public var index:int;
+          [Bindable]//textpath
+		  public var textpath:String;
+          public function init():void{
+          	textpath="路径： "+DataTransfer.URLname+" 第2步，共2步";
+          	vs=this.parent as ViewStack;
+          Processnode1.Nodestr(DataTransfer.flowid);
+          Processnode2.LayoutQuery(DataTransfer.flowid);
+          }
+          
+          //横竖的乘机是否等于节点总数
+          public function Flightdid():void{
+            if(index<int(row.selectedItem)*int(crow.selectedItem)){
+             
+            }else{
+              Alert.show("行列对不上，节点数是"+index);
+            }
+          } 
+          public function handerResult3(event:ResultEvent):void{
+            index=event.result as int; 
+            r1.selected=true;
+            w1.selected=true;
+            row.selectedItem=index;
+          }
+ 
+          public function handerResult2(event:ResultEvent):void{
+          var str:String=event.result as  String;
+          /* if(str=="succeed"){
+           Alert.show("保存成功");
+          }else{
+            Alert.show("保存失败");
+           } */
+          }
+          //配置的xml是否有返回值
+          public function handerResult4(event:ResultEvent):void{
+           var arr:ArrayCollection=event.result as ArrayCollection;
+            if(arr.length==0){
+           
+            }else{
+	           if(arr[0].layouttype=="0"){
+	            r1.selected=true;
+	           } if(arr[0].layouttype=="1"){
+	            r2.selected=true;
+	           }
+	           if(arr[0].showtype=="0"){
+	            w1.selected=true;
+	           }if(arr[0].showtype=="1"){
+	           w2.selected=true;
+	           }
+	           row.selectedItem=arr[0].row;
+	           crow.selectedItem=arr[0].stand;
+            }
+          }
+          
+             //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("NodeDeployment1");
+            vs.selectedChild=o as Canvas;
+          }
+          //完成的方法
+          public function DownNode(event:MouseEvent):void{
+          var xml:XML=<layout></layout>;
+                var pxml:XML=<devise></devise>;
+                if(r1.selected==true){
+                pxml.@layouttype="0";
+                }if(r2.selected==true){
+                pxml.@layouttype="1";
+                }
+                 if(w1.selected==true){
+                pxml.@showtype="0";
+                }if(w2.selected==true){
+                pxml.@showtype="1";
+                }
+                pxml.@row=row.selectedItem.toString();
+                pxml.@stand=crow.selectedItem.toString();
+                xml.prependChild(pxml);
+                adddate1.Updata(DataTransfer.flowid,xml.toString());
+            navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+         //取消的方法
+         public function Cancel():void{
+          navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+		]]>
+	</mx:Script>
+	 <mx:RemoteObject id="adddate1" destination="AddDate1" showBusyCursor="true" result="handerResult2(event)" />	
+	 <mx:RemoteObject id="Processnode1" destination="ProcessNode1" showBusyCursor="true"   result="handerResult3(event)"/>	
+	 <mx:RemoteObject id="Processnode2" destination="ProcessNode1" showBusyCursor="true"   result="handerResult4(event)"/>	
+      
+      <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="布局制定"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="聚合制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:聚合展示的布局制定, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="734" height="313"  x="144" y="212" fontSize="15"  >  
+				<mx:Label x="7" y="30" text="布局模式：" fontWeight="bold"/>
+				<mx:Label x="10" y="105" text="展示模式：" fontWeight="bold"/>
+				 <mx:Canvas height="41" y="24" width="613" x="91">
+			    <mx:RadioButton id="r1" x="10" y="3" label="从上到下" groupName="radiogroup4" fontWeight="bold"/>
+			    <mx:RadioButton id="r2" x="140" y="3" label="从左到右" groupName="radiogroup4" width="100" fontWeight="bold"/>
+		        </mx:Canvas>
+				  <mx:Canvas height="41" y="99" width="613" x="94">
+			    <mx:RadioButton id="w1" x="10" y="3" label="渐行" groupName="radiogroup" fontWeight="bold"/>
+			    <mx:RadioButton id="w2" x="140" y="3" label="自动" groupName="radiogroup" width="100" fontWeight="bold"/>
+		        </mx:Canvas>
+				  <mx:Label x="22" y="177" text="行：" fontWeight="bold"/>
+				  <mx:Label x="22" y="236" text="列：" fontWeight="bold"/>
+				  <mx:ComboBox change="Flightdid()" id="row"   dataProvider="{arr}" x="90" y="174" width="178"></mx:ComboBox>
+				  <mx:ComboBox change="Flightdid()" id="crow" dataProvider="{arr}" x="90" y="233" width="178"></mx:ComboBox>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="完成" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 
+</mx:Canvas>

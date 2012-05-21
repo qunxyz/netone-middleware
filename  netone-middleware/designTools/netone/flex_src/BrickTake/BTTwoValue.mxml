@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="{init()}" creationComplete="ccl()" x="83" y="-62">
+	<mx:Script>
+	<![CDATA[
+		import BIAnalysis.BIData;
+		import mx.core.IFlexDisplayObject;
+		import mx.controls.TextInput;
+		import mx.core.IUIComponent;
+		import BI.EvTijiao;
+		import BI.EvTjFs;
+	 /**
+  	  *  砖取制定 多层模式的界面
+  	  *  xuwei（2012-2-15）
+  	  * 
+  	  * 
+  	  * */
+		import mx.controls.Alert;
+		import ActionForm.vivid;
+		import framework.variable;
+		import mx.managers.PopUpManager;
+		import mx.containers.ViewStack;
+            
+            [Bindable]//vs定义
+            public var vs:ViewStack;
+            [Bindable]//textpath
+            public var textpath:String;
+            [Bindable]
+            public var index:int=1;
+            [Bindable]
+            public var arrID:Array=new Array(); 
+            [Bindable]//y的索引
+            public var Yindex:int=10;
+            
+            public function init():void{
+            textpath="路径： "+ BTData.URLname+" 第4步，共4步"; 
+            vs=this.parent as ViewStack;
+	          
+            }
+             public function ccl():void{
+             if(!BTData.modeltype){
+             	var wh:int=0;
+                var xml:XML=BTData.controlxml;
+                var xmllist1:XMLList=new XMLList(xml.child("TwoBrickTake"));
+                var xmllist:XMLList=new XMLList(xml.TwoBrickTake.child("Chart"));
+                if(xmllist1[0].@BTModel=="0"){
+                 textinput.text=xmllist[0].@Value;
+                }
+             }
+            }  
+            //保存xml方法
+            public function save():XML{
+             var xml:XML=new XML();
+             xml=<BrickTake></BrickTake>;
+             var peml:XML=<TwoBrickTake></TwoBrickTake>;
+             peml.@BTModel=BTData.BTModel;
+              var chart:XML=<Chart></Chart>;
+               chart.@ID=BTData.TwoChartparent;
+               chart.@Value=textinput.text;
+               chart.@type="COMP_PIE_2L_CHART";
+                var chart1:XML=<Chart></Chart>;
+               chart1.@ID=BTData.TwoChartsub;
+               chart1.@type="COMP_PIE_2L_CHART";
+             peml.appendChild(chart);
+              peml.appendChild(chart1);
+             xml.appendChild(peml);
+             return xml;
+            }
+            
+            //选择砖取值
+          public function TwoSV():void{
+          EvTjFs.getInstance().addEventListener("TwoSelectValue",AddSelect);
+           var str:String=BTData.TwoChartparent;
+           str=str.substring(str.indexOf("[")+1,
+   				str.indexOf("]"));
+            BTData.Twonaturalname=str;
+            var tsv:TwoSelectValue=new TwoSelectValue();
+            PopUpManager.addPopUp(tsv,this.parent.parent,true);
+            PopUpManager.centerPopUp(tsv as IFlexDisplayObject);
+          }
+          //选择的砖取值
+         public function  AddSelect(event:EvTijiao):void{
+        	textinput.text=event.Formcode();
+         }
+	       //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("BTTwoTier1");
+            vs.selectedChild=o as Canvas;
+          }
+          //完成的方法
+          public function DownNode(event:MouseEvent):void{
+         var xml:XML=save();
+         if(!BTData.modeltype){
+         queryExtended1.Update(BTData.repidID,BTData.repdimxpla,xml.toString(),BTData.URLname);
+         }else{
+         BTAddData1.BTAdd(BTData.repidID,BTData.repdimxpla,xml.toString(),BTData.URLname,"Two");
+         }
+         navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self'); 
+         }
+         //取消的方法
+         public function Cancel():void{
+          navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+	]]>
+</mx:Script>
+ <mx:RemoteObject id="BTAddData1" destination="BTAddData1" showBusyCursor="true" />
+ <mx:RemoteObject id="queryExtended1" destination="QueryExtended1"  showBusyCursor="true"/>
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="砖取值配置"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="砖取制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置砖取下一接的值, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="761" height="321"  x="263" y="216" fontSize="20"  >  
+      <mx:TextInput id="textinput" x="126" y="75" width="447"/>
+      <mx:Label x="30" y="77" text="砖取值"/>
+      <mx:Button x="592" y="75"   label="选择砖取值" click="TwoSV()"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="完成" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+
+</mx:Canvas>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" fontSize="15" width="668" height="42">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			
+			[Bindable]//序号
+			public var index:String;
+			[Bindable]//图表
+			public var textChart:String;
+			//选择砖取值
+          public function selectvalue():void{
+          	BTData.ChartValueID=this;
+          for(var i:int=0;i<BTData.ArrCinfigt.length;i++){
+              if(BTData.ArrCinfigt[i]==this){
+               var str:String=BTData.ArrChart[i].textChart
+               str=str.substring(str.indexOf("[")+1,
+   				str.indexOf("]"));
+               BTData.BTnaturalname=str;
+              }
+          }
+           var sv:SelectValue=new SelectValue();
+           PopUpManager.addPopUp(sv,this.parent.parent,true);
+           PopUpManager.centerPopUp(sv as IFlexDisplayObject); 
+          } 
+		]]>
+	</mx:Script>
+	<mx:TextInput id="textinput" text="{textChart}" x="139" y="1" height="40" width="389"/>
+	<mx:Label id="lable" text="{index}" x="76" y="9"  width="55"/>
+	<mx:Label x="10" y="8" text="砖取值" width="58"/>
+	<mx:LinkButton x="549" y="4" label="选择砖取值" click="selectvalue()"/>
+</mx:Canvas>
+ 

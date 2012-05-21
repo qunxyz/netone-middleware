@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas  xmlns:mx="http://www.adobe.com/2006/mxml" initialize="init()" width="789" height="473"  styleName="cvsid" x="233" y="109">
+	    <mx:Button y="20" click="SetExte()" width="50" height="29" x="1000" overSkin="@Embed(source='img1/fanhui.png')" upSkin="@Embed(source='img1/fanhui1.png')" downSkin="@Embed(source='img1/fanhui1.png')"/>
+	    <mx:Button  x="88.5"  y="59" height="123" width="98" click="{Mperson()}" overSkin="@Embed(source='img/Mperson1.png')" upSkin="@Embed(source='img/Mperson.png')" downSkin="@Embed(source='img/Mperson.png')"/>
+		<mx:Button  x="350.5" y="59" label="" height="123" width="98" click="{ResourceManagement()}" overSkin="@Embed(source='img/8.1.png')" upSkin="@Embed(source='img/8.png')" downSkin="@Embed(source='img/8.png')"/>
+		<mx:Button  x="612.5" y="59" label=""  height="123" width="98" click="{UserControl()}"  overSkin="@Embed(source='img/UserControl02.png')" upSkin="@Embed(source='img/UserControl01.png')" downSkin="@Embed(source='img/UserControl01.png')"/>
+		<mx:Button  x="874.5"  y="59" label=""  height="123" width="98" click="{ClasscRew()}"  overSkin="@Embed(source='img/ClasscRew02.png')" upSkin="@Embed(source='img/ClasscRew01.png')" downSkin="@Embed(source='img/ClasscRew01.png')"/>
+    	<mx:Button  x="88.5" y="259" label=""  height="123" width="98" click="{ClassRole()}"  overSkin="@Embed(source='img/ClassRole02.png')" upSkin="@Embed(source='img/ClassRole01.png')" downSkin="@Embed(source='img/ClassRole01.png')"/>
+    	<mx:Button  x="350.5" y="259" label=""  height="123" width="98" click="{RoleControl()}"  overSkin="@Embed(source='img/RoleControl02.png')" upSkin="@Embed(source='img/RoleControl01.png')" downSkin="@Embed(source='img/RoleControl01.png')"/>
+    	<mx:Button  x="612.5"  y="259" label=""  height="123" width="98" click="{SystemJournal()}"  overSkin="@Embed(source='img/SystemJournal02.png')" upSkin="@Embed(source='img/SystemJournal01.png')" downSkin="@Embed(source='img/SystemJournal01.png')"/>
+    	<mx:Button  x="874.5"  y="259" label=""  height="123" width="98" click="{SSOcinfig()}"  overSkin="@Embed(source='img/SSOconfig2.png')" upSkin="@Embed(source='img/SSOconfig01.png')" downSkin="@Embed(source='img/SSOconfig01.png')"/>
+    <mx:Script>
+	<![CDATA[
+		import BI.EvTijiao;
+		import BI.EvTjFs;
+		import mx.containers.ViewStack;
+		    private var vs:ViewStack;  
+			public var url1:URL1;
+			public function init():void{
+			url1=new URL1();
+			url1.init();
+	        vs=this.parent as ViewStack; 
+		      trace(vs.id);
+			}
+			
+		    public function SetExte():void{
+		    	EvTjFs.getInstance().dispatchEvent(new EvTijiao("cssquehuan","SuperBox2.swf"));
+		            var o:Object=this.getChild("StateZHU1"); 
+		            vs.selectedChild=o as Canvas;
+		    }
+
+		   private function getChild(str:String):Object{ 
+		       for each(var obj:* in vs.getChildren()){ 
+		           if(obj.name==str){ 
+		           break; 
+				} 
+				} 
+			return obj; 
+		  } 
+		public function Mperson():void
+    		{
+    		    var url1:String=URL1.ShanA+"/department/department.do?method=onDepartmentManageView";  
+				var request1:URLRequest=new URLRequest(url1);  
+				navigateToURL(request1); 
+    		}
+    	public function ResourceManagement():void
+    		{
+			   var url:String=index.WEBSER_WEBSPECI+"/ApplistRightSvl?pagename=applist";
+  			   var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}
+    		//用户管理
+    	public function UserControl():void
+    		{
+			   var url:String=index.WEBSER_SECURITY3A+"/humanIndex.do?id=";
+  			   var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}	
+    	//部门人员
+     public function ClasscRew():void
+    		{
+			   var url:String=index.WEBSER_SECURITY3A+"/rsinfo/dept/frameIndex.jsp";
+  			   var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}	
+      //部门角色
+     public function ClassRole():void
+    		{
+			   var url:String=index.WEBSER_SECURITY3A+"/rsinfo/dept2/frameIndex.jsp";
+  			   var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}	
+     //角色管理
+     public function RoleControl():void
+    		{
+			   var url:String=index.WEBSER_SECURITY3A+"/rbac/rbacIndex.do?appid=1&source=";
+  			   var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}		
+      //系统日志
+     public function SystemJournal():void
+    		{
+			   var url:String=index.WEBSER_SECURITY3A+"/optrlog/index.jsp";
+  			   var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}	
+   	   //sso配置
+  	  public function SSOcinfig():void
+       {
+ 			    var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=ssocinfig&appname=SSOCINFIG";  
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+ 	    }	
+ 	
+    		
+	]]>
+</mx:Script>
+</mx:Canvas>

@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas  fontSize="18" xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()"   width="100%" height="100%" creationComplete="initApp();">
+     <mx:Script>
+     	<![CDATA[
+     		import mx.controls.TextArea;
+     		import mx.core.UIComponent;
+     		import mx.controls.TextInput;
+     		import ActionForm.DyData;
+     		import ActionForm.From.com.hitb.util.GlobalManager;
+     		import mx.controls.Alert;
+     		import ActionForm.vivid;
+     		import mx.containers.ViewStack;
+     		import mx.collections.ArrayCollection;
+		    import mx.controls.ComboBox;
+		public var a1:String="<![CDATA[";
+        public var a2:String="]]";
+		public var a3:String=">";
+		[Bindable]
+		public var vs:ViewStack;
+		[Bindable]
+  	    public var textpath:String="";
+  	    [Bindable] //天事件的text 控件的记录
+  	    public var arrcomp:Array=new Array;
+		public function init():void{
+		 vs=this.parent as ViewStack;
+	     textpath="路径： "+DyData.Urlname+" 第"+DyData.sum+"步，共"+DyData.sum+"步";
+		} 
+		//组件加载完成的方法
+		public function  initApp():void{
+			if(!DyData.modletype){
+				var xml:XML=vivid.updatexml;
+				if(xml.config.NewSave.@model=="1"){
+				    	check.selected=true;
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.text=xml.config.NewSave;
+                        text.id="check";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas0.addChild(text);
+				}
+				if(xml.config.UpdateSave.@model=="1"){
+				        check0.selected=true;
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.text=xml.config.UpdateSave;
+                        text.id="check0";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas2.addChild(text);
+				}
+				if(xml.config.Delete.@model=="1"){
+				        check1.selected=true;
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.text=xml.config.Delete;
+                        text.id="check1";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas3.addChild(text);
+				}
+				if(xml.config.SelectRead.@model=="1"){
+					    check2.selected=true;
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.text=xml.config.SelectRead;
+                        text.id="check2";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas4.addChild(text);
+				}
+				if(xml.config.SelectUpdate.@model=="1"){
+					    check3.selected=true;
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.text=xml.config.SelectUpdate;
+                        text.id="check3";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas5.addChild(text);
+				}if(xml.config.InitCreate.@model=="1"){
+				        check4.selected=true;
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.text=xml.config.InitCreate;
+                        text.id="check4";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas6.addChild(text);
+				}
+			}else{
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas0.addChild(text);
+			 
+				        var text0:TextArea=new TextArea();
+                        text0.x=0;
+                        text0.y=0;
+                        text0.id="check0";
+                        text0.percentHeight=100;
+                        text0.percentWidth=100;
+                        arrcomp.push(text0);
+                        canvas2.addChild(text0);
+
+				        var text1:TextArea=new TextArea();
+                        text1.x=0;
+                        text1.y=0;
+                        text1.id="check1";
+                        text1.percentHeight=100;
+                        text1.percentWidth=100;
+                        arrcomp.push(text1);
+                        canvas3.addChild(text1);
+		 
+				        var text2:TextArea=new TextArea();
+                        text2.x=0;
+                        text2.y=0;
+                        text2.id="check2";
+                        text2.percentHeight=100;
+                        text2.percentWidth=100;
+                        arrcomp.push(text2);
+                        canvas4.addChild(text2);
+
+				        var text3:TextArea=new TextArea();
+                        text3.x=0;
+                        text3.y=0;
+                        text3.id="check3";
+                        text3.percentHeight=100;
+                        text3.percentWidth=100;
+                        arrcomp.push(text3);
+                        canvas5.addChild(text3);
+                        
+                        var text4:TextArea=new TextArea();
+                        text4.x=0;
+                        text4.y=0;
+                        text4.id="check4";
+                        text4.percentHeight=100;
+                        text4.percentWidth=100;
+                        arrcomp.push(text4);
+                        canvas6.addChild(text4);
+			}
+		}
+		//加载填写脚本的事件
+		public function changeQuery(event:Event):void{
+		switch( event.target.name)
+				{
+                    case "check":
+                        if(check.selected==true){
+                        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas0.addChild(text);
+                        }else{
+                        canvas0.removeAllChildren();
+                        for(var i:int=0;i<arrcomp.length;i++){
+                        	if(UIComponent(arrcomp[i]).id=="check"){
+                                 arrcomp.splice(i,1);
+                             }
+                        }
+                        }
+					break;
+					case "check0":
+					  if(check0.selected==true){
+                        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check0";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas2.addChild(text);
+                        }else{
+                        canvas2.removeAllChildren();
+                         for(var i:int=0;i<arrcomp.length;i++){
+                        	if(UIComponent(arrcomp[i]).id=="check0"){
+                                 arrcomp.splice(i,1);
+                             }
+                        }
+                        }
+					break;
+					case "check1":
+					  if(check1.selected==true){
+                        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check1";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas3.addChild(text);
+                        }else{
+                        canvas3.removeAllChildren();
+                         for(var i:int=0;i<arrcomp.length;i++){
+                        	if(UIComponent(arrcomp[i]).id=="check1"){
+                                 arrcomp.splice(i,1);
+                             }
+                        }
+                        }
+					
+					break;
+					case "check2":
+					   if(check2.selected==true){
+                        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check2";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas4.addChild(text);
+                        }else{
+                        canvas4.removeAllChildren();
+	                        for(var i:int=0;i<arrcomp.length;i++){
+	                        	if(UIComponent(arrcomp[i]).id=="check2"){
+	                                 arrcomp.splice(i,1);
+	                             }
+	                        }
+                        }
+					break;
+					case "check3":
+					  if(check3.selected==true){
+                        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check3";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas5.addChild(text);
+                        }else{
+                        canvas5.removeAllChildren();
+                         for(var i:int=0;i<arrcomp.length;i++){
+	                        	if(UIComponent(arrcomp[i]).id=="check3"){
+	                                 arrcomp.splice(i,1);
+	                             }
+	                      }
+                        }
+					break;
+					case "check4":
+					  if(check4.selected==true){
+                        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check4";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas6.addChild(text);
+                        }else{
+                        canvas6.removeAllChildren();
+                         for(var i:int=0;i<arrcomp.length;i++){
+	                        	if(UIComponent(arrcomp[i]).id=="check4"){
+	                                 arrcomp.splice(i,1);
+	                             }
+	                      }
+                        }
+					break;
+				}
+		}
+		public function xmllist():XML{
+			for(var i:int=0;i<arrcomp.length;i++){
+				var xml:XML=new XML;
+			if(UIComponent(arrcomp[i]).id=="check"){
+			xml=<NewSave>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</NewSave>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			}
+			if(UIComponent(arrcomp[i]).id=="check0"){
+			xml=<UpdateSave>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</UpdateSave>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			}
+			if(UIComponent(arrcomp[i]).id=="check1"){
+			xml=<Delete>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</Delete>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			}
+			if(UIComponent(arrcomp[i]).id=="check2"){
+			xml=<SelectRead>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</SelectRead>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			}
+			if(UIComponent(arrcomp[i]).id=="check3"){
+			xml=<SelectUpdate>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</SelectUpdate>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			}
+			if(UIComponent(arrcomp[i]).id=="check4"){
+			xml=<InitCreate>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</InitCreate>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			}
+			} 
+     		return DyData.configxml;
+		}
+		  //上一步的方法
+          public function UPNode(event:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("DisplayField1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步
+         public function DownNode(event:MouseEvent):void{
+           var xmlp:XML=<dyform></dyform>;
+         	var xml:XML=xmllist();
+         	xmlp.appendChild(xml);
+ 
+         	if(!DyData.modletype){
+           	 newwrxmlObject.writeXML(vivid.formid,xmlp.toString(),vivid.pid);
+           	}else{
+			 newwrxmlObject.writeXML(vivid.fromcode,xmlp.toString(),vivid.pid);
+           	}  
+            navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+         public function Cancel():void{
+          navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+     	]]>
+     </mx:Script>
+      <mx:RemoteObject id="newwrxmlObject" destination="wrxmlfile" showBusyCursor="true" />
+       <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+	    <mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+	    <mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="表单事件脚本"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="动态表单" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置表单在使用的时候需要的事件，然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="894" height="630"  x="106" y="197" fontSize="18">
+	 	<mx:CheckBox id="check"  name="check" selected="true" x="0" y="93"  label="新建保存" change="changeQuery(event)"/>
+	 	<mx:CheckBox id="check4"  name="check4" selected="true" x="0" y="0"  label="新建装载" change="changeQuery(event)"/>
+	 	<mx:Canvas id="canvas6" width="863" height="57"  x="0" y="31" fontSize="18">
+	 	</mx:Canvas>
+		<mx:CheckBox id="check0" name="check0"  selected="true" x="0" y="193" label="修改保存" change="changeQuery(event)"/>
+		<mx:CheckBox id="check1" name="check1"  selected="true" x="0" y="296" label="删除" change="changeQuery(event)"/>
+ 	 	<mx:CheckBox id="check2" name="check2" selected="true" x="0" y="396" label="展示只读" change="changeQuery(event)"/>
+ 	 	<mx:CheckBox id="check3" name="check3"  selected="true" x="0" y="498" label="展示修改" change="changeQuery(event)"/>
+ 	 	<mx:Canvas id="canvas0" width="863" height="57"  x="0" y="124" fontSize="18">
+ 	 	</mx:Canvas>
+ 	 	 <mx:Canvas id="canvas2" width="863" height="57"  x="0" y="231" fontSize="18">
+ 	    </mx:Canvas>
+ 	 	 <mx:Canvas id="canvas3" width="863" height="57"  x="0" y="327" fontSize="18">
+ 	 	 </mx:Canvas>
+ 	 	 <mx:Canvas id="canvas4" width="863" height="57"  x="0" y="434" fontSize="18">
+ 	 	  </mx:Canvas> 	
+ 	 	 <mx:Canvas id="canvas5" width="863" height="57"  x="0" y="537" fontSize="18">
+ 	 	  </mx:Canvas>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="{canvas1.height+canvas1.y+70}" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="{canvas1.height+canvas1.y+30}" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="完成" click="DownNode(event)" y="{canvas1.height+canvas1.y+30}" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="{canvas1.height+canvas1.y+30}" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas> 

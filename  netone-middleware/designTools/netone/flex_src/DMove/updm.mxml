@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="{init()}">
+<mx:Script>
+	<![CDATA[
+		import BI.incolumnref;
+		import BI.incolumn;
+		import mx.containers.ViewStack;
+		import mx.containers.TitleWindow;
+		import mx.rpc.events.ResultEvent;
+		import mx.core.UIComponent;
+		import mx.collections.ArrayCollection;
+		import mx.controls.Label;
+		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		
+		public var titleWindow:TitleWindow;
+		//fc
+		public var lx:incolumn;
+		public var lx1:incolumnref;
+		
+		//fc0
+		public var alx:incolumn;
+		public var alx1:incolumnref;
+		//fc1
+		public var t1:incolumn;
+		public var t2:incolumnref;
+		
+		public var ic:int=1;
+		public var arr:Array=new Array();
+		//控件Y位子
+		public var cc:int=0;
+		public var cc1:int=0;
+		public var ss:int=0;
+		public var fss1:int=0;
+		public var ty1:int=0;
+		public var ty2:int=0;
+		//用于循环控件ID的
+		public var i:int=0;
+		public var j:int=0;
+		public var h:int=0;
+		public var t:int=0;
+		public var tid1:int=0;
+		public var tid2:int=0;
+		
+		//定义变量和属性,保存xml
+		[Bindable]
+		public var sc:XML;
+	    [Bindable]
+	    public var  pxml:XML;
+	  [Bindable]
+	    public var  pxml1:XML;
+	   [Bindable]
+	    public var  pxml2:XML;
+	    [Bindable]
+	    public var  sqlxml:XML;
+        [Bindable]
+	    public var  outxml:XML;
+	    [Bindable]
+	    public var  inxml:XML;
+	    [Bindable]
+	    public var  inxml1:XML;
+	    [Bindable]
+	    public var  inxml2:XML;
+	    [Bindable]
+	    public var  columnrefxml:XML;
+	    [Bindable]
+	    public var  columnxml:XML;
+	    public var  columnrefxml1:XML;
+	    [Bindable]
+	    public var  columnxml1:XML;
+	    
+
+	   [Bindable]
+	    public var col:XML;
+	    [Bindable]
+	    public var col1:XML;
+	    public var cs:incolumn;
+	    public var csref:incolumnref;
+	    
+	    public var sqlid:String="sqlid";
+	    
+	    public var source1:String="source1";
+	    public var source2:String="source2";
+	    public var source3:String="source3";
+	    public var source4:String="source4";
+	    public var source5:String="source5";
+	    public var source6:String="source6";	    
+	    
+	    public var a1:String="<![CDATA[";
+		public var a2:String="]]";
+		public var a3:String=">";
+		public var getxml:XML;
+		public var coll:XMLList;
+		import BI.*;
+       [Bindable]
+        private var vs:ViewStack;
+
+		
+		public function columnclick():void{	
+		    lx =new incolumn();
+		    lx.x=0;
+		    lx.y=cc;
+		    lx.id="lxa"+i;
+		    fc.addChild(lx);
+		    cc=cc+lx.height;
+		    i++;
+		}
+		public function columnclickref():void{
+	        lx1=new incolumnref();
+	        lx1.x=0;
+	        lx1.y=cc1;
+	        lx1.id="lx"+j;
+	        fc1.addChild(lx1);
+	        cc1=cc1+lx1.height;
+	        j++;
+		}
+//		public function columnclicka():void{     
+//			if(i!=0){	
+//		    alx =new incolumn();
+//		    alx.x=0;
+//		    alx.y=ss;
+//		    alx.id="alx"+h;
+//		    fc0.addChild(alx);
+//		    ss=ss+alx.height;
+//		    h++;
+//		 }else{
+//		 	Alert.show("请先使用数据库1");
+//		 }
+//		 
+//		}
+//		public function columnclickrefb():void{
+//			if(i!=0){
+//	        alx1=new incolumnref();
+//	        alx1.x=0;
+//	        alx1.y=fss1;
+//	        alx1.id="alx"+t;
+//	        fcc0.addChild(alx1);
+//	        fss1=fss1+alx1.height;
+//	        t++;
+//	         }else{
+//		 	Alert.show("请先使用数据库1");
+//		 }
+//        
+//		}
+//		public function columnclicka1():void{       
+//			if(h!=0){	
+//		    t1 =new incolumn();
+//		    t1.x=0;
+//		    t1.y=ty1;
+//		    t1.id="lxss"+tid1;
+//		    fc2.addChild(t1);
+//		    ty1=ty1+t1.height;
+//		    tid1++;
+//		 }
+//		}
+//		public function columnclickrefb1():void{
+//
+//			if(h!=0){
+//		
+//	        t2=new incolumnref();
+//	        t2.x=0;
+//	        t2.y=ty2;
+//	        t2.id="lxcc"+tid2;
+//	        fcc1.addChild(t2);
+//	        ty2=ty2+t2.height;
+//	        tid2++;
+//	  }
+//		}
+		public function  init():void{
+			vs=this.parent as ViewStack;
+			 getxml=XML(BIid.thexml);
+             ename.text=BIid.xmlename;
+             cname.text=BIid.xmlname;
+             
+             s1.text=getxml.source[0].@url;
+             s2.text=getxml.source[0].@username;
+             s3.text=getxml.source[0].@password;
+             s4.text=getxml.source[0].@driver;
+            
+            
+             s0.text=getxml.source[1].@url;
+             s5.text=getxml.source[1].@username;
+             s6.text=getxml.source[1].@password;
+             s7.text=getxml.source[1].@driver;
+             
+             var pd3:int=0;
+             pd3=getxml.children().length()-3;
+             
+             if(pd3>=3)
+             {
+             s8.text=getxml.source[2].@url;
+             s9.text=getxml.source[2].@username;
+             s10.text=getxml.source[2].@password;
+             s11.text=getxml.source[2].@driver;
+             }
+             if(pd3>=4)
+             {
+             ss1.text=getxml.source[3].@url;
+             ss2.text=getxml.source[3].@username;
+             ss3.text=getxml.source[3].@password;
+             ss4.text=getxml.source[3].@driver;
+             }
+              if(pd3>=5)
+             {
+             sss1.text=getxml.source[4].@url;
+             sss2.text=getxml.source[4].@username;
+             sss3.text=getxml.source[4].@password;
+             sss4.text=getxml.source[4].@driver;
+             }
+             if(pd3==6)
+             {
+             sss0.text=getxml.source[5].@url;
+             sss5.text=getxml.source[5].@username;
+             sss6.text=getxml.source[5].@password;
+             sss7.text=getxml.source[5].@driver;
+             }
+           
+//                 
+//             ss0.text=getxml.source[1].@url;
+//             ss5.text=getxml.source[1].@username;
+//             ss6.text=getxml.source[1].@password;
+//             ss7.text=getxml.source[1].@driver;
+              
+             sqltext.text= getxml.sql;
+             coll=new XMLList(getxml.children());
+		    for(var wo:int=0; wo<=100;wo++)
+		    {  
+			    	if(coll.column!=""){
+			    	if(coll.column[wo].@name!=""){
+			       cs=new incolumn();
+			       cs.zd=coll.column[wo].@name;
+			       cs.yzd=coll.column[wo].@outname;
+			       cs.jb=coll.column[wo];
+			       cs.x=0;
+			       cs.y=cc;
+			       cs.id="lxa"+i;
+			       fc.addChild(cs);
+			       cc=cc+cs.height;
+			       i++;
+	                    }
+          		 }
+         	  if(coll.length()!=0){
+              if(coll.columnref[wo].@name!=""){
+		       csref=new incolumnref();
+		       csref.zd=coll.columnref[wo].@name;
+		       csref.syzd=coll.columnref[wo].@refertoname;
+		       csref.x=0;
+		       csref.y=cc1;
+		       csref.id="lx"+j;
+		       fc1.addChild(csref);
+		       cc1=cc1+csref.height;
+		       j++;
+                    }
+                    }
+		    }             
+		}
+		public function  test():void{
+
+         for(var k:int=0;k<i;k++){
+		Alert.show(incolumn(fc.getChildAt(k)).jiaoben.text.toString());   
+        Alert.show(incolumn(fc.getChildAt(k)).biaoming.selectedItem.toString()+"."+incolumn(fc.getChildAt(k)).ziduanming.selectedItem.toString());   
+        Alert.show(incolumn(fc.getChildAt(k)).leixing.text.toString());     
+         }
+//         for(var l:int=0;l<i+j;l++){
+//         	
+//        Alert.show(incolumnref(fc.getChildAt(k)).yuanziduan.text.toString());   
+//        Alert.show(incolumnref(fc.getChildAt(k)).ziduan.text.toString());    
+//         
+//         }
+         
+		
+		}
+        public function  test1():void{
+             
+             sc=<dataTrans></dataTrans>
+		  	// source1
+		     if(s1.text!=""){
+		     	if(s2.text=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(s3.text=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(s4.text=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source1;
+              pxml.@url=s1.text.toString();
+              pxml.@password=s2.text.toString();
+              pxml.@username=s3.text.toString();
+              pxml.@driver=s4.text.toString();
+              sc.appendChild(pxml);
+              }
+              //source2
+              if(s0.text!=""){
+		     	if(s5.text=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(s6.text=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(s7.text=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source2;
+              pxml.@url=s0.text.toString();
+              pxml.@password=s6.text.toString();
+              pxml.@username=s5.text.toString();
+              pxml.@driver=s7.text.toString();
+              sc.appendChild(pxml);
+              }
+             // source3
+              if(s8.text!=""){
+		     	if(s9.text=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(s10.text=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(s11.text=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source3;
+              pxml.@url=s8.text.toString();
+              pxml.@password=s10.text.toString();
+              pxml.@username=s9.text.toString();
+              pxml.@driver=s11.text.toString();
+              sc.appendChild(pxml);
+              }
+                 //source4           
+              if(ss1.text!=""){
+		     	if(ss2.text=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(ss3.text=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(ss4.text=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source4;
+              pxml.@url=ss1.text.toString();
+              pxml.@password=ss2.text.toString();
+              pxml.@username=ss3.text.toString();
+              pxml.@driver=ss4.text.toString();
+              sc.appendChild(pxml);
+              }
+              //source5
+             if(sss1.text!=""){
+		     	if(sss2.text=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(sss3.text=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(sss4.text=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source5;
+              pxml.@url=sss1.text.toString();
+              pxml.@password=sss2.text.toString();
+              pxml.@username=sss3.text.toString();
+              pxml.@driver=sss4.text.toString();
+              sc.appendChild(pxml);
+              }  
+              //source6
+             if(sss0.text!=""){
+		     	if(sss5.text=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(sss6.text=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(sss7.text=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source6;
+              pxml.@url=sss0.text.toString();
+              pxml.@password=sss6.text.toString();
+              pxml.@username=sss5.text.toString();
+              pxml.@driver=sss7.text.toString();
+              sc.appendChild(pxml);
+              }             
+              
+          
+            
+               
+		      sqlxml=<sql>{a1+sqltext.text+a2+a3}</sql>
+		      sqlxml.@id=sqlid;
+		      sc.appendChild(sqlxml);
+		      
+		     
+		      
+		      outxml=<out></out>
+		      outxml.@id="outid";
+		      outxml.@sourceid=outdataid.selectedItem.data;
+		      outxml.@sqlid=sqlid;
+		      sc.appendChild(outxml);
+		      
+		      
+		         
+		     
+		      if(i!=0){
+		      inxml=<in></in>
+		      inxml.@id="in1";
+		      inxml.@outid="outid";
+		      inxml.@tosourceid=indataid.selectedItem.data;
+		      inxml.@commit=100;
+		      sc.appendChild(inxml);
+		      if(j!=0)
+		      {
+		      	for(var q:int=0;q<j;q++){
+		      	columnrefxml=<columnref></columnref>
+		      	columnrefxml.@name=incolumnref(fc1.getChildAt(q)).biaoming.selectedItem.toString()+"."+incolumnref(fc1.getChildAt(q)).ziduanming.selectedItem.toString();
+		      	columnrefxml.@refertoname=incolumnref(fc1.getChildAt(q)).ziduanming0.selectedItem.toString();
+		      	if(incolumnref(fc1.getChildAt(q)).dorpb==false){
+		      	inxml.appendChild(columnrefxml);
+		      	}
+		      	  }
+		      }
+		      
+		      if(i!=0)
+		      {
+		      	for(var w:int=0;w<i;w++){
+		      	columnxml=<column>{a1+incolumn(fc.getChildAt(w)).jiaoben.text.toString()+a2+a3}</column>
+		      	columnxml.@name=incolumn(fc.getChildAt(w)).biaoming.selectedItem.toString()+"."+incolumn(fc.getChildAt(w)).ziduanming.selectedItem.toString();
+		      	columnxml.@outname=incolumn(fc.getChildAt(w)).yuanziduan.text.toString();
+		      	columnxml.@type=incolumn(fc.getChildAt(w)).leixing.text.toString();
+		      	if(incolumn(fc.getChildAt(w)).dorpa==false){
+		      	inxml.appendChild(columnxml);
+		      	}
+		      	}
+		      }
+		      }
+		        
+//		      if(h!=0)
+//		      {
+//		      inxml1=<in></in>
+//		      inxml1.@id="in2";
+//		      inxml1.@outid=outid;
+//		      inxml1.@tosourceid=source5;
+//		      inxml1.@commit=100;
+//		      sc.appendChild(inxml1);
+//		      if(t!=0)
+//		      {
+//		      	if(h!=0)
+//		      {
+//		      	for(var g:int=0;g<i;g++){
+//		      	columnxml1=<column>{a1+incolumn(fc0.getChildAt(g)).jiaoben.text.toString()+a2+a3}</column>
+//		      	columnxml1.@name=incolumn(fc0.getChildAt(g)).ziduan.text.toString();
+//		      	columnxml1.@outname=incolumn(fc0.getChildAt(g)).yuanziduan.text.toString();
+//		      	columnxml1.@type=incolumn(fc0.getChildAt(g)).leixing.selectedItem.toString()
+//		      	inxml1.appendChild(columnxml1);
+//		      	}
+//		      }
+//		      	for(var k:int=0;k<j;k++){
+//		      	columnrefxml1=<columnref></columnref>
+//		      	columnrefxml1.@name=incolumnref(fcc0.getChildAt(k)).ziduan.text.toString();
+//		      	columnrefxml1.@refertoname=incolumnref(fcc0.getChildAt(k)).yuanziduan.text.toString();;
+//		      	inxml1.appendChild(columnrefxml1);
+//		      	  }
+//		      }   
+//		      }
+		      
+//		  	if(tid1!=0)
+//		      {
+//		      inxml2=<in></in>
+//		      inxml2.@id="in3";
+//		      inxml2.@outid=outid;
+//		      inxml2.@tosourceid=source6;
+//		      inxml2.@commit=100;
+//		      sc.appendChild(inxml2);
+//		      if(tid1!=0)
+//		      {
+//		      	for(var y:int=0;y<i;y++){
+//		      	col=<column>{a1+incolumn(fc2.getChildAt(y)).jiaoben.text.toString()+a2+a3}</column>
+//		      	col.@name=incolumn(fc2.getChildAt(y)).ziduan.text.toString();
+//		      	col.@outname=incolumn(fc2.getChildAt(y)).yuanziduan.text.toString();
+//		      	col.@type=incolumn(fc2.getChildAt(y)).leixing.selectedItem.toString()
+//		      	inxml2.appendChild(col);
+//		      	}
+//		      }
+//		      if(tid2!=0)
+//		      {
+//		      	for(var u:int=0;k<j;u++){
+//		      	col1=<columnref></columnref>
+//		      	col1.@name=incolumnref(fcc1.getChildAt(u)).ziduan.text.toString();
+//		      	col1.@refertoname=incolumnref(fcc1.getChildAt(u)).yuanziduan.text.toString();;
+//		      	inxml2.appendChild(col1);
+//		      	  }
+//		      }
+//		      }
+		    
+              Savef.rewriteText1(BIid.xmlid,cname.text.toString(),sc.toXMLString());
+               Alert.show("完成!");
+              var o:Object= this.parent.getChildByName("dmMain");
+       	      vs.selectedChild=o as Canvas; 
+              
+		}
+		 public function  Savefile1(event:ResultEvent):void{
+          
+	    }
+	     public function  help():void{
+	            var url:String="http://127.0.0.1:8080/SpeedyForm_v1.3/Help.html";  
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request,"_blank"); 
+	     }
+	     public function clickbttcannel():void
+            {    
+             var o:Object= this.parent.getChildByName("dmMain");
+       	     vs.selectedChild=o as Canvas; 
+       	     
+            }
+	]]>
+</mx:Script>
+<mx:RemoteObject id="Savef" destination="savexmlfile" showBusyCursor="true" result="Savefile1(event)" />
+		<mx:Panel y="0" width="100%" height="100%" layout="absolute" title="数据迁移修改" fontSize="18" horizontalCenter="0">
+		<mx:Label x="11" y="48" text="数据源1" fontSize="12"/>
+		<mx:Label x="10" y="164" text="数据源4" fontSize="12"/>
+		<mx:Label x="10" y="201" text="数据源5" fontSize="12"/>
+		<mx:Label x="91" y="43" text="URL"/>
+		<mx:Label x="91" y="161" text="URL"/>
+		<mx:Label x="91" y="196" text="URL"/>
+		<mx:TextInput x="138" y="41" id="s1" width="317" tabIndex="1"/>
+		<mx:TextInput x="139" y="159" id="ss1" width="317" tabIndex="13"/>
+		<mx:TextInput x="140" y="194" id="sss1" width="317" tabIndex="17"/>
+		<mx:Label x="465" y="40" text="帐号"/>
+		<mx:Label x="465" y="160" text="帐号"/>
+		<mx:Label x="465" y="195" text="帐号"/>
+		<mx:Label x="693" y="40" text="密码"/>
+		<mx:Label x="693" y="158" text="密码"/>
+		<mx:Label x="693" y="195" text="密码"/>
+		<mx:Label x="923" y="40" text="驱动"/>
+		<mx:Label x="923" y="158" text="驱动"/>
+		<mx:Label x="923" y="195" text="驱动"/>
+		<mx:TextInput x="524" y="40" width="147" id="s2" tabIndex="2"/>
+		<mx:TextInput x="524" y="158" width="147" id="ss2" tabIndex="14"/>
+		<mx:TextInput x="524" y="195" width="147" id="sss2" tabIndex="18"/>
+		<mx:TextInput x="754" y="40" width="147" id="s3" tabIndex="3"/>
+		<mx:TextInput x="754" y="158" width="147" id="ss3" tabIndex="15"/>
+		<mx:TextInput x="754" y="195" width="147" id="sss3" tabIndex="19"/>
+		<mx:TextInput x="984" y="40" width="147" id="s4" tabIndex="4"/>
+		<mx:TextInput x="984" y="158" width="147" id="ss4" tabIndex="16"/>
+		<mx:TextInput x="984" y="195" width="147" id="sss4" tabIndex="20"/>
+		<mx:Label x="10" y="268" text="SQL语句" fontSize="12"/>
+		<mx:Label x="10" y="451" text="数据库" fontSize="12"/>
+		<mx:Button x="91" y="449" label="写入字段" click="{columnclick()}" id="fcc" fontSize="12"/>
+		<mx:Button x="197" y="449" label="引用写入字段"  click="{columnclickref()}" id="fcr" fontSize="12"/>
+		<mx:Canvas x="91" y="507" width="615" height="237" id="fc" fontSize="12" horizontalScrollPolicy="off">
+		</mx:Canvas>
+		<mx:Button x="693" y="10" label="提交" click="{test1()}" fontSize="12"/>
+		<mx:Canvas x="714" y="507" width="465" height="237" id="fc1" horizontalScrollPolicy="off" >
+		</mx:Canvas>
+		<mx:Label x="12" y="87" text="数据源2" fontSize="12"/>
+		<mx:Label x="89" y="82" text="URL"/>
+		<mx:TextInput x="138" y="80" id="s0" width="317" tabIndex="5"/>
+		<mx:Label x="463" y="79" text="帐号"/>
+		<mx:Label x="691" y="79" text="密码"/>
+		<mx:Label x="921" y="79" text="驱动"/>
+		<mx:TextInput x="524" y="79" width="147" id="s5" tabIndex="6"/>
+		<mx:TextInput x="752" y="79" width="147" id="s6" tabIndex="7"/>
+		<mx:TextInput x="982" y="79" width="147" id="s7" tabIndex="8"/>
+		<mx:Label x="12" y="127" text="数据源3" fontSize="12"/>
+		<mx:Label x="89" y="122" text="URL"/>
+		<mx:TextInput x="138" y="120" id="s8" width="317" tabIndex="9"/>
+		<mx:Label x="463" y="119" text="帐号"/>
+		<mx:Label x="691" y="119" text="密码"/>
+		<mx:Label x="921" y="119" text="驱动"/>
+		<mx:TextInput x="524" y="119" width="147" id="s9" tabIndex="10"/>
+		<mx:TextInput x="752" y="119" width="147" id="s10" tabIndex="11"/>
+		<mx:TextInput x="982" y="119" width="147" id="s11" tabIndex="12"/>
+		<mx:Label x="10" y="236" text="数据源6" fontSize="12"/>
+		<mx:Label x="91" y="231" text="URL"/>
+		<mx:TextInput x="140" y="229" id="sss0" width="317" tabIndex="21"/>
+		<mx:Label x="465" y="230" text="帐号"/>
+		<mx:Label x="693" y="230" text="密码"/>
+		<mx:Label x="923" y="230" text="驱动"/>
+		<mx:TextInput x="524" y="230" width="147" id="sss5" tabIndex="22"/>
+		<mx:TextInput x="754" y="230" width="147" id="sss6" tabIndex="23"/>
+		<mx:TextInput x="984" y="230" width="147" id="sss7" tabIndex="24"/>
+		<mx:TextArea x="91" y="269" id="sqltext" width="1038" height="95" tabIndex="25"/>
+		<mx:ComboBox x="91" y="382" dataProvider="{skinCollection}" prompt="请选择数据源" id="outdataid" tabIndex="26"></mx:ComboBox>
+		<mx:ComboBox x="367" y="385" dataProvider="{skinCollection}" prompt="请选择数据源" id="indataid" tabIndex="27"></mx:ComboBox>
+		<mx:Label x="10" y="391" text="out配置" fontSize="12"/>
+		<mx:Label x="282" y="391" text="in配置" fontSize="12"/>
+		<mx:LinkButton x="1139" y="38" label="帮助" click="{help()}"/>
+		<mx:Label x="10" y="12" text="名称" fontSize="12"/>
+		<mx:Label x="299" y="12" text="中文名称" fontSize="12"/>
+		<mx:TextInput x="91" y="10" id="ename" fontSize="12"/>
+		<mx:TextInput x="384" y="10" fontSize="12" width="287" id="cname"/>
+		<mx:Button x="763" y="10" label="取消" width="52"  fontSize="12" click="{clickbttcannel()}" />
+	</mx:Panel>
+	<mx:ArrayCollection id="skinCollection">
+      <mx:Object label="数据源1" data="source1"/>
+      <mx:Object label="数据源2" data="source2"/>
+      <mx:Object label="数据源3" data="source3"/>
+      <mx:Object label="数据源4" data="source4"/>
+      <mx:Object label="数据源5" data="source5"/>
+      <mx:Object label="数据源6" data="source6"/>
+    </mx:ArrayCollection>
+</mx:Canvas>

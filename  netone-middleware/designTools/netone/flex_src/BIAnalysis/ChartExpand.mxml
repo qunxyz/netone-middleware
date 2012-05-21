@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" 
+    initialize="initData()"   creationComplete="ccl()"
+	width="100%" height="100%" xmlns:local="*"  fontSize="15"  xmlns:BIAnalysis="BIAnalysis.*"
+	xmlns:BI="BI.*" xmlns:components="com.webgriffe.components.*" xmlns:components1="BI.components.*">
+    	   	<mx:Script>
+		<![CDATA[
+			import BI.BIid;
+			import framework.variable;
+			import BI.EvTijiao;
+			import BI.EvTjFs;
+			import BIAnalysis.PredictiveAnalysis;
+			import mx.containers.ViewStack;
+			import mx.containers.Panel;
+			import mx.controls.DateField;
+			import BI.components.TreeComboBoxEvent;
+			import mx.events.ListEvent;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import ActionForm.vivid;
+			import mx.rpc.events.ResultEvent;
+			import mx.managers.PopUpManager;
+            [Bindable] //获取父级中ViewStack的id
+            public var vs:ViewStack;
+	   		  [Bindable]//textpath
+	   		public var textpath:String;
+	   		 [Bindable]
+	   		 public var extctedChildStr:String;
+			public function initData():void
+			{
+			   textpath="路径： "+BIData.URLname+" 第5步，共9步"; 
+				 vs=this.parent as ViewStack; 
+				EvTjFs.getInstance().addEventListener("AddData",AddData);
+			}
+			//组件初花完执行的代码、
+			public function ccl():void{
+			 if(!BIData.modeltype){
+              var xml:XML=BIData.controlxml;
+              var xmllist:XMLList=new XMLList(xml.child("Graphic"));
+              extctedChildStr=xmllist[0];
+             }
+			 
+			}
+			//添加 数据
+			public function AddData(event:MouseEvent):void{
+			extctedChildStr=Lbottontext.text+BIid.extendsource;
+			}
+			
+        //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ChartDimensionality1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+                BIData.kuozhantiaojian=Lbottontext.text.toString();
+            	var o:Object=this.parent.getChildByName("ChartIndex1");
+                vs.selectedChild=o as Canvas; 
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+      
+      
+  ]]>
+	</mx:Script>
+    <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="切片维度扩展"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="图表制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置切片维度的扩展属性, 然后单击“确定”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="865" height="297"  x="114" y="225" fontSize="20"  >  
+    	   <mx:Label x="10" y="10" text="切片扩展条件:" fontWeight="bold"/>
+    	   	<mx:Canvas x="10" y="52" width="393" height="185">
+    	   	<BIAnalysis:SliceExpansionConditions id="SliceExpansionConditions1" width="393" height="181" x="0" y="0"/>
+    	   	</mx:Canvas>
+    	   	<mx:Label  fontWeight="bold" text="条件语句：" width="173" x="434" y="10"/>
+    	   	<mx:TextArea id="Lbottontext" text="{extctedChildStr}" width="393" height="90" x="434" y="52"/>  	  
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 	    
+    	    
+</mx:Canvas>

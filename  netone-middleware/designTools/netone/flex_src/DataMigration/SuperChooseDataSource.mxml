@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  width="100%" height="100%" xmlns:ns1="DataMigration.*" initialize="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.core.IFlexDisplayObject;
+			import framework.SelectTree;
+			import framework.variable;
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import mx.managers.PopUpManager;
+			import BI.EvTjFs;
+			import flash.net.navigateToURL;
+              [Bindable]//绑定是哪个数据源
+	         public static var indexID:String;
+          
+             [Bindable]//绑定是哪个数据源
+	         public static var arr1:String;
+	          [Bindable]//绑定是哪个数据源
+	         public static var arr2:String;
+	          [Bindable]//绑定是哪个数据源
+	         public static var arr3:String;
+	          [Bindable]//绑定是哪个数据源
+	         public static var arr0:String;
+	         [Bindable]
+	        public var vs:ViewStack;
+	         [Bindable]
+	         public var textpath:String;   
+         public  function init():void //初始化的方法
+         {
+         	vs=this.parent as ViewStack;
+         	variable.modelname="Data1";
+          EvTjFs.getInstance().addEventListener("xiayibu",XiYiBu);
+          EvTjFs.getInstance().addEventListener("选择驱动",xuanzhequdong);
+           textpath="路径： "+MigrationData.URLname+" 第2步，共5步";
+         }
+         
+         public function UPNode(event:MouseEvent):void
+         {
+         	var o:Object=this.parent.getChildByName("FoundResource1");
+            vs.selectedChild=o as Canvas;
+         }
+         public function DownNode(event:MouseEvent):void{
+         	 if(MigrationData.Dataarr!=null){
+         	if( MigrationData.Dataarr.length<2){
+         	 Alert.show("请选择两个数据源");
+         	}else{  
+         	var o:Object=this.parent.getChildByName("SQLStatement1");
+            vs.selectedChild=o as Canvas;
+           	}
+          	}else{
+          	Alert.show("请选择两个数据源");
+          	}  
+         }
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+          }
+         public function  xuanzhequdong(event:MouseEvent):void{
+          if(indexID=="Data1"){
+		       	A1.text=arr1;
+	            A2.text=arr2;
+				A3.text=arr3;
+				A4.text=arr0; 
+			     return;
+	       	     }if(indexID=="Data2"){
+		       	  B1.text=arr1;
+	              B2.text=arr2;
+				  B3.text=arr3;
+				  B4.text=arr0; 
+			     return;
+	       	     }if(indexID=="Data3"){
+		       	  C1.text=arr1;
+	              C2.text=arr2;
+				  C3.text=arr3;
+				  C4.text=arr0; 
+			     return;
+	       	     }if(indexID=="Data4"){
+		       	  D1.text=arr1;
+	              D2.text=arr2;
+				  D3.text=arr3;
+				  D4.text=arr0; 
+			     return;
+	       	     }if(indexID=="Data5"){
+		       	  E1.text=arr1;
+	              E2.text=arr2;
+				  E3.text=arr3;
+				  E4.text=arr0; 
+			     return;
+	       	     }if(indexID=="Data6"){
+		       	  F1.text=arr1;
+	              F2.text=arr2;
+				  F3.text=arr3;
+				  F4.text=arr0; 
+			     return;
+	       	     }
+             }
+         
+               public function XiYiBu(event:MouseEvent):void{ // 事件发生接受的方法
+	             var arr:ArrayCollection=new ArrayCollection(); 
+	                    //驱动A的数据
+	                  if(A1.text!=null && A1.text!="" && A2.text!=null && A2.text!="" &&A3.text!=null && A3.text!="" && A4.text!=null && A4.text!=""  ){
+	                   MigrationData.AurlString=A1.text; 
+				       MigrationData.Ausername=A2.text;
+				       MigrationData.Apwd=A3.text
+				       MigrationData.Adriver=A4.text;
+				       arr.addItem("数据源1");
+				       }
+				      //驱动B的数据
+				       if(B1.text!=null && B1.text!="" && B2.text!=null && B2.text!="" && B3.text!=null && B3.text!="" && B4.text!=null && B4.text!=""  ){
+			 	      MigrationData.BurlString=B1.text;
+			          MigrationData.Busername=B2.text;
+			          MigrationData.Bpwd=B3.text
+			          MigrationData.Bdriver=B4.text;
+			          arr.addItem("数据源2");
+			         }
+			          //驱动C的数据
+			          if(C1.text!=null && C1.text!="" && C2.text!=null && C2.text!="" && C3.text!=null && C3.text!="" && C4.text!=null && C4.text!=""  ){
+				      MigrationData.CurlString=C1.text;
+			          MigrationData.Cusername=C2.text;
+			          MigrationData.Cpwd=C3.text
+			          MigrationData.Cdriver=C4.text;
+			          arr.addItem("数据源3");
+			         }
+			          //驱动D的数据
+			      if(D1.text!=null && D1.text!="" && D2.text!=null && D2.text!="" && D3.text!=null && D3.text!="" && D4.text!=null && D4.text!=""  ){
+				      MigrationData.DurlString=D1.text;
+			          MigrationData.Dusername=D2.text;
+			          MigrationData.Dpwd=D3.text
+			          MigrationData.Ddriver=D4.text;
+			           arr.addItem("数据源4");
+			      }
+					  //驱动E的数据
+					 if(E1.text!=null && E1.text!="" && E2.text!=null && E2.text!="" && E3.text!=null && E3.text!="" && E4.text!=null && E4.text!=""  ){
+
+				      MigrationData.EurlString=E1.text;
+			          MigrationData.Eusername=E2.text;
+			          MigrationData.Epwd=E3.text
+			          MigrationData.Edriver=E4.text;
+			           arr.addItem("数据源5");
+			       }
+			         //驱动F的数据
+			          if(F1.text!=null && F1.text!="" && F2.text!=null && F2.text!="" && F3.text!=null && F3.text!="" && F4.text!=null && F4.text!=""  ){
+
+				      MigrationData.FurlString=F1.text;
+			          MigrationData.Fusername=F2.text;
+			          MigrationData.Fpwd=F3.text
+			          MigrationData.Fdriver=F4.text;
+			           arr.addItem("数据源6");
+			          }
+			           MigrationData.Dataarr=arr;
+	       }
+        
+          public function xuanzhequdong1():void{ //选择数据源的点击事件 数据源1
+               indexID="Data1"; 
+			   var sf:SelectTree=new SelectTree();
+			  PopUpManager.addPopUp(sf,this,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);  
+            }
+            public function xuanzhequdong2():void{ //选择数据源的点击事件 数据源2
+               indexID="Data2"; 
+			   var sf:SelectTree=new SelectTree();
+			  PopUpManager.addPopUp(sf,this,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);
+            }
+            public function xuanzhequdong3():void{ //选择数据源的点击事件 数据源3
+              indexID="Data3"; 
+			   var sf:SelectTree=new SelectTree();
+			  PopUpManager.addPopUp(sf,this,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);
+            }
+            public function xuanzhequdong4():void{ //选择数据源的点击事件 数据源4
+         	    indexID="Data4"; 
+			   var sf:SelectTree=new SelectTree();
+			  PopUpManager.addPopUp(sf,this,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);
+            }
+            public function xuanzhequdong5():void{ //选择数据源的点击事件 数据源5
+              indexID="Data5"; 
+			   var sf:SelectTree=new SelectTree();
+			  PopUpManager.addPopUp(sf,this,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);
+            }
+            public function xuanzhequdong6():void{ //选择数据源的点击事件 数据源6
+               indexID="Data6"; 
+			   var sf:SelectTree=new SelectTree();
+			  PopUpManager.addPopUp(sf,this,true); 
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);
+            }
+   
+		]]>
+	</mx:Script>
+	<mx:Canvas width="100%" height="199" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="数据源驱动"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="数据迁移" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148"  text="帮助提示:从以下六个组中选择驱动至少要选择两个, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="100%" height="347"  x="0" y="207">
+		<mx:Canvas y="10" width="100%" height="337"   fontSize="18" horizontalCenter="0">
+		<mx:Label x="1" y="18" text="数据源1" fontSize="15" fontWeight="bold"/>
+		<mx:Label x="0" y="161" text="数据源4" fontSize="15" fontWeight="bold"/>
+		<mx:Label x="0" y="209" text="数据源5" fontSize="15" fontWeight="bold"/>
+		<mx:Label x="81" y="13" text="URL"/>
+		<mx:Label x="81" y="158" text="URL"/>
+		<mx:Label x="81" y="204" text="URL"/>
+		<mx:TextInput x="128" y="11"  id="A1" width="317" tabIndex="1"/>
+		<mx:TextInput x="129" y="156" id="D1" width="317" tabIndex="13"/>
+		<mx:TextInput x="130" y="202" id="E1" width="317" tabIndex="17"/>
+		<mx:Label x="455" y="10" text="帐号"/>
+		<mx:Label x="455" y="157" text="帐号"/>
+		<mx:Label x="455" y="203" text="帐号"/>
+		<mx:Label x="683" y="10" text="密码"/>
+		<mx:Label x="683" y="155" text="密码"/>
+		<mx:Label x="683" y="203" text="密码"/>
+		<mx:Label x="913" y="10" text="驱动"/>
+		<mx:Label x="913" y="155" text="驱动"/>
+		<mx:Label x="913" y="203" text="驱动"/>
+		<mx:TextInput x="514" y="10" width="147" id="A2" tabIndex="2"/>
+		<mx:TextInput x="514" y="155" width="147" id="D2" tabIndex="14"/>
+		<mx:TextInput x="514" y="203" width="147" id="E2" tabIndex="18"/>
+		<mx:TextInput x="744" y="10" width="147" id="A3" tabIndex="3"/>
+		<mx:TextInput x="744" y="155" width="147" id="D3" tabIndex="15"/>
+		<mx:TextInput x="744" y="203" width="147" id="E3" tabIndex="19"/>
+		<mx:TextInput x="974" y="10" width="147" id="A4" tabIndex="4"/>
+		<mx:TextInput x="974" y="155" width="147" id="D4" tabIndex="16"/>
+		<mx:TextInput x="974" y="203" width="147" id="E4" tabIndex="20"/>
+		<mx:Label x="2" y="64" text="数据源2" fontSize="15" fontWeight="bold" fontStyle="normal"/>
+		<mx:Label x="79" y="58" text="URL"/>
+		<mx:TextInput x="128" y="59" id="B1" width="317" tabIndex="5"/>
+		<mx:Label x="453" y="58" text="帐号"/>
+		<mx:Label x="681" y="58" text="密码"/>
+		<mx:Label x="911" y="58" text="驱动"/>
+		<mx:TextInput x="514" y="58" width="147" id="B2" tabIndex="6"/>
+		<mx:TextInput x="742" y="58" width="147" id="B3" tabIndex="7"/>
+		<mx:TextInput x="972" y="58" width="147" id="B4" tabIndex="8"/>
+		<mx:Label x="2" y="116" text="数据源3" fontSize="15" fontWeight="bold"/>
+		<mx:Label x="79" y="111" text="URL"/>
+		<mx:TextInput x="128" y="109" id="C1" width="317" tabIndex="9"/>
+		<mx:Label x="453" y="108" text="帐号"/>
+		<mx:Label x="681" y="108" text="密码"/>
+		<mx:Label x="911" y="108" text="驱动"/>
+		<mx:TextInput x="514" y="108" width="147" id="C2" tabIndex="10"/>
+		<mx:TextInput x="742" y="108" width="147" id="C3" tabIndex="11"/>
+		<mx:TextInput x="972" y="108" width="147" id="C4" tabIndex="12"/>
+		<mx:Label x="0" y="250" text="数据源6" fontSize="15" fontWeight="bold"/>
+		<mx:Label x="81" y="245" text="URL"/>
+		<mx:TextInput x="130" y="243" id="F1" width="317" tabIndex="21"/>
+		<mx:Label x="455" y="244" text="帐号"/>
+		<mx:Label x="683" y="244" text="密码"/>
+		<mx:Label x="913" y="244" text="驱动"/>
+		<mx:TextInput x="514" y="244" width="147" id="F2" tabIndex="22"/>
+		<mx:TextInput x="744" y="244" width="147" id="F3" tabIndex="23"/>
+		<mx:TextInput x="974" y="244" width="147" id="F4" tabIndex="24"/>
+		<mx:Button x="1142" y="10"  label="选择驱动"  click="{xuanzhequdong1()}"/>
+		<mx:Button x="1142" y="58" label="选择驱动"  click="{xuanzhequdong2()}"/>
+		<mx:Button x="1142" y="106" label="选择驱动"  click="{xuanzhequdong3()}"/>
+		<mx:Button x="1142" y="155" label="选择驱动"  click="{xuanzhequdong4()}"/>
+		<mx:Button x="1142" y="203" label="选择驱动"  click="{xuanzhequdong5()}"/>
+		<mx:Button x="1142" y="244" label="选择驱动"  click="{xuanzhequdong6()}"/>
+	</mx:Canvas>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" xmlns:ns1="framework.*"        
+      xmlns:ns2="PolymerizationShow.*" fontSize="12"  width="100%" height="300"  scroll="guendongtiao()">
+  <mx:Script>
+  	<![CDATA[
+  		import BI.EvTijiao;
+  		import BI.EvTjFs;
+  		import mx.core.IFlexDisplayObject;
+  		import mx.managers.PopUpManager;
+  		import mx.events.ScrollEvent;
+  		import mx.events.FlexEvent;
+  		import mx.logging.ILogger;
+  		import com.blitzagency.xray.logger.Log;
+  		import com.blitzagency.xray.logger.Logger;
+  		import mx.containers.TitleWindow;
+  		import mx.containers.ViewStack;
+  		import ActionForm.From.com.hitb.util.GlobalManager;
+  		import mx.controls.Button;
+  		import mx.collections.ArrayCollection;
+  		import mx.rpc.events.ResultEvent;
+  		import mx.controls.Alert;
+  	      [Bindable]
+  	      public var params:Object;
+  	       [Bindable]
+  	       public var folwID:String;//绑定流程ID
+  	       public var r:URL1;
+  	       
+  	       [Bindable]//节点上的数据
+  	       public var Nodearr:ArrayCollection=new ArrayCollection();
+  	       [Bindable]//text上的提示绑定
+  	       public var text:String;
+  	        [Bindable]//text上的提示绑定节点name
+  	       public var Nodename:String;
+  	       [Bindable]//当前节点的
+  	       public var index:int=1;
+  	       [Bindable]
+  	       public var Ylable:int=0;
+  	       [Bindable]
+  	       public  var showinterface:ShowInterface; 	        
+  	       [Bindable]
+  	       public var vs:ViewStack;
+  	       [Bindable]
+  	       public var URL:String="";
+  	    public function init():void{ //初始化的方法
+  	     EvTjFs.getInstance().addEventListener("xianshigongzuoliu",xianshigongzuoliu);
+  	        AddButton();//添加下一个节点
+  	    	r=new URL1();
+     	    r.init();
+  	           var args:Object = getParams();    
+	           	 if(args.naturalname != null ) {
+	           	 	folwID=args.naturalname;  
+                    showdate2.QueryNode(folwID);
+	             } 
+	             vs=this.parent as ViewStack;
+	           GlobalManager.getInstance().addEventListener("quanping",Chartshow);
+  	    }
+ 
+  		private function getParams():Object {  //获取URL上的数据
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+         
+      public function  xianshigongzuoliu(event:MouseEvent):void{
+      	       
+               if(MoveAssembly1.x==this.width-80){
+               	myMove.end();
+                myMove.xTo=0; 
+                myMove.play();
+               	for(var i:int=0;i<Datashow.xiaokongjian.length;i++){
+                ExternalInterface.call("zIndex",PanelShow(Datashow.xiaokongjian[i]).id+"0","-1"); 
+               	}
+               } else{
+               	myMove.end();
+                myMove.xTo=this.width-80; 
+                myMove.play();
+                for(var j:int=0;j<Datashow.xiaokongjian.length;j++){
+                	var jindex:String=String(j+1);
+                  ExternalInterface.call("zIndex",Datashow.xiaokongjian[j].id+"0","1"); 
+               	}
+               }
+			
+      }
+        
+         //查询出来的全部节点数据
+         public function NodeDate(event:ResultEvent):void
+         {
+         	 Nodearr=event.result as  ArrayCollection;
+              URL=folwID; 
+         	  text="路径："+folwID+"  共"+Nodearr[0].ou+"节点";
+         	  Nodename=Nodearr[0].name;
+         	  showinterface=new ShowInterface();
+         	  showinterface.x=0;
+         	  showinterface.y=0;
+         	  showinterface.percentHeight=100;
+         	  showinterface.percentWidth=100;        	
+         	  showinterface.NodeID=Nodearr[0].naturalname;
+         	  showinterface.folwID=folwID;
+         	  Datashow.Nodename=Nodearr[0].name;
+         	  palen.addChild(showinterface);
+         	 for(var i:int;i<Nodearr.length;i++){
+              
+         	 }
+         }
+          public function AddButton():void{
+          	var button:Button=new Button();
+          	button.x=0;
+          	button.y=0;
+          	button.label="下一节点";
+            button.addEventListener(MouseEvent.CLICK,DownNode);
+          	button.percentHeight=100;
+          	button.percentWidth=100;
+          	Down.addChild(button);
+          	
+          	var button1:Button=new Button();
+          	button1.x=0;
+          	button1.y=0;
+          	button1.label="下一节点";
+            button1.addEventListener(MouseEvent.CLICK,DownNode);
+          	button1.percentHeight=100;
+          	button1.percentWidth=100;
+          	Down1.addChild(button1);
+          }
+          
+         public function DownNode(event:MouseEvent):void{
+         	 if(Nodearr[0].ou==1){
+         	 	Down.removeAllChildren();
+         	 	Down1.removeAllChildren();
+         	 }else{
+         	  Datashow.NodeID=Nodearr[index].naturalname;
+         	 
+         	  showinterface.Done(); 	  
+         	 Up.removeAllChildren();
+         	 if(index-1<Nodearr[0].ou){
+         	   index++;
+               text="路径："+folwID+"  共"+Nodearr[0].ou+"节点";
+         	   Nodename=Nodearr[index-1].name;
+         	  }
+         	  Datashow.Nodename=Nodename;
+         	  if(index==Nodearr[0].ou){
+         	  Down.removeAllChildren();
+         	  Down1.removeAllChildren();
+         	  Up.x=this.width-300;
+         	  }
+         	  }
+         }
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+         }
+         
+         //双击方法
+       public function Chartshow(event:PolymerizeEvent):void{
+       	 ExternalInterface.call("zIndex", "iFrame10","-1"); 
+        var o:Object=this.parent.getChildByName("InterstitialShow1");
+        InterstitialShow(o).url=event.Urlstr;
+        EvTjFs.getInstance().dispatchEvent(new EvTijiao("URLshuanxin",event.Urlstr));
+        vs.selectedChild=o as TitleWindow;
+  		}
+  
+		public function guendongtiao():void{
+		//EvTjFs.getInstance().dispatchEvent(new MouseEvent("shuanxin"));
+    
+        } 
+        private function moveIFrame(): void {    
+		    var localPt:Point = new Point(0, 0);    
+		    var globalPt:Point = this.localToGlobal(localPt);  
+		    ExternalInterface.call("zIndex", "iFrame10","1");   
+		    ExternalInterface.call("moveIFrame","iFrame10","iframe_iFrame10",0,palen.y+palen.height, this.width, 400);    
+		}    
+          
+       
+		  	]]>
+  </mx:Script>
+
+   <mx:RemoteObject  id="showdate2" destination="ShowDate1" result="NodeDate(event)" showBusyCursor="true">
+   </mx:RemoteObject>
+    <ns2:MoveAssembly id="MoveAssembly1" Urltext="{URL}" x="{this.width-80}" y="138" width="100%" height="380">   	
+    </ns2:MoveAssembly>
+
+ 	<mx:Move id="myMove" target="{MoveAssembly1}"/>
+ 	
+ 	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Canvas id="Down" x="{this.width-300}" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Canvas id="Up" x="{this.width-400}" y="66"  height="28" width="97"/>
+		<mx:Label id="lable" x="107" y="71" text="{text}"   width="575" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" text="{Nodename}" fontSize="15" fontWeight="bold" color="#53585C"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="聚合展示" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:如果分析完节点进入, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  id="palen"  x="34" y="197" width="100%" height="336">
+	</mx:Canvas >
+ 	 <mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+        <mx:Canvas id="Down1" x="{this.width-300}" y="560" height="28" width="97" fontSize="12"  />
+        <mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

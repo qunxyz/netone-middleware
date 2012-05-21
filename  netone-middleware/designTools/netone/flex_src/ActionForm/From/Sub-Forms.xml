@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMLList id="content">
+          <moshi name="1">集成展示—多条子表单</moshi>
+          <moshi name="2">链接展示—多条子表单</moshi>
+          <moshi name="3">链接展示—单条子表单</moshi>
+          <moshi name="4">集成展示—单条子表单</moshi>
+          <moshi name="5">集成展示—单条子表单（不显标题）</moshi>
+          <moshi name="6">集成展示-主表单右边表单</moshi>
+          <moshi name="7">集成展示-多条子表单记录(选项卡模式)</moshi>
+          <moshi name="8">集成展示-单条子表单记录(选项卡模式)</moshi>
+</XMLList> 

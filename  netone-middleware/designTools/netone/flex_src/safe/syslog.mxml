@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:ns1="safe.*" >
+   <mx:TitleWindow x="0" y="0" width="100%" height="100%" layout="absolute" title="系统日志" fontSize="15">
+	<mx:Label x="10" y="24" text="账 户:" fontSize="15" width="49"/>
+	<mx:TextInput x="67" y="19"/>
+	<mx:DateField x="454" y="19" width="145"/>
+	<mx:DateField x="274" y="19" width="144"/>
+	<mx:Label x="243" y="21" text="起" fontSize="15"/>
+	<mx:Label x="426" y="19" text="至" fontSize="15"/>
+	<mx:Button x="607" y="19" label="查 询" fontSize="15"/>
+	<mx:Canvas x="0" y="74" width="100%" height="100%">
+
+	<mx:DataGrid x="0" y="0" width="100%" height="400" id="dg">
+		<mx:columns>
+			<mx:DataGridColumn headerText="账户" dataField="name"/>
+			<mx:DataGridColumn headerText="时间" dataField="detail"/>
+			<mx:DataGridColumn headerText="操作" dataField="dep"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<ns1:PageController x="0" y="400" TargetUI="{dg}" PerPage="8">
+	</ns1:PageController>
+   		
+	</mx:Canvas>
+
+	</mx:TitleWindow>
+	<mx:Script>
+		<![CDATA[
+
+		]]>
+	</mx:Script>
+	<mx:ArrayCollection id="arr">
+		<mx:Object>
+			<mx:name>张三</mx:name>			
+			<mx:detail>2007-1-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李四</mx:name>
+			
+			<mx:detail>2007-1-3</mx:detail>
+			<mx:dep>神经病</mx:dep>
+		
+		</mx:Object>
+		<mx:Object>
+			<mx:name>王武</mx:name>
+		
+			<mx:detail>2007-1-11</mx:detail>
+			<mx:dep>技术部</mx:dep>
+			
+		</mx:Object>
+		<mx:Object>
+			<mx:name>赵柳</mx:name>
+			
+			<mx:detail>2007-1-21</mx:detail>
+			<mx:dep>调查部</mx:dep>
+			
+		</mx:Object>
+		<mx:Object>
+			<mx:name>钱启</mx:name>
+		
+			<mx:detail>2007-11-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+		
+		</mx:Object>
+		<mx:Object>
+			<mx:name>张三三</mx:name>
+		
+			<mx:detail>2007-1-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李师师</mx:name>
+		
+			<mx:detail>2007-10-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+		
+		</mx:Object>
+	</mx:ArrayCollection>
+</mx:Canvas>

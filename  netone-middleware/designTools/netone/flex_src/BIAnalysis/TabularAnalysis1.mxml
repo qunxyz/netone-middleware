@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" 
+    initialize="initData()"  
+	width="100%" height="100%" xmlns:local="*"  fontSize="15"  xmlns:BIAnalysis="BIAnalysis.*"
+	xmlns:BI="BI.*" xmlns:components="com.webgriffe.components.*" xmlns:components1="BI.components.*">
+    	   	<mx:Script>
+		<![CDATA[
+			import BI.BIid;
+			import framework.variable;
+			import BI.EvTijiao;
+			import BI.EvTjFs;
+			import BIAnalysis.PredictiveAnalysis;
+			import mx.containers.ViewStack;
+			import mx.containers.Panel;
+			import mx.controls.DateField;
+			import BI.components.TreeComboBoxEvent;
+			import mx.events.ListEvent;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import ActionForm.vivid;
+			import mx.rpc.events.ResultEvent;
+			import mx.managers.PopUpManager;
+			[Bindable]
+			public var tableid:String=null;
+			import mx.utils.ObjectUtil;
+			[Bindable]
+			public var allcolumn:ArrayCollection;
+			[Bindable]
+			public var pxml:XML;
+			public var cxml:XML;
+
+		    public var tArr:Array;
+       	    public var Tableinfo:ArrayCollection=null;
+            public var Tablename:String;
+            public var arrtype:ArrayCollection=new ArrayCollection();
+             //展示数据
+             public var ArrData:ArrayCollection=new ArrayCollection();
+             public var Arrindex:ArrayCollection=new ArrayCollection();
+            [Bindable] //获取父级中ViewStack的id
+            public var vs:ViewStack;
+			
+
+	     [Bindable]
+	     public var xyarr:ArrayCollection;
+	     [Bindable]
+	     public  var paselect:PredictiveAnalysis=new PredictiveAnalysis;
+	     public function xyDir(event:ResultEvent):void
+	     {
+	     	       xyarr= event.result as ArrayCollection;
+	     	       paselect.sarr=xyarr;
+	     }
+
+			public function initData():void
+			{
+				EvTjFs.getInstance().addEventListener("tubiaozhangshi",tubiaozhangshi); 
+				EvTjFs.getInstance().addEventListener("xuanzhiweiduzhi",xuanzhiweiduzhi);
+				 vs=this.parent as ViewStack; 
+			}
+
+			//选择表单上进行图表展示
+			public function tubiaozhangshi(event:EvTijiao):void{
+				if(event.Formcode()!="" ||  event.Formcode()!=null ){
+				  slicingcutter.removeAllChildren();
+				  sarr=new ArrayCollection();
+			      var strform:String=event.Formcode().toString().substring(event.Formcode().toString().indexOf("[")+1,event.Formcode().toString().indexOf("]"));
+				  vivid.formcode=strform;		
+				  BIData.formcode=strform;
+			      getTablenameObject.gettablename(strform);
+				  getWdObject.allColumn(strform);
+				  }
+			}
+			
+			//选择维度值
+			public function xuanzhiweiduzhi(event:EvTijiao):void{
+			BIid.zhiduan=wdValuetext.text;
+			BIData.qiepianweiduzhi=wdValuetext.text;
+			}
+		public var fd:ArrayCollection=new ArrayCollection();
+	    [Bindable]
+	    public var sarr:ArrayCollection;
+	     [Bindable]
+	    public var barr:ArrayCollection=new ArrayCollection();
+		 public function RsColunm(event:ResultEvent):void
+			{
+			 allcolumn=event.result as ArrayCollection;
+	        for(var i:int=0;i<allcolumn.length;i++)
+			{       ArrData.addItem(allcolumn.getItemAt(i));
+					Arrindex.addItem(allcolumn.getItemAt(i).viewtype.toString());
+		           if(allcolumn.getItemAt(i).viewtype.toString()!="01" )
+			        {  
+			        	arrtype.addItem(allcolumn.getItemAt(i).viewtype.toString());
+                        sarr.addItem(allcolumn.getItemAt(i));
+			        }
+			}
+			 for(var j:int=0;j<allcolumn.length;j++)
+			{      
+		           if(allcolumn.getItemAt(j).viewtype.toString()=="01")
+			        {  
+                        barr.addItem(allcolumn.getItemAt(j));
+			        }
+			}
+			  if(allcolumn!=null){
+			         typesource.dataProvider=sarr;          
+              }
+                BIid.columnarr=sarr;
+                BIid.arrbarr=barr;
+                BIid.arrarrtype=arrtype;
+                BIid.ArrData=ArrData;
+                BIid.Arrindex=Arrindex;
+			 	WdValueObject.getData(allcolumn.getItemAt(1).columnid.toString(),Tablename);
+			}
+			
+			[Bindable]
+			 public var Scolunm:String;
+			 [Bindable]
+			 public var typexArr:ArrayCollection=null;
+			public function changevalue():void
+			{    
+			 BIid.nathername=typesource.selectedItem.columnid.toString();
+			 wdValuetext.text=null;
+		     Bxml=<selectxml></selectxml>;
+		     var typearr:ArrayCollection=new ArrayCollection();
+		     typexArr=new ArrayCollection();
+		     for(var j:int=0;j<sarr.length;j++){
+		     typexArr.addItem(sarr.getItemAt(j));
+		     
+		     } 
+			  slicingcutter.removeAllChildren();
+		   
+	       BIid.backstrr=null;
+	       BIid.typecolumnid=typesource.selectedItem.columnid;
+	       
+            var vt:String=typesource.selectedItem.viewtype.toString();
+           
+            if(vt=="17"||vt=="18"||vt=="22"||vt=="23")
+            {   
+                var startindex:int=typesource.selectedItem.valuelist.toString().indexOf("[",0);
+                var endindex:int=typesource.selectedItem.valuelist.toString().indexOf("]",0); 
+                var strstring:String=typesource.selectedItem.valuelist.toString().substring(startindex+1,endindex);
+                BIid.columncode=strstring;
+                 if(vt=="22"||vt=="23")
+                 { 
+                 BIid.sid=1;                 	 
+                 }
+                else
+                {
+                  BIid.sid=0; 
+                 }
+                 //vt 等于17 18 22 23 的ID时候出现SectionDimension这个控件
+                var   sectiondimension:SectionDimension=new SectionDimension();
+                sectiondimension.x=0;
+                sectiondimension.y=0;
+                sectiondimension.percentHeight=100;
+                sectiondimension.percentWidth=100;
+                slicingcutter.addChild(sectiondimension);
+                BIid.columncode=strstring;
+               
+              }
+              else{
+              	BIid.statetype="";
+                   if(vt=="11")
+		             {
+		             	BIid.statetype="11";
+		             }
+              	if(typesource.selectedItem.columnid!="init"){
+                   BIid.Scolunm=typesource.selectedItem.columnid.toString();
+                 }
+                var  sectiondimension1:SectionDimension1=new SectionDimension1();
+                sectiondimension1.x=0;
+                sectiondimension1.y=0;
+                sectiondimension1.percentHeight=100;
+                sectiondimension1.percentWidth=100;
+                slicingcutter.addChild(sectiondimension1);
+                BIData.qiepianweidu=typesource.selectedItem.columnid.toString();
+              }
+            }
+		   [Bindable]
+		   public var Bxml:XML=<selectxml></selectxml>;
+		  [Bindable]
+		  public var sletearr:ArrayCollection=new ArrayCollection();
+			public function wdvalue(event:ResultEvent):void
+			{ 
+                var cxml:XML=null;
+			    sletearr=event.result as ArrayCollection;
+		        for(var k:int=0;k<sletearr.length;k++)
+			    {    
+			    	if(sletearr.getItemAt(k).toString()=="请选择维度值")
+			    	{
+			    	Bxml.@name=sletearr.getItemAt(k).toString();
+			    	}
+			    	cxml=new XML();
+			    	cxml=<Dataxml></Dataxml>;
+			    	if(sletearr.getItemAt(k).toString()!="请选择维度值"){
+			    	cxml.@name=sletearr.getItemAt(k).toString();
+			    	Bxml.appendChild(cxml);
+			    	}
+			    }
+			   
+		
+			}
+			public function gettimevalue(event:ResultEvent):void
+			{
+		        
+			}
+		
+			public var xmlarr:ArrayCollection;
+			[Bindable]
+			public var zbarr:ArrayCollection;
+			public function zbResult(event:ResultEvent):void
+			{   
+			    zbarr=event.result as ArrayCollection;
+				if(vivid.backarr!=null)
+				{ for(var b:int=0;b<vivid.backarr.length;b++)
+				  {
+				       zbarr.addItem(vivid.backarr.getItemAt(b));
+				  } 
+				  vivid.backarr=null;
+				}
+				 pxml=<info></info>;
+			    for(var i:int=0;i<zbarr.length;i++)
+			    {
+					cxml=new XML();
+					cxml=<dsinfo></dsinfo>;
+					if(zbarr.getItemAt(i).xdata!=null)
+					cxml.@x=zbarr.getItemAt(i).xdata.toString();
+					if(zbarr.getItemAt(i).ydata!=null)
+					cxml.@y=zbarr.getItemAt(i).ydata.toString();
+					if(zbarr.getItemAt(i).y1data!=null)
+				    cxml.@y1=zbarr.getItemAt(i).y1data.toString();
+				    if(zbarr.getItemAt(i).y2data!=null)
+				    cxml.@y2=zbarr.getItemAt(i).y2data.toString();
+				    if(zbarr.getItemAt(i).y3data!=null)
+				    cxml.@y3=zbarr.getItemAt(i).y3data.toString();
+				    if(zbarr.getItemAt(i).y4data!=null)
+				    cxml.@y4=zbarr.getItemAt(i).y4data.toString();
+				    if(zbarr.getItemAt(i).y5data!=null)
+				    cxml.@y5=zbarr.getItemAt(i).y5data.toString();
+				    if(zbarr.getItemAt(i).y6data!=null)
+				    cxml.@y6=zbarr.getItemAt(i).y6data.toString();
+				    if(zbarr.getItemAt(i).y7data!=null)
+				    cxml.@y7=zbarr.getItemAt(i).y7data.toString();
+			        pxml.appendChild(cxml);
+				  }
+				//display1View.loadxml(pxml);
+			}
+			 public function clickData(event:ListEvent):void
+			{      
+				   Alert.show(event.itemRenderer.data.@name.toString());
+			}
+
+		  public function getTablename(event:ResultEvent):void
+           {
+           	       Tableinfo=event.result as ArrayCollection;
+           	       Tablename=Tableinfo.getItemAt(0).tablename;      	    
+           	       vivid.Tablename=Tableinfo.getItemAt(0).tablename;
+            }
+
+
+
+      //选择要配置的表单
+      public function  xuanzhebiaodan():void
+      { 
+        var o1:Object= this.parent.getChildByName("FormChoice");
+       	 vs.selectedChild=o1 as Canvas;  
+      }
+  ]]>
+	</mx:Script>
+   <mx:RemoteObject id="getTablenameObject" destination="getwd" result="getTablename(event)" 
+	showBusyCursor="true"/>
+	<mx:RemoteObject id="expendXyObject" destination="getwd" result="xyDir(event)" 
+      showBusyCursor="true"/> 
+	   <mx:RemoteObject id="getzbObject" showBusyCursor="true" result="zbResult(event)"
+	 	 destination="getwd"/>
+	 <mx:RemoteObject id="getWdObject" showBusyCursor="true" result="RsColunm(event)"
+	 	 destination="getwd"/>
+	 <mx:RemoteObject id="WdValueObject" showBusyCursor="true" result="wdvalue(event)"
+	 	 destination="getwd"/>
+	 <mx:RemoteObject id="WdtiemObject" showBusyCursor="true" result="gettimevalue(event)"
+	 	 destination="getwd"/>
+      <mx:Panel id="wdz2" width="100%" title="图表分析配置" height="100%" y="0" x="0">
+    	   <mx:Canvas width="1470" height="47" >
+    	   	<mx:TextInput x="10" y="10" width="453" text="{variable._formchoose}"/>
+    	   	<mx:LinkButton x="471" y="10" label="选择表单"  click="xuanzhebiaodan()" color="#050505"/>
+    	   </mx:Canvas>
+    	       	
+    	   <mx:Canvas id="wdz" width="1469" height="500">
+    	   <mx:Label x="30" y="0" text="切片维度:" fontWeight="bold"/>
+    	   	<mx:ComboBox id="typesource"   change="changevalue()" dataProvider="{sarr}" labelField="columname" width="193" x="30" y="32" height="27"/>
+    	   	<mx:TextArea id="wdValuetext" x="30" y="435" width="610"  text="{BIid.backstrr}" fontWeight="bold" height="61"  />
+    	   	<mx:Canvas id="slicingcutter" x="30" y="67" width="610" height="334">
+    	   	</mx:Canvas>
+    	   	<mx:Label x="30" y="409" fontSize="15" text="选择的维度值：" width="139"/>
+    	   </mx:Canvas>
+
+    	    </mx:Panel>
+</mx:Canvas>

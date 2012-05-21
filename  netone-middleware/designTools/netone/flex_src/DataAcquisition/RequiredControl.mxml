@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="655" height="95" initialize="init()" xmlns:mx1="org.efflex.mx.*">
+<mx:Script>
+	<![CDATA[
+		import DataAcquisition.AcquisitionDeliver;
+		import mx.rpc.events.ResultEvent;
+		import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
+	public var zd:String;
+	public var yzd:String;
+	[Bindable]
+	public var jb:String="";
+	[Bindable]
+	public var arrname:ArrayCollection;
+	
+	[Bindable]
+	public var arrziduan:ArrayCollection;
+	
+	[Bindable]
+	public var arrdiyi:Array;
+		[Bindable]
+	public var arrdier:Array;
+	[Bindable]
+	public var arryuanziduan:ArrayCollection;
+		//连接数据库
+	      public  var   urlString:String;
+		  public  var   username:String;
+		  public  var   pwd:String;
+		  public  var   driver:String;
+		  public var tablename:String
+		  
+		  public  var   urlString1:String;
+		  public  var   username1:String;
+		  public  var   pwd1:String;
+		  public  var   driver1:String;
+		  public  var   sqlstr:String;
+		  public var dorpa:Boolean=false;
+		  public var formcode:String;
+		  public var formcode1:String;
+		  
+		  public var diyi:String;
+		  public var dier:String;
+		  [Bindable]
+		  public var CoumnData:String;
+		  [Bindable]
+		  public var arrzhiduan:ArrayCollection;
+		    [Bindable]
+		  public var zarrzhiduan:Array=new Array();
+		  [Bindable]  //字段名的绑定
+		  public var ziduan:String="";;
+		  [Bindable]
+		  public var Index:int;
+		  [Bindable]//初始类型
+		  public var liexing:int;
+			public function init():void{
+		    leixing.selectedIndex=liexing;
+			Biselecttable2.GetTableField2(AcquisitionDeliver.s1,AcquisitionDeliver.s2,AcquisitionDeliver.s3,AcquisitionDeliver.s4,AcquisitionDeliver.sqltext);
+			}
+			public function set THEID(value:String):void{
+				if(value!=""){
+				this.id=value;
+				}
+				
+				
+     	}
+			public function drop1():void
+            {    
+              this.removeAllChildren();
+              dorpa=true;
+            } 
+            
+            public function biaomingxiu():void{ 
+         	  // selecttable.GetTableField2(urlString,username,pwd,driver,biaoming.selectedItem as String);
+            }
+            public function handerResult(event:ResultEvent):void{
+          	   arryuanziduan=event.result as ArrayCollection;
+          	   arrdiyi=new Array();
+          	    for(var i:int=0;i<arryuanziduan.length;i++){
+          	    	arrdiyi[arrdiyi.length]=arryuanziduan[i].columname  as String;
+          	    		
+          	    }
+          	    
+			
+            }
+ 
+            public function handerResult1(event:ResultEvent):void
+            {
+             arrname=event.result as ArrayCollection;
+              arrdier=new Array();
+          	    for(var i:int=0;i<arrname.length;i++){
+          	    	arrdier[arrdier.length]=arrname[i].columname  as String;
+          	    		
+          	    }
+            }
+           public function zhiduanleixing1():void
+            {
+               for(var i:int=0;i<arrname.length;i++){
+					if(i==yuanziduan.selectedIndex as int){
+					dier= arrname[i].columnid as String;
+					
+					}
+          	      }
+            }
+            
+             //接收返回的表
+            public function BihanderResult(event:ResultEvent):void
+            {
+            arrzhiduan=event.result as ArrayCollection;
+            if(arrzhiduan.length>0){
+            zarrzhiduan=new Array();
+             for(var i:int=0;i<arrzhiduan.length;i++){
+             zarrzhiduan[zarrzhiduan.length]=arrzhiduan[i].columnname as String;
+             }
+            }
+            
+            }
+            
+	]]>
+</mx:Script>
+<mx:RemoteObject id="Biselecttable2"   destination="tablename" showBusyCursor="true"    result="BihanderResult(event)"/>
+	<mx:Label x="30" y="0" text="字段名" fontSize="12"/>
+	<mx:Label x="315" y="2" text="源字段" fontSize="12"/>
+	<mx:Label x="515" y="2" text="类型" fontSize="12"/>
+	<mx:Label x="30" y="37" text="脚本" fontSize="12"/>
+	<mx:TextArea x="74" y="37" width="564" height="52" id="jiaoben" text="{jb}"/>
+	<mx:TextArea x="74" y="3" width="220" height="30" id="ziduanming" editable="false" text="{ziduan}"/>
+	<mx:ComboBox x="360" y="2" width="149" id="yuanziduan" prompt="请选择字段"  fontSize="12" height="31" dataProvider="{zarrzhiduan}"></mx:ComboBox>
+	<mx:ComboBox x="552" y="5.5" width="86" fontSize="12" dataProvider="{cbd}" id="leixing"></mx:ComboBox>
+	<mx:ArrayCollection id="cbd">
+		<mx:Object>int</mx:Object>
+		<mx:Object>varchar</mx:Object>
+		<mx:Object>datetime</mx:Object>
+		<mx:Object>text</mx:Object>
+		<mx:Object>long</mx:Object>
+		<mx:Object>money</mx:Object>
+		<mx:Object>float</mx:Object>
+		<mx:Object>decimal</mx:Object>	
+	</mx:ArrayCollection>
+	<mx:Label x="0" y="2" text="{Index}"/>
+</mx:Canvas>

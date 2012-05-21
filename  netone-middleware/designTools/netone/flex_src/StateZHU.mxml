@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  width="100%" height="100%" initialize="init()">
+
+       <mx:Script>
+       	<![CDATA[
+       		import BI.EvTijiao;
+       		import BI.EvTjFs;
+       		import mx.containers.ViewStack;
+       		public function FormDesigner():void
+    		{
+    		    var url:String=index.WEBSER_BIWEB +"/PagelistpathRightSvl?pagename=dyformlist&appname=BUSSFORM";  
+				var request:URLRequest=new URLRequest(url);  
+		/* 		 navigateToURL(request,"_self");  */
+				navigateToURL(request); 
+    		}
+    		public function WorkflowDesign():void
+    		{
+    		    var url:String=index.WEBSER_WFWEB+"/PagelistpathRightSvl?pagename=pagelist&appname=BUSSWF";  
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}
+    		public function ApplicationFramework():void
+    		{
+    		    var url:String=index.WEBSER_CMSWEB+"/PagelistpathRightSvl?pagename=appframelist&appname=APPFRAME";  
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}
+    		public function BusinessIntelligence():void
+    		{	var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=dyformlist2&appname=BUSSFORM";
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request);    		 	
+    		}
+    		public function DataMove():void
+    		{       var o:Object=this.getChild("Shujuyizhi1"); 
+		            vs.selectedChild=o as Canvas;
+    		}
+ 		
+    	
+    		public function IntelligentTour():void
+    		{
+    	    	var url:String=index.WEBSER_CMSWEB+"/PagelistpathRightSvl?pagename=jspapp&appname=JSPAPP";
+  			    var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		}
+    		public function SafetyManagement():void
+    		{      
+    			    EvTjFs.getInstance().dispatchEvent(new EvTijiao("cssquehuan","SuperBox1.swf"));
+    	     	    var o:Object=this.getChild("SafeManage1"); 
+		            vs.selectedChild=o as Canvas;
+    		}
+    		public function shucanku():void{
+				/* var url:String=URL.str+"CollectionData.html";  
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request);  */ 
+			EvTjFs.getInstance().dispatchEvent(new EvTijiao("cssquehuan","SuperBox1.swf"));	
+				var o:Object=this.getChild("shujuguanli1"); 
+		            vs.selectedChild=o as Canvas;
+    		}
+    		 private var vs:ViewStack;  
+		   private function init():void{ 
+		      vs=this.parent as ViewStack; 
+		      trace(vs.id);
+		   
+		     } 
+		   private function getChild(str:String):Object{ 
+		       for each(var obj:* in vs.getChildren()){ 
+		           if(obj.name==str){ 
+		           break; 
+				} 
+				} 
+			return obj; 
+		  } 
+		  
+
+
+         public function scheduled():void
+         {
+              var url:String=index.WEBSER_WFWEB+"/PagelistpathRightSvl?pagename=quartzlist&appname=PLAN";
+  			    var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request);
+         }
+ 
+         public function BusinessComponent():void{
+          var url:String=index.WEBSER_CMSWEB+"/PagelistpathRightSvl?pagename=bean&appname=BUSSBEAN";
+  			    var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request);
+         }
+         public function AentranceComponent():void{
+        
+				 EvTjFs.getInstance().dispatchEvent(new EvTijiao("cssquehuan","SuperBox1.swf"));
+    	     	    var o:Object=this.getChild("DoorInterface1"); 
+		            vs.selectedChild=o as Canvas;
+         }
+         
+        //手机配置的目录
+        public function shoujipz():void{
+               var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=phone&appname=PHONE";
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+         }
+         //系统菜单配置
+        public function xtcd():void{
+               var url:String=index.WEBSER_CMSWEB+"/PagelistpathRightSvl?pagename=pageframe&appname=FRAMEPG";
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+         }
+       	]]>
+       </mx:Script>
+		<mx:Button x="64.5"  y="45" label=""  height="119" width="144" click="{FormDesigner()}" overSkin="@Embed(source='img1/1.1.png')" upSkin="@Embed(source='img1/1.png')" downSkin="@Embed(source='img1/1.png')"/>
+		<mx:Button x="264.5" y="45" label=""  height="119" width="144" click="{WorkflowDesign()}" overSkin="@Embed(source='img1/2.1.png')" upSkin="@Embed(source='img1/2.png')" downSkin="@Embed(source='img1/2.png')"/>
+		<mx:Button x="464.5" y="45" label=""  height="119" width="144" click="{SafetyManagement()}" overSkin="@Embed(source='img1/3.1.png')" upSkin="@Embed(source='img1/3.png')" downSkin="@Embed(source='img1/3.png')"/>
+		<mx:Button x="668.5" y="45" label=""  height="119" width="144" click="{ApplicationFramework()}" overSkin="@Embed(source='img1/4.1.png')" upSkin="@Embed(source='img1/4.png')" downSkin="@Embed(source='img1/4.png')"/>
+		<mx:Button x="864.5" y="45" label=""  height="119" width="144" click="{AentranceComponent()}" overSkin="@Embed(source='img1/mhrk2.png')" upSkin="@Embed(source='img1/mhrk1.png')" downSkin="@Embed(source='img1/mhrk1.png')" />
+		
+		<mx:Button x="64.5" y="221" height="119" width="144" click="{shucanku()}" overSkin="@Embed(source='img1/6.1.png')" upSkin="@Embed(source='img1/6.png')" downSkin="@Embed(source='img1/6.png')" />
+	    <mx:Button x="264.5" y="221" label="" height="119" width="144" click="{BusinessIntelligence()}" overSkin="@Embed(source='img1/7.1.png')" upSkin="@Embed(source='img1/7.png')" downSkin="@Embed(source='img1/7.png')"/>
+		<mx:Button x="464.5" y="221" label="" height="119" width="144" click="{IntelligentTour()}" overSkin="@Embed(source='img1/8.1.png')" upSkin="@Embed(source='img1/8.png')" downSkin="@Embed(source='img1/8.png')"/>
+		<mx:Button x="668.5" y="221" label="" height="119" width="144" click="{scheduled()}" overSkin="@Embed(source='img1/9.1.png')" upSkin="@Embed(source='img1/9.png')" downSkin="@Embed(source='img1/9.png')" />
+		<mx:Button x="864.5" y="221" label=""  height="119" width="144" click="{BusinessComponent()}" overSkin="@Embed(source='img1/14.1.png')" upSkin="@Embed(source='img1/14.png')" downSkin="@Embed(source='img1/14.png')" />
+		
+		<mx:Button x="64.5" y="401" height="119" width="144" click="{shoujipz()}" overSkin="@Embed(source='img/ygcx2.png')" upSkin="@Embed(source='img/ygcx1.png')" downSkin="@Embed(source='img/ygcx1.png')"/>
+		<mx:Button x="264.5" y="401" height="119" width="144" click="{xtcd()}" overSkin="@Embed(source='img/xtcd2.png')" upSkin="@Embed(source='img/xtcd1.png')" downSkin="@Embed(source='img/xtcd1.png')"/>
+		</mx:Canvas>

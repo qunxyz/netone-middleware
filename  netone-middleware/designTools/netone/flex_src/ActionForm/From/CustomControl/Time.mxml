@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  height="100%"
+      xmlns:eshangrao="ActionForm.From.CustomControl.*"  fontSize="12"
+      width="100%">
+ <mx:Style>
+  toolTip{fontSize:12}
+ </mx:Style>
+
+  <mx:Script>
+   <![CDATA[
+   	import mx.controls.Alert;
+    import mx.controls.DateField;
+
+
+    [Bindable]
+    private var today:Date=new Date(new Date().setHours(0, 0, 0, 0));
+    [Bindable]
+    private var start:Date=today;
+    [Bindable]
+    private var end:Date=start;
+      
+     public var _height:Number;
+    /*DateChange*/
+    private function onDateChangeHandler(event:Event):void
+    {
+     if (startDF.text == "")
+     {
+      startDF.selectedDate=start;
+     }
+     else
+     {
+      start=startDF.selectedDate;
+     }
+    }
+
+    // 获取值
+    public function getDateTimeValue():String
+    {
+     var strDate:String=startDF.text;
+     var strHours:String=TimeInput2.formatNumberWithChar(tInput.hours, 2, "0");
+     var strMinutes:String=TimeInput2.formatNumberWithChar(tInput.minutes, 2, "0");
+
+     return strDate + " " + strHours + ":" + strMinutes;
+    }
+
+    //设置值
+    public function setDateTimeValue(vNewValue:String, vConversion:Boolean=true):String
+    {
+     if (vNewValue.length == 0)
+      return "未赋值！";
+     if (vNewValue.length > 15)
+     {
+      //取日期
+      var strYear:String=vNewValue.substr(0, 4);
+      //从日期中取出月份
+      var numMonth:Number=parseInt(vNewValue.substr(5, 2));
+      //从日期中取出天
+      var numDay:Number=parseInt(vNewValue.substr(8, 2));
+
+      //取时
+      var numHours:Number=parseInt(vNewValue.substr(11, 2));
+      //取分
+      var numMinutes:Number=parseInt(vNewValue.substr(14, 2));
+
+      var strError:String="";
+      //判断月份是否超出范围
+      if (numMonth < 1)
+      {
+       strError="月份应大于1月，输入值：" + numMonth;
+       numMonth=1;
+      }
+      if (numMonth > 12)
+      {
+       strError="月份应小于12月，输入值：" + numMonth;
+       numMonth=12;
+      }
+      //判断天是否超出范围
+      if (numDay < 1)
+      {
+       if (strError.length > 0)
+       {
+        strError+="/n";
+       }
+       strError+="日期应大于1号，输入值：" + numDay;
+       numDay=1;
+      }
+      if (numDay > 31)
+      {
+       if (strError.length > 0)
+       {
+        strError+="/n";
+       }
+       strError+="日期应小于31号，输入值：" + numDay;
+       numDay=31;
+      }
+
+      //判断时是否超出范围
+      if (numHours < 0)
+      {
+       if (strError.length > 0)
+       {
+        strError+="/n";
+       }
+       strError+="小时应大于0点，输入值：" + numHours;
+       numHours=0;
+      }
+      if (numHours > 23)
+      {
+       if (strError.length > 0)
+       {
+        strError+="/n";
+       }
+       strError+="小时应小于23点，输入值：" + numHours;
+       numHours=23;
+      }
+      //判断分是否超出范围
+      if (numMinutes < 0)
+      {
+       if (strError.length > 0)
+       {
+        strError+="/n";
+       }
+       strError+="分钟应大于0分，输入值：" + numMinutes;
+       numMinutes=0;
+      }
+
+      if (numMinutes > 59)
+      {
+
+       if (strError.length > 0)
+       {
+        strError+="/n";
+       }
+       strError+="分钟应小于59分，输入值：" + numMinutes;
+       numMinutes=59;
+      }
+
+      //如果不强制转换，则输出错误信息
+      if (!vConversion && strError.length > 0)
+      {
+       return strError;
+      }
+
+      var strDate:String=strYear + "-" + TimeInput2.formatNumberWithChar(numMonth, 2, "0") + "-" + TimeInput2.formatNumberWithChar(numDay, 2, "0");
+      startDF.text=strDate;
+      tInput.hours=numHours;
+      tInput.minutes=numMinutes;
+      return "";
+     }
+     else
+     {
+      return "参数错误，长度不够";
+     }
+
+    }
+     public override  function get height():Number{
+		      return _height;
+		     }
+     public override  function set height(height:Number):void{
+		         this._height=height;
+		         
+		       /*   this.startDF.height=height;
+		         this.tInput.height=height; */
+		       /*  _datetimeaxis.getChildByName("startDF").height=height;
+		         _datetimeaxis.getChildByName("tInput").height=height; */
+		     }
+   
+   ]]>
+  </mx:Script>
+
+  <mx:DateField id="startDF"
+       x="0" width="50%" height="100%"
+       dayNames="[日,一,二,三,四,五,六]"
+       monthNames="[一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月]"
+       showToday="true"
+       yearNavigationEnabled="true"
+       selectedDate="{start}"
+       formatString="YYYY-MM-DD"
+       selectableRange="{{rangeEnd:end}}"
+       change="onDateChangeHandler(event)"/>
+
+  <eshangrao:TimeInput2 id="tInput" width="80"
+         x="{startDF.width+5}"  height="30"
+         hours="{new Date().getHours()}"
+         minutes="{new Date().getMinutes()}"
+         toolTip="双击时间可手工进行输入！"/>
+</mx:Canvas>
+

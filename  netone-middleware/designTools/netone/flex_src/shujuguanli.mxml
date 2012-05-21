@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  width="100%" height="100%" initialize="init()">
+<mx:Script>
+	<![CDATA[
+		import BI.EvTijiao;
+		import BI.EvTjFs;
+		       import mx.containers.ViewStack;
+       		   private var vs:ViewStack; 
+        		public function FormDesigner():void
+    		{
+    		    var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=datastoreEtl&appname=TRANS ";  
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		} 
+    		public function WorkflowDesign():void
+    		{
+    		    var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=reportds&appname=REPORTDS";  
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+    		} 
+
+    	 
+		   private function init():void{ 
+		      vs=this.parent as ViewStack; 
+		      trace(vs.id);
+		   
+		     } 
+		   private function getChild(str:String):Object{ 
+		       for each(var obj:* in vs.getChildren()){ 
+		           if(obj.name==str){ 
+		           break; 
+				} 
+				} 
+			return obj; 
+		  } 
+  
+         public function SafetyManagement():void{
+           var url:String=index.WEBSER_WFWEB+"/PagelistpathRightSvl?pagename=biSubject&appname=BISUBJECT";  
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+         } 
+         public function RevampProject():void
+         {
+           var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=reportq&appname=REPORTQ";
+            
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+         }
+ 
+         public function zhuanqu():void{
+               var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=anadig&appname=ANADIG";
+            
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+         }
+
+         public function SetExte():void{
+         	EvTjFs.getInstance().dispatchEvent(new EvTijiao("cssquehuan","SuperBox2.swf")); 
+		            var o:Object=this.getChild("StateZHU1"); 
+		            vs.selectedChild=o as Canvas;
+		    }
+		 public function Mrole():void
+    		{ 
+    		    var url3:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=datasourceDblist&appname=DATASOURCE";  
+				var request3:URLRequest=new URLRequest(url3);  
+				navigateToURL(request3); 
+    		}   
+	   public function Excelcollect():void
+    		{
+    		    var url1:String=index.WEBSER_BIWEB+"/bi/etl/wizard/ExcelToDb/First.jsp?pagepath=X";  
+				var request1:URLRequest=new URLRequest(url1);  
+				navigateToURL(request1); 
+    		}
+	     public function Sqlform():void{
+	           var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=dyview&appname=dyview";
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+	     
+	     }		
+	]]>
+</mx:Script>
+        <mx:Button x="88.5"  y="45" label=""  height="119" width="144" click="{FormDesigner()}" overSkin="@Embed(source='img/1.1-01.png')" upSkin="@Embed(source='img/1-01.png')" downSkin="@Embed(source='img/1-01.png')"/>
+		<mx:Button x="388.5" y="45" label=""  height="119" width="144" click="{WorkflowDesign()}" overSkin="@Embed(source='img/2.1-01.png')" upSkin="@Embed(source='img/2-01.png')" downSkin="@Embed(source='img/2-01.png')"/>
+		<mx:Button x="688.5" y="45" label=""  height="119" width="144" click="{SafetyManagement()}" overSkin="@Embed(source='img/3.1-01.png')" upSkin="@Embed(source='img/3-01.png')" downSkin="@Embed(source='img/3-01.png')"/>
+	    <mx:Button y="20" click="SetExte()" width="50" height="29" x="1000" overSkin="@Embed(source='img1/fanhui.png')" upSkin="@Embed(source='img1/fanhui1.png')" downSkin="@Embed(source='img1/fanhui1.png')"/>
+		
+		<mx:Button x="88.5" y="221" label=""  height="119" width="144" click="{RevampProject()}" overSkin="@Embed(source='img/6.1-01.png')" upSkin="@Embed(source='img/6-01.png')" downSkin="@Embed(source='img/6-01.png')"/>
+		<mx:Button x="388.5" y="221"  height="119" width="144" click="{zhuanqu()}" overSkin="@Embed(source='img/zhuanqu1.png')" upSkin="@Embed(source='img/zhuanqu2.png')" downSkin="@Embed(source='img/zhuanqu2.png')"/>
+		<mx:Button x="701.5" y="221" label=""  height="119" width="144" click="{Excelcollect()}" overSkin="@Embed(source='img2/2.1-01.png')" upSkin="@Embed(source='img2/2-01.png')" downSkin="@Embed(source='img2/2-01.png')"/>
+	    <mx:Button x="88.5" y="401" label=""   height="119" width="144"  click="{Mrole()}" overSkin="@Embed(source='img2/3.1-01.png')" upSkin="@Embed(source='img2/3-01.png')" downSkin="@Embed(source='img2/3-01.png')"/>
+	    <mx:Button x="388.5" y="401" label="sql表单"   height="119" width="144"  click="{Sqlform()}" overSkin="@Embed(source='img2/3.1-01.png')" upSkin="@Embed(source='img2/3-01.png')" downSkin="@Embed(source='img2/3-01.png')"/>
+	  </mx:Canvas>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:BI="BI.*"
+	 initialize="init()">
+  <mx:Script>
+  	<![CDATA[
+  		import ActionForm.vivid;
+  		import mx.collections.ArrayCollection;
+  		import mx.controls.Alert;
+  		import mx.charts.renderers.AreaRenderer;
+  		import mx.rpc.events.ResultEvent;
+  	    [Bindable]
+	     public var xmllist:XMLList;
+	     
+	     [Bindable]
+	     public var params:Object;
+	     
+	       [Bindable]//展示的类型
+		    public static var _tubiaotype:String="";
+		    [Bindable]//formcode的
+		   public static var _formcode:String="";
+			[Bindable]//切片维度
+		   public static var _qiepianweidu:String="";
+		    [Bindable]//切片维度值
+		   public static var _qiepianweiduzhi:String="";
+		    [Bindable]//扩张条件
+		   public static var _kuozhantiaojian:String="";
+		    [Bindable]//展开x轴的维度
+		   public static var _zhankaiX:String="";
+		    [Bindable]//指标选择 
+		   public static var _xuanzhezhibiao:String="";
+		    [Bindable]//预测开始时间
+		    public static var _predictionbegan:String="";
+		    [Bindable]//预测结束时间
+		    public static var _predictionend:String="";
+		    [Bindable]//预测类型
+		    public static var _Predictiontype:String="";
+		        
+            public  var  runtimeid:String;
+	     [Bindable]
+	     public 	var  arr:ArrayCollection;
+	     public function  loadxml(sourcexml:XML):void
+	    {      
+	      xmllist=new XMLList(sourcexml);
+	      DisplayColumnchart.loadxmllist(xmllist);
+	      DisplayLineChart.loadxmllist(xmllist);
+	      Displaybarchart.loadxmllist(xmllist);
+	      DisplayPieChart.loadxmllist(xmllist);
+	      DisplayColumnLineChart.loadxmllist(xmllist);
+	     }
+	     
+	     public function init():void{
+     	  var args:Object = getParams();    
+       	 if(args.name != null) {
+ 			graphicsDisplaySelect.ConfigurationData(args.name);
+             } 
+
+	     }
+	         private function getParams():Object { 
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                   
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+	       //接收返回的表
+            public function BihanderResult(event:ResultEvent):void
+            {
+               var Oj:Object=event.result  as Object;
+                _tubiaotype=Oj.tubiaotype;
+                _formcode=Oj.formcode;
+                _qiepianweidu=Oj.qiepianweidu;
+		        _qiepianweiduzhi=Oj.qiepianweiduzhi;
+		        _kuozhantiaojian=Oj.kuozhantiaojian;
+		        _zhankaiX=Oj.zhankaiX;
+                _xuanzhezhibiao=Oj.xuanzhezhibiao;
+		        _predictionbegan=Oj.predictionbegan;
+		        _predictionend=Oj.predictionend;
+		        _Predictiontype=Oj.Predictiontype;	
+            	//初始图标
+		         switch (_tubiaotype) {
+				    case "xianxingtu":
+					viewstack1.selectedChild=DisplayLineChart as Canvas;
+					break;
+			        case "zhutu":
+				   	viewstack1.selectedChild=DisplayColumnchart as Canvas;
+					break;
+			        case "bingtu":
+					viewstack1.selectedChild=DisplayPieChart as Canvas;
+					break;
+					 case "tiaoxingtu":
+					viewstack1.selectedChild=Displaybarchart as Canvas;
+					break;
+					 case "zhuxiantu":
+					viewstack1.selectedChild=DisplayColumnLineChart as Canvas;
+					break;
+				default:
+					break;
+				}
+                	//扩张 属性
+            		var extended:String="";
+                    var arrzibain:Array;
+                  
+	                  if(_formcode=="" || _qiepianweidu=="" || _zhankaiX=="" ||  _xuanzhezhibiao==""){
+		            }else{
+		            	  arrzibain=_xuanzhezhibiao.split(",");
+                          arrzibain.pop();
+		            	  getzbObject.ZhuTiBIzhibiao(_zhankaiX,arrzibain,_formcode,_qiepianweiduzhi,_qiepianweidu,_kuozhantiaojian);
+		                  getzbObject1.getzhutiData(_zhankaiX,_formcode);
+		                  
+		            }
+	        }
+            
+            
+            //交收展示的数据
+            public var xmlarr:ArrayCollection;
+			[Bindable]
+			public var zbarr:ArrayCollection;
+			[Bindable]
+			public var pxml:XML;
+			public var cxml:XML;
+            public function zbResult(event:ResultEvent):void
+			{   
+			    zbarr=event.result as ArrayCollection;
+				 pxml=<info></info>;
+			    for(var i:int=0;i<zbarr.length;i++)
+			    {
+					cxml=new XML();
+					cxml=<dsinfo></dsinfo>;
+					if(zbarr.getItemAt(i).xdata!=null)
+					cxml.@x=zbarr.getItemAt(i).xdata.toString();
+					if(zbarr.getItemAt(i).ydata!=null)
+					cxml.@y=zbarr.getItemAt(i).ydata.toString();
+					if(zbarr.getItemAt(i).y1data!=null)
+				    cxml.@y1=zbarr.getItemAt(i).y1data.toString();
+				    if(zbarr.getItemAt(i).y2data!=null)
+				    cxml.@y2=zbarr.getItemAt(i).y2data.toString();
+				    if(zbarr.getItemAt(i).y3data!=null)
+				    cxml.@y3=zbarr.getItemAt(i).y3data.toString();
+				    if(zbarr.getItemAt(i).y4data!=null)
+				    cxml.@y4=zbarr.getItemAt(i).y4data.toString();
+				    if(zbarr.getItemAt(i).y5data!=null)
+				    cxml.@y5=zbarr.getItemAt(i).y5data.toString();
+				    if(zbarr.getItemAt(i).y6data!=null)
+				    cxml.@y6=zbarr.getItemAt(i).y6data.toString();
+				    if(zbarr.getItemAt(i).y7data!=null)
+				    cxml.@y7=zbarr.getItemAt(i).y7data.toString();
+			        pxml.appendChild(cxml);
+				  }
+				loadxml(pxml);
+			}
+         public function zhuanquzhi(event:ResultEvent):void
+			{   
+	    	  BISubject.zhuangquzhi=event.result as ArrayCollection;
+			}
+  	]]>
+  </mx:Script>
+    <mx:RemoteObject id="getzbObject1" showBusyCursor="true" result="zhuanquzhi(event)"
+	 	 destination="getwd"/>
+  	   <mx:RemoteObject id="getzbObject" showBusyCursor="true" result="zbResult(event)"
+	 	 destination="getwd"/>
+  <mx:RemoteObject id="graphicsDisplaySelect"   destination="GraphicsDisplaySelect1" showBusyCursor="true"    result="BihanderResult(event)"/>
+   <mx:ViewStack showEffect="WipeDown" hideEffect="WipeUp" id="viewstack1" width="100%" height="100%" y="0" x="0">
+          <BI:ColumnChart id="DisplayColumnchart"  label="柱图"/>
+          <BI:LineChart id="DisplayLineChart" label="线图"/>
+          <BI:PieChart id="DisplayPieChart"  label="饼图"/>
+          <BI:BarChart id="Displaybarchart" label="条线图"/>
+          <BI:ColumnLineChart id="DisplayColumnLineChart" label="柱线图"/>
+       </mx:ViewStack>
+</mx:Canvas>
+

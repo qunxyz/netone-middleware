@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" 
+		xmlns:renderer="my.renderer.checkbox1.*" xmlns:ns1="safe.*" initialize="init()">
+		<mx:Script>
+			<![CDATA[
+				  
+	    	 	 	 import mx.containers.ViewStack;   //导入viwstack包，下面要用到viewstack类型
+				     import mx.controls.Alert;
+				      [Bindable] 
+				      public var info:String; 
+				      
+				     import mx.containers.Canvas;  
+				     private var vs:ViewStack; 
+				     [Bindable] 
+				     public var loginsuccess:String; 
+				
+				    private function init():void{ 
+				      vs=this.parent as ViewStack; 
+				      trace(vs.id); 
+				     } 
+				     
+				    private function getChild(str:String):Object{ 
+				       for each(var obj:* in vs.getChildren()){ 
+				           if(obj.name==str){ 
+				           break; 
+				} 
+				} 
+				return obj; 
+				} 
+				
+				 private function clickHandler():void{
+				//创建角色目录
+				 if (MenuBar.selectedIndex==0) {
+				 	var o1:Object=this.getChild("roleCreate"); 
+				    vs.selectedChild=o1 as Canvas; 
+				 }
+				 }
+				 
+			]]>
+		</mx:Script>
+	
+  <mx:TitleWindow x="-10" y="0" width="100%" height="100%" layout="absolute" title="角色管理" fontSize="15">
+	 	<mx:MenuBar  id="MenuBar" width="100%"
+			 labelField="@label"
+			  click="{clickHandler()}"
+			 height="37" y="0" x="0">
+		 <mx:XMLList>
+		 <menuitem label="创 建" data="createApplication"/>
+         <menuitem label="修 改" data="createApplication"/>
+         <menuitem label="删 除" data="createApplication"/>
+		 </mx:XMLList>	
+		 	
+		 </mx:MenuBar>
+	<mx:Canvas height="78" y="36" width="649">
+	<mx:TextInput id="txtname" y="26" horizontalCenter="-160"/>
+	<mx:TextInput id="txtdept" y="25" horizontalCenter="94"/>
+	<mx:Label y="28" text="角色名称:" fontSize="15" horizontalCenter="-284"/>
+	<mx:Label y="27" text="角色类型:" fontSize="15" horizontalCenter="-30"/>
+	<mx:Button y="25" label="查 询" fontSize="15" horizontalCenter="238"/>
+		</mx:Canvas>
+		
+		<mx:Canvas height="100%" y="122" width="100%">
+	<mx:DataGrid x="0" y="0" width="100%" height="400" id="dg">
+		<mx:columns>
+		<renderer:CheckBoxColumn id="column" enableField="disable" dataField="fucked"/>
+			<mx:DataGridColumn headerText="Column 1" dataField="col1"/>
+			<mx:DataGridColumn headerText="Column 2" dataField="col2"/>
+			<mx:DataGridColumn headerText="Column 3" dataField="col3"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<ns1:PageController x="0" y="400" TargetUI="{dg}" PerPage="8" width="100%" height="50">
+	</ns1:PageController>
+	</mx:Canvas>
+ </mx:TitleWindow>
+</mx:Canvas>

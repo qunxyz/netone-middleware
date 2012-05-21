@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" xmlns:ns1="framework.*"   creationComplete="ccp()"  
+      xmlns:ns2="PolymerizationShow.*" fontSize="12"  width="100%" height="300" >
+  <mx:Script>
+  	<![CDATA[
+  		import DataAcquisition.FieldSelection;
+  		import BI.EvTjFs;
+  		import BI.EvTijiao;
+  		import mx.core.IFlexDisplayObject;
+  		import mx.managers.PopUpManager;
+  		import mx.events.ScrollEvent;
+  		import mx.events.FlexEvent;
+  		import mx.logging.ILogger;
+  		import com.blitzagency.xray.logger.Log;
+  		import com.blitzagency.xray.logger.Logger;
+  		import mx.containers.TitleWindow;
+  		import mx.containers.ViewStack;
+  		import ActionForm.From.com.hitb.util.GlobalManager;
+  		import mx.controls.Button;
+  		import mx.collections.ArrayCollection;
+  		import mx.rpc.events.ResultEvent;
+  		import mx.controls.Alert;
+  
+  	       [Bindable]
+  	       public var vs:ViewStack;
+  	        [Bindable]   //子表单的数组
+           public var arrcbd:Array=null;
+  	       [Bindable]
+  	       public var textpath:String="";
+  	    public function init():void{ //初始化的方法
+  	      DyData.dytype=true;
+  	      EvTjFs.getInstance().addEventListener("zhibiaodan",zhibiaodanxuan);
+  	      EvTjFs.getInstance().addEventListener("shancubiaodan",Delectform);	           
+	      vs=this.parent as ViewStack;
+          textpath="路径： "+DyData.Urlname+" 第3步，共"+DyData.sum+"步"; 
+  	    }
+  	     
+  	    public function ccp():void{
+  	    	
+	  	    if(!DyData.modletype){
+	  	      var y1:int=5;
+	  	     if(DyData.subform=="" || DyData.subform==null){
+			 }else{
+			 arrcbd=String(DyData.subform).split(",");
+			  arrcbd.pop();
+			 for(var i:int=0;i<arrcbd.length;i++){
+			 	   var arr:Array=String(arrcbd[i]).split("model=");
+			 	   var indexarr:Array=arrcbd[i].split("=");
+	       		   var strcbdmane:String=arrcbd[i].toString().substring(0, arrcbd[i].toString().indexOf("["));
+	       		   var arrcdfmane:Array=strcbdmane.split("/");
+				   ZBD=new ZhiBiaoDan();
+	       		   ZBD.x=10;
+	       		   ZBD.y=y1;
+       		       ZBD.strname=arr[0] as String;
+	       		   y1=y1+ZBD.height;
+	       		   ZBD.id="ID"+i.toString();
+	       		   ZBD.index=int(indexarr[1].toString())-1;
+	       		   ZBD.zd=arrcdfmane[arrcdfmane.length-1].toString();
+	       		   childrenform.addChild(ZBD); 
+	       		}
+           }
+	  	    }
+  	    }
+  	    //选择子表单方法
+       private function selectchirdren1():void
+       {
+       	        var schir:DyFromSelect=new DyFromSelect();
+       	        PopUpManager.addPopUp(schir,this,true);
+       	        PopUpManager.centerPopUp(schir as IFlexDisplayObject);
+       }
+       public var ZBD:ZhiBiaoDan;
+       public function zhibiaodanxuan(event:MouseEvent):void{
+       	   var y1:int=5;
+         	childrenform.removeAllChildren();
+       		var cbd:String=vivid.backstring.toString();
+       		arrcbd=vivid.backstring;
+       		for(var i:int=0;i<arrcbd.length;i++){
+       		   var strcbdmane:String=arrcbd[i].toString().substring(0, arrcbd[i].toString().indexOf("["));
+       		   var arrcdfmane:Array=strcbdmane.split("/");
+			   ZBD=new ZhiBiaoDan();
+       		   ZBD.x=10;
+       		   ZBD.y=y1;
+       		   ZBD.strname=arrcbd[i] as String;
+       		   ZBD.id="ID"+i.toString();
+       		   y1=y1+ZBD.height;
+       		   ZBD.zd=arrcdfmane[arrcdfmane.length-1].toString();
+       		   childrenform.addChild(ZBD); 
+       		}
+       }
+       public var fname:String;
+       public var cform:String;
+       public var mtype:String;
+       public var ms:String;
+       public var css:String;
+       public var ftype:String;
+       public var fdata:String;
+       public var ctime:String;
+         //点击下一步的保存数据的方法
+      private function createfrom():void
+       {     
+	       	   fname=DyData.formname;
+	       	   var strzhibiaodan:String="";
+	       	  
+	       	 if(childrenform.getChildren()!=null){
+	       	  for(var i:int=0;i<childrenform.getChildren().length;i++){	
+	       	   strzhibiaodan=strzhibiaodan+ZhiBiaoDan(childrenform.getChildAt(i)).strname+"model="+ZhiBiaoDan(childrenform.getChildAt(i)).modeltype.selectedItem.name+",";
+	       	  }} 
+	       	   cform=strzhibiaodan;
+	           ms=DyData.msinfo;
+	           
+	           fdata=DyData.bussData;
+	           ftype=DyData.busstype;
+	           vivid.savename=vivid.fromcode;  
+	           css=DyData.showCss;
+	           
+	           if(!DyData.modletype){
+	           	 updateform1.updateform(vivid.formid,fname,css,strzhibiaodan,ms,fdata,ftype,DyData.time);
+	           }else{
+	           if(DyData.dytype){
+	           createformObject.createForms(fdata,ftype,ctime,fname,css,cform,ms,DyData.Urlname,DyData.time);
+	           DyData.dytype=false;
+	           }else{
+	           updateform1.updateform(vivid.fromcode,fname,css,strzhibiaodan,ms,fdata,ftype,DyData.time);
+	           }
+	           }
+	         
+     	}
+       
+        //删除子表单
+       public function Delectform(event:EvTijiao):void
+       {
+       var index:int=int(event.Formcode().substr(0,1));
+       arrcbd.splice(index,1);
+       }
+ 
+  	      //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("FlexDesignertwo1");
+            vs.selectedChild=o as Canvas;
+          }
+         public function DownNode(event:MouseEvent):void{
+         	   createfrom();
+         }
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+      // 新表单的数据放回的
+      private function createformResult(event:ResultEvent):void
+       {
+             vivid.fromcode=event.result.toString();
+             if(vivid.fromcode==null){
+             }else{
+               var o:Object=this.parent.getChildByName("DyDesigner1"); 
+	           vs.selectedChild=o as Canvas;
+             }
+       }
+       //修改数据
+       private function Update(event:ResultEvent):void{
+       		if(event.result as Boolean){
+       		 var o:Object=this.parent.getChildByName("DyDesigner1"); 
+	         vs.selectedChild=o as Canvas;
+       		}
+       }
+		]]>
+  </mx:Script>
+      <mx:RemoteObject id="updateform1" destination="updateFormjava"   result="Update(event)"  
+      showBusyCursor="true"/> 
+	<mx:RemoteObject id="createformObject" destination="selectchirdrenform" result="createformResult(event)" 
+      showBusyCursor="true"/>  
+   <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+	    <mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+	    <mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="子表单配置"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="动态表单" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:选择需要配置的子表单 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="863" height="332"  x="137" y="207" fontSize="18">
+		<mx:Label text="子    表   单：" y="20"  x="3"/>
+		<mx:Canvas id="childrenform" y="20" width="451" height="302"  x="146" horizontalScrollPolicy="off" />
+		<mx:Button  label="选择" y="18" width="100" x="630" id="schirdren" click="selectchirdren1()"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

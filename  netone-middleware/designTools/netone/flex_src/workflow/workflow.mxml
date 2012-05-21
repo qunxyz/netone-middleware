@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+	  creationComplete="init()"
+	 xmlns:ns1="workflow.*">
+	
+	<mx:Script>
+	<![CDATA[
+		    
+	       import mx.controls.Alert;
+		   public function getNewlist(str:String):void{ 
+			Newlist.info=str; 
+			} 
+			public function getNewflow(str:String):void{ 
+			Newflow.info=str; 
+			} 
+			public function getCopyflow(str:String):void{ 
+			Copyflow.info=str; 
+			} 
+			public function getworkflowHP(str:String):void{ 
+			workflowHP.info=str; 
+			} 
+            public function init():void
+			{ 
+			 
+			 this.addEventListener(viewevent.SOApoint,selectchildren);
+			 this.addEventListener(viewevent.OsWorkFlow,selectchildren);
+			  this.addEventListener(viewevent.huodongList,selectchildren);
+			}
+			public function selectchildren(event:viewevent):void
+			{    
+				
+				if(event.type.toString()=="OsWorkFlow"){
+			    viewstack1.selectedChild=OsWorkFlow;
+			    }
+				if(event.type.toString()=="SOApoint"){
+			     viewstack1.selectedChild=SOApoint;
+			    }
+			    if(event.type.toString()=="huodongList"){
+			     viewstack1.selectedChild=huodongList;
+			    }
+			   
+			}
+	]]>
+</mx:Script>
+	<mx:ViewStack x="0"  y="0" id="viewstack1" width="100%" height="100%">
+		<ns1:workflowHP id="workflowHP" label="工作流首页" width="100%" height="100%">
+		</ns1:workflowHP>
+		<ns1:OsWorkFlow  id="OsWorkFlow" label="设计工作流" width="100%" height="100%">
+		</ns1:OsWorkFlow>
+		<ns1:Newlist  id="Newlist" label="创建目录" width="100%" height="100%">
+		</ns1:Newlist>
+		<ns1:Newflow  id="Newflow" label="创建工作流" width="100%" height="100%">
+		</ns1:Newflow>
+		<ns1:Copyflow id="Copyflow" label="拷贝工作流" width="100%" height="100%">
+		</ns1:Copyflow>
+		 <ns1:SOApoint id="SOApoint" label="SOA结点配置" width="100%" height="100%">
+		</ns1:SOApoint>
+		 <ns1:aboutList id="aboutList" label="数据变量列表" width="100%" height="100%">
+		</ns1:aboutList>
+		<ns1:huodongList id="huodongList" width="100%" height="100%">
+		</ns1:huodongList>
+	</mx:ViewStack>
+</mx:Canvas>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" 
+	xmlns:renderer="my.renderer.checkbox1.*" xmlns:ns1="safe.*"  initialize="init()" >
+   <mx:Script>
+   	<![CDATA[
+   	import mx.controls.Alert;                        
+    import my.renderer.checkbox1.*;
+   	import mx.collections.ArrayCollection;
+   	//修改信息
+   			protected function getValues():void
+			{
+				var arr:Array=column.selectItems;
+				if(arr.length!=1)
+				{
+					Alert.show("修改信息只能选择一条记录");
+					return;
+				}
+				Alert.show("选中了"+arr.name+"行");
+			}
+			
+	            public function clickEvent(name:String):void{
+	               Alert.show("sa"+name);
+	            }
+     import mx.containers.Canvas; 
+     import mx.containers.ViewStack; 
+     public var vs:ViewStack; 
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable] 
+     private var i:int=3; 
+     private function init():void{ 
+     vs=this.parent as ViewStack;
+      trace(vs.id); 
+     } 
+      private function getChild(str:String):Object{ 
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+		} 
+		} 
+		return obj; 
+		 } 
+		private function clickHandler():void{
+				//新建目录的方法
+			 if (MenuBar.selectedIndex==0) {
+			 	var o1:Object=this.getChild("usermangeCreate"); 
+			    vs.selectedChild=o1 as Canvas; 
+			 }
+ //创建流程
+  if (MenuBar.selectedIndex==1) {
+ 	var o2:Object=this.getChild("usermangeUpdate"); 
+    vs.selectedChild=o2 as Canvas; 
+ }
+
+ 
+}
+                
+   	]]>
+   </mx:Script>
+   <mx:TitleWindow x="0" y="0" width="100%" height="100%" layout="absolute" title="用户管理" fontSize="15">
+	<mx:MenuBar  id="MenuBar" width="100%"
+			 labelField="@label"
+			  click="clickHandler()"
+			 height="37" y="0" x="0">
+		 <mx:XMLList>
+		 <menuitem label="创 建" data="createApplication"/>
+         <menuitem label="修 改" data="createApplication"/>
+         <menuitem label="删 除" data="createApplication"/>
+         <menuitem label="密码重置" data="createApplication"/>
+         <menuitem label="导 出" data="createApplication"/>
+         <menuitem label="选 择" data="createApplication"/>
+         <menuitem label="清 除" data="createApplication"/>
+		 </mx:XMLList>	
+		 	
+		 </mx:MenuBar>
+	<mx:Canvas height="74" width="572" y="35">
+
+	<mx:TextInput id="txtname" y="28" horizontalCenter="-146"/>
+	<mx:TextInput id="txtdept" y="29" horizontalCenter="88"/>
+	<mx:Label y="33" text="姓 名" fontSize="15" horizontalCenter="-260"/>
+	<mx:Label y="30" text="部 门" fontSize="15" horizontalCenter="-33"/>
+	<mx:Button y="29" label="查 询" fontSize="15" horizontalCenter="220"/>
+			
+	</mx:Canvas>
+	<mx:Canvas x="0" y="108" width="100%" height="100%">
+	<mx:DataGrid  x="0" y="0" width="100%" height="400" editable="false" dataProvider="{arr}" id="dg">
+        <mx:columns>
+			<renderer:CheckBoxColumn id="column" enableField="disable" dataField="fucked"/>
+            <mx:DataGridColumn dataField="name" headerText="姓 名"
+                    width="120" />
+            <mx:DataGridColumn dataField="accounts" headerText="帐 号"
+                    width="100" />
+            <mx:DataGridColumn dataField="dep" headerText="部 门"
+                    width="100" />
+            <mx:DataGridColumn dataField="state" headerText="状 态"
+                    width="120" />
+<mx:DataGridColumn headerText="角色明细">
+				<mx:itemRenderer>
+				<mx:Component>
+				<mx:LinkButton label="查看" color="blue" click="{outerDocument.clickEvent(data.name)}"/>
+				</mx:Component>
+				</mx:itemRenderer>
+				</mx:DataGridColumn>
+        </mx:columns>
+	</mx:DataGrid>
+	<mx:Canvas height="27"  width="100%" y="400" x="0">
+	<ns1:PageController x="0" y="0" TargetUI="{dg}" PerPage="5" width="100%">
+	</ns1:PageController>
+   </mx:Canvas>
+	</mx:Canvas >
+
+	</mx:TitleWindow>
+	<mx:ArrayCollection id="arr">
+		<mx:Object>
+			<mx:name>张三</mx:name>
+			<mx:accounts>001</mx:accounts>
+			<mx:detail>2007-1-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李四</mx:name>
+			<mx:accounts>002</mx:accounts>
+			<mx:detail>2007-1-3</mx:detail>
+			<mx:dep>神经病</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>王武</mx:name>
+			<mx:accounts>003</mx:accounts>
+			<mx:detail>2007-1-11</mx:detail>
+			<mx:dep>技术部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>赵柳</mx:name>
+			<mx:accounts>006</mx:accounts>
+			<mx:detail>2007-1-21</mx:detail>
+			<mx:dep>调查部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>钱启</mx:name>
+			<mx:accounts>007</mx:accounts>
+			<mx:detail>2007-11-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>张三三</mx:name>
+			<mx:accounts>011</mx:accounts>
+			<mx:detail>2007-1-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李师师</mx:name>
+			<mx:accounts>023</mx:accounts>
+			<mx:detail>2007-10-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>张三</mx:name>
+			<mx:accounts>001</mx:accounts>
+			<mx:detail>2007-1-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李四</mx:name>
+			<mx:accounts>002</mx:accounts>
+			<mx:detail>2007-1-3</mx:detail>
+			<mx:dep>神经病</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>王武</mx:name>
+			<mx:accounts>003</mx:accounts>
+			<mx:detail>2007-1-11</mx:detail>
+			<mx:dep>技术部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>赵柳</mx:name>
+			<mx:accounts>006</mx:accounts>
+			<mx:detail>2007-1-21</mx:detail>
+			<mx:dep>调查部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>钱启</mx:name>
+			<mx:accounts>007</mx:accounts>
+			<mx:detail>2007-11-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>张三三</mx:name>
+			<mx:accounts>011</mx:accounts>
+			<mx:detail>2007-1-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李师师</mx:name>
+			<mx:accounts>023</mx:accounts>
+			<mx:detail>2007-10-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>张三</mx:name>
+			<mx:accounts>001</mx:accounts>
+			<mx:detail>2007-1-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李四</mx:name>
+			<mx:accounts>002</mx:accounts>
+			<mx:detail>2007-1-3</mx:detail>
+			<mx:dep>神经病</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>王武</mx:name>
+			<mx:accounts>003</mx:accounts>
+			<mx:detail>2007-1-11</mx:detail>
+			<mx:dep>技术部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>赵柳</mx:name>
+			<mx:accounts>006</mx:accounts>
+			<mx:detail>2007-1-21</mx:detail>
+			<mx:dep>调查部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>钱启</mx:name>
+			<mx:accounts>007</mx:accounts>
+			<mx:detail>2007-11-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>张三三</mx:name>
+			<mx:accounts>011</mx:accounts>
+			<mx:detail>2007-1-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+		<mx:Object>
+			<mx:name>李师师</mx:name>
+			<mx:accounts>023</mx:accounts>
+			<mx:detail>2007-10-2</mx:detail>
+			<mx:dep>市场部</mx:dep>
+			<mx:state>1</mx:state>
+		</mx:Object>
+	</mx:ArrayCollection>
+</mx:Canvas>

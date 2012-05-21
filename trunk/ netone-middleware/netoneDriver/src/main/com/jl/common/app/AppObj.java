@@ -14,8 +14,14 @@ public final class AppObj extends UmsProtectedobject {
 	private String dyformName_;
 	private String workflowCode_;
 	private String workflowName_;
-
+    //默认的代办字段显示配置
 	private String worklistColumn;
+	//默认的代办字段的长度
+	private String worklistsize;
+	//表头信息
+	private String formtitle;
+	//表尾信息
+	private String formendtitle;
 
 	public String getWorklistColumn() {
 		return worklistColumn;
@@ -55,6 +61,30 @@ public final class AppObj extends UmsProtectedobject {
 
 	public void setWorkflowName_(String workflowName_) {
 		this.workflowName_ = workflowName_;
+	}
+
+	public String getWorklistsize() {
+		return worklistsize;
+	}
+
+	public void setWorklistsize(String worklistsize) {
+		this.worklistsize = worklistsize;
+	}
+
+	public String getFormtitle() {
+		return formtitle;
+	}
+
+	public void setFormtitle(String formtitle) {
+		this.formtitle = formtitle;
+	}
+
+	public String getFormendtitle() {
+		return formendtitle;
+	}
+
+	public void setFormendtitle(String formendtitle) {
+		this.formendtitle = formendtitle;
 	}
 
 }

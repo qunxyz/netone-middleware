@@ -44,6 +44,9 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		appobj.setDyformName_(list.getFormname());
 		appobj.setWorkflowCode_(list.getProcessid());
 		appobj.setWorkflowName_(list.getProcessname());
+		appobj.setWorklistsize(list.getWorklistsize());
+		appobj.setFormtitle(list.getFormtitle());
+		appobj.setFormendtitle(list.getFormtitle());
 		String worklistDefaultColumn = list.getWorklistDefaultColumn();
 		if (StringUtils.isNotEmpty(worklistDefaultColumn)) {
 			appobj.setWorklistColumn(StringUtils.substringBetween(
@@ -231,16 +234,17 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		actx.setFobitzb("1".equals(as.getFobidzb()));
 
 		boolean distrubsubmit = false;
-		if ("1".equals(as.getSyncmode())) {
+		if ("1".equals(as.getZibiaodanmoshi())) {
 			distrubsubmit = true;
 		}
 		actx.setSyncto(distrubsubmit);
 
 		Map subformmode = new HashMap();// 控制子表单的
 		String str = as.getSubfrommode();
+		String [] arr=str.split(",");
 		if (str != null) {
-			for (int i = 0; i < str.length(); i++) {
-				if (str.charAt(i) == '1') {
+			for (int i = 0; i < arr.length; i++) {
+				if (arr[i].toString().equals("1") ) {
 					subformmode.put(i, true);
 				} else {
 					subformmode.put(i, false);

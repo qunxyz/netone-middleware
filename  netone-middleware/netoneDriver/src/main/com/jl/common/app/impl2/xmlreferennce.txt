@@ -1,12 +1,19 @@
 应用框架
 <csource>
-  <control yingyongform="人事管理[70adc4bcf24b11e083783f0ff8b587b9_]" yingyongwork="人事管理[BUSSWF.BUSSWF.RENSHI]" eatt=""/>
-</csource>   
+  <control yingyongform="测试表单[560f52fca30e11e187d1114dfda46db3_]" yingyongwork="测试[BUSSWF.BUSSWF.XW.CESHI]" worklistDefaultColumn="[0,0,0]" worklistsize=""/>
+  <formtitle><![CDATA[]]></formtitle>
+  <formendtitle><![CDATA[]]></formendtitle>
+</csource> 
+
 参与者
+ 
 <csource>
-  <control participantmode="team" ismanual="1" naturalname="APPFRAME.APPFRAME.RENSGUAN.TRACKACTION1318146554029" name="申请人" participantvalue="角色分类[SYSROLE.SYSROLE]," syncmode="2" coworkmode="1" needtree="1" fobidzb="1" formedit="工资[column5],姓名[column3],学历[column7],性别[column6],"/>
+  <control participantmode="creater" ismanual="1" naturalname="APPFRAME.APPFRAME.XW.CESHI.TRACKACTION1337581828586" name="节点1" participantvalue="" needtree="0" fobidzb="1" needformedit="1" formedit="通用[column3],通用[column4],通用[column5],通用[column6]," subfrommode="1" zibiaodan="1,0,0,0" zibiaodanmoshi="0"/>
 </csource>
 
+代办提示
 <csource>
-  <control DivBlock="姓名" name="待办提示" naturalname="APPFRAME.APPFRAME.RENSGUAN.WORKLISTTITLE" ishidden="1" script="扩张"/>
+  <control DivBlock="通用[column3]" name="待办提示" naturalname="APPFRAME.APPFRAME.XW.CESHI.WORKLISTTITLE" ishidden="0" Length="100" actname="" commitername="" starttime="">
+    <script><![CDATA[]]></script>
+  </control>
 </csource>

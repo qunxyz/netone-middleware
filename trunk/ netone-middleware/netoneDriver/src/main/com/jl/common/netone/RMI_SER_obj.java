@@ -12,6 +12,13 @@ public class RMI_SER_obj {
     private String WEBSER_WEBSPECI;
     private String WEBSER_SpeedyForm;
     private String WEBSER_APPFRAME;
+    private String WEBSER_WebSerivce;
+	public String getWEBSER_WebSerivce() {
+		return WEBSER_WebSerivce;
+	}
+	public void setWEBSER_WebSerivce(String webSerivce) {
+		WEBSER_WebSerivce = webSerivce;
+	}
 	public String getWEBSER_APPFRAME() {
 		return WEBSER_APPFRAME;
 	}

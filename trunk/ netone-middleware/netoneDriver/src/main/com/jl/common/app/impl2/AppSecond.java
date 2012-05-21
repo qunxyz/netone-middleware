@@ -13,14 +13,8 @@ public class AppSecond {
   private  String needformedit;
   private  String formedit;
   private  String subfrommode;
-  private  String zibiaodan;
   private  String zibiaodanmoshi;
-public String getZibiaodan() {
-	return zibiaodan;
-}
-public void setZibiaodan(String zibiaodan) {
-	this.zibiaodan = zibiaodan;
-}
+ 
 public String getZibiaodanmoshi() {
 	return zibiaodanmoshi;
 }

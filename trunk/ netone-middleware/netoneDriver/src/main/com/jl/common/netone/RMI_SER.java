@@ -59,7 +59,8 @@ public class RMI_SER{
 			    rmi_ser_obj.setWEBSER_SpeedyForm(WEBSER_SpeedyForm);
 			    String WEBSER_APPFRAME=env.fetchEnvValue("WEBSER_APPFRAME");
 			    rmi_ser_obj.setWEBSER_APPFRAME(WEBSER_APPFRAME);
-			    
+			    String WEBSER_WebSerivce=env.fetchEnvValue("WEBSER_WebSerivce");
+			    rmi_ser_obj.setWEBSER_WebSerivce(WEBSER_WebSerivce);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

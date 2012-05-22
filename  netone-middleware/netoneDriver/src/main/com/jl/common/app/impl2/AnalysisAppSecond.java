@@ -74,7 +74,8 @@ public class AnalysisAppSecond {
 				appSecond.setFormedit(new String(personNode.getAttribute("formedit")));
 				appSecond.setSubfrommode(new String(personNode.getAttribute("subfrommode")));
 				appSecond.setZibiaodanmoshi(new String(personNode.getAttribute("zibiaodanmoshi")));
-				
+				appSecond.setFilemanage(new String(personNode.getAttribute("filemanage")));
+				appSecond.setFiletext(new String(personNode.getAttribute("filetext")));
 			return appSecond;
 		}
 	}

@@ -14,7 +14,21 @@ public class AppSecond {
   private  String formedit;
   private  String subfrommode;
   private  String zibiaodanmoshi;
+  private  String filemanage;
+  private  String filetext;
  
+public String getFilemanage() {
+	return filemanage;
+}
+public void setFilemanage(String filemanage) {
+	this.filemanage = filemanage;
+}
+public String getFiletext() {
+	return filetext;
+}
+public void setFiletext(String filetext) {
+	this.filetext = filetext;
+}
 public String getZibiaodanmoshi() {
 	return zibiaodanmoshi;
 }

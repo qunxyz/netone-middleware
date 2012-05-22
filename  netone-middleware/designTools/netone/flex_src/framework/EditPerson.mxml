@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow width="100%" height="900" fontSize="15" 
-		fontWeight="bold" title="修改应用配置" x="0" y="0" showCloseButton="true" close="SetExit();"  xmlns:mx="http://www.adobe.com/2006/mxml"     creationComplete="init()">
+<mx:TitleWindow width="100%" height="900" fontSize="15"  xmlns:ns1="framework.*"
+		fontWeight="bold" title="修改应用配置" x="0" y="0" showCloseButton="true" close="SetExit();"  xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="init()">
     <mx:XMLList id="htsource">
     <Resourceinfo name="组"     code="SYSTEMTEAM.SYSTEMTEAM"/>
 	<Resourceinfo name="人员"    code="DEPT.DEPT"/>
@@ -43,15 +43,25 @@
 			    <mx:RadioButton id="r3" x="287" y="3" label="抄阅" groupName="radiogroup4"/>
 		        <mx:RadioButton  id="r4" x="373" y="3" label="抄送且抄阅" groupName="radiogroup4"/>
 		    </mx:Canvas>
-		    <mx:Canvas id="bianjikongzi" x="99" y="348" width="600" height="408">
+		     <mx:Canvas height="34" y="228" width="613" x="-4">
+		          <mx:Label text="转办 控制  :" x="5" y="5"/>
+		          <mx:CheckBox id="fobidzb"  label="禁止转办" x="110" width="145"  height="24" y="7"/>
 		    </mx:Canvas>
-		    <mx:Label x="2" y="322" text="编 辑 控 制："/>
-			<mx:Label x="0" y="234" text="可用子表单："/>
-		    <mx:Canvas id="zibiaodan" x="102" y="235" width="936" height="55">
+		    <mx:Canvas id="bianjikongzi" x="99" y="442" width="600" height="378">
 		    </mx:Canvas>
-		    <mx:Label x="1" y="289" text="阶段性回复："/>
-		    <mx:CheckBox id="fenbushi" x="102" y="288" label="是否需要分布式提交"/>
-		    <mx:CheckBox id="checkbox1" x="102" y="320" label="是否需要编辑" change="chageis()"/>
+		    <mx:Label x="2" y="416" text="编 辑 控 制："/>
+			<mx:Label x="0" y="270" text="可用子表单："/>
+		    <mx:Canvas id="zibiaodan" x="102" y="271" width="936" height="55">
+		    </mx:Canvas>
+		    <mx:Label x="1" y="383" text="阶段性回复："/>
+		    <mx:CheckBox id="fenbushi" x="102" y="382" label="是否需要分布式提交"/>
+		    <mx:CheckBox id="checkbox1" x="102" y="414" label="是否需要编辑" change="chageis()"/>
+		    <mx:Label x="0" y="343" text="附件启用："/>
+		      <mx:Canvas  x="102" y="335" width="936" height="43">
+		      <mx:CheckBox id="fujian" x="1"  y="7"  label="是否启用附件" change="fujinashifou()"/>
+		      <mx:Canvas id="fujianqiyong"  x="148" y="0" height="43" width="676">
+		      </mx:Canvas>
+		     </mx:Canvas>
 		    <mx:Script>
     	<![CDATA[
     		import BI.EvTjFs;
@@ -89,7 +99,8 @@
 				 [Bindable]
 				 public  var idcreated1:String;
 			    public var  Parent:XML;
-			    
+			    [Bindable]
+			    public  var fu:FuJianTextArea;
 			    public   var fll:Boolean=true;
 			    
 			    //list1 表单 控件
@@ -186,10 +197,10 @@
  			      }else{
  			       dataxml.@needtree="0";
  			      }
- 			      if(checkbox1.selected){
+ 			      if(fobidzb.selected){
  			        dataxml.@fobidzb="1";
  			      }else{
- 			       dataxml.@fobidzb="0";
+ 			        dataxml.@fobidzb="0";
  			       }
  			      
  		           var str1:String="";
@@ -211,20 +222,27 @@
  			     dataxml.@formedit=str1;	 
          		var zibiaodanstr:String="";
          		for(var index:int=0;index<zibiaodangshu;index++){
-         		
-         		  if(CheckBox(zibiaodan.getChildAt(index)).selected){
+         			if(subformcontrol(zibiaodan.getChildAt(index)).Radio0.selected){
+         		     if(index==zibiaodangshu-1){
+         		     zibiaodanstr=zibiaodanstr+"0";
+         		     }else{
+         		     zibiaodanstr=zibiaodanstr+"0"+",";
+         		     }
+         		   }
+         		  if(subformcontrol(zibiaodan.getChildAt(index)).Radio1.selected){
          		     if(index==zibiaodangshu-1){
          		     zibiaodanstr=zibiaodanstr+"1";
          		     }else{
          		     zibiaodanstr=zibiaodanstr+"1"+",";
          		     }
-         		  }else{
-         		  	 if(index==zibiaodangshu-1){
-         		       zibiaodanstr=zibiaodanstr+"0";
-         		  	 }else{
-         		  	   zibiaodanstr=zibiaodanstr+"0"+",";
-         		  	 }
          		  }
+         		  if(subformcontrol(zibiaodan.getChildAt(index)).Radio2.selected){
+         		     if(index==zibiaodangshu-1){
+         		     zibiaodanstr=zibiaodanstr+"2";
+         		     }else{
+         		     zibiaodanstr=zibiaodanstr+"2"+",";
+         		     }
+         		  }		  
          		}
          		dataxml.@subfrommode=zibiaodanstr;
          		if(fenbushi.selected){
@@ -232,7 +250,13 @@
          		}else{
          		dataxml.@zibiaodanmoshi="0";
          		}
-         			
+         		if(fujian.selected){
+         		dataxml.@filemanage="1";      
+         		dataxml.@filetext=fu.fujiantext.text;
+         		}else{
+         		dataxml.@filemanage="0";	
+         		dataxml.@filetext="";
+         	    }
                 Parent.appendChild(dataxml);
 			    addrenyuan1.AddrenyuanQuery(Name.text,chinesename.text,Parent.toString());
               }
@@ -379,14 +403,18 @@
  			       if(arrform1.coworkmode=="4"){
  			       	r4.selected=true;
  			      }
- 	     
+ 	      		   if(arrform1.fobidzb=="1"){
+ 			         fobidzb.selected=true;
+ 			       }else{
+ 			         fobidzb.selected=false;
+ 			       }
                     if( arrform1.needtree=="1"){
                       NeedPerson.selected=true;
                     }else{
-                    NeedPerson.selected=false;
+                      NeedPerson.selected=false;
                      }
-                     if(arrform1.fobidzb!="" || arrform1.fobidzb!=null){
-                    ziduan=String(arrform1.fobidzb).split(",");
+                     if(arrform1.formedit!="" || arrform1.formedit!=null){
+                    ziduan=String(arrform1.formedit).split(",");
                     ziduan.pop();
                     if(ziduan.length!=0){
 		                   for( var i:int=0;i<arrform.length;i++){
@@ -399,27 +427,61 @@
 				                  }
 		                   }
 		                }
-                    if( arrform1.needformedit=="1"){
-                    checkbox1.selected=true;
-				    queryrenyuan2.formcounid(variable._idcreated1);
-                    }else{
-                     checkbox1.selected=false;
-                    }
-	                    if(arrform1.subfrommode!="" || arrform1.subfrommode!=null){
-	                    	var zibiaodangshuarr:Array=arrform1.subfrommode.split(",");
-	                   		 for(var gshu:int=0;gshu<zibiaodangshuarr.length;gshu++){
-	                    	  if(zibiaodangshuarr[gshu].toString()=="1"){
-	                    	   CheckBox(zibiaodan.getChildAt(gshu)).selected=true;
-		                       }else{
-		                        CheckBox(zibiaodan.getChildAt(gshu)).selected=false;
-		                       } 
-		                    }
+	                    if( arrform1.needformedit=="1"){
+	                    checkbox1.selected=true;
+					    queryrenyuan2.formcounid(variable._idcreated1);
+	                    }else{
+	                     checkbox1.selected=false;
 	                    }
+	                    if(arrform1.subfrommode=="" || arrform1.subfrommode==null){
+	                    }else{
+	                    	var zibiaoarr:Array=zibiaodan.getChildren();
+	                         var zibiaodangshuarr:Array=arrform1.subfrommode.split(",");
+	                         if(zibiaodangshuarr.length<=zibiaoarr.length){
+	                   			 for(var gshu:int=0;gshu<zibiaodangshuarr.length;gshu++){
+			                   		  if(zibiaodangshuarr[gshu].toString()=="0"){
+			                   		   subformcontrol(zibiaodan.getChildAt(gshu)).Radio0.selected=true;
+			                   		  }
+			                    	  if(zibiaodangshuarr[gshu].toString()=="1"){
+			                    	   subformcontrol(zibiaodan.getChildAt(gshu)).Radio1.selected=true;
+				                      }
+				                      if(zibiaodangshuarr[gshu].toString()=="2"){
+			                    	   subformcontrol(zibiaodan.getChildAt(gshu)).Radio2.selected=true;
+				                      }
+		                    		}
+	                        }
+		                 }
 	                  if(arrform1.zibiaodanmoshi=="1"){
 	                 	 fenbushi.selected=true;
 	                  } else{
 	                  	fenbushi.selected=false;
 	                  } 
+	                  if(arrform1.filemanage==""){
+	                      fujian.selected=true;
+	                 	  fu =new FuJianTextArea();
+		                  fu.id="fujianshuju";
+		                  fu.x=0;
+		                  fu.y=0;
+		                  fu.height=40;
+		                  fu.width=636;
+		                  fu.fujiantext.text=arrform1.filetext;
+		                  fujianqiyong.addChild(fu);	
+	                  }else{
+		                 if(arrform1.filemanage=="1"){
+		                 	  fujian.selected=true;
+		                 	  fu =new FuJianTextArea();
+			                  fu.id="fujianshuju";
+			                  fu.x=0;
+			                  fu.y=0;
+			                  fu.height=40;
+			                  fu.width=636;
+			                  variable.fujiantishi=arrform1.filetext;
+			                  fujianqiyong.addChild(fu);	
+		                  } else{
+		                  	fujian.selected=false;
+		                  	fujianqiyong.removeAllChildren();
+		                  } 
+	                  }
                   }
                   else{
                   	if(bool){
@@ -445,20 +507,36 @@
                     var xx:int=0;
                		var zibiaodanarr:Array=str.split(",");
                		zibiaodanarr.pop();
-               	   zibiaodangshu=zibiaodanarr.length;
+               	    zibiaodangshu=zibiaodanarr.length;
                    for(var zi:int=0;zi<zibiaodanarr.length;zi++){
                  		var strname:String=zibiaodanarr[zi].toString().substring(0, zibiaodanarr[zi].toString().indexOf("["));
-                         var check:CheckBox=new CheckBox();    			  
-	                 	 check.y=0;
-	                 	 check.x=xx;
-	                    check.label=strname;
-	                    check.width=150;
-	            	    check.id="zibiaodanshu"+zi;
-	                 	zibiaodan.addChild(check);
-	                    xx=xx+check.width+15;
+	            	    var sub:subformcontrol=new subformcontrol();
+	            	     sub.id=="zibiaodanshu"+zi;
+	            	     sub.y=0;
+	                 	 sub.x=xx;
+	                 	 variable.strradi="0";
+	                     variable.subformname=strname;
+	                     sub.width=284;
+	                 	 zibiaodan.addChild(sub);
+	                     xx=xx+sub.width+15;
                         }
                  	 }
                   } 
+                   //是否启用附件
+                  public function fujinashifou():void{
+	                  if(fujian.selected){
+	                  fu =new FuJianTextArea();
+	                  fu.id="fujianshuju";
+	                  fu.x=0;
+	                  fu.y=0;
+	                  fu.height=40;
+	                  fu.width=636;
+	                  fujianqiyong.addChild(fu);	
+	                  }
+	                  else{
+	                  fujianqiyong.removeAllChildren();
+	                  }
+                  }
                
     	]]>
     </mx:Script>

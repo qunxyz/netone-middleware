@@ -69,5 +69,11 @@
 	  public static var   worklistDefaultColumn:String="";
 	  [Bindable]//选择目录的模式
 	  public static var modelname:String="";
+	  [Bindable]//附件提示
+	  public static var fujiantishi:String="";
+	  [Bindable]//子表单名字
+	  public static var subformname:String="";
+      [Bindable]//子表单模式
+	  public static var strradi:String="";
   }
  }

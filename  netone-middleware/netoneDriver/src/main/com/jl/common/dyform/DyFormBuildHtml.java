@@ -1522,9 +1522,17 @@ public final class DyFormBuildHtml {
 		btnstr.append(DyFormComp.getButton("", "É¾³ýÐÐ", "", "btn", false,
 				removerowscript)
 				+ _N);
-		String xhtml = "var nulltr='"
+		nulltr = nulltr.replaceAll("\"", "\'");
+		String htmlcacheid = uuid();
+		String xhtml = "$('body').append('<div id=\"htmlcache"
+				+ htmlcacheid
+				+ "\"></div>');$('#htmlcache"
+				+ htmlcacheid
+				+ "').val(\""
 				+ nulltr
-				+ "';nulltr=nulltr.replace('$TR_UUID$',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
+				+ "\");var nulltr=$('#htmlcache"
+				+ htmlcacheid
+				+ "').val();nulltr=nulltr.replace('$TR_UUID$',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
 		btnstr.append("<script> function " + onclickAddFunctionname + "(){"
 				+ xhtml + " $('#" + formcode + "').append(nulltr);} ");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");

@@ -2166,9 +2166,14 @@ public final class DyFormBuildHtmlExt {
 				removerowscript)
 				+ _N);
 		nulltr = nulltr.replaceAll("\"", "\'");
-		String xhtml = "$('#htmlcache').val(\""
+		String htmlcacheid = uuid();
+		String xhtml = "$('body').append('<div id=\"htmlcache"
+				+ htmlcacheid
+				+ "\"></div>');$('#htmlcache"
+				+ htmlcacheid
+				+ "').val(\""
 				+ nulltr
-				+ "\");var nulltr=$('#htmlcache').val();nulltr=nulltr.replace('_TR_UUID_',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
+				+ "\");var nulltr=$('#htmlcache"+htmlcacheid+"').val();nulltr=nulltr.replace('_TR_UUID_',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
 		btnjsstr.append("<script>");
 		btnjsstr.append("function " + onclickAddFunctionname + "(){" + xhtml
 				+ " $('#" + formcode + "').append(nulltr); } ");
@@ -2483,7 +2488,7 @@ public final class DyFormBuildHtmlExt {
 			if (hidden == false) {
 				String ext = routeAppointValue(_qc1.getViewtype(), columnid,
 						_qc1.getValuelist(), "ext");// À©Õ¹½Å±¾¿ØÖÆ
-				//ext = null;
+				// ext = null;
 
 				String musktip = _qc1.isMusk_() == true ? "<span style=\"color:red\">*</span>"
 						: "";

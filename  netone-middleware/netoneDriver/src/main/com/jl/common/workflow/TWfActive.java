@@ -63,10 +63,28 @@ public class TWfActive {
 
 	boolean needsearch;
 
-	Map subformmode;
+	Map subformmode; //字表单模式 0 编辑 ，1只读， 2隐藏
 	boolean syncto;//分布式提交判断
+	String filefunction;//是否使用附件功能 1 启用，0不启用
+	String filetext;//附件提示
 
 
+
+	public String getFilefunction() {
+		return filefunction;
+	}
+
+	public void setFilefunction(String filefunction) {
+		this.filefunction = filefunction;
+	}
+
+	public String getFiletext() {
+		return filetext;
+	}
+
+	public void setFiletext(String filetext) {
+		this.filetext = filetext;
+	}
 
 	public boolean isFobitzb() {
 		return fobitzb;

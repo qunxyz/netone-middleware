@@ -244,14 +244,11 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		String [] arr=str.split(",");
 		if (str != null) {
 			for (int i = 0; i < arr.length; i++) {
-				if (arr[i].toString().equals("1") ) {
-					subformmode.put(i, true);
-				} else {
-					subformmode.put(i, false);
-				}
+					subformmode.put(i, arr[i]);  // 子表单模式，0 编辑，1 只读，2 隐藏
 			}
 		}
-
+        actx.setFilefunction(as.getFilemanage()); //是否启用附件功能
+        actx.setFiletext(as.getFiletext());  //附件提示
 		actx.setSubformmode(subformmode);
 
 		return actx;

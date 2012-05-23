@@ -568,7 +568,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		
 		String commitercode = StringUtils.substringBetween(commiter, "[", "]");
 		String commitername = StringUtils.substringBefore(commiter, "[");
-		String sql = "select auditnode from t_wf_participant where usercode='" + commitercode + "' and workcode = '"+workcode+"' order by createtime desc limit 1";
+		String sql = "select auditnode from t_wf_participant where usercode='" + commitercode + "' and workcode = '"+workcode+"' order by createtime";
 		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
 		List<Map> list = wfview.coreSqlview(sql);
 		String auditnode = "";
@@ -621,10 +621,13 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			throws Exception {
 		String extcondition="";
 		if(onlyDone){
-			extcondition=" and statusnow='02' ";
+			extcondition=" and statusnow='02' order by donetime";
+		}else{
+			extcondition=" order by createtime";
+			
 		}
 		String sql = "select * from t_wf_participant where workcode in (select workcode from t_wf_worklist where runtimeid='"
-				+ runtimeid + "')"+extcondition+"  order by donetime";
+				+ runtimeid + "')"+extcondition;
 		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
 		List list = wfview.coreSqlview(sql);
 		List listrt = new ArrayList();
@@ -1342,6 +1345,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			DyFormData data = DyEntry.iv().loadData(formcode, bussid);
 			String value = BeanUtils.getProperty(data, columnid);
 			updateRev(runtimeid, revid, value);
+			value=StringUtils.replace(value, "'", "¡¯");
 			rev_view_sql_value.append(",'" + value + "'");
 			rev_view_sql_column.append(",d" + count++);
 		}

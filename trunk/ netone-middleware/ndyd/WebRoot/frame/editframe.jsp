@@ -132,7 +132,7 @@
 				</table>
 				 -->
 				<iframe id="fileMainFrame" name="fileMainFrame"
-					src="<c:url value='/file.do?method=onMainView&d_unid=${param.lsh}&readonly=${param.readonly}' />"
+					src="<c:url value='/file.do?method=onMainView&d_unid=${param.lsh}&readonly=${param.readonly}&workcode=${param.workcode}&naturalname=${param.naturalname}' />"
 					scrolling="auto" frameborder="0"
 					style="width:${AvailWidth}px;">
 				</iframe>

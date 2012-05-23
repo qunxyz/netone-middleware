@@ -214,6 +214,8 @@ public final class DyFormBuildHtmlExt {
 					readonly, selectedvalue);
 		} else if (arr[27][0].equals(htmltype)) {// 31:真假radio
 			return DyFormComp.getBooleanRadio(id, value, "", "", readonly);
+		} else if (arr[28][0].equals(htmltype)) {// 32:隐藏域
+			return DyFormComp.getHiddenInput(id, value);
 		} else {
 			return "";
 		}
@@ -336,6 +338,8 @@ public final class DyFormBuildHtmlExt {
 					readonly, selectedvalue);
 		} else if (arr[27][0].equals(htmltype)) {// 31:真假radio
 			return DyFormComp.getBooleanRadio(id, value, "", "", readonly);
+		} else if (arr[28][0].equals(htmltype)) {// 32:隐藏域
+			return DyFormComp.getHiddenInput(id, value);
 		} else {
 			return "";
 		}
@@ -592,6 +596,11 @@ public final class DyFormBuildHtmlExt {
 						.getJsBooleanRadioText(columnid, selectedvalue);
 			}
 			return DyFormComp.getBooleanRadioText(value);
+		} else if (arr[28][0].equals(htmltype)) {// 32:隐藏域
+			if ("ext".equals(type)) {
+				return null;
+			}
+			return value;
 		} else {
 			return null;
 		}
@@ -961,11 +970,14 @@ public final class DyFormBuildHtmlExt {
 
 				}
 
-				columns.append(split + "{header: '" + column.getColumname()
-						+ "', dataIndex: '" + column.getColumnid()
-						+ "', sortable: true"
-						+ (ext == null ? "" : ("," + ext)) + "}");
-				split = ",";
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				if (!arr[28][0].equals(column.getViewtype())) {// 非隐藏
+					columns.append(split + "{header: '" + column.getColumname()
+							+ "', dataIndex: '" + column.getColumnid()
+							+ "', sortable: true"
+							+ (ext == null ? "" : ("," + ext)) + "}");
+					split = ",";
+				}
 
 			}
 		}
@@ -1169,17 +1181,8 @@ public final class DyFormBuildHtmlExt {
 				TableStyle, TABLE_FORM, 0, TableExtPropertiesExt);
 		// 输出文档普通字段内容结束
 
-		String hiddenid = DyFormComp.getHiddenInput("naturalname", naturalname);
-		String hiddenunid = DyFormComp.getHiddenInput("unid", lsh);
-		String hiddenlsh = DyFormComp.getHiddenInput("lsh", lsh);
-		if (issub) {
-			hiddenid = "";
-			hiddenunid = "";
-			hiddenlsh = "";
-		}
 		String html_2 = eventListenScripts.toString()
-				+ DyFormComp.getForm(_FORM_ID, hiddenid + hiddenunid
-						+ hiddenlsh + html_) + _N;
+				+ DyFormComp.getForm(_FORM_ID, html_) + _N;
 		return html_2;
 	}
 
@@ -1274,17 +1277,8 @@ public final class DyFormBuildHtmlExt {
 				TableStyle, TABLE_FORM, 0, TableExtProperties);
 		// 输出文档普通字段内容结束
 
-		String hiddenid = DyFormComp.getHiddenInput("naturalname", naturalname);
-		String hiddenunid = DyFormComp.getHiddenInput("unid", lsh);
-		String hiddenlsh = DyFormComp.getHiddenInput("lsh", lsh);
-		if (issub) {
-			hiddenid = "";
-			hiddenunid = "";
-			hiddenlsh = "";
-		}
 		String html_2 = eventListenScripts.toString()
-				+ DyFormComp.getForm(_FORM_ID, hiddenid + hiddenunid
-						+ hiddenlsh + html_) + _N;
+				+ DyFormComp.getForm(_FORM_ID, html_) + _N;
 		return html_2;
 	}
 
@@ -1302,12 +1296,19 @@ public final class DyFormBuildHtmlExt {
 				.getViewtype()) ? AvailExtBtnWidth : 0))
 				+ "px;";
 		boolean isMultiDoc = checkMultiDoc(column.getViewtype());
+		String[][] arr = DyFormConsoleIfc._HTML_LIST;
+		String hiddenstyle = "";
+		if (arr[28][0].equals(column.getViewtype())) {// 隐藏
+			hiddenstyle = "display:none;";
+		}
 		if (isMultiDoc) {
 			html_ += "<div class=\""
 					+ FORM_FIELD_CAPTION2
 					+ "\" align=\"left\" style=\"width:"
 					+ availColumnWidth
-					+ "px\"  title=\""
+					+ "px;"
+					+ hiddenstyle
+					+ "\"  title=\""
 					+ columnname
 					+ "\">"
 					+ "&nbsp;"
@@ -1324,6 +1325,8 @@ public final class DyFormBuildHtmlExt {
 					+ "\" style=\"width:"
 					+ columnsize
 					+ "px;"
+					+ hiddenstyle
+					+ ""
 					+ "\">"
 					+ columnname
 					+ (column.isMusk_() == true ? "<span style=\"color:red\">*</span>"
@@ -1389,197 +1392,6 @@ public final class DyFormBuildHtmlExt {
 			htmlresult.put(xoffset, htmlresult.get(xoffset) + html_);
 		} else {
 			htmlresult.put(xoffset, html_);
-		}
-		return htmlresult;
-	}
-
-	@Deprecated
-	// 暂时不用
-	protected static Map<Double, String> buildTdHtml2(
-			Map<Double, String> htmlresult, int availColumnWidth,
-			DyFormColumn column, String columnname, String formmode,
-			boolean isedit, String value, String userinfo, double xoffset,
-			String parameter) {
-		String html_ = "";
-		String html_caption = "";
-
-		String _width = availColumnWidth + "px;";
-		html_ += "<div class=\"" + FORM_FIELD_CONTENT + "\" style=\"width:"
-				+ _width + "\" >" + _N;
-
-		if (checkMultiDoc(column.getViewtype())) {
-			html_ += "<div class=\""
-					+ FORM_FIELD_CAPTION2
-					+ "\" align=\"left\" style=\"width:"
-					+ _width
-					+ "\"  title=\""
-					+ columnname
-					+ "\">"
-					+ columnname
-					+ (column.isMusk_() == true ? "<span style=\"color:red\">*</span>"
-							: "") + ":</div>" + _N;
-			_width = "100%;";
-		} else {
-			html_caption += "<div class=\""
-					+ FORM_FIELD_CAPTION2
-					+ "\" align=\"center\" style=\"width:"
-					+ _width
-					+ "\"  title=\""
-					+ columnname
-					+ "\">"
-					+ columnname
-					+ (column.isMusk_() == true ? "<span style=\"color:red\">*</span>"
-							: "") + "</div>" + _N;
-		}
-
-		if (!isedit) {
-			html_ += "<div class=\"" + FORM_FIELD_INPUT_READ
-					+ "\" style=\"width:" + _width + "\" align=\"left\">" + _N;
-
-			html_ += routeAppointValue(column.getViewtype(), "" + value + "",
-					column.getValuelist())
-					+ _N;
-		} else {
-			html_ += "<div class=\"" + FORM_FIELD_INPUT + "\" style=\"width:"
-					+ _width + "\" align=\"left\">" + _N;
-			html_ += routeAppointComp(column.getViewtype(), column
-					.getColumnid(), "" + value, "width:"
-					+ (availColumnWidth - 0) + "px;", "", column.isReadonly(),
-					column.getValuelist(), "", userinfo, parameter)
-					+ _N;
-		}
-
-		html_caption += "</div></div>" + _N;
-		html_ += "</div></div>" + _N;
-		double xoffset_1 = xoffset + 0;
-		double xoffset_2 = xoffset + 0.5;
-		if (!checkMultiDoc(column.getViewtype())) {
-			if (htmlresult.containsKey(xoffset_1)) {
-				htmlresult.put(xoffset_1, htmlresult.get(xoffset_1)
-						+ html_caption);
-			} else {
-				htmlresult.put(xoffset_1, html_caption);
-			}
-		}
-		if (htmlresult.containsKey(xoffset_2)) {
-			htmlresult.put(xoffset_2, htmlresult.get(xoffset_2) + html_);
-		} else {
-			htmlresult.put(xoffset_2, html_);
-		}
-		return htmlresult;
-	}
-
-	@Deprecated
-	// 暂时不用
-	protected static Map<Double, String> buildTdHtml3(int availColumnWidth,
-			DyFormColumn column, String columnname, String formmode,
-			boolean isedit, String value, String userinfo, double xoffset,
-			String parameter) {
-		Map<Double, String> htmlresult = new TreeMap<Double, String>();// 存放每行HTML代码
-
-		String html_ = "";
-		String html_caption = "";
-		int columnsize = columnname.length() * 12;
-		String _width = (availColumnWidth - columnsize) + "px;";
-		String _width_input = (availColumnWidth - columnsize
-				- AvailNormalFieldCorrectWidth - (checkSelect_(column
-				.getViewtype()) ? AvailExtBtnWidth : 0))
-				+ "px;";
-		if (checkMultiDoc(column.getViewtype())) {
-			html_ += "<div class=\""
-					+ FORM_FIELD_CAPTION2
-					+ "\" align=\"left\" style=\"width:"
-					+ availColumnWidth
-					+ "px\"  title=\""
-					+ columnname
-					+ "\">"
-					+ columnname
-					+ (column.isMusk_() == true ? "<span style=\"color:red\">*</span>"
-							: "") + ":</div>" + _N;
-			_width = "100%;";
-			_width_input = "100%;";
-		} else {
-			html_ += "<div class=\"" + FORM_FIELD_CONTENT + "\" style=\"width:"
-					+ (availColumnWidth - 10) + "px\">" + _N;
-
-			html_caption += "<div class=\""
-					+ FORM_FIELD_CAPTION2
-					+ "\" align=\"left\" style=\"width:"
-					+ (availColumnWidth - 10)
-					+ "px\"  title=\""
-					+ columnname
-					+ "\">"
-					+ columnname
-					+ (column.isMusk_() == true ? "<span style=\"color:red\">*</span>"
-							: "") + ":</div>" + _N;
-			if (!"1".equals(formmode)) {
-				html_ += "<div class=\""
-						+ FORM_FIELD_CAPTION
-						+ "\" align=\"right\" title=\""
-						+ columnname
-						+ "\">"
-						+ columnname
-						+ (column.isMusk_() == true ? "<span style=\"color:red\">*</span>"
-								: "") + ":</div>" + _N;
-
-			}
-			if ("1".equals(formmode)) {
-				_width = (availColumnWidth - 10) + "px;";
-				_width_input = (availColumnWidth - 10) + "px;";
-			}
-
-		}
-
-		if (!isedit) {
-			html_ += "<div class=\"" + FORM_FIELD_INPUT_READ
-					+ "\" style=\"width:" + _width + "\" align=\"left\">" + _N;
-
-			html_ += routeAppointValue(column.getViewtype(), "" + value + "",
-					column.getValuelist())
-					+ _N;
-		} else {
-
-			html_ += routeAppointComp(column.getViewtype(), column
-					.getColumnid(), "" + value, "width:" + _width_input, "",
-					column.isReadonly(), column.getValuelist(), "", userinfo,
-					parameter)
-					+ _N;
-		}
-
-		if ("1".equals(formmode)) {
-			if (checkMultiDoc(column.getViewtype())) {
-				// html_caption += "</div>" + _N;
-				html_ += "</div>" + _N;
-			} else {
-				html_caption += "</div></div>" + _N;
-				html_ += "</div></div>" + _N;
-			}
-			double xoffset_1 = xoffset + 0;
-			double xoffset_2 = xoffset + 0.5;
-			if (!checkMultiDoc(column.getViewtype())) {
-				if (htmlresult.containsKey(xoffset_1)) {
-					htmlresult.put(xoffset_1, htmlresult.get(xoffset_1)
-							+ html_caption);
-				} else {
-					htmlresult.put(xoffset_1, html_caption);
-				}
-			}
-			if (htmlresult.containsKey(xoffset_2)) {
-				htmlresult.put(xoffset_2, htmlresult.get(xoffset_2) + html_);
-			} else {
-				htmlresult.put(xoffset_2, html_);
-			}
-		} else {
-			if (checkMultiDoc(column.getViewtype())) {
-				html_ += "</div>" + _N;
-			} else {
-				html_ += "</div></div>" + _N;
-			}
-			if (htmlresult.containsKey(xoffset)) {
-				htmlresult.put(xoffset, htmlresult.get(xoffset) + html_);
-			} else {
-				htmlresult.put(xoffset, html_);
-			}
 		}
 		return htmlresult;
 	}
@@ -1969,9 +1781,13 @@ public final class DyFormBuildHtmlExt {
 				columnmap.put(columnid, _qc1);
 				String musktip = _qc1.isMusk_() == true ? "<span style=\"color:red\">*</span>"
 						: "";
-				td.append(DyFormComp.getTd("", "&nbsp;" + columnname + musktip,
-						TableTdStyle2, TABLE_TD_HEADER, ""));
-				++colspan;
+
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
+					td.append(DyFormComp.getTd("", "&nbsp;" + columnname
+							+ musktip, TableTdStyle2, TABLE_TD_HEADER, ""));
+					++colspan;
+				}
 
 				eventListenScripts
 						.append(DyFormComp.getLiveEventScript("$('table#"
@@ -2051,168 +1867,6 @@ public final class DyFormBuildHtmlExt {
 
 		htmlall.append(eventListenScripts.toString() + html_ + html_btn);
 		return htmlall.toString();
-	}
-
-	public static Map buildSubForm2(DyForm subdyform, String fatherlsh,
-			boolean isedit, String userinfo, String parameter) throws Exception {
-
-		StringBuffer htmlall = new StringBuffer();
-
-		StringBuffer eventListenScripts = new StringBuffer();// 事件监听脚本
-		StringBuffer html = new StringBuffer();
-		DyForm dyform = subdyform;
-		String formcode = dyform.getFormcode();
-
-		// 展示表单字段-针对表单中的相关字段
-		DyFormColumn _formx[] = dyform.getAllColumn_();
-		Arrays.sort(_formx, getFormComparator());// 排序
-		Map<String, DyFormColumn> columnmapx = getDyFormColumnById(_formx);// 映射
-
-		StringBuffer th = new StringBuffer();
-		Map<String, DyFormColumn> columnmap = new HashMap<String, DyFormColumn>();
-		int colspan = 1;
-
-		if (isedit == true) {
-			th.append(DyFormComp.getTh(formcode + DyFormComp._CHECK_NAME,
-					DyFormComp
-							.getCheckbox(formcode + "_btn", "", "", "", false),
-					TableTdStyle2, "", ""));// 全选/清除按钮
-		}
-
-		htmlall.append(DyFormComp.getClickEventScript("$(\"#" + formcode
-				+ "_btn\")", DyFormComp.getSelectOrUnselectAll(formcode)));
-
-		for (int i = 0; i < _formx.length; i++) {
-			DyFormColumn _qc1 = _formx[i];
-			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
-			String columnid = _qc1.getColumnid();
-			// 字段名（中文）
-			String columnname = _qc1.getColumname();
-
-			// 是否隐蔽
-			boolean hidden = _qc1.isHidden();
-
-			if (hidden == false) {
-				columnmap.put(columnid, _qc1);
-				String musktip = _qc1.isMusk_() == true ? "<span style=\"color:red\">*</span>"
-						: "";
-
-				String style = "width:99%";
-
-				th.append(DyFormComp.getTh("", "&nbsp;" + columnname + musktip,
-						"", TABLE_TD_HEADER, " width='" + _qc1.getWidth()
-								+ "' "));
-				++colspan;
-
-				eventListenScripts
-						.append(DyFormComp.getLiveEventScript("$('table#"
-								+ formcode + "').find('#" + columnid + "')",
-								_qc1.getInitScript(), _qc1.getFocusScript(),
-								_qc1.getLoseFocusScript(), _qc1
-										.getOnchangeScript()));// 添加事件监听
-
-			}
-		}
-
-		// html.append(DyFormComp.getTr("", DyFormComp.getTd("", "&nbsp;"
-		// + dyform.getFormname(), TableTdStyle2, TABLE_TD_TITLE,
-		// "align=\"left\" colspan=\"" + colspan + "\""), "",
-		// TABLE_TR_TITLE, "align=\"left\""));// 标题
-		html.append("<thead>"
-				+ DyFormComp.getTr("", th.toString(), "", TABLE_TR_HEADER, "")
-				+ "</thead>");// 表头
-
-		// 数据
-		DyFormData dydata = new DyFormData();
-		dydata.setFormcode(formcode);
-		dydata.setFatherlsh(fatherlsh);
-		List list = new ArrayList();
-		// if (StringUtils.isNotEmpty(fatherlsh)) {
-		list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
-		// }
-		html.append("<tbody>");
-		if (list.size() > 0) {// 有记录
-			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-				DyFormData data = (DyFormData) iterator.next();
-				html.append(buildTrBywidth(uuid(), formcode, false, data,
-						_formx, columnmap, columnmapx, isedit, userinfo,
-						parameter));
-			}
-		} else {// 无记录
-			for (int i = 0; i < 7; i++) {
-				html.append(buildTrBywidth(uuid(), formcode, false, null,
-						_formx, columnmap, columnmapx, isedit, userinfo,
-						parameter));
-			}
-		}
-		html.append("</tbody>");
-
-		String nulltr = buildTrBywidth(uuid() + "_TR_UUID_", formcode, false,
-				null, _formx, columnmap, columnmapx, isedit, userinfo,
-				parameter);
-		String onclickAddFunctionname = "$ADD_" + uuid();
-		String onclickRemoveFunctionname = "$REMOVE_" + uuid();
-
-		String addrowscript = "onclick='" + onclickAddFunctionname + "();'";
-		String removerowscript = "onclick='" + onclickRemoveFunctionname
-				+ "();'";
-
-		StringBuffer btnstr = new StringBuffer();
-		StringBuffer btnjsstr = new StringBuffer();
-		btnstr.append(DyFormComp.getButton("", "新增行", "", "btn", false,
-				addrowscript)
-				+ _N);
-		btnstr.append(DyFormComp.getButton("", "删除行", "", "btn", false,
-				removerowscript)
-				+ _N);
-		nulltr = nulltr.replaceAll("\"", "\'");
-		String htmlcacheid = uuid();
-		String xhtml = "$('body').append('<div id=\"htmlcache"
-				+ htmlcacheid
-				+ "\"></div>');$('#htmlcache"
-				+ htmlcacheid
-				+ "').val(\""
-				+ nulltr
-				+ "\");var nulltr=$('#htmlcache"+htmlcacheid+"').val();nulltr=nulltr.replace('_TR_UUID_',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
-		btnjsstr.append("<script>");
-		btnjsstr.append("function " + onclickAddFunctionname + "(){" + xhtml
-				+ " $('#" + formcode + "').append(nulltr); } ");
-		btnjsstr.append("function " + onclickRemoveFunctionname + "(){");
-		btnjsstr.append(DyFormComp.deleteRow(formcode, onclickAddFunctionname));
-		btnjsstr.append("}");
-		btnjsstr.append("</script>");
-
-		String html_ = DyFormComp.getTable(formcode, html.toString(), "", "",
-				0, TableExtProperties);
-		String html_btn = "";
-
-		if (isedit) {
-			String btnstr_ = DyFormComp.getTr("", DyFormComp.getTd("", btnstr
-					.toString(), TableTdStyle2, "", "align=\"left\" colspan=\""
-					+ colspan + "\""), "", TABLE_TR_TITLE, "align=\"left\"");// 按钮菜单
-
-			// TableExtPropertiesExt = "width=\""
-			// + "100%"
-			// + "\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\"";
-			html_btn = DyFormComp.getTable(formcode + "btn", btnstr_, dyform
-					.getStyleinfo_(), "", 0, TableExtProperties);
-		}
-
-		String uid = DyFormBuildHtml.uuid();
-		htmlall.append(eventListenScripts.toString() + html_ + html_btn);
-
-		Map map = new HashMap();
-		map
-				.put(
-						"html",
-						htmlall.toString()
-								+ DyFormComp
-										.getJqueryFunctionScript("$('#"
-												+ formcode
-												+ "').flexigrid({resizable:false,height:'auto',striped:false,showToggleBtn:false});;"));
-		map.put("count", list.size());
-		map.put("js", btnjsstr.toString());
-		return map;
 	}
 
 	public static Map buildExtSubForm(String id, DyForm subdyform,
@@ -2505,11 +2159,14 @@ public final class DyFormBuildHtmlExt {
 					}
 				}
 
-				html.append(split + "{header: '" + columnname + musktip
-						+ "', dataIndex: '" + columnid + "', sortable: true"
-						+ ",hidden:" + disable
-						+ (ext == null ? "" : ("," + ext)) + "}");
-				split = ",";
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
+					html.append(split + "{header: '" + columnname + musktip
+							+ "', dataIndex: '" + columnid
+							+ "', sortable: true" + ",hidden:" + disable
+							+ (ext == null ? "" : ("," + ext)) + "}");
+					split = ",";
+				}
 			}
 		}
 
@@ -2585,10 +2242,14 @@ public final class DyFormBuildHtmlExt {
 				ext = null;
 
 				String musktip = "";
-				html.append(split + "{header: '" + columnname + musktip
-						+ "', dataIndex: '" + columnid + "', sortable: true"
-						+ (ext == null ? "" : ("," + ext)) + "}");
-				split = ",";
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
+					html.append(split + "{header: '" + columnname + musktip
+							+ "', dataIndex: '" + columnid
+							+ "', sortable: true"
+							+ (ext == null ? "" : ("," + ext)) + "}");
+					split = ",";
+				}
 			}
 		}
 
@@ -2653,11 +2314,14 @@ public final class DyFormBuildHtmlExt {
 					}
 				}
 
-				html.append(split + "{header: '" + columnname + musktip
-						+ "',dataIndex: '" + columnid + "', sortable: true"
-						+ ",width:" + _qc1.getWidth() + ",hidden:" + disable
-						+ (ext == null ? "" : ("," + ext)) + "}");
-				split = ",";
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
+					html.append(split + "{header: '" + columnname + musktip
+							+ "',dataIndex: '" + columnid + "', sortable: true"
+							+ ",width:" + _qc1.getWidth() + ",hidden:"
+							+ disable + (ext == null ? "" : ("," + ext)) + "}");
+					split = ",";
+				}
 			}
 		}
 		return html.toString();

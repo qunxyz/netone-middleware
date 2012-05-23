@@ -200,6 +200,8 @@ public final class DyFormBuildHtml {
 					readonly, selectedvalue);
 		} else if (arr[27][0].equals(htmltype)) {// 31:Õæ¼Ùradio
 			return DyFormComp.getBooleanRadio(id, value, "", "", readonly);
+		} else if (arr[28][0].equals(htmltype)) {// 32:Òþ²ØÓò
+			return DyFormComp.getHiddenInput(id, value);
 		} else {
 			return "";
 		}
@@ -322,6 +324,8 @@ public final class DyFormBuildHtml {
 					readonly, selectedvalue);
 		} else if (arr[27][0].equals(htmltype)) {// 31:Õæ¼Ùradio
 			return DyFormComp.getBooleanRadio(id, value, "", "", readonly);
+		} else if (arr[28][0].equals(htmltype)) {// 32:Òþ²ØÓò
+			return DyFormComp.getHiddenInput(id, value);
 		} else {
 			return "";
 		}
@@ -577,6 +581,11 @@ public final class DyFormBuildHtml {
 						.getJsBooleanRadioText(columnid, selectedvalue);
 			}
 			return DyFormComp.getBooleanRadioText(value);
+		} else if (arr[28][0].equals(htmltype)) {// 32:Òþ²ØÓò
+			if ("ext".equals(type)) {
+				return null;
+			}
+			return value;
 		} else {
 			return null;
 		}
@@ -722,15 +731,19 @@ public final class DyFormBuildHtml {
 								DyFormColumn column = columnmapx.get(field);
 								Double wpercent = column.getWpercent();
 
+								String[][] arr = DyFormConsoleIfc._HTML_LIST;
+								String hiddenstyle = "";
+								if (arr[28][0].equals(column.getViewtype())) {// Òþ²Ø
+									hiddenstyle = "display:none;";
+								}
+
 								if (isedit == false) {
-									td_
-											.append(DyFormComp.getTd("",
-													routeAppointValue(column
-															.getViewtype(), ""
-															+ value, column
-															.getValuelist()),
-													TableTdStyle,
-													TABLE_TD_CONTENT, ""));
+									td_.append(DyFormComp.getTd("",
+											routeAppointValue(column
+													.getViewtype(), "" + value,
+													column.getValuelist()),
+											TableTdStyle + hiddenstyle,
+											TABLE_TD_CONTENT, ""));
 								} else {
 									boolean isSelect_ = checkSelect_(column
 											.getViewtype());
@@ -756,7 +769,8 @@ public final class DyFormBuildHtml {
 																			: "width:"
 																					+ column
 																							.getWpercent()
-																					+ "%;"),
+																					+ "%;")
+																	+ hiddenstyle,
 															TABLE_TD_CONTENT,
 															""));
 								}
@@ -908,13 +922,20 @@ public final class DyFormBuildHtml {
 				- AvailNormalFieldCorrectWidth - (checkSelect_(column
 				.getViewtype()) ? AvailExtBtnWidth : 0))
 				+ "px;";
+		String[][] arr = DyFormConsoleIfc._HTML_LIST;
+		String hiddenstyle = "";
+		if (arr[28][0].equals(column.getViewtype())) {// Òþ²Ø
+			hiddenstyle = "display:none;";
+		}
 		boolean isMultiDoc = checkMultiDoc(column.getViewtype());
 		if (isMultiDoc) {
 			html_ += "<div class=\""
 					+ FORM_FIELD_CAPTION2
 					+ "\" align=\"left\" style=\"width:"
 					+ availColumnWidth
-					+ "px\"  title=\""
+					+ "px;"
+					+ hiddenstyle
+					+ "\"  title=\""
 					+ columnname
 					+ "\">"
 					+ "&nbsp;"
@@ -931,6 +952,8 @@ public final class DyFormBuildHtml {
 					+ "\" style=\"width:"
 					+ columnsize
 					+ "px;"
+					+ hiddenstyle
+					+ ""
 					+ "\">"
 					+ columnname
 					+ (column.isMusk_() == true ? "<span style=\"color:red\">*</span>"
@@ -1465,10 +1488,13 @@ public final class DyFormBuildHtml {
 				columnmap.put(columnid, _qc1);
 				String musktip = _qc1.isMusk_() == true ? "<span style=\"color:red\">*</span>"
 						: "";
-				td.append(DyFormComp.getTd("", "&nbsp;" + columnname + musktip,
-						TableTdStyle2, TABLE_TD_HEADER, ""));
-				++colspan;
 
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				if (!arr[28][0].equals(_qc1.getViewtype())) {// ·ÇÒþ²Ø
+					td.append(DyFormComp.getTd("", "&nbsp;" + columnname
+							+ musktip, TableTdStyle2, TABLE_TD_HEADER, ""));
+					++colspan;
+				}
 				eventListenScripts
 						.append(DyFormComp.getLiveEventScript("$('table#"
 								+ formcode + "').find('#" + columnid + "')",
@@ -1532,9 +1558,9 @@ public final class DyFormBuildHtml {
 				+ htmlcacheid
 				+ "').html();nulltr=nulltr.replace('_TR_UUID_',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
 		btnstr.append("<script> $('body').append('<div id=\"htmlcache"
-				+ htmlcacheid
-				+ "\" style=\"display:none;\"></div>');function " + onclickAddFunctionname + "(){"
-				+ xhtml + " $('#" + formcode + "').append(nulltr);} ");
+				+ htmlcacheid + "\" style=\"display:none;\"></div>');function "
+				+ onclickAddFunctionname + "(){" + xhtml + " $('#" + formcode
+				+ "').append(nulltr);} ");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");
 		btnstr.append(DyFormComp.deleteRow(formcode, onclickAddFunctionname));
 		btnstr.append("}");

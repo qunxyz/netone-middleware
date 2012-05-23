@@ -1506,7 +1506,7 @@ public final class DyFormBuildHtml {
 					columnmap, columnmapx, isedit, userinfo, parameter));
 		}
 
-		String nulltr = buildTr(uuid() + "$TR_UUID$", formcode, false, null,
+		String nulltr = buildTr(uuid() + "_TR_UUID_", formcode, false, null,
 				_formx, columnmap, columnmapx, isedit, userinfo, parameter);
 		String onclickAddFunctionname = "$ADD_" + uuid();
 		String onclickRemoveFunctionname = "$REMOVE_" + uuid();
@@ -1524,16 +1524,16 @@ public final class DyFormBuildHtml {
 				+ _N);
 		nulltr = nulltr.replaceAll("\"", "\'");
 		String htmlcacheid = uuid();
-		String xhtml = "$('body').append('<div id=\"htmlcache"
+		String xhtml = "$('#htmlcache"
 				+ htmlcacheid
-				+ "\"></div>');$('#htmlcache"
-				+ htmlcacheid
-				+ "').val(\""
+				+ "').html(\""
 				+ nulltr
 				+ "\");var nulltr=$('#htmlcache"
 				+ htmlcacheid
-				+ "').val();nulltr=nulltr.replace('$TR_UUID$',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
-		btnstr.append("<script> function " + onclickAddFunctionname + "(){"
+				+ "').html();nulltr=nulltr.replace('_TR_UUID_',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
+		btnstr.append("<script> $('body').append('<div id=\"htmlcache"
+				+ htmlcacheid
+				+ "\" style=\"display:none;\"></div>');function " + onclickAddFunctionname + "(){"
 				+ xhtml + " $('#" + formcode + "').append(nulltr);} ");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");
 		btnstr.append(DyFormComp.deleteRow(formcode, onclickAddFunctionname));

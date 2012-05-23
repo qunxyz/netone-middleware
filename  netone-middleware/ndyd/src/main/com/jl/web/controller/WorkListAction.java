@@ -83,7 +83,7 @@ public class WorkListAction extends AbstractAction {
 		String appname = request.getParameter("appname");
 		String sortfield = request.getParameter("sortfield");
 		String sort = request.getParameter("sort");
-
+ 
 		List list = WlEntry.iv().listQueryColumn(appname);
 		if (StringUtils.isEmpty(sortfield)) {
 			sortfield = ((QueryColumn) list.get(list.size() - 1)).getId();
@@ -159,7 +159,7 @@ public class WorkListAction extends AbstractAction {
 		String listtype = request.getParameter("listType");
 		//首页more链接中处理
 		if("01".equals(listtype)){//待办
-			 sql = "SELECT"
+			sql = "SELECT"
 					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
 					+ " FROM netone.t_wf_worklist w1 "
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
@@ -168,11 +168,10 @@ public class WorkListAction extends AbstractAction {
 					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
 					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
 					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS ='01'"
-					+ " AND w2.statusnow ='01' AND w2.types IN('01')"
-					+ str
-					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart + ","
-					+ iDisplayLength;
-			 count_sql = "SELECT"
+					+ " AND w2.statusnow ='01' AND w2.types IN('01')" + str
+					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart
+					+ "," + iDisplayLength;
+			count_sql = "SELECT"
 					+ " count(*) total"
 					+ " FROM netone.t_wf_worklist w1 "
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
@@ -181,11 +180,10 @@ public class WorkListAction extends AbstractAction {
 					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
 					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
 					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS='01'"
-					+ " AND w2.statusnow ='01' AND w2.types IN('01')"
-					+ str;
-			
-		}else if("02".equals(listtype)){//办理未归档
-			 sql = "SELECT"
+					+ " AND w2.statusnow ='01' AND w2.types IN('01')" + str;
+
+		} else if ("02".equals(listtype)) {// 办理未归档
+			sql = "SELECT"
 					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
 					+ " FROM netone.t_wf_worklist w1 "
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
@@ -194,11 +192,10 @@ public class WorkListAction extends AbstractAction {
 					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
 					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
 					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
-					+ " AND w2.statusnow='02' AND w2.types IN('01')"
-					+ str
-					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart + ","
-					+ iDisplayLength;
-			 count_sql = "SELECT"
+					+ " AND w2.statusnow='02' AND w2.types IN('01')" + str
+					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart
+					+ "," + iDisplayLength;
+			count_sql = "SELECT"
 					+ " count(*) total"
 					+ " FROM netone.t_wf_worklist w1 "
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
@@ -207,10 +204,9 @@ public class WorkListAction extends AbstractAction {
 					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
 					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
 					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
-					+ " AND w2.statusnow ='02' AND w2.types IN('01')"
-					+ str;
-		}else if("03".equals(listtype)){//办理已归档
-			 sql = "SELECT"
+					+ " AND w2.statusnow ='02' AND w2.types IN('01')" + str;
+		} else if ("03".equals(listtype)) {// 办理已归档
+			sql = "SELECT"
 					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
 					+ " FROM netone.t_wf_worklist w1 "
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
@@ -219,11 +215,10 @@ public class WorkListAction extends AbstractAction {
 					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
 					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
 					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS='02'"
-					+ " AND w2.statusnow='02' AND w2.types IN('01')"
-					+ str
-					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart + ","
-					+ iDisplayLength;
-			 count_sql = "SELECT"
+					+ " AND w2.statusnow='02' AND w2.types IN('01')" + str
+					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart
+					+ "," + iDisplayLength;
+			count_sql = "SELECT"
 					+ " count(*) total"
 					+ " FROM netone.t_wf_worklist w1 "
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
@@ -232,10 +227,9 @@ public class WorkListAction extends AbstractAction {
 					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
 					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
 					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS='02'"
-					+ " AND w2.statusnow='02' AND w2.types IN('01')"
-					+ str;
-		}else if("00".equals(listtype)){//所有
-			 sql = "SELECT"
+					+ " AND w2.statusnow='02' AND w2.types IN('01')" + str;
+		} else if ("00".equals(listtype)) {// 所有
+			sql = "SELECT"
 					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
 					+ " FROM netone.t_wf_worklist w1 "
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
@@ -245,10 +239,9 @@ public class WorkListAction extends AbstractAction {
 					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
 					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
 					+ " AND w2.statusnow IN('01','02') AND w2.types IN('01')"
-					+ str
-					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart + ","
-					+ iDisplayLength;
-			 count_sql = "SELECT"
+					+ str + " ORDER BY w1.starttime DESC limit "
+					+ iDisplayStart + "," + iDisplayLength;
+			count_sql = "SELECT"
 					+ " count(*) total"
 					+ " FROM netone.t_wf_worklist w1 "
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
@@ -260,7 +253,8 @@ public class WorkListAction extends AbstractAction {
 					+ " AND w2.statusnow IN('01','02') AND w2.types IN('01')"
 					+ str;
 		}
-		//System.out.println("SQL=" + sql + "\n" + "user=" + user.getUserCode());
+		// System.out.println("SQL=" + sql + "\n" + "user=" +
+		// user.getUserCode());
 		List list = wfview.coreSqlview(sql);
 		List list_count = wfview.coreSqlview(count_sql);
 		int total = 0;
@@ -285,14 +279,14 @@ public class WorkListAction extends AbstractAction {
 			String $workcode = (String) data.get("workcode");
 			String $naturalname2 = (String) data.get("naturalname2");
 
-			String query="&query=look&";
-			if("01".equals(listtype)){
-				query="&";
+			String query = "&query=look&";
+			if ("01".equals(listtype)) {
+				query = "&";
 			}
 			String url = projectname
 					+ "frame.do?method=onEditViewMain&naturalname="
 					+ $naturalname2 + "&lsh=" + $lsh + "&workcode=" + $workcode
-					+ "&operatemode=01"+query+"cuibang=true&commiter="
+					+ "&operatemode=01" + query + "cuibang=true&commiter="
 					+ $commiter;// here
 			$naturalname = DyFormComp.getHref($naturalname, $naturalname, url,
 					"", "_blank");
@@ -305,13 +299,13 @@ public class WorkListAction extends AbstractAction {
 			$commiter = DyFormComp.getHref($commiter, $commiter, url, "",
 					"_blank");
 
-			String[] datarr = { $naturalname, $formtitle, $starttime, $actname,
+			String[] datarr = { $formtitle,$naturalname, $starttime, $actname,
 					$commiter };
 
 			arr.add(datarr);
 		}
 		String jsonstr = buildJsonStr_(sEcho, total, total, arr.toString());
-		//System.out.println("json=" + arr.toString());
+		// System.out.println("json=" + arr.toString());
 		super.writeJsonStr(response, jsonstr);
 	}
 
@@ -613,7 +607,7 @@ public class WorkListAction extends AbstractAction {
 			for (Iterator iterator2 = revList.iterator(); iterator2.hasNext();) {
 				TWfRelevantvar objectx = (TWfRelevantvar) iterator2.next();
 				valuelist.append("<TD>" + objectx.getValuenow() + "</TD>");
-				//System.out.println("dfdfd" + objectx.getValuenow());
+				// System.out.println("dfdfd" + objectx.getValuenow());
 			}
 			object.setExtinfo(valuelist.toString());
 		}
@@ -680,205 +674,89 @@ public class WorkListAction extends AbstractAction {
 
 	}
 
-	public ActionForward phpListDetailMain(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		return mapping.findForward("phpListDetailMain");
-	}
+//	public ActionForward phpListDetailMain(ActionMapping mapping,
+//			ActionForm form, HttpServletRequest request,
+//			HttpServletResponse response) throws Exception {
+//		return mapping.findForward("phpListDetailMain");
+//	}
 
 	// 领导视图详细列表
-	public void phpListDetail(ActionMapping mapping, ActionForm form,
+	public ActionForward phpListDetailMain(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		String conditions = request.getParameter("conditions");
 		Map conditionMap = new HashMap();
-		JSONArray jsonArr = JSONArray.fromObject(conditions);
-		for (Iterator iterator = jsonArr.iterator(); iterator.hasNext();) {
-			JSONObject object = (JSONObject) iterator.next();
-			conditionMap.put(object.getString("name").toString(), object
-					.getString("value").toString());
-		}
-		String sortfield_ = (String) conditionMap.get("iSortCol_0");
-		String sort = (String) conditionMap.get("sSortDir_0");
-		String sEcho = (String) conditionMap.get("sEcho");
-		String iDisplayStart = (String) conditionMap.get("iDisplayStart");// start
-		String iDisplayLength = (String) conditionMap.get("iDisplayLength");// limit
-
+		// JSONArray jsonArr = JSONArray.fromObject(conditions);
+		// for (Iterator iterator = jsonArr.iterator(); iterator.hasNext();) {
+		// JSONObject object = (JSONObject) iterator.next();
+		// conditionMap.put(object.getString("name").toString(), object
+		// .getString("value").toString());
+		// }
 		// 接收参数
+		String type = request.getParameter("type");// 类型
+		String did = request.getParameter("did");// 部门id
+		String total_ = request.getParameter("total");// 总数
+		String naturalname_ = request.getParameter("naturalname");// naturalname
+		String name = naturalname_ + did;
 
-		String type = (String) conditionMap.get("type");// 类型
-		String did = (String) conditionMap.get("did");// 部门id
-		String naturalname_ = (String) conditionMap.get("naturalname");// naturalname
-
-		// 根据naturalname构造appname
-		String appname = null;
-		if (!"all".equals(naturalname_) && naturalname_ != null) {
-			String str = StringUtils.substringAfterLast(naturalname_, ".");// 分隔naturalname内容
-
-			if ("JTZTSP".equals(str)) {// 由于naturalname和appname部分结尾不同，需要改造
-				str = "NDYD";
-			} else if ("QSLC".equals(str)) {
-				str = "QSLCC";
-			} else if ("YGZWTZ1".equals(str)) {
-				str = "YGZWTZ";
-			} else if ("YYDCSQLC".equals(str)) {
-				str = "YYDCSQ";
-			} else if ("YYZJSQLC".equals(str)) {
-				str = "YYZJSQ";
-			} else if ("ZDGZWISQ".equals(str)) {
-				str = "GZZDWHSQ";
-			} else if ("MGSJCZSJ".equals(str)) {
-				str = "MGSJKFSQ";
-			} else if ("VPNSP".equals(str)) {
-				str = "VPNZFSP";
-			}
-			if (naturalname_.indexOf("NRSP") > 0) {
-				appname = "APPFRAME.APPFRAME.CMSAPP." + str;
-			} else {
-				appname = "APPFRAME.APPFRAME." + str;
-			}
-
-		}
-		// 构造部门编号
-		String ndid = "[0][297236c57ea1410d841db89adbfd3f08]" + "[" + did
-				+ "]%";
 		// 得到缓存数据
 		List list = new ArrayList();
-		Map map_data = new HashMap();
-		int total = 0;// 总数
-		commonDAOMirror = (CommonDAO) SpringBeanUtil.getInstance().getBean(
-				"commonDAOMirror");
+		Map map_all = new HashMap();
 		if (naturalname_.equals("all")) {
-			Map map_all = new HashMap();
-			map_all.put("did", ndid);
-			map_all.put("start", iDisplayStart);
-			map_all.put("end", iDisplayLength);
-			try {
-				if ("week".equals(type)) {
-					list = (List) commonDAOMirror.select("leaderView.week_all",
-							map_all);
-					total = Integer.parseInt((String) WebCache.getCache("all"
-							+did+"week"));
-				} else if ("dearling".equals(type)) {
-					list = (List) commonDAOMirror.select("leaderView.dearling_all",
-							map_all);
-					total = Integer.parseInt((String) WebCache.getCache("all"
-							+did+"dearling"));
-				} else if ("after28".equals(type)) {
-					list = (List) commonDAOMirror.select("leaderView.after28_all",
-							map_all);
-					total = Integer.parseInt((String) WebCache.getCache("all"
-							+did+"after28"));
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
+
+			if ("week".equals(type)) {
+				map_all = (Map) WebCache.getCache("all" + did);// 获取对应部门信息集合
+				list = (List) map_all.get("week_all");
+			} else if ("dearling".equals(type)) {
+				map_all = (Map) WebCache.getCache("all" + did);// 获取对应部门信息集合
+				list = (List) map_all.get("dearling_all");
+			} else if ("after28".equals(type)) {
+				map_all = (Map) WebCache.getCache("all" + did);// 获取对应部门信息集合
+				list = (List) map_all.get("after28_all");
 			}
 
 		} else {
-
-			map_data.put("naturalname1", naturalname_);
-			map_data.put("did", ndid);
-			map_data.put("appname", appname);
-			map_data.put("start", iDisplayStart);
-			map_data.put("end", iDisplayLength);
-			try {
-				if ("week".equals(type)) {
-					list = (List) commonDAOMirror.select("leaderView.week", map_data);
-					total = Integer.parseInt((String) WebCache.getCache(naturalname_
-							+did+"week"));
-				} else if ("dearling".equals(type)) {
-					list = (List) commonDAOMirror.select("leaderView.dearling",
-							map_data);
-					total = Integer.parseInt((String) WebCache.getCache(naturalname_
-							+did+"dearling"));
-				} else if ("after28".equals(type)) {
-					list = (List) commonDAOMirror.select("leaderView.after28",
-							map_data);
-					total = Integer.parseInt((String) WebCache.getCache(naturalname_
-							+did+"after28"));
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
+			if ("week".equals(type)) {
+				map_all = (Map) WebCache.getCache(name);// 获取对应部门信息集合
+				list = (List) map_all.get("week");
+			} else if ("dearling".equals(type)) {
+				map_all = (Map) WebCache.getCache(name);// 获取对应部门信息集合
+				list = (List) map_all.get("dearling");
+			} else if ("after28".equals(type)) {
+				map_all = (Map) WebCache.getCache(name);// 获取对应部门信息集合
+				list = (List) map_all.get("after28");
 			}
-
 		}
-		JSONArray arr = new JSONArray();
-
+		int total_value = 0;
 		if (list != null) {
+
+			//System.out.println("list=" + list.toString());
 			User user = getOnlineUser(request);// 获取当前登录者信息
 			String clientid = user.getUserId();
 			Client3A client3a = SecurityEntry.iv().loadUser(clientid);
 			leaderViewPojo lvp = new leaderViewPojo();
 			List ltdata = new ArrayList();// 取值
+			// 权限判断
 
-			String projectname = DyFormBuildHtml.projectname + "/";
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				lvp = (leaderViewPojo) iterator.next();
-				String $naturalname = lvp.getNaturalname();
-				String $formtitle = lvp.getFormtitle();
-				String $starttime = lvp.getStarttime();
-				String $actname = lvp.getActname();
-				String $commiter = lvp.getCommiter();
-				String $lsh = lvp.getLsh();
-				String $workcode = lvp.getWorkcode();
-				String $naturalname2 = lvp.getNaturalname2();
-
-				String url = null;
-				// 领导视图明细权限查看
+				// flag状态 如果是0则只显示不做超链接 如果是1显示并做超链接
+				lvp.setFlag(0);
 				if (SecurityEntry.iv().permission(clientid, "DEPT.DEPT")) {// 大领导
-					url = projectname
-							+ "frame.do?method=onEditViewMain&naturalname="
-							+ $naturalname2
-							+ "&lsh="
-							+ $lsh
-							+ "&workcode="
-							+ $workcode
-							+ "&operatemode=01&query=look&cuibang=true&commiter="
-							+ $commiter;
+					lvp.setFlag(1);
 				} else if (SecurityEntry.iv().permission(clientid,
 						"DEPT.DEPT.297236c57ea1410d841db89adbfd3f08")
 						&& client3a.getBelongto().equals(did)) {// 部门领导
-					url = projectname
-							+ "frame.do?method=onEditViewMain&naturalname="
-							+ $naturalname2
-							+ "&lsh="
-							+ $lsh
-							+ "&workcode="
-							+ $workcode
-							+ "&operatemode=01&query=look&cuibang=true&commiter="
-							+ $commiter;
-				} else if (lvp.getUsercode().equals(user.getUserCode())
-						|| lvp.getCommiter().equals(user.getUserCode())) {// 普通用户
-					url = projectname
-							+ "frame.do?method=onEditViewMain&naturalname="
-							+ $naturalname2
-							+ "&lsh="
-							+ $lsh
-							+ "&workcode="
-							+ $workcode
-							+ "&operatemode=01&query=look&cuibang=true&commiter="
-							+ $commiter;
+					lvp.setFlag(1);
+				} else if (lvp.getUsercode().equals(user.getUserCode())||lvp.getCommiter().equals(user.getUserCode())) {// 普通用户
+					lvp.setFlag(1);
 				}
-				$naturalname = DyFormComp.getHref($naturalname, $naturalname,
-						url, "", "_blank");
-				$formtitle = DyFormComp.getHref($formtitle, $formtitle, url,
-						"", "_blank");
-				$starttime = DyFormComp.getHref($starttime, $starttime, url,
-						"", "_blank");
-				$actname = DyFormComp.getHref($actname, $actname, url, "",
-						"_blank");
-				$commiter = DyFormComp.getHref($commiter, $commiter, url, "",
-						"_blank");
-
-				String[] datarr = { $naturalname, $formtitle, $starttime,
-						$actname, $commiter };
-
-				arr.add(datarr);
+				if (StringUtils.isNotEmpty(lvp.getNaturalname2())) {
+					ltdata.add(lvp);
+				}
 			}
+			 request.setAttribute("ltdata", ltdata);
 		}// if end
-		String jsonstr = buildJsonStr_(sEcho, total, total, arr.toString());
-		//System.out.println("json=" + arr.toString());
-		super.writeJsonStr(response, jsonstr);
+		return mapping.findForward("phpListDetailMain");
 	}
 }

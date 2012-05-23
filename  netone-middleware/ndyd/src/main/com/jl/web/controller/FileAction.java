@@ -27,6 +27,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jl.common.CommonUploadUtil;
 import com.jl.common.dyform.DyFormBuildHtml;
+import com.jl.common.workflow.TWfActive;
+import com.jl.common.workflow.WfEntry;
 import com.jl.entity.User;
 import com.jl.service.FileService;
 
@@ -44,6 +46,18 @@ public class FileAction extends AbstractAction {
 		Integer fileCount = service.fileCount(d_unid);
 		request.setAttribute("fileCount", fileCount);
 		request.setAttribute("list", result);
+
+		// start 工作流鉴权
+		String workcode = request.getParameter("workcode");
+		String naturalname = request.getParameter("naturalname");
+		User user = getOnlineUser(request);// 获取当前用户
+		TWfActive act = WfEntry.iv().listCurrentActive(naturalname, workcode,
+				user.getUserCode());
+		String filefunction = act.getFilefunction();// 是否启用附件功能 1：启用 0：不启用
+		String filetext = act.getFiletext();// 附件提示
+		request.setAttribute("filefunction", filefunction);
+		request.setAttribute("filetext", filetext == null ? "" : filetext);
+		// end 工作流鉴权
 		return mapping.findForward("onMainView");
 	}
 

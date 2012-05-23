@@ -31,6 +31,7 @@ import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormBuildHtml;
 import com.jl.common.dyform.DyFormColumn;
+import com.jl.common.dyform.DyFormComp;
 import com.jl.common.dyform.DyFormData;
 import com.jl.common.report.GroupReport;
 import com.jl.common.report.ReportExt;
@@ -222,19 +223,59 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			String parameter) throws Exception {
 		StringBuffer html = new StringBuffer();
 		DyForm[] subdyforms = dyform.getSubform_();
-		html.append(DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
-				naturalname, lsh, false, false, parameter));
+		Boolean ishidden = false;// 是否隐藏
+		if (subformmode != null && subformmode.containsKey("MAINFORM")) {
+			String submode = (String) subformmode.get("MAINFORM");
+			if ("0".equals(submode)) {// 编辑
+				isedit = true;
+			} else if ("1".equals(submode)) {// 只读
+				isedit = false;
+			} else if ("2".equals(submode)) {// 隐藏
+				ishidden = true;
+			} else {
+				ishidden = false;
+			}
+		}
+		if (!ishidden) {
+			html.append(DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
+					naturalname, lsh, false, false, parameter));
+		} else {
+			html.append("<div style='display:none'>"
+					+ DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
+							naturalname, lsh, false, false, parameter)
+					+ "</div>");
+		}
 		if (subdyforms != null && subdyforms.length > 0) {
-			Boolean issubedit = false;
-
+			Boolean issubedit = false;// 是否可编辑
+			Boolean issubhidden = false;// 是否隐藏
 			for (int i = 0; i < subdyforms.length; i++) {
 				DyForm subdyform = subdyforms[i];
 				if (subformmode == null) {
 					issubedit = true;
 				} else if (subformmode.containsKey(-1)) {
-					issubedit = (Boolean) subformmode.get(-1);
+					String submode = (String) subformmode.get(-1);
+					if ("0".equals(submode)) {// 编辑
+						issubedit = true;
+					} else if ("1".equals(submode)) {// 只读
+						issubedit = false;
+					} else if ("2".equals(submode)) {// 隐藏
+						issubhidden = true;
+					} else {
+						issubedit = false;
+						issubhidden = false;
+					}
 				} else {
-					issubedit = (Boolean) subformmode.get(i);
+					String submode = (String) subformmode.get(i);
+					if ("0".equals(submode)) {// 编辑
+						issubedit = true;
+					} else if ("1".equals(submode)) {// 只读
+						issubedit = false;
+					} else if ("2".equals(submode)) {// 隐藏
+						issubhidden = true;
+					} else {
+						issubedit = false;
+						issubhidden = false;
+					}
 				}
 
 				if (issubedit == null)
@@ -242,25 +283,30 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 
 				String submode = subdyform.getSubmode();
 				if ("2".equals(submode)) {// 2:链接展示-多条子表单记录(需要保存主表单)
-					html.append(DyFormBuildHtml.buildLinkForm(subdyform, lsh,
-							issubedit, userinfo, submode, workcode,
-							naturalname, parameter));
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildLinkForm(subdyform,
+								lsh, issubedit, userinfo, submode, workcode,
+								naturalname, parameter));
 				} else if ("3".equals(submode)) {// 3:链接展示-单子表单记录(需要保存主表单、且系统控制只能一条)
-					html.append(DyFormBuildHtml.buildLinkForm(subdyform, lsh,
-							issubedit, userinfo, submode, workcode,
-							naturalname, parameter));
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildLinkForm(subdyform,
+								lsh, issubedit, userinfo, submode, workcode,
+								naturalname, parameter));
 				} else if ("4".equals(submode)) {// 4:集成展示-单子表单记录(系统控制只能一条)
-					html.append(DyFormBuildHtml.buildForm(subdyform, issubedit,
-							userinfo, naturalname, lsh, true, true, parameter));
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildForm(subdyform,
+								issubedit, userinfo, naturalname, lsh, true,
+								true, parameter));
 				} else if ("5".equals(submode)) {// 5:集成展示-单子表单记录(系统控制只能一条)
 					// 不显示标题
-					html
-							.append(DyFormBuildHtml.buildForm(subdyform,
-									issubedit, userinfo, naturalname, lsh,
-									true, false, parameter));
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildForm(subdyform,
+								issubedit, userinfo, naturalname, lsh, true,
+								false, parameter));
 				} else {// 1:集成展示-多条子表单记录（默认模式）
-					html.append(DyFormBuildHtml.buildSubForm(subdyform, lsh,
-							issubedit, userinfo, parameter));
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildSubForm(subdyform,
+								lsh, issubedit, userinfo, parameter));
 				}
 			}
 		}
@@ -281,10 +327,10 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			String runtimeidx = WfEntry.iv().getSession(id);
 			if (runtimeidx != null && !runtimeidx.equals("")) {
 				runtimeid = runtimeidx;
-				isspecial=true;
+				isspecial = true;
 			} else {
-				runtimeid = WfEntry.iv().newProcess(processid, clientId, mode, "",
-						ddid, ddurl);
+				runtimeid = WfEntry.iv().newProcess(processid, clientId, mode,
+						"", ddid, ddurl);
 				WfEntry.iv().runProcess(runtimeid);
 			}
 		}
@@ -295,7 +341,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		// 获得所有的下一步节点
 		List xx = WfEntry.iv().listNextRouteActive(processid,
 				TWfWorklistx.getActivityid(), runtimeid, user.getUserCode());
-		if (isspecial==false){
+		if (isspecial == false) {
 			saveYijian(request, workcode, user.getUserCode(), "新建");
 		}
 		if (xx.size() == 1) {
@@ -888,7 +934,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			if (relevantvar_tmp != null) {
 				String runtimeid = (String) relevantvar_tmp.get("runtimeid");
 				List<TWfParticipant> listx = WfEntry.iv()
-						.listAllParticipantinfo(runtimeid,true);
+						.listAllParticipantinfo(runtimeid, true);
 				for (TWfParticipant wfParticipant : listx) {
 					dealdetail.append(wfParticipant.getUsername() + ":"
 							+ wfParticipant.getCreatetime() + "#"
@@ -952,7 +998,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 				String d0 = (String) relevantvar_tmp.get("d0");
 
 				List<TWfParticipant> listx = WfEntry.iv()
-						.listAllParticipantinfo(runtimeid,true);
+						.listAllParticipantinfo(runtimeid, true);
 				for (TWfParticipant wfParticipant : listx) {
 					TableRow trdata = new TableRow();
 

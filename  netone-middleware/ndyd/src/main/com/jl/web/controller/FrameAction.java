@@ -315,15 +315,11 @@ public class FrameAction extends AbstractAction {
 			User user = getOnlineUser(request);// 获取当前用户
 			String formhtml = "";
 			DyForm dyform = DyEntry.iv().loadForm(formcode);
-			if (permission) {
-
-				TWfActive act = WfEntry.iv().listCurrentActive(naturalname,
-						workcode, user.getUserCode());
-				DyEntry.iv().permission(dyform, user.getUserCode(), act);// 表单鉴权
-			}
-
 			TWfActive act = WfEntry.iv().listCurrentActive(naturalname,
 					workcode, user.getUserCode());
+			if (permission) {
+				DyEntry.iv().permission(dyform, user.getUserCode(), act);// 表单鉴权
+			}
 			Map subformmode = act.getSubformmode();
 			// if (StringUtils.isNotEmpty(lsh) &&
 			// StringUtils.isNotEmpty(formcode)) {
@@ -1390,7 +1386,7 @@ public class FrameAction extends AbstractAction {
 			} else {
 				runtimeid = WfEntry.iv().getRuntimeIdByWorkcode(workcode);
 			}
-			List list = WfEntry.iv().listAllParticipantinfo(runtimeid,true);
+			List list = WfEntry.iv().listAllParticipantinfo(runtimeid, true);
 
 			if (list.size() != 0) {
 				// TWfWorklistExt o = (TWfWorklistExt) list.get(0);
@@ -1441,7 +1437,7 @@ public class FrameAction extends AbstractAction {
 			if (StringUtils.isNotEmpty(workcode)) {
 				runtimeid = WfEntry.iv().getRuntimeIdByWorkcode(workcode);
 			}
-			List list = WfEntry.iv().listAllParticipantinfo(runtimeid,false);
+			List list = WfEntry.iv().listAllParticipantinfo(runtimeid, false);
 
 			String title = "<tr><td nowrap='nowrap' class='table_td_title' width='20%'>提交日期</td><td nowrap='nowrap' class='table_td_title' width='20%'>提交者</td><td nowrap='nowrap' class='table_td_title' width='40%'>流程节点</td><td nowrap='nowrap' class='table_td_title' width='20%'>执行者</td><td nowrap='nowrap' class='table_td_title' width='20%'>完成时间</td></tr>";
 

@@ -311,15 +311,6 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 							.getExtPanel(ids, null, null, ids, "", ""),
 							"center"));
 				} else if ("1".equals(submode)) {// 1:集成展示-多条子表单记录（默认模式）
-					// ids = "frame" + DyFormBuildHtmlExt.uuid();
-					// Map subformmap = DyFormBuildHtmlExt.buildSubForm2(
-					// subdyform, lsh, issubedit, userinfo, parameter);
-					//					
-					// listmaps.add(getJsMap(subformmap.get("html").toString(),
-					// ids, subformmap.get("js").toString()
-					// + DyFormComp.getExtPanel(ids, "", null,
-					// ids, "", ",autoScroll:true"), "center"));
-
 					ids = subdyform.getFormcode();
 
 					Map subformmap = DyFormBuildHtmlExt.buildExtSubForm(ids,
@@ -337,15 +328,6 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 							true, false, parameter, user), ids, DyFormComp
 							.getExtPanel(ids, "", null, ids, "", ""), "east"));
 				} else if ("7".equals(submode)) {// 7:集成展示-多条子表单记录(选项卡模式)
-					// ids = "frame" + DyFormBuildHtmlExt.uuid();
-					// Map subformmap = DyFormBuildHtmlExt.buildSubForm2(
-					// subdyform, lsh, issubedit, userinfo, parameter);
-					// formname.add(subdyform.getFormname() + "("
-					// + subformmap.get("count") + ")");
-					// formlist.add(getJsMap(subformmap.get("html").toString(),
-					// ids, subformmap.get("js").toString()
-					// , "mode7"));
-
 					ids = subdyform.getFormcode();
 					Map subformmap = DyFormBuildHtmlExt.buildExtSubForm(ids,
 							subdyform, lsh, isedit, userinfo, parameter, user);

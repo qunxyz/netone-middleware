@@ -228,8 +228,10 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			String submode = (String) subformmode.get("MAINFORM");
 			if ("0".equals(submode)) {// ±à¼­
 				isedit = true;
+				ishidden = false;
 			} else if ("1".equals(submode)) {// Ö»¶Á
 				isedit = false;
+				ishidden = false;
 			} else if ("2".equals(submode)) {// Òþ²Ø
 				ishidden = true;
 			} else {
@@ -256,8 +258,10 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					String submode = (String) subformmode.get(-1);
 					if ("0".equals(submode)) {// ±à¼­
 						issubedit = true;
+						issubhidden = false;
 					} else if ("1".equals(submode)) {// Ö»¶Á
 						issubedit = false;
+						issubhidden = false;
 					} else if ("2".equals(submode)) {// Òþ²Ø
 						issubhidden = true;
 					} else {
@@ -268,8 +272,10 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					String submode = (String) subformmode.get(i);
 					if ("0".equals(submode)) {// ±à¼­
 						issubedit = true;
+						issubhidden = false;
 					} else if ("1".equals(submode)) {// Ö»¶Á
 						issubedit = false;
+						issubhidden = false;
 					} else if ("2".equals(submode)) {// Òþ²Ø
 						issubhidden = true;
 					} else {

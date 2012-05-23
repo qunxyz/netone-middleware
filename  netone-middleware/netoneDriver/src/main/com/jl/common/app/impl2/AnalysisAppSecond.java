@@ -76,6 +76,7 @@ public class AnalysisAppSecond {
 				appSecond.setZibiaodanmoshi(new String(personNode.getAttribute("zibiaodanmoshi")));
 				appSecond.setFilemanage(new String(personNode.getAttribute("filemanage")));
 				appSecond.setFiletext(new String(personNode.getAttribute("filetext")));
+				appSecond.setMAINFORM(new String(personNode.getAttribute("MAINFORM")));
 			return appSecond;
 		}
 	}

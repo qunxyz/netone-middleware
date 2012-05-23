@@ -240,6 +240,7 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		actx.setSyncto(distrubsubmit);
 
 		Map subformmode = new HashMap();// 控制子表单的
+		subformmode.put("MAINFORM", as.getMAINFORM());
 		String str = as.getSubfrommode();
 		String [] arr=str.split(",");
 		if (str != null) {

@@ -405,13 +405,13 @@ public final class DyFormBuildHtmlExt {
 			return true;
 		} else if (arr[16][0].equals(htmltype)) {// 20:PORTAL项
 			return true;
-		} else if (arr[17][0].equals(htmltype)) {// 22:组织人员单选
+		} else if (arr[18][0].equals(htmltype)) {// 22:组织人员单选
 			return true;
-		} else if (arr[18][0].equals(htmltype)) {// 23:组织人员多选
+		} else if (arr[19][0].equals(htmltype)) {// 23:组织人员多选
 			return true;
-		} else if (arr[19][0].equals(htmltype)) {// 27:组织机构单选
+		} else if (arr[23][0].equals(htmltype)) {// 27:组织机构单选
 			return true;
-		} else if (arr[20][0].equals(htmltype)) {// 28:组织机构多选
+		} else if (arr[24][0].equals(htmltype)) {// 28:组织机构多选
 			return true;
 		} else {
 			return false;

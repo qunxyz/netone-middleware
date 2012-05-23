@@ -531,6 +531,12 @@ public final class Security3AImpl implements Security3AIfc {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		if(dept!=null&&StringUtils.split(upopar.getNaturalname(),'.').length==4){
+			//本级是区域级了，只能检索该节点的数据，不能横向了
+			addUserWhenIsSameDept(but, user, upopar.getId(),upopar.getNaturalname());
+			return "";
+		}
+		
 		String parentid = upopar.getParentdir();
 		String parentName=null;
 		try {
@@ -539,7 +545,9 @@ public final class Security3AImpl implements Security3AIfc {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-			if(parentName!=null&&StringUtils.split(parentName,'.').length>=4){//不能超出顶级区域 dept.dept.宁德移动.顶级区域
+		
+
+		if(parentName!=null&&StringUtils.split(parentName,'.').length>3){//不能超出顶级区域 dept.dept.宁德移动.顶级区域
 				List depts=new ArrayList();
 				try {
 					depts = rs.subResource(parentid);
@@ -569,7 +577,7 @@ public final class Security3AImpl implements Security3AIfc {
 
 	private void addUserWhenIsSameDept(StringBuffer but, List list,
 			String deptid,String deptname) {
-		if(StringUtils.split(deptname,'.').length<4){
+		if(StringUtils.split(deptname,'.').length<3){
 			return;
 		}
 

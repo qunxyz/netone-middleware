@@ -448,7 +448,7 @@ public class FrameActionExt extends AbstractAction {
 
 			DyFormData dydata = new DyFormData();
 			dydata.setFormcode(formcode);
-			dydata.setFatherlsh("");
+			dydata.setFatherlsh("1");
 			List list = new ArrayList();
 			list = DyEntry.iv().queryData(dydata, 0, 9999999,
 					extconditions.toString());

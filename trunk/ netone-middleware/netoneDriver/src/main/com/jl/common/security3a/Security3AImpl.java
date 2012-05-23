@@ -539,7 +539,7 @@ public final class Security3AImpl implements Security3AIfc {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-			if(StringUtils.split(parentName,'.').length>=4){//不能超出顶级区域 dept.dept.宁德移动.顶级区域
+			if(parentName!=null&&StringUtils.split(parentName,'.').length>=4){//不能超出顶级区域 dept.dept.宁德移动.顶级区域
 				List depts=new ArrayList();
 				try {
 					depts = rs.subResource(parentid);

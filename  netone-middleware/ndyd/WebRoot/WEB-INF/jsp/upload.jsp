@@ -67,11 +67,12 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColo
 		<input type="hidden" id="d_unid" name="d_unid" value="${param.d_unid}" />
 		<input type="hidden" id="d_hidden_row_unid" name="d_hidden_row_unid"  />
 		<input type="hidden" id="d_hidden_row_unidx" name="d_hidden_row_unidx"  />
-		<div class="bg_file_btn">
+		<div class="bg_file_btn" <c:if test="${filefunction=='0'}"> style="display: none;" </c:if>>
 		<input id="file_btn" type="button" value="附件(共有${fileCount}个文件)" onclick="showDiv()" class="btn_file" style="background-image: url('<%=cssURL%>/fujian.gif');" />
+		<font color="red">${filetext}</font>
 		</div>
 		<div id="main_div" style="display: none;">
-		<table id="filetable" class="main_nd" width="100%" bgcolor="white" cellspacing="0" cellpadding="0" align="center">
+		<table id="filetable" class="main_nd" width="100%" bgcolor="white" cellspacing="0" cellpadding="0" align="center" <c:if test="${filefunction=='0'}"> style="display: none;" </c:if> >
 			<tr style="background-image: url('<%=path%>/FDL/Dubang/Image/index_2323.gif'); width: 100%;color: #a52526;padding-top: 5px; font-weight: bold; height: 25px;">
 				<td COLSPAN="11">
 					<input type="button" id="otherSave" name="otherSave" onclick="$download('0');"

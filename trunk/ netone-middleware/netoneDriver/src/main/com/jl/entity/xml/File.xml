@@ -18,6 +18,7 @@
 		`address`, 
 		`filename`,
 		updatetime,
+		wf_code,
 		note
 		)
 		VALUES
@@ -29,6 +30,7 @@
 		#address#, 
 		#filename#,
 		#updatetime#,
+		#wf_code#,
 		#note#
 		);
 	</insert>
@@ -44,6 +46,7 @@
 	`address` = #address# , 
 	`filename` = #filename#,
 	updatetime=#updatetime#,
+	wf_code=#wf_code#,
 	note=#note#
 	
 	WHERE

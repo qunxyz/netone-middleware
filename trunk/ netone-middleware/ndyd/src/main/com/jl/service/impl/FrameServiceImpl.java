@@ -248,7 +248,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					+ "</div>");
 		}
 		if (subdyforms != null && subdyforms.length > 0) {
-			Boolean issubedit = false;// ÊÇ·ñ¿É±à¼­
+			Boolean issubedit = true;// ÊÇ·ñ¿É±à¼­
 			Boolean issubhidden = false;// ÊÇ·ñÒþ²Ø
 			for (int i = 0; i < subdyforms.length; i++) {
 				DyForm subdyform = subdyforms[i];
@@ -265,7 +265,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					} else if ("2".equals(submode)) {// Òþ²Ø
 						issubhidden = true;
 					} else {
-						issubedit = false;
+						issubedit = true;
 						issubhidden = false;
 					}
 				} else {
@@ -279,7 +279,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					} else if ("2".equals(submode)) {// Òþ²Ø
 						issubhidden = true;
 					} else {
-						issubedit = false;
+						issubedit = true;
 						issubhidden = false;
 					}
 				}

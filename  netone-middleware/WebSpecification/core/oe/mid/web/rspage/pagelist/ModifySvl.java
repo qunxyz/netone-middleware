@@ -90,6 +90,7 @@ public class ModifySvl extends HttpServlet {
 		String active = request.getParameter("active");// 有效
 		String extendattribute = request.getParameter("extendattribute");// 扩展属性
 		String description = request.getParameter("description");
+		String aggregation=request.getParameter("aggregation");
 		if (StringUtils.isNotEmpty(pagename)) {
 			request.setAttribute("pagename", pagename);
 		}
@@ -131,6 +132,15 @@ public class ModifySvl extends HttpServlet {
 						upo.setObjecttype(objecttype);
 					}
 					upo.setExtendattribute(extendattribute);
+					if(StringUtils.isNotEmpty(aggregation)){
+						try{
+						Long aggrex=Long.parseLong(aggregation);
+						upo.setAggregation(aggrex);
+						}catch(Exception e){
+							
+						}
+						
+					}
 					request.setAttribute("upo", upo);
 					if (rsrmi.updateResource(upo)) {
 						String serilaizer = request

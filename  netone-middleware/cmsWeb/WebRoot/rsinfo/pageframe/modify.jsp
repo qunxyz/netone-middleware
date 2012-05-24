@@ -10,7 +10,7 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>修改子结点</title>
+		<title>修改页框</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
@@ -133,6 +133,14 @@
 							</select>
 							<input type="hidden" name="needSerilaizer" value="1" />
 						
+						</td>
+					</tr>
+					<tr>
+						<td width="15%">
+							排序
+						</td>
+						<td>
+							<input type="text" name="aggregation" value="${upo.aggregation}" />
 						</td>
 					</tr>
 					<tr>

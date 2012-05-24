@@ -35,3 +35,7 @@ CREATE TABLE `t_areadepartment` (
   KEY `index_departmentId` (`departmentId`),
   CONSTRAINT `FK_t_areadepartment_areaId` FOREIGN KEY (`areaId`) REFERENCES `t_area` (`areaId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+
+/** 新增附件关联工作流ID */
+ALTER TABLE `iss`.`t_file` 
+ ADD COLUMN `wf_code` VARCHAR(45) AFTER `updatetime`;

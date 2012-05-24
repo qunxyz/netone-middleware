@@ -1,6 +1,5 @@
 package com.jl.common.dyform;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -702,7 +701,6 @@ public final class DyFormBuildHtml {
 		boolean isnull = data == null ? true : false;
 		data = data == null ? new DyFormData() : data;
 		StringBuffer td_ = new StringBuffer();
-		Method[] ms = DyFormData.class.getMethods();
 
 		if (isedit) {
 			String hiddeninput = DyFormComp
@@ -715,85 +713,49 @@ public final class DyFormBuildHtml {
 		for (int i = 0; i < _formx.length; i++) {
 			String _col = _formx[i].getColumnid();
 
-			for (Method m : ms) {
-				if (m.getName().startsWith("get")
-						&& m.getParameterTypes().length == 0
-						&& !m.getName().equals("get")
-						&& !m.getName().equals("getClass")) {
-					char[] fieldch = m.getName().substring(3).toCharArray();
-					fieldch[0] = Character.toLowerCase(fieldch[0]);
-					String field = new String(fieldch);
+			if (_formx[i].isHidden() == false) {
+				String value = BeanUtils.getProperty(data, _col);
+				value = value == null ? "" : value;
+				DyFormColumn column = columnmapx.get(_col);
+				Double wpercent = column.getWpercent();
 
-					if (_col.equals(field)) {
-						if (columnmap.get(field) != null) {
-							Boolean hidden = columnmap.get(field).isHidden();
-							if (hidden != null && hidden == false) {
-								Object value = m.invoke(data, null);
-								value = value == null ? "" : value;
-								DyFormColumn column = columnmapx.get(field);
-								Double wpercent = column.getWpercent();
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				String hiddenstyle = "";
+				if (arr[28][0].equals(column.getViewtype())) {// 隐藏
+					hiddenstyle = "display:none;";
+				}
 
-								String[][] arr = DyFormConsoleIfc._HTML_LIST;
-								String hiddenstyle = "";
-								if (arr[28][0].equals(column.getViewtype())) {// 隐藏
-									hiddenstyle = "display:none;";
-								}
-
-								if (isedit == false) {
-									String valuex = "" + value;
-									if (isnull)
-										valuex = valuex + "&nbsp";
-									td_.append(DyFormComp.getTd("",
-											routeAppointValue(column
-													.getViewtype(), valuex,
-													column.getValuelist()),
-											TableTdStyle + hiddenstyle,
-											TABLE_TD_CONTENT, ""));
-								} else {
-									boolean isSelect_ = checkSelect_(column
-											.getViewtype());
-									String style = "";
-									if (column.getWidth() > 0) {
-										style = "width:" + column.getWidth()
-												+ ";";
-										if (isSelect_) {
-											style = "width:"
-													+ (column.getWidth() - 20)
-													+ ";";
-										}
-									} else {
-										style = "width:95%;";
-										if (isSelect_) {
-											style = "width:80%;";
-										}
-									}
-
-									String comp = routeAppointComp(column
-											.getViewtype(), column
-											.getColumnid(), "" + value, style,
-											"", column.isReadonly(), column
-													.getValuelist(), "",
-											userinfo, parameter);
-
-									td_
-											.append(DyFormComp
-													.getTd(
-															"",
-															comp,
-															TableTdStyle
-																	+ ((wpercent == null || wpercent == 0) ? ""
-																			: "width:"
-																					+ column
-																							.getWpercent()
-																					+ "%;")
-																	+ hiddenstyle,
-															TABLE_TD_CONTENT,
-															""));
-								}
-							}
+				if (isedit == false) {
+					String valuex = "" + value;
+					if (isnull)
+						valuex = valuex + "&nbsp";
+					td_.append(DyFormComp.getTd("", routeAppointValue(column
+							.getViewtype(), valuex, column.getValuelist()),
+							TableTdStyle + hiddenstyle, TABLE_TD_CONTENT, ""));
+				} else {
+					boolean isSelect_ = checkSelect_(column.getViewtype());
+					String style = "";
+					if (column.getWidth() > 0) {
+						style = "width:" + column.getWidth() + ";";
+						if (isSelect_) {
+							style = "width:" + (column.getWidth() - 20) + ";";
 						}
-						break;
+					} else {
+						style = "width:95%;";
+						if (isSelect_) {
+							style = "width:80%;";
+						}
 					}
+
+					String comp = routeAppointComp(column.getViewtype(), column
+							.getColumnid(), "" + value, style, "", column
+							.isReadonly(), column.getValuelist(), "", userinfo,
+							parameter);
+
+					td_.append(DyFormComp.getTd("", comp, TableTdStyle
+							+ ((wpercent == null || wpercent == 0) ? ""
+									: "width:" + column.getWpercent() + "%;")
+							+ hiddenstyle, TABLE_TD_CONTENT, ""));
 				}
 			}
 		}
@@ -801,9 +763,44 @@ public final class DyFormBuildHtml {
 		return DyFormComp.getTr(trid, td_.toString(), "", TABLE_TR_CONTENT, "");
 	}
 
+	/**
+	 * 获取文档段落
+	 * 
+	 * @param readonly
+	 *            只读或可写
+	 * @param data
+	 * @param _formx
+	 * @param columnmap
+	 * @param columnmapx
+	 * @return
+	 * @throws Exception
+	 */
+	protected static String buildFormsTr(DyForm dyform, String trid,
+			String formcode, boolean readonly, DyFormData data, boolean isedit,
+			String userinfo, String parameter) throws Exception {
+		boolean isnull = data == null ? true : false;
+		data = data == null ? new DyFormData() : data;
+		StringBuffer td_ = new StringBuffer();
+
+		if (isedit) {
+			String hiddeninput = DyFormComp
+					.getHiddenInput("formcode", formcode);
+			td_.append(DyFormComp.getTd("", hiddeninput
+					+ DyFormComp.getCheckbox(DyFormComp._CHECK_NAME, "", "",
+							"", false), "width:20px;" + TableTdStyle2, "", ""));//
+		}
+
+		td_.append("<td>"
+				+ buildForms(dyform, isedit, userinfo, data.getLsh(), true,
+						false, parameter) + "</td>");
+
+		return DyFormComp.getTr(trid, td_.toString(), "", TABLE_TR_CONTENT, "");
+	}
+
 	public static String buildForm(DyForm dyform, boolean isedit,
 			String userinfo, String naturalname, String lsh, boolean issub,
-			boolean isShowTitle, String parameter) throws Exception {
+			boolean isShowTitle, String parameter, String hideid)
+			throws Exception {
 		String formcode = dyform.getFormcode();
 		StringBuffer html = new StringBuffer();
 
@@ -840,7 +837,6 @@ public final class DyFormBuildHtml {
 			dydata = DyEntry.iv().loadData(formcode, lsh);
 		}
 		// }
-		Method[] ms = DyFormData.class.getMethods();
 		Map<Double, String> htmlresult = new TreeMap<Double, String>();// 存放每行HTML代码
 
 		StringBuffer eventListenScripts = new StringBuffer();// 事件监听脚本
@@ -863,37 +859,14 @@ public final class DyFormBuildHtml {
 
 				// System.out.println(columnname + ":" + xoffset + ":" + yoffset
 				// + ":" + hidden);
-				for (Method m : ms) {
-					if (m.getName().startsWith("get")
-							&& m.getParameterTypes().length == 0
-							&& !m.getName().equals("get")
-							&& !m.getName().equals("getClass")) {
-						char[] fieldch = m.getName().substring(3).toCharArray();
-						fieldch[0] = Character.toLowerCase(fieldch[0]);
-						String field = new String(fieldch);
-
-						if (columnid.equals(field)) {
-							if (columnmapx.get(field) != null) {
-								Boolean hidden__ = columnmapx.get(field)
-										.isHidden();
-								if (hidden__ != null && hidden__ == false) {
-									Object value = m.invoke(dydata, null);
-									value = value == null ? "" : value;
-									DyFormColumn column = columnmapx.get(field);
-									Double yoffset_ = columnmap.get(xoffset);// 最大列数
-									int availColumnWidth = calcAvailColumnWidth(yoffset_
-											.intValue());
-									htmlresult = buildTdHtml(htmlresult,
-											availColumnWidth, column,
-											columnname, formcode, isedit, ""
-													+ value, userinfo, xoffset,
-											parameter);
-								}
-							}
-							break;
-						}
-					}
-				}
+				String value = BeanUtils.getProperty(dydata, columnid);
+				value = value == null ? "" : value;
+				DyFormColumn column = columnmapx.get(columnid);
+				Double yoffset_ = columnmap.get(xoffset);// 最大列数
+				int availColumnWidth = calcAvailColumnWidth(yoffset_.intValue());
+				htmlresult = buildTdHtml(htmlresult, availColumnWidth, column,
+						columnname, formcode, isedit, "" + value, userinfo,
+						xoffset, parameter);
 			}// end if
 		}// end for
 
@@ -910,17 +883,80 @@ public final class DyFormBuildHtml {
 				TableStyle, TABLE_FORM, 0, TableExtProperties);
 		// 输出文档普通字段内容结束
 
-		String hiddenid = DyFormComp.getHiddenInput("naturalname", naturalname);
-		String hiddenunid = DyFormComp.getHiddenInput("unid", lsh);
-		String hiddenlsh = DyFormComp.getHiddenInput("lsh", lsh);
-		if (issub) {
-			hiddenid = "";
-			hiddenunid = "";
-			hiddenlsh = "";
-		}
 		String html_2 = eventListenScripts.toString()
-				+ DyFormComp.getForm(_FORM_ID, hiddenid + hiddenunid
-						+ hiddenlsh + html_) + _N;
+				+ DyFormComp.getForm(_FORM_ID, hideid + html_) + _N;
+		return html_2;
+	}
+
+	public static String buildForms(DyForm dyform, boolean isedit,
+			String userinfo, String lsh, boolean issub, boolean isShowTitle,
+			String parameter) throws Exception {
+		String formcode = dyform.getFormcode();
+		StringBuffer html = new StringBuffer();
+
+		if (isShowTitle) {
+			html.append(DyFormComp.getTr("", DyFormComp.getTd("", "&nbsp;"
+					+ dyform.getFormname(), TableTdStyle2 + "width:100%;",
+					TABLE_TD_TITLE, "align=\"left\" "), "", TABLE_TR_TITLE,
+					"align=\"left\""));// 标题
+		}
+
+		// 展示表单字段-针对表单中的相关字段
+		DyFormColumn _formx[] = dyform.getAllColumn_();
+		if (StringUtils.isNotEmpty(lsh)) {// 公单已保存,不需要加载人员信息
+			userinfo = "";
+		}
+		// 排序
+		Arrays.sort(_formx, getFormComparator());
+		Map<Double, Double> columnmap = getMaxYoffsetByX(_formx);// 存放每行最大列数
+		Map<String, DyFormColumn> columnmapx = getDyFormColumnById(_formx);// 映射
+
+		// 输出文档普通字段内容开始
+		DyFormData dydata = new DyFormData();
+		// if (StringUtils.isNotEmpty(lsh)) {
+			dydata = DyEntry.iv().loadData(formcode, lsh);
+		// }
+		Map<Double, String> htmlresult = new TreeMap<Double, String>();// 存放每行HTML代码
+
+		for (int i = 0; i < _formx.length; i++) {
+			DyFormColumn _qc1 = _formx[i];
+			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
+			String columnid = _qc1.getColumnid();
+			// 字段名（中文）
+			String columnname = _qc1.getColumname();
+
+			Double xoffset = _qc1.getYoffset();
+
+			boolean hidden = _qc1.isHidden();
+			if (hidden == false) {
+
+				// System.out.println(columnname + ":" + xoffset + ":" + yoffset
+				// + ":" + hidden);
+				String value = BeanUtils.getProperty(dydata, columnid);
+				value = value == null ? "" : value;
+				DyFormColumn column = columnmapx.get(columnid);
+				Double yoffset_ = columnmap.get(xoffset);// 最大列数
+				int availColumnWidth = calcAvailColumnWidth(yoffset_.intValue());
+				htmlresult = buildTdHtml(htmlresult, availColumnWidth, column,
+						columnname, formcode, isedit, "" + value, userinfo,
+						xoffset, parameter);
+			}// end if
+		}// end for
+
+		for (Iterator iterator = htmlresult.keySet().iterator(); iterator
+				.hasNext();) {
+			Double x_ = (Double) iterator.next();
+
+			String tdstr = DyFormComp.getTd("", htmlresult.get(x_),
+					TableTdStyle, FORM_TD, "");
+			html.append(DyFormComp.getTr("", tdstr, "", FORM_TR, "") + _N);
+		}
+
+		String html_ = DyFormComp.getTable(formcode, html.toString(),
+				TableStyle, "", 0, TableExtProperties);
+		// 输出文档普通字段内容结束
+
+		String html_2 = DyFormComp.getForm(_FORM_ID, html_) + _N;
 		return html_2;
 	}
 
@@ -1607,6 +1643,143 @@ public final class DyFormBuildHtml {
 		return htmlall.toString();
 	}
 
+	public static String buildSubForms(DyForm subdyform, String fatherlsh,
+			boolean isedit, String userinfo, String parameter) throws Exception {
+
+		StringBuffer htmlall = new StringBuffer();
+
+		StringBuffer eventListenScripts = new StringBuffer();// 事件监听脚本
+		StringBuffer html = new StringBuffer();
+		DyForm dyform = subdyform;
+		String formcode = dyform.getFormcode();
+
+		// 展示表单字段-针对表单中的相关字段
+		DyFormColumn _formx[] = dyform.getAllColumn_();
+		Arrays.sort(_formx, getFormComparator());// 排序
+		Map<String, DyFormColumn> columnmapx = getDyFormColumnById(_formx);// 映射
+
+		StringBuffer td = new StringBuffer();
+		Map<String, DyFormColumn> columnmap = new HashMap<String, DyFormColumn>();
+		int colspan = 2;
+
+		if (isedit == true) {
+			td.append(DyFormComp.getTd(formcode + DyFormComp._CHECK_NAME,
+					DyFormComp
+							.getCheckbox(formcode + "_btn", "", "", "", false),
+					"width:20px;" + TableTdStyle2, "", ""));// 全选/清除按钮
+		}
+
+		htmlall.append(DyFormComp.getClickEventScript("$(\"#" + formcode
+				+ "_btn\")", DyFormComp.getSelectOrUnselectAll(formcode)));
+
+		for (int i = 0; i < _formx.length; i++) {
+			DyFormColumn _qc1 = _formx[i];
+			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
+			String columnid = _qc1.getColumnid();
+			// 字段名（中文）
+			String columnname = _qc1.getColumname();
+
+			// 是否隐蔽
+			boolean hidden = _qc1.isHidden();
+
+			if (hidden == false) {
+				columnmap.put(columnid, _qc1);
+				eventListenScripts
+						.append(DyFormComp.getLiveEventScript("$('table#"
+								+ formcode + "').find('#" + columnid + "')",
+								_qc1.getInitScript(), _qc1.getFocusScript(),
+								_qc1.getLoseFocusScript(), _qc1
+										.getOnchangeScript()));// 添加事件监听
+
+			}
+		}
+
+		html.append(DyFormComp.getTr("", DyFormComp.getTd("", "&nbsp;"
+				+ dyform.getFormname(), TableTdStyle2, TABLE_TD_TITLE,
+				"align=\"left\" colspan=\"" + colspan + "\""), "",
+				TABLE_TR_TITLE, "align=\"left\""));// 标题
+		html.append(DyFormComp
+				.getTr("", td.toString(), "", TABLE_TR_HEADER, ""));// 表头
+
+		// 数据
+		DyFormData dydata = new DyFormData();
+		dydata.setFormcode(formcode);
+		dydata.setFatherlsh(fatherlsh);
+		List list = new ArrayList();
+		// if (StringUtils.isNotEmpty(fatherlsh)) {
+		list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
+		// }
+
+		if (list.size() > 0) {// 有记录
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				DyFormData data = (DyFormData) iterator.next();
+				html.append(buildFormsTr(dyform, uuid(), formcode, false, data,
+						isedit, userinfo, parameter));
+			}
+		} else {// 无记录
+			html.append(buildFormsTr(dyform, uuid(), formcode, false, null,
+					isedit, userinfo, parameter));
+		}
+
+		String nulltr = buildFormsTr(dyform, uuid() + "_TR_UUID_", formcode,
+				false, null, isedit, userinfo, parameter);
+		String onclickAddFunctionname = "$ADD_" + uuid();
+		String onclickRemoveFunctionname = "$REMOVE_" + uuid();
+
+		String addrowscript = "onclick='" + onclickAddFunctionname + "();'";
+		String removerowscript = "onclick='" + onclickRemoveFunctionname
+				+ "();'";
+
+		StringBuffer btnstr = new StringBuffer();
+		btnstr.append(DyFormComp.getButton("", "新增行", "", "btn", false,
+				addrowscript)
+				+ _N);
+		btnstr.append(DyFormComp.getButton("", "删除行", "", "btn", false,
+				removerowscript)
+				+ _N);
+		nulltr = nulltr.replaceAll("\"", "\'");
+		String htmlcacheid = uuid();
+		String xhtml = "$('#htmlcache"
+				+ htmlcacheid
+				+ "').html(\""
+				+ nulltr
+				+ "\");var nulltr=$('#htmlcache"
+				+ htmlcacheid
+				+ "').html();nulltr=nulltr.replace('_TR_UUID_',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
+		btnstr.append("<script> $('body').append('<div id=\"htmlcache"
+				+ htmlcacheid + "\" style=\"display:none;\"></div>');function "
+				+ onclickAddFunctionname + "(){" + xhtml + " $('#" + formcode
+				+ "').append(nulltr);} ");
+		btnstr.append("function " + onclickRemoveFunctionname + "(){");
+		btnstr.append(DyFormComp.deleteRow(formcode, onclickAddFunctionname));
+		btnstr.append("}");
+		btnstr.append("</script>");
+
+		String html_ = DyFormComp.getTable(formcode, html.toString(), dyform
+				.getStyleinfo_(), "", 0, TableExtProperties);
+		String html_btn = "";
+		if (isedit) {
+			String btnstr_ = DyFormComp.getTr("", DyFormComp.getTd("", btnstr
+					.toString(), TableTdStyle2, TABLE_TD_TITLE,
+					"align=\"left\" colspan=\"" + colspan + "\""), "",
+					TABLE_TR_TITLE, "align=\"left\"");// 按钮菜单
+
+			String btnstr_null = DyFormComp.getTr("", DyFormComp.getTd("",
+					"&nbsp;", "", "", "align=\"left\" colspan=\"" + colspan
+							+ "\""), "", "", "align=\"left\"");// null
+
+			html_btn = DyFormComp.getTable(formcode + "btn", btnstr_
+					+ btnstr_null, dyform.getStyleinfo_(), "", 0,
+					TableExtProperties);
+		}
+
+		htmlall
+				.append(eventListenScripts.toString()
+						+ "<div style=\"overflow-x:auto; overflow-y:hidden; width:900px;\">"
+						+ html_ + html_btn + "</div>");
+		return htmlall.toString();
+	}
+
 	/**
 	 * 建立Ext所需要的字段<BR>
 	 * 
@@ -1829,7 +2002,7 @@ public final class DyFormBuildHtml {
 		// 打印表单
 		String lsh = "44cc006390304e538d3a326c98f6f0b1";
 		System.out.println(buildForm(dyform, false, "adminx", naturalname, lsh,
-				true, true, ""));
+				true, true, "", ""));
 
 		// 打印子表单
 		System.out.println(buildSubForm(dyform.getSubform_()[0], lsh, true,

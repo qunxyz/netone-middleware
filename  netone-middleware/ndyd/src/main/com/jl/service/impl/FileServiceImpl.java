@@ -49,9 +49,11 @@ public class FileServiceImpl extends BaseService implements FileService {
 			throws Exception {
 		JSONObject json = new JSONObject();
 		User user = getOnlineUser(request);
+		String workcode = request.getParameter("workcode");
 		com.jl.entity.File file = (com.jl.entity.File) commonDAO.findForObject(
 				"File.selectFileById", id);
-		if (user.getUserCode().equals(file.getU_unid())) {
+		if (user.getUserCode().equals(file.getU_unid())
+				&& workcode.equals(file.getWf_code())) {
 			commonDAO.delete("File.delete", id);
 			DirectoryManager dirmanage = new DirectoryManager();
 			boolean judge = dirmanage.deleteFile(file.getAddress());
@@ -67,6 +69,7 @@ public class FileServiceImpl extends BaseService implements FileService {
 			String filetype, String path, String usercode, String userName,
 			FileItem fileItem) throws Exception {
 		request.setAttribute("ErrorJson", "Yes");// Json出错提示
+		String workcode = request.getParameter("workcode");
 		JSONObject json = new JSONObject();
 		boolean flag = false;
 		String error = null;// 插入数据的错误信息
@@ -92,7 +95,8 @@ public class FileServiceImpl extends BaseService implements FileService {
 		}
 
 		com.jl.entity.File files = saveFile(id, usercode, userName, path, ""
-				+ formatKbSize(fileItem.getSize()), filetype, filename);
+				+ formatKbSize(fileItem.getSize()), filetype, filename,
+				workcode);
 
 		json = JSONObject.fromObject(files);
 
@@ -236,7 +240,7 @@ public class FileServiceImpl extends BaseService implements FileService {
 
 	private com.jl.entity.File saveFile(String id, String userCode,
 			String userName, String address, String size, String type,
-			String filename) throws Exception {
+			String filename, String wf_code) throws Exception {
 		com.jl.entity.File file = new com.jl.entity.File();
 		file.setAddress(address);
 		file.setF_size(size);
@@ -244,6 +248,9 @@ public class FileServiceImpl extends BaseService implements FileService {
 		file.setFilename(filename);
 		file.setF_type(type);
 		file.setD_unid(id);
+		if (StringUtils.isNotEmpty(wf_code)) {
+			file.setWf_code(wf_code.trim());
+		}
 		file.setUpdatetime(TimeUtil.formatDateTime(new Date()));
 		file.setNote("用户\"" + userName + "\"创建!");
 		file = (com.jl.entity.File) commonDAO.insert("File.insert", file);

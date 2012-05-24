@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -698,6 +699,7 @@ public final class DyFormBuildHtml {
 			Map<String, DyFormColumn> columnmap,
 			Map<String, DyFormColumn> columnmapx, boolean isedit,
 			String userinfo, String parameter) throws Exception {
+		boolean isnull = data == null ? true : false;
 		data = data == null ? new DyFormData() : data;
 		StringBuffer td_ = new StringBuffer();
 		Method[] ms = DyFormData.class.getMethods();
@@ -738,9 +740,12 @@ public final class DyFormBuildHtml {
 								}
 
 								if (isedit == false) {
+									String valuex = "" + value;
+									if (isnull)
+										valuex = valuex + "&nbsp";
 									td_.append(DyFormComp.getTd("",
 											routeAppointValue(column
-													.getViewtype(), "" + value,
+													.getViewtype(), valuex,
 													column.getValuelist()),
 											TableTdStyle + hiddenstyle,
 											TABLE_TD_CONTENT, ""));
@@ -1575,8 +1580,13 @@ public final class DyFormBuildHtml {
 					"align=\"left\" colspan=\"" + colspan + "\""), "",
 					TABLE_TR_TITLE, "align=\"left\"");// °´Å¥²Ëµ¥
 
-			html_btn = DyFormComp.getTable(formcode + "btn", btnstr_, dyform
-					.getStyleinfo_(), "", 0, TableExtProperties);
+			String btnstr_null = DyFormComp.getTr("", DyFormComp.getTd("",
+					"&nbsp;", "", "", "align=\"left\" colspan=\"" + colspan
+							+ "\""), "", "", "align=\"left\"");// null
+
+			html_btn = DyFormComp.getTable(formcode + "btn", btnstr_
+					+ btnstr_null, dyform.getStyleinfo_(), "", 0,
+					TableExtProperties);
 		}
 
 		htmlall

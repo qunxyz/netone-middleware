@@ -11,6 +11,8 @@ public class File {
 	private String address;
 	private String filename;
 	private String updatetime;
+	/** ¹¤×÷Á÷±àÂë */
+	private String wf_code;
 	private String note;
 
 	public String getUnid() {
@@ -28,7 +30,6 @@ public class File {
 	public void setD_unid(String d_unid) {
 		this.d_unid = d_unid;
 	}
-
 
 	public String getU_unid() {
 		return u_unid;
@@ -84,5 +85,13 @@ public class File {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public String getWf_code() {
+		return wf_code;
+	}
+
+	public void setWf_code(String wf_code) {
+		this.wf_code = wf_code;
 	}
 }

@@ -256,7 +256,7 @@
 									<a href="javascript:worklistR('${list.naturalname}');"><font color='green'>待阅应用</font></a>
 									<a href="javascript:worklistdone1('${list.naturalname}');"><font color='green'>已办未归档</font></a>
 									<a href="javascript:worklistdone2('${list.naturalname}');"><font color='green'>已办且归档</font></a>
-									<a href="http://127.0.0.1:81/ndyd//workList.do?height=260&appname=${list.naturalname}&sort=&psize=20&sortfield=&listtype=00&mode=1&method=onMainView2" target='_blank'><font color='green'>管理员视图</font></a>
+									<a href="<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?height=260&appname=${list.naturalname}&sort=&psize=20&sortfield=&listtype=00&mode=1&method=onMainView2" target='_blank'><font color='green'>管理员视图</font></a>
 									
 									<a href="javascript:init('${list.id}');">初始化</a>
 									<a href="javascript:del('${list.id}');">删除</a>

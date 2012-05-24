@@ -307,22 +307,20 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					if (!issubhidden)
 						html.append(DyFormBuildHtml.buildForm(subdyform,
 								issubedit, userinfo, naturalname, lsh, true,
-								true, parameter,""));
+								true, parameter, ""));
 				} else if ("5".equals(submode)) {// 5:集成展示-单子表单记录(系统控制只能一条)
 					// 不显示标题
 					if (!issubhidden)
 						html.append(DyFormBuildHtml.buildForm(subdyform,
 								issubedit, userinfo, naturalname, lsh, true,
-								false, parameter,""));
-				} else if ("1+".equals(submode)) {// 1+:集成展示-布局表单多条记录
+								false, parameter, ""));
+				} else if ("9".equals(submode)) {// 1+:集成展示-布局表单多条记录
 					if (!issubhidden)
 						html.append(DyFormBuildHtml.buildSubForms(subdyform,
 								lsh, issubedit, userinfo, parameter));
 				} else {// 1:集成展示-多条子表单记录（默认模式）
 					if (!issubhidden)
-						// html.append(DyFormBuildHtml.buildSubForm(subdyform,
-						// lsh, issubedit, userinfo, parameter));
-						html.append(DyFormBuildHtml.buildSubForms(subdyform,
+						html.append(DyFormBuildHtml.buildSubForm(subdyform,
 								lsh, issubedit, userinfo, parameter));
 				}
 			}

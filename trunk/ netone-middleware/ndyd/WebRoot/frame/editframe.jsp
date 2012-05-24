@@ -15,6 +15,7 @@
 		<script language="javascript" type="text/javascript"
 			src="<%=path%>/My97DatePicker/WdatePicker.js" charset="gb2312"></script>
 		<script type="text/javascript" src="<%=path%>/tiny_mce/jquery.tinymce.js"></script>	
+		
 		<!-- 样式文件 -->	
 		${linkcss}
 		<!-- 时间控件脚本 -->
@@ -226,7 +227,7 @@ $.fn.autogrow = function(options) {
 		    });
 		    **/
 			alert('该业务无权创建该工单');
-			window.opener=null;
+			window.open("","_self");window.opener=null;
 			window.close();
 			$disabledall();
 			$hideall();
@@ -594,13 +595,14 @@ function _delete(t){
 	            	if (t!=null && t==0){//归档
 	            		$disabledall();
 	            		_refreshOpenerWin();
+		            	window.open("","_self");
 		            	window.opener=null;
 		            	//window.open('','_top');
 		            	window.close();
 	            	}else{
 	            		document.getElementById('fileMainFrame').contentWindow.deleteFileByUnidAndD_unid(document.getElementById('unid').value);
 	            		_refreshOpenerWin();
-		            	window.opener=null;
+		            	window.open("","_self");window.opener=null;
 		            	//window.open('','_top');
 		            	window.close();
 	            	}

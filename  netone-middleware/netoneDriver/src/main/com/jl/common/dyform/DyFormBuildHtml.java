@@ -752,9 +752,20 @@ public final class DyFormBuildHtml {
 								} else {
 									boolean isSelect_ = checkSelect_(column
 											.getViewtype());
-									String style = "width:95%;";
-									if (isSelect_) {
-										style = "width:80%;";
+									String style = "";
+									if (column.getWidth() > 0) {
+										style = "width:" + column.getWidth()
+												+ ";";
+										if (isSelect_) {
+											style = "width:"
+													+ (column.getWidth() - 20)
+													+ ";";
+										}
+									} else {
+										style = "width:95%;";
+										if (isSelect_) {
+											style = "width:80%;";
+										}
 									}
 
 									String comp = routeAppointComp(column

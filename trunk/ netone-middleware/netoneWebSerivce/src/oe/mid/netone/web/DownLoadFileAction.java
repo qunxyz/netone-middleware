@@ -1,20 +1,36 @@
 package oe.mid.netone.web;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSONArray;
-import com.jl.common.workflow.DbTools;
 
-public class ModulearticleSvl extends HttpServlet {
+import net.sf.json.JSONArray;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.jl.common.workflow.DbTools;
+import com.jl.service.FileService;
+
+public class DownLoadFileAction extends HttpServlet {
 
 	/**
-	 * xuwei(2012-5-4) 手机上频道栏目 展示的服务；
+	 * Constructor of the object.
 	 */
-	public ModulearticleSvl() {
+	public DownLoadFileAction() {
 		super();
 	}
 
@@ -42,36 +58,7 @@ public class ModulearticleSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String sqlStr = null;
-
-		String model = request.getParameter("model");
-		if (model == null) {
-			model = "0";
-		}
-
-		// 一级频道栏目
-		if (model.equals("0")) {
-			sqlStr = "select catid,catname,child from cms_phpcms.v9_category where parentid=0 and siteid=1 and ismenu=1 and catid not in(15,28,29)";
-		}
-		// 栏目树
-		if (model.equals("1")) {
-			String parentid = request.getParameter("parentid");
-			sqlStr = "select catid,catname,parentid,child from cms_phpcms.v9_category where parentid="
-					+ parentid + "";
-		}
-		// 频道树
-		if (model.equals("2")) {
-			String catid = request.getParameter("catid");
-			sqlStr = "select title,url from cms_phpcms.v9_news where catid="
-					+ catid + "  AND STATUS=99";
-		}
-		List list = DbTools.queryData(sqlStr);
-
-		String json = JSONArray.fromObject(list).toString();
-
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print(json);
+		doPost(request, response);
 	}
 
 	/**
@@ -91,7 +78,22 @@ public class ModulearticleSvl extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		request.setCharacterEncoding("utf-8");
+		String id = request.getParameter("unid");
+		// 是在线打开还下载
+		String sqlstr = "SELECT address FROM iss.t_file  WHERE  unid='" + id
+				+ "'";
+		List list = DbTools.queryData(sqlstr);
+		List listx=new ArrayList();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map map = (Map) iterator.next();
+			 String address=map.get("address").toString();
+		     map.remove("address");
+			 map.put("address", address.replaceAll("\\\\", "\\/"));
+			 listx.add(map);
+		}
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().print(JSONArray.fromObject(listx).toString());
 	}
 
 	/**

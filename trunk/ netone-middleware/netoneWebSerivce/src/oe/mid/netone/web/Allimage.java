@@ -1,21 +1,24 @@
 package oe.mid.netone.web;
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang.StringUtils;
-import com.jl.common.workflow.worklist.QueryColumn;
-import com.jl.common.workflow.worklist.WlEntry;
 
-public class workcountSvl extends HttpServlet {
+import net.sf.json.JSONArray;
+
+import com.jl.common.workflow.DbTools;
+
+public class Allimage extends HttpServlet {
 
 	/**
-	 * xuwei(2012-5-4) 总数据数 获得待办 listtype={01 代办、02以办未归档、03 已办且归档、04全部工单}
-	 *Mode=1 代办 mode=0 待阅
+	 * Constructor of the object.
 	 */
-	public workcountSvl() {
+	public Allimage() {
 		super();
 	}
 
@@ -39,38 +42,27 @@ public class workcountSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		String commiter = request.getParameter("commiter");
-		String appname = request.getParameter("appname");
-		String mode_ = request.getParameter("mode");
-		String listtype = request.getParameter("listtype");
-
-		QueryColumn queryColumn = null;
-		boolean mode = false;
-		if (StringUtils.isNotEmpty(mode_)) {
-			if ("1".equals(mode_)) {
-				mode = true;
+         request.setCharacterEncoding("utf-8");
+         String appname=request.getParameter("appname");
+         
+         String sqlStr="SELECT 	ID FROM  netone.ums_protectedobject  WHERE NATURALNAME LIKE '%"+appname+"%'";
+		 List list= DbTools.queryData(sqlStr);
+		 List listx=new ArrayList();
+		 for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map  map = (Map) iterator.next();
+			String sqladdress="SELECT  address  FROM   iss.t_file  WHERE d_unid='"+map.get("ID")+"'";
+			List list1= DbTools.queryData(sqladdress);
+			for (Iterator iterator2 = list1.iterator(); iterator2.hasNext();) {
+				Map map1 = (Map) iterator2.next();
+				String address=(map1.get("address")).toString()
+				.replaceAll("\\\\", "\\/");
+				map1.remove("address");
+				map1.put("address", address);
+				listx.add(map1);
 			}
 		}
-
-		try {
-			queryColumn = WlEntry.iv().loadQueryColumn(appname, 0);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		queryColumn.setValue("");
-		queryColumn.setOrder(" order by  w1.starttime  desc");
-		int count = 0;
-		try {
-			count = WlEntry.iv().count(commiter, appname, mode, listtype,
-					queryColumn);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print(count);
+		 response.setContentType("text/html;charset=utf-8");
+		 response.getWriter().print(JSONArray.fromObject(listx).toString());
 	}
 
 	/**
@@ -85,7 +77,7 @@ public class workcountSvl extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+		doGet(request,response);
 	}
 
 	/**

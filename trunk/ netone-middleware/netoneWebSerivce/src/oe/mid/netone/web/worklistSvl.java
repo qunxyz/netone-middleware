@@ -37,7 +37,8 @@ import com.jl.entity.User;
 public class worklistSvl extends HttpServlet {
 
 	/**
-	 * Constructor of the object.
+	 * xuwei(2012-5-4) 数据列表 获得待办 listtype={01 代办、02以办未归档、03 已办且归档、04全部工单} Mode=1
+	 * 代办 mode=0 待阅
 	 */
 	public worklistSvl() {
 		super();
@@ -53,13 +54,17 @@ public class worklistSvl extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
-	 *
+	 * 
 	 * This method is called when a form has its tag value method equals to get.
 	 * 
-	 * @param request the request send by the client to the server
-	 * @param response the response send by the server to the client
-	 * @throws ServletException if an error occurred
-	 * @throws IOException if an error occurred
+	 * @param request
+	 *            the request send by the client to the server
+	 * @param response
+	 *            the response send by the server to the client
+	 * @throws ServletException
+	 *             if an error occurred
+	 * @throws IOException
+	 *             if an error occurred
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -70,25 +75,24 @@ public class worklistSvl extends HttpServlet {
 
 		boolean mode = false;
 		List<DataObj> list = null;
-		List list1=new ArrayList();
-		QueryColumn queryColumn=null;
-		RMI_SER rmi=new RMI_SER();
-		RMI_SER_obj rmiobj=rmi.RMI_SER();
+		List list1 = new ArrayList();
+		QueryColumn queryColumn = null;
+		RMI_SER rmi = new RMI_SER();
+		RMI_SER_obj rmiobj = rmi.RMI_SER();
 		if (StringUtils.isNotEmpty(mode_)) {
 			if ("1".equals(mode_)) {
 				mode = true;
 			}
 		}
 		try {
-			queryColumn = WlEntry.iv().loadQueryColumn(appname,
-					0);
+			queryColumn = WlEntry.iv().loadQueryColumn(appname, 0);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		queryColumn.setValue("");
 		queryColumn.setOrder(" order by  w1.starttime  desc");
-		
+
 		try {
 			list = WlEntry.iv().worklist(commiter, appname, mode, 0, 100,
 					listtype, queryColumn);
@@ -96,21 +100,27 @@ public class worklistSvl extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			DataObj  dataobj = (DataObj) iterator.next();
-			Map map=new HashMap();
-			map.put("name", dataobj.getData()[0]); 
-			map.put("workname", dataobj.getData()[dataobj.getData().length-3]);
-			map.put("commitername",dataobj.getData()[dataobj.getData().length-2]);
-			map.put("starttime", dataobj.getData()[dataobj.getData().length-1]);
-			JSONObject json=JSONObject.fromObject(dataobj.getExt());
-			map.put("lsh", json.get("bussid"));
-			map.put("url", rmiobj.getWEBSER_APPFRAME()+dataobj.getUrl());
 
-			String str=StringUtils.substringBetween(dataobj.getUrl(), "&naturalname=", "&lsh=");
-			UmsProtecte up=new UmsProtecte();
-			UmsProtectedobject upobj=up.loadUmsProtecteNaturalname(str+"."+dataobj.getId()[0]);
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			DataObj dataobj = (DataObj) iterator.next();
+			Map map = new HashMap();
+			map.put("name", dataobj.getData()[0]);
+			map
+					.put("workname",
+							dataobj.getData()[dataobj.getData().length - 3]);
+			map.put("commitername",
+					dataobj.getData()[dataobj.getData().length - 2]);
+			map.put("starttime",
+					dataobj.getData()[dataobj.getData().length - 1]);
+			JSONObject json = JSONObject.fromObject(dataobj.getExt());
+			map.put("lsh", json.get("bussid"));
+			map.put("url", rmiobj.getWEBSER_APPFRAME() + dataobj.getUrl());
+
+			String str = StringUtils.substringBetween(dataobj.getUrl(),
+					"&naturalname=", "&lsh=");
+			UmsProtecte up = new UmsProtecte();
+			UmsProtectedobject upobj = up.loadUmsProtecteNaturalname(str + "."
+					+ dataobj.getId()[0]);
 			map.put("promptname", upobj.getName());
 			list1.add(map);
 		}
@@ -122,13 +132,18 @@ public class worklistSvl extends HttpServlet {
 
 	/**
 	 * The doPost method of the servlet. <br>
-	 *
-	 * This method is called when a form has its tag value method equals to post.
 	 * 
-	 * @param request the request send by the client to the server
-	 * @param response the response send by the server to the client
-	 * @throws ServletException if an error occurred
-	 * @throws IOException if an error occurred
+	 * This method is called when a form has its tag value method equals to
+	 * post.
+	 * 
+	 * @param request
+	 *            the request send by the client to the server
+	 * @param response
+	 *            the response send by the server to the client
+	 * @throws ServletException
+	 *             if an error occurred
+	 * @throws IOException
+	 *             if an error occurred
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -137,8 +152,9 @@ public class worklistSvl extends HttpServlet {
 
 	/**
 	 * Initialization of the servlet. <br>
-	 *
-	 * @throws ServletException if an error occurs
+	 * 
+	 * @throws ServletException
+	 *             if an error occurs
 	 */
 	public void init() throws ServletException {
 		// Put your code here

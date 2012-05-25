@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import oe.frame.web.WebCache;
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
 import oe.rmi.client.RmiEntry;
@@ -104,9 +105,12 @@ public class RbacModifyAction extends Action {
 		}
 		if ("save".equals(request.getParameter("task"))) {
 			try {
+				
+				
 				ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
 				UmsRole urole = (UmsRole) RequestUtil.mappingReqParam(UmsRole.class, reqmap);
 				String roleid = request.getParameter("chkid");
+				WebCache.removeCache("ROLER_" + roleid);
 				String oldou = request.getParameter("oldbelonging");
 				String newou = request.getParameter("belonging");
 				urole.setId(new Long(roleid));

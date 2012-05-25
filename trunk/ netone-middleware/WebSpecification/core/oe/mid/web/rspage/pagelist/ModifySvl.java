@@ -137,7 +137,7 @@ public class ModifySvl extends HttpServlet {
 						Long aggrex=Long.parseLong(aggregation);
 						upo.setAggregation(aggrex);
 						}catch(Exception e){
-							
+							e.printStackTrace();
 						}
 						
 					}

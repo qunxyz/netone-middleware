@@ -173,6 +173,8 @@ public class RightSvl extends HttpServlet {
 		if (StringUtils.isNotEmpty(ext)) {
 			condition = StringUtils.trim(ext);
 			request.setAttribute("ext", ext);
+		}else{
+			condition=" order by aggregation";
 		}
 		log.debug("condition:" + condition);
 		List list = rsrmi.fetchResource(upochild, map, condition);

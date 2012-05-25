@@ -35,6 +35,14 @@ public interface TWfConsoleIfc {
 	String _DEFAULT_REV_KEY_STATUS = "status";// 流程环节，该变量是工作流内部控制表示当前的业务环节值
 	String _DEFAULT_REV_KEY_WORKCODE = "workcode";
 	String _DEFAULT_REV_KEY_BUSSSTATUS = "bussstatus";// 业务状态，该字段表示流程的环节计数
+	
+	/**
+	 * 获得流程首节点
+	 * @param processid
+	 * @return
+	 */
+	String fetchFirstActivityId(String processid);
+	
 
 	/**
 	 * 超期告警

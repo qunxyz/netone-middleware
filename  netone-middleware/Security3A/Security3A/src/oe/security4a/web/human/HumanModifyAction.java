@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import oe.frame.web.WebCache;
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
 import oe.rmi.client.RmiEntry;
@@ -131,6 +132,11 @@ public class HumanModifyAction extends Action {
 					}
 				}
 				rsrmi.roleRelationupdate(code, loginname, list);
+				//清空人员角色缓存
+				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+					UmsRole umsRole = (UmsRole) iterator.next();
+					WebCache.removeCache("ROLER_" + umsRole.getId());
+				}
 				if (rsrmi.updateClerk(code, clerk)) {
 					CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 					cupmRmi.initCacheUser(loginname);

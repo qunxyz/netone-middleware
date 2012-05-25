@@ -223,8 +223,6 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					DymaticFormCheck._FINAL_CHECK);
 			if (width != null && !width.equals("")) {
 				columnnew.setWidth(Double.parseDouble(width));
-			} else {
-				columnnew.setWidth(70);
 			}
 			// 设置汇总类型
 			String summarytype = StringUtils.substringBetween(ext,

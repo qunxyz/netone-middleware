@@ -42,8 +42,6 @@ import com.jl.common.resource.ResourceNode;
  * 
  */
 public final class Security3AImpl implements Security3AIfc {
-	
-
 
 	public Client3A onlineUser(HttpServletRequest request) throws Exception {
 		OnlineUserMgr olmgr = new DefaultOnlineUserMgr();
@@ -96,7 +94,7 @@ public final class Security3AImpl implements Security3AIfc {
 		CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
 		return cupm.checkUserPermission(DEMAIN_CODE, customer,
 				resourceNaturalname, PERMISSION_ALLOW);
-		
+
 	}
 
 	private String changeOrganization(UmsProtectedobject upoParent,
@@ -446,126 +444,152 @@ public final class Security3AImpl implements Security3AIfc {
 
 	public String listUserByRoleId(String roleid[], String commiter,
 			boolean isflowrole) throws Exception {
-		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		StringBuffer but = new StringBuffer();
-		for (int i = 0; i < roleid.length; i++) {
-			String partCoreCode = StringUtils.substringBetween(roleid[i], "[",
-					"]");
-			List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
-			if (StringUtils.isNotEmpty(commiter)) {
-				Client3A curUser = this.loadUser(commiter);
-				String deptid = curUser.getBelongto();
-				if (isflowrole) {
-					// 流程角色
-					String deptname=rs.loadResourceById(deptid).getNaturalname();
-					addUserWhenIsSameDept(but, list, deptid,deptname);
-					if(list.size()>0&&but.length()==0){
-						continue;// 如果配置了2个以上的角色保证每个角色先找一次，在最近的范围内
-					}
-				} else {
-					// 静态角色
-					addUser(but, list);
-				}
-			} else {
-				// 如果没有提供当前登录者，系统默认按照静态角色来处理
-				addUser(but, list);
-			}
+		for (int i = 0; i < roleid.length; i++){
+			
+			String rs=listUserByRoleIdCore(roleid[i],commiter,isflowrole);
+			but.append(rs);
 		}
-		
-		if(isflowrole&&but.length()==0){// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次
-			for (int i = 0; i < roleid.length; i++) {
-				String partCoreCode = StringUtils.substringBetween(roleid[i], "[",
-				"]");
-				List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
-				Client3A curUser = this.loadUser(commiter);
-				String deptid = curUser.getBelongto();
-				nextMen(but,list,deptid,rs);
-			}
-		}
-		
-		if(isflowrole&&but.length()==0){// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次，并且往上一级再做横向搜索
-			for (int i = 0; i < roleid.length; i++) {
-				String partCoreCode = StringUtils.substringBetween(roleid[i], "[",
-				"]");
-				List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
-				Client3A curUser = this.loadUser(commiter);
-				String deptid = curUser.getBelongto();
-				for(int j=0;j<2;j++){//保证每个角色横向搜索一次，并且往上一级再做横向搜索 该写法有重复上面的搜索将来需要改进
-					// 橫向縱向掃描
-							deptid=nextMen(but,list,deptid,rs);
-							if(StringUtils.isEmpty(deptid)){
-								break;
-							}
-					}
-				
-			}
-		}
-		
-		if(isflowrole&&but.length()==0){
-			for (int i = 0; i < roleid.length; i++) {
-				String partCoreCode = StringUtils.substringBetween(roleid[i], "[",
-				"]");
-				List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
-				Client3A curUser = this.loadUser(commiter);
-				String deptid = curUser.getBelongto();
-				for(int j=0;j<3;j++){
-					// 橫向縱向掃描
-							deptid=nextMen(but,list,deptid,rs);
-							if(StringUtils.isEmpty(deptid)){
-								break;
-							}
-					}
-				
-			}
-		}
-		
+			
 		return but.toString();
 	}
-	
-	private String nextMen(StringBuffer but,List user,String dept,ResourceRmi rs){
+
+	private String listUserByRoleIdCore(String roleid, String commiter,
+			boolean isflowrole) throws Exception {
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+		StringBuffer but = new StringBuffer();
+		// 检查本部门
+		String partCoreCode = StringUtils.substringBetween(roleid, "[", "]");
+		List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
+		Client3A curUser =null;
+		if (StringUtils.isNotEmpty(commiter)) {
+			curUser = this.loadUser(commiter);
+			String deptid = curUser.getBelongto();
+			if (isflowrole) {
+				// 流程角色
+				String deptname = rs.loadResourceById(deptid).getNaturalname();
+				addUserWhenIsSameDept(but, list, deptid, deptname);
+			} else {
+				// 静态角色
+				addUser(but, list);
+			}
+		} else {
+			// 如果没有提供当前登录者，系统默认按照静态角色来处理
+			addUser(but, list);
+		}
+
+		if (curUser!=null&&isflowrole && but.length() == 0) {// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次
+			
+			String deptid = curUser.getBelongto();
+			nextMen(but, list, deptid, rs);
+		}
+
+		if (curUser!=null&&isflowrole && but.length() == 0) {// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次，并且往上一级再做横向搜索
+			
+			String deptid = curUser.getBelongto();
+			for (int j = 0; j < 2; j++) {// 保证每个角色横向搜索一次，并且往上一级再做横向搜索
+				// 该写法有重复上面的搜索将来需要改进
+				// 橫向縱向掃描
+				deptid = nextMen(but, list, deptid, rs);
+				if (StringUtils.isEmpty(deptid)) {
+					break;
+				}
+			}
+		}
+
+		if (curUser!=null&&isflowrole && but.length() == 0) {
+			String deptid = curUser.getBelongto();
+			for (int j = 0; j < 3; j++) {
+				// 橫向縱向掃描
+				deptid = nextMen(but, list, deptid, rs);
+				if (StringUtils.isEmpty(deptid)) {
+					break;
+				}
+			}
+		}
+
+		// 下行寻找
+		if (curUser!=null&&isflowrole && but.length() == 0) {// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次
+			String deptid = curUser.getBelongto();
+			nextDownMen(but, list, deptid, rs);
+		}
+		return but.toString();
+	}
+
+	private String nextMen(StringBuffer but, List user, String dept,
+			ResourceRmi rs) {
 		// 如果当前部门没有人员，那橫向掃描部門
-		UmsProtectedobject upopar=null;
+		UmsProtectedobject upopar = null;
 		try {
 			upopar = rs.loadResourceById(dept);
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		if(dept!=null&&StringUtils.split(upopar.getNaturalname(),'.').length==4){
-			//本级是区域级了，只能检索该节点的数据，不能横向了
-			addUserWhenIsSameDept(but, user, upopar.getId(),upopar.getNaturalname());
+		if (dept != null
+				&& StringUtils.split(upopar.getNaturalname(), '.').length == 4) {
+			// 本级是区域级了，只能检索该节点的数据，不能横向了
+			addUserWhenIsSameDept(but, user, upopar.getId(), upopar
+					.getNaturalname());
 			return "";
 		}
-		
+
 		String parentid = upopar.getParentdir();
-		String parentName=null;
+		String parentName = null;
 		try {
 			parentName = rs.loadResourceById(parentid).getNaturalname();
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 
-		if(parentName!=null&&StringUtils.split(parentName,'.').length>3){//不能超出顶级区域 dept.dept.宁德移动.顶级区域
-				List depts=new ArrayList();
-				try {
-					depts = rs.subResource(parentid);
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				for (Iterator iterator = depts.iterator(); iterator
-						.hasNext();) {
-					UmsProtectedobject object = (UmsProtectedobject) iterator.next();
-					addUserWhenIsSameDept(but, user, object.getId(),object.getNaturalname());
-				}
-				return parentid;
-			}else{
-				return "";
+		if (parentName != null && StringUtils.split(parentName, '.').length > 3) {// 不能超出顶级区域
+			// dept.dept.宁德移动.顶级区域
+			List depts = new ArrayList();
+			try {
+				depts = rs.subResource(parentid);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-				
+			for (Iterator iterator = depts.iterator(); iterator.hasNext();) {
+				UmsProtectedobject object = (UmsProtectedobject) iterator
+						.next();
+				addUserWhenIsSameDept(but, user, object.getId(), object
+						.getNaturalname());
+			}
+			return parentid;
+		} else {
+			return "";
+		}
 
+	}
+
+	// 向下遍历
+	private void nextDownMen(StringBuffer but, List user, String dept,
+			ResourceRmi rs) {
+		// 如果当前部门没有人员，那橫向掃描部門
+		UmsProtectedobject upopar = null;
+		try {
+			upopar = rs.loadResourceById(dept);
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		List depts = null;
+		try {
+			// 获得所有的子节点
+			depts = rs.subResourceByNaturalname(upopar.getNaturalname());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (Iterator iterator = depts.iterator(); iterator.hasNext();) {
+			UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+			addUserWhenIsSameDept(but, user, object.getId(), object
+					.getNaturalname());
+		}
 	}
 
 	private void addUser(StringBuffer but, List list) {
@@ -576,15 +600,16 @@ public final class Security3AImpl implements Security3AIfc {
 	}
 
 	private void addUserWhenIsSameDept(StringBuffer but, List list,
-			String deptid,String deptname) {
-		if(StringUtils.split(deptname,'.').length<3){
+			String deptid, String deptname) {
+		if (StringUtils.split(deptname, '.').length < 3) {
 			return;
 		}
 
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Clerk clerk = (Clerk) iterator.next();
 			if (deptid.equals(clerk.getDeptment())) {
-				but.append(clerk.getName() + "[" + clerk.getDescription() + "],");
+				but.append(clerk.getName() + "[" + clerk.getDescription()
+						+ "],");
 			}
 		}
 	}
@@ -771,10 +796,11 @@ public final class Security3AImpl implements Security3AIfc {
 			rsx.setResourcecode(object.getNaturalname());
 			rsx.setResourcename(parseDnName(object) + rsname);
 			rsx.setTypes(object.getObjecttype());
-			rsx.setId(object.getId());
+						rsx.setId(object.getId());
 			rsx.setParentid(object.getParentdir());
 			rsx.setText(object.getExtendattribute());
 			rsx.setInclusion(object.getInclusion());
+			
 			listData.add(rsx);
 		}
 		return listData;
@@ -830,10 +856,9 @@ public final class Security3AImpl implements Security3AIfc {
 
 	public boolean permissionById(String clientid, String id) throws Exception {
 		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
-		String name=rs.loadResourceById(id).getNaturalname();
-		
+		String name = rs.loadResourceById(id).getNaturalname();
+
 		return this.permission(clientid, name);
 	}
-
 
 }

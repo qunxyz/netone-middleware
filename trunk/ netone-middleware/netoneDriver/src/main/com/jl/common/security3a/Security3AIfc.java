@@ -233,7 +233,7 @@ public interface Security3AIfc {
 	String deptNameOfUser(String clientcode) throws Exception;
 
 	/**
-	 * 根据角色获得用户
+	 * 根据角色获得用户,支持向上区域内检索和向下检索人员
 	 * 
 	 * @param roleid
 	 *            角色id

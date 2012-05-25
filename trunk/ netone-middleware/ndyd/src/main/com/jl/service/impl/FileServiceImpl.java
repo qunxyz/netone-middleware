@@ -21,11 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.jl.common.JSONUtil2;
 import com.jl.common.JxlUtilsTemplate;
 import com.jl.common.SpringBeanUtil;
 import com.jl.common.TimeUtil;
@@ -52,8 +54,10 @@ public class FileServiceImpl extends BaseService implements FileService {
 		String workcode = request.getParameter("workcode");
 		com.jl.entity.File file = (com.jl.entity.File) commonDAO.findForObject(
 				"File.selectFileById", id);
+		String wf_code = file.getWf_code();
+		wf_code = wf_code == null ? "" : wf_code;
 		if (user.getUserCode().equals(file.getU_unid())
-				&& workcode.equals(file.getWf_code())) {
+				&& (workcode.equals(wf_code))) {
 			commonDAO.delete("File.delete", id);
 			DirectoryManager dirmanage = new DirectoryManager();
 			boolean judge = dirmanage.deleteFile(file.getAddress());
@@ -93,12 +97,15 @@ public class FileServiceImpl extends BaseService implements FileService {
 		} else {
 			path += "\\" + UUID.randomUUID() + "." + format;// 保存的文件绝对路径
 		}
-
+		if (StringUtils.isEmpty(filename)) {
+			filename = fileName.trim();
+		}
 		com.jl.entity.File files = saveFile(id, usercode, userName, path, ""
 				+ formatKbSize(fileItem.getSize()), filetype, filename,
 				workcode);
 
-		json = JSONObject.fromObject(files);
+		json = JSONObject.fromObject(JSONUtil2.fromBean(files,
+				"yyyy-MM-dd HH:mm:ss").toString());
 
 		File _file = null;
 		if (fileItem != null) {

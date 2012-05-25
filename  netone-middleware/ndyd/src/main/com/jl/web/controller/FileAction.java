@@ -143,9 +143,9 @@ public class FileAction extends AbstractAction {
 					+ json.getString("note");
 
 		} catch (Exception e) {
+			html = "";
 			json.put("tip", "ÉÏ´«¸½¼þÊ§°Ü!");
 			json.put("error", "yes");
-			html = "";
 			e.printStackTrace();
 		} finally {
 			// super.writeJsonStr(response, json.toString());

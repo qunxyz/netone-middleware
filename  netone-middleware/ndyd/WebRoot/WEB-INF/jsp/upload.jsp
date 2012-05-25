@@ -339,6 +339,7 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColo
 		var msgTip = Ext.MessageBox.show({
 			title:'系统提示',
 			width : 250,
+			closable:false,
 			msg:'正在上传文件请稍后......'
 		});
 		
@@ -349,12 +350,12 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColo
 				sync: true,
 				success : function(response,options){
 					msgTip.hide();
-					if (response.responseText!=null){
+					if (response.responseText==null || response.responseText==''){
+						Ext.MessageBox.alert('<img src="<%=cssURL%>/btn/btn-cancel.png">提示', '上传附件失败');
+					} else {
 						addtr(response.responseText);
 						onLoadIframeHight(0);
 						Ext.ux.Toast.msg("", '上传附件成功');
-					} else {
-						Ext.MessageBox.alert('<img src="<%=cssURL%>/btn/btn-cancel.png">提示', '上传附件失败');
 					}
 				},
 				failure : function(response,options){

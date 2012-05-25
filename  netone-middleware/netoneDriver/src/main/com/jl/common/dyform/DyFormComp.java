@@ -410,8 +410,9 @@ public final class DyFormComp {
 						+ x[1] + "</option>");
 			}
 		}
-		return getComp("<select ", ">" + valuestr + "</select>", id, "", style,
-				classname, (readonly == true) ? 1 : 0, extvalue);
+		return getHiddenInput(id + "_hidden", value)
+				+ getComp("<select ", ">" + valuestr + "</select>", id, "",
+						style, classname, (readonly == true) ? 1 : 0, extvalue);
 	}
 
 	/**

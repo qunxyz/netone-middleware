@@ -1,7 +1,12 @@
-package oe.mid.netone.web;
+package oe.mid.netone.flex;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -10,16 +15,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.json.JSONObject;
+import oe.security3a.seucore.obj.db.UmsProtectedobject;
+import oe.serialize.dao.SpringBeanUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
+import org.apache.derby.tools.sysinfo;
+import com.jl.common.JxlUtilsTemplate;
 import com.jl.common.TimeUtil;
+import com.jl.common.netone.UmsProtecte;
 import com.jl.common.workflow.DbTools;
 import com.jl.dao.CommonDAO;
 
-public class UploadFileAction extends HttpServlet {
+public class PhUploadimageAction extends HttpServlet {
 
 	/**
 	 * xuwei(2012-5-4) 上传图片的服务；
@@ -27,7 +38,7 @@ public class UploadFileAction extends HttpServlet {
 	// 限制文件的上传大小
 	private int maxPostSize = 100 * 1024 * 1024; // 最大100M
 
-	public UploadFileAction() {
+	public PhUploadimageAction() {
 		super();
 	}
 
@@ -121,11 +132,13 @@ public class UploadFileAction extends HttpServlet {
 		boolean flag = false;
 		String error = null;// 插入数据的错误信息
 		File _file = null;
-		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目
+		String path ="\\"+"netoneWebSerivce";// 应用服务器目
+		String path1 =request.getSession().getServletContext().getRealPath("/");
 		int index = 0;
-		path = path + "files";
-		String id = null;
-		String userid = request.getParameter("username");
+		path = path +"\\"+"images";
+		path1 =path1+"\\"+"images";;
+		String id = request.getParameter("id");
+		String userid = request.getParameter("userid");
 		String filetype = "图片";
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setSizeThreshold(4096);
@@ -145,17 +158,16 @@ public class UploadFileAction extends HttpServlet {
 			if (!fileItem.isFormField()) {
 				String fileName = fileItem.getName();
 				path += "\\" + TimeUtil.formatDate(new Date(), "yyyy-MM-dd");
-				File file = new File(path);
+				path1+="\\" + TimeUtil.formatDate(new Date(), "yyyy-MM-dd");
+				File file = new File(path1);
 				if (!file.exists()) {
 					file.mkdirs();
 				}
 				String format = StringUtils.substringAfterLast(fileName, ".");// 后辍名
 				fileName = StringUtils.substringBeforeLast(fileName, ".");
-				String[] arrstr = fileName.split("&");
-				id = arrstr[2];
-				userid = arrstr[0];
-				fileName = arrstr[1] + "&" + arrstr[2] + "&" + arrstr[3];
+				fileName=id;
 				path += "\\" + fileName + "." + format;// 保存的文件绝对路径
+				path1+="\\" + fileName + "." + format;
 				com.jl.entity.File files = null;
 				try {
 					index = saveFile(id, userid, userid, path, ""
@@ -167,7 +179,7 @@ public class UploadFileAction extends HttpServlet {
 				}
 
 				if (fileItem != null) {
-					_file = new File(path);
+					_file = new File(path1);
 					try {
 						fileItem.write(_file);
 					} catch (Exception e) {
@@ -180,11 +192,10 @@ public class UploadFileAction extends HttpServlet {
 			}
 		}
 		if (index == 1) {
-			response.getWriter().print(true);
+			response.setStatus(800);
 		} else {
-			response.getWriter().print(false);
+			response.setStatus(700);
 		}
-		// return json.toString();
 	}
 
 	/**

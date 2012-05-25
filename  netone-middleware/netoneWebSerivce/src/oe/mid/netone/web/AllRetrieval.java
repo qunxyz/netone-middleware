@@ -1,21 +1,19 @@
 package oe.mid.netone.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang.StringUtils;
-import com.jl.common.workflow.worklist.QueryColumn;
-import com.jl.common.workflow.worklist.WlEntry;
 
-public class workcountSvl extends HttpServlet {
+public class AllRetrieval extends HttpServlet {
 
 	/**
-	 * xuwei(2012-5-4) 总数据数 获得待办 listtype={01 代办、02以办未归档、03 已办且归档、04全部工单}
-	 *Mode=1 代办 mode=0 待阅
+	 * Constructor of the object.
 	 */
-	public workcountSvl() {
+	public AllRetrieval() {
 		super();
 	}
 
@@ -40,37 +38,20 @@ public class workcountSvl extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String commiter = request.getParameter("commiter");
-		String appname = request.getParameter("appname");
-		String mode_ = request.getParameter("mode");
-		String listtype = request.getParameter("listtype");
-
-		QueryColumn queryColumn = null;
-		boolean mode = false;
-		if (StringUtils.isNotEmpty(mode_)) {
-			if ("1".equals(mode_)) {
-				mode = true;
-			}
-		}
-
-		try {
-			queryColumn = WlEntry.iv().loadQueryColumn(appname, 0);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		queryColumn.setValue("");
-		queryColumn.setOrder(" order by  w1.starttime  desc");
-		int count = 0;
-		try {
-			count = WlEntry.iv().count(commiter, appname, mode, listtype,
-					queryColumn);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print(count);
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out
+				.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		out.println("<HTML>");
+		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+		out.println("  <BODY>");
+		out.print("    This is ");
+		out.print(this.getClass());
+		out.println(", using the GET method");
+		out.println("  </BODY>");
+		out.println("</HTML>");
+		out.flush();
+		out.close();
 	}
 
 	/**
@@ -85,7 +66,21 @@ public class workcountSvl extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out
+				.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		out.println("<HTML>");
+		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+		out.println("  <BODY>");
+		out.print("    This is ");
+		out.print(this.getClass());
+		out.println(", using the POST method");
+		out.println("  </BODY>");
+		out.println("</HTML>");
+		out.flush();
+		out.close();
 	}
 
 	/**

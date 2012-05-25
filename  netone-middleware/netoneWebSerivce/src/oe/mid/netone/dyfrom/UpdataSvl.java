@@ -1,8 +1,7 @@
-package oe.mid.netone.web;
+package oe.mid.netone.dyfrom;
 
 import java.io.IOException;
-import java.util.UUID;
-
+import java.lang.reflect.InvocationTargetException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.app.impl2.AnalysisAppFirst;
@@ -17,14 +17,13 @@ import com.jl.common.app.impl2.AppFirst;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyFormData;
 import com.jl.common.netone.UmsProtecte;
-import com.jl.common.workflow.DbTools;
 
-public class Photograph extends HttpServlet {
+public class UpdataSvl extends HttpServlet {
 
 	/**
-	 * xuwei(2012-5-4) 修改上传经纬度；
+	 * Constructor of the object.
 	 */
-	public Photograph() {
+	public UpdataSvl() {
 		super();
 	}
 
@@ -53,32 +52,50 @@ public class Photograph extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String longitude = request.getParameter("longitude");
-		String latitude = request.getParameter("latitude");
+		response.setCharacterEncoding("utf-8");
+		String formcode=null;
+		String appname= request.getParameter("appname");
+		String parentId = request.getParameter("parentId");
 		String userid = request.getParameter("userid");
 		String lsh = request.getParameter("lsh");
-		String id = request.getParameter("id");
-		Boolean fal = false;
+		if (StringUtils.isEmpty(parentId)) {
+			parentId = "1";
+		}
 		UmsProtecte up = new UmsProtecte();
-		UmsProtectedobject upobj = up.loadUmsProtecteID(id);
+		UmsProtectedobject upobj = up.loadUmsProtecteNaturalname(appname);
 		if (StringUtils.isNotEmpty(upobj.getExtendattribute())) {
 			AnalysisAppFirst appFirst = new AnalysisAppFirst();
 			AppFirst app = appFirst.readXML(upobj.getExtendattribute());
-			DyFormData bus = new DyFormData();
-			bus.setFormcode(app.getFormcode());
-			bus.setParticipant("1");
-			bus.setLsh(lsh);
-			bus.setParticipant(userid);
-			bus.setColumn3(longitude);
-			bus.setColumn4(latitude);
-			try {
-				fal = DyEntry.iv().modifyData(app.getFormcode(), bus);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			formcode=app.getFormcode();
 		}
-		response.getWriter().print(fal);
+		DyFormData dydata = new DyFormData();
+		dydata.setFatherlsh(parentId);
+		dydata.setParticipant(userid);
+		dydata.setLsh(lsh);
+		for (int i = 3; i < 50; i++) {
+			String columnId = "column" + i;
+			String value = request.getParameter(columnId);
+			if (StringUtils.isNotEmpty(value)) {
+				try {
+					BeanUtils.setProperty(dydata, columnId, value);
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		try {
+			boolean fal = DyEntry.iv().modifyData(formcode, dydata);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -98,6 +115,7 @@ public class Photograph extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		doGet(request, response);
 	}
 

@@ -61,6 +61,88 @@
     <servlet-name>DyformTestSvl</servlet-name>
     <servlet-class>oe.mid.netone.web.DyformTestSvl</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DyformQuery</servlet-name>
+    <servlet-class>oe.mid.netone.web.DyformQuery</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PhUploadimageAction</servlet-name>
+    <servlet-class>oe.mid.netone.flex.PhUploadimageAction</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PhConfigService</servlet-name>
+    <servlet-class>oe.mid.netone.flex.PhConfigService</servlet-class>
+  </servlet>
+   <servlet>
+     <servlet-name>AddSvl</servlet-name>
+    <servlet-class>oe.mid.netone.dyfrom.AddSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerySvl</servlet-name>
+    <servlet-class>oe.mid.netone.dyfrom.QuerySvl</servlet-class>
+  </servlet>
+  <servlet>
+  <servlet-name>UpdataSvl</servlet-name>
+    <servlet-class>oe.mid.netone.dyfrom.UpdataSvl</servlet-class>
+  </servlet>
+  <servlet>
+   <servlet-name>DeleteSvl</servlet-name>
+    <servlet-class>oe.mid.netone.dyfrom.DeleteSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ListingData</servlet-name>
+    <servlet-class>oe.mid.netone.dyfrom.ListingData</servlet-class>
+  </servlet>
+  <servlet>
+     <servlet-name>Queryform</servlet-name>
+    <servlet-class>oe.mid.netone.dyfrom.Queryform</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ConfigurationAction</servlet-name>
+    <servlet-class>oe.mid.netone.web.ConfigurationAction</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DeleteFileAction</servlet-name>
+    <servlet-class>oe.mid.netone.web.DeleteFileAction</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DownLoadFileAction</servlet-name>
+    <servlet-class>oe.mid.netone.web.DownLoadFileAction</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>NumberFileAction</servlet-name>
+    <servlet-class>oe.mid.netone.web.NumberFileAction</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AllRetrieval</servlet-name>
+    <servlet-class>oe.mid.netone.web.AllRetrieval</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Allimage</servlet-name>
+    <servlet-class>oe.mid.netone.web.Allimage</servlet-class>
+  </servlet>
+
+
+
+
 
  
     <!-- json 手机上使用的 我的代办-->
@@ -98,15 +180,89 @@
     <servlet-name>QueryTime</servlet-name>
     <url-pattern>/querytime</url-pattern>
   </servlet-mapping>
-   <!-- json 手机上使用的   手机上传图片的Action -->
+   <!-- json 手机上使用的   手机上传附件的Action -->
   <servlet-mapping>
     <servlet-name>UploadFileAction</servlet-name>
     <url-pattern>/uploadfileAction</url-pattern>
+  </servlet-mapping>
+    <!-- 手机删除附件的服务 -->
+  <servlet-mapping>
+    <servlet-name>DeleteFileAction</servlet-name>
+    <url-pattern>/deletefileaction</url-pattern>
+  </servlet-mapping>
+   <!-- 手机  下载或查看 附件 -->
+  <servlet-mapping>
+    <servlet-name>DownLoadFileAction</servlet-name>
+    <url-pattern>/downloadfileaction</url-pattern>
+  </servlet-mapping>
+     <!-- 手机  对应表单的附件；类别-->
+  <servlet-mapping>
+    <servlet-name>NumberFileAction</servlet-name>
+    <url-pattern>/numberfileaction</url-pattern>
   </servlet-mapping>
     <!-- json 手机上使用的   根据id 获取创建一条表单记录并返回lsh-->
   <servlet-mapping>
     <servlet-name>DyformTestSvl</servlet-name>
     <url-pattern>/dyformtestSvl</url-pattern>
   </servlet-mapping>
+  <!-- json 手机上使用的   根据id 获取查询历史列表-->
+  <servlet-mapping>
+    <servlet-name>DyformQuery</servlet-name>
+    <url-pattern>/dyformquery</url-pattern>
+  </servlet-mapping>
+   <!-- flex 上使用的   上传图片的方法-->
+  <servlet-mapping>
+    <servlet-name>PhUploadimageAction</servlet-name>
+    <url-pattern>/uploadimageaction</url-pattern>
+  </servlet-mapping>
+   <!-- 解析手机的配置信息服务-->
+  <servlet-mapping>
+    <servlet-name>PhConfigService</servlet-name>
+    <url-pattern>/phconfigservice</url-pattern>
+  </servlet-mapping>
+   <!--动态表单添加数据-->
+  <servlet-mapping>
+    <servlet-name>AddSvl</servlet-name>
+    <url-pattern>/AddSvl</url-pattern>
+  </servlet-mapping>
+    <!--动态表单查询数据 -->
+  <servlet-mapping>
+    <servlet-name>QuerySvl</servlet-name>
+    <url-pattern>/QuerySvl</url-pattern>
+  </servlet-mapping>
+    <!--动态表单修改数据-->
+  <servlet-mapping>
+    <servlet-name>UpdataSvl</servlet-name>
+    <url-pattern>/UpdataSvl</url-pattern>
+  </servlet-mapping>
+    <!--动态表单删除数据-->
+  <servlet-mapping>
+    <servlet-name>DeleteSvl</servlet-name>
+    <url-pattern>/DeleteSvl</url-pattern>
+  </servlet-mapping>
+   <!--更具fromcode和lsh 查找出这条表单记录-->
+  <servlet-mapping>
+    <servlet-name>ListingData</servlet-name>
+    <url-pattern>/ListingData</url-pattern>
+  </servlet-mapping>
   
+  <servlet-mapping>
+    <servlet-name>Queryform</servlet-name>
+    <url-pattern>/Queryform</url-pattern>
+  </servlet-mapping>
+  <!--更具appname 获取到资源上扩展属性上的值-->
+  <servlet-mapping>
+    <servlet-name>ConfigurationAction</servlet-name>
+    <url-pattern>/configurationaction</url-pattern>
+  </servlet-mapping>
+  <!-- 全部检索  -->
+  <servlet-mapping>
+    <servlet-name>AllRetrieval</servlet-name>
+    <url-pattern>/allretrieval</url-pattern>
+  </servlet-mapping>
+  <!--  全部的图片下载 -->
+  <servlet-mapping>
+    <servlet-name>Allimage</servlet-name>
+    <url-pattern>/allimage</url-pattern>
+  </servlet-mapping>
 </web-app>

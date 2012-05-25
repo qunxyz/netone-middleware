@@ -209,8 +209,8 @@ public class RightSvl extends HttpServlet {
 			request.setAttribute("ext", ext);
 			condi.append(ext);
 		}
-
-		condi.append(" order by inclusion desc");
+	
+		condi.append(" order by inclusion desc,aggregation");
 		List list = rsrmi.fetchResource(upochild, map, condi.toString());
 		// 筛选结果
 		List<UmsProtectedobject> newlist = new ArrayList<UmsProtectedobject>();
@@ -220,6 +220,7 @@ public class RightSvl extends HttpServlet {
 			for (Iterator iter = list.iterator(); iter.hasNext();) {
 				UmsProtectedobject tmp = (UmsProtectedobject) iter.next();
 				Security sec = new Security(request);
+				
 				if (sec.check(tmp.getNaturalname(), LogUtil._READ)) {
 					
 					if (StringUtils.contains(tmp.getActionurl(), rsLogicPath)) {
@@ -235,7 +236,7 @@ public class RightSvl extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		request.setAttribute("list", list);
+		request.setAttribute("list", newlist);
 
 		// 获得 定制的资源页的地址，默认从配置resourceweb.properties中获得,如果默认中没有那么
 		// 转向从资源页中获得

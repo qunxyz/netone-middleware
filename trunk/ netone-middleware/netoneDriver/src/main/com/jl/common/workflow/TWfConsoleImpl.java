@@ -1688,5 +1688,23 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 
 	}
 
+	@Override
+	public String fetchFirstActivityId(String processid) {
+		Activity[] act=null;
+		try {
+			act = WfEntry.iv().loadProcess(processid).getActivity();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String firstActname = null;
+		for (int i = 0; i < act.length; i++) {
+			if (act[i].isStartActivity()) {
+				return act[i].getId();
+			}
+		}
+		throw new RuntimeException("流程定义异常丢失首节点:"+processid);
+	}
+
 
 }

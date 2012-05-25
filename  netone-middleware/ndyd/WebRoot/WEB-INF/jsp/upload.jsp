@@ -285,7 +285,7 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColo
 		});
 		if(unid!="undefined"&&unid!=null&&unid.trim()!=""){
 		  	Ext.Ajax.request({
-					url:"<c:url value='/file.do?method=delete'/>"+"&unid="+unid+"&workcode=${param.workcode}",//请求的服务器地址
+					url:"<c:url value='/file.do?method=delete'/>"+"&unid="+unid+"&workcode=${param.workcode}&naturalname=${param.naturalname}",//请求的服务器地址
 					//form:'fileform1',//指定要提交的表单id
 					method:'POST',
 					success : function(response,options){
@@ -344,7 +344,7 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColo
 		});
 		
 	  	Ext.Ajax.request({
-				url:"<c:url value='/file.do?method=onUploadFile'/>&id="+d_unid+"&filename="+filename+"&f_type="+f_type+"&workcode=${param.workcode}",//请求的服务器地址
+				url:"<c:url value='/file.do?method=onUploadFile'/>&id="+d_unid+"&filename="+filename+"&f_type="+f_type+"&workcode=${param.workcode}&naturalname=${param.naturalname}",//请求的服务器地址
 				form:'fileform1',//指定要提交的表单id
 				method:'POST',
 				sync: true,

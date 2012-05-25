@@ -31,6 +31,9 @@ import com.jl.common.JSONUtil2;
 import com.jl.common.JxlUtilsTemplate;
 import com.jl.common.SpringBeanUtil;
 import com.jl.common.TimeUtil;
+import com.jl.common.app.AppEntry;
+import com.jl.common.app.AppObj;
+import com.jl.common.workflow.WfEntry;
 import com.jl.dao.CommonDAO;
 import com.jl.entity.User;
 import com.jl.scheduler.job.ContractPojo;
@@ -51,13 +54,23 @@ public class FileServiceImpl extends BaseService implements FileService {
 			throws Exception {
 		JSONObject json = new JSONObject();
 		User user = getOnlineUser(request);
-		String workcode = request.getParameter("workcode");
+		String naturalname = request.getParameter("naturalname");
+		String workcode_ = request.getParameter("workcode");
+		String activityid = "";
+		if (StringUtils.isNotEmpty(workcode_)) {
+			activityid = WfEntry.iv().loadWorklist(workcode_).getActivityid();
+		} else {
+			AppObj app = AppEntry.iv().loadApp(naturalname);
+			String workcode_x = app.getWorkflowCode_();
+			activityid = WfEntry.iv().fetchFirstActivityId(workcode_x);
+		}
+
 		com.jl.entity.File file = (com.jl.entity.File) commonDAO.findForObject(
 				"File.selectFileById", id);
 		String wf_code = file.getWf_code();
 		wf_code = wf_code == null ? "" : wf_code;
 		if (user.getUserCode().equals(file.getU_unid())
-				&& (workcode.equals(wf_code))) {
+				&& (activityid.equals(wf_code))) {
 			commonDAO.delete("File.delete", id);
 			DirectoryManager dirmanage = new DirectoryManager();
 			boolean judge = dirmanage.deleteFile(file.getAddress());
@@ -73,7 +86,17 @@ public class FileServiceImpl extends BaseService implements FileService {
 			String filetype, String path, String usercode, String userName,
 			FileItem fileItem) throws Exception {
 		request.setAttribute("ErrorJson", "Yes");// Json出错提示
-		String workcode = request.getParameter("workcode");
+		String naturalname = request.getParameter("naturalname");
+		String workcode_ = request.getParameter("workcode");
+		String activityid = "";
+		if (StringUtils.isNotEmpty(workcode_)) {
+			activityid = WfEntry.iv().loadWorklist(workcode_).getActivityid();
+		} else {
+			AppObj app = AppEntry.iv().loadApp(naturalname);
+			String workcode_x = app.getWorkflowCode_();
+			activityid = WfEntry.iv().fetchFirstActivityId(workcode_x);
+		}
+
 		JSONObject json = new JSONObject();
 		boolean flag = false;
 		String error = null;// 插入数据的错误信息
@@ -102,7 +125,7 @@ public class FileServiceImpl extends BaseService implements FileService {
 		}
 		com.jl.entity.File files = saveFile(id, usercode, userName, path, ""
 				+ formatKbSize(fileItem.getSize()), filetype, filename,
-				workcode);
+				activityid);
 
 		json = JSONObject.fromObject(JSONUtil2.fromBean(files,
 				"yyyy-MM-dd HH:mm:ss").toString());

@@ -73,7 +73,7 @@ public class XMLFuncTreeSvl2 extends HttpServlet {
 										+ f.getAppid() + "','" + f.getOu()
 										+ "','" + f.getNaturalname() + "','"
 										+ f.getParentdir() + "','"
-										+ f.getActionurl() + "','"
+										 + "','"
 										+ f.getExtendattribute() + "')");
 				if (!isLeaf) {
 					e.addAttribute("src", src);

@@ -39,3 +39,9 @@ CREATE TABLE `t_areadepartment` (
 /** 新增附件关联工作流ID */
 ALTER TABLE `iss`.`t_file` 
  ADD COLUMN `wf_code` VARCHAR(45) AFTER `updatetime`;
+
+/** 附件文件名及文件大小字段长度改大*/
+ALTER TABLE `iss`.`t_file` 
+ MODIFY COLUMN `f_size` VARCHAR(100) CHARACTER SET gbk COLLATE gbk_chinese_ci,
+ MODIFY COLUMN `filename` VARCHAR(500) CHARACTER SET gbk COLLATE gbk_chinese_ci;
+ 

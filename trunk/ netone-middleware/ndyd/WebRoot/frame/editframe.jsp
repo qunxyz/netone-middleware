@@ -12,6 +12,7 @@
 		<jsp:include page="/WEB-INF/jsp/common/metaExt.jsp"></jsp:include>
 		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-min.jsp"></jsp:include>
 		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-ui-tab.jsp" />
+		<jsp:include page="/WEB-INF/jsp/common/metaUnitsUtil.jsp" />
 		<script language="javascript" type="text/javascript"
 			src="<%=path%>/My97DatePicker/WdatePicker.js" charset="gb2312"></script>
 		<script type="text/javascript" src="<%=path%>/tiny_mce/jquery.tinymce.js"></script>	

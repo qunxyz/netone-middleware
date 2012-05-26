@@ -605,7 +605,10 @@ public final class DyFormBuildHtml {
 			Double yoffset = _qc1.getXoffset();
 			Double xoffset = _qc1.getYoffset();
 			boolean hidden = _qc1.isHidden();
-			if (hidden == false) {
+
+			String[][] arr = DyFormConsoleIfc._HTML_LIST;
+
+			if (hidden == false && !arr[28][0].equals(_qc1.getViewtype())) {
 				// 每行最大列数存储
 				if (columnmap.containsKey(xoffset)) {
 					Double yoffset_ = columnmap.get(xoffset);
@@ -914,7 +917,7 @@ public final class DyFormBuildHtml {
 		// 输出文档普通字段内容开始
 		DyFormData dydata = new DyFormData();
 		// if (StringUtils.isNotEmpty(lsh)) {
-			dydata = DyEntry.iv().loadData(formcode, lsh);
+		dydata = DyEntry.iv().loadData(formcode, lsh);
 		// }
 		Map<Double, String> htmlresult = new TreeMap<Double, String>();// 存放每行HTML代码
 

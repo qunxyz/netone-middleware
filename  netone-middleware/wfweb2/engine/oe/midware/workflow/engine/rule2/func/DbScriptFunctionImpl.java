@@ -2,6 +2,7 @@ package oe.midware.workflow.engine.rule2.func;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -137,6 +138,77 @@ public class DbScriptFunctionImpl implements DbScriptFunction {
 		return list;
 	}
 
+	
+	public int execute_p(Connection con, String sql,List value) {
+		if (con == null) {
+			return -1;
+		}
+		try {
+
+			// 获得Statment句柄
+			PreparedStatement ps = con.prepareStatement(sql);
+			for (int i = 0; i < value.size(); i++) {
+				ps.setObject(i+1, value.get(i));
+			}
+			return ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			_log.error(e.getMessage());
+		}
+		return -1;
+	}
+
+	public List queryData_p(Connection con, String sql,List valuex) {
+		if (con == null) {
+			return null;
+		}
+		// 保存查询的结果信息
+		List list = new ArrayList();
+
+		try {
+
+			// 获得Statment句柄
+			PreparedStatement ps = con.prepareStatement(sql);
+			for (int i = 0; i < valuex.size(); i++) {
+				ps.setObject(i+1, valuex.get(i));
+			}
+
+			// 获得查询结果集
+			ResultSet rs = ps.executeQuery();
+			// 获得查询结果集中的表字段信息
+			ResultSetMetaData metaData = rs.getMetaData();
+
+			while (rs.next()) {
+				// 创建一个map对象,来存储一条记录信息
+				Map preRecord = new HashMap();
+				// 遍历结果集中的字段,将当前行的数据库记录数据,写入map对象中
+				for (int i = 1; i < metaData.getColumnCount() + 1; i++) {
+					// 获得字段名
+					String columnname = metaData.getColumnName(i);
+					// 获得字段的值
+					Object value = rs.getObject(columnname);
+					// 写入一个字段的值
+					preRecord.put(columnname, value);
+				}
+				// 将一条记录存入动态数组
+				list.add(preRecord);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			_log.error(e.getMessage());
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 	public int getn(List list, int row, String col) {
 		Object obj = get(list, row, col);
 		if (obj == null) {
@@ -145,6 +217,7 @@ public class DbScriptFunctionImpl implements DbScriptFunction {
 		try {
 			return ((Integer) obj).intValue();
 		} catch (Exception e) {
+			e.printStackTrace();
 			_log.error(e.getMessage());
 		}
 		return -1;
@@ -160,6 +233,7 @@ public class DbScriptFunctionImpl implements DbScriptFunction {
 		try {
 			return ((Long) obj).longValue();
 		} catch (Exception e) {
+			e.printStackTrace();
 			_log.error(e.getMessage());
 		}
 		return -1l;
@@ -174,6 +248,7 @@ public class DbScriptFunctionImpl implements DbScriptFunction {
 		try {
 			return ((Float) obj).floatValue();
 		} catch (Exception e) {
+			e.printStackTrace();
 			_log.error(e.getMessage());
 		}
 		return -1f;
@@ -188,6 +263,7 @@ public class DbScriptFunctionImpl implements DbScriptFunction {
 		try {
 			return ((Double) obj).doubleValue();
 		} catch (Exception e) {
+			e.printStackTrace();
 			_log.error(e.getMessage());
 		}
 		return -1d;

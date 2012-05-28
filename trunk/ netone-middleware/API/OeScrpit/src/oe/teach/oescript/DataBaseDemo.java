@@ -1,6 +1,7 @@
 package oe.teach.oescript;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import oescript.parent.OeScript;
@@ -30,6 +31,17 @@ public class DataBaseDemo extends OeScript {
 				"select count(*) cou from netone.t_cms_infocell");
 		// 将结果打印到控制台
 		System.out.println(db.getl(list, 0, "cou"));
+		
+		
+		// 将结果保存list对像
+		List data=new ArrayList();
+		data.add("id1");
+		data.add("mike");
+		List list2 = db.queryData_p(con,
+				"select count(*) cou from netone.t_cms_infocell where id=? and name=?",data);
+		// 将结果打印到控制台
+		System.out.println(db.getl(list, 0, "cou"));
+		
 		db.close(con);
 	}
 

@@ -141,7 +141,7 @@ public class ShowAction extends Action {
 				scriptobj.setActivityname("");
 				scriptobj.setName("");
 				String cdata = sf.getCdata();
-				cdata = StringUtils.replace(cdata, "'", "\"");// 存储入教本需要还原标准的Java中的字符串格式;
+				cdata = StringUtils.replace(cdata, "'", "‘");// 存储入教本需要还原标准的Java中的字符串格式;
 				// cdata=WebStr.gbkToiso8859( cdata);
 				scriptobj.setCdata(cdata);
 				xmldao.create(upo.getId(), ab, taskobj, scriptobj);

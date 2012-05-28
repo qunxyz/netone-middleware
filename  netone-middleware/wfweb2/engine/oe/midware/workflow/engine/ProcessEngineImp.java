@@ -110,9 +110,8 @@ public class ProcessEngineImp implements ProcessEngine {
 	}
 
 	public String exeScript(String elogicExpress, String runtimeid) {
-		// TODO Auto-generated method stub
-		String elogicx=StringUtils.replace(elogicExpress, "¡¯", "'");
-		return ruleEngine.todo(elogicx, runtimeid, null);
+		
+		return ruleEngine.todo(elogicExpress, runtimeid, null);
 	}
 
 	public DataFieldUpdateActor getDataFieldUpdateActor() {

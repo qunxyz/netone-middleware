@@ -50,6 +50,27 @@ public interface DbScriptFunction {
 	 * 查询SQL
 	 * 
 	 * @param con
+	 * @param sql 带参数的SQL
+	 * @param 值数组
+	 * @return
+	 */
+	public List queryData_p(Connection con, String sql,List value);
+	
+
+	/**
+	 * 执行SQL
+	 * 
+	 * @param con 
+	 * @param sql带参数的SQL
+	 * @param 值数组
+	 * @return
+	 */
+	public int execute_p(Connection con, String sql,List value);
+
+	/**
+	 * 查询SQL
+	 * 
+	 * @param con
 	 * @param sql
 	 * @return
 	 */

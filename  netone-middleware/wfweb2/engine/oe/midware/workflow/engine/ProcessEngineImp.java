@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import oe.frame.bus.workflow.ProcessAuto;
 import oe.frame.bus.workflow.ProcessEngine;
 import oe.frame.bus.workflow.WfEntry;
@@ -109,7 +111,8 @@ public class ProcessEngineImp implements ProcessEngine {
 
 	public String exeScript(String elogicExpress, String runtimeid) {
 		// TODO Auto-generated method stub
-		return ruleEngine.todo(elogicExpress, runtimeid, null);
+		String elogicx=StringUtils.replace(elogicExpress, "¡¯", "'");
+		return ruleEngine.todo(elogicx, runtimeid, null);
 	}
 
 	public DataFieldUpdateActor getDataFieldUpdateActor() {

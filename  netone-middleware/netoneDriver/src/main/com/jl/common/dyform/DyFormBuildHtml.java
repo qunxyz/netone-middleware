@@ -1033,8 +1033,8 @@ public final class DyFormBuildHtml {
 								parameter) + _N;
 			} else {
 				_startDiv = "<div class=\"" + FORM_FIELD_INPUT_READ
-						+ "\" style=\"width:" + _width + "\" align=\"left\">"
-						+ _N;
+						+ "\" style=\"width:" + _width + ";\"" + hiddenstyle
+						+ " align=\"left\">" + _N;
 				_endDiv = "</div>";
 				_value = routeAppointValue(column.getViewtype(), "" + value,
 						column.getValuelist())
@@ -1055,10 +1055,9 @@ public final class DyFormBuildHtml {
 
 			String _value = _value2
 					+ routeAppointComp(column.getViewtype(), column
-							.getColumnid(), "" + value,
-							"width:" + _width_input, "", column.isReadonly(),
-							column.getValuelist(), "", userinfo, parameter)
-					+ _N;
+							.getColumnid(), "" + value, "width:" + _width_input
+							+ hiddenstyle, "", column.isReadonly(), column
+							.getValuelist(), "", userinfo, parameter) + _N;
 			if (!isMultiDoc) {
 				_startDiv = "<div class=\"" + FORM_FIELD_INPUT
 						+ "\" style=\"width:" + _width + "\" align=\"left\">"

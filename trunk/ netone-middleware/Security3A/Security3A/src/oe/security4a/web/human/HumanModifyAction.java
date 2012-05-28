@@ -46,6 +46,7 @@ public class HumanModifyAction extends Action {
 			try {
 				CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 				ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+				
 				request.setAttribute("flag", "modify");
 				String loginname = clerk.getDescription();
 				clerk = rsrmi.loadClerk(code, loginname);
@@ -100,11 +101,22 @@ public class HumanModifyAction extends Action {
 
 		// 修改用户
 		if ("save".equals(request.getParameter("task"))) {
+
+			
 			try {
+				CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 				ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
 				String oldou = reqmap.getParameter("hiddenid");
 				String newou = reqmap.getParameter("newhiddenid");
 				String loginname = reqmap.getParameter("description");
+				
+				List rolelist = rsrmi.getUserRoles(code, loginname);
+				//清空人员角色缓存
+				for (Iterator iterator = rolelist.iterator(); iterator.hasNext();) {
+					UmsRole umsRole = (UmsRole) iterator.next();
+					WebCache.removeCache("ROLER_" + umsRole.getId());
+				}
+				
 				if (StringUtils.isNotEmpty(newou) && !oldou.equals(newou)) {
 					if (rsrmi.moveUserDeptOpe(loginname, oldou, newou)) {
 						clerk.setDeptment(newou);
@@ -132,13 +144,8 @@ public class HumanModifyAction extends Action {
 					}
 				}
 				rsrmi.roleRelationupdate(code, loginname, list);
-				//清空人员角色缓存
-				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-					UmsRole umsRole = (UmsRole) iterator.next();
-					WebCache.removeCache("ROLER_" + umsRole.getId());
-				}
+
 				if (rsrmi.updateClerk(code, clerk)) {
-					CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 					cupmRmi.initCacheUser(loginname);
 					// 修改用户时,自动同步帐号
 					rsrmi

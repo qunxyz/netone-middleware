@@ -36,6 +36,7 @@ public class Dycreate {
 		UmsProtectedobject upo = rsrmi.loadResourceByNatural(rsname);
 		upo.setDescription(busForm.getExtendattribute());
 		upo.setReference(busForm.getDescription());
+		upo.setActive("0");
 		rsrmi.updateResource(upo);
 		return  info[1];
 	}

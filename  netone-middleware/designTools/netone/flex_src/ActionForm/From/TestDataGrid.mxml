@@ -97,7 +97,6 @@
           	vivid.bfcf=new ArrayCollection(); 
 		 	vivid.dncf=new ArrayCollection(); 
 		 	vivid.configarr=new ArrayCollection();
-		 	vivid.kongzhi=true;
           	var o:Object=this.parent.getChildByName("DyDesigner1");
             vs.selectedChild=o as Canvas;
           }

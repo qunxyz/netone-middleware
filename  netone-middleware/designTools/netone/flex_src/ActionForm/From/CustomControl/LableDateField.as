@@ -24,6 +24,8 @@ package ActionForm.From.CustomControl
 		[Bindable]
 		public var  _text:String="日期";
 		public var _summarytype:String;
+		public var _widthint:String="";
+		
 		public function LableDateField()
 		{
 	      	super();

@@ -26,6 +26,7 @@ package ActionForm.From.CustomControl
 		[Bindable]
 		public var  _text:String="PORTAL项";
 		public var  _text1:String="";
+		public var _widthint:String="";
 		
 		public function LablePORTAL()
 		{

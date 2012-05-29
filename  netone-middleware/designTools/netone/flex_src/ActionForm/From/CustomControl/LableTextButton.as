@@ -25,7 +25,8 @@ package ActionForm.From.CustomControl
 		public var  _text:String="单选资源";
 		public var  _text1:String="";
 		public var _treeProvider:String="组织机构[DEPT.DEPT]";
-			public var _ID:String;
+	    public var _ID:String;
+	    public var _widthint:String="";
 		public function LableTextButton()
 		{
 			super();

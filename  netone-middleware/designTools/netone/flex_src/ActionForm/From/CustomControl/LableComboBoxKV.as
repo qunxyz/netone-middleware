@@ -31,6 +31,8 @@ public class LableComboBoxKV extends UIComponent
 		[Bindable]
 		public var  _text1:String="";
 		public var _summarytype:String;
+		public var _widthint:String="";
+		
 		public function LableComboBoxKV()
 		{
 	      	super();

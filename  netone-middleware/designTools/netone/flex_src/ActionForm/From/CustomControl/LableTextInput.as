@@ -23,6 +23,8 @@ package ActionForm.From.CustomControl
 		[Bindable]
 		public var  _text:String="数字/金额";
 		public var  _text1:String="";
+		public var _widthint:String="";
+		
 		public function LableTextInput()
 		{
 			super();

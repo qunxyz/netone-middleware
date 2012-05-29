@@ -105,6 +105,8 @@ package ActionForm.From.com.hitb.component
              comp=new LableFile();
            }else if(identify=="ActionForm.From.CustomControl.LableTAndF"){
              comp=new  LableTAndF();
+           }else if(identify=="ActionForm.From.CustomControl.Label_hid"){
+             comp=new  Label_hid();
            }
         	return comp;
         }

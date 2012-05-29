@@ -13,9 +13,12 @@
 		public function init():void{
 			DyData.modletype=false;
 		 var args:Object = getParams();    
-       	 if(args.formid != null && args.naturalname!=null) {
+       	     if(args.formid != null && args.naturalname!=null) {
        	 	  vivid.formid=args.formid;  
               DyData.Urlname=args.naturalname;
+             } 
+              if(args.active!= null) {
+       	 	  DyData.active=args.active;
              } 
          }    
          //更具js 获取到url上的数据    

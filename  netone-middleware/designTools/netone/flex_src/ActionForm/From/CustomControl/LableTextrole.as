@@ -25,6 +25,7 @@ package ActionForm.From.CustomControl
 		public var _summarytype:String;
 		[Bindable]
 		public var  _text:String="部门角色";
+		public var _widthint:String="";
 		
 		public function LableTextrole()
 		{

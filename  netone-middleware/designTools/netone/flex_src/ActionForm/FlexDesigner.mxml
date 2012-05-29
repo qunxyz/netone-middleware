@@ -75,7 +75,11 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 		{ 
             vivid.formcode=vivid.formid;
             if(!DyData.modletype){
+             vivid.kongzhi=false;
+           
 			 queryobect.getFormparentid(vivid.formid);
+			}else{
+			 vivid.kongzhi=true;
 			}
             MovableComponentPanel(Cross.getChildByName("视图")).removeAllChildren();
        }
@@ -96,15 +100,11 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 		private function toggleLayout(event:MouseEvent):void{
 			panel.autoLayout=!panel.autoLayout;
 		}
-	  public var ident:int=0;	
+	    public var ident:int=0;	
 	  	  //保存文件
 		private function saveXml(event:MouseEvent):void
-		{   //获取表单的字段
-		if(!DyData.modletype){
-		 gc.getc(vivid.formid);
-		}else{
-		 gc.getc(vivid.fromcode);
-		}
+		{
+			ADDColumn();
         }
               //修改是数据在面板上展示出来
 			private function create(cs:csource):void {
@@ -114,8 +114,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                   		   
                 // Create a new instance of the class.
                 var instance:UIComponent = new cls();
-                instance["_ID"]="column"+vivid.ID;
                 vivid.ID++;
+               /*   instance["_ID"]="column"+vivid.ID;   */
+                instance["_ID"]=cs._id;  
                 if (instance) {
                 	instance["_text"]= cs._text;
                 	instance.x=cs._x;
@@ -168,11 +169,12 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	      farr=event.result as ArrayCollection;
 	      pid=farr.getItemAt(0).parentid.toString();
 	      vivid.pid=pid;
-	 }
+	   }
 		 
     //保存字段
 	   public function ADDColumn():void{
-	   	   if(vivid.kongzhi){
+	   	var arrcolumn:ArrayCollection=new ArrayCollection();
+		var dex:int=3
            GlobalManager.getInstance().dispatchEvent(new saveXmlEvent(EventTypeConstants.Event_Arrry,flag));
 		      for(var i:int=0;i< vivid.AddCount.length;i++){
 		        ident=i+1;
@@ -180,8 +182,13 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 var  index:int=0;
                 var  width:String="";
                 var  Columcode:String=null;
-                var  Columid:String=null;
-                var  Formcode:String=vivid.fromcode;
+                var  Columid:String=null;  
+                var  Formcode:String;
+                if(!DyData.modletype){
+  		        Formcode=vivid.formid;
+	  		    }else{
+	  		    Formcode=vivid.fromcode;
+	  		    }
                 var  Viewtype:String=null;
                 var  Extendattribute:String=null;
                 var valuelist:String="";
@@ -192,12 +199,10 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                var opemode:String=null;  
                var property:String=new String();
 		       var strname:String=getQualifiedClassName(vivid.AddCount[i]).replace("::",".");
-
 		     if(strname=="ActionForm.From.CustomControl.LableComboBox" ){
                   Columname = LableComboBox(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;             
+           		  Columcode=LableComboBox(vivid.AddCount[i])._ID;
+           		  Columid=LableComboBox(vivid.AddCount[i])._ID;
                   Viewtype=LableComboBox(vivid.AddCount[i]).id;
                   Extendattribute="offset$:"+LableComboBox(vivid.AddCount[i]).row+"-"+LableComboBox(vivid.AddCount[i]).cross+"$!";
                   valuelist=LableComboBox(vivid.AddCount[i]).PLANB;
@@ -208,7 +213,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                    getopem=LableComboBox(vivid.AddCount[i]).expand;
                   property=getopem+property;
                 }
-                width="width$:"+LableComboBox(vivid.AddCount[i]).width+"$!";
+                if(LableComboBox(vivid.AddCount[i])._widthint!="" && LableComboBox(vivid.AddCount[i])._widthint!=null){
+                width="width$:"+LableComboBox(vivid.AddCount[i])._widthint+"$!";
+                }
                 property=width+property;
                  if(LableComboBox(vivid.AddCount[i]).length!=null){
                 length="size$:"+ LableComboBox(vivid.AddCount[i]).length+"$!"; 
@@ -220,9 +227,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
          	 }       
            if(strname=="ActionForm.From.CustomControl.LableMulCheckBox" ){
                   Columname = LableMulCheckBox(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;             
+                  Columcode=LableMulCheckBox(vivid.AddCount[i])._ID;
+           		  Columid=LableMulCheckBox(vivid.AddCount[i])._ID;
                   Viewtype=LableMulCheckBox(vivid.AddCount[i]).id;
                   Extendattribute="offset$:"+LableMulCheckBox(vivid.AddCount[i]).row+"-"+LableMulCheckBox(vivid.AddCount[i]).cross+"$!";
                   valuelist=LableMulCheckBox(vivid.AddCount[i]).PLANB;
@@ -233,7 +239,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                    getopem=LableMulCheckBox(vivid.AddCount[i]).expand;
                   property=getopem+property;
                 }
-                  width="width$:"+LableMulCheckBox(vivid.AddCount[i]).width+"$!";
+                if(LableMulCheckBox(vivid.AddCount[i])._widthint!="" && LableMulCheckBox(vivid.AddCount[i])._widthint!=null){
+                width="width$:"+LableMulCheckBox(vivid.AddCount[i])._widthint+"$!";
+                }
                 property=width+property;
                  if(LableMulCheckBox(vivid.AddCount[i]).length!=null){
                  length="size$:"+ LableMulCheckBox(vivid.AddCount[i]).length+"$!"; 
@@ -244,11 +252,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
               	}   		     
         	  }     
               if(strname=="ActionForm.From.CustomControl.LableComboBoxKV"){
-                 Columname = LableComboBoxKV(vivid.AddCount[i]).text;
-                 index=i+3;
-                 Columcode="column"+index;
-                 Columid="column"+index;
-                  
+                  Columname = LableComboBoxKV(vivid.AddCount[i]).text;
+  				  Columcode=LableComboBoxKV(vivid.AddCount[i])._ID;
+           		  Columid=LableComboBoxKV(vivid.AddCount[i])._ID;	
                   Viewtype=LableComboBoxKV(vivid.AddCount[i]).id;
                   Extendattribute="offset$:"+LableComboBoxKV(vivid.AddCount[i]).row+"-"+LableComboBoxKV(vivid.AddCount[i]).cross+"$!";
                        var arr:Array=(LableComboBoxKV(vivid.AddCount[i]).PLANB).toString().split(",");
@@ -263,7 +269,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableComboBoxKV(vivid.AddCount[i]).expand;
                      property=getopem+property;
                 }
-                width="width$:"+LableComboBoxKV(vivid.AddCount[i]).width+"$!";
+                if(LableComboBoxKV(vivid.AddCount[i])._widthint!="" && LableComboBoxKV(vivid.AddCount[i])._widthint!=null){
+                   width="width$:"+LableComboBoxKV(vivid.AddCount[i])._widthint+"$!";
+                }
                 property=width+property;
                   if(LableComboBoxKV(vivid.AddCount[i]).length!=null){
                 length="size$:"+ LableComboBoxKV(vivid.AddCount[i]).length+"$!"; 
@@ -275,9 +283,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
               }
 				if( strname=="ActionForm.From.CustomControl.LableCheckBox"){
 			     Columname = LableCheckBox(vivid.AddCount[i]).text;
-                 index=i+3;
-                 Columcode="column"+index;
-                 Columid="column"+index;
+				  Columcode=LableCheckBox(vivid.AddCount[i])._ID;
+           		  Columid=LableCheckBox(vivid.AddCount[i])._ID;
                  valuelist=LableCheckBox(vivid.AddCount[i]).PLANB;
                   Viewtype=LableCheckBox(vivid.AddCount[i]).id;
                   Extendattribute="offset$:"+LableCheckBox(vivid.AddCount[i]).row+"-"+LableCheckBox(vivid.AddCount[i]).cross+"$!";
@@ -288,7 +295,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                getopem=LableCheckBox(vivid.AddCount[i]).expand;
 	               property=getopem+property;
 	                }
-                 width="width$:"+LableCheckBox(vivid.AddCount[i]).width+"$!";
+                if(LableCheckBox(vivid.AddCount[i])._widthint!="" && LableCheckBox(vivid.AddCount[i])._widthint!=null){
+                   width="width$:"+LableCheckBox(vivid.AddCount[i])._widthint+"$!";
+                }
                 property=width+property;
                   if(LableCheckBox(vivid.AddCount[i]).length!=null){
                  length="size$:"+ LableCheckBox(vivid.AddCount[i]).length+"$!"; 
@@ -300,9 +309,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				}
 				if( strname=="ActionForm.From.CustomControl.LableText"){
 				  Columname = LableText(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				   Columcode=LableText(vivid.AddCount[i])._ID;
+           		   Columid=LableText(vivid.AddCount[i])._ID;
                   valuelist=LableText(vivid.AddCount[i]).PLANB;
                   conceal=LableText(vivid.AddCount[i]).conceal;
                   Viewtype=LableText(vivid.AddCount[i]).id;
@@ -314,7 +322,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                getopem=LableText(vivid.AddCount[i]).expand;
 	                      property=getopem+property;
 	                }
-	            width="width$:"+LableText(vivid.AddCount[i]).width+"$!";
+	         if(LableText(vivid.AddCount[i])._widthint!="" && LableText(vivid.AddCount[i])._widthint!=null){
+                   width="width$:"+LableText(vivid.AddCount[i])._widthint+"$!";
+                }
                 property=width+property;
 	          if(LableText(vivid.AddCount[i]).length!=null){
                  length="size$:"+ LableText(vivid.AddCount[i]).length+"$!"; 
@@ -328,9 +338,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
               if(strname=="ActionForm.From.CustomControl.Lablezhuzhijigou"){
  
 			    Columname = Lablezhuzhijigou(vivid.AddCount[i]).text;
-                index=i+3;
-                Columcode="column"+index;
-                Columid="column"+index;
+ 				 Columcode=Lablezhuzhijigou(vivid.AddCount[i])._ID;
+           		 Columid=Lablezhuzhijigou(vivid.AddCount[i])._ID;
                valuelist=Lablezhuzhijigou(vivid.AddCount[i]).PLANB;
                conceal=Lablezhuzhijigou(vivid.AddCount[i]).conceal;
                 Viewtype=Lablezhuzhijigou(vivid.AddCount[i]).id;
@@ -341,7 +350,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 					                getopem=Lablezhuzhijigou(vivid.AddCount[i]).expand;
 					                   property=getopem+property;
 				 }
-		        width="width$:"+Lablezhuzhijigou(vivid.AddCount[i]).width+"$!";
+		       if(Lablezhuzhijigou(vivid.AddCount[i])._widthint!="" && Lablezhuzhijigou(vivid.AddCount[i])._widthint!=null){
+                width="width$:"+Lablezhuzhijigou(vivid.AddCount[i])._widthint+"$!";
+                }
                 property=width+property;
 	   	        if(Lablezhuzhijigou(vivid.AddCount[i]).length!=null){
                  length="size$:"+ Lablezhuzhijigou(vivid.AddCount[i]).length+"$!"; 
@@ -353,9 +364,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                  }
                  if(strname=="ActionForm.From.CustomControl.Lablezhuzhijiguoduo"){	 
 			    Columname = Lablezhuzhijiguoduo(vivid.AddCount[i]).text;
-                index=i+3;
-                Columcode="column"+index;
-                Columid="column"+index;
+			     Columcode=Lablezhuzhijiguoduo(vivid.AddCount[i])._ID;
+           		 Columid=Lablezhuzhijiguoduo(vivid.AddCount[i])._ID;
                valuelist=Lablezhuzhijiguoduo(vivid.AddCount[i]).PLANB;
                 conceal=Lablezhuzhijiguoduo(vivid.AddCount[i]).conceal;
                 Viewtype=Lablezhuzhijiguoduo(vivid.AddCount[i]).id;
@@ -366,7 +376,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 					                getopem=Lablezhuzhijiguoduo(vivid.AddCount[i]).expand;
 					                   property=getopem+property;
 					 }
-				width="width$:"+Lablezhuzhijiguoduo(vivid.AddCount[i]).width+"$!";
+				if(Lablezhuzhijiguoduo(vivid.AddCount[i])._widthint!="" && Lablezhuzhijiguoduo(vivid.AddCount[i])._widthint!=null){
+                width="width$:"+Lablezhuzhijiguoduo(vivid.AddCount[i])._widthint+"$!";
+                }
                 property=width+property;	 
 		   	        if(Lablezhuzhijiguoduo(vivid.AddCount[i]).length!=null){
 	                 length="size$:"+ Lablezhuzhijiguoduo(vivid.AddCount[i]).length+"$!"; 
@@ -377,9 +389,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
               	}  
 				}if( strname=="ActionForm.From.CustomControl.LableDateField"){
 				  Columname = LableDateField(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				  Columcode=LableDateField(vivid.AddCount[i])._ID;
+           		  Columid=LableDateField(vivid.AddCount[i])._ID;
                   valuelist=LableDateField(vivid.AddCount[i]).PLANB;
                   conceal=LableDateField(vivid.AddCount[i]).conceal;
                   Viewtype=LableDateField(vivid.AddCount[i]).id;
@@ -390,7 +401,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                getopem=LableDateField(vivid.AddCount[i]).expand;
 	                        property=getopem+property;
 	                }
-	               width="width$:"+LableDateField(vivid.AddCount[i]).width+"$!";
+	               	if(LableDateField(vivid.AddCount[i])._widthint!="" && LableDateField(vivid.AddCount[i])._widthint!=null){
+                     width="width$:"+LableDateField(vivid.AddCount[i])._widthint+"$!";
+                     }
                    property=width+property;	 
 					  if(LableDateField(vivid.AddCount[i]).length!=null){
 	                 length="size$:"+ LableDateField(vivid.AddCount[i]).length+"$!"; 
@@ -401,9 +414,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	              	} 
 				}if( strname=="ActionForm.From.CustomControl.LablePORTAL"){
 				  Columname = LablePORTAL(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+					Columcode=LablePORTAL(vivid.AddCount[i])._ID;
+           		    Columid=LablePORTAL(vivid.AddCount[i])._ID;
                   valuelist=LablePORTAL(vivid.AddCount[i]).PLANB;
                   conceal=LablePORTAL(vivid.AddCount[i]).conceal;
                   Viewtype=LablePORTAL(vivid.AddCount[i]).id;
@@ -414,7 +426,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                	getopem=LablePORTAL(vivid.AddCount[i]).expand;
 	                  property=getopem+property;
 	                }
-	              width="width$:"+LablePORTAL(vivid.AddCount[i]).width+"$!";
+	           if(LablePORTAL(vivid.AddCount[i])._widthint!="" && LablePORTAL(vivid.AddCount[i])._widthint!=null){
+                     width="width$:"+LablePORTAL(vivid.AddCount[i])._widthint+"$!";
+                   }
                    property=width+property;	   
 				    if(LablePORTAL(vivid.AddCount[i]).length!=null){
 	                 length="size$:"+ LablePORTAL(vivid.AddCount[i]).length+"$!"; 
@@ -425,9 +439,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	              	}  
 				}if( strname=="ActionForm.From.CustomControl.LableTextButton"){
 				  Columname = LableTextButton(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				  Columcode=LableTextButton(vivid.AddCount[i])._ID;
+           		  Columid=LableTextButton(vivid.AddCount[i])._ID;
                   valuelist=LableTextButton(vivid.AddCount[i]).PLANB;
                   conceal=LableTextButton(vivid.AddCount[i]).conceal;
                   Viewtype=LableTextButton(vivid.AddCount[i]).id;
@@ -438,7 +451,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                   getopem=LableTextButton(vivid.AddCount[i]).expand;
                   property=getopem+property;
                 }
-                   width="width$:"+LableTextButton(vivid.AddCount[i]).width+"$!";
+                if(LableTextButton(vivid.AddCount[i])._widthint!="" && LableTextButton(vivid.AddCount[i])._widthint!=null){
+                     width="width$:"+LableTextButton(vivid.AddCount[i])._widthint+"$!";
+                   }
                    property=width+property;	  
 				    if(LableTextButton(vivid.AddCount[i]).length!=null){
                  length="size$:"+ LableTextButton(vivid.AddCount[i]).length+"$!"; 
@@ -449,9 +464,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                  }
 	         }if(strname=="ActionForm.From.CustomControl.LableTextButtonzhuzhi"){
 			    Columname = LableTextButtonzhuzhi(vivid.AddCount[i]).text;
-                index=i+3;
-                Columcode="column"+index;
-                Columid="column"+index;
+			     Columcode=LableTextButtonzhuzhi(vivid.AddCount[i])._ID;
+           		 Columid=LableTextButtonzhuzhi(vivid.AddCount[i])._ID;
                valuelist=LableTextButtonzhuzhi(vivid.AddCount[i]).PLANB;
                conceal=LableTextButtonzhuzhi(vivid.AddCount[i]).conceal;
                 Viewtype=LableTextButtonzhuzhi(vivid.AddCount[i]).id;
@@ -462,7 +476,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 					                getopem=LableTextButtonzhuzhi(vivid.AddCount[i]).expand;
 					                   property=getopem+property;
 					                }
-			     width="width$:"+LableTextButtonzhuzhi(vivid.AddCount[i]).width+"$!";
+			     if(LableTextButtonzhuzhi(vivid.AddCount[i])._widthint!="" && LableTextButtonzhuzhi(vivid.AddCount[i])._widthint!=null){
+                     width="width$:"+LableTextButtonzhuzhi(vivid.AddCount[i])._widthint+"$!";
+                   }
                    property=width+property;	  		                
 			   	   if(LableTextButtonzhuzhi(vivid.AddCount[i]).length!=null){
 		                 length="size$:"+ LableTextButtonzhuzhi(vivid.AddCount[i]).length+"$!"; 
@@ -473,9 +489,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                     }    
 				}if(strname=="ActionForm.From.CustomControl.LableEmail"){
                   Columname = LableEmail(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				  Columcode=LableEmail(vivid.AddCount[i])._ID;
+           		 Columid=LableEmail(vivid.AddCount[i])._ID;
                   valuelist=LableEmail(vivid.AddCount[i]).PLANB;
                   conceal=LableEmail(vivid.AddCount[i]).conceal;
                   Viewtype=LableEmail(vivid.AddCount[i]).id;
@@ -486,7 +501,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                getopem=LableEmail(vivid.AddCount[i]).expand;
 	                   property=getopem+property;
 	                }
-	            width="width$:"+LableEmail(vivid.AddCount[i]).width+"$!";
+	         if(LableEmail(vivid.AddCount[i])._widthint!="" && LableEmail(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableEmail(vivid.AddCount[i])._widthint+"$!";
+              }
                 property=width+property;     
 			        if(LableEmail(vivid.AddCount[i]).length!=null){
 	                 length="size$:"+ LableEmail(vivid.AddCount[i]).length+"$!"; 
@@ -498,9 +515,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				}  
 		 if( strname=="ActionForm.From.CustomControl.LableTextButtonzhuzhiduo"){
 				 Columname = LableTextButtonzhuzhiduo(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				  Columcode=LableTextButtonzhuzhiduo(vivid.AddCount[i])._ID;
+           		  Columid=LableTextButtonzhuzhiduo(vivid.AddCount[i])._ID;
                  valuelist=LableTextButtonzhuzhiduo(vivid.AddCount[i]).PLANB;
                  conceal=LableTextButtonzhuzhiduo(vivid.AddCount[i]).conceal;
                   Viewtype=LableTextButtonzhuzhiduo(vivid.AddCount[i]).id;
@@ -511,7 +527,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                getopem=LableTextButtonzhuzhiduo(vivid.AddCount[i]).expand;
 	                  property=getopem+property;
 	         }
-	         width="width$:"+LableTextButtonzhuzhiduo(vivid.AddCount[i]).width+"$!";
+	        if(LableTextButtonzhuzhiduo(vivid.AddCount[i])._widthint!="" && LableTextButtonzhuzhiduo(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableTextButtonzhuzhiduo(vivid.AddCount[i])._widthint+"$!";
+              }
              property=width+property; 
 				 if(LableTextButtonzhuzhiduo(vivid.AddCount[i]).length!=null){
 	                 length="size$:"+ LableTextButtonzhuzhiduo(vivid.AddCount[i]).length+"$!"; 
@@ -522,9 +540,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                   }    
 				}if(strname=="ActionForm.From.CustomControl.LableTextInput"){
 					 Columname = LableTextInput(vivid.AddCount[i]).text;
-	                  index=i+3;
-	                  Columcode="column"+index;
-	                  Columid="column"+index;
+					 Columcode=LableTextInput(vivid.AddCount[i])._ID;
+           		     Columid=LableTextInput(vivid.AddCount[i])._ID;
 	                  valuelist=LableTextInput(vivid.AddCount[i]).PLANB;
 	                  conceal=LableTextInput(vivid.AddCount[i]).conceal;
 	                  Viewtype=LableTextInput(vivid.AddCount[i]).id;
@@ -535,7 +552,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                getopem=LableTextInput(vivid.AddCount[i]).expand;
 	                 property=getopem+property;
 	                }  
-		          width="width$:"+LableTextInput(vivid.AddCount[i]).width+"$!";
+		         if(LableTextInput(vivid.AddCount[i])._widthint!="" && LableTextInput(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableTextInput(vivid.AddCount[i])._widthint+"$!";
+                  }
 	              property=width+property;  
 	                 if(LableTextInput(vivid.AddCount[i]).length!=null){
 	                 length="size$:"+ LableTextInput(vivid.AddCount[i]).length+"$!"; 
@@ -547,9 +566,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
     	    	}
                 if(strname=="ActionForm.From.CustomControl.LableURL"){
 				 Columname = LableURL(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				 Columcode=LableURL(vivid.AddCount[i])._ID;
+           		 Columid=LableURL(vivid.AddCount[i])._ID;
                   valuelist=LableURL(vivid.AddCount[i]).PLANB;
                   conceal=LableURL(vivid.AddCount[i]).conceal;
                   Viewtype=LableURL(vivid.AddCount[i]).id;
@@ -560,7 +578,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableURL(vivid.AddCount[i]).expand;
                  property=getopem+property;
                 }
-              width="width$:"+LableURL(vivid.AddCount[i]).width+"$!";
+             if(LableURL(vivid.AddCount[i])._widthint!="" && LableURL(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableTextInput(vivid.AddCount[i])._widthint+"$!";
+                }
               property=width+property;  
 				 if(LableURL(vivid.AddCount[i]).length!=null){
 	                 length="size$:"+ LableURL(vivid.AddCount[i]).length+"$!"; 
@@ -571,9 +591,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                   }   
 				}if( strname=="ActionForm.From.CustomControl.LableTextInputIP"){
 				  Columname = LableTextInputIP(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				  Columcode=LableTextInputIP(vivid.AddCount[i])._ID;
+           		  Columid=LableTextInputIP(vivid.AddCount[i])._ID;
                    valuelist=LableTextInputIP(vivid.AddCount[i]).PLANB;
                    conceal=LableTextInputIP(vivid.AddCount[i]).conceal;
                   Viewtype=LableTextInputIP(vivid.AddCount[i]).id;
@@ -584,7 +603,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableTextInputIP(vivid.AddCount[i]).expand;
                      property=getopem+property;
                 }
-              width="width$:"+LableTextInputIP(vivid.AddCount[i]).width+"$!";
+            if(LableTextInputIP(vivid.AddCount[i])._widthint!="" && LableTextInputIP(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableTextInputIP(vivid.AddCount[i])._widthint+"$!";
+                }
               property=width+property;   
 			   if(LableTextInputIP(vivid.AddCount[i]).length!=null){
                 length="size$:"+ LableTextInputIP(vivid.AddCount[i]).length+"$!"; 
@@ -594,10 +615,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                property=LableTextInputIP(vivid.AddCount[i])._summarytype+property;
               }   
 				}if( strname=="ActionForm.From.CustomControl.LableTextLarge"){
-				    Columname = LableTextLarge(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				   Columname = LableTextLarge(vivid.AddCount[i]).text;
+				  Columcode=LableTextLarge(vivid.AddCount[i])._ID;
+           		  Columid=LableTextLarge(vivid.AddCount[i])._ID;
                   valuelist=LableTextLarge(vivid.AddCount[i]).PLANB;
                   conceal=LableTextLarge(vivid.AddCount[i]).conceal;
                   Viewtype=LableTextLarge(vivid.AddCount[i]).id;
@@ -609,7 +629,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 		                getopem=LableTextLarge(vivid.AddCount[i]).expand;
 		                  property=getopem+property;
 		       }
-		      width="width$:"+LableTextLarge(vivid.AddCount[i]).width+"$!";
+		    if(LableTextLarge(vivid.AddCount[i])._widthint!="" && LableTextLarge(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableTextLarge(vivid.AddCount[i])._widthint+"$!";
+                }
               property=width+property;   
 		    if(LableTextLarge(vivid.AddCount[i]).read!=null){
                 length="size$:"+ LableTextLarge(vivid.AddCount[i]).length+"$!"; 
@@ -621,9 +643,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				}
 				if( strname=="ActionForm.From.CustomControl.LableTextpersonnel"){
 				 Columname = LableTextpersonnel(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;     
+   				  Columcode=LableTextpersonnel(vivid.AddCount[i])._ID;
+           		  Columid=LableTextpersonnel(vivid.AddCount[i])._ID;
                  valuelist=LableTextpersonnel(vivid.AddCount[i]).PLANB;
                   conceal=LableTextpersonnel(vivid.AddCount[i]).conceal;
                   Viewtype=LableTextpersonnel(vivid.AddCount[i]).id;
@@ -635,7 +656,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableTextpersonnel(vivid.AddCount[i]).expand;
                   property=getopem+property;
                 }
-              width="width$:"+LableTextpersonnel(vivid.AddCount[i]).width+"$!";
+               if(LableTextpersonnel(vivid.AddCount[i])._widthint!="" && LableTextpersonnel(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableTextpersonnel(vivid.AddCount[i])._widthint+"$!";
+                }
               property=width+property;  
 		    if(LableTextpersonnel(vivid.AddCount[i]).length!=null){
                 length="size$:"+ LableTextpersonnel(vivid.AddCount[i]).length+"$!"; 
@@ -646,9 +669,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
               }   
 			 }if(strname=="ActionForm.From.CustomControl.LableTextrole"){
 				  Columname = LableTextrole(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				  Columcode=LableTextrole(vivid.AddCount[i])._ID;
+           		  Columid=LableTextrole(vivid.AddCount[i])._ID;
                    valuelist=LableTextrole(vivid.AddCount[i]).PLANB;
                    conceal=LableTextrole(vivid.AddCount[i]).conceal;
                   Viewtype=LableTextrole(vivid.AddCount[i]).id;
@@ -660,7 +682,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableTextrole(vivid.AddCount[i]).expand;
                 property=getopem+property;
                  }
-             width="width$:"+LableTextrole(vivid.AddCount[i]).width+"$!";
+               if(LableTextrole(vivid.AddCount[i])._widthint!="" && LableTextrole(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableTextrole(vivid.AddCount[i])._widthint+"$!";
+                }
               property=width+property;   
 			    if(LableTextrole(vivid.AddCount[i]).length!=null){
                 length="size$:"+ LableTextrole(vivid.AddCount[i]).length+"$!"; 
@@ -671,9 +695,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
               }     
 				}if(strname=="ActionForm.From.CustomControl.LableTime"){
 				   Columname = LableTime(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				   Columcode=LableTime(vivid.AddCount[i])._ID;
+           		   Columid=LableTime(vivid.AddCount[i])._ID;
                   valuelist=LableTime(vivid.AddCount[i]).PLANB;
                   conceal=LableTime(vivid.AddCount[i]).conceal;
                   Viewtype=LableTime(vivid.AddCount[i]).id;
@@ -685,7 +708,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableTime(vivid.AddCount[i]).expand;
                      property=getopem+property;
                 }
-               width="width$:"+LableTime(vivid.AddCount[i]).width+"$!";
+               if(LableTime(vivid.AddCount[i])._widthint!="" && LableTime(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableTime(vivid.AddCount[i])._widthint+"$!";
+                }
                property=width+property;   
                if(LableTime(vivid.AddCount[i]).length!=null){
                 length="size$:"+ LableTime(vivid.AddCount[i]).length+"$!"; 
@@ -696,9 +721,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
               }  
 				}if(strname=="ActionForm.From.CustomControl.LableTimeField"){
 				  Columname = LableTimeField(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+   				   Columcode=LableTimeField(vivid.AddCount[i])._ID;
+           		   Columid=LableTimeField(vivid.AddCount[i])._ID;
                   valuelist=LableTimeField(vivid.AddCount[i]).PLANB;
                   conceal=LableTimeField(vivid.AddCount[i]).conceal;
                   Viewtype=LableTimeField(vivid.AddCount[i]).id;
@@ -709,7 +733,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableTimeField(vivid.AddCount[i]).expand;
                    property=getopem+property;
                 }
-                width="width$:"+LableTimeField(vivid.AddCount[i]).width+"$!";
+                if(LableTimeField(vivid.AddCount[i])._widthint!="" && LableTimeField(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableTimeField(vivid.AddCount[i])._widthint+"$!";
+                }
                property=width+property;    
 			   if(LableTimeField(vivid.AddCount[i]).length!=null){
                 length="size$:"+ LableTimeField(vivid.AddCount[i]).length+"$!"; 
@@ -720,9 +746,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
               }   
 			  }if( strname=="ActionForm.From.CustomControl.leLableButtonMultip"){
 				   Columname = leLableButtonMultip(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+ 				   Columcode=leLableButtonMultip(vivid.AddCount[i])._ID;
+           		   Columid=leLableButtonMultip(vivid.AddCount[i])._ID;
                valuelist=leLableButtonMultip(vivid.AddCount[i]).PLANB;
                conceal=leLableButtonMultip(vivid.AddCount[i]).conceal;
                   Viewtype=leLableButtonMultip(vivid.AddCount[i]).id;
@@ -733,7 +758,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=leLableButtonMultip(vivid.AddCount[i]).expand;
                     property=getopem+property;
                 }
-               width="width$:"+leLableButtonMultip(vivid.AddCount[i]).width+"$!";
+             if(leLableButtonMultip(vivid.AddCount[i])._widthint!="" && leLableButtonMultip(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+leLableButtonMultip(vivid.AddCount[i])._widthint+"$!";
+                }
                property=width+property; 
 			  if(leLableButtonMultip(vivid.AddCount[i]).length!=null){
                 length="size$:"+ leLableButtonMultip(vivid.AddCount[i]).length+"$!"; 
@@ -745,9 +772,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				}
 		if( strname=="ActionForm.From.CustomControl.LableColourfulea"){
 				  Columname = LableColourfulea(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				   Columcode=LableColourfulea(vivid.AddCount[i])._ID;
+           		   Columid=LableColourfulea(vivid.AddCount[i])._ID;
                     valuelist=LableColourfulea(vivid.AddCount[i]).PLANB;
                     conceal=LableColourfulea(vivid.AddCount[i]).conceal;
                   Viewtype=LableColourfulea(vivid.AddCount[i]).id;
@@ -758,7 +784,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableColourfulea(vivid.AddCount[i]).expand;
                   property=getopem+property;
                 } 
-               width="width$:"+LableColourfulea(vivid.AddCount[i]).width+"$!";
+               if(LableColourfulea(vivid.AddCount[i])._widthint!="" && LableColourfulea(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableColourfulea(vivid.AddCount[i])._widthint+"$!";
+                }
                property=width+property; 
                 if(LableColourfulea(vivid.AddCount[i]).length!=null){
                 length="size$:"+ LableColourfulea(vivid.AddCount[i]).length+"$!"; 
@@ -770,9 +798,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
             }	
              if(strname=="ActionForm.From.CustomControl.LableButton"){
 				  Columname = LableButton(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				  Columcode=LableButton(vivid.AddCount[i])._ID;
+           		   Columid=LableButton(vivid.AddCount[i])._ID;
                   valuelist=LableButton(vivid.AddCount[i]).PLANB;
                   conceal=LableButton(vivid.AddCount[i]).conceal;
                   Viewtype=LableButton(vivid.AddCount[i]).id;
@@ -783,7 +810,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableButton(vivid.AddCount[i]).expand;
                  property=getopem+property;
                 }
-              	width="width$:"+LableButton(vivid.AddCount[i]).width+"$!";
+             if(LableButton(vivid.AddCount[i])._widthint!="" && LableButton(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableButton(vivid.AddCount[i])._widthint+"$!";
+                }
               	property=width+property;  
 				 if(LableButton(vivid.AddCount[i]).length!=null){
 	                 length="size$:"+ LableButton(vivid.AddCount[i]).length+"$!"; 
@@ -795,9 +824,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				}	
 	          if(strname=="ActionForm.From.CustomControl.LableImage"){
 				  Columname = LableImage(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				   Columcode=LableImage(vivid.AddCount[i])._ID;
+           		   Columid=LableImage(vivid.AddCount[i])._ID;
                   valuelist=LableImage(vivid.AddCount[i]).PLANB;
                   conceal=LableImage(vivid.AddCount[i]).conceal;
                   Viewtype=LableImage(vivid.AddCount[i]).id;
@@ -808,7 +836,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                 getopem=LableImage(vivid.AddCount[i]).expand;
                  property=getopem+property;
                 }
-              	width="width$:"+LableImage(vivid.AddCount[i]).width+"$!";
+              if(LableImage(vivid.AddCount[i])._widthint!="" && LableImage(vivid.AddCount[i])._widthint!=null){
+                  width="width$:"+LableImage(vivid.AddCount[i])._widthint+"$!";
+                }
               	property=width+property;  
 				 if(LableImage(vivid.AddCount[i]).length!=null){
 	                 length="size$:"+ LableImage(vivid.AddCount[i]).length+"$!"; 
@@ -820,9 +850,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				}	
 				 if(strname=="ActionForm.From.CustomControl.LableRadioGroup"){
 				  Columname = LableRadioGroup(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				   Columcode=LableRadioGroup(vivid.AddCount[i])._ID;
+           		   Columid=LableRadioGroup(vivid.AddCount[i])._ID;
                   valuelist=LableRadioGroup(vivid.AddCount[i]).PLANB;
                   conceal=LableRadioGroup(vivid.AddCount[i]).conceal;
                   Viewtype=LableRadioGroup(vivid.AddCount[i]).id;
@@ -833,7 +862,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                getopem=LableRadioGroup(vivid.AddCount[i]).expand;
 	                 property=getopem+property;
 	                }
-	              	width="width$:"+LableRadioGroup(vivid.AddCount[i]).width+"$!";
+	              if(LableRadioGroup(vivid.AddCount[i])._widthint!="" && LableRadioGroup(vivid.AddCount[i])._widthint!=null){
+                    width="width$:"+LableRadioGroup(vivid.AddCount[i])._widthint+"$!";
+                   }
 	              	property=width+property;  
 					 if(LableRadioGroup(vivid.AddCount[i]).length!=null){
 		                 length="size$:"+ LableRadioGroup(vivid.AddCount[i]).length+"$!"; 
@@ -845,9 +876,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				}
 				if(strname=="ActionForm.From.CustomControl.LableFile"){
 				  Columname = LableFile(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				  Columcode=LableFile(vivid.AddCount[i])._ID;
+           		   Columid=LableFile(vivid.AddCount[i])._ID;
                   valuelist=LableFile(vivid.AddCount[i]).PLANB;
                   conceal=LableFile(vivid.AddCount[i]).conceal;
                   Viewtype=LableFile(vivid.AddCount[i]).id;
@@ -858,7 +888,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                getopem=LableFile(vivid.AddCount[i]).expand;
 	                 property=getopem+property;
 	                }
-	              	width="width$:"+LableFile(vivid.AddCount[i]).width+"$!";
+	              if(LableFile(vivid.AddCount[i])._widthint!="" && LableFile(vivid.AddCount[i])._widthint!=null){
+                    width="width$:"+LableFile(vivid.AddCount[i])._widthint+"$!";
+                   }
 	              	property=width+property;  
 					 if(LableFile(vivid.AddCount[i]).length!=null){
 		                 length="size$:"+ LableFile(vivid.AddCount[i]).length+"$!"; 
@@ -870,9 +902,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				}		
 				if(strname=="ActionForm.From.CustomControl.LableTAndF"){
 				  Columname = LableTAndF(vivid.AddCount[i]).text;
-                  index=i+3;
-                  Columcode="column"+index;
-                  Columid="column"+index;
+				   Columcode=LableTAndF(vivid.AddCount[i])._ID;
+           		   Columid=LableTAndF(vivid.AddCount[i])._ID;
                   valuelist=LableTAndF(vivid.AddCount[i]).PLANB;
                   conceal=LableTAndF(vivid.AddCount[i]).conceal;
                   Viewtype=LableTAndF(vivid.AddCount[i]).id;
@@ -883,7 +914,9 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	                getopem=LableTAndF(vivid.AddCount[i]).expand;
 	                 property=getopem+property;
 	                }
-	              	width="width$:"+LableTAndF(vivid.AddCount[i]).width+"$!";
+	               if(LableTAndF(vivid.AddCount[i])._widthint!="" && LableTAndF(vivid.AddCount[i])._widthint!=null){
+                    width="width$:"+LableTAndF(vivid.AddCount[i])._widthint+"$!";
+                   }
 	              	property=width+property;  
 					 if(LableTAndF(vivid.AddCount[i]).length!=null){
 		                 length="size$:"+ LableTAndF(vivid.AddCount[i]).length+"$!"; 
@@ -892,18 +925,60 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 		            if(LableTAndF(vivid.AddCount[i])._summarytype!=null){
 	                 property=LableTAndF(vivid.AddCount[i])._summarytype+property;
                      } 
-				}								
+				}
+			  if(strname=="ActionForm.From.CustomControl.Label_hid"){
+				  Columname = Label_hid(vivid.AddCount[i]).text;
+				   Columcode=Label_hid(vivid.AddCount[i])._ID;
+           		   Columid=Label_hid(vivid.AddCount[i])._ID;
+                  valuelist=Label_hid(vivid.AddCount[i]).PLANB;
+                  conceal=Label_hid(vivid.AddCount[i]).conceal;
+                  Viewtype=Label_hid(vivid.AddCount[i]).id;
+                  Extendattribute="offset$:"+Label_hid(vivid.AddCount[i]).row+"-"+Label_hid(vivid.AddCount[i]).cross+"$!";
+				  Musk=Label_hid(vivid.AddCount[i]).must;
+				    opemode=Label_hid(vivid.AddCount[i]).read;
+				   if(Label_hid(vivid.AddCount[i]).expand!="null" && Label_hid(vivid.AddCount[i]).expand!=null ){
+	                getopem=Label_hid(vivid.AddCount[i]).expand;
+	                 property=getopem+property;
+	                }
+	               if(Label_hid(vivid.AddCount[i])._widthint!="" && Label_hid(vivid.AddCount[i])._widthint!=null){
+                    width="width$:"+Label_hid(vivid.AddCount[i])._widthint+"$!";
+                   }
+	              	property=width+property;  
+					 if(Label_hid(vivid.AddCount[i]).length!=null){
+		                 length="size$:"+ Label_hid(vivid.AddCount[i]).length+"$!"; 
+		                  property=length+property;
+		              }     
+		            if(Label_hid(vivid.AddCount[i])._summarytype!=null){
+	                 property=Label_hid(vivid.AddCount[i])._summarytype+property;
+                     } 
+				}	
+ 			/*  Columid="column"+dex;	
+			 dex++;	  */						
 		   property=Extendattribute+property;
 		   vivid.configarr.addItem({cname:Columname,cid:Columid,using:false,order:"降序"});
 		   vivid.bfcf.addItem({cname:Columname,cid:Columid,using:false});
 		   vivid.dncf.addItem({cname:Columname,cid:Columid,using:false});
 		   UIComponent(vivid.AddCount[i])["_ID"]=Columid;
- 		   coumn.AddColmu(Columname,Columcode,Columid,Formcode,Viewtype,property,valuelist,Musk,opemode,conceal);
+		 
+ 		   arrcolumn.addItem({"Columname":Columname,"Columid":Columid,"Formcode":Formcode,"Viewtype":Viewtype,"property":property,"valuelist":valuelist,"Musk":Musk,"opemode":opemode,"conceal":conceal});
   		 } 
-  		 vivid.kongzhi=false;
-	   	}
-  		   GlobalManager.getInstance().dispatchEvent(new saveXmlEvent(EventTypeConstants.Event_savexml,flag));
-            if(!DyData.modletype){
+  		 if(vivid.kongzhi){
+  		  coumn.AddColmu(arrcolumn);
+  		 }else{
+  		 	if(!DyData.modletype){
+  		   UpdateColumn.updateColumn(arrcolumn,vivid.formid);
+  		   }else{
+  		    UpdateColumn.updateColumn(arrcolumn,Formcode);
+  		   }
+  		 }
+	   
+	   }
+	   public function Columnadd(event:ResultEvent):void{
+	   	 var str:String=event.result as String;
+	   	 if(str=="1"){
+	   	 	 vivid.kongzhi=false;
+	         GlobalManager.getInstance().dispatchEvent(new saveXmlEvent(EventTypeConstants.Event_savexml,flag));
+           if(!DyData.modletype){
             getparentobect.getFormparentid(vivid.formid);
             }else{
             getparentobect.getFormparentid(vivid.fromcode);
@@ -913,26 +988,11 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 		   GlobalManager.getInstance().dispatchEvent(new MouseEvent("shuanxintest3"));
 		   var o:Object=this.parent.parent.parent.getChildByName("TestDataGrid1");
            vs.selectedChild=o as Canvas;
+         }else{
+          Alert.show("字段添加失败");
+         }
 	   }
-	   //查询表单里面有多少个字段
-	   public function  handerResult2(event:ResultEvent):void
-		{    
-			if(!DyData.modletype){
-			vivid.fromcode=vivid.formid;
-			}
-			arrlist=event.result as ArrayCollection;
-			if(arrlist.length==2)
-			{
-			 ADDColumn();
-			}else{
-			  for(var j:int=2;j<arrlist.length;j++){
-		   	    var  Formcode1:String=vivid.fromcode;
-		   	    var	Columnid:String=arrlist.getItemAt(j).toString();
-			    dropc.dropColumn(Formcode1,Columnid);
-			  }  	 
-			  gc.getc(vivid.fromcode);
-		    }
-		}
+	  
 		//修改查询的数据
 	 public function queryparentid(event:ResultEvent):void
 	  {         
@@ -962,7 +1022,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				       cs._height=Number(30);
 				       cs._dataProvider=arrColumn[j].valuelist;
 				       cs._text=arrColumn[j].columname;
-				       cs._PLANB=arrColumn[j].valuelist;	
+				       cs._PLANB=arrColumn[j].valuelist;
+				       cs._id=arrColumn[j].columnid;
 				       if(arrColumn[j].summarytype=="" || arrColumn[j].summarytype==null){
 				       }else{
 				       cs._summarytype="summarytype$:"+arrColumn[j].summarytype+"$!";
@@ -1084,23 +1145,41 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
     	 data="ActionForm.From.CustomControl.LableRadioGroup";
     	} else if(type=="31"){
     	 data="ActionForm.From.CustomControl.LableTAndF";
+    	}else if(type=="32"){
+    	 data="ActionForm.From.CustomControl.Label_hid";
     	}
          return  data;
     } 
-	]]>
+    public function UpdateColumnfunction(event:ResultEvent):void{
+    	   	 var str:String=event.result as String;
+	   	 if(str=="1"){
+	   	 	 vivid.kongzhi=false;
+	         GlobalManager.getInstance().dispatchEvent(new saveXmlEvent(EventTypeConstants.Event_savexml,flag));
+           if(!DyData.modletype){
+            getparentobect.getFormparentid(vivid.formid);
+            }else{
+            getparentobect.getFormparentid(vivid.fromcode);
+            }
+           GlobalManager.getInstance().dispatchEvent(new MouseEvent("shuanxintest1"));
+		   GlobalManager.getInstance().dispatchEvent(new MouseEvent("shuanxintest2"));
+		   GlobalManager.getInstance().dispatchEvent(new MouseEvent("shuanxintest3"));
+		   var o:Object=this.parent.parent.parent.getChildByName("TestDataGrid1");
+           vs.selectedChild=o as Canvas;
+         }else{
+           Alert.show("字段修改失败");
+         }
+    }
+	]]> 
 </mx:Script>
 <mx:RemoteObject id="wrxmlObject" destination="wrxmlfile" showBusyCursor="true" result="xmlstring(event)" />
 <mx:RemoteObject id="queryobect" destination="selectchirdrenform"  result="queryparentid(event)" showBusyCursor="true"/>
-<mx:RemoteObject id="gc"   destination="getColumn" showBusyCursor="true"   result="{handerResult2(event)}">
-</mx:RemoteObject>
 <mx:RemoteObject id="gccloumn"   destination="getColumn" showBusyCursor="true"   result="{handergccloumn(event)}">
 </mx:RemoteObject>
 <mx:RemoteObject id="savexmlobject" destination="savexmlfile" showBusyCursor="true" />
-<mx:RemoteObject id="coumn"   destination="cadd" showBusyCursor="true"/>
+<mx:RemoteObject id="coumn"   destination="cadd" showBusyCursor="true" result="Columnadd(event)"/>
 <mx:RemoteObject id="getparentobect" destination="selectchirdrenform"   result="getparentid(event)" showBusyCursor="true"/>
 <mx:RemoteObject id="newwrxmlObject" destination="wrxmlfile" showBusyCursor="true" />
- <mx:RemoteObject id="dropc"   destination="dropColumn" showBusyCursor="true" >
-</mx:RemoteObject>
+<mx:RemoteObject id="UpdateColumn" destination="UpdateColumn1" showBusyCursor="true"  result="UpdateColumnfunction(event)"/>
 	<mx:HDividedBox x="0" y="0" width="100%" height="100%">
 		<mx:Panel width="255" height="100%" layout="horizontal" id="compPanel" title="控件列表">
 	    </mx:Panel>

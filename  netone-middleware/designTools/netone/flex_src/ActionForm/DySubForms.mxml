@@ -59,6 +59,12 @@
 	       		   childrenform.addChild(ZBD); 
 	       		}
            }
+             if(DyData.active=="1"){
+  	        	schirdren.enabled = false;
+                schirdren.removeEventListener(MouseEvent.CLICK,selectchirdren1);
+             }else{
+                schirdren.enabled=true;
+             }
 	  	    }
   	    }
   	    //选择子表单方法

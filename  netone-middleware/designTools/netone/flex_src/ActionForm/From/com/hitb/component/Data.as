@@ -95,7 +95,7 @@ package ActionForm.From.com.hitb.component
 	            PopUpManager.centerPopUp(titleWin as IFlexDisplayObject); 
 	            GlobalManager.getInstance().dispatchEvent(new Component(Data1.Event_popextend,cl));
               break;
-       case 16:   
+       case 17:   
              vivid.comp=cl;
              controustree= PopUpManager.createPopUp(this, ControltreeResouce, true) as ControltreeResouce;
                 break;
@@ -146,6 +146,11 @@ package ActionForm.From.com.hitb.component
 		          PopUpManager.addPopUp(st,this.parent.parent.parent.parent,true);
 		          PopUpManager.centerPopUp(st as IFlexDisplayObject); 
 		          GlobalManager.getInstance().dispatchEvent(new Component(Data.Event_summarytype,cl));
+		    break;
+	     case 16:
+		       cla.generator=TextInput;
+		       TextInput(cla).restrict="0-9";
+		        itemColumn.itemEditor=cla;
 		    break;
 		   
 	     }
@@ -237,6 +242,9 @@ package ActionForm.From.com.hitb.component
 				       case "输入长度":
 				          comp["length"]=value;
 				           break;
+				      case "字段宽度":
+				          comp["_widthint"]=value;
+				           break;
 				      case "选择树图":
 				      break;
 					    }
@@ -264,7 +272,7 @@ package ActionForm.From.com.hitb.component
 				properties.addItem({name:"汇总类型", value:Component.getComponent2()["summarytype"]});	
 				properties.addItem({name: "备选值", value: Component.getComponent2()["PLANB"]});	
 	  		    properties.addItem({name:"输入长度", value:Component.getComponent2()["length"]});	
- 
+ 				properties.addItem({name:"字段宽度", value:Component.getComponent2()["_widthint"]});	
 				if(Component.getComponent2().className=="LableTextButton"||Component.getComponent2().className=="leLableButtonMultip" ||Component.getComponent2().className=="LableColourfulea"||Component.getComponent2().className=="LablePORTAL"
 				||Component.getComponent2().className=="LableComboBoxKV"||Component.getComponent2().className=="LableTextButtonzhuzhiduo"||Component.getComponent2().className=="LableTextButtonzhuzhi"){
 					properties.addItem({name:"选择树图", value:Component.getComponent2()["treeProvider"]});	

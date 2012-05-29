@@ -126,7 +126,7 @@ public class UploadFileAction extends HttpServlet {
 		path = path + "files";
 		String id = null;
 		String userid = request.getParameter("username");
-		String filetype = "ͼƬ";
+		String filetype = "1";
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setSizeThreshold(4096);
 		ServletFileUpload upload = new ServletFileUpload(factory);

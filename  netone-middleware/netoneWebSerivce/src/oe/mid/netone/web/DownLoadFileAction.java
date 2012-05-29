@@ -89,6 +89,8 @@ public class DownLoadFileAction extends HttpServlet {
 			Map map = (Map) iterator.next();
 			 String address=map.get("address").toString();
 		     map.remove("address");
+		     address=address.replaceAll("\\\\", "\\/");
+		     address=StringUtils.substringAfterLast(address,"webapps");
 			 map.put("address", address.replaceAll("\\\\", "\\/"));
 			 listx.add(map);
 		}

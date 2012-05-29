@@ -47,17 +47,23 @@
 		          <mx:Label text="转办 控制  :" x="5" y="5"/>
 		          <mx:CheckBox id="fobidzb"  label="禁止转办" x="110" width="145"  height="24" y="7"/>
 		    </mx:Canvas>
-		    <mx:Canvas id="bianjikongzi" x="99" y="442" width="600" height="378">
+		    <mx:Canvas id="bianjikongzi" x="99" y="462" width="600" height="349">
 		    </mx:Canvas>
-		    <mx:Label x="2" y="416" text="编 辑 控 制："/>
-			<mx:Label x="0" y="270" text="可用子表单："/>
-		    <mx:Canvas id="zibiaodan" x="102" y="271" width="936" height="55">
-		    </mx:Canvas>
-		    <mx:Label x="1" y="383" text="阶段性回复："/>
-		    <mx:CheckBox id="fenbushi" x="102" y="382" label="是否需要分布式提交"/>
-		    <mx:CheckBox id="checkbox1" x="102" y="414" label="是否需要编辑" change="chageis()"/>
-		    <mx:Label x="0" y="343" text="附件启用："/>
-		      <mx:Canvas  x="102" y="335" width="936" height="43">
+		    <mx:Label x="2" y="436" text="编 辑 控 制："/>
+			<mx:Label x="0" y="308" text="子表单控制："/>
+		 	<mx:Canvas id="zibiaodan" x="102" y="299" width="936" height="55">
+			</mx:Canvas>
+		    <mx:Label x="0" y="270" text="主表单控制："/>
+		    <mx:Canvas  x="102" y="260" width="314" height="38">
+		         <mx:RadioButton id="Radio0" selected="true" label="编辑" x="9" y="7"/>
+		      	 <mx:RadioButton id="Radio1"  label="只读" x="69" y="6"/>
+		      	 <mx:RadioButton id="Radio2"  label="隐藏" x="125.5" y="6"/>
+		    </mx:Canvas> 
+		    <mx:Label x="1" y="403" text="阶段性回复："/>
+		    <mx:CheckBox id="fenbushi" x="102" y="402" label="是否需要分布式提交"/>
+		    <mx:CheckBox id="checkbox1" x="102" y="434" label="是否需要编辑" change="chageis()"/>
+		    <mx:Label x="0" y="363" text="附件启用："/>
+		      <mx:Canvas  x="102" y="355" width="936" height="43">
 		      <mx:CheckBox id="fujian" x="1"  y="7"  label="是否启用附件" change="fujinashifou()"/>
 		      <mx:Canvas id="fujianqiyong"  x="148" y="0" height="43" width="676">
 		      </mx:Canvas>
@@ -112,6 +118,13 @@
 			    public var zibiaodangshu:int;
 			     //初始化界面
 			     private function init():void{ 	
+			     	     fu =new FuJianTextArea();
+		                  fu.id="fujianshuju";
+		                  fu.x=0;
+		                  fu.y=0;
+		                  fu.height=40;
+		                  fu.width=636;
+		                  fujianqiyong.addChild(fu);
 			          queryrenyuan31.zibiaodanshu(variable._idcreated1);		     
 			    	  queryrenyuan21.puzirenyuan(variable.zhiyuan);
 			     	 vs=this.parent as ViewStack;
@@ -257,6 +270,14 @@
          		dataxml.@filemanage="0";	
          		dataxml.@filetext="";
          	    }
+         	    if(Radio0.selected){
+         	    dataxml.@MAINFORM="0";
+         	    }if(Radio1.selected){
+         	    dataxml.@MAINFORM="1";
+         	    }if(Radio2.selected){
+         	    dataxml.@MAINFORM="2";
+         	    }
+         	    
                 Parent.appendChild(dataxml);
 			    addrenyuan1.AddrenyuanQuery(Name.text,chinesename.text,Parent.toString());
               }
@@ -456,7 +477,7 @@
 	                  } else{
 	                  	fenbushi.selected=false;
 	                  } 
-	                  if(arrform1.filemanage==""){
+	                  if(arrform1.filemanage=="" || arrform1.filemanage==null){
 	                      fujian.selected=true;
 	                 	  fu =new FuJianTextArea();
 		                  fu.id="fujianshuju";
@@ -481,7 +502,18 @@
 		                  	fujian.selected=false;
 		                  	fujianqiyong.removeAllChildren();
 		                  } 
-	                  }
+	                  }   
+	                      if(arrform1.MAINFORM==null || arrform1.MAINFORM==""){
+	                      Radio0.selected=true;
+	                      }else{
+	                      if(arrform1.MAINFORM=="0"){
+         	    			Radio0.selected=true;
+			         	    }if(arrform1.MAINFORM=="1"){
+         	    			Radio1.selected=true;
+			         	    }if(arrform1.MAINFORM=="2"){
+         	    			Radio2.selected=true;
+			         	    }
+	                      }
                   }
                   else{
                   	if(bool){

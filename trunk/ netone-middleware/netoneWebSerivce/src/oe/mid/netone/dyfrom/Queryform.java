@@ -2,29 +2,29 @@ package oe.mid.netone.dyfrom;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
-
-import org.apache.commons.lang.StringUtils;
-
 import oe.cav.bean.logic.column.TCsColumn;
 import oe.midware.dyform.service.DyFormDesignService;
 import oe.rmi.client.RmiEntry;
-import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.app.impl2.AnalysisAppFirst;
 import com.jl.common.app.impl2.AppFirst;
-import com.jl.common.dyform.DyFormData;
+import com.jl.common.dyform.DyFormColumn;
 import com.jl.common.netone.UmsProtecte;
-import com.jl.common.workflow.DbTools;
 
 public class Queryform extends HttpServlet {
 	/**
@@ -79,8 +79,24 @@ public class Queryform extends HttpServlet {
 			e1.printStackTrace();
 		}
 		List listmame = dys.queryObjects(busForm);
+		List list=new ArrayList();
+		for (Iterator iterator = listmame.iterator(); iterator.hasNext();) {
+			TCsColumn tCsColumn = (TCsColumn) iterator.next();
+	        
+			Map map=new HashMap();
+			if(tCsColumn.getColumnid().toUpperCase().equals("BELONGX") || tCsColumn.getColumnid().toUpperCase().equals("TIMEX")){
+			}else{	
+	        map.put("columnid", tCsColumn.getColumnid());
+	        map.put("musk", tCsColumn.getMusk());
+	        map.put("opemode", tCsColumn.getOpemode());
+	        map.put("columname", tCsColumn.getColumname());
+	        map.put("viewtype", tCsColumn.getViewtype());
+	        map.put("valuelist", tCsColumn.getValuelist());
+			list.add(map);
+			}
+		}
 		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print(JSONArray.fromObject(listmame).toString());
+		response.getWriter().print(JSONArray.fromObject(list).toString());
 	}
 
 	/**

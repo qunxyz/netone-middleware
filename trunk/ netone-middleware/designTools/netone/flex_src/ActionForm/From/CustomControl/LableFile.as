@@ -28,6 +28,8 @@ package ActionForm.From.CustomControl{
 		public var  _text:String="文件";
 		public var  _text1:String="";
 		public var _summarytype:String;
+		public var _widthint:String="";
+		
 		public function LableFile()
 		{
 			super();

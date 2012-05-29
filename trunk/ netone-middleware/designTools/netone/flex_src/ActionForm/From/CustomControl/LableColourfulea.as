@@ -23,6 +23,7 @@ package ActionForm.From.CustomControl
 	    public var _summarytype:String;
 		[Bindable]
 		public var  _text:String="多彩文档";
+		public var _widthint:String="";
 		
 		public function LableColourfulea()
 		{

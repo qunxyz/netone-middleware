@@ -24,6 +24,8 @@ package ActionForm.From.CustomControl{
 		[Bindable]
 		public var  _text:String="单选组";
 		public var  _text1:String="";
+		public var _widthint:String="";
+		
 		public function LableRadioGroup()
 		{
 			super();

@@ -52,6 +52,15 @@
 				comtime.selectedIndex=i;
 	  	   	} 
   	  	 }
+  	  	 if(DyData.active=="1"){
+  	       st.enabled = false;
+           st.removeEventListener(MouseEvent.CLICK,selectbussType1);
+           sb.enabled=false;
+           sb.removeEventListener(MouseEvent.CLICK,selectbussData1);
+           }else{
+           sb.enabled=true;
+           st.enabled=true;
+           }
   	  	}
   	   } 
   	   //选择维度数据

@@ -5,7 +5,7 @@ package ActionForm.From
 		public function csource()
 		{
 		}
-		
+	    public var _id:String;
         public var _label:String;
         public var _data:String;
         public var _x:Number;
@@ -22,6 +22,12 @@ package ActionForm.From
         public var _conceal:String;
         public var _summarytype:String;
         
+        public function  get ID():String{
+         return this._id;
+        }
+        public function  set ID(ID:String):void{
+         this._id=ID;
+        } 
         public function get summarytype():String{
          return this._summarytype;
         }

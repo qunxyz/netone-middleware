@@ -24,6 +24,7 @@ package ActionForm.From.CustomControl
 		public var _summarytype:String;
 		[Bindable]
 		public var  _text:String="操作员";
+		public var _widthint:String="";
 		
 		public function LableTextpersonnel()
 		{

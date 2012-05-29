@@ -31,5 +31,7 @@ package ActionForm{
      public static var tree:XML;  
      [Bindable]//模式选择
      public static var modelname:String="";
+     [Bindable]//是否已确认
+     public static var active:String="0";
   }
 }

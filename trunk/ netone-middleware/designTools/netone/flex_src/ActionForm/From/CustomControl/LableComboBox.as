@@ -30,6 +30,8 @@ package ActionForm.From.CustomControl
 	    public var _type:String="列表信息";
 		public var  _text1:String="";
 		public var _summarytype:String;
+		public var _widthint:String="";
+		
 		public function LableComboBox(){
 		  super();
 		}

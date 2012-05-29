@@ -4,7 +4,7 @@
 	  	fontWeight="bold"  creationComplete="init()" close="Exit(event)"
 	    title="资源多选" x="0" y="0">
   <mx:Script>
-         	<![CDATA[
+         	<![CDATA[  
          		import mx.core.IFlexDisplayObject;
          		import mx.managers.PopUpManager;
          		import mx.events.CloseEvent;

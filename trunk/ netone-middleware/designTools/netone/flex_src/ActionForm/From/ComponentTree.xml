@@ -27,5 +27,6 @@
   <control label="按钮" data="ActionForm.From.CustomControl.LableButton" icon="ICON_Button"/>
   <control label="图片" data="ActionForm.From.CustomControl.LableImage" icon="ICON_Image"/>
   <control label="真假radio" data="ActionForm.From.CustomControl.LableTAndF" icon="ICON_TAndF"/>
+  <control label="隐藏域" data="ActionForm.From.CustomControl.Label_hid" icon="ICON_HIDE"/>
   </control> 
 </control>

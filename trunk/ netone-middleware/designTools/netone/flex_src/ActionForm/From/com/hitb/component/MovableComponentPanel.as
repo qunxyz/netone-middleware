@@ -1,5 +1,6 @@
 package ActionForm.From.com.hitb.component
 {
+	import ActionForm.DyData;
 	import ActionForm.From.CustomControl.*;
 	import ActionForm.From.com.hitb.event.*;
 	import ActionForm.From.com.hitb.util.GlobalManager;
@@ -16,7 +17,9 @@ package ActionForm.From.com.hitb.component
 	import flash.utils.getQualifiedClassName;
 	
 	import mx.containers.Canvas;
+	import mx.controls.Alert;
 	import mx.controls.TextInput;
+	import mx.core.IUIComponent;
 	import mx.core.UIComponent;
 	import mx.events.DragEvent;
 	import mx.managers.CursorManager;
@@ -334,16 +337,23 @@ package ActionForm.From.com.hitb.component
        	    comp.x=this.mouseX;
        	    comp.y=this.mouseY;
        	    addChild(comp);
+       	
        	    rule(comp);
        	    Setproperty(comp);
 			vivid.Control.push(comp);
+		  	/*   if(!DyData.modletype){ 
+		 	  	comp["_ID"]="column3";
+		 		columnid(comp);
+			}else{  */   
        	    comp["_ID"]="column"+vivid.ID;
        	    vivid.ID++;
+   			/*  }  */
        	   GlobalManager.getInstance().dispatchEvent(new GlobalEvent(EventTypeConstants.Event_ADD,this,comp,ccolumn,crow));
            GlobalManager.getInstance().dispatchEvent(new GlobalEvent(Data.Event_data,this,comp,ccolumn,crow));
            GlobalManager.getInstance().dispatchEvent(new Component(Data.Event_popextend,comp));
            addrow(comp);
        }
+
         
         /**2    8     4
             ----------
@@ -753,10 +763,70 @@ package ActionForm.From.com.hitb.component
                 }else if(strname=="ActionForm.From.CustomControl.LableTAndF"){
                  	LableTAndF(comp)._cross=ccolumn;
                     LableTAndF(comp)._row=crow; 
+                }else if(strname=="ActionForm.From.CustomControl.Label_hid"){
+                	Label_hid(comp)._cross=ccolumn;
+                    Label_hid(comp)._row=crow; 
                 }
         }
-         
-         private function  drawBorder():void{
+          //判断是否有空的  columnid   
+       private  function columnid(cp:IUIComponent):void{
+     		  var arr:Array=this.getChildren();
+     		  for(var index:int;index<this.getChildren().length;index++){
+     		  	    if(cp==this.getChildren()[index]){
+     		         arr.splice(index,1);
+     		        }
+     		  }
+     		 arr.sort();
+        	for(var i:int;i<arr.length;i++){
+       		  var comp:UIComponent=(arr[i]);
+       		  Alert.show(comp["_ID"]);
+       		  if(comp["_ID"]=="column3"){ 
+       		  	 if(comp["_ID"]==cp["_ID"]){
+       		  	  cp["_ID"]="column4";
+       		  	 }else{
+       		  	 return;
+       		  	 }
+       		  }if(comp["_ID"]=="column4"){ 
+       		  	if(comp["_ID"]==cp["_ID"]){
+       		  	  cp["_ID"]="column5";
+       		  	 }
+       		  } if(comp["_ID"]=="column5"){ 
+       		  	if(comp["_ID"]==cp["_ID"]){
+       		  	  cp["_ID"]="column6";
+       		  	 }
+       		  } if(comp["_ID"]=="column6"){ 
+       		  	if(comp["_ID"]==cp["_ID"]){
+       		  	  cp["_ID"]="column7";
+       		  	 }
+       		  } if(comp["_ID"]=="column7"){ 
+       		  	if(comp["_ID"]==cp["_ID"]){
+       		  	  cp["_ID"]="column8";
+       		  	 }
+       		  }  
+       		  if(comp["_ID"]=="column8"){ 
+       		  	if(comp["_ID"]==cp["_ID"]){
+       		  	  cp["_ID"]="column9";
+       		  	 }
+       		  }  
+       		  if(comp["_ID"]=="column9"){ 
+       		  	if(comp["_ID"]==cp["_ID"]){
+       		  	  cp["_ID"]="column10";
+       		  	 }
+       		  }  
+       		  if(comp["_ID"]=="column10"){ 
+       		  	if(comp["_ID"]==cp["_ID"]){
+       		  	  cp["_ID"]="column11";
+       		  	 }
+       		  }  
+       		  if(comp["_ID"]=="column11"){ 
+       		  	if(comp["_ID"]==cp["_ID"]){
+       		  	  cp["_ID"]="column10";
+       		  	 }
+       		  }  
+       	    }
+       	  
+       }  
+      private function  drawBorder():void{
          	
             shape.graphics.clear();
 		    shape.graphics.lineStyle(2,0x7FCEFF);

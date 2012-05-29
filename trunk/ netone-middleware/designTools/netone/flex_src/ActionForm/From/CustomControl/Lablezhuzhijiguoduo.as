@@ -27,6 +27,8 @@ package ActionForm.From.CustomControl
 		[Bindable]
 		public var  _text:String="组织机构多选";
 		public var  _text1:String="";
+		public var _widthint:String="";
+		
 		public function Lablezhuzhijiguoduo()
 		{
 			super();

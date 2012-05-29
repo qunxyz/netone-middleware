@@ -23,7 +23,8 @@ package ActionForm.From.CustomControl
 		public var  _text:String="URL";
 		public var  _text1:String="";
 		public var _PLANB:String;
-			public var _ID:String;
+		public var _ID:String;
+		public var _widthint:String="";
 		
 		public function LableURL()
 		{

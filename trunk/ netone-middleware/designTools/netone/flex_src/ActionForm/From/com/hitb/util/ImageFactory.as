@@ -108,6 +108,9 @@ package ActionForm.From.com.hitb.util
 		[Embed(source="ActionForm/From/assets/icon/leLableButtonMultip.png")]
 		public static var ICON_TAndF:Class;
 		
+		[Embed(source="ActionForm/From/assets/icon/LableText.png")]
+		public static var ICON_HIDE:Class;
+		
 		public function ImageFactory()
 		{
 		}
@@ -169,6 +172,8 @@ package ActionForm.From.com.hitb.util
                return ICON_LableFile;
               }else if(className=="ActionForm.From.CustomControl.LableTAndF"){
                return ICON_TAndF;
+              }else if(className=="ActionForm.From.CustomControl.Label_hid"){
+               return ICON_HIDE;
               }
              else {
         		return null;

@@ -139,7 +139,33 @@
     <servlet-name>Allimage</servlet-name>
     <servlet-class>oe.mid.netone.web.Allimage</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Personnel</servlet-name>
+    <servlet-class>oe.mid.netone.web.Personnel</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SoleRegister</servlet-name>
+    <servlet-class>oe.mid.netone.moblie.SoleRegister</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RegeditMvl</servlet-name>
+    <servlet-class>oe.mid.netone.moblie.RegeditMvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LoginMvl</servlet-name>
+    <servlet-class>oe.mid.netone.moblie.LoginMvl</servlet-class>
+  </servlet>
 
+
+ 
 
 
 
@@ -264,5 +290,25 @@
   <servlet-mapping>
     <servlet-name>Allimage</servlet-name>
     <url-pattern>/allimage</url-pattern>
+  </servlet-mapping>
+    <!--  组织人员的数据服务 -->
+  <servlet-mapping>
+    <servlet-name>Personnel</servlet-name>
+    <url-pattern>/personnel</url-pattern>
+  </servlet-mapping>
+   <!-- 手机唯一标识的登录 -->
+  <servlet-mapping>
+    <servlet-name>SoleRegister</servlet-name>
+    <url-pattern>/soleregister</url-pattern>
+  </servlet-mapping>
+   <!-- 手机注册用户信息 -->
+  <servlet-mapping>
+    <servlet-name>RegeditMvl</servlet-name>
+    <url-pattern>/regeditmvl</url-pattern>
+  </servlet-mapping>
+  <!-- 手机用户用户名和密码登录 -->
+  <servlet-mapping>
+    <servlet-name>LoginMvl</servlet-name>
+    <url-pattern>/loginmvl</url-pattern>
   </servlet-mapping>
 </web-app>

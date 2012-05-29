@@ -47,7 +47,7 @@ A:visited {color: #928BA4;}
 					"aoColumns": ${aoColumns},//设定各列宽度
 					</c:if>
     				
-    				"bStateSave": true, //保存状态到cookie
+    				"bStateSave": false, //不保存状态到cookie
     				"bJQueryUI": true,
 					"bAutoWidth": false,					//不自动计算列宽度
 					"bProcessing": true,					//加载数据时显示正在加载信息

@@ -33,8 +33,8 @@ A:visited {color: #928BA4;}
 			if (oTable == null) { //仅第一次检索时初始化Datatable
 				$("#_datatables").show();
 				oTable = $('#_datatables').dataTable( {
-    				'_iDisplayStart' : 0,
-    				'iDisplayEnd' : 7,
+    				//'_iDisplayStart' : 0,
+    				//'iDisplayEnd' : 7,
     				"aaSorting": ${aaSorting},
     				//"sScrollX": "100%",   //表格的宽度   
     				//"sScrollY": $height+"px",

@@ -25,7 +25,6 @@ import oe.web.tag.resource.LoadClerkTag;
 
 public class getpColumn {
 	public List getc(String formid) throws Exception {
-		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
 		DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
 		List aList = dysc.fetchColumnList(formid);
 		List rList= new ArrayList();
@@ -36,6 +35,8 @@ public class getpColumn {
 		return rList;
 	}
 	public List<DyFormColumn> getColumn(String formid) throws Exception {
+		System.out.println("ss");
+		DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
 		List<DyFormColumn> aList=DyEntry.iv().fetchColumnList(formid);
 		List<DyFormColumn> listremove=new ArrayList<DyFormColumn>();
 		//过滤了belongx与TIMEX字段

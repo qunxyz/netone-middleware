@@ -139,7 +139,7 @@ public class PhUploadimageAction extends HttpServlet {
 		path1 =path1+"\\"+"images";;
 		String id = request.getParameter("id");
 		String userid = request.getParameter("userid");
-		String filetype = "ͼƬ";
+		String filetype = "0";  
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		factory.setSizeThreshold(4096);
 		ServletFileUpload upload = new ServletFileUpload(factory);

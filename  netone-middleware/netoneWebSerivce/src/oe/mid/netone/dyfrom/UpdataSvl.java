@@ -54,6 +54,7 @@ public class UpdataSvl extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		String formcode=null;
+		boolean fal=false;
 		String appname= request.getParameter("appname");
 		String parentId = request.getParameter("parentId");
 		String userid = request.getParameter("userid");
@@ -90,12 +91,12 @@ public class UpdataSvl extends HttpServlet {
 		}
 
 		try {
-			boolean fal = DyEntry.iv().modifyData(formcode, dydata);
+			fal = DyEntry.iv().modifyData(formcode, dydata);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+       response.getWriter().print(fal);
 	}
 
 	/**

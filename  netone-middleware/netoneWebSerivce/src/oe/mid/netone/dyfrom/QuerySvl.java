@@ -68,6 +68,7 @@ public class QuerySvl extends HttpServlet {
 		String appname=request.getParameter("appname");
 		String parentId = request.getParameter("parentId");
         String ext=request.getParameter("ext");
+        String lsh=request.getParameter("lsh");
         
 		if (StringUtils.isEmpty(parentId)) {
 			parentId = "1";
@@ -83,7 +84,7 @@ public class QuerySvl extends HttpServlet {
 		DyFormData dydata = new DyFormData();
 		dydata.setFormcode(formcode);
 		dydata.setFatherlsh(parentId);
-		 
+		dydata.setLsh(lsh);
 		TCsColumn busForm = new TCsColumn();
 		busForm.setFormcode(formcode);
 		DyFormDesignService dys = null;

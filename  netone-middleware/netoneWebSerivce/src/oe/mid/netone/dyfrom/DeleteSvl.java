@@ -60,13 +60,12 @@ public class DeleteSvl extends HttpServlet {
 		}
 		try {
 			fal= DyEntry.iv().deleteData(formcode, lsh);
-			response.getWriter().print(fal);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
       response.getWriter().print(fal);
-      
 	}
 
 	/**

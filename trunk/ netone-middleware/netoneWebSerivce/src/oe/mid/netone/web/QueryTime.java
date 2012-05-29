@@ -52,11 +52,11 @@ public class QueryTime extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String time = request.getParameter("time");
-		String id = request.getParameter("id");
+		String appname = request.getParameter("appname");
 		userid = request.getParameter("userid");
 		List<Photographobj> list1 = new ArrayList<Photographobj>();
 		UmsProtecte up = new UmsProtecte();
-		UmsProtectedobject upobj = up.loadUmsProtecteID(id);
+		UmsProtectedobject upobj = up.loadUmsProtecteNaturalname(appname);
 
 		if (StringUtils.isNotEmpty(upobj.getNaturalname())) {
 			quanbushu(upobj.getNaturalname(), list1, time);

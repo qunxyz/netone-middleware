@@ -83,7 +83,7 @@ public class DyformQuery extends HttpServlet {
 			bus.setFatherlsh("1");
 			try {
 				list = DyEntry.iv().queryData(bus, 0,
-						DyEntry.iv().queryDataNum(bus, ""), "");
+						DyEntry.iv().queryDataNum(bus, ""), " ORDER BY Timex desc ");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -1,5 +1,7 @@
 package oe.teach.oescript;
 
+import org.apache.commons.lang.StringUtils;
+
 import oescript.parent.OeScript;
 
 /**
@@ -10,10 +12,16 @@ import oescript.parent.OeScript;
  *         tel:13328675083<br>
  */
 public class wfDemo extends OeScript {
+	static String runtimeid;
 	public static void main(String[] args) {
 
+
+
+	}
+	
+	public static void todo1(){
 		// 创建流程实例BUSSWF.BUSSWF.OESCRIPTDEMO 对应着 中间件平台上的 OeScript测试)
-		String runtimeid = wf.newInstance("BUSSWF.BUSSWF.OESCRIPTDEMO");
+		 runtimeid = wf.newInstance("BUSSWF.BUSSWF.OESCRIPTDEMO");
 
 		// 对数据变量赋值(注意：变量的名称是流程设计时新建的变量)
 		wf.set(runtimeid, "rev1", "OK");
@@ -29,6 +37,14 @@ public class wfDemo extends OeScript {
 		// 将相关数据值打印到控制台
 		System.out.println(rev1);
 		System.out.println("done---wf");
-
+	}
+	
+	public static void todo2(){
+		
+		// 创建流程实例BUSSWF.BUSSWF.OESCRIPTDEMO 对应着 中间件平台上的 OeScript测试)
+		String userinfo=wf.get(runtimeid, "customer");
+		String usercode=StringUtils.substringBetween(userinfo, "[", "]");
+		String username=StringUtils.substringBefore(userinfo, "[");
+		
 	}
 }

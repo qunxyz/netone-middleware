@@ -12,7 +12,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-min.jsp"></jsp:include>
+		<script src="<%=path%>/script/jquery-1.3.2.min.js" type="text/javascript"></script>
 		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-easyui.jsp"></jsp:include>
 		<script type="text/javascript" src="<%=path%>/script/AppUtil.js"></script>
 		<!--[if lte IE 6]>

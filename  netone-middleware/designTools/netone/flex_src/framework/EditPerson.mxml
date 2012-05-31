@@ -485,7 +485,7 @@
 		                  fu.y=0;
 		                  fu.height=40;
 		                  fu.width=636;
-		                  fu.fujiantext.text=arrform1.filetext;
+		                  /* fu.fujiantext.text=arrform1.filetext; */
 		                  fujianqiyong.addChild(fu);	
 	                  }else{
 		                 if(arrform1.filemanage=="1"){

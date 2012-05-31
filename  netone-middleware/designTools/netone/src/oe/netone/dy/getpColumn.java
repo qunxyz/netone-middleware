@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormColumn;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import oe.cav.bean.logic.column.ColumnExtendInfo;
 import oe.cav.bean.logic.column.TCsColumn;
@@ -34,11 +35,10 @@ public class getpColumn {
 	   		}
 		return rList;
 	}
-	public List<DyFormColumn> getColumn(String formid) throws Exception {
-		System.out.println("ss");
+	public List getColumn(String formid) throws Exception {
 		DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
 		List<DyFormColumn> aList=DyEntry.iv().fetchColumnList(formid);
-		List<DyFormColumn> listremove=new ArrayList<DyFormColumn>();
+		List listremove=new ArrayList();
 		//过滤了belongx与TIMEX字段
 		for (Iterator iterator = aList.iterator(); iterator.hasNext();) {
 			DyFormColumn object = (DyFormColumn) iterator.next();
@@ -55,6 +55,11 @@ public class getpColumn {
 				 listremove.add( object);
 				}
 		 	}
+		if(aList.size()>1){
+		 String column=aList.get(aList.size()-1).getColumnid();
+		 column=StringUtils.substringAfterLast(column, "column");
+		 listremove.add(column);
+		}
 		return listremove;
 	}
 }

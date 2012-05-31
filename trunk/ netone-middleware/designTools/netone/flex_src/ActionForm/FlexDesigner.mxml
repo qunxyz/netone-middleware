@@ -53,7 +53,6 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 		 public var str:String="";
 		 [Bindable]
 		public var arrlist:ArrayCollection;
-
 		private function initApp():void{
 			GlobalManager.getInstance().addEventListener("xiayibushijian",saveXml);
 			panel=new MovableComponentPanel();
@@ -114,7 +113,6 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
                   		   
                 // Create a new instance of the class.
                 var instance:UIComponent = new cls();
-                vivid.ID++;
                /*   instance["_ID"]="column"+vivid.ID;   */
                 instance["_ID"]=cs._id;  
                 if (instance) {
@@ -1013,7 +1011,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 	public function handergccloumn(event:ResultEvent):void{
 	        var arrColumn:ArrayCollection=event.result as ArrayCollection;   
 	        var cs:csource=new	csource();
-	        	for(var j:int=0;j<arrColumn.length;j++){
+	          vivid.ID=int(arrColumn[arrColumn.length-1])+1;	    
+	        	for(var j:int=0;j<arrColumn.length-1;j++){
 				       cs._data=typeClass(arrColumn[j].viewtype);
 				       var arr:Array=corXY(arrColumn[j].xoffset,arrColumn[j].yoffset,250,30);
 				       cs._x=arr[0];

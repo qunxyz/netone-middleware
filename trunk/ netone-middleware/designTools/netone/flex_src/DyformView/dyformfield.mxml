@@ -92,7 +92,6 @@
    				if(FieldControl(canvas1.getChildren()[i]).textinput.text==""){
    				Alert.show("中文名不能为空");
    				}else{
-   				Alert.show("ss");
             	dropc.updateColumn(DateView.Formcode,FieldControl(canvas1.getChildren()[i]).Name,FieldControl(canvas1.getChildren()[i]).textinput.text,(i+1).toString());
                 }
           }

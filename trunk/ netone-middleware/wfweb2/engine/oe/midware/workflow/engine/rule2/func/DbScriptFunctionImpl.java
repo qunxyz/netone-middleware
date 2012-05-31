@@ -1,5 +1,8 @@
 package oe.midware.workflow.engine.rule2.func;
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,8 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import oe.frame.bus.workflow.WfEntry;
 import oe.frame.bus.workflow.rule.DbScriptFunction;
 import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
@@ -77,11 +82,26 @@ public class DbScriptFunctionImpl implements DbScriptFunction {
 			Statement st = con.createStatement();
 			// 在连接的目标数据库上执行SQL
 			st.execute(sql);
+			_log.info(sql);
+			try {
+				CupmRmi cupm=(CupmRmi)RmiEntry.iv("cupm");
+				cupm.log("db_insert", "", "scriptmen", "success", sql);
+			} catch (Exception ex) {
+				// TODO Auto-generated catch block
+				ex.printStackTrace();
+			}
 			// 返回SQL的执行结果
 			return st.getUpdateCount();
 		} catch (Exception e) {
 			e.printStackTrace();
 			_log.error(e.getMessage());
+			try {
+				CupmRmi cupm=(CupmRmi)RmiEntry.iv("cupm");
+				cupm.log("db_insert", "", "scriptmen", "error", sql+e.getMessage());
+			} catch (Exception ex) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return -1;
 	}
@@ -143,18 +163,41 @@ public class DbScriptFunctionImpl implements DbScriptFunction {
 		if (con == null) {
 			return -1;
 		}
+		boolean error=false;
+		StringBuffer but=new StringBuffer();
 		try {
 
 			// 获得Statment句柄
 			PreparedStatement ps = con.prepareStatement(sql);
+			
 			for (int i = 0; i < value.size(); i++) {
 				ps.setObject(i+1, value.get(i));
+				but.append("|"+value.get(i));
 			}
 			return ps.executeUpdate();
 
 		} catch (Exception e) {
+			error=true;
 			e.printStackTrace();
 			_log.error(e.getMessage());
+			try {
+				CupmRmi cupm=(CupmRmi)RmiEntry.iv("cupm");
+				cupm.log("db_insert", "", "scriptmen", "error", sql+but+e.getMessage());
+			} catch (Exception ex) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}finally{
+			if(!error){
+				_log.info(sql);
+				try {
+					CupmRmi cupm=(CupmRmi)RmiEntry.iv("cupm");
+					cupm.log("db_insert", "", "scriptmen", "success", sql+but);
+				} catch (Exception ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+			}
 		}
 		return -1;
 	}

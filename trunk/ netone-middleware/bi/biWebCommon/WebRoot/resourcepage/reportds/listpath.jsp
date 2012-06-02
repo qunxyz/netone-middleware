@@ -180,7 +180,9 @@
 						<td class="td_titt_bg" width="70" nowrap>
 							名称
 						</td>
-
+						<td class="td_titt_bg" width="70" nowrap>
+							类型
+						</td>
 						<td class="td_titt_bg" width="70" nowrap>
 							日期
 						</td>
@@ -236,6 +238,7 @@
 										target="_blank"><font color='red'>[查看图表]</font></a>										
 								</c:if>
 								<c:if test="${list.objecttype!='chart'}">
+								<c:if test="${list.inclusion=='0'}">
 									<a
 										href="<portal:envget envkey="WEBSER_REPORT"/>Opjreport-debug/Opjreport.html?name=${list.naturalname}&mode=edit"
 										target="_blank"><font color='red'>[修改]</font></a>	
@@ -254,6 +257,7 @@
 									<a
 										href="<portal:envget envkey="WEBSER_APPFRAME"/>reportViewSvl?name=${list.naturalname}&type=pdf"
 										target="_blank"><font color='red'>[报表Pdf]</font></a>
+										</c:if>
 								</c:if>
 							</td>
 

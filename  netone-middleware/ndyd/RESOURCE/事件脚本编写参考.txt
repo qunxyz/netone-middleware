@@ -163,6 +163,13 @@ $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('http
 	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column8").val(item.FPhone);
 	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column10").val(item.FItemID);
 	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").val(item.FTypeID);
+	} else {
+	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column6").val('');
+	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column7").val('');
+	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column9").attr("value",'');
+	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column8").val('');
+	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column10").val('');
+	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").val('');
 	}
 });
 
@@ -203,11 +210,11 @@ $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',funct
  	return;
  }
  if (item!=null){
-	var fitemid = item.FItemID;
+ 	var fitemid = item.FItemID;
 	$(this).parent().parent().find('#column4').val(item.FModel);
 	$(this).parent().parent().find('#column19').val(fitemid);
 	var thisobj18 = $(this).parent().parent().find('#column18');
-	var thisobj5 = $(this).parent().parent().find('#column5');
+	var thisobj5 = $(this).parent().parent().find('#column5'); 
 	var FUnitID = null;
 	$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
 	 function(jsonx){
@@ -227,9 +234,15 @@ $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',funct
 	
 	});
 
+ } else {
+ 	$(this).parent().parent().find('#column4').val('');
+ 	$(this).parent().parent().find('#column19').val('');
+ 	$(this).parent().parent().find('#column5').val('');
+ 	$(this).parent().parent().find('#column18').val('');
  }
 	
 });
+$(this).unbind("focus");
 
 });
 
@@ -249,13 +262,13 @@ $.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASC
 初始化加载单位
 $('table#5fe85cb097f911e1b01667a74cfdf95c_').find('#column19').each(function(){
  var thisobj18 = $(this).parent().parent().find('#column18');
+ var thisobj18_val ='';
+ var thisobj18_obj = $(this).parent().parent().find('#column18_hidden');
+ if (thisobj18_obj) thisobj18_val=thisobj18_obj.val();
  if ($(this).val()!=''){
 	$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
 	 function(itemxg){
 	 	if (itemxg!=null){
-			var thisobj18_val ='';
-			var thisobj18_obj = $(this).parent().parent().find('#column18_hidden');
-			if (thisobj18_obj) thisobj18_val=thisobj18_obj.val();
 			$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
 			 function(jsonx){
 			  thisobj18.empty();
@@ -499,6 +512,13 @@ $('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('http
 	$('table#eed24806997411e192f721ec7b3aba82_').find("#column8").val(item.FPhone);
 	$('table#eed24806997411e192f721ec7b3aba82_').find("#column10").val(item.FItemID);
 	$('table#eed24806997411e192f721ec7b3aba82_').find("#column11").val(item.FTypeID);
+	}else{
+	$('table#eed24806997411e192f721ec7b3aba82_').find("#column6").val('');
+	$('table#eed24806997411e192f721ec7b3aba82_').find("#column7").val('');
+	$('table#eed24806997411e192f721ec7b3aba82_').find("#column9").attr("value",'');
+	$('table#eed24806997411e192f721ec7b3aba82_').find("#column8").val('');
+	$('table#eed24806997411e192f721ec7b3aba82_').find("#column10").val('');
+	$('table#eed24806997411e192f721ec7b3aba82_').find("#column11").val('');	
 	}
 });
 
@@ -538,12 +558,156 @@ $("table#22c5bb08997611e192f721ec7b3aba82_").find('#column3').live('focus',funct
  }
  if (item!=null){
 	var fitemid = item.FItemID;
-	$(this).parent().parent().find('#column4').val(item.FModel);
-	$(this).parent().parent().find('#column12').val(fitemid);
-	$(this).parent().parent().find('#column5').val(item.FEquipmentNum);
+	$(this).parent().parent().find('#column4').val(fitemid);
+	$(this).parent().parent().find('#column5').val(item.FModel);
+	$(this).parent().parent().find('#column6').val(item.FEquipmentNum);
+	$(this).parent().parent().find('#column7').val(item.FOrderPrice);
+	var c13 = $(this).parent().parent().find('#column13');
+	$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
+	 function(jsonx){
+	  c13.empty();
+	  $.each(jsonx, function(ii,itemx){
+			if(itemx!=null) c13.append('<option value=\"'+itemx.FMeasureUnitID+'\">'+itemx.FName+'</option>');
+	  });
+	});
+ }else{
+	$(this).parent().parent().find('#column4').val('');
+	$(this).parent().parent().find('#column5').val('');
+	$(this).parent().parent().find('#column6').val('');
+	$(this).parent().parent().find('#column7').val(''); 
+	$(this).parent().parent().find('#column13').attr("value",'');
  }
 	
 });
+$(this).unbind("focus");
+});
+
+初始化加载单位
+$('table#22c5bb08997611e192f721ec7b3aba82_').find('#column4').each(function(){
+ var thisobj = $(this).parent().parent().find('#column13');
+ var thisobj_val ='';
+ var thisobj_obj = $(this).parent().parent().find('#column13_hidden');
+ if (thisobj_obj) thisobj_val=thisobj_obj.val();
+ if ($(this).val()!=''){
+	$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
+	 function(itemxg){
+	 	if (itemxg!=null){
+			$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
+			 function(jsonx){
+			  thisobj.empty();
+			  $.each(jsonx, function(ii,itemx){
+			  	if (itemx!=null){
+			  		var selected = '';
+			  		if (thisobj_val==itemx.FMeasureUnitID) selected = " selected=\'selected\' ";
+					thisobj.append('<option value=\"'+itemx.FMeasureUnitID+'\" '+selected+'>'+itemx.FName+'</option>');
+				}
+			  });
+			
+			});
+		}
+	});
+ }	
+});
+
+##新品毛利率计算公式 （开单8-出场7-业务抽成9-促销抽成10）/出场7=毛利率11
+var col1=$(this).parent().parent().find('#column7');
+var col2=$(this).parent().parent().find('#column8');
+var col3=$(this).parent().parent().find('#column9');
+var col4=$(this).parent().parent().find('#column10');
+var col5=$(this).parent().parent().find('#column11');
+
+var v1=parseFloat(col1.val());
+	if(isNaN(v1)){
+			v1=0;
+	}
+var v2=parseFloat(col2.val());
+	if(isNaN(v2)){
+			v2=0;
+	}	
+var v3=parseFloat(col3.val());
+	if(isNaN(v3)){
+			v3=0;
+	}
+var v4=parseFloat(col4.val());
+	if(isNaN(v4)){
+			v4=0;
+	}	
+var v1_2=parseFloat(col1.val());
+	if(isNaN(v1_2)){
+			v1_2=1;
+	}	
+col5.val(((v2-v1-v3-v4)/v1_2).toFixed(2));
+
+
+//新用户
+获取辅助资料ByFTypeID 501
+$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETSUBMESSAGEINFO&q=501", 
+ function(jsonx){
+  $.each(jsonx, function(ii,itemx){
+  	if (itemx!=null){
+  		var column_val = '';
+  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23_hidden');
+  		if (column_obj) column_val=column_obj.val();
+  		var selected = '';
+  		if (column_val==itemx.FInterID) selected = " selected=\'selected\' ";
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23').append('<option value=\"'+itemx.FInterID+'\" '+selected+'>'+itemx.FName+'</option>');
+	}
+  });
+});
+
+获取客户级别
+$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETCLIENTLEVEL", 
+ function(jsonx){
+  $.each(jsonx, function(ii,itemx){
+  	if (itemx!=null){
+  		var column_val = '';
+  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column6_hidden');
+  		if (column_obj) column_val=column_obj.val();
+  		var selected = '';
+  		if (column_val==itemx.FItemID) selected = " selected=\'selected\' ";
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column6').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
+	}
+  });
+});
+
+获取分属部门
+$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETDEPTLEVEL", 
+ function(jsonx){
+  $.each(jsonx, function(ii,itemx){
+  	if (itemx!=null){
+  		var column_val = '';
+  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21_hidden');
+  		if (column_obj) column_val=column_obj.val();
+  		var selected = '';
+  		if (column_val==itemx.FItemID) selected = " selected=\'selected\' ";
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
+	}
+  });
+});
+
+付款方式
+$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
+ function(jsonx){
+  $.each(jsonx, function(ii,itemx){
+  	if (itemx!=null){
+  		var column_val = '';
+  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column22_hidden');
+  		if (column_obj) column_val=column_obj.val();
+  		var selected = '';
+  		if (column_val==itemx.FItemID) selected = " selected=\'selected\' ";
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column22').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
+	}
+  });
 
 });
 
+// 新用户客户编号  change事件
+var thisobj = $(this);
+$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKORGFNUMBERISEXIST&q="+thisobj.val(), 
+ function(jsonx){
+	if (jsonx!=null) {
+		if (jsonx.count>0) {
+			alert('客户编号已重复!');thisobj.val('');thisobj.focus();
+		}
+	}
+});

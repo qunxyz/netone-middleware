@@ -85,7 +85,7 @@ public class InitOuCache extends HttpServlet {
 	 *             if an error occurs
 	 */
 	public void init() throws ServletException {
-		String rs[] = { "DEPT.DEPT", "BUSSWF.BUSSWF","BUSSENV.BUSSENV","APPFRAME.APPFRAME","BUSSFORM.BUSSFORM","APPFRAME.APPFRAME","FRAMEPG.FRAMEPG" };
+		String rs[] = { "DEPT.DEPT", "BUSSWF.BUSSWF","BUSSENV.BUSSENV","APPFRAME.APPFRAME","BUSSFORM.BUSSFORM","APPFRAME.APPFRAME","FRAMEPG.FRAMEPG","CSSFILE.CSSFILE" };
 		initcore(rs);
 	}
 

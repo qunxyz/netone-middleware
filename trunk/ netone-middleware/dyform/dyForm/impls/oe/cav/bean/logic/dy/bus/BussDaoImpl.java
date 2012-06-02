@@ -592,7 +592,12 @@ public class BussDaoImpl implements BussDao {
 						return null;
 					}
 				}
+				try{
 				bus.setLsh(rs.getObject("LSH").toString());
+				}catch(Exception e){
+					System.err.println("视图表单无LSH");
+					e.printStackTrace();
+				}
 				list.add(bus);
 			}
 			return list;

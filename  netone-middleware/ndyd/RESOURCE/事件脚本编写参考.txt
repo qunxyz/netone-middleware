@@ -131,7 +131,19 @@ jQuery 下拉选择框 添加/删除Select的Option项 javascript参考写法
 5. $("#select_id option[value='3']").remove();  //删除Select中Value='3'的Option
 5. $("#select_id option[text='4']").remove();  //删除Select中Text='4'的Option  
  
-$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
+ 
+促销公司方案编号生成
+var t7806a31e97f811e1b01667a74cfdf95c_column3 = $('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column3');
+if (t7806a31e97f811e1b01667a74cfdf95c_column3.val()==''){
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETCUXIAO", 
+	 function(jsonx){
+		if (jsonx!=null){
+			t7806a31e97f811e1b01667a74cfdf95c_column3.val(jsonx.code);
+		}
+	});
+} 
+ 
+$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
 	multiple: false,
 	dataType: "json",
 	autoFill: true,
@@ -178,7 +190,7 @@ $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('http
 子表单操作
 $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',function(){ 
 
- $(this).autocomplete('http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT', {
+ $(this).autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT', {
 	multiple: false,
 	dataType: "json",
 	autoFill: true,
@@ -216,7 +228,7 @@ $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',funct
 	var thisobj18 = $(this).parent().parent().find('#column18');
 	var thisobj5 = $(this).parent().parent().find('#column5'); 
 	var FUnitID = null;
-	$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
 	 function(jsonx){
 	  thisobj18.empty();
 	  $.each(jsonx, function(ii,itemx){
@@ -224,7 +236,7 @@ $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',funct
 	  			FUnitID=itemx.FMeasureUnitID;
 				var sc_FTypeID = $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").val();
 				var sc_FUnitID = FUnitID;
-				$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRICEBYFITEMID&q="+fitemid+"|"+sc_FTypeID+"|"+sc_FUnitID, 
+				$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRICEBYFITEMID&q="+fitemid+"|"+sc_FTypeID+"|"+sc_FUnitID, 
 				 function(itemxg){
 						if(itemxg!=null && itemxg[0]!=null) thisobj5.val(itemxg[0].FPrice);
 				});
@@ -252,7 +264,7 @@ var thisobj5 = $(this).parent().parent().find('#column5');
 var sc_FTypeID = $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").val();
 var sc_FUnitID = $(this).val();
 var fitemid = $(this).parent().parent().find('#column19').val();
-$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRICEBYFITEMID&q="+fitemid+"|"+sc_FTypeID+"|"+sc_FUnitID, 
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRICEBYFITEMID&q="+fitemid+"|"+sc_FTypeID+"|"+sc_FUnitID, 
  function(itemxg){
 		if(itemxg!=null) thisobj5.val(itemxg[0].FPrice);
 });
@@ -266,10 +278,10 @@ $('table#5fe85cb097f911e1b01667a74cfdf95c_').find('#column19').each(function(){
  var thisobj18_obj = $(this).parent().parent().find('#column18_hidden');
  if (thisobj18_obj) thisobj18_val=thisobj18_obj.val();
  if ($(this).val()!=''){
-	$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
 	 function(itemxg){
 	 	if (itemxg!=null){
-			$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
+			$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
 			 function(jsonx){
 			  thisobj18.empty();
 			  $.each(jsonx, function(ii,itemx){
@@ -290,7 +302,7 @@ $('table#5fe85cb097f911e1b01667a74cfdf95c_').find('#column19').each(function(){
 
 //促销结算期限
 --
-$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
@@ -307,7 +319,7 @@ $.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASC
 --
 //新品结算期限
 --
-$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
@@ -480,7 +492,19 @@ $sum=$sum.toFixed(2);
 c.val($sum);
 
 新品
-$('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
+
+新品公司方案编号生成
+var teed24806997411e192f721ec7b3aba82_column4 = $('table#eed24806997411e192f721ec7b3aba82_').find('#column4');
+if (teed24806997411e192f721ec7b3aba82_column4.val()==''){
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETXINPIN", 
+	 function(jsonx){
+		if (jsonx!=null){
+			teed24806997411e192f721ec7b3aba82_column4.val(jsonx.code);
+		}
+	});
+} 
+
+$('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
 	multiple: false,
 	dataType: "json",
 	autoFill: true,
@@ -525,7 +549,7 @@ $('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('http
 物料
 $("table#22c5bb08997611e192f721ec7b3aba82_").find('#column3').live('focus',function(){ 
 
- $(this).autocomplete('http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT', {
+ $(this).autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT', {
 	multiple: false,
 	dataType: "json",
 	autoFill: true,
@@ -563,7 +587,7 @@ $("table#22c5bb08997611e192f721ec7b3aba82_").find('#column3').live('focus',funct
 	$(this).parent().parent().find('#column6').val(item.FEquipmentNum);
 	$(this).parent().parent().find('#column7').val(item.FOrderPrice);
 	var c13 = $(this).parent().parent().find('#column13');
-	$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
 	 function(jsonx){
 	  c13.empty();
 	  $.each(jsonx, function(ii,itemx){
@@ -589,10 +613,10 @@ $('table#22c5bb08997611e192f721ec7b3aba82_').find('#column4').each(function(){
  var thisobj_obj = $(this).parent().parent().find('#column13_hidden');
  if (thisobj_obj) thisobj_val=thisobj_obj.val();
  if ($(this).val()!=''){
-	$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
 	 function(itemxg){
 	 	if (itemxg!=null){
-			$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
+			$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
 			 function(jsonx){
 			  thisobj.empty();
 			  $.each(jsonx, function(ii,itemx){
@@ -641,7 +665,7 @@ col5.val(((v2-v1-v3-v4)/v1_2).toFixed(2));
 
 //新用户
 获取辅助资料ByFTypeID 501
-$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETSUBMESSAGEINFO&q=501", 
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETSUBMESSAGEINFO&q=501", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
@@ -656,7 +680,7 @@ $.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASC
 });
 
 获取客户级别
-$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETCLIENTLEVEL", 
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETCLIENTLEVEL", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
@@ -671,7 +695,7 @@ $.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASC
 });
 
 获取分属部门
-$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETDEPTLEVEL", 
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETDEPTLEVEL", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
@@ -686,7 +710,7 @@ $.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASC
 });
 
 付款方式
-$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
@@ -703,7 +727,7 @@ $.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASC
 
 // 新用户客户编号  change事件
 var thisobj = $(this);
-$.getJSON("http://42.120.40.204:8080/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKORGFNUMBERISEXIST&q="+thisobj.val(), 
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKORGFNUMBERISEXIST&q="+thisobj.val(), 
  function(jsonx){
 	if (jsonx!=null) {
 		if (jsonx.count>0) {

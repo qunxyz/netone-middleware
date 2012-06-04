@@ -143,6 +143,9 @@
 			<forward  name="onPublicMainView"
 				path="/WEB-INF/jsp/uploadpublic.jsp">
 			</forward>
+			<forward  name="onFrameFileMainView"
+				path="/WEB-INF/jsp/uploadframe.jsp">
+			</forward>
 		</action>
 	
 	

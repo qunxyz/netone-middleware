@@ -24,6 +24,7 @@ public class Adddaiban {
 		xml = cString + xml;
 		xml = xml.replace("&lt;", "<");
 		xml = xml.replace("&gt;", ">");
+
         UmsProtecte up=new UmsProtecte();
 		UmsProtectedobject upoj = null;
 		upoj = up.loadUmsProtecteNaturalname(name);

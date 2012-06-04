@@ -67,8 +67,16 @@ public class TWfActive {
 	boolean syncto;//分布式提交判断
 	String filefunction;//是否使用附件功能 1 启用，0不启用
 	String filetext;//附件提示
+    String subcolumn;//子表单的字段控制
 
 
+	public String getSubcolumn() {
+		return subcolumn;
+	}
+
+	public void setSubcolumn(String subcolumn) {
+		this.subcolumn = subcolumn;
+	}
 
 	public String getFilefunction() {
 		return filefunction;

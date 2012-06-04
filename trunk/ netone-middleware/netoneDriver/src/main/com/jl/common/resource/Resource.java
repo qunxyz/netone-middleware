@@ -18,11 +18,11 @@ public final class Resource {
 	private String types;
 	private String parentid;
 	private String inclusion;
-	
+	private String active;
 	//ext 
 	private String id;
 	private String text;
-
+    private Long aggregation;
 	public String getId() {
 		return id;
 	}
@@ -87,4 +87,19 @@ public final class Resource {
 		this.inclusion = inclusion;
 	}
 
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
+	}
+
+	public Long getAggregation() {
+		return aggregation;
+	}
+
+	public void setAggregation(Long aggregation) {
+		this.aggregation = aggregation;
+	}
 }

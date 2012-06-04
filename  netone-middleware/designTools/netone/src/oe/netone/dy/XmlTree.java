@@ -41,6 +41,9 @@ public class XmlTree {
 		if(path.equals("PORTALPG")){
 			cname="portal选择";
 		}
+		if(path.equals("SOASCRIPT")){
+			cname="SOA选择";
+		}
 		NetoneXmlTree dxml=new NetoneXmlTree();
 		return dxml.dataxml(path, cname);
 	}
@@ -50,7 +53,7 @@ public class XmlTree {
 		if (path.equals("BUSSFORM")) {
 			cname="业务表单";
 		}
-		if(path.equals("dyview")){
+		if(path.toLowerCase().equals("dyview")){
 			cname="视图表单";
 		}
 		NetoneXmlTree dxml=new NetoneXmlTree();

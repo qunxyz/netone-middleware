@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import oe.cav.bean.logic.bus.TCsBus;
 import oe.cav.bean.logic.column.TCsColumn;
 import oe.cav.bean.logic.form.TCsForm;
@@ -388,11 +390,11 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("00")){
 				DyAnalysisXml dayx = new DyAnalysisXml();
-				dayx.script(formid, lsh, "UpdateSave");//反确认
+				dayx.script(formid, lsh, "Onaffirm");//反确认
 			}
 			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("01")){
 				DyAnalysisXml dayx = new DyAnalysisXml();
-				dayx.script(formid, lsh, "UpdateSave");//确认
+				dayx.script(formid, lsh, "Yesaffirm");//确认
 			}
 		}
 		return rs;
@@ -554,8 +556,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		String formcolumn = act.getEditcolumn();
 		if (formcolumn == null || formcolumn.equals("")) {// 能进入
 			// permission方法意味着需要编辑表单，如果用户没有配置需要编辑那些表单，那么默认全部都能编辑
-			return;
-		}
+		}else{
 		String[] columnxtmp = StringUtils.split(formcolumn, ",");
 		Map permssionColumn = new HashMap();
 
@@ -572,6 +573,64 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				columnx[i].setReadonly(true);
 				columnx[i].setMusk_(false);// 如果是只读那么需要忽略其必须控制
 			}
+		}
+		}
+		try {
+
+		//字表单字段控制
+		String subcolumn=act.getSubcolumn();
+		if (subcolumn == null || subcolumn.equals("")) {// 能进入
+			// permission方法意味着需要编辑表单，如果用户没有配置需要编辑那些表单，那么默认全部都能编辑
+			return;
+		}
+		subcolumn = subcolumn.replace("&quot;", "\"");
+		subcolumn = subcolumn.replace("&amp;", "&");
+		String [] subarr=subcolumn.split("&");
+		DyForm [] subDyForms=form.getSubform_();
+		for(int j=0;j<subDyForms.length;j++){
+			for(int sub=0;sub<subarr.length;sub++){
+				String substr=subarr[sub];
+				JSONObject jsonobj= JSONObject.fromObject(substr);
+				if(subDyForms[j].getFormcode().equals(jsonobj.get("subformcode").toString())){
+					
+					String[] read = StringUtils.split((jsonobj.get("read")).toString(), ",");
+					Map readmap = new HashMap();
+					//只读的字段
+					for (int i = 0; i < read.length; i++) {
+						String key = StringUtils.substringBetween(read[i], "[", "]");
+						readmap.put(key, "");
+					}
+					String[] hide = StringUtils.split((jsonobj.get("hide")).toString(), ",");
+					Map hidemap = new HashMap();
+					//隐藏的字段
+					for (int i = 0; i < hide.length; i++) {
+						String key = StringUtils.substringBetween(hide[i], "[", "]");
+						hidemap.put(key, "");
+					}
+					
+					if (hidemap.size() == 0 && readmap.size()==0) {
+						return;
+					}
+					DyFormColumn[] subcolumnx = subDyForms[j].getAllColumn_();
+					 
+					for (int i = 0; i < subcolumnx.length; i++) {
+						if(readmap.size()!=0){
+						if (readmap.containsKey(subcolumnx[i].getColumnid())) {
+							subcolumnx[i].setReadonly(true);
+							subcolumnx[i].setMusk_(false);// 如果是只读那么需要忽略其必须控制
+						}}
+						if(hidemap.size()!=0){
+						if (hidemap.containsKey(subcolumnx[i].getColumnid())) {
+							subcolumnx[i].setHidden(true);// 如果是隐藏
+						}
+						}
+					}
+				}
+			}
+			
+		}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 

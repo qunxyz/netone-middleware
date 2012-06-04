@@ -1,6 +1,9 @@
 package com.jl.common.dyform;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
@@ -98,18 +101,20 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 		return newColumn;
 	}
-
+	
 	private void dealWithKvDict(DyFormColumn columnnew, ResourceRmi rs) {
 		// 扩展处理 k-v 列表，支持字典应用
 		String htmltype = columnnew.getViewtype();
+		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
+		StringBuffer but = new StringBuffer();
 		if ("11".equals(htmltype)) {
 			String valuelist = columnnew.getValuelist();
-			String rsinfo = StringUtils.substringBetween(valuelist, "[", "]");
-			if (rsinfo != null && !rsinfo.equals("")) {
+			//来自资源树某层目录的值
+			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
+			if (StringUtils.isNotEmpty(rsinfo)) {
 				if (!StringUtils.contains(rsinfo, ".")) {
 					rsinfo = rsinfo + "." + rsinfo;
 				}
-				StringBuffer but = new StringBuffer();
 				try {
 					UmsProtectedobject upo = rs.loadResourceByNatural(rsinfo);
 					List sub = rs.subResource(upo.getId());
@@ -124,10 +129,73 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (but.length() > 0) {
-					columnnew.setValuelist(but.toString());
+			}
+			//来自SOA脚本
+			rsinfo = StringUtils.substringBetween(valuelist, "[SOA:", "]");
+			if (StringUtils.isNotEmpty(rsinfo)) {
+				UmsProtectedobject upo=null;
+				try {
+					upo = rs.loadResourceByNatural(rsinfo);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String param=upo.getDescription();
+				EnvService env = null;
+				try {
+
+					env = (EnvService) RmiEntry.iv("envinfo");
+					String value = env.fetchEnvValue("WEBSER_APPFRAME");
+					value=value+"Soasvl?naturalname="+rsinfo+param;
+
+							//System.out.println("sync user to php:"+url);
+							// 通讯协议
+							URL rul = new URL(value);
+							// 获得数据流
+							URLConnection urlc = rul.openConnection();
+							InputStream input = urlc.getInputStream();
+							// 进行数据交换
+
+							int read = 0;
+							while ((read = input.read()) != -1) {
+								but.append((char) read);
+							}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			//来自其他表单字段
+			rsinfo = StringUtils.substringBetween(valuelist, "[DYFORM:", "]");
+			if (StringUtils.isNotEmpty(rsinfo)) {
+				String form[]=rsinfo.split(",");
+				DyFormData dfd=new DyFormData();
+				dfd.setFatherlsh("1");
+				dfd.setFormcode(form[0]);
+				String condition=form.length==4?form[3]:"";
+				try {
+					List data=DyEntry.iv().queryData(dfd, 0, 1000, condition);
+					for (Iterator iterator = data.iterator(); iterator
+							.hasNext();) {
+						DyFormData object = (DyFormData) iterator.next();
+						Object key=BeanUtils.getProperty(object, form[1]).toString();
+						Object value=BeanUtils.getProperty(object, form[2]).toString();
+						String keyinfo=key==null?"":key.toString();
+						String valueinfo=value==null?"":value.toString();
+						but.append(keyinfo + "-"
+								+ valueinfo + ",");
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
+		}
+		
+		if (but.length() > 0) {
+			columnnew.setValuelist(but.toString());
 		}
 	}
 

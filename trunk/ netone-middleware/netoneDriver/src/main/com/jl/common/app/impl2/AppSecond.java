@@ -17,6 +17,7 @@ public class AppSecond {
 	private String filemanage;
 	private String filetext;
 	private String MAINFORM;
+	private String subcolumn;
 
 	public String getMAINFORM() {
 		return MAINFORM;
@@ -144,6 +145,14 @@ public class AppSecond {
 
 	public void setSubfrommode(String subfrommode) {
 		this.subfrommode = subfrommode;
+	}
+
+	public String getSubcolumn() {
+		return subcolumn;
+	}
+
+	public void setSubcolumn(String subcolumn) {
+		this.subcolumn = subcolumn;
 	}
 
 }

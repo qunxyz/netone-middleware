@@ -32,6 +32,7 @@ import oe.security3a.sso.util.Encryption;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.resource.Resource;
+import com.jl.common.resource.ResourceNode;
 
 /**
  * DRP安全实现驱动（基于NETONE中间件）
@@ -535,11 +536,7 @@ public final class Security3AImpl implements Security3AIfc {
 
 		String parentid = upopar.getParentdir();
 		String parentName = null;
-		if(StringUtils.isEmpty(parentid)||parentid.equals("0")){
-			return "";
-		}
 		try {
-			
 			parentName = rs.loadResourceById(parentid).getNaturalname();
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
@@ -799,11 +796,12 @@ public final class Security3AImpl implements Security3AIfc {
 			rsx.setResourcecode(object.getNaturalname());
 			rsx.setResourcename(parseDnName(object) + rsname);
 			rsx.setTypes(object.getObjecttype());
-									rsx.setId(object.getId());
+						rsx.setId(object.getId());
 			rsx.setParentid(object.getParentdir());
 			rsx.setText(object.getExtendattribute());
 			rsx.setInclusion(object.getInclusion());
-			
+			rsx.setActive(object.getActive());
+			rsx.setAggregation(object.getAggregation());
 			listData.add(rsx);
 		}
 		return listData;

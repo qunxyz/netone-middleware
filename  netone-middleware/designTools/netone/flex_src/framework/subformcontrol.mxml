@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas width="284" height="40" fontSize="15"   initialize="init()"
+<mx:Canvas width="330" height="40" fontSize="15"   initialize="init()"
 		  x="0" y="0"  xmlns:mx="http://www.adobe.com/2006/mxml" >
 		   <mx:Script>
-		   	<![CDATA[ 
+		   	<![CDATA[
+		   		import mx.core.IFlexDisplayObject;
+		   		import mx.managers.PopUpManager;
+		   		import mx.controls.Alert;
+		   		[Bindable]//子表单的formcode；
+		   		public var  subformcode="";
 		   		public function  init():void{
 		   		lable.text=variable.subformname;
 		   		 if(variable.strradi=="0"){
@@ -15,12 +20,19 @@
 		   		 Radio2.selected=true;
 		   		 }
 		   		}
+		   		public function clickconfig():void{
+		   		variable.subformcode=subformcode;
+		   		var fcr:fieldcontrolcode=new fieldcontrolcode();
+		   		 PopUpManager.addPopUp(fcr,this.parent.parent.parent,true);
+		   		 PopUpManager.centerPopUp(fcr as IFlexDisplayObject);
+		   		}
 		   	]]>
 		   </mx:Script>
 		      	<mx:Label id="lable" x="5" y="9"   width="92"/>
 		         <mx:RadioButton id="Radio0"  label="编辑" x="102" y="7"/>
 		      	 <mx:RadioButton id="Radio1"  label="只读" x="162" y="6"/>
 		      	 <mx:RadioButton id="Radio2"  label="隐藏" x="218.5" y="6"/>
+		      	 <mx:Button x="275" y="8" label="配置" width="53" fontSize="10" click="clickconfig()"/>
  </mx:Canvas>
  
  

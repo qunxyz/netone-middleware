@@ -1802,6 +1802,7 @@ public final class DyFormBuildHtml {
 		html.append("{name: '" + "status" + "'}");
 		html.append("," + "{name: '" + "run" + "'}");
 		html.append("," + "{name: '" + "runtimeid" + "'}");
+		html.append("," + "{name: '" + "statusinfo" + "'}");
 		html.append("," + "{name: '" + "lsh" + "'}");
 		for (int i = 0; i < _formx.length; i++) {
 			DyFormColumn _qc1 = _formx[i];
@@ -1849,55 +1850,66 @@ public final class DyFormBuildHtml {
 			}
 		}
 
-		if ("1".equals(type)) {
-			html
-					.append(",{header: \"操作\",dataIndex: \"\", sortable: false, renderer:");
-			html
-					.append("     function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) {");
-			html
-					.append("     	   var lsh = store.getAt(rowIndex).get('lsh') ;");
-			html
-					.append("     	   var runtimeid = store.getAt(rowIndex).get('runtimeid') ;");
-			html
-					.append("     	   var RUN = store.getAt(rowIndex).get('run') ;");
-			html.append("     	   var value = \"\";");
-			// html.append(" if(RUN==true){");
-			html
-					.append("value += \"&nbsp;<a href='javascript:void(0)' onclick=$query('\"+lsh+\"','\"+runtimeid+\"','true'); >查看</a>&nbsp;\";");
-			// html.append("}else{");
-			html
-					.append("value += \"&nbsp;<a href='javascript:void(0)' onclick=$edit('\"+lsh+\"','\"+runtimeid+\"'); >编辑</a>&nbsp;\";");
-			// html.append(" }");
-
-			html
-					.append("value += \"&nbsp;<a href='javascript:void(0)' onclick=$delete('\"+lsh+\"'); >作废</a>&nbsp;\";");
-
-			html.append("return  value;");
-			html.append("}");
-
-			html.append("}");
-		} else if ("2".equals(type)) {
-			html
-					.append(",{header: \"操作\",dataIndex: \"\", sortable: false, renderer:");
-			html
-					.append("     function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) {");
-			html
-					.append("     	   var lsh = store.getAt(rowIndex).get('lsh') ;");
-			html.append("     	   var value = \"\";");
-			html
-					.append("value += \"&nbsp;<a href='javascript:void(0)' onclick=$query('\"+lsh+\"'); >查看</a>&nbsp;\";");
-			if (isedit) {
-				html
-						.append("value += \"&nbsp;<a href='javascript:void(0)' onclick=$edit('\"+lsh+\"'); >编辑</a>&nbsp;\";");
-				html
-						.append("value += \"&nbsp;<a href='javascript:void(0)' onclick=$delete('\"+lsh+\"'); >删除</a>&nbsp;\";");
-			}
-
-			html.append("return  value;");
-			html.append("}");
-
-			html.append("}");
-		}
+		// if ("1".equals(type)) {
+		// html
+		// .append(",{header: \"操作\",dataIndex: \"\", sortable: false,
+		// renderer:");
+		// html
+		// .append(" function operateRend(value, cellmeta, record, rowIndex,
+		// columnIndex, store) {");
+		// html
+		// .append(" var lsh = store.getAt(rowIndex).get('lsh') ;");
+		// html
+		// .append(" var runtimeid = store.getAt(rowIndex).get('runtimeid') ;");
+		// html
+		// .append(" var RUN = store.getAt(rowIndex).get('run') ;");
+		// html.append(" var value = \"\";");
+		// // html.append(" if(RUN==true){");
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$query('\"+lsh+\"','\"+runtimeid+\"','true');
+		// >查看</a>&nbsp;\";");
+		// // html.append("}else{");
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$edit('\"+lsh+\"','\"+runtimeid+\"'); >编辑</a>&nbsp;\";");
+		// // html.append(" }");
+		//
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$delete('\"+lsh+\"'); >作废</a>&nbsp;\";");
+		//
+		// html.append("return value;");
+		// html.append("}");
+		//
+		// html.append("}");
+		// } else if ("2".equals(type)) {
+		// html
+		// .append(",{header: \"操作\",dataIndex: \"\", sortable: false,
+		// renderer:");
+		// html
+		// .append(" function operateRend(value, cellmeta, record, rowIndex,
+		// columnIndex, store) {");
+		// html
+		// .append(" var lsh = store.getAt(rowIndex).get('lsh') ;");
+		// html.append(" var value = \"\";");
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$query('\"+lsh+\"'); >查看</a>&nbsp;\";");
+		// if (isedit) {
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$edit('\"+lsh+\"'); >编辑</a>&nbsp;\";");
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$delete('\"+lsh+\"'); >删除</a>&nbsp;\";");
+		// }
+		//
+		// html.append("return value;");
+		// html.append("}");
+		//
+		// html.append("}");
+		// }
 
 		return html.toString();
 	}

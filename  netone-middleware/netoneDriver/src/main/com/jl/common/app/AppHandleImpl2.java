@@ -251,7 +251,7 @@ public class AppHandleImpl2 implements AppHandleIfc {
         actx.setFilefunction(as.getFilemanage()); //是否启用附件功能
         actx.setFiletext(as.getFiletext());  //附件提示
 		actx.setSubformmode(subformmode);
-
+		actx.setSubcolumn(as.getSubcolumn());
 		return actx;
 	}
 

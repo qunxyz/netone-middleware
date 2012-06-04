@@ -25,3 +25,30 @@
 		System.out.println(map.toString()+":"+jsonBuffer.toString());
 		super.writeJsonStr(response, "["+jsonBuffer.toString()+"]");
 	}
+	
+http://{地址}:{端口}/{工程名}/file.do?method=onFrameFileMainView&d_unid=frame(管理工程框架地址)
+
+ndyd 工程框架文件存放 frame目录下 可修改上传文件如下
+editframe.jsp(初始模版,不建议修改) 新建或编辑页面 注：前台脚本可直接在这个文件 适应开发使用，可使用版本控制进行项目管理
+frameMain.jsp(初始模版,不建议修改) 列表页面
+
+scm 工程框架文件存放 frameSCMExt目录下
+editframe.jsp(初始模版,不建议修改) 新建或编辑页面 注：前台脚本可直接在这个文件 适应开发使用，可使用版本控制进行项目管理
+frameMain.jsp(初始模版,不建议修改)  列表页面
+frameMain2.jsp(初始模版,不建议修改) 列表页面
+frameMain3.jsp(初始模版,不建议修改) 列表页面
+frameMain4.jsp(初始模版,不建议修改) 列表页面
+
+根据应用框架APPFRAME.APPFRAME.HGMY.14142121定义模版名称
+规范文件为以下文件
+editframe-APPFRAME.APPFRAME.HGMY.14142121.jsp
+frameMain-APPFRAME.APPFRAME.HGMY.14142121.jsp
+
+原理：存在符合命名规范的文件系统会自动跳转到相应文件，若不存在，以初始模版为准
+例：
+访问http://{地址}:{端口}/ndyd/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.HGMY.14142121
+存在ndyd/frame/editframe-APPFRAME.APPFRAME.HGMY.14142121.jsp，
+那么ndyd/frame/editframe.jsp失效不会跳转这个页面
+
+如果不存在ndyd/frame/editframe-APPFRAME.APPFRAME.HGMY.14142121.jsp，
+那么默认跳转ndyd/frame/editframe.jsp	

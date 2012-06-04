@@ -75,5 +75,9 @@
 	  public static var subformname:String="";
       [Bindable]//子表单模式
 	  public static var strradi:String="";
+ 	  [Bindable]//子表表单的 formcode
+     public static var subformcode:String="";
+     [Bindable]//保存子表单单的formcode
+     public static var subfrom:Array=new Array();
   }
  }

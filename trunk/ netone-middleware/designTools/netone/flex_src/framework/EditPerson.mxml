@@ -150,7 +150,7 @@
  				 dataxml=<control></control>
  			     }else{
  			      dataxml=null;
- 			      dataxml=<control></control>
+ 			      dataxml=<control>{ variable.subfrom}</control>
  			     }
  			    var str:String=pModel.selectedItem.@name;
  			     switch (str.toString()) {
@@ -277,7 +277,14 @@
          	    }if(Radio2.selected){
          	    dataxml.@MAINFORM="2";
          	    }
-         	    
+         	    var substr:String="";
+         	    for(var i:int=0;i<variable.subfrom.length;i++){
+         	     if(variable.subfrom[i]=="" || variable.subfrom[i]==null){
+         	     }else{
+         	       substr=substr+variable.subfrom[i]+"&";
+         	     }
+         	    }
+         	    dataxml.@subcolumn=substr;
                 Parent.appendChild(dataxml);
 			    addrenyuan1.AddrenyuanQuery(Name.text,chinesename.text,Parent.toString());
               }
@@ -514,6 +521,12 @@
          	    			Radio2.selected=true;
 			         	    }
 	                      }
+	                      if(arrform1.subcolumn=="" || arrform1.subcolumn==null){
+	                      }else{
+	                         var str:String=String(arrform1.subcolumn).replace("&quot;","\"");
+	                          str=str.replace("&amp;","&");
+	                          variable.subfrom=str.split("&");
+	                      }
                   }
                   else{
                   	if(bool){
@@ -542,13 +555,15 @@
                	    zibiaodangshu=zibiaodanarr.length;
                    for(var zi:int=0;zi<zibiaodanarr.length;zi++){
                  		var strname:String=zibiaodanarr[zi].toString().substring(0, zibiaodanarr[zi].toString().indexOf("["));
+	            	    var subformcode:String=zibiaodanarr[zi].toString().substring(zibiaodanarr[zi].toString().indexOf("[")+1,zibiaodanarr[zi].toString().indexOf("]"));
 	            	    var sub:subformcontrol=new subformcontrol();
 	            	     sub.id=="zibiaodanshu"+zi;
 	            	     sub.y=0;
 	                 	 sub.x=xx;
 	                 	 variable.strradi="0";
 	                     variable.subformname=strname;
-	                     sub.width=284;
+	                     sub.subformcode=subformcode;
+	                     sub.width=330;
 	                 	 zibiaodan.addChild(sub);
 	                     xx=xx+sub.width+15;
                         }

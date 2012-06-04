@@ -382,8 +382,18 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		BeanUtils.copyProperties(bux, bus);
 		boolean rs = dy.modifyData(bux);
 		if (rs) {
-			DyAnalysisXml dayx = new DyAnalysisXml();
-			dayx.script(formid, lsh, "UpdateSave");
+			if(bux.getStatusinfo()==null){
+				DyAnalysisXml dayx = new DyAnalysisXml();
+				dayx.script(formid, lsh, "UpdateSave"); //正常保存
+			}
+			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("00")){
+				DyAnalysisXml dayx = new DyAnalysisXml();
+				dayx.script(formid, lsh, "UpdateSave");//反确认
+			}
+			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("01")){
+				DyAnalysisXml dayx = new DyAnalysisXml();
+				dayx.script(formid, lsh, "UpdateSave");//确认
+			}
 		}
 		return rs;
 	}

@@ -148,7 +148,6 @@ public class Queeyrenyuan {
 		return appSecond;
 	}
 	public String zibiaodanshu(String idcreated){
-		
 		UmsProtectedobject upof1=null;
 		try {
 			ResourceRmi resourceRmi = null;
@@ -246,6 +245,33 @@ public class Queeyrenyuan {
 			}
 			}
 		return str;
+	}
+	//更具formcode 装载出全部字段
+	public List  subfunction(String formcode){
+		List listx=new ArrayList();
+		TCsColumn busForm = new TCsColumn();
+		busForm.setFormcode(formcode);
+		//long indexname=dys.queryObjectsNumber(busForm);
+			List listmame=null;
+			DyFormDesignService dys = null;
+				try {
+					dys = (DyFormDesignService)RmiEntry.iv("dydesign");
+					listmame = dys.queryObjects(busForm);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}  
+			if(listmame!=null){
+			for (Iterator iterator1 = listmame.iterator(); iterator1.hasNext();) {
+			    TCsColumn columnname=(TCsColumn)iterator1.next();
+			    if(columnname.getColumnid().toUpperCase().equals("BELONGX") || columnname.getColumnid().toUpperCase().equals("TIMEX") ){
+			    }else{
+			    String str=columnname.getColumname()+"["+columnname.getColumnid()+"]";
+			    listx.add(str);
+			    }
+			}
+			}
+		return listx;
 	}
 	public List renyaunid(String idcreated) {
 		String id = idcreated;

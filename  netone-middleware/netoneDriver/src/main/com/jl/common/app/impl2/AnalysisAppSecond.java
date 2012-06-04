@@ -77,6 +77,7 @@ public class AnalysisAppSecond {
 				appSecond.setFilemanage(new String(personNode.getAttribute("filemanage")));
 				appSecond.setFiletext(new String(personNode.getAttribute("filetext")));
 				appSecond.setMAINFORM(new String(personNode.getAttribute("MAINFORM")));
+				appSecond.setSubcolumn(new String(personNode.getAttribute("subcolumn")));
 			return appSecond;
 		}
 	}

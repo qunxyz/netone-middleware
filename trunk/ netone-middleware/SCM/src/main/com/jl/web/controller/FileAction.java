@@ -77,6 +77,20 @@ public class FileAction extends AbstractAction {
 		return mapping.findForward("onPublicMainView");
 	}
 
+	public ActionForward onFrameFileMainView(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		FileService service = (FileService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("fileSerivce");
+		String d_unid = request.getParameter("d_unid");
+		List result = service.select(d_unid);
+		Integer fileCount = service.fileCount(d_unid);
+		request.setAttribute("fileCount", fileCount);
+		request.setAttribute("list", result);
+		return mapping.findForward("onFrameFileMainView");
+	}
+	
 	public void delete(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -132,6 +146,52 @@ public class FileAction extends AbstractAction {
 			json.put("tip", "上传附件失败!");
 			json.put("error", "yes");
 			html = "";
+			e.printStackTrace();
+		} finally {
+			// super.writeJsonStr(response, json.toString());
+			response.setContentType("text/html;charset=UTF-8");
+			try {
+				response.getWriter().write(html);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void onUploadFrameFile(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setAttribute("ErrorJson", "Yes");// Json出错提示
+		FileService service = (FileService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("fileSerivce");
+		JSONObject json = new JSONObject();
+		String html = "";
+		try {
+			String path = request.getSession().getServletContext().getRealPath(
+					"/");// 应用服务器目录
+			String id = request.getParameter("id");
+			String filetype = URLDecoder.decode(request.getParameter("f_type"),
+					"UTF-8");// 去除中文乱码;
+			String filename = URLDecoder.decode(request
+					.getParameter("filename"), "UTF-8");// 去除中文乱码;
+			CommonUploadUtil importS = new CommonUploadUtil(request);
+			FileItem fileItem = importS.getFileItem("files");// 获取页面传来的文件
+			User user = getOnlineUser(request);
+			String htmlx = service.saveFrame(request, id, filename, filetype, path,
+					user.getUserCode(), user.getUserName(), fileItem);
+			json = JSONObject.fromObject(htmlx);
+			html = json.getString("unid") + "(~|~|~)"
+					+ json.getString("filename") + "(~|~|~)"
+					+ json.getString("f_type") + "(~|~|~)"
+					+ json.getString("f_size") + "(~|~|~)"
+					+ json.getString("updatetime") + "(~|~|~)"
+					+ json.getString("note");
+
+		} catch (Exception e) {
+			html = "";
+			json.put("tip", "上传附件失败!");
+			json.put("error", "yes");
 			e.printStackTrace();
 		} finally {
 			// super.writeJsonStr(response, json.toString());

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow width="100%" height="516" fontSize="15"  xmlns:ns1="framework.*"
+		fontWeight="bold" title="子表单字段控制" x="0" y="0" showCloseButton="true" close="SetExit();"  xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="init()">
+ 
+		    <mx:Script>
+		    	<![CDATA[
+		    		import com.adobe.serialization.json.JSON;
+		    		import mx.controls.Alert;
+		    		import mx.core.IFlexDisplayObject;
+		    		import mx.managers.PopUpManager;
+		    		import mx.collections.ArrayCollection;
+		    		import mx.rpc.events.ResultEvent;
+		    		[Bindable]//子表单字段的绑定
+		    		public var subfromarr:ArrayCollection=new ArrayCollection();
+		    		//控件加载完成的事件
+		    		[Bindable] //隐藏
+		    		public var hidearr:Array=new Array();
+		    		[Bindable]//只读
+		    		public var readarr:Array=new Array();
+		    		[Bindable]//是保存还是修改；
+		    		public var fal:Boolean=true;
+		    		[Bindable]//是保存还是修改；
+		    		public var index:int;
+		    		public function init():void{
+		    		queryrenyuan2.subfunction(variable.subformcode);
+		    		}
+		    		
+		    		//点击确定事件
+		    		public function queding():void{
+		    			var str:String="{\"subformcode\":\""+variable.subformcode+"\",\"read\":\""; 
+		            	
+		            	if(zhidu.dataProvider==null){
+		    	    	}else{
+		    	    	var zhiduarr:ArrayCollection=zhidu.dataProvider as ArrayCollection; 	
+		    			for(var i:int=0;i<zhiduarr.length;i++){
+		    			str+=zhiduarr[i]+",";
+		    			}
+		    	    	}
+		    		     str=str+"\",\"hide\":\""
+		    	       if(yinchang.dataProvider==null){
+		    	    	}else{
+		    	         var yinchangarr:ArrayCollection=yinchang.dataProvider as ArrayCollection;
+		    	          for(var j:int=0;j<yinchangarr.length;j++){
+		    			  str+=yinchangarr[j]+",";
+		    			  }
+		    	    	}
+		    			str=str+"\"}";
+		    			if(fal){
+		    		    variable.subfrom.push(str);
+		    		    }else{
+		    		     variable.subfrom.splice(index,1);
+		    		     variable.subfrom.push(str);
+		    		    }
+		    	     PopUpManager.removePopUp(this as IFlexDisplayObject);
+		    		}
+		    		//关闭界面
+		    		public function SetExit():void{
+		    		PopUpManager.removePopUp(this as IFlexDisplayObject);
+		    		}
+		    		//获取字段 返回数据的方法
+		    		public function handerResult2(event:ResultEvent):void{
+		    		  subfromarr=event.result as ArrayCollection;
+		    		 
+		    		  var subarr:ArrayCollection=event.result as ArrayCollection;
+		    		  if(variable.subfrom.length==0){
+		    		  }else{
+		    		   	for(var i:int=0;i<variable.subfrom.length;i++){
+		    	         var arr:Array=new Array();
+		    	         arr=(JSON.decode("["+variable.subfrom[i]+"]") as Array);  
+						 var dp:ArrayCollection = new ArrayCollection(arr);
+                          for(var j:int=0;j<dp.length;j++){
+                          	if(dp[j].subformcode==variable.subformcode){
+                          		fal=false;
+	                            index=i;
+	                          	if(dp[j].read=="" || dp[j].read==null){
+	                          	 }else{
+	                          	readarr=String(dp[j].read).split(",");
+	                          	readarr.pop();
+	                          	zhidu.dataProvider=readarr;
+		                        for(var a:int=0;a<subarr.length;a++){
+	                          	 	for(var s:int=0;s<readarr.length;s++){      
+		                          	  if(subarr[a]==readarr[s]){
+		                          	  	 subfromarr.removeItemAt(a);
+		                          	  }
+		                            }
+	                          	}
+	                          	}
+	                          	if(dp[j].hide=="" || dp[j].hide==null){
+	                          	}else{
+	                          	hidearr=String(dp[j].hide).split(",");
+	                          	hidearr.pop();
+	                          	yinchang.dataProvider=hidearr;
+	                          	for(var aa:int=0;aa<subarr.length;aa++){
+	                          	   for(var ss:int=0;ss<hidearr.length;ss++){
+		                          	  if(subarr[aa]==hidearr[ss]){
+		                          	  	 subfromarr.removeItemAt(aa);
+		                          	  }
+		                            }
+	                          	}
+	                           }
+                          	}
+                          }                                        	
+		    		    }   
+		    		  }
+		    		}
+		    	]]>
+		    </mx:Script>
+		        <mx:RemoteObject id="queryrenyuan2" destination="Queryrenyuan1" showBusyCursor="true"   result="handerResult2(event)"/>	
+		        <mx:Canvas width="714" height="41">
+			<mx:Button label="确定" click="{queding()}" height="39" width="104" x="0" y="0"/>
+			<mx:Button label="取消"  click="{SetExit()}" height="39" width="104" x="118" y="0"/>
+		</mx:Canvas>
+		<mx:Canvas fontSize="15" width="100%" height="600" x="90" y="0">
+		    <mx:Canvas id="bianjikongzi" x="97" y="4" width="919" height="398">
+		        <mx:List x="10" id="bianji" y="36" height="340" dragEnabled="true" dragMoveEnabled="true" 
+			     dropEnabled="true"  dataProvider="{subfromarr}" width="239"></mx:List>
+		        <mx:Label x="10" y="11" text="编辑字段："/>
+		        <mx:List x="297" y="35" id="zhidu" dragEnabled="true" dragMoveEnabled="true" 
+			     dropEnabled="true"  height="340" width="239"></mx:List>
+		        <mx:List x="571" y="35" id="yinchang" dragEnabled="true" dragMoveEnabled="true" 
+			     dropEnabled="true"  height="340" width="239"></mx:List>
+		        <mx:Label x="571" y="10" text="隐藏字段："/>
+		        <mx:Label x="297" y="10" text="只读字段："/>
+		    </mx:Canvas>
+		    <mx:Label x="0" y="3" text="编 辑 控 制："/>
+		    </mx:Canvas>
+ </mx:TitleWindow>
+ 

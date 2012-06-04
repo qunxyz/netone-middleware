@@ -3,6 +3,7 @@
  */
 package com.jl.service.impl;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -21,6 +22,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.jl.common.ClassLoaderUtil;
 import com.jl.common.MathHelper;
 import com.jl.common.TimeUtil;
 import com.jl.common.map.GisIfc;
@@ -67,13 +69,12 @@ public class MapServiceImpl extends BaseService implements MapService {
 				chinaLimit = true;
 			}
 
-			String servicePath = this.getClass().getClassLoader().getResource(
-					".").getPath()
-					+ "WEB-INF/classes/";// 应用服务器目录
+			URL url = ClassLoaderUtil.newInstance().getResourceAbsoluteURL(
+					"issmap.xml");
 
 			GisIfc gisifc = new GisImpl();
 
-			Gis gis = gisifc.load(servicePath + "issmap.xml");
+			Gis gis = gisifc.load(url.getPath());
 			Map flow_ = gis.getFlow();
 
 			String flowId = "1";// 方案
@@ -127,10 +128,10 @@ public class MapServiceImpl extends BaseService implements MapService {
 			}
 			picId = step.getPicid();
 			if (picId == null) {// picId不存在意味着使用动态图层，从数据中获得图层ID
-			// if (list.size() > 0) {
-			// String[] info = (String[]) list.get(0);
-			// picId = info[4];
-			// } else {
+				// if (list.size() > 0) {
+				// String[] info = (String[]) list.get(0);
+				// picId = info[4];
+				// } else {
 
 				finalPoint = true;
 				// 查找父节点的的地图配置信息
@@ -529,7 +530,9 @@ public class MapServiceImpl extends BaseService implements MapService {
 			String servicePath = this.getClass().getClassLoader().getResource(
 					".").getPath()
 					+ "WEB-INF/classes/";// 应用服务器目录
-			Gis gis = gisifc.load(servicePath + "issmap.xml");
+			URL url = ClassLoaderUtil.newInstance().getResourceAbsoluteURL(
+					"issmap.xml");
+			Gis gis = gisifc.load(url.getPath());
 			Map flow_ = gis.getFlow();
 
 			String flowId = "1";

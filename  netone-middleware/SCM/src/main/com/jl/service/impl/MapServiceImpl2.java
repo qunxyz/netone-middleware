@@ -3,6 +3,7 @@
  */
 package com.jl.service.impl;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -21,6 +22,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.jl.common.ClassLoaderUtil;
 import com.jl.common.MathHelper;
 import com.jl.common.TimeUtil;
 import com.jl.common.map.GisIfc;
@@ -67,10 +69,9 @@ public class MapServiceImpl2 extends BaseService implements MapService {
 		} else if (BussVar.BUSSTYPE_1.equals(user.getLevel())) {// 省公司
 			chinaLimit = true;
 		}
-
-		Gis gis = gisifc.load(this.getClass().getClassLoader().getResource("")
-				.getPath()
-				+ "issmap.xml");
+		URL url = ClassLoaderUtil.newInstance().getResourceAbsoluteURL(
+				"issmap.xml");
+		Gis gis = gisifc.load(url.getPath());
 		Map flow_ = gis.getFlow();
 
 		String flowId = "1";// 方案
@@ -126,34 +127,34 @@ public class MapServiceImpl2 extends BaseService implements MapService {
 		}
 		picId = step.getPicid();
 		if (picId == null) {// picId不存在意味着使用动态图层，从数据中获得图层ID
-//			if (list.size() > 0) {
-//				String[] info = (String[]) list.get(0);
-//				picId = info[4];
-//			} else {
+		// if (list.size() > 0) {
+		// String[] info = (String[]) list.get(0);
+		// picId = info[4];
+		// } else {
 
-				finalPoint = true;
-				// 查找父节点的的地图配置信息
-				String map = (String) commonDAO.findForObject(
-						"Map.findCompanyXY", busspointId);
-				String req = "\\[\\w+\\,";
+			finalPoint = true;
+			// 查找父节点的的地图配置信息
+			String map = (String) commonDAO.findForObject("Map.findCompanyXY",
+					busspointId);
+			String req = "\\[\\w+\\,";
 
-				Pattern pat = Pattern.compile(req);
-				Matcher mat = pat.matcher(map);
-				List eachFatherId = new ArrayList();
-				while (mat.find()) {
-					String findinfo = mat.group();
-					findinfo = StringUtils.substringBetween(findinfo, "[", ",");
-					eachFatherId.add(findinfo);
-				}
-				if (eachFatherId.size() > 0) {
-					// 选择父节点的最末的图层
-					picId = (String) eachFatherId.get(eachFatherId.size() - 1);
+			Pattern pat = Pattern.compile(req);
+			Matcher mat = pat.matcher(map);
+			List eachFatherId = new ArrayList();
+			while (mat.find()) {
+				String findinfo = mat.group();
+				findinfo = StringUtils.substringBetween(findinfo, "[", ",");
+				eachFatherId.add(findinfo);
+			}
+			if (eachFatherId.size() > 0) {
+				// 选择父节点的最末的图层
+				picId = (String) eachFatherId.get(eachFatherId.size() - 1);
 
-				} else {
-					picId = "defualt";// 没有数据的情况下，就显示默认的图层
-				}
+			} else {
+				picId = "defualt";// 没有数据的情况下，就显示默认的图层
+			}
 
-//			}
+			// }
 		}
 		Pic pic = flow.getDisplay().getPic().get(picId);
 		String picurl = pic.getUrl();
@@ -499,9 +500,9 @@ public class MapServiceImpl2 extends BaseService implements MapService {
 
 		GisIfc gisifc = new GisImpl();
 
-		Gis gis = gisifc.load(this.getClass().getClassLoader().getResource("")
-				.getPath()
-				+ "issmap.xml");
+		URL url = ClassLoaderUtil.newInstance().getResourceAbsoluteURL(
+				"issmap.xml");
+		Gis gis = gisifc.load(url.getPath());
 		Map flow_ = gis.getFlow();
 
 		String flowId = "1";

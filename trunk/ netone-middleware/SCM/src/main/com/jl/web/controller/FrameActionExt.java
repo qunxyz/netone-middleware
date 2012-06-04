@@ -1,6 +1,7 @@
 package com.jl.web.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
@@ -96,7 +97,17 @@ public class FrameActionExt extends AbstractAction {
 		// 高级查询
 		setExtQueryColumnVar(request, formcode);
 
-		return mapping.findForward("onMainView");
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/frameMain-" + naturalname + ".jsp");
+		String forward = "/frame/frameMain.jsp";
+		if (file.exists()) {
+			forward = "/frame/frameMain-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+		// return mapping.findForward("onMainView");
 	}
 
 	public ActionForward onMainView2(ActionMapping mapping, ActionForm form,
@@ -146,7 +157,18 @@ public class FrameActionExt extends AbstractAction {
 		String queryConditionHtml = DyFormBuildHtmlExt
 				.buildQueryCondition(dyform.getAllColumn_());
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
-		return mapping.findForward("onMainView2");
+
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/frameMain2-" + naturalname + ".jsp");
+		String forward = "/frame/frameMain2.jsp";
+		if (file.exists()) {
+			forward = "/frame/frameMain2-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+		// return mapping.findForward("onMainView2");
 	}
 
 	public ActionForward onMainView3(ActionMapping mapping, ActionForm form,
@@ -205,7 +227,18 @@ public class FrameActionExt extends AbstractAction {
 		String queryConditionHtml = DyFormBuildHtmlExt
 				.buildQueryCondition(dyform.getAllColumn_());
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
-		return mapping.findForward("onMainView3");
+
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/frameMain3-" + naturalname + ".jsp");
+		String forward = "/frame/frameMain3.jsp";
+		if (file.exists()) {
+			forward = "/frame/frameMain3-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+		// return mapping.findForward("onMainView3");
 	}
 
 	public ActionForward onMainView4(ActionMapping mapping, ActionForm form,
@@ -272,7 +305,18 @@ public class FrameActionExt extends AbstractAction {
 		String queryConditionHtml = DyFormBuildHtmlExt
 				.buildQueryCondition(dyform.getAllColumn_());
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
-		return mapping.findForward("onMainView4");
+
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/frameMain4-" + naturalname + ".jsp");
+		String forward = "/frame/frameMain4.jsp";
+		if (file.exists()) {
+			forward = "/frame/frameMain4-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+		// return mapping.findForward("onMainView4");
 	}
 
 	public void onList(ActionMapping mapping, ActionForm form,
@@ -598,7 +642,18 @@ public class FrameActionExt extends AbstractAction {
 		ispermission = pmap.get("ispermission");
 
 		load(mapping, form, request, response, isedit, ispermission, false);
-		return mapping.findForward("onEditView");
+
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/editframe-" + naturalname + ".jsp");
+		String forward = "/frame/editframe.jsp";
+		if (file.exists()) {
+			forward = "/frame/editframe-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+		// return mapping.findForward("onEditView");
 	}
 
 	// 打印
@@ -1826,7 +1881,7 @@ public class FrameActionExt extends AbstractAction {
 			} else {
 				runtimeid = WfEntry.iv().getRuntimeIdByWorkcode(workcode);
 			}
-			List list = WfEntry.iv().listAllParticipantinfo(runtimeid,true);
+			List list = WfEntry.iv().listAllParticipantinfo(runtimeid, true);
 
 			if (list.size() != 0) {
 				// TWfWorklistExt o = (TWfWorklistExt) list.get(0);
@@ -1877,7 +1932,7 @@ public class FrameActionExt extends AbstractAction {
 			if (StringUtils.isNotEmpty(workcode)) {
 				runtimeid = WfEntry.iv().getRuntimeIdByWorkcode(workcode);
 			}
-			List list = WfEntry.iv().listAllParticipantinfo(runtimeid,false);
+			List list = WfEntry.iv().listAllParticipantinfo(runtimeid, false);
 
 			String title = "<tr><td nowrap='nowrap' class='table_td_title' width='20%'>提交日期</td><td nowrap='nowrap' class='table_td_title' width='20%'>提交者</td><td nowrap='nowrap' class='table_td_title' width='40%'>流程节点</td><td nowrap='nowrap' class='table_td_title' width='20%'>执行者</td><td nowrap='nowrap' class='table_td_title' width='20%'>完成时间</td></tr>";
 

@@ -63,6 +63,16 @@ function $select(o,url){
 				        index,
 						cb,
 						${columns}
+						,{header: "操作",dataIndex: "", sortable: false, renderer: 
+						function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) { 
+							var lsh = store.getAt(rowIndex).get('lsh') ; 
+							var runtimeid = store.getAt(rowIndex).get('runtimeid') ; 
+							var RUN = store.getAt(rowIndex).get('run') ; 
+							var value = "";value += "&nbsp;<a href='javascript:void(0)' onclick=$query('"+lsh+"','"+runtimeid+"','true'); >查看</a>&nbsp;";
+							value += "&nbsp;<a href='javascript:void(0)' onclick=$edit('"+lsh+"','"+runtimeid+"'); >编辑</a>&nbsp;";
+							value += "&nbsp;<a href='javascript:void(0)' onclick=$delete('"+lsh+"'); >作废</a>&nbsp;";return value;
+							}
+						}
 				],
 				viewConfig:{forceFit:true},
 				loadMask:true	

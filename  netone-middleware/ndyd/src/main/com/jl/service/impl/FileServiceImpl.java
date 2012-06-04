@@ -60,9 +60,11 @@ public class FileServiceImpl extends BaseService implements FileService {
 		if (StringUtils.isNotEmpty(workcode_)) {
 			activityid = WfEntry.iv().loadWorklist(workcode_).getActivityid();
 		} else {
-			AppObj app = AppEntry.iv().loadApp(naturalname);
-			String workcode_x = app.getWorkflowCode_();
-			activityid = WfEntry.iv().fetchFirstActivityId(workcode_x);
+			if (StringUtils.isNotEmpty(naturalname)) {
+				AppObj app = AppEntry.iv().loadApp(naturalname);
+				String workcode_x = app.getWorkflowCode_();
+				activityid = WfEntry.iv().fetchFirstActivityId(workcode_x);
+			}
 		}
 
 		com.jl.entity.File file = (com.jl.entity.File) commonDAO.findForObject(
@@ -92,9 +94,11 @@ public class FileServiceImpl extends BaseService implements FileService {
 		if (StringUtils.isNotEmpty(workcode_)) {
 			activityid = WfEntry.iv().loadWorklist(workcode_).getActivityid();
 		} else {
-			AppObj app = AppEntry.iv().loadApp(naturalname);
-			String workcode_x = app.getWorkflowCode_();
-			activityid = WfEntry.iv().fetchFirstActivityId(workcode_x);
+			if (StringUtils.isNotEmpty(naturalname)) {
+				AppObj app = AppEntry.iv().loadApp(naturalname);
+				String workcode_x = app.getWorkflowCode_();
+				activityid = WfEntry.iv().fetchFirstActivityId(workcode_x);
+			}
 		}
 
 		JSONObject json = new JSONObject();
@@ -200,6 +204,64 @@ public class FileServiceImpl extends BaseService implements FileService {
 				error = "第" + i + "行数据有误!导入数据失败!";
 			}
 		}
+		if (flag) {
+			json.put("tip", error);
+		} else {
+			json.put("tip", "上传附件成功");
+		}
+		return json.toString();
+	}
+
+	public String saveFrame(HttpServletRequest request, String id,
+			String filename, String filetype, String path, String usercode,
+			String userName, FileItem fileItem) throws Exception {
+		request.setAttribute("ErrorJson", "Yes");// Json出错提示
+		String naturalname = request.getParameter("naturalname");
+		String workcode_ = request.getParameter("workcode");
+		String activityid = "";
+		if (StringUtils.isNotEmpty(workcode_)) {
+			activityid = WfEntry.iv().loadWorklist(workcode_).getActivityid();
+		} else {
+			if (StringUtils.isNotEmpty(naturalname)) {
+				AppObj app = AppEntry.iv().loadApp(naturalname);
+				String workcode_x = app.getWorkflowCode_();
+				activityid = WfEntry.iv().fetchFirstActivityId(workcode_x);
+			}
+		}
+
+		JSONObject json = new JSONObject();
+		boolean flag = false;
+		String error = null;// 插入数据的错误信息
+		String fileName = fileItem.getName();
+
+		path += "frame";
+
+		String format = StringUtils.substringAfterLast(fileName, ".");// 后辍名
+		fileName = StringUtils.substringAfterLast(fileName, "\\");
+		File file = new File(path);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		if (StringUtils.isEmpty(filename)) {
+			filename = fileName.trim();
+		}
+		path += "\\" + filename;// 保存的文件绝对路径
+
+		com.jl.entity.File files = saveFile(id, usercode, userName, path, ""
+				+ formatKbSize(fileItem.getSize()), filetype, filename,
+				activityid);
+
+		json = JSONObject.fromObject(JSONUtil2.fromBean(files,
+				"yyyy-MM-dd HH:mm:ss").toString());
+
+		File _file = null;
+		if (fileItem != null) {
+			_file = new File(path);
+			fileItem.write(_file);
+			fileItem.getOutputStream().flush();
+			fileItem.getOutputStream().close();
+		}
+
 		if (flag) {
 			json.put("tip", error);
 		} else {

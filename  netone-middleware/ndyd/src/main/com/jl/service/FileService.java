@@ -25,6 +25,22 @@ public interface FileService {
 	public String save(HttpServletRequest request,String id, String filename, String filetype,
 			String path, String usercode, String userName, FileItem fileItem)
 			throws Exception;
+	
+	/**
+	 * 上传文件
+	 * 
+	 * @param id
+	 * @param filename
+	 * @param filetype
+	 * @param path
+	 * @param usercode
+	 * @param fileItem
+	 * @return
+	 * @throws Exception
+	 */
+	public String saveFrame(HttpServletRequest request,String id, String filename, String filetype,
+			String path, String usercode, String userName, FileItem fileItem)
+			throws Exception;
 
 	/**
 	 * 删除文件

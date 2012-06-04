@@ -104,6 +104,12 @@
 				var request:URLRequest=new URLRequest(url);  
 				navigateToURL(request); 
          }
+         //SOA的配置
+         public function SOAconfig():void{
+               var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=pagelist&appname=SOASCRIPT";
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+         }
        	]]>
        </mx:Script>
 		<mx:Button x="64.5"  y="45" label=""  height="119" width="144" click="{FormDesigner()}" overSkin="@Embed(source='img1/1.1.png')" upSkin="@Embed(source='img1/1.png')" downSkin="@Embed(source='img1/1.png')"/>
@@ -120,4 +126,5 @@
 		
 		<mx:Button x="64.5" y="401" height="119" width="144" click="{shoujipz()}" overSkin="@Embed(source='img/ygcx2.png')" upSkin="@Embed(source='img/ygcx1.png')" downSkin="@Embed(source='img/ygcx1.png')"/>
 		<mx:Button x="264.5" y="401" height="119" width="144" click="{xtcd()}" overSkin="@Embed(source='img/xtcd2.png')" upSkin="@Embed(source='img/xtcd1.png')" downSkin="@Embed(source='img/xtcd1.png')"/>
+		<mx:Button x="464.5" y="401" label="SOA" height="119" width="144" click="{SOAconfig()}" overSkin="@Embed(source='img/soa1.png')" upSkin="@Embed(source='img/soa.png')" downSkin="@Embed(source='img/soa.png')"/>
 		</mx:Canvas>

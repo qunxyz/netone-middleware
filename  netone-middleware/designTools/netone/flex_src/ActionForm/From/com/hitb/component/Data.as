@@ -152,6 +152,27 @@ package ActionForm.From.com.hitb.component
 		       TextInput(cla).restrict="0-9";
 		        itemColumn.itemEditor=cla;
 		    break;
+ 	    case 18:
+		     if( cl.className=="LableTextButton"||cl.className=="leLableButtonMultip" ||cl.className=="LableColourfulea"||cl.className=="LablePORTAL"
+				||cl.className=="LableComboBoxKV"||cl.className=="LableTextButtonzhuzhiduo"||cl.className=="LableTextButtonzhuzhi" || cl.className=="Lablezhuzhijigou" || cl.className=="Lablezhuzhijiguoduo"){
+			   vivid.comp=cl;
+               controustree= PopUpManager.createPopUp(this, ControltreeResouce, true) as ControltreeResouce;
+		       	return;	
+		         }			
+			    if(cl.className=="LableComboBoxKV"){
+			      vivid.comp=cl;  
+		          var sl:SQLselect=new SQLselect();
+		          PopUpManager.addPopUp(sl,this,true);
+		          PopUpManager.centerPopUp(sl as IFlexDisplayObject);
+		          return;	 
+		         }	
+		    break;  
+		 case 19:
+		         vivid.comp=cl;  
+		          var sl:SQLselect=new SQLselect();
+		          PopUpManager.addPopUp(sl,this,true);
+		          PopUpManager.centerPopUp(sl as IFlexDisplayObject); 
+		    break;          
 		   
 	     }
 	  }  
@@ -273,10 +294,14 @@ package ActionForm.From.com.hitb.component
 				properties.addItem({name: "备选值", value: Component.getComponent2()["PLANB"]});	
 	  		    properties.addItem({name:"输入长度", value:Component.getComponent2()["length"]});	
  				properties.addItem({name:"字段宽度", value:Component.getComponent2()["_widthint"]});	
-				if(Component.getComponent2().className=="LableTextButton"||Component.getComponent2().className=="leLableButtonMultip" ||Component.getComponent2().className=="LableColourfulea"||Component.getComponent2().className=="LablePORTAL"
-				||Component.getComponent2().className=="LableComboBoxKV"||Component.getComponent2().className=="LableTextButtonzhuzhiduo"||Component.getComponent2().className=="LableTextButtonzhuzhi"){
-					properties.addItem({name:"选择树图", value:Component.getComponent2()["treeProvider"]});	
+				 if(Component.getComponent2().className=="LableTextButton"||Component.getComponent2().className=="leLableButtonMultip" ||Component.getComponent2().className=="LableColourfulea"||Component.getComponent2().className=="LablePORTAL"
+				||Component.getComponent2().className=="LableComboBoxKV"||Component.getComponent2().className=="LableTextButtonzhuzhiduo"||Component.getComponent2().className=="LableTextButtonzhuzhi" || Component.getComponent2().className=="Lablezhuzhijigou" || Component.getComponent2().className=="Lablezhuzhijiguoduo"){
+					properties.addItem({name:"选择树图", value:Component.getComponent2()["treeProvider"]});
 		         }		
+		        properties.addItem({name:"SOA配置", value:Component.getComponent2()["_soa"]});	
+			    if(Component.getComponent2().className=="LableComboBoxKV"){
+			     properties.addItem({name:"字段的绑定", value:Component.getComponent2()["_sqlstr"]});	
+		          }	
 				 str="text";
 			}
 	    public static var  Event_data:String="发送数据";

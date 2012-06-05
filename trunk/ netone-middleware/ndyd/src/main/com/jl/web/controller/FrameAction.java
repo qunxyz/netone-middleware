@@ -1,7 +1,6 @@
 package com.jl.web.controller;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
@@ -56,7 +55,7 @@ public class FrameAction extends AbstractAction {
 		loadAccordtree(mapping, form, request, response);
 		return mapping.findForward("portalView");
 	}
-	
+
 	public ActionForward onMainView(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -80,18 +79,7 @@ public class FrameAction extends AbstractAction {
 		String queryConditionHtml = DyFormBuildHtml.buildQueryCondition(dyform
 				.getQueryColumn_());
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
-
-		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/frameMain-" + naturalname + ".jsp");
-		String forward = "/frame/frameMain.jsp";
-		if (file.exists()) {
-			forward = "/frame/frameMain-" + naturalname + ".jsp";
-		}
-		ActionForward af = new ActionForward(forward);
-		af.setRedirect(false);
-		// true不使用转向,默认是false代表转向
-		return af;
-		// return mapping.findForward("onMainView");
+		return mapping.findForward("onMainView");
 	}
 
 	public void onList(ActionMapping mapping, ActionForm form,
@@ -265,17 +253,7 @@ public class FrameAction extends AbstractAction {
 		ispermission = pmap.get("ispermission");
 
 		load(mapping, form, request, response, isedit, ispermission);
-		// return mapping.findForward("onEditView");
-		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/editframe-" + naturalname + ".jsp");
-		String forward = "/frame/editframe.jsp";
-		if (file.exists()) {
-			forward = "/frame/editframe-" + naturalname + ".jsp";
-		}
-		ActionForward af = new ActionForward(forward);
-		af.setRedirect(false);
-		// true不使用转向,默认是false代表转向
-		return af;
+		return mapping.findForward("onEditView");
 	}
 
 	// 表单预览
@@ -283,7 +261,6 @@ public class FrameAction extends AbstractAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String formcode = request.getParameter("formcode");
-		String naturalname = request.getParameter("naturalname");
 		String $isedit = request.getParameter("isedit");
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
 		request.setAttribute("htmltitleinfo", dyform.getHtmltitleinfo_());
@@ -294,17 +271,7 @@ public class FrameAction extends AbstractAction {
 		Map issubmap = new HashMap();
 		issubmap.put(-1, isedit);
 		loadDyForm(mapping, form, request, response, isedit, issubmap);
-		// return mapping.findForward("onPreviewMain");
-		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/editframe-" + naturalname + ".jsp");
-		String forward = "/frame/previewframe.jsp";
-		if (file.exists()) {
-			forward = "/frame/previewframe-" + naturalname + ".jsp";
-		}
-		ActionForward af = new ActionForward(forward);
-		af.setRedirect(false);
-		// true不使用转向,默认是false代表转向
-		return af;
+		return mapping.findForward("onPreviewMain");
 	}
 
 	private void loadNavInfo(HttpServletRequest request) throws Exception {
@@ -371,7 +338,6 @@ public class FrameAction extends AbstractAction {
 			if (StringUtils.isNotEmpty(workcode)) {
 				TWfWorklist twf = WfEntry.iv().loadWorklist(workcode);
 				request.setAttribute("runtimeid", twf.getRuntimeid());
-
 			} else {
 				request.setAttribute("processid", processid);
 			}

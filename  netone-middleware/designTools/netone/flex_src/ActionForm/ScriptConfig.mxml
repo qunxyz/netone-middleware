@@ -100,6 +100,29 @@
                         arrcomp.push(text);
                         canvas6.addChild(text);
 				}
+				if(xml.config.Yesaffirm.@model=="1"){
+				        check5.selected=true;
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.text=xml.config.InitCreate;
+                        text.id="check5";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas7.addChild(text);
+				}if(xml.config.Onaffirm.@model=="1"){
+				        check6.selected=true;
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.text=xml.config.InitCreate;
+                        text.id="check6";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas8.addChild(text);
+				}
 			}else{
 				        var text:TextArea=new TextArea();
                         text.x=0;
@@ -154,6 +177,24 @@
                         text4.percentWidth=100;
                         arrcomp.push(text4);
                         canvas6.addChild(text4);
+                        
+                        var text5:TextArea=new TextArea();
+                        text5.x=0;
+                        text5.y=0;
+                        text5.id="check5";
+                        text5.percentHeight=100;
+                        text5.percentWidth=100;
+                        arrcomp.push(text5);
+                        canvas7.addChild(text5);
+                        
+                        var text6:TextArea=new TextArea();
+                        text6.x=0;
+                        text6.y=0;
+                        text6.id="check6";
+                        text6.percentHeight=100;
+                        text6.percentWidth=100;
+                        arrcomp.push(text6);
+                        canvas8.addChild(text6);
 			}
 		}
 		//加载填写脚本的事件
@@ -274,6 +315,42 @@
 	                             }
 	                      }
                         }
+                   case "check5":
+					  if(check5.selected==true){
+                        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check5";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas7.addChild(text);
+                        }else{
+                        canvas7.removeAllChildren();
+                         for(var i:int=0;i<arrcomp.length;i++){
+	                        	if(UIComponent(arrcomp[i]).id=="check5"){
+	                                 arrcomp.splice(i,1);
+	                             }
+	                      }
+                        }
+                  case "check6":
+					  if(check6.selected==true){
+                        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check6";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas8.addChild(text);
+                        }else{
+                        canvas8.removeAllChildren();
+                         for(var i:int=0;i<arrcomp.length;i++){
+	                        	if(UIComponent(arrcomp[i]).id=="check6"){
+	                                 arrcomp.splice(i,1);
+	                             }
+	                      }
+                        }
 					break;
 				}
 		}
@@ -310,7 +387,18 @@
 			xml.@model="1";
 			DyData.configxml.appendChild(xml);
 			}
-			} 
+		    if(UIComponent(arrcomp[i]).id=="check5"){
+			xml=<Yesaffirm>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</Yesaffirm>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			}
+			 
+			if(UIComponent(arrcomp[i]).id=="check6"){
+			xml=<Onaffirm>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</Onaffirm>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			}
+			} 			 	
      		return DyData.configxml;
 		}
 		  //上一步的方法
@@ -349,21 +437,16 @@
 		</mx:Canvas>		
 		<mx:Label x="100" y="148" text="帮助提示:配置表单在使用的时候需要的事件，然后单击“下一步”。" color="#53585C" fontSize="18"/>
 	</mx:Canvas>
- 	<mx:Canvas id="canvas1" width="894" height="850"  x="106" y="197" fontSize="18">
+ 	<mx:Canvas id="canvas1" width="894" height="814"  x="106" y="197" fontSize="18">
 	 	<mx:CheckBox id="check"  name="check" selected="true" x="0" y="93"  label="新建保存" change="changeQuery(event)"/>
 	 	<mx:CheckBox id="check4"  name="check4" selected="true" x="0" y="0"  label="新建装载" change="changeQuery(event)"/>
-	 	<mx:Canvas id="canvas6" width="863" height="57"  x="0" y="31" fontSize="18">
-	 	</mx:Canvas>
+	
 		<mx:CheckBox id="check0" name="check0"  selected="true" x="0" y="193" label="修改保存" change="changeQuery(event)"/>
 		<mx:CheckBox id="check1" name="check1"  selected="true" x="0" y="296" label="删除" change="changeQuery(event)"/>
  	 	<mx:CheckBox id="check2" name="check2" selected="true" x="0" y="396" label="展示只读" change="changeQuery(event)"/>
  	 	<mx:CheckBox id="check3" name="check3"  selected="true" x="0" y="498" label="展示修改" change="changeQuery(event)"/>
  	 	<mx:CheckBox id="check5" name="check5"  selected="true" x="0" y="602" label="确认" change="changeQuery(event)"/>
- 	 	<mx:CheckBox id="check6" name="check6"  selected="true" x="0" y="696" label="反确认" change="changeQuery(event)"/>
- 	 	<mx:Canvas id="canvas8" width="863" height="57"  x="1" y="635" fontSize="18">
- 	 	 </mx:Canvas>
- 	 	<mx:Canvas id="canvas7" width="863" height="57"  x="0" y="537" fontSize="18">
- 	 	 </mx:Canvas>
+ 	 	<mx:CheckBox id="check6" name="check6"  selected="true" x="0" y="696" label="反确认" change="changeQuery(event)"/> 	 
  	 	<mx:Canvas id="canvas0" width="863" height="57"  x="0" y="124" fontSize="18">
  	 	</mx:Canvas>
  	 	 <mx:Canvas id="canvas2" width="863" height="57"  x="0" y="231" fontSize="18">
@@ -371,8 +454,14 @@
  	 	 <mx:Canvas id="canvas3" width="863" height="57"  x="0" y="327" fontSize="18">
  	 	 </mx:Canvas>
  	 	 <mx:Canvas id="canvas4" width="863" height="57"  x="0" y="434" fontSize="18">
- 	 	  </mx:Canvas> 	
- 	 	 <mx:Canvas id="canvas5" width="863" height="57"  x="0" y="736" fontSize="18">
+ 	 	 </mx:Canvas> 	
+ 	 	 <mx:Canvas id="canvas5" width="863" height="57"  x="0" y="537" fontSize="18">
+ 	 	 </mx:Canvas>
+ 	 	 <mx:Canvas id="canvas6" width="863" height="57"  x="0" y="31" fontSize="18">
+	 	</mx:Canvas>
+ 	 	  <mx:Canvas id="canvas7" width="863" height="57"  x="0" y="635" fontSize="18">
+ 	 	 </mx:Canvas>
+ 	 	  <mx:Canvas id="canvas8" width="863" height="57"  x="0" y="736" fontSize="18">
  	 	  </mx:Canvas>
 	</mx:Canvas>
  	<mx:Canvas x="0" y="{canvas1.height+canvas1.y+70}" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 

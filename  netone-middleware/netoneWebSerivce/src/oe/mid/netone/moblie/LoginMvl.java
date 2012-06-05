@@ -2,12 +2,17 @@ package oe.mid.netone.moblie;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -49,6 +54,8 @@ public class LoginMvl extends HttpServlet {
          response.setContentType("text/html;charset=utf-8");
          String loginname = request.getParameter("name");
  		String passwordto = request.getParameter("password");
+ 		Map map=new HashMap();
+ 		List list=new ArrayList();
  		ResourceRmi resourceRmi;
  		try {
  			resourceRmi = (ResourceRmi) RmiEntry.iv("resource");
@@ -57,11 +64,16 @@ public class LoginMvl extends HttpServlet {
  			Clerk clerk = resourceRmi.loadClerk("0000", loginname);
  			String pass = clerk.getPassword();
  			passwordto = MD5Util.MD5_UTF16LE(passwordto);
- 			String rs = "n";
+ 			String rs ="false";
  			if (StringUtils.isNotEmpty(passwordto) && passwordto.equals(pass)) {// 该账户已被禁止登录
- 				rs = "y";
+ 				map.put("usercode", loginname);
+ 				map.put("name", clerk.getName());
+ 				list.add(map);
+ 				response.getWriter().print(JSONArray.fromObject(list).toString());
+ 			}else{
+ 				response.getWriter().print(rs);
  			}
- 			response.getWriter().print(rs);
+ 			
  		} catch (Exception e) {
  			// TODO Auto-generated catch block
  			e.printStackTrace();

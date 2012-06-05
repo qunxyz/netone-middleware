@@ -13,8 +13,6 @@ import net.sf.json.JSONArray;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import org.apache.commons.lang.StringUtils;
 import com.jl.common.netone.UmsProtecte;
-import com.jl.common.resource.Resource;
-import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.DbTools;
 
 public class PhConfigService extends HttpServlet {
@@ -70,61 +68,58 @@ public class PhConfigService extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List list = new ArrayList();
+		List listx = new ArrayList();
 		request.setCharacterEncoding("utf-8");
 		String naturalname = request.getParameter("naturalname");
-		List quanbushuju = null;
-		List file = null;
-		try {
-			quanbushuju = SecurityEntry.iv().listRsInDir(naturalname, "01", 0,
-					1000, "");
-			file = SecurityEntry.iv().listDirRs(naturalname);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (quanbushuju.size() > 0) {
-			for (Iterator iterator = quanbushuju.iterator(); iterator.hasNext();) {
-				Resource resource = (Resource) iterator.next();
-				phConfigobj phobj = new phConfigobj();
-				String[] strarr = resource.getResourcename().split("/");
-				resource.setResourcename(strarr[strarr.length - 1]);
-				String sqlstr = "SELECT address FROM iss.t_file WHERE d_unid='"
-						+ resource.getId() + "'";
-				List list2 = DbTools.queryData(sqlstr);
-				for (Iterator iterator2 = list2.iterator(); iterator2.hasNext();) {
-					Map map = (Map) iterator2.next();
-					String string=(map.get("address")).toString()
-					.replaceAll("\\\\", "\\/");
-					String [] arr=string.split("/");
-					phobj.setImagename(arr[arr.length-1]);
-				}
-				phobj.setNaturalname(resource.getResourcecode());
-				phobj.setTypes(resource.getTypes());
-				phobj.setResourcename(resource.getResourcename());
-				phobj.setDistinguish(resource.getInclusion());
-				if (resource.getInclusion().equals("0")) {
-					if (StringUtils.isNotEmpty(resource.getText().trim())) {
-						UmsProtecte up = new UmsProtecte();
-						UmsProtectedobject upob = up
-								.loadUmsProtecteNaturalname(resource.getText()
-										.trim());
-						if (StringUtils.isNotEmpty(upob.getExtendattribute())) {
-							phobj.setExtendattribute(upob.getExtendattribute());
-						} else {
-							phobj.setExtendattribute("");
-						}
+		UmsProtecte up = new UmsProtecte();
+		UmsProtectedobject upobj = up.loadUmsProtecteNaturalname(naturalname);
+
+		String sqlStr = "SELECT naturalname,name,objectType,id,extendattribute,inclusion,ACTIVE FROM netone.ums_protectedobject WHERE PARENTDIR='"
+				+ upobj.getId() + "'ORDER BY aggregation ";
+		List list = DbTools.queryData(sqlStr);
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map map = (Map) iterator.next();
+
+			phConfigobj phobj = new phConfigobj();
+			phobj.setDistinguish((String) map.get("inclusion"));
+			phobj.setNaturalname((String) map.get("naturalname"));
+			phobj.setTypes((String) map.get("objectType"));
+			phobj.setResourcename((String) map.get("name"));
+			String sqlstr1 = "SELECT address FROM iss.t_file WHERE d_unid='"
+					+ (String) map.get("id") + "'";
+			List list2 = DbTools.queryData(sqlstr1);
+			for (Iterator iterator2 = list2.iterator(); iterator2.hasNext();) {
+				Map map1 = (Map) iterator2.next();
+				String string = (map1.get("address")).toString().replaceAll(
+						"\\\\", "\\/");
+				String[] arr = string.split("/");
+				phobj.setImagename(arr[arr.length - 1]);
+			}
+			if (((String) map.get("inclusion")).equals("0")) {
+				if (StringUtils
+						.isNotEmpty(((String) map.get("extendattribute"))
+								.trim())) {
+					UmsProtectedobject upob = up
+							.loadUmsProtecteNaturalname(((String) map
+									.get("extendattribute")).trim());
+					if (StringUtils.isNotEmpty(upob.getExtendattribute())) {
+						phobj.setExtendattribute(upob.getExtendattribute());
 					} else {
 						phobj.setExtendattribute("");
 					}
-				}
-				if (naturalname.equals(resource.getResourceid())) {
 				} else {
-					list.add(phobj);
+					phobj.setExtendattribute("");
 				}
 			}
+			if (((String) map.get("ACTIVE")).equals("1")) {
+				if (naturalname.equals((String) map.get("naturalname"))) {
+				} else {
+					listx.add(phobj);
+				}
+			}
+
 		}
-		String json = JSONArray.fromObject(list).toString();
+		String json = JSONArray.fromObject(listx).toString();
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().print(json);
 	}

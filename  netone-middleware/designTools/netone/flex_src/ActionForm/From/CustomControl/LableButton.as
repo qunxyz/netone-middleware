@@ -28,6 +28,7 @@ public class LableButton extends UIComponent {
 		[Bindable]
 		public var  _text:String="按钮";
 		public var _widthint:String="";
+		public var _soa:String="";
 		
        public function LableButton()
 		{

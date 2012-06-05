@@ -29,6 +29,7 @@ package ActionForm.From.CustomControl{
 		public var  _text1:String="";
 		public var _summarytype:String;
 		public var _widthint:String="";
+		public var _soa:String="";
 		
 		public function LableFile()
 		{

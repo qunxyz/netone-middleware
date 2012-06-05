@@ -32,6 +32,8 @@ public class LableComboBoxKV extends UIComponent
 		public var  _text1:String="";
 		public var _summarytype:String;
 		public var _widthint:String="";
+		public var _soa:String="";
+		public var _sqlstr:String="";
 		
 		public function LableComboBoxKV()
 		{

@@ -24,6 +24,7 @@ package ActionForm.From.CustomControl
 		public var _PLANB:String;
 		public var _ID:String;
 		public var _widthint:String="";
+		public var _soa:String="";
 		
 		public function Label_hid()
 		{

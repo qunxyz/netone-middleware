@@ -24,6 +24,7 @@ package ActionForm.From.CustomControl
 		[Bindable]
 		public var  _text:String="时间";
 		public var _widthint:String="";
+		public var _soa:String="";
 		
 		public function LableTime()
 		{

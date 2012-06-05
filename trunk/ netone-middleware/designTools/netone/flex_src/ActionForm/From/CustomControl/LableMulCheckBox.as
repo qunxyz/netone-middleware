@@ -24,6 +24,7 @@ package ActionForm.From.CustomControl
 		[Bindable]
 		public var  _text:String="多选组";
 		public var _widthint:String="";
+		public var _soa:String="";
 		
 		public function LableMulCheckBox()
 		{

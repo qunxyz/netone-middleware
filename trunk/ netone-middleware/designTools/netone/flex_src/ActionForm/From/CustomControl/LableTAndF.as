@@ -29,6 +29,7 @@ public class LableTAndF extends UIComponent{
 		[Bindable]
 		public var  _text:String="真假radio";
 		public var _widthint:String="";
+		public var _soa:String="";
 		
 		public function LableTAndF()
 		{

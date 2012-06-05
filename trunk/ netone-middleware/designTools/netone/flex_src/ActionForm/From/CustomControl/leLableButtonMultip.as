@@ -27,6 +27,7 @@ package ActionForm.From.CustomControl
 		public var  _text:String="多选资源";
 		public var  _text1:String="";
 		public var _widthint:String="";
+		public var _soa:String="";
 		
 		public function leLableButtonMultip()
 		{

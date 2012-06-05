@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
+
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
+import oe.security3a.seucore.obj.Clerk;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import net.sf.json.JSONArray;
 import com.jl.common.app.impl2.AnalysisAppFirst;
@@ -110,13 +114,15 @@ public class QueryTime extends HttpServlet {
 	public void query(DyFormData bus, String name, List<Photographobj> list1) {
 		List list = null;
 		try {
+			  ResourceRmi resourceRmi;
+	 	     resourceRmi = (ResourceRmi) RmiEntry.iv("resource");
 			list = DyEntry.iv().queryData(bus, 0, 1000, "");
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				DyFormData dydata = (DyFormData) iterator.next();
 				Photographobj ppobj = new Photographobj();
 				String[] arr = name.split("/");
-				ppobj.setName(arr[arr.length - 1]);
-				ppobj.setUserid(dydata.getParticipant());
+				Clerk clerk = resourceRmi.loadClerk("0000", dydata.getParticipant());
+				ppobj.setName(arr[arr.length - 1]+"&&"+dydata.getParticipant());
 				ppobj.setLongitude(dydata.getColumn3());
 				ppobj.setLatitude(dydata.getColumn4());
 				list1.add(ppobj);

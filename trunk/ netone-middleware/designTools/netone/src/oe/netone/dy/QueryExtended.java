@@ -8,6 +8,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jl.common.netone.UmsProtecte;
+
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
@@ -56,5 +58,11 @@ public class QueryExtended {
 		}
 		return null;
 		}
+	
+	 public String describe(String naturalname){
+		 UmsProtecte up=new UmsProtecte();
+		 UmsProtectedobject umsobj=up.loadUmsProtecteNaturalname(naturalname);
+		 return umsobj.getDescription();
+	 }
 	
 }

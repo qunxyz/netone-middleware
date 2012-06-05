@@ -70,7 +70,6 @@ public class UpdateColumn {
 			String Musk = (String) map.get("Musk");
 			String opemode = (String) map.get("opemode");
 			String conceal = (String) map.get("conceal");
-			System.out.println(Columname);
 			boolean useable = false;
 			if (opemode.equals("是")) {
 				opemode = "1";

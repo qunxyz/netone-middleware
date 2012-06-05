@@ -31,7 +31,10 @@ public class getpColumn {
 		List rList= new ArrayList();
 	 	for (Iterator iterator = aList.iterator(); iterator.hasNext();) {
 	   		TCsColumn name = (TCsColumn) iterator.next();
-	   		rList.add(name.getColumncode());
+	   		if(name.getColumnid().toUpperCase().equals("BELONGX") || name.getColumnid().toUpperCase().equals("TIMEX") ){
+		 	}else{
+	   		rList.add(name);
+		 	}
 	   		}
 		return rList;
 	}
@@ -51,6 +54,20 @@ public class getpColumn {
 							"size$:",
 							DymaticFormCheck._FINAL_CHECK);
 					object.setColumncode(size);
+					 
+//					   object.setInitScript(StringUtils.substringBetween(ext,
+//								"size$:",
+//								DymaticFormCheck._FINAL_CHECK););
+//						object.setFocusScript("");
+//						object.setLoseFocusScript("");
+//						object.setOnchangeScript("");
+//						object.setRegExpression("");
+				 }else{
+					    object.setInitScript("");
+						object.setFocusScript("");
+						object.setLoseFocusScript("");
+						object.setOnchangeScript("");
+						object.setRegExpression("");
 		 		}
 				 listremove.add( object);
 				}

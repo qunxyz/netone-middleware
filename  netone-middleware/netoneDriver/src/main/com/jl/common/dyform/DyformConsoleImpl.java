@@ -192,9 +192,10 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				}
 
 			}
+			
 			//来自其他表单字段
 			rsinfo = StringUtils.substringBetween(valuelist, "[DYFORM:", "]");
-			
+
 			if (StringUtils.isNotEmpty(rsinfo)) {
 				String form[]=rsinfo.split(",");
 				DyFormData dfd=new DyFormData();
@@ -206,8 +207,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					for (Iterator iterator = data.iterator(); iterator
 							.hasNext();) {
 						DyFormData object = (DyFormData) iterator.next();
-						Object key=BeanUtils.getProperty(object, form[1]).toString();
-						Object value=BeanUtils.getProperty(object, form[2]).toString();
+						Object key=BeanUtils.getProperty(object, form[1]);
+						Object value=BeanUtils.getProperty(object, form[2]);
 						String keyinfo=key==null?"":key.toString();
 						String valueinfo=value==null?"":value.toString();
 						but.append(keyinfo + "-"

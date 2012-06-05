@@ -43,6 +43,7 @@ public class RegeditMvl extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
             request.setCharacterEncoding("utf-8");
+           
             response.setContentType("text/html;charset=utf-8");
             String clientId = request.getParameter("name");
     		String dispname = request.getParameter("dispname");
@@ -70,7 +71,7 @@ public class RegeditMvl extends HttpServlet {
     		try {
     			clerkFind = rmi.loadClerk("0000", clientId);
     			if (clerkFind != null) {
-    				tip = "user " + clientId + "has been created";
+    				tip = "false";
     			}
 
     			Clerk clerk = new Clerk();
@@ -83,7 +84,7 @@ public class RegeditMvl extends HttpServlet {
     			clerk.setPhoneNO(mobile);
     			boolean rs = rmi.addClerk("0000", clerk);
     			if (rs) {
-    				tip = "y";
+    				tip = "true";
     			}
     			response.getWriter().print(tip);
     		} catch (Exception e) {

@@ -102,13 +102,38 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		return newColumn;
 	}
 	
+	
+	public List<DyFormColumn> fetchColumnListForDesign(String formid) throws Exception {
+		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
+		List listcolumn = dy.fetchColumnList(formid);
+		List newColumn = new ArrayList();
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+		for (Iterator iterator = listcolumn.iterator(); iterator.hasNext();) {
+			TCsColumn object = (TCsColumn) iterator.next();
+			String typex = object.getViewtype();
+			if ("20".equals(typex) || "21".equals(typex) || "29".equals(typex)) {
+				// continue;
+			}
+			DyFormColumn columnnew = new DyFormColumn();
+			BeanUtils.copyProperties(columnnew, object);
+			loadColumnx(columnnew);
+			//dealWithKvDict(columnnew, rs);
+			newColumn.add(columnnew);
+		}
+
+		return newColumn;
+	}
+	
 	private void dealWithKvDict(DyFormColumn columnnew, ResourceRmi rs) {
 		// 扩展处理 k-v 列表，支持字典应用
 		String htmltype = columnnew.getViewtype();
+		System.out.println("-------------htmltype:"+htmltype);
 		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
 		StringBuffer but = new StringBuffer();
+		System.out.println(htmltype);
 		if ("11".equals(htmltype)) {
 			String valuelist = columnnew.getValuelist();
+			System.out.println("-------------valuelist:"+valuelist);
 			//来自资源树某层目录的值
 			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
 			if (StringUtils.isNotEmpty(rsinfo)) {
@@ -169,6 +194,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 			//来自其他表单字段
 			rsinfo = StringUtils.substringBetween(valuelist, "[DYFORM:", "]");
+			
 			if (StringUtils.isNotEmpty(rsinfo)) {
 				String form[]=rsinfo.split(",");
 				DyFormData dfd=new DyFormData();

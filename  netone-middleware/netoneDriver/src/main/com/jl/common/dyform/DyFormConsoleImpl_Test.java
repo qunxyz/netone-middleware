@@ -345,4 +345,11 @@ public class DyFormConsoleImpl_Test implements DyFormConsoleIfc {
 		return null;
 	}
 
+	@Override
+	public List<DyFormColumn> fetchColumnListForDesign(String formid)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -255,11 +255,12 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
            		  Columid=LableComboBoxKV(vivid.AddCount[i])._ID;	
                   Viewtype=LableComboBoxKV(vivid.AddCount[i]).id;
                   Extendattribute="offset$:"+LableComboBoxKV(vivid.AddCount[i]).row+"-"+LableComboBoxKV(vivid.AddCount[i]).cross+"$!";
-                       var arr:Array=(LableComboBoxKV(vivid.AddCount[i]).PLANB).toString().split(",");
+                      /*  var arr:Array=(LableComboBoxKV(vivid.AddCount[i]).PLANB).toString().split(",");
                        arr.pop();
                        for(var i1:int=0;i1<arr.length;i1++){
                         valuelist=valuelist+arr[i1].toString().replace("---","-")+",";
-                       }
+                       } */
+                 valuelist= LableComboBoxKV(vivid.AddCount[i]).PLANB;
                  Musk=LableComboBoxKV(vivid.AddCount[i]).must;
                  conceal=LableComboBoxKV(vivid.AddCount[i]).conceal;
                    opemode=LableComboBoxKV(vivid.AddCount[i]).read;
@@ -1046,7 +1047,7 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				       }
 				       if(arrColumn[j].regExpression=="" || arrColumn[j].regExpression==null){
 				       }else{
-				       exp=exp+"initscript$:"+arrColumn[j].regExpression+"$!";
+				       exp=exp+"checkrule$:"+arrColumn[j].regExpression+"$!";
 				       }
 				       cs._expand=exp;
 				       cs._length=arrColumn[j].columncode;

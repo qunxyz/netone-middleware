@@ -140,8 +140,8 @@
             
              if(arr!=null){
              if(arr.length==1){
-       	       vivid.comp["_treeProvider"]=arr[0].resourcename+"["+arr[0].resourcecode+"]"; 
-       	       vivid.comp["PLANB"]=arr[0].resourcename+"["+arr[0].resourcecode+"]"; 
+       	       vivid.comp["_treeProvider"]=arr[0].resourcename+"[TREE:"+arr[0].resourcecode+"]"; 
+       	       vivid.comp["PLANB"]=arr[0].resourcename+"[TREE:"+arr[0].resourcecode+"]"; 
        	     }else{
        	     Alert.show("只能选择一条");
        	     }

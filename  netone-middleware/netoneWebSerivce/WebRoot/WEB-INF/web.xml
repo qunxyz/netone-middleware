@@ -163,6 +163,20 @@
     <servlet-name>LoginMvl</servlet-name>
     <servlet-class>oe.mid.netone.moblie.LoginMvl</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Querybranch</servlet-name>
+    <servlet-class>oe.mid.netone.dyfrom.Querybranch</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Querybranchlisting</servlet-name>
+    <servlet-class>oe.mid.netone.web.Querybranchlisting</servlet-class>
+  </servlet>
+
+
 
 
  
@@ -291,10 +305,15 @@
     <servlet-name>Allimage</servlet-name>
     <url-pattern>/allimage</url-pattern>
   </servlet-mapping>
-    <!--  组织人员的数据服务 -->
+    <!--  上传照片人员的查询-->
   <servlet-mapping>
     <servlet-name>Personnel</servlet-name>
     <url-pattern>/personnel</url-pattern>
+  </servlet-mapping>
+      <!-- 商超查询 -->
+  <servlet-mapping>
+    <servlet-name>Querybranch</servlet-name>
+    <url-pattern>/querybranch</url-pattern>
   </servlet-mapping>
    <!-- 手机唯一标识的登录 -->
   <servlet-mapping>
@@ -311,4 +330,10 @@
     <servlet-name>LoginMvl</servlet-name>
     <url-pattern>/loginmvl</url-pattern>
   </servlet-mapping>
+   <!-- 网点管理的数据列表查询 -->
+  <servlet-mapping>
+    <servlet-name>Querybranchlisting</servlet-name>
+    <url-pattern>/querybranchlisting</url-pattern>
+  </servlet-mapping>
+
 </web-app>

@@ -3,7 +3,6 @@ package oe.mid.netone.web;
 public class Photographobj {
     private String longitude;
     private String latitude;
-    private String userid;
     private String name;
 	public String getLongitude() {
 		return longitude;
@@ -16,12 +15,6 @@ public class Photographobj {
 	}
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
-	}
-	public String getUserid() {
-		return userid;
-	}
-	public void setUserid(String userid) {
-		this.userid = userid;
 	}
 	public String getName() {
 		return name;

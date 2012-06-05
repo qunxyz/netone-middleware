@@ -47,6 +47,14 @@ public interface DyFormConsoleIfc {
 	 * @return
 	 */
 	List<DyFormColumn> fetchColumnList(String formid) throws Exception;
+	
+	/**
+	 * 装载表单字段(设计时使用不要去调度列表脚本执行)
+	 * 
+	 * @param formid
+	 * @return  
+	 */
+	List<DyFormColumn> fetchColumnListForDesign(String formid) throws Exception;
 
 	/**
 	 * 装载表单字段

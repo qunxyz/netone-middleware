@@ -56,19 +56,19 @@ public class Queryform extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		String  formcode=null;
-		String appname=request.getParameter("appname");
-		
+		String formcode = null;
+		String appname = request.getParameter("appname");
+
 		UmsProtecte up = new UmsProtecte();
 		UmsProtectedobject upobj = up.loadUmsProtecteNaturalname(appname);
 		if (StringUtils.isNotEmpty(upobj.getExtendattribute())) {
 			AnalysisAppFirst appFirst = new AnalysisAppFirst();
 			AppFirst app = appFirst.readXML(upobj.getExtendattribute());
-			formcode=app.getFormcode();
+			formcode = app.getFormcode();
 		}
-		 
+
 		DyFormDesignService dys = null;
-		
+
 		TCsColumn busForm = new TCsColumn();
 		busForm.setFormcode(formcode);
 
@@ -79,20 +79,46 @@ public class Queryform extends HttpServlet {
 			e1.printStackTrace();
 		}
 		List listmame = dys.queryObjects(busForm);
-		List list=new ArrayList();
+		List list = new ArrayList();
 		for (Iterator iterator = listmame.iterator(); iterator.hasNext();) {
 			TCsColumn tCsColumn = (TCsColumn) iterator.next();
-	        
-			Map map=new HashMap();
-			if(tCsColumn.getColumnid().toUpperCase().equals("BELONGX") || tCsColumn.getColumnid().toUpperCase().equals("TIMEX")){
-			}else{	
-	        map.put("columnid", tCsColumn.getColumnid());
-	        map.put("musk", tCsColumn.getMusk());
-	        map.put("opemode", tCsColumn.getOpemode());
-	        map.put("columname", tCsColumn.getColumname());
-	        map.put("viewtype", tCsColumn.getViewtype());
-	        map.put("valuelist", tCsColumn.getValuelist());
-			list.add(map);
+
+			Map map = new HashMap();
+			if (tCsColumn.getColumnid().toUpperCase().equals("BELONGX")
+					|| tCsColumn.getColumnid().toUpperCase().equals("TIMEX")) {
+			} else {
+				if (StringUtils.isNotBlank(tCsColumn.getColumnid())) {
+					map.put("columnid", tCsColumn.getColumnid());
+				} else {
+					map.put("columnid", "");
+				}
+				if (StringUtils.isNotBlank(tCsColumn.getMusk())) {
+					map.put("musk", tCsColumn.getMusk());
+				} else {
+					map.put("musk", "");
+				}
+				if (StringUtils.isNotBlank(tCsColumn.getOpemode())) {
+					map.put("opemode", tCsColumn.getOpemode());
+				} else {
+					map.put("opemode", "");
+				}
+				if (StringUtils.isNotBlank(tCsColumn.getColumname())) {
+					map.put("columname", tCsColumn.getColumname());
+				} else {
+					map.put("columname", "");
+				}
+				if (StringUtils.isNotBlank(tCsColumn.getViewtype())) {
+					map.put("viewtype", tCsColumn.getViewtype());
+				} else {
+					map.put("viewtype", "");
+				}
+				if (StringUtils.isNotBlank(tCsColumn.getValuelist())) {
+					map.put("valuelist", tCsColumn.getValuelist());
+				} else {
+					map.put("valuelist", "");
+				} 
+				map.put("useable", tCsColumn.isUseable());
+				list.add(map);
 			}
 		}
 		response.setContentType("text/html;charset=utf-8");

@@ -70,6 +70,10 @@
 		SELECT COUNT(*) FROM t_file WHERE d_unid=#d_unid#
 	</select>
 	
+	<select id="selectFileByName" parameterClass="File" resultClass="File">
+		SELECT * FROM t_file where filename=#filename# and d_unid=#d_unid#
+	</select>
+	
 	<update id="updateD_unid" parameterClass="java.util.HashMap">
 		UPDATE t_file SET d_unid=#d_unid# 
 		WHERE unid in 

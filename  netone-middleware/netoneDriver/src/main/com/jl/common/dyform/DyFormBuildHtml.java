@@ -1997,11 +1997,11 @@ public final class DyFormBuildHtml {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String naturalname = "APPFRAME.APPFRAME.NDYD";
-		AppObj app = AppEntry.iv().loadApp(naturalname);
-		String formcode = app.getDyformCode_();
-
-		DyForm dyform = DyEntry.iv().loadForm(formcode);
+		// String naturalname = "APPFRAME.APPFRAME.NDYD";
+		// AppObj app = AppEntry.iv().loadApp(naturalname);
+		// String formcode = app.getDyformCode_();
+		//
+		// DyForm dyform = DyEntry.iv().loadForm(formcode);
 
 		// // 查询条件
 		// System.out.println(buildQueryColumn(dyform.getQueryColumn_()));
@@ -2018,13 +2018,21 @@ public final class DyFormBuildHtml {
 		// System.out.println(calcAvailColumnWidth(2));
 
 		// 打印表单
-		String lsh = "44cc006390304e538d3a326c98f6f0b1";
-		System.out.println(buildForm(dyform, false, "adminx", naturalname, lsh,
-				true, true, "", ""));
+		// String lsh = "44cc006390304e538d3a326c98f6f0b1";
+		// System.out.println(buildForm(dyform, false, "adminx", naturalname,
+		// lsh,
+		// true, true, "", ""));
+		//
+		// // 打印子表单
+		// System.out.println(buildSubForm(dyform.getSubform_()[0], lsh, true,
+		// "adminx", ""));
 
-		// 打印子表单
-		System.out.println(buildSubForm(dyform.getSubform_()[0], lsh, true,
-				"adminx", ""));
+		String[][] arr = DyFormConsoleIfc._HTML_LIST;
+		for (int i = 0; i < arr.length; i++) {
+			String script = routeAppointComp(arr[i][0], "column" + i, "", "",
+					"", false, "男-男,女-女", "", "", "");
+			System.out.println(arr[i][0] + ":" + arr[i][1] + ":" + script);
+		}
 	}
 
 }

@@ -90,7 +90,7 @@ public class FileAction extends AbstractAction {
 		request.setAttribute("list", result);
 		return mapping.findForward("onPublicMainView");
 	}
-	
+
 	public ActionForward onFrameFileMainView(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -171,7 +171,7 @@ public class FileAction extends AbstractAction {
 			}
 		}
 	}
-	
+
 	public void onUploadFrameFile(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -192,8 +192,8 @@ public class FileAction extends AbstractAction {
 			CommonUploadUtil importS = new CommonUploadUtil(request);
 			FileItem fileItem = importS.getFileItem("files");// 获取页面传来的文件
 			User user = getOnlineUser(request);
-			String htmlx = service.saveFrame(request, id, filename, filetype, path,
-					user.getUserCode(), user.getUserName(), fileItem);
+			String htmlx = service.saveFrame(request, id, filename, filetype,
+					path, user.getUserCode(), user.getUserName(), fileItem);
 			json = JSONObject.fromObject(htmlx);
 			html = json.getString("unid") + "(~|~|~)"
 					+ json.getString("filename") + "(~|~|~)"

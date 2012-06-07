@@ -1,6 +1,9 @@
 package com.jl.web.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
@@ -26,6 +29,7 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jl.common.JSONUtil2;
+import com.jl.common.ScriptTools;
 import com.jl.common.app.AppEntry;
 import com.jl.common.app.AppHandleIfc;
 import com.jl.common.app.AppObj;
@@ -79,7 +83,89 @@ public class FrameAction extends AbstractAction {
 		String queryConditionHtml = DyFormBuildHtml.buildQueryCondition(dyform
 				.getQueryColumn_());
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
-		return mapping.findForward("onMainView");
+
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/frameMain-" + naturalname + ".jsp");
+		String forward = "/frame/frameMain.jsp";
+		if (file.exists()) {
+			forward = "/frame/frameMain-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+		// return mapping.findForward("onMainView");
+	}
+
+	// 列表页面action
+	public ActionForward listmain(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String naturalname = request.getParameter("naturalname");
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/listmain-" + naturalname + ".jsp");
+		String forward = "/frame/listmain.jsp";
+		if (file.exists()) {
+			forward = "/frame/listmain-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 列表数据action
+	public void list(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String naturalname = request.getParameter("naturalname");
+		StringBuffer script = new StringBuffer();
+
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/list-" + naturalname + ".jcode");
+		if (file.exists()) {
+			BufferedReader reader = null;
+			try {
+				// System.out.println("以行为单位读取文件内容，一次读一整行：");
+				reader = new BufferedReader(new FileReader(file));
+				String tempString = null;
+				int line = 1;
+				// 一次读入一行，直到读入null为文件结束
+				while ((tempString = reader.readLine()) != null) {
+					// 显示行号
+					// System.out.println("line " + line + ": " + tempString);
+					script.append(tempString);
+					line++;
+				}
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e1) {
+					}
+				}
+			}
+			Object obj = ScriptTools.todo(script.toString());
+			if (obj == null) {
+				response.getWriter().write("0");
+			}
+			String datatype = request.getParameter("datatype");
+			if ("json".equals(datatype)) {
+				response.setContentType("text/json;charset=UTF-8");
+			}
+			response.getWriter().write(obj.toString());
+		} else {
+			String datatype = request.getParameter("datatype");
+			if ("json".equals(datatype)) {
+				response.setContentType("text/json;charset=UTF-8");
+				response.getWriter().write("{\"error\":\"yes\"}");
+			} else {
+				response.getWriter().write("error");
+			}
+		}
 	}
 
 	public void onList(ActionMapping mapping, ActionForm form,
@@ -253,7 +339,17 @@ public class FrameAction extends AbstractAction {
 		ispermission = pmap.get("ispermission");
 
 		load(mapping, form, request, response, isedit, ispermission);
-		return mapping.findForward("onEditView");
+		// return mapping.findForward("onEditView");
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/editframe-" + naturalname + ".jsp");
+		String forward = "/frame/editframe.jsp";
+		if (file.exists()) {
+			forward = "/frame/editframe-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
 	}
 
 	// 表单预览
@@ -261,6 +357,7 @@ public class FrameAction extends AbstractAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String formcode = request.getParameter("formcode");
+		String naturalname = request.getParameter("naturalname");
 		String $isedit = request.getParameter("isedit");
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
 		request.setAttribute("htmltitleinfo", dyform.getHtmltitleinfo_());
@@ -271,7 +368,17 @@ public class FrameAction extends AbstractAction {
 		Map issubmap = new HashMap();
 		issubmap.put(-1, isedit);
 		loadDyForm(mapping, form, request, response, isedit, issubmap);
-		return mapping.findForward("onPreviewMain");
+		// return mapping.findForward("onPreviewMain");
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/editframe-" + naturalname + ".jsp");
+		String forward = "/frame/previewframe.jsp";
+		if (file.exists()) {
+			forward = "/frame/previewframe-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
 	}
 
 	private void loadNavInfo(HttpServletRequest request) throws Exception {
@@ -338,6 +445,7 @@ public class FrameAction extends AbstractAction {
 			if (StringUtils.isNotEmpty(workcode)) {
 				TWfWorklist twf = WfEntry.iv().loadWorklist(workcode);
 				request.setAttribute("runtimeid", twf.getRuntimeid());
+
 			} else {
 				request.setAttribute("processid", processid);
 			}

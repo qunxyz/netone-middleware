@@ -98,10 +98,10 @@ public class FrameActionExt extends AbstractAction {
 		setExtQueryColumnVar(request, formcode);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/frameMain-" + naturalname + ".jsp");
-		String forward = "/frame/frameMain.jsp";
+		File file = new File(path + "/frameSCMExt/frameMain-" + naturalname + ".jsp");
+		String forward = "/frameSCMExt/frameMain.jsp";
 		if (file.exists()) {
-			forward = "/frame/frameMain-" + naturalname + ".jsp";
+			forward = "/frameSCMExt/frameMain-" + naturalname + ".jsp";
 		}
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -159,10 +159,10 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/frameMain2-" + naturalname + ".jsp");
-		String forward = "/frame/frameMain2.jsp";
+		File file = new File(path + "/frameSCMExt/frameMain2-" + naturalname + ".jsp");
+		String forward = "/frameSCMExt/frameMain2.jsp";
 		if (file.exists()) {
-			forward = "/frame/frameMain2-" + naturalname + ".jsp";
+			forward = "/frameSCMExt/frameMain2-" + naturalname + ".jsp";
 		}
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -229,10 +229,10 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/frameMain3-" + naturalname + ".jsp");
-		String forward = "/frame/frameMain3.jsp";
+		File file = new File(path + "/frameSCMExt/frameMain3-" + naturalname + ".jsp");
+		String forward = "/frameSCMExt/frameMain3.jsp";
 		if (file.exists()) {
-			forward = "/frame/frameMain3-" + naturalname + ".jsp";
+			forward = "/frameSCMExt/frameMain3-" + naturalname + ".jsp";
 		}
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -307,10 +307,10 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/frameMain4-" + naturalname + ".jsp");
-		String forward = "/frame/frameMain4.jsp";
+		File file = new File(path + "/frameSCMExt/frameMain4-" + naturalname + ".jsp");
+		String forward = "/frameSCMExt/frameMain4.jsp";
 		if (file.exists()) {
-			forward = "/frame/frameMain4-" + naturalname + ".jsp";
+			forward = "/frameSCMExt/frameMain4-" + naturalname + ".jsp";
 		}
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -644,10 +644,10 @@ public class FrameActionExt extends AbstractAction {
 		load(mapping, form, request, response, isedit, ispermission, false);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/editframe-" + naturalname + ".jsp");
-		String forward = "/frame/editframe.jsp";
+		File file = new File(path + "/frameSCMExt/editframe-" + naturalname + ".jsp");
+		String forward = "/frameSCMExt/editframe.jsp";
 		if (file.exists()) {
-			forward = "/frame/editframe-" + naturalname + ".jsp";
+			forward = "/frameSCMExt/editframe-" + naturalname + ".jsp";
 		}
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);

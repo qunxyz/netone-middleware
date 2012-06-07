@@ -2,6 +2,8 @@ package com.jl.web.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
@@ -29,6 +31,7 @@ import org.apache.struts.action.ActionMapping;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jl.common.JSONUtil2;
+import com.jl.common.ScriptTools;
 import com.jl.common.app.AppEntry;
 import com.jl.common.app.AppHandleIfc;
 import com.jl.common.app.AppObj;
@@ -98,7 +101,8 @@ public class FrameActionExt extends AbstractAction {
 		setExtQueryColumnVar(request, formcode);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frameSCMExt/frameMain-" + naturalname + ".jsp");
+		File file = new File(path + "/frameSCMExt/frameMain-" + naturalname
+				+ ".jsp");
 		String forward = "/frameSCMExt/frameMain.jsp";
 		if (file.exists()) {
 			forward = "/frameSCMExt/frameMain-" + naturalname + ".jsp";
@@ -159,7 +163,8 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frameSCMExt/frameMain2-" + naturalname + ".jsp");
+		File file = new File(path + "/frameSCMExt/frameMain2-" + naturalname
+				+ ".jsp");
 		String forward = "/frameSCMExt/frameMain2.jsp";
 		if (file.exists()) {
 			forward = "/frameSCMExt/frameMain2-" + naturalname + ".jsp";
@@ -229,7 +234,8 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frameSCMExt/frameMain3-" + naturalname + ".jsp");
+		File file = new File(path + "/frameSCMExt/frameMain3-" + naturalname
+				+ ".jsp");
 		String forward = "/frameSCMExt/frameMain3.jsp";
 		if (file.exists()) {
 			forward = "/frameSCMExt/frameMain3-" + naturalname + ".jsp";
@@ -307,7 +313,8 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frameSCMExt/frameMain4-" + naturalname + ".jsp");
+		File file = new File(path + "/frameSCMExt/frameMain4-" + naturalname
+				+ ".jsp");
 		String forward = "/frameSCMExt/frameMain4.jsp";
 		if (file.exists()) {
 			forward = "/frameSCMExt/frameMain4-" + naturalname + ".jsp";
@@ -317,6 +324,77 @@ public class FrameActionExt extends AbstractAction {
 		// true不使用转向,默认是false代表转向
 		return af;
 		// return mapping.findForward("onMainView4");
+	}
+
+	// 列表页面action
+	public ActionForward listmain(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String naturalname = request.getParameter("naturalname");
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/listmain-" + naturalname + ".jsp");
+		String forward = "/frame/listmain.jsp";
+		if (file.exists()) {
+			forward = "/frame/listmain-" + naturalname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 列表数据action
+	public void list(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String naturalname = request.getParameter("naturalname");
+		StringBuffer script = new StringBuffer();
+
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/list-" + naturalname + ".jcode");
+		if (file.exists()) {
+			BufferedReader reader = null;
+			try {
+				// System.out.println("以行为单位读取文件内容，一次读一整行：");
+				reader = new BufferedReader(new FileReader(file));
+				String tempString = null;
+				int line = 1;
+				// 一次读入一行，直到读入null为文件结束
+				while ((tempString = reader.readLine()) != null) {
+					// 显示行号
+					// System.out.println("line " + line + ": " + tempString);
+					script.append(tempString);
+					line++;
+				}
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e1) {
+					}
+				}
+			}
+			Object obj = ScriptTools.todo(script.toString());
+			if (obj == null) {
+				response.getWriter().write("0");
+			}
+			String datatype = request.getParameter("datatype");
+			if ("json".equals(datatype)) {
+				response.setContentType("text/json;charset=UTF-8");
+			}
+			response.getWriter().write(obj.toString());
+		} else {
+			String datatype = request.getParameter("datatype");
+			if ("json".equals(datatype)) {
+				response.setContentType("text/json;charset=UTF-8");
+				response.getWriter().write("{\"error\":\"yes\"}");
+			} else {
+				response.getWriter().write("error");
+			}
+		}
 	}
 
 	public void onList(ActionMapping mapping, ActionForm form,
@@ -644,7 +722,8 @@ public class FrameActionExt extends AbstractAction {
 		load(mapping, form, request, response, isedit, ispermission, false);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frameSCMExt/editframe-" + naturalname + ".jsp");
+		File file = new File(path + "/frameSCMExt/editframe-" + naturalname
+				+ ".jsp");
 		String forward = "/frameSCMExt/editframe.jsp";
 		if (file.exists()) {
 			forward = "/frameSCMExt/editframe-" + naturalname + ".jsp";

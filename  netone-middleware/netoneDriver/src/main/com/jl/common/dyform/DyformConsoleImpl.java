@@ -133,22 +133,25 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		System.out.println(htmltype);
 		if ("11".equals(htmltype)) {
 			String valuelist = columnnew.getValuelist();
-			System.out.println("-------------valuelist:"+valuelist);
 			//来自资源树某层目录的值
 			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
+			
 			if (StringUtils.isNotEmpty(rsinfo)) {
-				if (!StringUtils.contains(rsinfo, ".")) {
-					rsinfo = rsinfo + "." + rsinfo;
+				String valuetmp[]=StringUtils.split(rsinfo,",");
+				String rsNaturaname=valuetmp[0];
+				String rsKey=valuetmp.length==2?valuetmp[1]:"name";
+				if (!StringUtils.contains(rsNaturaname, ".")) {
+					rsNaturaname = rsNaturaname + "." + rsNaturaname;
 				}
 				try {
-					UmsProtectedobject upo = rs.loadResourceByNatural(rsinfo);
+					UmsProtectedobject upo = rs.loadResourceByNatural(rsNaturaname);
 					List sub = rs.subResource(upo.getId());
 
 					for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
 						UmsProtectedobject object = (UmsProtectedobject) iterator
 								.next();
 						but.append(object.getNaturalname() + "-"
-								+ object.getName() + ",");
+								+ BeanUtils.getProperty(object, rsKey) + ",");
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

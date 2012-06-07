@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -196,8 +197,8 @@ public class FileServiceImpl extends BaseService implements FileService {
 		}
 		path += "\\" + filename;// 保存的文件绝对路径
 
-		com.jl.entity.File files = saveFile(id, usercode, userName, path, ""
-				+ formatKbSize(fileItem.getSize()), filetype, filename);
+		com.jl.entity.File files = saveFrameFile(id, usercode, userName, path,
+				"" + formatKbSize(fileItem.getSize()), filetype, filename);
 
 		json = JSONObject.fromObject(JSONUtil2.fromBean(files,
 				"yyyy-MM-dd HH:mm:ss").toString());
@@ -291,6 +292,35 @@ public class FileServiceImpl extends BaseService implements FileService {
 		file.setUpdatetime(TimeUtil.formatDateTime(new Date()));
 		file.setNote("用户\"" + userName + "\"创建!");
 		file = (com.jl.entity.File) commonDAO.insert("File.insert", file);
+		return file;
+	}
+
+	private com.jl.entity.File saveFrameFile(String id, String userCode,
+			String userName, String address, String size, String type,
+			String filename) throws Exception {
+		com.jl.entity.File file = new com.jl.entity.File();
+		file.setAddress(address);
+		file.setF_size(size);
+		file.setU_unid(userCode);
+		file.setFilename(filename);
+		file.setF_type(type);
+		file.setD_unid(id);
+		file.setUpdatetime(TimeUtil.formatDateTime(new Date()));
+		file.setNote("用户\"" + userName + "\"创建!");
+
+		List list = (List) commonDAO.select("File.selectFileByName", file);
+		if (list.size() > 0) {
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				com.jl.entity.File object = (com.jl.entity.File) iterator
+						.next();
+				object.setUpdatetime(TimeUtil.formatDateTime(new Date()));
+				commonDAO.update("File.update", object);
+			}
+			file = new com.jl.entity.File();
+		} else {
+			file = (com.jl.entity.File) commonDAO.insert("File.insert", file);
+		}
+
 		return file;
 	}
 

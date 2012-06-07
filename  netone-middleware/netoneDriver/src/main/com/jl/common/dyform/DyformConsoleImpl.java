@@ -150,8 +150,18 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
 						UmsProtectedobject object = (UmsProtectedobject) iterator
 								.next();
-						but.append(object.getNaturalname() + "-"
-								+ BeanUtils.getProperty(object, rsKey) + ",");
+						String key=object.getName();
+						if(rsKey.equals("naturalname")){
+							key=object.getNaturalname();
+						}else if(rsKey.equals("id")){
+							key=object.getId();
+						}else if(rsKey.equals("nameid")){
+							key=object.getName()+"["+object.getId()+"]";
+						}else if(rsKey.equals("namenatual")){
+							key=object.getName()+"["+object.getNaturalname()+"]";
+						}
+						but.append(key + "-"
+								+ object.getName() + ",");
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

@@ -126,5 +126,5 @@
 		
 		<mx:Button x="64.5" y="401" height="119" width="144" click="{shoujipz()}" overSkin="@Embed(source='img/ygcx2.png')" upSkin="@Embed(source='img/ygcx1.png')" downSkin="@Embed(source='img/ygcx1.png')"/>
 		<mx:Button x="264.5" y="401" height="119" width="144" click="{xtcd()}" overSkin="@Embed(source='img/xtcd2.png')" upSkin="@Embed(source='img/xtcd1.png')" downSkin="@Embed(source='img/xtcd1.png')"/>
-		<mx:Button x="464.5" y="401" height="119" width="144" click="{SOAconfig()}" overSkin="@Embed(source='img/soa1.png')" upSkin="@Embed(source='img/soa.png')" downSkin="@Embed(source='img/soa.png')"/>
+		<mx:Button x="464.5" y="401" height="119" width="144" click="{SOAconfig()}" overSkin="@Embed(source='img/soa.png')" upSkin="@Embed(source='img/soa1.png')" downSkin="@Embed(source='img/soa1.png')"/>
 		</mx:Canvas>

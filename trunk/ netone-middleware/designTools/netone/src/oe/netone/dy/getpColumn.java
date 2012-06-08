@@ -1,6 +1,7 @@
 package oe.netone.dy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class getpColumn {
 	}
 	public List getColumn(String formid) throws Exception {
 		DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
-		List<DyFormColumn> aList=DyEntry.iv().fetchColumnList(formid);
+		List<DyFormColumn> aList=DyEntry.iv().fetchColumnListForDesign(formid);
 		List listremove=new ArrayList();
 		//过滤了belongx与TIMEX字段
 		for (Iterator iterator = aList.iterator(); iterator.hasNext();) {
@@ -54,14 +55,21 @@ public class getpColumn {
 							"size$:",
 							DymaticFormCheck._FINAL_CHECK);
 					object.setColumncode(size);
-					 
-//					   object.setInitScript(StringUtils.substringBetween(ext,
-//								"size$:",
-//								DymaticFormCheck._FINAL_CHECK););
-//						object.setFocusScript("");
-//						object.setLoseFocusScript("");
-//						object.setOnchangeScript("");
-//						object.setRegExpression("");
+					    object.setInitScript(StringUtils.substringBetween(ext,
+					    		DymaticFormCheck._CHECK_INITSCRIPT,
+								DymaticFormCheck._FINAL_CHECK));
+						object.setFocusScript(StringUtils.substringBetween(ext,
+					    		DymaticFormCheck._CHECK_FOCUSSCRIPT,
+								DymaticFormCheck._FINAL_CHECK));
+						object.setLoseFocusScript(StringUtils.substringBetween(ext,
+					    		DymaticFormCheck._CHECK_LOSEFOCUSSCRIPT,
+								DymaticFormCheck._FINAL_CHECK));
+						object.setOnchangeScript(StringUtils.substringBetween(ext,
+					    		DymaticFormCheck._CHECK_ONCHANGESCRIPT,
+								DymaticFormCheck._FINAL_CHECK));
+						object.setRegExpression(StringUtils.substringBetween(ext,
+					    		DymaticFormCheck._CHECK_CHECKRULE,
+								DymaticFormCheck._FINAL_CHECK));
 				 }else{
 					    object.setInitScript("");
 						object.setFocusScript("");

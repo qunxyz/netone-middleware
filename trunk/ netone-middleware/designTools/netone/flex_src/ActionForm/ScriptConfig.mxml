@@ -105,7 +105,7 @@
 				        var text:TextArea=new TextArea();
                         text.x=0;
                         text.y=0;
-                        text.text=xml.config.InitCreate;
+                        text.text=xml.config.Yesaffirm;
                         text.id="check5";
                         text.percentHeight=100;
                         text.percentWidth=100;
@@ -116,7 +116,7 @@
 				        var text:TextArea=new TextArea();
                         text.x=0;
                         text.y=0;
-                        text.text=xml.config.InitCreate;
+                        text.text=xml.config.Onaffirm;
                         text.id="check6";
                         text.percentHeight=100;
                         text.percentWidth=100;

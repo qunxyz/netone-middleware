@@ -33,7 +33,7 @@
 	       }
        		public function drop1():void
             {    
-              this.removeAllChildren();
+               this.parent.removeChild(this);
                dorpb=true;
                EvTjFs.getInstance().dispatchEvent(new EvTijiao("shancubiaodan",this.id));
             } 

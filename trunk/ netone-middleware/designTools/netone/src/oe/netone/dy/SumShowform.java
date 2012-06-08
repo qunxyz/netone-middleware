@@ -78,7 +78,7 @@ public class SumShowform {
 			rs="SQL视图有错误!请先修订:" + rs; 
 			return rs;
 		}
-        
+
 		return columnname+"$_$"+columntype;
 	}
 

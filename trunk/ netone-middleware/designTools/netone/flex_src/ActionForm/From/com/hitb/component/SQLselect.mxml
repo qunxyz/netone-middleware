@@ -217,8 +217,8 @@
 			public function queding():void{
 				var sx:XMLList= new XMLList(selectlist).children();
 				if(sx.length()==1){
-              		  vivid.comp["_sqlstr"]=sx[0].@name+"[DYFORM:"+sx[0].@naturalname+","+key.selectedItem.columnid+","+value.selectedItem.columnid+"]";  
-					  vivid.comp["PLANB"]=sx[0].@name+"[DYFORM:"+sx[0].@naturalname+","+key.selectedItem.columnid+","+value.selectedItem.columnid+"]";  
+              		  vivid.comp["_sqlstr"]=sx[0].@name+"[DYFORM:"+sx[0].@naturalname+","+key.selectedItem.columnid+","+value.selectedItem.columnid+","+text.text+"]";  
+					  vivid.comp["PLANB"]=sx[0].@name+"[DYFORM:"+sx[0].@naturalname+","+key.selectedItem.columnid+","+value.selectedItem.columnid+","+text.text+"]";  
 					  GlobalManager.getInstance().dispatchEvent(new GlobalEvent(Data.Event_data,  vivid.comp,  vivid.comp,  vivid.comp["_cross"],  vivid.comp["_row"]));
 				}else{
 				Alert.show("只能选择一个");
@@ -252,6 +252,10 @@
 		 {		
 		  treeDataList=new XML(event.result.toString());
 		 }
+		 
+		 public function changearr():void{
+		 text.text=text.text+value0.selectedItem.columnid
+		 }
 		]]>
 	</mx:Script>
 	 <mx:RemoteObject id="getC" destination="getColumn" showBusyCursor="true"  result="getColumn_resultHandler(event)"/>  
@@ -271,11 +275,14 @@
 			 dragMoveEnabled="false" fontSize="10" iconFunction="iconFun" labelField="@name"></mx:Tree>
 		<mx:Label id="lable1" x="27" y="8" color="#062486" fontSize="12" text="表单目录"/>
 		<mx:Label id="lable2" x="340" y="8" color="#041985" fontSize="12" text="已选列表"/>
-		<mx:Button x="312" y="489" label="确定" click="queding()"/>
-		<mx:Button x="384" y="489" label="取消" click="quxiao()"/>
-		<mx:Label x="10" y="444" text="字段value:"/>
+		<mx:Button x="233" y="506" label="确定" click="queding()"/>
+		<mx:Button x="305" y="506" label="取消" click="quxiao()"/>
+		<mx:Label x="278" y="398" text="字段value:"/>
 		<mx:Label x="10" y="398" text="字段key："/>
-		<mx:ComboBox x="131" y="395" id="key" dataProvider="{arr}" labelField="columname"></mx:ComboBox>
-		<mx:ComboBox x="131" y="449" id="value" dataProvider="{arr}" labelField="columname"></mx:ComboBox>
+		<mx:Label x="9" y="443" text="条件控制："/>
+		<mx:ComboBox x="94" y="395" id="key" dataProvider="{arr}" labelField="columname" width="159"></mx:ComboBox>
+		<mx:ComboBox x="384" y="395" id="value" dataProvider="{arr}" labelField="columname" width="155"></mx:ComboBox>
+		<mx:ComboBox x="431" y="440" id="value0" dataProvider="{arr}" labelField="columname" change="changearr()" width="155"></mx:ComboBox>
+		<mx:TextArea   id="text" x="93" y="442" width="330" height="56"/>
 	   </mx:Canvas>
 </mx:TitleWindow>

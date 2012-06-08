@@ -137,6 +137,7 @@
        {
        var index:int=int(event.Formcode().substr(0,1));
        arrcbd.splice(index,1);
+      /*  childrenform.removeChild(event.Formcode() as DisplayObject); */
        }
  
   	      //上一步的方法

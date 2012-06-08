@@ -1,5 +1,8 @@
 package oe.netone.dy;
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -217,13 +220,76 @@ public class ADDdoform {
 	}
     //根据formcode删除表单
 	public Boolean Delform(String formcode,String naturalname){	
+		ResourceRmi resourceRmi = null;
+		List list=new ArrayList();
+		try {
+			resourceRmi = (ResourceRmi) RmiEntry.iv("resource");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
 		UmsProtecte up=new UmsProtecte();
 		UmsProtectedobject upbj=up.loadUmsProtecteNaturalname(naturalname);
+		String id=upbj.getId();
+		try {
+			list=resourceRmi.subResource(id);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+			Boolean fal=up.delUmsProtecte(object);
+		}
 		Boolean fal=up.delUmsProtecte(upbj);
 		TCsForm busForm = new TCsForm();
 		busForm.setFormcode(formcode);
 		Dycreate dycreate = new Dycreate();
 		return dycreate.DeleteForm(busForm);
+	}
+	 //根据formcode删除视图表单
+	public Boolean DelformView(String formcode,String naturalname){	
+		ResourceRmi resourceRmi = null;
+		List list=new ArrayList();
+		try {
+			resourceRmi = (ResourceRmi) RmiEntry.iv("resource");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		UmsProtecte up=new UmsProtecte();
+		UmsProtectedobject upbj=up.loadUmsProtecteNaturalname(naturalname);
+		String id=upbj.getId();
+		try {
+			list=resourceRmi.subResource(id);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+			Boolean fal=up.delUmsProtecte(object);
+		}
+ 
+		Boolean fal=up.delUmsProtecte(upbj);
+		DyFormService dysc=null;
+		TCsForm tCsForm=null;
+		try {
+			dysc = (DyFormService) RmiEntry.iv("dyhandle");
+			tCsForm=dysc.loadForm(formcode);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String sql="Drop view dyform."+tCsForm.getTablename();
+		DbTools.countData(sql);
+		return fal;
 	}
 	public void saveAppliction(String YSstate, String Nname, String Cname,
 			String typeString, String ependString, String note)

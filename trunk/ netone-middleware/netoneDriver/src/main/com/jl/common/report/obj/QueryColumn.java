@@ -19,6 +19,7 @@ public class QueryColumn {
 	private boolean isAnd;
 	
 	private String opesel=">-大于,<-小于,=-等于,>=-大等于,<=-小等于,!=-不等于";
+	
 
 	public boolean isAnd() {
 		return isAnd;
@@ -91,5 +92,4 @@ public class QueryColumn {
 	public void setOpesel(String opesel) {
 		this.opesel = opesel;
 	}
-
 }

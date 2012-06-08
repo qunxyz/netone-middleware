@@ -5,6 +5,7 @@
 			   dragEnter="onDragEnter(event)" fontSize="18"  >
 	<mx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
 			import BI.EvTijiao;
 			import framework.variable;
 			import DataMigration.SuperChooseDataSource;
@@ -215,6 +216,7 @@
        	            if( variable.modelname=="视图表单"){  
 					 var  ss:String=sx[0].@name+"["+sx[0].@naturalname+"]";    
        	             gfn.selectRsInDir(String(sx[0].@naturalname));
+       	             getC.getc(String(sx[0].@naturalname));
 					} 
 					 
 				 }else{
@@ -258,10 +260,19 @@
             EvTjFs.getInstance().dispatchEvent(new EvTijiao("选择表单",xml.toString()));
             PopUpManager.removePopUp(this as IFlexDisplayObject);
             }
+            
+            //获取到表单的字段
+            public function getColumn_resultHandler(event:ResultEvent):void{   
+                 var arr:ArrayCollection=event.result as ArrayCollection;
+                 for(var i:int=0;i<arr.length;i++){
+                 DateView.zidaun.addItem({name:arr[i].columname,key:arr[i].columnid});
+                 }
+            }
 		]]>
 	</mx:Script>
+        <mx:RemoteObject id="getC" destination="getColumn" showBusyCursor="true"  result="getColumn_resultHandler(event)"/>  
+ 	    <mx:RemoteObject id="gfn" destination="getformname" result="backstring(event)" showBusyCursor="true"/> 
 	    <mx:RemoteObject id="SumShowform" destination="SumShowform1" result="Xmlsql(event)" showBusyCursor="true"/> 
-	    <mx:RemoteObject id="gfn" destination="getformname" result="backstring(event)" showBusyCursor="true"/> 
 	    <mx:RemoteObject id="Xmltree1" destination="xmltree1" showBusyCursor="true"  result="getfolderxml_resultHandler(event)"/> 
 	   	<mx:Canvas x="0" y="0" width="100%" height="100%">
 		<mx:Tree id="seletlist" width="272" height="390"

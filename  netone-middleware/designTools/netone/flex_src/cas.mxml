@@ -6,6 +6,7 @@
     <mx:NumberFormatter id="filesizeFormatter" useThousandsSeparator="true"/>
      <mx:Script>
         <![CDATA[
+        	import mx.rpc.events.ResultEvent;
             import mx.events.CollectionEvent;
            import mx.formatters.NumberFormatter;
             import mx.formatters.CurrencyFormatter;
@@ -21,7 +22,7 @@
             [Bindable]
            private var useSingleThread: Boolean = true;
            private function init(): void
-             {
+             {  	
                  Security.allowDomain("*");
                  fileRefs.addEventListener(Event.SELECT, fileSelectHandler);
                  fileRefs.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
@@ -94,6 +95,13 @@
                  if (index != -1)
                      selectedFiles.removeItemAt(index);
              }
+                         //获取到表单的字段
+            public function getColumn_resultHandler(event:ResultEvent):void{   
+               var  arr:ArrayCollection=event.result as ArrayCollection;
+               for(var i:int=0;i<arr.length;i++){
+                Alert.show("ss");
+               }
+            }
            ]]>
      </mx:Script>
      <mx:TextInput id="text" width="528" text="http://127.0.0.1:81/netoneWebSerivce/uploadfileAction?userid=adminx"/>

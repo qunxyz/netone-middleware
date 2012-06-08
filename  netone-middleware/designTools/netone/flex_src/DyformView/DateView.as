@@ -1,5 +1,7 @@
 // ActionScript file
 package DyformView{
+	import mx.collections.ArrayCollection;
+	
 
 public class DateView{
 	 [Bindable]// 总的步骤 sum
@@ -24,7 +26,8 @@ public class DateView{
      public static var Formcode:String="";
      [Bindable] // 表单的Formcode1
      public static var Formcode1:String="";
-     
+     [Bindable] // 表单字段
+    public static var zidaun:ArrayCollection=new ArrayCollection();   
 }
 
 }

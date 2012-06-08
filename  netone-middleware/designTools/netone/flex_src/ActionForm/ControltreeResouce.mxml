@@ -31,6 +31,9 @@
          	    private var vs:ViewStack;
          	     [Bindable]
                 public var comarr:ArrayCollection=new ArrayCollection(); 
+                [Bindable]
+                public var arrcoll:ArrayCollection=new ArrayCollection([{name:"name",value:"名称"},{name:"naturalname",value:"资源名"},
+          	 	{name:"id",value:"资源ID"},{nameid:"id",value:"名称+资源ID"},{name:"namenatual",value:"名称+资源名"}]);
              public function treeEvent(event:ListEvent):void
          	 {   
          		     Lleft.dataProvider=null;
@@ -128,7 +131,6 @@
                if(o1!=null){
        	          vs.selectedChild=o1 as Canvas; 
                }
-               
                //(o1 as Operate).Zyname.text=arr[0].resourcecode;
              }
              else{
@@ -140,8 +142,8 @@
             
              if(arr!=null){
              if(arr.length==1){
-       	       vivid.comp["_treeProvider"]=arr[0].resourcename+"[TREE:"+arr[0].resourcecode+"]"; 
-       	       vivid.comp["PLANB"]=arr[0].resourcename+"[TREE:"+arr[0].resourcecode+"]"; 
+       	       vivid.comp["_treeProvider"]=arr[0].resourcename+"[TREE:"+arr[0].resourcecode+","+need.selectedItem.name+"]"; 
+       	       vivid.comp["PLANB"]=arr[0].resourcename+"[TREE:"+arr[0].resourcecode+","+need.selectedItem.name+"]"; 
        	     }else{
        	     Alert.show("只能选择一条");
        	     }
@@ -159,7 +161,6 @@
        	     
        	     }
        }
-      
   	]]>
  </mx:Script>
      <mx:RemoteObject id="gettreeObject" destination="selectchirdrenform" result="scResult(event)" 
@@ -183,22 +184,24 @@
         </mx:AdvancedDataGrid> 
 	   	</mx:Canvas>
 	    <mx:Canvas  width="633" height="455">
-	    <mx:Label text="选择数据:" fontSize="17" x="10" y="4"/>
-	    <mx:Label text="选中数据:" fontSize="17" x="362" y="5"/>
+	    <mx:Label text="选择数据:" fontSize="17" x="10" y="55"/>
+	    <mx:Label text="展示字段:" fontSize="17" x="10" y="11"/>
+	    <mx:Label text="选中数据:" fontSize="17" x="362" y="55"/>
 	       <mx:List id="Lleft" 
 	      	     labelField="resourcename"
 	      	     allowMultipleSelection="true"
 	      		 dragEnabled="true" 
 	      	     dragMoveEnabled="true"
 	      	     dropEnabled="true"
-	      		 width="271" height="421" x="10" y="34"/>
+	      		 width="271" height="366" x="10" y="89"/>
 	       <mx:List id="Lleft0" 
 	            labelField="resourcename"
 	            allowMultipleSelection="true"
 	       	 dragEnabled="true" 
 	            dragMoveEnabled="true"
 	            dropEnabled="true"
-	       	 width="271" height="421" x="362" y="34"/>
+	       	 width="271" height="366" x="362" y="89"/>
+	       <mx:ComboBox id="need" dataProvider="{arrcoll}" labelField="value"   change="valuechange(event)"  width="168" y="10" x="113"/>
 	   </mx:Canvas>
 	  </mx:HBox>
 	  <mx:Canvas  width="943">

@@ -124,14 +124,12 @@ public class DataRep {
 
 	public HeaderTable getColHeader() throws Exception {
 		HeaderTable th = new HeaderTable();
-
+		Getdatalist listx = Readdata.gettabledata(reportobj, reportPools);
 		for (int i = 0; i < reportobj.getTablelist().size(); i++) {
-
 			String ssa = "tou";
 			if (ssa.equals(reportobj.getTablelist().get(i).getIshead())) {
 				List<Read_td> hlist = reportobj.getTablelist().get(i)
 						.getTdlist();
-
 				for (int m = 0; m < reportobj.getTablelist().get(i).getRows(); m++) {
 					TableRow thr2 = new TableRow(reportobj.getTablelist()
 							.get(i).getCols());
@@ -143,9 +141,19 @@ public class DataRep {
 									TableCell tc = null;
 									tc = thr2.getCell(k);
 									tc.setAlign(tc.ALIGN_CENTER);
+									if (listx.getRecorddatalist().containsKey(hlist.get(j).getTdclr()
+											.getId())) {
+										tc.setColSpan(hlist.get(j).getColspan());
+										List list2=(List) listx.getRecorddatalist().get(hlist.get(j).getTdclr()
+												.getId());
+										if(list2.size()!=0){
+											tc.setContent(""+list2.get(0));
+										 }
+									}else{
 									tc.setColSpan(hlist.get(j).getColspan());
 									tc.setContent(hlist.get(j).getTdclr()
 											.getText());
+									}
 									for (int k2 = k + 1; k2 < k
 											+ hlist.get(j).getColspan(); k2++) {
 										thr2.getCell(k2).setIsHidden(true);
@@ -164,39 +172,37 @@ public class DataRep {
 		return th;
 	}
 
-	public Table getHeader() {
-		Table t = new Table();
-		t.setBorder(0);
-		t.setAlign(t.ALIGN_CENTER);
+//	public Table getHeader() {
+//		Table t = new Table();
+//		t.setBorder(0);
+//		t.setAlign(t.ALIGN_CENTER);
+//
+//		TableCell tc = null;
+//		TableRow tr = null;
+//
+//		tr = new TableRow(reportobj.getRecordlist().get(0).getCols());
+//		t.addRow(tr);
+//		tc = tr.getCell(0);
+//		tc.setColSpan(reportobj.getRecordlist().get(0).getCols());
+//		tc.setAlign(tc.ALIGN_CENTER);
+//		tc.setContent(" ");
+//
+//		for (int i = reportobj.getTablelist().get(0).getCols(); i < 0; i--) {
+//			tr.getCell(i).setIsHidden(false);
+//		}
+//
+//		return t;
+//
+//	}
 
-		TableCell tc = null;
-		TableRow tr = null;
-
-		tr = new TableRow(reportobj.getRecordlist().get(0).getCols());
-		t.addRow(tr);
-		tc = tr.getCell(0);
-		tc.setColSpan(reportobj.getRecordlist().get(0).getCols());
-		tc.setAlign(tc.ALIGN_CENTER);
-		tc.setContent(" ");
-
-		for (int i = reportobj.getTablelist().get(0).getCols(); i < 0; i--) {
-			tr.getCell(i).setIsHidden(false);
-		}
-
-		return t;
-
-	}
-
-	public Table getFooterTable() {
+	public Table getFooterTable() throws Exception {
 		Table th = new Table();
-
+		Getdatalist listx = Readdata.gettablewiedata(reportobj, reportPools);
 		for (int i = 0; i < reportobj.getTablelist().size(); i++) {
-
 			String ssa = "wei";
 			if (ssa.equals(reportobj.getTablelist().get(i).getIshead())) {
 				List<Read_td> hlist = reportobj.getTablelist().get(i)
 						.getTdlist();
-
 				for (int m = 0; m < reportobj.getTablelist().get(i).getRows(); m++) {
 					TableRow thr2 = new TableRow(reportobj.getTablelist()
 							.get(i).getCols());
@@ -208,9 +214,19 @@ public class DataRep {
 									TableCell tc = null;
 									tc = thr2.getCell(k);
 									tc.setAlign(tc.ALIGN_CENTER);
+									if (listx.getRecorddatalist().containsKey(hlist.get(j).getTdclr()
+											.getId())) {
+										tc.setColSpan(hlist.get(j).getColspan());
+										List list2=(List) listx.getRecorddatalist().get(hlist.get(j).getTdclr()
+												.getId());
+										if(list2.size()!=0){
+										tc.setContent(""+list2.get(0));
+										}
+									}else{
 									tc.setColSpan(hlist.get(j).getColspan());
 									tc.setContent(hlist.get(j).getTdclr()
 											.getText());
+									}
 									for (int k2 = k + 1; k2 < k
 											+ hlist.get(j).getColspan(); k2++) {
 										thr2.getCell(k2).setIsHidden(true);
@@ -311,7 +327,7 @@ public class DataRep {
 			}
 			System.out.println(r_table.getId() + ": tcollist  "
 					+ tcollist.size());
-
+			r_table.setTcollist(tcollist);
 			// tr
 			List<Read_tr> trlist = new ArrayList<Read_tr>();
 			for (Iterator j = element.elementIterator("tr"); j.hasNext();) {
@@ -327,7 +343,13 @@ public class DataRep {
 				trlist.add(r_tr);
 			}
 			System.out.println(r_table.getId() + ": trlist  " + trlist.size());
-
+			r_table.setSqlstr("");
+			for (Iterator v = element.elementIterator("sql"); v.hasNext();) {
+				Element fooinit = (Element) v.next();
+				String sqlstr = fooinit.getData().toString();
+				System.out.println("sqlstr:"+sqlstr);
+				r_table.setSqlstr(sqlstr);
+			}
 			// td
 			List<Read_td> tdlist = new ArrayList<Read_td>();
 			for (Iterator j = element.elementIterator("td"); j.hasNext();) {
@@ -451,7 +473,7 @@ public class DataRep {
 			}
 			System.out.println(r_record.getId() + ": tcollist  "
 					+ tcollist.size());
-
+			r_record.setTcollist(tcollist);
 			// tr
 			List<Read_tr> trlist = new ArrayList<Read_tr>();
 			for (Iterator j = element.elementIterator("tr"); j.hasNext();) {
@@ -537,11 +559,11 @@ public class DataRep {
 			recordlist.add(r_record);
 		}
 
-		System.out.println(labellist.size() + "<-- label");
-		System.out.println(columnslist.size() + "<-- columns");
-		System.out.println(datasetlist.size() + "<--dataset");
-		System.out.println(tablelist.size() + "<--table");
-		System.out.println(recordlist.size() + "<--record");
+//		System.out.println(labellist.size() + "<-- label");
+//		System.out.println(columnslist.size() + "<-- columns");
+//		System.out.println(datasetlist.size() + "<--dataset");
+//		System.out.println(tablelist.size() + "<--table");
+//		System.out.println(recordlist.size() + "<--record");
 
 		report_obj.setColumnslist(columnslist);
 		report_obj.setDatasetlist(datasetlist);

@@ -4,6 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.jl.common.report.obj.core.Read_table;
+
 import com.jl.common.report.obj.core.Read_dataset;
 import com.jl.common.report.obj.core.Read_report;
 import com.jl.common.report.obj.core.RecordPools;
@@ -40,26 +44,27 @@ public class XmlDataread {
 			}
 			
 		}	
-		
+	  for (Iterator iterator = r_report.getTablelist().iterator(); iterator.hasNext();) {
+		 Read_table table = (Read_table) iterator.next();
+		 if(StringUtils.isNotEmpty(table.getSqlstr())){
+			if(!table.getSqlstr().equals("-NULL-")){
+			    String id=table.getId();
+			    String sqlstr=table.getSqlstr();
+			    String ishead=table.getIshead();
+			    if(ishead.equals("tou")){
+				   rps.getTable().put(id, datalist(sqlstr,condition));
+			    }
+			    if(ishead.equals("wei")){
+					rps.getTablewei().put(id, datalist(sqlstr,condition));
+				}
+			}
+		 }
+	  }
 		return rps;
 	}
 	public static List datalist(String sqlstr,String condition)
 	{
 		List list=DbTools2.queryData(sqlstr+condition);
-		
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			Map object = (Map) iterator.next();
-			for (Iterator z = object.keySet().iterator(); z.hasNext();) {
-				String xxxxx = (String) z.next();
-				//System.out.print(xxxxx+":"+object.get(xxxxx)+";");
-				
-			}
-			System.out.println();
-		}
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		
 		return list;
 	}
 }

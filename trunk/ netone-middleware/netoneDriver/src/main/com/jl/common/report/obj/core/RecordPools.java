@@ -12,6 +12,8 @@ public class RecordPools {
 	Map record=new HashMap();
 
 	Map dataset=new HashMap();
+	Map table=new HashMap();
+	Map tablewei=new HashMap();
 
 	public Map getRecord() {
 		return record;
@@ -38,6 +40,22 @@ public class RecordPools {
 		
 		
 
+	}
+
+	public Map getTable() {
+		return table;
+	}
+
+	public void setTable(Map table) {
+		this.table = table;
+	}
+
+	public Map getTablewei() {
+		return tablewei;
+	}
+
+	public void setTablewei(Map tablewei) {
+		this.tablewei = tablewei;
 	}
 
 }

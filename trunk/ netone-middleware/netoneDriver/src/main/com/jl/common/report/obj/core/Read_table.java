@@ -18,8 +18,14 @@ public class Read_table {
 	private List<Read_tcol> tcollist;
 	private List<Read_td> tdlist;
 	private String CSS;
+	private String sqlstr;
 	
-	
+	public String getSqlstr() {
+		return sqlstr;
+	}
+	public void setSqlstr(String sqlstr) {
+		this.sqlstr = sqlstr;
+	}
 	public int getRows() {
 		return rows;
 	}

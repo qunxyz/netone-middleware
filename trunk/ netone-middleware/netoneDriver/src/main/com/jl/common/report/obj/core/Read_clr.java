@@ -85,5 +85,4 @@ public class Read_clr {
 	public void setFontFamily(String fontFamily) {
 		this.fontFamily = fontFamily;
 	}
-	
 }

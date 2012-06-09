@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="bi"
+  id="myeclipse.1320980340574"
+  context-root="/bi"
+  j2ee-spec="6.0"
+  archive="bi.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

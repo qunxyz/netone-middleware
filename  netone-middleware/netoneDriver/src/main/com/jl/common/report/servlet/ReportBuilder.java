@@ -25,7 +25,8 @@ public class ReportBuilder {
 		HeaderTable colHeader = data.getColHeader();
 		Table record = data.getRecord();
 
-		Table footerTable = data.getFooterTable();
+		Table footerTable=new Table();
+		record= data.getFooterTable(record);
 
 		if ("pdf".equals(type)) {
 			rs.setContentType("application/pdf");

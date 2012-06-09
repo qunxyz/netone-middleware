@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<opjtooltip:MyToolTip xmlns:fx="http://ns.adobe.com/mxml/2009"
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  xmlns:opjtooltip="com.resistdesign.opjtooltip.*"
+					   minWidth="118" minHeight="160" color="#042665"
+					  fontFamily="细明体" fontSize="12" fontWeight="bold" 
+					  textDecoration="none" title="控件属性"  showEffect="{removetool}" >
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<mx:Parallel id="removetool"  duration="1000"> 
+			<mx:Fade alphaFrom="0" alphaTo="1" easingFunction="Bounce.easeOut" />
+			<mx:Resize   heightFrom="10" heightTo="160" widthFrom="10"  widthTo="130" easingFunction="Bounce.easeOut" />
+			<mx:Resize   heightFrom="10" heightTo="160"  easingFunction="Bounce.easeOut"  target="{initgrop}"/>
+		</mx:Parallel>
+		
+	
+		
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+//	<mx:Zoom    zoomHeightFrom="0.1" zoomHeightTo="1" zoomWidthFrom="0.1" zoomWidthTo="1"   easingFunction="Bounce.easeOut"  target="{initgrop}" />
+
+			import mx.core.UIComponent;
+			import mx.effects.easing.Bounce;
+			[Bindable]
+			public var dataname:String; 
+			[Bindable]
+			public var cid:String;
+			[Bindable]
+			public var cx:String;
+			[Bindable]
+			public var cy:String;
+			[Bindable]
+			public var cw:String;
+			[Bindable]
+			public var ch:String;
+			
+			[Bindable]
+			public var datatyp:String; 
+			
+		]]>
+	</fx:Script> 
+	<s:VGroup id="initgrop" width="116" height="127" horizontalAlign="center" horizontalCenter="0"
+			  verticalAlign="middle" verticalCenter="0">
+		<s:HGroup><s:Label text="ID:{cid}"   width="116"  textAlign="center"/></s:HGroup>
+		<s:HGroup><s:Label text="x：{cx}   y：{cy}" width="116" verticalAlign="middle" textAlign="center"/></s:HGroup>
+		<s:HGroup><s:Label text="width：{cw}" width="116" verticalAlign="middle" textAlign="center"/></s:HGroup>
+		<s:HGroup><s:Label text="height：{ch}" width="116" verticalAlign="middle" textAlign="center"/></s:HGroup>
+		<s:HGroup><s:Label text="filename：{dataname}"  width="116"  textAlign="center"  /></s:HGroup>
+		<s:HGroup><s:Label text="filetype：{datatyp}" width="116" verticalAlign="middle" textAlign="center"/></s:HGroup>
+	</s:VGroup>
+</opjtooltip:MyToolTip>

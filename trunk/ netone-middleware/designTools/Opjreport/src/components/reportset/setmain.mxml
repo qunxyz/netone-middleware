@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="648" height="550" currentState="step1" xmlns:view="com.resistdesign.view.*"
+		 creationComplete="init(event)" xmlns:setpage="components.reportset.setpage.*" xmlns:setitem="components.reportset.setpage.setitem.*"
+		 keyDown="keyDownevent(event)"
+		 >
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:Parallel id="pgupshow" duration="500"  >
+			<s:Parallel target="{pgupobj}">
+				<mx:Move   xFrom="-625" xTo="8" />
+				<s:Fade alphaFrom="0" alphaTo="1" />
+			</s:Parallel>
+			<s:Parallel target="{pgdownobj}">
+				<mx:Move  xFrom="8" xTo="641"/>
+				<s:Fade alphaFrom="1" alphaTo="0" />
+			</s:Parallel>
+		</s:Parallel>
+		<s:Parallel id="pgdownshow" duration="500"  >
+			<s:Parallel target="{pgdownobj}">
+				<mx:Move  xFrom="641" xTo="8"/>
+				<s:Fade alphaFrom="0" alphaTo="1" />
+			</s:Parallel>
+			<s:Parallel target="{pgupobj}">
+				<mx:Move   xFrom="8" xTo="-825" />
+				<s:Fade alphaFrom="1" alphaTo="0" />
+			</s:Parallel>
+		</s:Parallel>
+		
+		
+		<s:Parallel  id="barshow">
+			<s:Parallel target="{setbarbar}">
+				<mx:Move  xBy="20"  xFrom="0" xTo="-1000"/>
+				 <s:Fade alphaFrom="1" alphaTo="0" /> 
+			</s:Parallel>
+			<s:Parallel target="{clrbar}">
+				<mx:Move xBy="20"  xFrom="0" xTo="-1000"/>
+				<s:Fade alphaFrom="1" alphaTo="0" /> 
+			</s:Parallel>
+		</s:Parallel>
+		
+	
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.GlobalManager;
+			
+			import components.DataRP;
+			import components.ReportSelect;
+			import components.reports.showxml;
+			import components.reportset.colstatic.savesetrep;
+			
+			import mx.collections.XMLListCollection;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			private var selectidx:int=1;
+			[Bindable]
+			private var pgupobj:Object=null;
+			[Bindable]
+			private var pgdownobj:Object=null;
+			[bindable]
+			public var clrbar:Object=null;
+			[bindable]
+			public var setbarbar:Object=null;
+			
+			public  var repset:repsetmanage =new repsetmanage();
+	
+			
+			public function  getReportsetxml():XML
+			{
+				var repxml:XML=<Reportset></Reportset>;
+				repxml.appendChild(repset.getclrxml());
+				repxml.appendChild(setmanage.selectlist);
+
+				return repxml;
+			}
+			
+			public function saveset(event:MouseEvent):void
+			{
+			  (this.parentDocument as ReportSelect).saverepset(DataRP.repidID,DataRP.repdimxpla);	 
+			}
+		
+
+			protected function pgup(event:MouseEvent):void
+			{
+		
+					if(this.currentState !="step1")
+					{
+						selectidx--;
+						this.currentState="step"+selectidx;
+						switch(selectidx.toString())
+						{
+							case "1":
+							{
+								pgupobj=pg1;								
+								pgdownobj=pg2;
+								barshow.reverse()
+								pgupshow.play();
+								(this.parentDocument as ReportSelect).show(); 
+								break;
+							}
+							case "2":
+							{
+								pgupobj=pg2;								
+								pgdownobj=pg3;
+								pgupshow.play();
+								break;
+							}
+							case "3":
+							{
+								pgupobj=pg3;								
+								pgdownobj=pg4;
+								pgupshow.play();
+								break;
+							}
+						}
+						
+					}
+			}
+			
+			[Bindable]
+			public var xml2:XML=<list>  
+								 <colid>无</colid>  
+								 </list>;
+			
+			protected function pgdown(event:MouseEvent):void
+			{
+				if(this.currentState !="step4")
+				{
+					selectidx++;
+					this.currentState="step"+selectidx;
+					switch(selectidx.toString())
+					{
+						case "4":
+						{
+							pgupobj=pg3;								
+							pgdownobj=pg4;
+							pgdownshow.play();
+							break;
+						}
+						case "3":
+						{
+							pgupobj=pg2;								
+							pgdownobj=pg3;
+							pgdownshow.play();
+							break;
+						}
+						case "2":
+						{
+							pgupobj=pg1;								
+							pgdownobj=pg2;
+							barshow.play();
+							pgdownshow.play();
+							sp2.setrelat(repset.setarr);
+							
+							xml2=<list>  
+								 <colid>无</colid>  
+								 </list>;
+							
+							for (var i:int = 0; i < repset.setarr.length; i++) 
+							{
+								var xml3:XML=<colid></colid>;
+								xml3.@text=repset.setarr[i].col.text.toString();
+								xml3.@clrid=repset.setarr[i].col.id;
+								xml2.appendChild(xml3);
+							}
+							sp4.comBox=new XMLListCollection(xml2.colid);  
+
+							(this.parentDocument as ReportSelect).hide();
+							break;
+						}
+					}
+					
+				}
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				GlobalManager.getInstance().addEventListener("wangcheng",saveset);
+				setmanage.repset2=this.repset;
+				if(!DataRP.modeltype){
+					
+					var xml:XML=DataRP.controlxml;
+					var xmllist:XMLList=new XMLList(xml.clrlist.child("repclr"));
+					for(var i:int=0;i<xmllist.length();i++){
+						var cpl:repclr=new repclr();
+						cpl.id=xmllist[i].@id;
+						cpl.x=xmllist[i].@x;
+						cpl.y=xmllist[i].@y;
+						cpl.width=xmllist[i].@width;
+						cpl.height=xmllist[i].@height;
+						cpl.col=xmllist[i].@col;
+						cpl.row=xmllist[i].@row;
+						cpl.label=xmllist[i].@label;
+						cpl.relat=xmllist[i].@relat;
+						cpl.strtyp=xmllist[i].@strtyp;
+						cpl.type=xmllist[i].@type;
+						cpl.data=xmllist[i].@data;
+						UpData(cpl);
+					}
+				}
+			}
+			public function UpData(rpl:repclr):void{
+				
+				
+				switch (rpl.type)
+				{
+					case  "02":
+					{
+						var reptime1:reptime =new reptime();
+						reptime1.id=rpl.id;
+						reptime1.text=rpl.label;
+						rt++;
+						reptime1.x = rpl.x;
+						reptime1.y = rpl.y;
+						reptime1.width=rpl.width;
+						reptime1.height=rpl.height;
+						reptime1.addEventListener(MouseEvent.CLICK,colclick);
+					    this.selectcav.addChild(reptime1);
+						repset.setarrs(idx,reptime1 as Object,"reptime",rpl.relat);
+						idx++;
+						break;
+					}
+					case  "04":
+					{
+						var repstr1:repstr =new repstr();
+						repstr1.id=rpl.id;
+						rstr++;
+						repstr1.text=rpl.label;
+						repstr1.x =rpl.x;
+						repstr1.y =rpl.y;
+						repstr1.width=rpl.width;
+						repstr1.height=rpl.height;
+						repstr1.addEventListener(MouseEvent.CLICK,colclick);
+						selectcav.addChild(repstr1);
+						repset.setarrs(idx,repstr1 as Object,"repstr",rpl.relat);
+						idx++;
+						break;
+					}
+					case  "05":
+					{
+						var repnum1:repnum =new repnum();
+						repnum1.id=rpl.id;
+						repnum1.text=rpl.label;
+						rn++;
+						repnum1.x = rpl.x;
+						repnum1.y = rpl.y;
+						repnum1.addEventListener(MouseEvent.CLICK,colclick);
+						selectcav.addChild(repnum1);
+						repset.setarrs(idx,repnum1 as Object,"repnum",rpl.relat);
+						idx++;
+						break;
+					}
+					case  "07":
+					{
+						var obj2:reptimes =new reptimes();
+						obj2.id=rpl.id;
+						obj2.text=rpl.label;
+						rts++;
+						obj2.x = rpl.x;
+						obj2.y = rpl.y;
+						obj2.datetype="day"
+						obj2.addEventListener(MouseEvent.CLICK,colclick);
+						selectcav.addChild(obj2);
+						repset.setarrs(idx,obj2 as Object,"reptimes",rpl.relat);
+						idx++;
+						break;
+					}
+					case  "09":
+					{
+						var repnums:repnumss =new repnumss();
+						repnums.id=rpl.id;
+						repnums.text=rpl.label;
+						rns++;
+						repnums.x = rpl.x;
+						repnums.y = rpl.y;
+						repnums.width=rpl.width;
+						repnums.height=rpl.height;
+						repnums.addEventListener(MouseEvent.CLICK,colclick);
+						selectcav.addChild(repnums);
+						repset.setarrs(idx,repnums as Object,"repnumss",rpl.relat);
+						idx++;
+						break;
+					}
+					case  "11":
+					{
+						var repnumc1:repnumc =new repnumc();
+						repnumc1.id=rpl.id;
+						repnumc1.text=rpl.label;
+						rnc++;
+						repnumc1.x = rpl.x;
+						repnumc1.y = rpl.y;
+						repnumc1.width=rpl.width;
+						repnumc1.height=rpl.height;
+						repnumc1.addEventListener(MouseEvent.CLICK,colclick);
+						selectcav.addChild(repnumc1);
+						repset.setarrs(idx,repnumc1 as Object,"repnumc",rpl.relat);
+						idx++;
+						
+						break;
+					}
+					case  "13":
+					{
+						var replistss1:replistss=new replistss();
+						replistss1.id=rpl.id;
+						replistss1.text=rpl.label;
+						rlss++;
+						replistss1.x = rpl.x;
+						replistss1.y = rpl.y;
+						replistss1.width=rpl.width;
+						replistss1.height=rpl.height;
+						replistss1.addEventListener(MouseEvent.CLICK,colclick);
+						replistss1.rstype="repperss";
+						replistss1.binrs=rpl.data;
+						selectcav.addChild(replistss1);
+						repset.setarrs(idx,replistss1 as Object,"replistss",rpl.relat);
+						idx++;
+						break;
+					}
+					case  "18":
+					{
+						var repselect1:repselect =new repselect();
+						repselect1.id=rpl.id;
+						repselect1.text=rpl.label;
+						rrs++;
+						repselect1.x = rpl.x;
+						repselect1.y = rpl.y;
+						repselect1.width=rpl.width;
+						repselect1.height=rpl.height;
+						repselect1.addEventListener(MouseEvent.CLICK,colclick);
+						
+						var cmbdata:String=rpl.data.toString();
+			
+						if(cmbdata!=""&& cmbdata!="null")
+						{
+							var str:String=cmbdata.substring(cmbdata.indexOf("["),cmbdata.indexOf("]"));
+							if(str=="" || str==null){
+							var data:Array=cmbdata.split(",");
+							for (var j:int = 0; j < data.length; j++) 
+							{
+								
+								var data2:Array=(data[j].toString()).split("-");
+								repselect1.arr.addItem({label:data2[0].toString(),value:data2[1].toString()});
+							}
+							}else{
+								repselect1.Alternative=cmbdata;
+							}
+						}
+						selectcav.addChild(repselect1);
+						repset.setarrs(idx,repselect1 as Object,"repselect",rpl.relat);
+						idx++;
+						break;
+					}case  "19":
+					{
+						var reptimec1:reptimec =new reptimec();
+						reptimec1.id=rpl.id;
+						reptimec1.text=rpl.label;
+						rtc++;
+						reptimec1.x = rpl.x;
+						reptimec1.y = rpl.y;
+						reptimec1.width=rpl.width;
+						reptimec1.height=rpl.height;
+						reptimec1.datetype="day"
+						reptimec1.addEventListener(MouseEvent.CLICK,colclick);
+						selectcav.addChild(reptimec1);
+						repset.setarrs(idx,reptimec1 as Object,"reptimec",rpl.relat);
+						idx++;
+						break;
+					} 
+					case  "21":
+					{
+						var repstrcompare1:repstrcompare =new repstrcompare();
+						repstrcompare1.id=rpl.id;
+						repstrcompare1.text=rpl.label;
+						rtc++;
+						repstrcompare1.x = rpl.x;
+						repstrcompare1.y = rpl.y;
+						repstrcompare1.width=rpl.width;
+						repstrcompare1.height=rpl.height;
+						repstrcompare1.addEventListener(MouseEvent.CLICK,colclick);
+						selectcav.addChild(repstrcompare1);
+						repset.setarrs(idx,repstrcompare1 as Object,"repstrcompare",rpl.relat);
+						idx++;
+						break;
+					} 
+					case  "22":
+					{
+						
+						var repstrdim1:repstrdim =new repstrdim();
+						repstrdim1.id=rpl.id;
+						rstr++;
+						repstrdim1.text=rpl.label;
+						repstrdim1.x =rpl.x;
+						repstrdim1.y =rpl.y;
+						repstrdim1.width=rpl.width;
+						repstrdim1.height=rpl.height;
+						repstrdim1.addEventListener(MouseEvent.CLICK,colclick);
+						selectcav.addChild(repstrdim1);
+						repset.setarrs(idx,repstrdim1 as Object,"repstrdim",rpl.relat);
+						idx++;
+						break;
+					}		
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:states >
+		<s:State name="step1" />
+		<s:State name="step2" />
+		<s:State name="step3" />
+		<s:State name="step4" />
+	</s:states>
+
+	<s:HGroup  width="204" height="24" verticalAlign="middle"
+			  x="4" y="2">
+		<s:Label  text="  "/>
+		<s:Button label="上一步" fontSize="12" click="pgup(event)" includeIn="step2,step3,step4" />
+		<s:Button label="下一步" fontSize="12" click="pgdown(event)"  includeIn="step1,step2,step3"/>
+		
+	</s:HGroup>
+	<s:Panel id="pg1" title="查询定制"  alpha="1"
+			 x="8" y="34" width="633" height="507">
+		<view:DockBox id="selectcav" width="100%"  height="100%"  backgroundColor="#FFFFFF" backgroundAlpha="0.6" gridSize="50"
+					  dragDrop="enddrag(event)" dragEnter="ondrag(event)">
+			<fx:Script>
+				<![CDATA[
+					import com.resistdesign.reportsetcolr.repstrcompare;
+					import com.resistdesign.reportsetcolr.repstrdim;
+					import mx.core.IUIComponent;
+					import mx.core.UIComponent;
+					import mx.utils.NameUtil;
+					import com.resistdesign.reportsetcolr.repperss;
+					import com.resistdesign.reportsetcolr.reppers;
+					import com.resistdesign.reportsetcolr.replistss;
+					import com.resistdesign.reportsetcolr.replists;
+					import components.reportset.colstatic.pubset;
+					import flashx.textLayout.elements.BreakElement;
+					import mx.controls.Alert;
+					import com.resistdesign.reportsetcolr.repselect;
+					import com.resistdesign.reportsetcolr.reprss;
+					import com.resistdesign.reportsetcolr.reprs;
+					import com.resistdesign.reportsetcolr.repnumc;
+					import com.resistdesign.reportsetcolr.reptimec;
+					import com.resistdesign.reportsetcolr.repnumss;
+					import com.resistdesign.reportsetcolr.reptimes;
+					import com.resistdesign.reportsetcolr.repnum;
+					import com.resistdesign.reportsetcolr.repstr;
+					import com.resistdesign.reportsetcolr.reptime;
+					import mx.events.DragEvent;
+					import mx.managers.DragManager;
+					
+					private function ondrag(e:DragEvent)
+					{   
+						DragManager.acceptDragDrop(DockBox(e.currentTarget));
+					}
+					
+					
+					public var rt:int=1;
+					public var rts:int=1;
+					public var rtc:int=1;
+					public var rn:int=1;
+					public var rns:int=1;
+					public var rnc:int=1;
+					public var rstr:int=1;
+					public var rslt:int=1;
+					public var rrs:int=1;
+					public var rrss:int=1;
+					public var idx:int=0;
+					public var rls:int=1;
+					public var rlss:int=1;
+					public var rps:int=1;
+					public var rpss:int=1;
+					
+					private function enddrag(e:DragEvent)
+					{   
+						var myData:Object=new Object();
+						myData=e.dragSource.dataForFormat(e.dragSource.formats[0]);
+						switch (myData.soure)
+						{
+							case "reptime":
+							{
+								var reptime1:reptime =new reptime();
+								reptime1.id="reptime"+rt;
+								rt++;
+								reptime1.x = e.localX-(reptime1.width/2);
+								reptime1.y = e.localY-(reptime1.height);
+								reptime1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(reptime1);
+								 
+								repset.setarrs(idx,reptime1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "repstr":
+							{
+								var repstr1:repstr =new repstr();
+								repstr1.id="repstr"+rstr;
+								rstr++;
+								repstr1.x = e.localX-(repstr1.width/2);
+								repstr1.y = e.localY-(repstr1.height);
+								repstr1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(repstr1);
+								 
+								repset.setarrs(idx,repstr1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "repstrdim":
+							{
+								var repstrdim1:repstrdim =new repstrdim();
+								repstrdim1.id="repstrdim"+rstr;
+								rstr++;
+								repstrdim1.x = e.localX-(repstrdim1.width/2);
+								repstrdim1.y = e.localY-(repstrdim1.height);
+								repstrdim1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(repstrdim1);
+								
+								repset.setarrs(idx,repstrdim1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "repstrcompare":
+							{
+								var repstrcompare1:repstrcompare =new repstrcompare();
+								repstrcompare1.id="repstrcompare"+rstr;
+								rstr++;
+								repstrcompare1.x = e.localX-(repstrcompare1.width/2);
+								repstrcompare1.y = e.localY-(repstrcompare1.height);
+								repstrcompare1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(repstrcompare1);
+								
+								repset.setarrs(idx,repstrcompare1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "repnum":
+							{
+								var repnum1:repnum =new repnum();
+								repnum1.id="repnum"+rn;
+								rn++;
+								repnum1.x = e.localX-(repnum1.width/2);
+								repnum1.y = e.localY-(repnum1.height);
+								repnum1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(repnum1);
+								 
+								repset.setarrs(idx,repnum1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "reptimes":
+							{
+								var obj:reptimes =new reptimes();
+								obj.id="reptimes"+rts;
+								rts++;
+								obj.x = e.localX-(obj.width/2);
+								obj.y = e.localY-(obj.height);
+								obj.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(obj);
+								 
+								repset.setarrs(idx,obj as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "repnumss":
+							{
+								var repnums:repnumss =new repnumss();
+								repnums.id="repnums"+rns;
+								rns++;
+								repnums.x = e.localX-(repnums.width/2);
+								repnums.y = e.localY-(repnums.height);
+								repnums.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(repnums);
+								 
+								repset.setarrs(idx,repnums as Object,myData.soure);
+								idx++;
+								break;
+
+							}
+							case "reptimec":
+							{
+								var reptimec1:reptimec =new reptimec();
+								reptimec1.id="reptimec"+rtc;
+								rtc++;
+								reptimec1.x = e.localX-(reptimec1.width/2);
+								reptimec1.y = e.localY-(reptimec1.height);
+								reptimec1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(reptimec1);
+								 
+								repset.setarrs(idx,reptimec1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "repnumc":
+							{
+								var repnumc1:repnumc =new repnumc();
+								repnumc1.id="repnumc"+rnc;
+								rnc++;
+								repnumc1.x = e.localX-(repnumc1.width/2);
+								repnumc1.y = e.localY-(repnumc1.height);
+								repnumc1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(repnumc1);
+								 
+								repset.setarrs(idx,repnumc1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "reprs":
+							{
+								var reprs1:reprs =new reprs();
+								reprs1.id="reprs"+rrs;
+								rrs++;
+								reprs1.x = e.localX-(reprs1.width/2);
+								reprs1.y = e.localY-(reprs1.height);
+								reprs1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(reprs1);
+								 
+								repset.setarrs(idx,reprs1 as Object,myData.soure);
+								idx++
+								break;
+							}
+							case "reprss":
+							{
+								var reprss1:reprss =new reprss();
+								reprss1.id="reprss"+rrss;
+								rrss++;
+								reprss1.x = e.localX-(reprss1.width/2);
+								reprss1.y = e.localY-(reprss1.height);
+								reprss1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(reprss1);
+								 
+								repset.setarrs(idx,reprss1 as Object,myData.soure);
+								idx++;
+								break;
+
+							}
+							case "repselect":
+							{
+								var repselect1:repselect =new repselect();
+								repselect1.id="repselect"+rrs;
+								rrs++;
+								repselect1.x = e.localX-(repselect1.width/2);
+								repselect1.y = e.localY-(repselect1.height);
+								repselect1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(repselect1);
+								 
+								repset.setarrs(idx,repselect1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "replists":
+							{
+								var replists1:replists =new replists();
+								replists1.id="replists"+rls;
+								rls++;
+								replists1.x = e.localX-(replists1.width/2);
+								replists1.y = e.localY-(replists1.height);
+								replists1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(replists1);
+								 
+								repset.setarrs(idx,replists1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "replistss":
+							{
+								var replistss1:replistss =new replistss();
+								replistss1.id="replistss"+rlss;
+								rlss++;
+								replistss1.x = e.localX-(replistss1.width/2);
+								replistss1.y = e.localY-(replistss1.height);
+								replistss1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(replistss1);
+								 
+								repset.setarrs(idx,replistss1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "reppers":
+							{
+								var reppers1:reppers =new reppers();
+								reppers1.id="reppers"+rps;
+								rps++;
+								reppers1.x = e.localX-(reppers1.width/2);
+								reppers1.y = e.localY-(reppers1.height);
+								reppers1.addEventListener(MouseEvent.CLICK,colclick);
+								this.selectcav.addChild(reppers1);
+								 
+								repset.setarrs(idx,reppers1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+							case "repperss":
+							{
+								var repperss1:repperss =new repperss();
+								repperss1.id="repperss1"+rpss;
+								rpss++;
+								repperss1.x = e.localX-(repperss1.width/2);
+								repperss1.y = e.localY-(repperss1.height);
+								repperss1.addEventListener(MouseEvent.CLICK,colclick);
+						 
+								this.selectcav.addChild(repperss1);
+								repset.setarrs(idx,repperss1 as Object,myData.soure);
+								idx++;
+								break;
+							}
+						}
+					}
+					
+					[Bindable]
+					public var crow:int=0;
+					 [Bindable]
+					private var comarr:Array=new Array();  
+					[Bindable]
+					public  var arr:Array=new Array();
+					[Bindable]
+					public var ccolumn:int=0;
+		 
+					public function colclick(e:MouseEvent):void
+					{
+						
+						if(NameUtil.getUnqualifiedClassName(e.currentTarget)=="reptime" 
+						||	NameUtil.getUnqualifiedClassName(e.currentTarget)=="reptimec"
+						||  NameUtil.getUnqualifiedClassName(e.currentTarget)=="reptimes")
+						{
+							setmanage.setqua.currentState="daytime";
+								switch(e.currentTarget.datetype)
+								{
+									case "day":
+									{
+										setmanage.setqua.dayandtime.day.selected=true;
+										break;
+									}
+									case "time":
+									{
+										setmanage.setqua.dayandtime.time.selected=true;
+										break;
+									}
+									case "daytime":
+									{
+										setmanage.setqua.dayandtime.daytime.selected=true;
+										break;
+									}
+									
+								}
+						}
+						else if(NameUtil.getUnqualifiedClassName(e.currentTarget)=="replistss")
+						{
+							setmanage.setqua.currentState="rss";
+							
+							switch(e.currentTarget.rstype)
+							{
+								case "replists":
+								{
+									setmanage.setqua.rssqua1.ls.selected=true;
+									break;
+								}
+								case "replistss":
+								{
+									setmanage.setqua.rssqua1.lss.selected=true;
+									break;
+								}
+								case "reppers":
+								{
+									setmanage.setqua.rssqua1.ps.selected=true;
+									break;
+								}
+								case "repperss":
+								{
+									setmanage.setqua.rssqua1.pss.selected=true;
+									break;
+								}
+								case "reprs":
+								{
+									setmanage.setqua.rssqua1.rs.selected=true;
+									break;
+								}
+								case "reprss":
+								{
+									setmanage.setqua.rssqua1.rss.selected=true;
+									break;
+								}
+							}
+							
+							
+						}
+						else
+						{
+							setmanage.setqua.currentState="default";
+						}
+						
+						
+				  		this.repset.selectobj=e.currentTarget;
+						setmanage.repsetqua.colid.text=e.currentTarget.id;
+						setmanage.repsetqua.collabel.text=e.currentTarget.text;
+						setmanage.repsetqua.colw.value=e.currentTarget.width;
+						setmanage.repsetqua.colh.value=e.currentTarget.height;
+						setmanage.repsetqua.colx.value=e.currentTarget.x;
+						setmanage.repsetqua.coly.value=e.currentTarget.y;  
+
+						var item:Object=setrow_col(e.currentTarget as UIComponent); 
+						
+						  setmanage.repsetqua.col.value=item["col"];
+						  setmanage.repsetqua.row.value=item["row"]; 
+						  
+					}
+					
+					
+					  public function setrow_col(comrule:IUIComponent):Object{  
+						  comarr=new Array();
+						  arr=new Array();
+						  if(comrule!=null)
+					    	{   
+							var diff:int=((comrule.y+comrule.height)/50);
+							
+							if(((comrule.y+comrule.height)%50)!=0)
+							{ 
+								diff=diff+1;
+								
+								var comcolumn:int= diff*50 ; 
+								var gap:int =comcolumn%(comrule.y+comrule.height);    	       
+								comrule.y=comrule.y+gap; 
+							}  
+							crow=diff;
+							var s:int=0;
+							for(var index:int=0;index<repset.setarr.length;index++){
+							  comarr.push(repset.setarr[index].col as IUIComponent); 
+							
+							}
+							for(var j:int=0; j<comarr.length;j++)
+							{
+								if(comarr[j].name==comrule.name){
+									arr[s]=	UIComponent(comarr[j]);      
+									s++;  
+								}else{
+								var di:int=((UIComponent(comarr[j]).y+UIComponent(comarr[j]).height)/50);
+							  
+								if(diff==di)
+								{   
+									/* Alert.show(diff+"------"+di+"+++++++"+UIComponent(comarr[j])["text"]); */
+									arr[s]=	UIComponent(comarr[j]);      
+									s++;              
+								}
+								}
+							}
+							
+							for(var i:int=0;i<arr.length;i++)
+							{    
+								for(var k:int=0; k<arr.length;k++)
+								{        		
+									if(i<arr.length){
+										
+										if(UIComponent(arr[i]).x<UIComponent(arr[k]).x)
+										{  
+											var hui:UIComponent;
+											hui=arr[i];
+											arr[i]=arr[k];
+											arr[k]=hui;
+										} 
+									}
+								}
+								
+							}
+							//Alert.show(arr.length.toString());
+							for(var index:int=0;index<arr.length;index++)
+							{
+								
+								if(UIComponent(arr[index]).name==comrule.name){
+									ccolumn=index+1;
+									     
+									if(index==0){
+										comrule.x=0;
+									}else{ 
+										comrule.x=UIComponent(arr[index-1]).x+UIComponent(arr[index-1]).width;       
+									} 
+								}   
+							}
+							arr =new Array(); 
+						}   
+						
+						var item:Object=new Object();
+						item["col"]=ccolumn;
+						item["row"]=crow;
+						return item; 
+					 
+					}
+					
+					
+					protected function keyDownevent(e:KeyboardEvent):void
+					{
+						switch(e.keyCode )
+						{
+							case Keyboard.DELETE : 
+							{
+								for (var i:int = 0; i < repset.setarr.length; i++) 
+								{
+									if(repset.setarr.getItemAt(i).col==this.repset.selectobj)
+									{
+										repset.setarr.removeItemAt(i);
+										selectcav.removeChild(this.repset.selectobj as DisplayObject);
+									}
+								}
+								
+								break;
+							}
+						}
+					}
+				]]>
+			</fx:Script>
+		</view:DockBox >
+	</s:Panel>
+	<s:Panel id="pg2"  visible="false"
+			 x="8" y="34" width="633" height="507"
+			 title="字段组合模式">
+		     <setpage:setpg2 id="sp2" x="0" y="0">
+				 
+			 </setpage:setpg2>
+	</s:Panel>
+	<s:Panel id="pg3" title="报表选择"  visible="false"
+			 x="8" y="34" width="633" height="507">
+			<setpage:setrep id="sp3" x="0" y="0">
+				
+			</setpage:setrep>
+	</s:Panel>
+	<s:Panel id="pg4" title="报表接口绑定"  visible="false"
+			 x="8" y="34" width="633" height="507">
+		 <setpage:setitf id="sp4" x="0" y="0" comBoxXML="{this.xml2}">
+			 
+		 </setpage:setitf>
+		     
+	</s:Panel>
+	
+</s:Group>

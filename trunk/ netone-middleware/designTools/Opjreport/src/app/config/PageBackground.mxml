@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<mx:Canvas   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx"  initialize="init()"  
+			 fontSize="12"  width="1262" height="670" >
+	<fx:Script>
+		<![CDATA[
+			
+			/**
+			 * 手机配置 根目录下的配置
+			 * xuwei（2012-3-30）
+			 * **/
+			import app.Assembly.OneConfig;	
+			import com.resistdesign.GlobalManager;
+			import mx.collections.ArrayCollection;
+			import mx.containers.TitleWindow;
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			import mx.controls.Button;
+			import mx.events.FlexEvent;
+			import mx.events.ScrollEvent;
+			import mx.logging.ILogger;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			public var params:Object;
+			[Bindable]
+			public var vs:ViewStack;
+			[Bindable]
+			public var textpath:String="";
+			[Bindable]//记录组建
+			public var arrID:Array=new Array();
+			[Bindable]//流程的节点数
+			public var index:int;
+			public  var fileReference:FileReference = new FileReference();
+			private var byteArray:ByteArray;
+			public function init():void{ //初始化的方法	 
+				fileReference.addEventListener(Event.COMPLETE, completeHandler);
+				vs=this.parent as ViewStack;
+				textpath="路径： "+ DataApp.URLname+" 第2步，共4步"; 
+			}
+			
+			//选择图片
+			public function dianji():void{
+				
+				DataApp.ChartID=this.id;
+				fileReference.browse([new FileFilter("Images (*.jpg, *.gif, *.png)", "*.jpg;*.gif;*.png") ]);
+				fileReference.addEventListener(Event.SELECT, fileReferenceSelectHandler);
+			}
+			private function completeHandler(e: Event): void
+			{   
+				byteArray=fileReference.data;
+				image.source=byteArray;
+			} 
+			//选择完图片的促发事件
+			private function fileReferenceSelectHandler(e:Event):void
+			{ 
+				fileReference.load();
+			}
+			
+			//上一步的方法
+			public function UPNode(evetn:MouseEvent):void{
+				var o:Object=this.parent.getChildByName("Applicationpage1");
+				vs.selectedChild=o as Canvas;
+			}//下一步的方法
+			public function DownNode(event:MouseEvent):void{
+				var o:Object=this.parent.getChildByName("AppPtwo1");
+				vs.selectedChild=o as Canvas;
+				DataApp.arrOne=new ArrayCollection();
+				for(var i:int=0;i<arrID.length;i++){	  
+					DataApp.arrOne.addItem({value:OneConfig(arrID[i]).textinput.text,type:OneConfig(arrID[i]).type.selectedItem.key,index:OneConfig(arrID[i]).id+i});
+				}
+				
+				
+			}
+			public function Cancel():void{
+				navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	<mx:Canvas width="100%" height="189" >
+		<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+		<mx:Label  x="134" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="首页背景配置"/>
+		<mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+			<mx:Label x="19" y="0" text="手机程序配置" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置手机首页的风格，完成“完成”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+	<mx:Canvas id="canvas1"  width="863" height="334"  x="137" y="207">
+		<mx:Label x="21" y="29" text="背景图片：" fontSize="15"/>
+		<mx:Image id="image" x="109" y="10" width="295" height="324" />
+		<mx:LinkButton x="441" y="30" width="83" height="24" label="选择图表" click="dianji()"
+					   fontSize="13"/>
+		
+	</mx:Canvas>
+	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+	</mx:Canvas>
+	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+	
+</mx:Canvas>
+

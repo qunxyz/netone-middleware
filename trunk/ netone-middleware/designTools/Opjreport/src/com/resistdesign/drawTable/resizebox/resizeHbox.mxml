@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		  borderColor="#000000" borderSides="['left','bottom']" borderStyle="solid"
+		 horizontalGap="0" showEffect="{myEffect}" verticalAlign="top" click="settable()">
+	<fx:Declarations>
+		<mx:Sequence id="myEffect">
+			<mx:Parallel>
+				<mx:Fade />
+			</mx:Parallel>
+		</mx:Sequence>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.drawTable.Table;
+			
+			import mx.events.MoveEvent;
+			import mx.events.ResizeEvent;
+
+			public var table:Table;
+			
+			
+			[Bindable]
+			public var actionbtn:Boolean=false;
+			
+			private function  settable()
+			{
+				table.width=this.width;
+			}
+			
+			
+			
+			
+			public function delcellbox(index:int,boxw:Number,cellw:Number)
+			{
+				
+				this.removeChildAt(index);
+
+				
+				for(var i:int=index;i<this.numChildren;i++)
+				{
+					(this.getChildAt(i) as ResizeNote).updatebox();
+				}
+				
+				
+			}
+			
+			
+			public function insertcellbox(index:int,boxw:Number)
+			{
+				
+				var box:Cellbox=new Cellbox();
+				box.width=boxw;
+				box.init(table);
+				this.addChildAt(box,index);
+			
+				
+				for(var i:int=index;i<this.numChildren;i++)
+				{
+				   (this.getChildAt(i) as ResizeNote).updatebox();
+				}
+				
+				
+			}
+			
+			public function init(_table:Table,cellnum:int,boxw:Number):void
+			{
+				for(var i:int=0;i<cellnum;i++)
+				{
+					var box:Cellbox=new Cellbox();
+					box.width=boxw;
+					table=_table;
+					box.init(_table);
+					this.addChild(box);
+				
+				}
+			}
+			
+		]]>
+	</fx:Script>
+</mx:HBox>

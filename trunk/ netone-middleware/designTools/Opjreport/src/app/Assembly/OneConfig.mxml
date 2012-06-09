@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009"  
+		   xmlns:s="library://ns.adobe.com/flex/spark"   
+		   xmlns:mx="library://ns.adobe.com/flex/mx"  fontSize="15" width="626" height="138" initialize="{init()}">
+	<fx:Script>
+		<![CDATA[
+            /**
+			 * 应用程序   第一级配置组件 
+			 *  xu wei（2012-30-18）
+			 * 
+			 * */
+			import app.config.DataApp;
+			import app.config.DelEvent;
+			
+			import com.resistdesign.GlobalManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]//序号
+			public var index:String;
+			[Bindable]//图表
+			public var textChart:String="";
+			[Bindable]
+			public var arrcoll:ArrayCollection=new ArrayCollection([{value:"九宫图",key:"LoShu"},{value:"数据源",key:"datasource"},{value:"网页",key:"webpage"}]);
+			
+			public  var fileReference:FileReference = new FileReference();
+			[Bindable]
+			private var selectedFiles: ArrayCollection = new ArrayCollection([]);  
+			//这个地址是我测试用的服务器地址
+			
+			private var byteArray:ByteArray;
+			//初始化
+			public function init():void{
+				 this.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler); 
+				fileReference.addEventListener(Event.COMPLETE, completeHandler);
+			}
+			//点击添加
+			public function Add():void{
+				GlobalManager.getInstance().dispatchEvent(new DelEvent("ADDSelectChart",this));     
+			} 
+			//点击删除
+			public function Del():void{
+				GlobalManager.getInstance().dispatchEvent(new DelEvent("DelSelectChart",this));
+			}
+			//选择图片
+			public function dianji():void{
+				
+				DataApp.ChartID=this.id;
+				fileReference.browse([new FileFilter("Images (*.jpg, *.jpeg, *.gif, *.png)", "*.jpg;*.jpeg;*.gif;*.png") ]);
+				fileReference.addEventListener(Event.SELECT, fileReferenceSelectHandler);
+			}
+			
+			private function ioErrorHandler(e:IOErrorEvent): void
+			{
+				Alert.show(e.text);
+			}
+			private function completeHandler(e: Event): void
+			{   
+				byteArray=fileReference.data;
+				image.source=byteArray;
+			} 
+			//选择完图片的促发事件
+			private function fileReferenceSelectHandler(e:Event):void
+			{ 
+				fileReference.load();
+			}
+		]]>
+	</fx:Script>
+ 
+	<!--	<mx:RemoteObject id="openf" destination="Savefile" result="createformResult(event)" 
+	showBusyCursor="true"/>   -->
+	
+	<mx:TextInput id="textinput"  x="106" y="4" height="30" width="380"/>
+	<mx:Button x="512" y="0" label="+" width="43" fontSize="20" height="28" click="Add()"/>
+	<mx:Button x="563" y="0" label="-" width="43" fontSize="20" fontWeight="bold" click="Del()" height="28"/>
+	<mx:Label id="lable" text="{index}" x="5" y="2"  width="28"/>
+	<mx:Label   text="名称：" x="60" y="6"  width="50" height="32"/>
+	<mx:Label   text="下一级类型：" x="106" y="42"  width="102" height="24"/>
+	<mx:Image id="image" x="439" y="36" width="96" height="96" />
+	<mx:LinkButton x="347" y="40" label="选择图表" click="dianji()"/>
+	<mx:ComboBox id="type" x="204" y="42" width="121" labelField="value" dataProvider="{arrcoll}"   editable="false"></mx:ComboBox>
+</mx:Canvas>

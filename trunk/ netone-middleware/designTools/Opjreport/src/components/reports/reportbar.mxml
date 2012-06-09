@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 creationCompleteEffect="{myEffect}"
+		 styleName="child" width="100"  xmlns:workflow="components.workflow.*">
+	<fx:Declarations>
+		<mx:Resize id="resize" />
+		
+		<mx:Sequence id="myEffect">
+			<mx:Parallel>
+				<mx:Fade   duration="300" />	
+			</mx:Parallel>
+		</mx:Sequence>
+	</fx:Declarations>
+	<fx:Style  source="css/WorkStyle.css"/>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Image;
+			import mx.core.DragSource;
+			import mx.core.UIComponent;
+			import mx.managers.DragManager;
+			
+			private function startdrag(e:MouseEvent,fmt:String)
+			{
+				var child:UIComponent = UIComponent( e.currentTarget ); 
+				var dragProxy:Image=new Image();
+				dragProxy.source=e.currentTarget.getStyle("icon");
+				var dragSource:DragSource= new DragSource();
+				dragSource.addData( {"obj":child,"soure":fmt,"lab":e.currentTarget.label},fmt);
+				DragManager.doDrag( child, dragSource, e,dragProxy,-20, -20, 0.8 );
+			}
+		]]>
+	</fx:Script>
+	<mx:Panel  width="98%" height="100%" color="#C6C8C9" fontSize="12" title="控件箱" resizeEffect="{resize}">
+		<s:TileGroup width="100%" height="100%"     horizontalAlign="left" horizontalGap="0"
+					 orientation="columns" requestedColumnCount="1" verticalAlign="top"
+					 verticalGap="0"     >
+			<mx:Button width="79" height="69" label="标签" color="#033B58"
+					   icon="@Embed('ico/label.jpg')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'rptlabel')" styleName="conlsky"/>
+			<mx:Button id="table" width="79" height="69" label="表格" icon="@Embed('ico/grid.jpg')" color="#033B58"
+					   labelPlacement="bottom" mouseDown="startdrag(event,'table')"
+					   styleName="conlsky"/>
+			<mx:Button id="dyrecord" width="79" height="69" label="DyRecord" color="#033B58"
+					   icon="@Embed('ico/grid.jpg')" labelPlacement="bottom" styleName="conlsky"
+					   mouseDown="startdrag(event,'dyrecord')"
+					   />
+			<mx:Button id="dataset" width="79" height="69" label="数据集" color="#033B58"
+					   icon="@Embed('ico/textarea.jpg')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'rptdataset')" styleName="conlsky"/>
+			<mx:Button id="record" width="79" height="69" label="Record" color="#033B58"
+					   icon="@Embed('ico/grid.jpg')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'record')" styleName="conlsky"/>
+		
+		</s:TileGroup>
+	</mx:Panel>
+
+</mx:VBox>

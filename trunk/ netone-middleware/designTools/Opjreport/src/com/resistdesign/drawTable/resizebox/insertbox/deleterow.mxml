@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  width="14" height="10"
+		  skinClass="com.resistdesign.drawTable.resizebox.insertbox.vdbtnskin"
+		  click="del()"
+		  label="删除行"
+		  showEffect="{myEffect}"
+		  visible="{this.parentDocument.resizerow.actionbtn}"
+		  >
+	<fx:Declarations>
+		<mx:Sequence id="myEffect">
+			<mx:Parallel>
+				<mx:Fade />
+			</mx:Parallel>
+		</mx:Sequence>
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.DataReport;
+			import com.resistdesign.EvTijiao;
+			import com.resistdesign.GlobalManager;
+			import com.resistdesign.drawTable.Table;
+			import com.resistdesign.drawTable.resizebox.resizemanage;
+			
+			import mx.controls.Alert;
+			public var insertrowidx:int;
+			//			
+			
+			
+			public function del()
+			{
+				if(DataReport.index=="0"){
+					Alert.show("最后一个不能删除");
+				}else{
+				GlobalManager.getInstance().dispatchEvent(new EvTijiao("daltable",this.parentDocument.name));
+					this.parentDocument.resizerow.actionbtn=false;
+					this.parentDocument._table.selectrow=insertrowidx;
+					this.parentDocument.removerow();
+					this.parentDocument.resizerow.delrowbox(insertrowidx,resizemanage._table.itemh);
+				}  
+			}
+		]]>
+	</fx:Script>
+</s:Button>

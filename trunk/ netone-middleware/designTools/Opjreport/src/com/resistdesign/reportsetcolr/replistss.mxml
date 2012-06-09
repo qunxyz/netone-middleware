@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   verticalAlign="middle" horizontalAlign="left" width="258" height="23"
+		   creationComplete="init(event)"
+		   >
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:RemoteObject id="getfolderxml" destination="Getfloder"  result="getfolderxml_resultHandler(event)"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import components.reportset.colstatic.reptreebox;
+			import components.reportset.colstatic.rsstreebox;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			private var _text:String="资源";
+			
+			private var _binrs:String;
+			
+			private var _rstype:String="replists";
+			
+			
+			public function get rstype():String
+			{
+				return _rstype;
+			}
+
+			public function set rstype(value:String):void
+			{
+				_rstype = value;
+			}
+
+			[Bindable]
+			public function get binrs():String
+			{
+				return _binrs;
+			}
+			
+			public function set binrs(value:String):void
+			{
+				_binrs = value;
+			}
+			
+			[Bindable]
+			public var treedata:XML=new XML();
+			
+			[Bindable]
+			public function get text():String
+			{
+				return _text;
+			}
+			
+			public function set text(value:String):void
+			{
+				_text = value;
+			}
+			public var myWin:reptreebox = new reptreebox();
+			protected function setrs(event:MouseEvent):void
+			{
+				
+				
+				PopUpManager.addPopUp(myWin, this.parentDocument as DisplayObject, true);
+				PopUpManager.centerPopUp(myWin);
+				myWin.title="目录资源";
+				
+				myWin.treeDataList=treedata;
+				
+				switch(rstype)
+				{
+					case "replists":
+					{
+						typechange("BUSSWF");
+						break;
+					}
+					case "replistss":
+					{
+						typechange("BUSSWF");
+						break;
+					}
+					case "reppers":
+					{
+						typechange("BUSSWF");
+						break;
+					}
+					case "repperss":
+					{
+						typechange("BUSSWF");
+						break;
+					}
+					case "reprs":
+					{
+						typechange("BUSSWF");
+						break;
+					}
+					case "reprss":
+					{
+						typechange("BUSSWF");
+						break;
+					}
+				}
+				
+				
+				myWin.selectobj=this;
+				myWin.selectfile=false;
+			}
+			
+			//SOA 的绑定
+			public function getSOA():void{
+			var soa:SOAconfig=new SOAconfig();
+			soa.selectobj=this;
+			PopUpManager.addPopUp(soa,this.parent.parent,true);
+			PopUpManager.centerPopUp(soa as IFlexDisplayObject);
+			}
+			
+			protected function getfolderxml_resultHandler(event:ResultEvent):void
+			{
+				treedata=new XML(event.result.toString());
+				myWin.treeDataList=treedata;
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				getfolderxml.dataxml("BUSSWF");  
+			}
+			public function typechange(str:String):void
+			{
+				getfolderxml.dataxml(str);  
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:Label text="{text}" />
+	<s:TextInput text="{binrs}" width="92" height="100%" restrict="0-9" prompt="多选目录" editable="false"/>
+	<s:Button width="64" label="选择资源" click="setrs(event)" fontSize="11"/>
+	<s:Button width="49" label="SOA" click="getSOA()" fontSize="11"/>
+	
+</mx:HBox>

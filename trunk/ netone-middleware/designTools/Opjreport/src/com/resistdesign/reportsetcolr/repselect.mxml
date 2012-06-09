@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   verticalAlign="middle" horizontalAlign="left" width="200" height="23" 
+
+		   >
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:RemoteObject id="getfolderxml" destination="Getxml"  result="getfolderxml_resultHandler(event)"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import components.reportset.colstatic.comsltbox;
+			import components.reportset.colstatic.reptreebox;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			private var _text:String="下拉列表";
+			
+			private var _binrs:String;
+			[Bindable]//备选值
+			public var Alternative:String="";
+			
+			[Bindable]
+			public function get binrs():String
+			{
+				return _binrs;
+			}
+			
+			public function set binrs(value:String):void
+			{
+				_binrs = value;
+			}
+			
+			
+			
+			[Bindable]
+			public var treedata:XML=new XML();
+			
+			
+			[Bindable]
+			public function get text():String
+			{
+				return _text;
+			}
+			
+			public function set text(value:String):void
+			{
+				_text = value;
+			}
+			
+			[Bindable]
+			public var arr:ArrayCollection=new ArrayCollection();
+			
+			var myWin:comsltbox = new comsltbox();
+			protected function setrs(event:MouseEvent):void
+			{
+				
+				
+				PopUpManager.addPopUp(myWin, this.parentDocument as DisplayObject , true);
+				PopUpManager.centerPopUp(myWin);
+				myWin.title="下拉资源";
+				myWin.DataBind=Alternative;
+				myWin.dg.dataProvider=arr;   
+				myWin.selectobj=this;
+			}
+			
+			protected function getfolderxml_resultHandler(event:ResultEvent):void
+			{
+				treedata=new XML(event.result.toString());
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				getfolderxml.dataxml("REPORTDS");  
+			}
+			public function firstCmd():void{
+				var item4:Object=myWin.dg.selectedItem;   
+				var index:int=arr.getItemIndex(item4);   
+				if(index<0){
+					
+					Alert.show("请选择");
+					return;
+				}
+				this.ddlist.selectedItem=arr[index];
+				Alert.show("设置成功");
+			}
+			
+			public function deleteData():void{
+				
+				
+				var item4:Object=myWin.dg.selectedItem;   
+				var index:int=arr.getItemIndex(item4);   
+				if(index<0){
+					
+					Alert.show("请选择");
+					return;
+				}
+				arr.removeItemAt(index);   
+				myWin.dg.dataProvider=arr;   
+				Alert.show("删除成功");
+				
+			}
+			public function setListData():void{
+				
+				
+				
+				
+				for(var i:int=0;i<arr.length;i++){
+					
+					if(arr.getItemAt(i).label==myWin.text.text || arr.getItemAt(i).value==myWin.value.text){
+						Alert.show("已经存在相同的值或文本");
+						myWin.text.text="";
+						return;
+					}
+					
+				}
+				Alternative=Alternative+myWin.value.text+"-"+myWin.text.text;
+				if(myWin.text.text=="" || myWin.value.text==""){
+					Alert.show("不能输入为空！！");
+					return;
+				}
+				arr.addItem({label:myWin.text.text,value:myWin.value.text});
+				Alternative=Alternative+myWin.value.text+"-"+myWin.text.text;
+				myWin.text.text="";
+				myWin.value.text="";
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Label text="{text}" />
+	<s:DropDownList id="ddlist"  width="100%" height="100%"  prompt="下拉列表"   labelField="label"  dataProvider="{arr}">
+	
+	</s:DropDownList>
+	<s:Button label="选择" fontSize="11" click="setrs(event)" />
+	
+</mx:HBox>

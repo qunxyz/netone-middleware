@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Canvas  
+		   xmlns:fx="http://ns.adobe.com/mxml/2009"  
+		   xmlns:s="library://ns.adobe.com/flex/spark"   
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+		 
+			//门户框架
+			[Bindable]
+			public static var WEBSER_PHPCMS:String;
+			//报表模板 和 portlet设计管理
+			[Bindable]
+			public  static var WEBSER_BIWEB:String;
+			//计划任务
+			[Bindable]
+			public static var WEBSER_WFWEB:String
+			//PORTAL 是 	业务组件管理 
+			[Bindable] 
+			public static var WEBSER_CMSWEB:String;
+			//DRP分销资源计划产品 
+			[Bindable] 
+			public static var  WEBSER_ISS:String;
+			//OA系统办公
+			[Bindable] 
+			public static var OAWBESER_PHPCMS:String;
+			//知识库管理 
+			[Bindable]
+			public  static var WEBSER_KPORTAL:String;
+			[Bindable]//3A安全
+			public static var WEBSER_SECURITY3A:String;
+			
+			[Bindable]
+			public static var WEBSER_WEBSPECI:String;
+			[Bindable]//notone 
+			public static var SpeedyForm:String;
+			
+		    public  function init():void{
+		       servea.RMI_SER();
+		    	    }
+           public function xmlResult(event:ResultEvent):void{
+			   var arrRMI:ArrayCollection=event.result as ArrayCollection;
+			   WEBSER_PHPCMS=arrRMI[0];
+			   WEBSER_BIWEB=arrRMI[1];
+			   WEBSER_WFWEB=arrRMI[2];
+			   WEBSER_CMSWEB=arrRMI[3];
+			   WEBSER_ISS=arrRMI[4];
+			   OAWBESER_PHPCMS=arrRMI[5];
+			   WEBSER_KPORTAL=arrRMI[6];  
+			   WEBSER_SECURITY3A=arrRMI[7];
+			   WEBSER_WEBSPECI=arrRMI[8];
+			   SpeedyForm=arrRMI[9];
+		   }
+		]]>
+	</fx:Script>
+		<fx:Declarations>
+		<mx:RemoteObject id="servea" destination="Strength1" result="xmlResult(event)" 
+				showBusyCursor="true"/>		
+		</fx:Declarations>
+</s:Canvas>

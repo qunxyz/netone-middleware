@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="217" height="52">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.drawTable.TableCav;
+			
+			import components.reports.reportmanage;
+			
+			import mx.controls.Alert;
+			protected function tabchange(event:MouseEvent):void
+			{
+				(reportmanage.selectobj as TableCav).ishead=event.currentTarget.id;
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<mx:HBox x="0" y="0" width="217" height="24" horizontalAlign="left" verticalAlign="middle" horizontalGap="2">
+		<mx:HRule width="81" height="18"/>
+		<s:Label color="#02094D" fontFamily="中易黑体" fontSize="12" fontStyle="italic" fontWeight="bold"
+				 text="表格属性"/>
+		<mx:HRule width="82" height="18"/>
+	</mx:HBox>
+	<s:RadioButtonGroup  id="rgp">
+		
+	</s:RadioButtonGroup>
+	<s:RadioButton x="49" y="28" label="表头" fontSize="12" id="tou"  groupName="rgp" click="tabchange(event)"/>
+	<s:RadioButton x="121" y="28" label="表尾" fontSize="12" id="wei" groupName="rgp" click="tabchange(event)"/>
+	
+</mx:Canvas>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  width="10" height="16"
+		  skinClass="com.resistdesign.drawTable.resizebox.insertbox.isbtnskin"
+		  click="insert()"
+		  label="插入列"
+		  showEffect="{myEffect}"
+		  visible="{this.parentDocument.resizecell.actionbtn}"
+		  >
+	<fx:Declarations>
+		<mx:Sequence id="myEffect">
+			<mx:Parallel>
+				<mx:Fade />
+			</mx:Parallel>
+		</mx:Sequence>
+
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.DataReport;
+			import com.resistdesign.drawTable.Table;
+			import com.resistdesign.drawTable.TableCav;
+			import com.resistdesign.drawTable.resizebox.resizemanage;
+			import com.resistdesign.view.reportbox;
+			
+			import mx.controls.Alert;
+			public var insertcellidx:int;
+			public function insert()
+			{	  /*  Alert.show(this.parentDocument.width.toString());
+				 if(reportbox(this.parentDocument.parent.parent).width-500<this.parentDocument.width){
+					reportbox(this.parentDocument.parent.parent).width=reportbox(this.parentDocument.parent.parent).width+100;
+			
+				 } */
+				DataReport.modeltype=true;
+				for(var i:int;i<DataReport.arrcontro.length;i++){
+					DataReport.arrcontro[i]._table.selectcol=insertcellidx;
+					DataReport.model=DataReport.arrcontro[i].name;
+					DataReport.arrcontro[i].resizecell.actionbtn=false;
+					DataReport.arrcontro[i].insertcol();
+				}
+				this.parentDocument.resizecell.insertcellbox(insertcellidx,this.parentDocument._table.itemw);
+			}
+		]]>
+	</fx:Script>
+</s:Button>

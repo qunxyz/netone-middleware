@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resizebox:ResizeVnote xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:resizebox="com.resistdesign.drawTable.resizebox.*" 
+					   width="20"     verticalGap="0"  
+					   mouseDown="setrow()"
+					   resize="setResize(event)"
+					   >
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.DataReport;
+			import com.resistdesign.drawTable.Table;
+			import com.resistdesign.drawTable.TableCav;
+			import com.resistdesign.drawTable.TableRader;
+			import com.resistdesign.view.reportbox;
+			
+			import components.reports.reportmanage;
+			
+			import mx.controls.Alert;
+			import mx.events.ResizeEvent;
+			import mx.utils.NameUtil;
+			public var table:Table;
+			
+			
+			public function init(_table:Table)
+			{
+				table=_table
+			}
+			
+			
+			//点击右边的控件
+			private function setrow()
+			{
+				DataReport.index=lable1.text;
+			  	if(this.parentDocument.parentDocument.isrecord==false)
+				{  
+				this.parentDocument.actionbtn=true;
+     			}/* 	else{
+					//判断是record与dyrecord的区别
+					if(this.parentDocument.parentDocument._strname=="record"){
+						this.parentDocument.parentDocument.name="dyrecord";
+						this.parentDocument.parentDocument._strname="dyrecord";
+						this.parentDocument.parentDocument.id="dyrecord";
+						this.parentDocument.parentDocument.ishead="dyrecord";
+						this.parentDocument.parentDocument.sqlstr="";
+						this.parentDocument.parentDocument.drive="";
+						this.parentDocument.parentDocument.focdstr="";
+					}else{
+						this.parentDocument.parentDocument.name="record";
+						this.parentDocument.parentDocument._strname="record";
+						this.parentDocument.parentDocument.id="record";
+						this.parentDocument.parentDocument.sqlstr="";
+						this.parentDocument.parentDocument.drive="";
+						this.parentDocument.parentDocument.focdstr="";
+						this.parentDocument.parentDocument.ishead="record";
+						/* for (var i:int = 0; i < reportmanage.reportcolarr.length; i++)    
+						{
+							 	if(reportmanage.reportcolarr[i].coltyp=="Colums")
+								{
+									reportmanage.reportcolarr.removeItemAt(i);
+								 reportbox(this.parentDocument.parentDocument.parent.parent).removeChild(reportmanage.reportcolarr[i].col as DisplayObject);
+									 
+								}
+ 
+					} */
+			/* 	}
+			 }   */
+				this.parentDocument.parentDocument.trbox.y=this.y+30-5;
+				this.parentDocument.parentDocument.trbox.insertrowidx=this.idx2;
+				
+				this.parentDocument.parentDocument.mrbox.y=this.y+30+(this.height/2)-5;
+				this.parentDocument.parentDocument.mrbox.insertrowidx=this.idx2;
+				
+				this.parentDocument.parentDocument.brbox.y=this.y+30+this.height-5;
+				this.parentDocument.parentDocument.brbox.insertrowidx=this.idx2+1;
+				
+				
+				
+			}
+			private function setResize(e:ResizeEvent)
+			{
+				this.parentDocument.parentDocument.trbox.y=e.currentTarget.y+30-5;
+				this.parentDocument.parentDocument.trbox.insertrowidx=e.currentTarget.idx2;
+				
+				this.parentDocument.parentDocument.mrbox.y=e.currentTarget.y+30+(e.currentTarget.height/2)-5;
+				this.parentDocument.parentDocument.mrbox.insertrowidx=e.currentTarget.idx2;
+				
+				this.parentDocument.parentDocument.brbox.y=e.currentTarget.y+30+e.currentTarget.height-5;
+				this.parentDocument.parentDocument.brbox.insertrowidx=e.currentTarget.idx2+1;
+
+				
+			}
+			
+			
+			
+			
+		]]>
+	</fx:Script>
+	
+	
+	 <mx:Label id="lable1"  height="{this.height-device.height}" width="{this.width}" 
+			   text="{this.boxlabel}" textAlign="center"/>
+	 <resizebox:Rowdevice  id="device"   resizeobj="{this}"/>
+	
+</resizebox:ResizeVnote>

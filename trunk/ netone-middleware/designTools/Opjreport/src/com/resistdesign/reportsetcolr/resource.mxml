@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<maininfo:mianwindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:maininfo="com.openj.main.maininfo.*" width="340" height="422"
+					 title="资源选择" 
+					 creationComplete="init2(event)"
+					 >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.IndexChangeEvent;
+			[Bindable]
+			public var treeDataList:XML=new XML();
+			
+			[Bindable]
+			public var selectitext:XML=new XML;
+			
+			[Bindable]
+			public var isitem:Boolean=true;
+			
+			[Bindable]
+			public var rsdata:XMLListCollection=new XMLListCollection();
+			
+			[Bindable]
+			public var selectfile :Boolean=true;
+			
+			[Bindable]
+			public var selectAll:Boolean=false;
+			
+			
+			public var selectobj:Object;
+			public var seletextobj:Object;
+			
+			protected function selectitem(event:MouseEvent):void
+			{
+				selectobj.Alternative=selectitext.@name+"[TREE:"+selectitext.@naturalname+"]";
+				seletextobj.DataBind=selectitext.@name+"[TREE:"+selectitext.@naturalname+"]";
+			    PopUpManager.removePopUp(this);
+			}
+			
+			protected function tree1_clickHandler(e:MouseEvent):void
+			{
+				switch(tree2.selectedItem.@type.toString())
+				{
+					case "gen":
+					{
+						if(selectfile)
+						{
+							isitem=false;
+						}
+						else
+						{
+							isitem=true;
+						}
+						
+						selectitext=tree2.selectedItem as XML;
+						break;
+					}
+						
+					case "":
+					{
+						selectitext=tree2.selectedItem as XML;
+						
+						if(selectfile)
+						{
+							isitem=true;
+						}
+						else
+						{
+							isitem=false;
+						}
+						
+						break;
+					}
+				}	
+				
+				
+				
+			}
+			
+			
+			
+			
+			protected function rschange(event:IndexChangeEvent):void
+			{
+				getfolderxml.dataxml(rslist.selectedItem.@value.toString());  
+				
+			}
+			
+			protected function getfolderxml_resultHandler(event:ResultEvent):void
+			{
+				treeDataList=new XML(event.result.toString());
+			}
+			
+			[Bindable]
+			private var comlist:XMLListCollection=new XMLListCollection();
+			
+			protected function getlist_resultHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				var  xmlstr:String="<sss>"+event.result.toString()+"</sss>"
+				comlist=new XMLListCollection((new XML(xmlstr)).item);
+				
+			}
+			
+			protected function init2(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				getlist.listApp();
+				
+			}
+			[Embed(source="ico/wenj.png")]         
+			[Bindable] 
+			public var foldericon:Class; 
+			private function selecticonFun(item:Object):* 
+			{ 
+				
+				return foldericon;
+				
+				
+			}  
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:RemoteObject id="getfolderxml" destination="xmltree1"  showBusyCursor="true" result="getfolderxml_resultHandler(event)"/>
+		<s:RemoteObject id="getlist" destination="Getselectlist"  showBusyCursor="true" result="getlist_resultHandler(event)"/>
+		
+	</fx:Declarations>
+	<mx:Tree id="tree2"
+			 x="15" y="34" width="308" height="286" alternatingItemColors="[#E0F4FF, #FFFEFE]"
+			 dataProvider="{treeDataList}"
+			 iconFunction="selecticonFun"
+			 labelField="@name"
+			 click="tree1_clickHandler(event)"
+			 >
+		
+	</mx:Tree>
+	<s:Button x="99" y="358" label="确定" fontSize="12" click="selectitem(event)" enabled="{isitem}"  />
+	<s:Button x="177" y="358" label="取消" fontSize="12" click="doclose()"/>
+	<s:TextInput x="88" y="327" width="235" text="{selectitext.@name}"/>
+	<s:Label x="15" y="331" fontSize="12" text="选中的资源："/>
+	<s:Label x="16" y="11" fontSize="12" text="绑定的资源目录："/>
+	<s:DropDownList id="rslist" x="113" y="6" width="210" labelField="@label" change="rschange(event)" dataProvider="{comlist}" >
+		
+	</s:DropDownList>
+</maininfo:mianwindow>
+ 

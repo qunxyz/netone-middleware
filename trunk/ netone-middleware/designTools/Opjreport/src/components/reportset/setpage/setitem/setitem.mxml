@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  width="291" height="27" verticalAlign="middle" >
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+			private var _filenames:String;
+            private var _idx:int;
+			private var _relat:int;
+			private var _setarr:ArrayCollection;
+			
+			[Bindable]
+			public function get filenames():String
+			{
+				return _filenames;
+			}
+
+			public function set filenames(value:String):void
+			{
+				_filenames = value;
+			}
+
+			public function get setarr():ArrayCollection
+			{
+				return _setarr;
+			}
+
+			public function set setarr(value:ArrayCollection):void
+			{
+				_setarr = value;
+			}
+
+			public function get idx():int
+			{
+				return _idx;
+			}
+
+			public function set idx(value:int):void
+			{
+				_idx = value;
+			}
+
+			[Bindable]
+			public function get relat():int
+			{
+				return _relat;
+			}
+
+			public function set relat(value:int):void
+			{
+				_relat = value;
+			}
+
+		
+		
+
+			protected function relation_changeHandler(event:IndexChangeEvent):void
+			{
+				if(event.newIndex=0)
+				{
+				 setarr[idx].relat="And";
+				}
+				else
+				{
+				 setarr[idx].relat="Or";
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:DropDownList id="relation" x="211" width="148" height="22" labelField="label" selectedIndex="{relat}" change="relation_changeHandler(event)">
+		<s:dataProvider> 
+			<s:ArrayList> 
+				<fx:Object label="And" value="And"/> 
+				<fx:Object label="Or" value="Or"/> 
+			</s:ArrayList> 
+		</s:dataProvider> 
+	</s:DropDownList>
+	<s:Label id="filename" width="86" height="22" verticalAlign="middle" text="{filenames}" />
+</mx:HBox>

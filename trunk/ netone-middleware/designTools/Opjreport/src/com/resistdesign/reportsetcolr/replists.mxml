@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   verticalAlign="middle" horizontalAlign="left" width="200" height="23"
+		   creationComplete="init(event)"
+		   >
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:RemoteObject id="getfolderxml" destination="Getxml"  result="getfolderxml_resultHandler(event)"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import components.reportset.colstatic.reptreebox;
+			
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			private var _text:String="单选目录";
+			
+			
+			private var _binrs:String;
+			
+			[Bindable]
+			public function get binrs():String
+			{
+				return _binrs;
+			}
+			
+			public function set binrs(value:String):void
+			{
+				_binrs = value;
+			}
+			
+			
+			[Bindable]
+			public var treedata:XML=new XML();
+			
+			[Bindable]
+			public function get text():String
+			{
+				return _text;
+			}
+			
+			public function set text(value:String):void
+			{
+				_text = value;
+			}
+			var myWin:reptreebox = new reptreebox();
+			protected function setrs(event:MouseEvent):void
+			{
+				
+				
+				PopUpManager.addPopUp(myWin, this.parentDocument as DisplayObject, true);
+				PopUpManager.centerPopUp(myWin);
+				myWin.title="目录资源";
+				myWin.treeDataList=treedata;
+				myWin.selectobj=this;
+				myWin.selectfile=false;
+			}
+			
+			protected function getfolderxml_resultHandler(event:ResultEvent):void
+			{
+				treedata=new XML(event.result.toString());
+				myWin.treeDataList=treedata;
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				getfolderxml.dataxml("REPORTDS");  
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Label text="{text}" />
+	<s:TextInput text="{binrs}" width="100%" height="100%" restrict="0-9" prompt="单选目录" editable="false"/>
+	<s:Button label="选择" fontSize="11" click="setrs(event)" />
+	
+</mx:HBox>

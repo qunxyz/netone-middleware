@@ -1,0 +1,64 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+.bianh
+{   
+	border-style: solid;   
+	border-thickness: 1;   
+	border-skin:ClassReference("com.skin.Gradient");   
+	fill-colors: #000033, #0099FF;  
+	borderColor: #000033;
+	borderAlpha: 0.94;
+	drop-shadow-enabled: true;  
+	roundedBottomCorners: false;
+	shadowDistance: 4;
+	shadowDirection: right;  
+} 
+.child
+{   
+	border-style: solid;   
+	border-thickness: 1;   
+	border-skin:ClassReference("com.skin.Gradient");   
+	fill-colors: #000066, #66FFFF;  
+	borderColor: #000033;
+	borderAlpha: 0.94;
+	drop-shadow-enabled: true;  
+	roundedBottomCorners: false;
+	shadowDistance: 4;
+	shadowDirection: right;  
+}
+
+.Dkbox
+{   
+	border-style: solid;   
+	border-thickness: 1;   
+	border-skin:ClassReference("com.skin.Gradient");   
+	backgroundColor: #FFFFFF;
+	borderColor:#FFFFFF;
+	borderAlpha:0.8;
+	drop-shadow-enabled: true;  
+	roundedBottomCorners: false;
+	shadowDistance: 4;
+	shadowDirection: right;  
+}
+
+
+.Button
+{
+	borderColor: #BFC1C6;
+	cornerRadius: 0;
+	fillAlphas: 1.0, 1.0, 1.0, 1.0;
+	fillColors: #FFFFFF,#CCCCCC,#003366,#000033;
+	
+}
+.conlsky
+{
+	borderColor: #FFFFFF;
+	cornerRadius: 0;
+	fillAlphas: 0.64, 0.4, 0.64, 0.64;
+	color: #033B58;
+	fontSize: 11;
+	fontWeight: normal;
+	
+}

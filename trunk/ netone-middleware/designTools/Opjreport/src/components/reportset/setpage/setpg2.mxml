@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="630" height="473">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import components.reportset.setpage.setitem.setitem;
+			
+			import mx.collections.ArrayCollection;
+			
+//			public function getrelatxml():XML
+//			{
+//				var relatlist:XML=<relat></relat>
+//					
+//					return relatlist;
+//			}
+			
+			public function setrelat(setarr:ArrayCollection):void
+			{
+				relatbox.removeAllChildren();
+				for (var i:int = 0; i < setarr.length; i++) 
+				{
+					var relatitem:setitem=new setitem()
+					relatitem.idx=i;
+					if(setarr[i].relat=="And")
+					{
+						relatitem.relat=0;
+					}
+					else
+					{
+						relatitem.relat=1;
+					}
+					relatitem.filenames=setarr[i].col.text;
+					relatitem.setarr=setarr;
+					relatbox.addChild(relatitem);
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:VBox id="relatbox" y="31" width="333" height="411" horizontalCenter="0" horizontalAlign="left" verticalAlign="top">
+		
+	</mx:VBox>
+</s:Group>

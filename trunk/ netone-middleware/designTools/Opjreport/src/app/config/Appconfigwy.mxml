@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<mx:Canvas   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx"  initialize="init()"  
+			 fontSize="12"  width="1262" height="670" >
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * 应用程序配置  第二级配置
+			 * xuwei（2012-3-19）
+			 * 
+			 * 
+			 * **/
+			import app.Assembly.Datasource;
+			import app.Assembly.LoShu;
+			import app.Assembly.OneConfig;
+			import app.Assembly.Webpage;
+			
+			import com.resistdesign.GlobalManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.containers.TitleWindow;
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			import mx.controls.Button;
+			import mx.events.FlexEvent;
+			import mx.events.ScrollEvent;
+			import mx.logging.ILogger;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			public var params:Object;
+			[Bindable]
+			public var vs:ViewStack;
+			[Bindable]
+			public var textpath:String="";
+			[Bindable]//记录组建
+			public var towarrID:Array=new Array();
+			[Bindable]//流程的节点数
+			public var index:int;
+			[Bindable]//判断时候有加载过
+			public var fal:Boolean=true;
+			public function init():void{ //初始化的方法	 
+				
+				vs=this.parent as ViewStack;
+				textpath="路径： "+ DataApp.URLname+" 第2步，共"+DataApp.index+"步"; 
+				
+			}		 
+
+			//上一步的方法
+			public function UPNode(evetn:MouseEvent):void{
+				var o:Object=this.parent.getChildByName("Applicationpage1");
+				vs.selectedChild=o as Canvas;
+			}//下一步的方法
+			public function DownNode(event:MouseEvent):void{
+				if(model1.selected){
+					DataApp.active="1";
+				}
+				if(model2.selected){
+					DataApp.active="0";
+				}
+				var xml:String=textarea.text;
+				ResourceOperate.addRseource(DataApp.URLname,xml.toString(),DataApp.repidID,DataApp.repdimxpla,"wc",DataApp.active);
+			}
+			public function Cancel():void{
+				navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+			}
+			//是否保存成功
+			public function closepage(event:ResultEvent):void{
+			  if(event.result as String==""){
+				  Alert.show("创建失败");
+				}else{
+				navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+			  }
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:RemoteObject id="ResourceOperate" destination="ResourceOperate1" showBusyCursor="true" result="closepage(event)"/>
+	</fx:Declarations>
+	<mx:Canvas width="100%" height="189" >
+		<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+		<mx:Label  x="114" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="网页服务配置"/>
+		<mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+			<mx:Label x="19" y="0" text="手机程序配置" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置网页连接的URL,然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+	<mx:Canvas width="100%" height="334"  x="105" y="207" fontSize="18">
+		<s:Label x="28" y="107" width="83" height="30"  text="配置URL:" fontSize="15"/>
+		<s:TextArea id="textarea"  x="129" y="83" width="417" height="64" fontSize="18"/>
+		<mx:Label   text="是否启用：" x="27" y="183"  width="102" height="24" />
+		<s:RadioButton id="model1" selected="true" x="137" y="183" label="是" fontWeight="bold"    groupName="radiogroup4"/>
+		<s:RadioButton id="model2" x="203" y="183" height="24" label="否"   fontWeight="bold"
+					   groupName="radiogroup4"/>
+	</mx:Canvas>
+	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+	</mx:Canvas>
+	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-300}" label="完成" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+	
+</mx:Canvas>
+

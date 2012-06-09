@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark"
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   xmlns:columsbox="components.reports.colstatic.columsbox.*"
+		   width="217" currentState="noset" resizeEffect="{myresize}"
+		   height.noset="57">
+	<fx:Declarations>
+		<mx:Resize id="myresize">
+			
+		</mx:Resize>
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.reportcolr.Columns;
+			
+			import components.reports.colstatic.columsbox.statisset;
+			import components.reports.reportmanage;
+			
+			import mx.managers.PopUpManager;
+			
+			import spark.components.DropDownList;
+			import spark.events.TextOperationEvent;
+			
+			protected function colchange(event:TextOperationEvent):void
+			{
+			    (reportmanage.selectobj as Columns).bincolums=event.currentTarget.text;
+			}
+			
+			protected function hejfs(event:MouseEvent):void
+			{
+//				this.currentState="set";
+				var myWin:statisset = new statisset();
+				PopUpManager.addPopUp(myWin,(this.parentDocument.RAV as DisplayObject), true);
+				PopUpManager.centerPopUp(myWin);
+				
+				myWin.tochange.selectedIndex=getselect((reportmanage.selectobj as Columns).binchange,myWin.tochange);
+				myWin.summation.selectedIndex=getselect((reportmanage.selectobj as Columns).binstatis,myWin.summation);;
+			}
+			
+			private function getselect(obj:Object,ddls:DropDownList):int
+			{
+				var idx:int;
+				for (var i:int=0;i<ddls.dataProvider.length;i++)
+				{
+					if(obj.label==ddls.dataProvider.getItemAt(i).label)
+					{
+						idx=i;
+					}
+				}
+				return idx;
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<mx:states>
+		<mx:State name="set"/>
+		<mx:State name="noset"/>
+	</mx:states>
+	<mx:HBox x="0" y="0" width="217" height="24" horizontalAlign="left" verticalAlign="middle" horizontalGap="2">
+		<mx:HRule width="91" height="18"/>
+		<s:Label color="#02094D" fontFamily="中易黑体" fontSize="12" fontStyle="italic" fontWeight="bold"
+				 text="绑定列"/>
+		<mx:HRule width="82" height="18"/>
+	</mx:HBox>
+	<mx:HBox x="19" y="29" width="188" height="24" horizontalAlign="left" verticalAlign="middle">
+		<s:Label y="7" height="10" text="数据列："/>
+		<s:TextInput id="bin_colums" width="106" change="colchange(event)"/>
+		<s:Button width="22" icon="@Embed('images/reportimg/binlie.jpg')" toolTip="合计方式" click="hejfs(event)"/>
+	</mx:HBox>
+	<columsbox:statiset x="0" y="53" includeIn="set">
+		
+	</columsbox:statiset>
+	
+</mx:Canvas>

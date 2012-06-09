@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow  xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"     
+				width="630" height="530" close="titlewindow1_closeHandler(event)"
+				creationComplete="init(event)" dragDrop="group1_dragDropHandler(event)"
+				dragEnter="onDragEnter(event)" fontSize="18"   title="SOA配置">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.core.DragSource;
+			import mx.core.EventPriority;
+			import mx.core.IFlexDisplayObject;
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.DragManager;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			private var _reptree:XML;
+			private var _selectlist:XML=<replist></replist>;
+			private var sidx:int;
+			private var isdrop:Boolean=false;
+			
+			public var selectobj:Object;
+        	[Bindable]
+			public function get selectlist():XML
+			{
+				return _selectlist;
+			}
+			
+			public function set selectlist(value:XML):void
+			{
+				_selectlist = value;
+			}
+			
+			[Bindable]
+			public function get reptree():XML
+			{
+				return _reptree;
+			}
+			
+			public function set reptree(value:XML):void
+			{
+				_reptree = value;
+			}
+			
+			[Bindable]
+			public var treeDataList:XML
+			
+			
+			
+			
+			[Embed(source="ico/wenj.png")]         
+			[Bindable] 
+			public var foldericon:Class; 
+			
+			[Embed(source="ico/rep.png")]          
+			[Bindable] 
+			public var fileicon:Class;  
+			
+			[Embed(source="ico/itf.png")]          
+			[Bindable] 
+			public var itficon:Class; 
+			
+			
+			private function iconFun(item:Object):* 
+			{ 
+				var xml:XML     = item as XML; 
+				
+				if(xml.attribute("type") == "gen") 
+					return foldericon; 
+				else 
+					return fileicon; 
+			}  
+			
+			private function selecticonFun(item:Object):* 
+			{ 
+				var xml:XML     = item as XML; 
+				
+				if(xml.attribute("type") == "gen") 
+					return fileicon; 
+				else 
+					return itficon; 
+			}  
+			
+			protected function onDragEnter(event:DragEvent):void
+			{
+				DragManager.acceptDragDrop(UIComponent(event.currentTarget));
+			}
+			private function onDragOver( event:DragEvent ) : void
+			{
+				
+				
+				var dropTarget:Tree = Tree(event.currentTarget);
+				var r:int = dropTarget.calculateDropIndex(event);
+				
+				var node:XML =reporttree.selectedItem as XML;
+				
+				var data:XMLListCollection=new XMLListCollection(selectlist.repfile);
+				if(data.length>0){
+					DragManager.showFeedback(DragManager.NONE);
+					return;
+				}
+				for (var i:int = 0; i < data.length; i++) 
+				{
+					if(data[i].@naturalname==node.@naturalname)
+					{
+						DragManager.showFeedback(DragManager.NONE);
+						//						Alert.show("已有该报表");
+						return;
+					}
+				}
+				
+				
+				
+				if(node.@type == "gen" ) {
+					DragManager.showFeedback(DragManager.NONE);
+					return;
+				}
+				
+				if (event.ctrlKey)
+					DragManager.showFeedback(DragManager.COPY);
+				else if (event.shiftKey)
+					DragManager.showFeedback(DragManager.LINK);
+				else {
+					DragManager.showFeedback(DragManager.MOVE);
+				}
+				
+			}
+			
+			
+			public var  notep:XML;
+			protected function onDragDrop(event:DragEvent):void
+			{
+				var ds:DragSource = event.dragSource;
+				var dropTarget:Tree = Tree(event.currentTarget);
+				
+				var node:XML =reporttree.selectedItem as XML;
+				QueryExtended.describe(String(node.@naturalname));
+				var node1:XML=<repfile></repfile>
+				node1.@name=node.@name;
+				node1.@type="gen";
+				node1.@naturalname=node.@naturalname;
+				notep=node1;
+				selectlist.appendChild(node1);
+			}
+			
+			protected function clearn(event:MouseEvent):void
+			{
+				Alert.show(selectlist.toString());
+				
+			}
+			
+			protected function group1_dragEnterHandler(event:DragEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function group1_dragDropHandler(event:DragEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function init(event:FlexEvent):void
+			{	
+				
+				Xmltree1.dataxml("SOASCRIPT");	   
+			}
+			
+			protected function getface_resultHandler(event:ResultEvent):void
+			{
+				
+				var xml:XML=new XML(event.result.toString());
+				var xml2:XMLListCollection=new XMLListCollection(xml.Interface); 
+				
+				for (var i:int = 0; i < xml2.length; i++) 
+				{
+					var xmllis:XML=<Inface></Inface>;
+					xmllis.@name=xml2.getItemAt(i).@displayname;
+					xmllis.@displayname=xml2.getItemAt(i).@displayname;
+					xmllis.@columns=xml2.getItemAt(i).@columns;
+					xmllis.@bindclr="无";
+					xmllis.@text="无";
+					xmllis.@remark=xml2.getItemAt(i).@remark;
+					xmllis.@stringtype=xml2.getItemAt(i).@stringtype;
+					notep.appendChild(xmllis);
+				}
+			}
+			
+			private function tree_labelFunc(item:XML):String 
+			{
+				if (item.@type=="gen") 
+				{
+					return item.@name;
+				}
+				else
+				{
+					return "SOA选择："+item.@displayname ;
+				}
+			} 
+			
+			//退出选择表单面板
+			protected function titlewindow1_closeHandler(event:CloseEvent):void
+			{
+				// TODO Auto-generated method stub
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			//选择表单确定
+			public function queding():void{
+				var sx:XMLList= new XMLList(selectlist).children();
+				if(sx.length()==1){
+					selectobj.binrs=sx[0].@name+"[SOA:/Soasvl?naturalname="+sx[0].@naturalname+textarea.text+"]";
+					 
+					PopUpManager.removePopUp(this as IFlexDisplayObject); 
+				}else{
+					Alert.show("只能选择一个");
+				}
+			}
+			//取消
+			public function quxiao():void{
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			//取消
+			public function Exit(event:CloseEvent):void{
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			protected function seletlist_itemClickHandler(event:ListEvent):void
+			{
+				// TODO Auto-generated method stub
+				var sx:XMLList= new XMLList(selectlist).children();
+				for(var i:int;i<sx.length();i++){
+					if(XML(event.itemRenderer.data).@naturalname.toString()==sx[i].@naturalname.toString()){
+						delete sx[i]; 
+					}
+				}
+			}
+			protected function QueryExtended_resultHandler(event:ResultEvent):void{
+				textarea.text=event.result as String;
+			}
+			
+			//放回的数据
+			protected function getfolderxml_resultHandler(event:ResultEvent):void
+			{		
+				treeDataList=new XML(event.result.toString());
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:RemoteObject id="QueryExtended" destination="QueryExtended1" showBusyCursor="true"  result="QueryExtended_resultHandler(event)"/>  
+		<s:RemoteObject id="Xmltree1" destination="xmltree1" showBusyCursor="true"  result="getfolderxml_resultHandler(event)"/>   
+	</fx:Declarations>   
+	<mx:Canvas x="0" y="0" width="100%" height="100%">
+		<mx:Tree id="seletlist" width="272" height="318"
+				 alternatingItemColors="[#E2FAF3, #FBF5F5]" borderColor="#D6D9DB" borderThickness="2"
+				 cornerRadius="5" dataProvider="{selectlist.repfile}" doubleClickEnabled="true"
+				 dragDrop="onDragDrop(event)" dragEnabled="true" dragEnter="onDragEnter(event)"
+				 dragMoveEnabled="true" dragOver="onDragOver(event)" fontSize="10"
+				 iconFunction="selecticonFun" itemDoubleClick="seletlist_itemClickHandler(event)"
+				 labelField="@name" labelFunction="tree_labelFunc" x="324" y="26"></mx:Tree>
+		
+		<mx:Tree id="reporttree" x="10" y="26" width="264" height="318" allowMultipleSelection="true"
+				 alternatingItemColors="[#F6F3F3, #FBFCFD]" borderColor="#D7D7D7" borderStyle="solid"
+				 borderThickness="2" cornerRadius="7" dataProvider="{treeDataList}" dragEnabled="true"
+				 dragMoveEnabled="false" fontSize="10" iconFunction="iconFun" labelField="@name"></mx:Tree>
+		<mx:Label id="lable1" x="27" y="3" color="#062486" fontSize="12" text="SOA目录"/>
+		<mx:Label id="lable2" x="340" y="8" color="#041985" fontSize="12" text="已选列表"/>
+		<mx:Button x="249" y="433" label="确定" click="queding()"/>
+		<mx:Button x="324" y="433" label="取消" click="quxiao()"/>
+		<mx:Label text="参数配置:" y="349" x="12"/>
+		<mx:TextArea id="textarea" x="10"  y="380" width="582"/>
+	</mx:Canvas>
+</s:TitleWindow>

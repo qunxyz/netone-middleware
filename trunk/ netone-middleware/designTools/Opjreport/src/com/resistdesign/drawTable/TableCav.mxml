@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   click="setselect()"
+		   rightClick="rightclick(event)"
+		   >
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.DataReport;
+			import com.resistdesign.Objbinstatis;
+			import com.resistdesign.PortControl;
+			import com.resistdesign.drawTable.Table;
+			import com.resistdesign.drawTable.resizebox.Rowbox;
+			import com.resistdesign.drawTable.resizebox.insertbox.deletecellbtn;
+			import com.resistdesign.drawTable.resizebox.insertbox.deleterow;
+			import com.resistdesign.drawTable.resizebox.insertbox.insertcellbtn;
+			import com.resistdesign.drawTable.resizebox.insertbox.istrow;
+			import com.resistdesign.drawTable.resizebox.resizeHbox;
+			import com.resistdesign.drawTable.resizebox.resizeVbox;
+			import com.resistdesign.drawTable.resizebox.resizemanage;
+			import com.resistdesign.reportcolr.Columns;
+			import com.resistdesign.reportcolr.Dataset;
+			
+			import components.reports.reportmanage;
+			
+			import mx.containers.Box;
+			import mx.controls.Alert;
+			import mx.controls.ColorPicker;
+			import mx.controls.Image;
+			import mx.controls.Label;
+			import mx.core.DragSource;
+			import mx.core.IFlexDisplayObject;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.managers.DragManager;
+			import mx.managers.PopUpManager;
+			public var _table:Table ;
+			//行，列
+			public var resizecell:resizeHbox = new resizeHbox();
+			public var resizerow:resizeVbox =new resizeVbox();
+			
+			
+			
+			//上列
+			public var leftbox:insertcellbtn=new insertcellbtn();
+			public var rightbox:insertcellbtn=new insertcellbtn();
+			public var topbox:deletecellbtn=new deletecellbtn();
+			
+			
+			
+			//左行
+			public var trbox:istrow=new istrow();
+			public var mrbox:deleterow=new deleterow();
+			public var brbox:istrow=new istrow();
+			 
+			
+			
+			public var  mergeMenuItem:ContextMenuItem;
+			public var  setitemMenuItem:ContextMenuItem;
+			public var  movebox:Box=new Box();
+			
+		    
+			private var _isrecord:Boolean=false;
+			private var _cssstr:String="-NULL-"
+			private var _sqlstr:String="-NULL-"
+			private var _ishead:String="tou";
+			public var _strname:String="";
+			public var _focdstr:String="";
+			public var _drive:String="-NULL-";
+			public var _row:int;
+			public var _col:int;
+			
+			public function get row():int{
+			return this._row;
+			}
+			public function set row(row:int):void{
+			this._row=row;
+			}
+			public function get col():int{
+			 return this._col
+			}
+			public function set col(col:int):void{
+			  this._col=col;
+			}
+			public function get drive():String{
+			  return this._drive;
+			}
+			public function set drive(drive:String):void{
+			 this._drive=drive;
+			}
+			public function get focdstr():String{
+			 	return this._focdstr;
+			}
+			public function set focdstr(focdstr:String):void{
+				this._focdstr=focdstr;
+			}
+			public function get strname():String{
+			return this._strname;
+			}
+			public function set strname(strname:String):void{
+			this._strname=strname;
+			}
+			
+			public function get ishead():String
+			{
+				return _ishead;
+			}
+
+			public function set ishead(value:String):void
+			{
+				_ishead = value;
+			}
+
+			public function get sqlstr():String
+			{
+				return _sqlstr;
+			}
+
+			public function set sqlstr(value:String):void
+			{
+				_sqlstr = value;
+			}
+
+			public function get cssstr():String
+			{
+				return _cssstr;
+			}
+
+			public function set cssstr(value:String):void
+			{
+				_cssstr = value;
+			}
+
+			public function get isrecord():Boolean
+			{
+				return _isrecord;
+			}
+
+			public function set isrecord(value:Boolean):void
+			{
+				_isrecord = value;
+				
+			}
+			
+			//解析Tablecav的xml数据
+			public function XmlStr(xml:XML):void{
+				var trxml:XMLList=xml.child("tr");
+				var tdxml:XMLList=xml.child("td");
+				var colxml:XMLList=xml.child("col");
+				
+				var arrcon:Array=_table.getChildren();
+				 
+				for(var i:int=0;i<tdxml.length();i++){
+					var fal:Boolean=false;
+			        //行合并的方法
+					if(int(tdxml[i].@rowspan)==1 && int(tdxml[i].@colspan)>1){
+						for(var j:int=0;j<arrcon.length;j++){
+							var arrrow:Array=(arrcon[j] as Tablerow).getChildren();
+							for(var k:int=0;k<arrrow.length;k++){
+								if((arrrow[k] as Tableitem ).itemcol==int(tdxml[i].@col) &&  (arrrow[k] as Tableitem ).itemrow==int(tdxml[i].@row)){
+									
+									MergeManage.table=_table;
+									
+									_table.merge=(arrrow[k] as Tableitem );
+									_table.selectitem=(arrrow[k] as Tableitem ); 
+									MergeManage.isselection=false;
+									MergeManage.startitem((arrrow[k] as Tableitem )); 
+								}
+								if((arrrow[k] as Tableitem ).itemrow==int(tdxml[i].@row) && (arrrow[k] as Tableitem ).itemcol==int(tdxml[i].@col)+int(tdxml[i].@colspan)-1 ){
+									if(_table.merge && MergeManage._startItem !=(arrrow[k] as Tableitem))
+									{ 
+										MergeManage.isselection=true;
+										MergeManage.enditem((arrrow[k] as Tableitem)); 
+										fal=true;
+									}
+								} 
+							
+							}
+						}
+						
+						 
+					} 
+					//列合并方法
+					if(int(tdxml[i].@rowspan)>1 && int(tdxml[i].@colspan)==1){
+						for(var j:int=0;j<arrcon.length;j++){
+							var arrrow:Array=(arrcon[j] as Tablerow).getChildren();
+							for(var k:int=0;k<arrrow.length;k++){
+								if((arrrow[k] as Tableitem ).itemcol==int(tdxml[i].@col) &&  (arrrow[k] as Tableitem ).itemrow==int(tdxml[i].@row)){
+									
+									MergeManage.table=_table;
+									
+									_table.merge=(arrrow[k] as Tableitem );
+									_table.selectitem=(arrrow[k] as Tableitem ); 
+									MergeManage.isselection=false;
+									MergeManage.startitem((arrrow[k] as Tableitem )); 
+								}
+								if((arrrow[k] as Tableitem ).itemrow==int(tdxml[i].@row)+int(tdxml[i].@rowspan)-1 && (arrrow[k] as Tableitem ).itemcol==int(tdxml[i].@col)){
+									if(_table.merge && MergeManage._startItem !=(arrrow[k] as Tableitem))
+									{ 
+										MergeManage.isselection=true;
+										MergeManage.enditem((arrrow[k] as Tableitem)); 
+										fal=true;
+									}
+								} 
+
+							}
+						
+						}
+					}
+					//行和列都要合并的方法
+					if(int(tdxml[i].@rowspan)>1 && int(tdxml[i].@colspan)>1){
+						for(var j:int=0;j<arrcon.length;j++){
+							var arrrow:Array=(arrcon[j] as Tablerow).getChildren();
+							for(var k:int=0;k<arrrow.length;k++){
+								if((arrrow[k] as Tableitem ).itemcol==int(tdxml[i].@col) &&  (arrrow[k] as Tableitem ).itemrow==int(tdxml[i].@row)){
+									
+									MergeManage.table=_table;
+									
+									_table.merge=(arrrow[k] as Tableitem );
+									_table.selectitem=(arrrow[k] as Tableitem ); 
+									MergeManage.isselection=false;
+									MergeManage.startitem((arrrow[k] as Tableitem )); 
+								}
+								if((arrrow[k] as Tableitem ).itemrow==int(tdxml[i].@row)+int(tdxml[i].@rowspan)-1 && (arrrow[k] as Tableitem ).itemcol==int(tdxml[i].@col)+int(tdxml[i].@colspan)-1){
+									if(_table.merge && MergeManage._startItem !=(arrrow[k] as Tableitem))
+									{ 
+										MergeManage.isselection=true;
+										MergeManage.enditem((arrrow[k] as Tableitem)); 
+										fal=true;
+									}
+								} 
+								
+							}
+							
+						}
+					}
+					if(fal){
+					MergeManage.mergeItem();
+					}
+				}
+				Addcon(xml);
+			}
+			
+			//添加控件到Tableitem
+			public function Addcon(xml:XML):void{
+				var trxml:XMLList=xml.child("tr");
+				var tdxml:XMLList=xml.child("td");
+				var colxml:XMLList=xml.child("col");
+				
+				var arrcon:Array=_table.getChildren();
+				
+				for(var i:int=0;i<tdxml.length();i++){
+					var fal:Boolean=false; 
+						for(var j:int=0;j<arrcon.length;j++){
+							var arrrow:Array=(arrcon[j] as Tablerow).getChildren();
+							for(var k:int=0;k<arrrow.length;k++){
+								if((arrrow[k] as Tableitem ).itemcol==int(tdxml[i].@col) &&  (arrrow[k] as Tableitem ).itemrow==int(tdxml[i].@row)){
+								
+									var Labellist:XMLList=tdxml[i].child("Label"); 
+									var Columnslist:XMLList=tdxml[i].child("Columns");
+									var Datasetlist:XMLList=tdxml[i].child("Dataset");
+									if(Labellist.length()>0){
+										
+										var lab:Label =new Label();
+										lab.text=Labellist[0].@text;
+										lab.id=Labellist[0].@id;
+										lab.width=tdxml[i].@width-4;
+										lab.height=tdxml[i].@height-2;
+										lab.setStyle("textAlign","center");
+										lab.setStyle("verticalAlign","middle");
+//										 reportmanage.reportdesign.lbid++; 
+										
+										((arrrow[k] as Tableitem).getChildByName("initem") as TableRader).addChild(lab);
+										((arrrow[k] as Tableitem).getChildByName("initem") as TableRader).havechild=true;   
+										
+										lab.addEventListener(MouseEvent.MOUSE_DOWN,reportmanage.reportdesign.colclick);
+									    lab.addEventListener(MouseEvent.MOUSE_DOWN,dragSource);
+										reportmanage.addreportarr(lab as Object,"label",true); 
+								    	}
+							         if(Columnslist.length()>0){ 
+											var colums:Columns =new Columns();
+											colums.id=Columnslist[0].@id;
+											colums.name="colums";
+											colums.width=tdxml[i].@width-4;
+											colums.height=tdxml[i].@height-2;
+											colums["bincolums"]=Columnslist[0].@columns;
+											colums.label=Columnslist[0].@text;
+											var obj:Objbinstatis=new Objbinstatis();
+											if(Columnslist[0].@statistyp=="ToSum"){
+												obj.label="累计";
+												obj.value="ToSum";
+											}if(Columnslist[0].@statistyp=="Toavg"){
+												obj.label="平均值";
+												obj.value="Toavg";
+											}if(Columnslist[0].@statistyp=="-NuLL-"){
+												obj.label="无";
+												obj.value="-NuLL-";
+											}
+											var stringtyp:Objbinstatis=new Objbinstatis();
+											if(Columnslist[0].@stringtyp=="-NuLL-"){
+												stringtyp.label="无";
+												stringtyp.value="-NuLL-";
+											}if(Columnslist[0].@stringtyp=="ToNum"){
+												stringtyp.label="转成数字";
+												stringtyp.value="ToNum";
+											}if(Columnslist[0].@stringtyp=="ToString"){
+												stringtyp.label="转成字符串";
+												stringtyp.value="ToString";
+											}if(Columnslist[0].@stringtyp=="ToCmoney"){
+												stringtyp.label="转成中文金额";
+												stringtyp.value="ToCmoney";
+											}
+											
+											colums.binstatis=obj;
+											colums.binchange=stringtyp;
+											colums.doubleClickEnabled=true;
+											colums.addEventListener(MouseEvent.DOUBLE_CLICK,doubleclick);
+											colums.setStyle("textAlign","center");
+											colums.setStyle("verticalAlign","middle");
+											
+											colums.addEventListener(MouseEvent.MOUSE_DOWN,reportmanage.reportdesign.colclick);
+											 colums.addEventListener(MouseEvent.MOUSE_DOWN,dragSource);
+											reportmanage.addreportarr(colums as Object,"Colums",true);
+											((arrrow[k] as Tableitem).getChildByName("initem") as TableRader).havechild=false;
+											((arrrow[k] as Tableitem).getChildByName("initem") as TableRader).addChild(colums);
+										}
+									 if(Datasetlist.length()>0){
+										 var dataset:Dataset =new Dataset();
+										 dataset.id=Datasetlist[0].@id;
+										 dataset.label=Datasetlist[0].@text;
+										 dataset.sqlstr=Datasetlist[0].sql;
+										 dataset.setStyle("textAlign","center");
+										 dataset.setStyle("verticalAlign","middle");
+										 dataset.width=tdxml[i].@width-4;
+										 dataset.height=tdxml[i].@height-2;
+										 
+										 ((arrrow[k] as Tableitem).getChildByName("initem") as TableRader).addChild(dataset);
+										 
+										 dataset.addEventListener(MouseEvent.MOUSE_DOWN,reportmanage.reportdesign.colclick);
+										 dataset.addEventListener(MouseEvent.MOUSE_DOWN, dragSource);
+										 reportmanage.addreportarr(dataset as Object,"Dataset",true);
+										 ((arrrow[k] as Tableitem).getChildByName("initem") as TableRader).havechild=true;
+									 }
+									 
+							}
+						}
+						
+					   }
+					} 
+ 
+			}
+			//单元格内拖拽操作
+			//开始
+			public function dragSource(event:MouseEvent):void
+			{
+				var dragInitiator:UIComponent=event.currentTarget as UIComponent;
+ 
+				var bd : BitmapData = new BitmapData(dragInitiator.width,dragInitiator.height,true,0);
+				var m : Matrix = new Matrix();
+				bd.draw(dragInitiator, m);
+ 		
+				var dragSource:DragSource=new DragSource();
+ 		
+				dragSource.addData({"x": event.localX, "y":event.localY,"soure":"celldrag"},"celldrag");
+				var dragProxy:Image=new Image();
+				dragProxy.source=new Bitmap( bd );
+				
+				DragManager.doDrag(dragInitiator,dragSource,event,dragProxy);
+				event.stopPropagation();
+				event.stopImmediatePropagation();
+			}
+			//双击空间的的方法
+			public function  doubleclick(event:MouseEvent):void{
+				
+				var comp:UIComponent=event.target as UIComponent; 
+				DataReport.comp=comp; 
+				if(comp.parent.parent.parent.parent.parent.name=="record"){
+					if( comp.parent.parent.parent.parent.parent["sqlstr"]=="-NULL-" || comp.parent.parent.parent.parent.parent["sqlstr"]=="" ){
+						Alert.show("SQL数据不能空");
+					}else{		
+						DataReport.type="record"; 
+						DataReport.Sqlstr=comp.parent.parent.parent.parent.parent["sqlstr"];
+						var cp:ColorPicker=new ColorPicker(); 
+						PopUpManager.addPopUp(cp,comp.parent.parent.parent.parent.parent.parent,true);
+						PopUpManager.centerPopUp(cp as IFlexDisplayObject);
+					}
+				}
+				
+				if(comp.parent.parent.parent.parent.parent.name=="dyrecord"){
+					if( comp.parent.parent.parent.parent.parent["sqlstr"]=="-NULL-" || comp.parent.parent.parent.parent.parent["sqlstr"]=="" || comp.parent.parent.parent.parent.parent["focdstr"]=="" ){
+						Alert.show("选择表单");
+					}else{
+						DataReport.type="dyrecord"; 
+						DataReport.focdstr=comp.parent.parent.parent.parent.parent["focdstr"];
+						var cp1:ColorPicker=new ColorPicker();
+						PopUpManager.addPopUp(cp1,comp.parent.parent.parent.parent.parent.parent,true);
+						PopUpManager.centerPopUp(cp1 as IFlexDisplayObject);
+					}
+				}
+				
+			}
+            public function UpDatecreateTable(rows:int,cols:int,width:Number,heigth:Number,xml:XML):void{
+				DataReport.model=this.strname;
+				DataReport.trortd=xml;
+				_table = new Table(rows,cols,width,heigth);
+				init();
+				
+				if(this.strname=="table"){
+					greatresizecell(_table,_table.cols,_table._colw);
+				}
+				greatresizerow(_table,_table.numChildren,_table._colh);
+				
+				this.setElementIndex(leftbox,numChildren-2);
+				this.setElementIndex(rightbox,numChildren-1);
+				this.setElementIndex(topbox,numChildren-3);
+				
+				
+				this.setElementIndex(trbox,numChildren-2);
+				this.setElementIndex(mrbox,numChildren-1);
+				this.setElementIndex(brbox,numChildren-3);
+				
+				
+				this.addElement(_table);
+				
+				XmlStr(xml);
+				var contextMenu1:ContextMenu=new ContextMenu();
+				contextMenu1.hideBuiltInItems();
+				mergeMenuItem=new ContextMenuItem("合并选中单元格"); 
+				contextMenu1.customItems.push(mergeMenuItem);
+				mergeMenuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT ,rightitemclick); 
+				
+				setitemMenuItem=new ContextMenuItem("设置单元格格式");
+				contextMenu1.customItems.push(setitemMenuItem);
+				setitemMenuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT ,setitemclick); 
+				this.contextMenu=contextMenu1; 
+			}
+			public function createTable(rows:int,cols:int,width:Number,heigth:Number):void
+			{
+				DataReport.model=this.strname;
+				  _table = new Table(rows,cols,width,heigth);
+				 init();
+				
+				 if(this.strname=="table"){
+				 greatresizecell(_table,_table.cols,_table._colw);
+				 }
+				 greatresizerow(_table,_table.numChildren,_table._colh);
+				 
+				 this.setElementIndex(leftbox,numChildren-2);
+				 this.setElementIndex(rightbox,numChildren-1);
+				 this.setElementIndex(topbox,numChildren-3);
+				 
+				 
+				 this.setElementIndex(trbox,numChildren-2);
+				 this.setElementIndex(mrbox,numChildren-1);
+				 this.setElementIndex(brbox,numChildren-3);
+				 
+				 
+				 this.addElement(_table);
+				 
+				 
+				 var contextMenu1:ContextMenu=new ContextMenu();
+				 contextMenu1.hideBuiltInItems();
+				 mergeMenuItem=new ContextMenuItem("合并选中单元格"); 
+				 contextMenu1.customItems.push(mergeMenuItem);
+				 mergeMenuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT ,rightitemclick); 
+				 
+				 setitemMenuItem=new ContextMenuItem("设置单元格格式");
+				 contextMenu1.customItems.push(setitemMenuItem);
+				 setitemMenuItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT ,setitemclick); 
+				 this.contextMenu=contextMenu1; 
+				/*  if(!DataReport.modeltype){
+					 
+				 MergeManage.mergeItem();
+				 } */
+
+				 
+			}
+			
+			
+			private function greatresizecell(table:Table,cellnum:int,boxw:Number):void
+			{
+				
+				
+				resizecell.y=_table.y-20;
+				resizecell.x=_table.x;
+//				resizerow.visible=false;
+				resizecell.init(table,cellnum,boxw);
+				this.addElement(resizecell);
+			}
+			
+			private function greatresizerow(table:Table,rownum:int,boxh:Number):void
+			{
+				
+				
+				resizerow.y=_table.y;
+				resizerow.x=_table.x-20;
+				//				resizerow.visible=false;
+				resizerow.init(table,rownum,boxh);
+				this.addElement(resizerow);
+			}
+			
+			public function insertrow():void
+			{
+				_table.insertrow();
+			}
+			public function removerow():void
+			{
+				_table.removerow();
+			}
+			public function insertcol():void
+			{
+				_table.insertcol();
+			}
+			public function removecol():void
+			{
+				_table.removecol();
+			} 
+			
+			protected function canvas1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				this.addEventListener(MouseEvent.MOUSE_OVER,up)
+				this.addEventListener(MouseEvent.MOUSE_OUT,down)
+			}
+			
+			private function up(e:MouseEvent):void
+			{
+				
+//				resizerow.visible=true;
+			}
+			private function down(e:MouseEvent):void
+			{
+//				resizerow.visible=false;
+			}
+			
+			private function init():void
+			{	
+				this.addElement(leftbox);
+				this.addElement(rightbox);
+				this.addElement(topbox);
+				this.addElement(trbox);
+				this.addElement(mrbox);
+				this.addElement(brbox);
+
+				trbox.x=_table.x-20-7;
+				mrbox.x=_table.x-20-10;
+				brbox.x=_table.x-20-7;
+								
+				
+				
+				
+				leftbox.y=_table.y-20-7;
+				rightbox.y=_table.y-20-7;
+				leftbox.x=_table.x-5;
+				rightbox.x=_table.x+20-5;
+				topbox.y=_table.y-20-10;
+				
+				
+				this.movebox.width=20;
+				this.movebox.height=20;
+			
+				if(this.strname=="table"){
+				this.movebox.x=_table.x-20;
+				this.movebox.y=_table.y-20;
+				this.movebox.setStyle("borderSides",["left","top"]);
+				this.movebox.setStyle("borderThickness",1);
+				this.movebox.setStyle("borderStyle","solid");
+				this.movebox.setStyle("borderColor",0x000000);
+				this.movebox.setStyle("backgroundColor","#ffffff");
+				this.movebox.setStyle("horizontalAlign","center");
+				this.movebox.setStyle("verticalAlign","middle");
+				this.movebox.addEventListener(MouseEvent.MOUSE_DOWN,stardrop);
+				this.addEventListener(MouseEvent.MOUSE_UP,enddrop);
+				this.addElement(movebox);
+			
+				var label:Label=new Label();
+				label.text="move";
+				label.setStyle("fontSize",7);
+				movebox.addElement(label);
+				}
+			}
+			
+			private function setselect():void
+			{
+				resizemanage.selecttable=this;
+				resizemanage._table=_table;
+				resizemanage.ilbox=this.leftbox;
+				resizemanage.irbox=this.rightbox;
+				resizemanage.itbox=this.topbox;
+				resizemanage.hbox=resizecell;
+				resizemanage.vbox=resizerow;
+			}
+			
+			
+			
+			
+			
+			private function rightclick(e:MouseEvent):void
+			{
+				
+				Alert.show("sdafasfasd");
+//				 e.stopImmediatePropagation();
+//				 e.stopPropagation();
+			}
+			
+			
+			private function rightitemclick(e:ContextMenuEvent):void
+			{
+				MergeManage.mergeItem();
+			}
+			
+			
+			private function setitemclick(e:ContextMenuEvent):void
+			{
+//				MergeManage._startItem
+			}
+			
+			
+			private function stardrop(e:MouseEvent):void
+			{
+				PortControl(this.parent).startDrag();
+				e.stopPropagation();
+			}
+			private function enddrop(e:MouseEvent):void
+			{
+				PortControl(this.parent).stopDrag();
+			}
+			
+			
+			
+			public function refreshhbox():void
+			{
+				
+				for (var i:int=0;i<_table.numChildren;i++)
+				{
+					(resizerow.getChildAt(i) as Rowbox).height=(_table.getChildAt(i) as Tablerow).height;
+				}
+				
+				
+			}
+		]]>
+	</fx:Script>
+</s:Group>

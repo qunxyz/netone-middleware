@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<mx:Canvas   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx"  initialize="init()"  
+			 fontSize="12"  width="1262" height="670" >
+	<fx:Script>
+		<![CDATA[
+			import app.Assembly.OneConfig;
+			
+			import com.resistdesign.EvTijiao;
+			import com.resistdesign.GlobalManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.containers.TitleWindow;
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			import mx.controls.Button;
+			import mx.events.FlexEvent;
+			import mx.events.ScrollEvent;
+			import mx.logging.ILogger;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]//返回的界面
+			public static  var returnpage:String="";
+			[Bindable]
+			public var params:Object;
+			[Bindable]
+			public var vs:ViewStack;
+			[Bindable]
+			public var textpath:String="";
+			[Bindable]//记录组建
+			public var arrID:Array=new Array();
+			[Bindable]//流程的节点数
+			public var index:int;
+			[Bindable]//保存的id
+			public  var strid:String="";
+			private var byteArray:ByteArray;
+			public  var arr:ArrayList=new ArrayList();
+			public function init():void{ //初始化的方法	 
+				dataXml.send();
+				vs=this.parent as ViewStack;
+				textpath="路径： "+ DataApp.URLname+" 第3步，共"+DataApp.index+"步"; 	
+			}
+			
+			//上一步的方法
+			public function UPNode(evetn:MouseEvent):void{
+				var o:Object=this.parent.getChildByName("Appconfigsjl1");
+				vs.selectedChild=o as Canvas;
+			}//下一步的方法
+			public function DownNode(event:MouseEvent):void{
+				FileDate.functiontype=summation.selectedItem.value;
+				var o:Object=this.parent.getChildByName("Fileicon1");
+				vs.selectedChild=o as Canvas;
+			}
+			public function Cancel():void{
+				navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+			}
+			
+			protected function dataXml_resultHandler(event:ResultEvent):void
+			{
+				var data:XML = XML(event.result);
+				 var xmllist:XMLList=data.child("Object");
+				   for(var i:int=0;i<xmllist.length();i++){
+				    arr.addItem({label:xmllist[i].@label,value:xmllist[i].@value});
+				   }
+				   summation.selectedIndex=0;
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="dataXml" url="app/config/functionconfig.xml" resultFormat="xml" result="dataXml_resultHandler(event)" />
+	</fx:Declarations>
+	<mx:Canvas width="100%" height="189" >
+		<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+		<mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="功能类型"/>
+		<mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+			<mx:Label x="19" y="0" text="手机程序配置" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置下一级状态，然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+	<mx:Canvas id="canvas1"  width="863" height="334"  x="137" y="207" fontSize="18">	
+		<mx:Label   text="功能展示：" x="42" y="110"  width="123" height="24" />
+		<s:DropDownList id="summation" x="163"  selectedIndex="0" dataProvider="{arr}" y="102" width="214" height="32" labelField="label">
+		</s:DropDownList>
+	</mx:Canvas>
+	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+	</mx:Canvas>
+	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>
+

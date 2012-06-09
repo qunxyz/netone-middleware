@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="217" height="120">
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.DataReport;
+			import com.resistdesign.FromSelect;
+			import com.resistdesign.drawTable.TableCav;
+			import com.resistdesign.reportcolr.Dataset;
+			
+			import components.reports.reportmanage;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			
+			import spark.events.TextOperationEvent;
+			
+			protected function sqlchange(event:TextOperationEvent):void
+			{
+				try{
+					(reportmanage.selectobj as  Dataset).sqlstr=event.currentTarget.text;
+				}
+				catch(e:*)
+				{
+					(reportmanage.selectobj as   TableCav).sqlstr=event.currentTarget.text;
+				}
+			}
+ 
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<mx:HBox x="0" y="0" width="217" height="24" horizontalAlign="left" verticalAlign="middle" horizontalGap="2">
+		<mx:HRule width="81" height="18"/>
+		<s:Label color="#02094D" fontFamily="中易黑体" fontSize="12" fontStyle="italic" fontWeight="bold"
+				 text="绑定SQL"/>
+		<mx:HRule width="82" height="18"/>
+	</mx:HBox>
+	<mx:HBox x="23" y="29" width="173" height="20" horizontalAlign="left" verticalAlign="middle">
+		<s:Label y="6" width="92" height="12" text="SQL语句："/>	
+	</mx:HBox>
+	<s:TextArea id="bin_sql" x="23" y="46" width="173" height="64" text="21e312" change="sqlchange(event)"/>
+</mx:Canvas>

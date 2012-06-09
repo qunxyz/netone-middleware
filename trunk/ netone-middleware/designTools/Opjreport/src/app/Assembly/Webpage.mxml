@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009"  
+		   xmlns:s="library://ns.adobe.com/flex/spark"   
+		   xmlns:mx="library://ns.adobe.com/flex/mx"  fontSize="15" width="544" height="62" initialize="{init()}">
+	<fx:Script>
+		<![CDATA[
+			/**
+			 * 应用程序   第一级配置组件 
+			 *  xu wei（2012-30-18）
+			 * 
+			 * */
+			import app.config.DataApp;
+			import app.config.DelEvent;
+			
+			import com.resistdesign.GlobalManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]//序号
+			public var index:String;
+			[Bindable]//图表
+			public var textChart:String="";
+			[Bindable]
+			public var arrcoll:ArrayCollection=new ArrayCollection([{value:"九宫图",key:"LoShu"},{value:"数据源",key:"datasource"},{value:"网页",key:"webpage"}]);
+			
+			public  var fileReference:FileReference = new FileReference();
+			[Bindable]
+			private var selectedFiles: ArrayCollection = new ArrayCollection([]);  
+			//这个地址是我测试用的服务器地址
+			
+			private var byteArray:ByteArray;
+			//初始化
+			public function init():void{
+				this.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler); 
+				fileReference.addEventListener(Event.COMPLETE, completeHandler);
+			}
+		 
+			
+			private function ioErrorHandler(e:IOErrorEvent): void
+			{
+				Alert.show(e.text);
+			}
+			private function completeHandler(e: Event): void
+			{   
+				byteArray=fileReference.data;
+			}
+			//选择完图片的促发事件
+			private function fileReferenceSelectHandler(e:Event):void
+			{ 
+				fileReference.load();
+			}
+		]]>
+	</fx:Script>
+	
+	<!--	<mx:RemoteObject id="openf" destination="Savefile" result="createformResult(event)" 
+	showBusyCursor="true"/>   -->
+	
+	<mx:TextInput id="textinput"  x="106" y="4" height="30" width="380"/>
+	<mx:Label id="lable" text="{index}" x="5" y="2"  width="28"/>
+	<mx:Label   text="URL：" x="60" y="6"  width="50" height="32"/>
+</mx:Canvas>

@@ -75,7 +75,55 @@
 			</forward>
 			
 		</action>
-		
+				<action path="/frame_"
+			type="com.jl.web.controller.FrameAction_" parameter="method">
+			<forward contextRelative="true" name="portalView"
+				path="/frame/portalmain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onMainView"
+				path="/frame/frameMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditViewMain"
+				path="/frame/editframeMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditView"
+				path="/frame/editframe.jsp">
+			</forward>
+			<forward contextRelative="true" name="onPreviewMain"
+				path="/frame/previewframe.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowView"
+				path="/frame/showProcess.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowEndView"
+				path="/frame/showEndProcess.jsp">
+			</forward>
+			<forward contextRelative="true" name="onAuditView"
+				path="/frame/frameAudit.jsp">
+			</forward>
+			
+			<forward contextRelative="true" name="onQuery"
+				path="/frame/lookframe.jsp">
+			</forward>
+			<forward contextRelative="true" name="onAutorouteView"
+				path="/frame/autoroute.html">
+			</forward>
+			<forward contextRelative="true" name="onMainViewExt"
+				path="/frame/frameMainExt.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditFrameExt"
+				path="/frame/editframeExt.jsp">
+			</forward>
+			
+			
+			<forward contextRelative="true" name="onMultiSelectResource"
+				path="/frame/resourceMultiSelect.jsp">
+			</forward>
+			<forward contextRelative="true" name="onSingleSelectResource"
+				path="/frame/resourceSingleSelect.jsp">
+			</forward>
+			
+		</action>
 		<!--
 		<action path="/frame"
 			type="com.jl.web.controller.FrameAction2" parameter="method">

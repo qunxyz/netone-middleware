@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" preloader="CustomPreloader"  initialize="init()" layout="absolute" xmlns:Other="Other.*">
+		<mx:Style source="logincss.css"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import Other.other;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			public function init():void
+			{
+				initDataObject.getPolling();
+			}
+			public function rsult(event:ResultEvent):void
+			{
+		      type.dataProvider=event.result as ArrayCollection;
+			}
+			 public var pxml:XML=new XML();
+			 public var cxml:XML=new XML();
+			public function datachange():void
+			{
+		   var cv:String=type.selectedItem.value;
+		   var cname:String=type.selectedItem.columnname;
+		  
+	       pxml=<info></info>
+		   cxml=<dsinfo></dsinfo>
+           cxml.@x=cname;
+		    cxml.@y=cv;
+		   pxml.appendChild(cxml);
+		 display1.loadxml(pxml);
+			}
+		]]>
+	</mx:Script>
+	<mx:RemoteObject id="initDataObject"   destination="getPolling" endpoint="messagebroker/amf"
+	showBusyCursor="true" result="rsult(event)"/>
+	<mx:Canvas width="100%" height="100%" fontSize="14">
+		<mx:Label text="所查数据" x="10" y="12"/>
+		<mx:ComboBox  id="type"  x="79" y="10" labelField="columnname" change="datachange()"/>
+		<mx:ViewStack x="10" y="43" width="100%" height="100%">
+		 <Other:other  id="display1" width="100%" height="100%" />
+		</mx:ViewStack>
+	</mx:Canvas>
+</mx:Application>

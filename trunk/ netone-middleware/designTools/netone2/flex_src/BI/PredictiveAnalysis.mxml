@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="278"
+	 creationComplete="pdinit()"
+	 title="预测分析条件填写" xmlns:datefield2="BI.datefield2.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import ActionForm.vivid;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			public function PAclose(event:MouseEvent):void
+			{
+		    PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			public function tijiao():void
+			{                     
+				var suanfa:String=selectsuanfa.selectedItem.@type.toString();
+	            getTJObject.ExpendValue(sarr,farr,suanfa);
+	            PopUpManager.removePopUp(this as IFlexDisplayObject);
+	            //事件回调分析按钮
+			    EvTjFs.getInstance().dispatchEvent(new MouseEvent("yuce"));
+			}
+			[Bindable]
+			public var columnid:String;
+			public var value:String;
+			public function pdinit():void
+			{  
+				getStarttimeObject.getstarttime(vivid.Tablename);
+			}
+			 [Bindable]
+			 public var Initstarttime:String;
+			 [Bindable]
+			 public var allcolumn:ArrayCollection;
+			  [Bindable]
+			 public var sarr:ArrayCollection;
+		
+		    public function changevalue():void
+			{
+				
+			}
+			public function endtimechange():void
+			{   
+				var starttimestr:String=starttime.text;
+				var endtimestr:String=endtime.text.toString();
+			
+			    getExpendtimeObject.getExpendTime(starttimestr,endtimestr);
+			}
+			public function CsColunm(event:ResultEvent):void
+			{
+				starttime.text=event.result.toString().substr(0,13);
+			} 
+			  [Bindable]
+			  public var arr:Array=null;
+			  [Bindable]
+			  public var farr:ArrayCollection=new ArrayCollection();
+			public function EtColunm(event:ResultEvent):void
+			{      
+			   arr= event.result as Array;
+			   for(var i:int=0;i<arr.length;i++){
+			   farr.addItem(arr[i].toString());
+			   }
+		   }
+			[Bindable]
+			public var backarr:ArrayCollection;
+			public function rscolumn(event:ResultEvent):void
+			{
+				backarr=event.result as ArrayCollection;
+				vivid.backarr=backarr;
+			}
+		]]>
+	</mx:Script>
+          <mx:RemoteObject id="getTJObject" showBusyCursor="true" result="rscolumn(event)"
+	 	 destination="getEa"/>
+	 	 <mx:RemoteObject id="getStarttimeObject" showBusyCursor="true" result="CsColunm(event)"
+	 	 destination="getwd"/>
+	 	 <mx:RemoteObject id="getExpendtimeObject" showBusyCursor="true" result="EtColunm(event)"
+	 	 destination="getEt"/>
+	<mx:XMLList id="Ptfunction">
+		<psource label="自动选择预测算法"    type="auto"></psource>
+        <psource label="三指数平滑预测"      type="TripleExponentialSmoothingModel"></psource>
+		<psource label="线型回归模型预测"    type="RegressionModel"></psource>
+		<psource label="多线型回归模型预测"  type="MultipleLinearRegressionModel"></psource>
+		<psource label="多项式回归模型预测"  type="PolynomialRegressionModel"></psource>
+		<psource label="滑动均值模型预测法"  type="MovingAverageModel"></psource>
+		<psource label="自然数预测法"       type="NaiveForecastingModel"></psource>
+	</mx:XMLList>
+	<mx:Canvas fontSize="13" fontWeight="bold" width="100%" height="100%">
+		<mx:Label text="预测开始时间点:" y="10" x="0"/>
+		<mx:Label text="预测结束时间点:" y="61.5" x="0"/>
+		<mx:Label text="选择预算法：" y="112"/>
+		<mx:ComboBox  id="selectsuanfa" dataProvider="{Ptfunction}" labelField="@label" x="108" y="111.5" width="254" height="21"/>
+		<mx:DateField id="starttime" text="{Initstarttime}" x="108" y="8" width="254"  enabled="false"  formatString="YYYY-MM-DD"/>
+		<datefield2:MyDateField id="endtime" x="108" y="53.5" width="254"  height="30" change="endtimechange()"/>
+	    <mx:Button id="bttok" click="tijiao()" label="提交" x="232" y="165"/>
+	     <mx:Button id="bttCannel" click="PAclose(event)" label="取消" x="308" y="165"/>
+	</mx:Canvas>
+</mx:TitleWindow>

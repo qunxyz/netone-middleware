@@ -1,0 +1,44 @@
+/* CSS file */
+		Application
+		{
+		    backgroundColor:		#EAE6DD;
+		    backgroundImage:        Embed("img1/bj.png");   
+		}
+		.menuid
+		{
+			backgroundImage:        Embed("img1/d.png");
+		}
+		.ToggleButton
+		{
+		    cornerRadius:           0;
+		    fillAlphas:             0, 0;
+		    highlightAlphas:        .5, .25;
+		    fontWeight:             "normal";
+		    fontSize:               14;
+		    color:                  #FFFFFF;
+		    selectedOverSkin:       Embed("img1/ck.png");
+		    selectedUpSkin:         Embed("img1/b-01.png");
+		    selectedDownSkin:       Embed("img1/c-01.png");
+		    textSelectedColor:      #06B4A5;
+		    textSelectedUpColor:    #06B4A5; 
+		        
+		}
+		.mySelectedButtonTextStyleName {
+		            color: #06B4A5; 
+		}
+		.HBtn
+		{
+			color:                  #06B4A5;
+			fontSize:               12;
+		}
+        Alert {
+            titleStyleName: "alertTitle";
+            messageStyleName: "alertMessage";
+            buttonStyleName: "alertButton";
+            dropShadowEnabled: true;
+            shadowDistance: 5;
+            shadowDirection: right;
+            cornerRadius: 0;
+            embedFonts: true;
+            fontFamily: Base02;
+        }

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="ccl()" width="100%" height="100%" xmlns:ns1="DataAcquisition.*" initialize="init()">
+	 <mx:Script>
+	 	<![CDATA[
+	 		import mx.core.IFlexDisplayObject;
+	 		import framework.SelectTree;
+	 		import framework.variable;
+	 		import mx.managers.PopUpManager;
+	 		import mx.controls.Alert;
+	 		import mx.rpc.events.ResultEvent;
+	 		import mx.containers.ViewStack;
+	 		import BI.EvTijiao;
+	 		import BI.EvTjFs;
+	 	[Bindable]
+         public var vs:ViewStack;
+         
+         [Bindable]//textpath
+         public var textpath:String;
+         
+         [Bindable]//ss1
+         public  var ss1:String;
+         [Bindable]//ss2
+         public var ss2:String;
+         [Bindable]//ss3
+         public var ss3:String;
+         [Bindable]//ss4
+         public var ss4:String;
+         
+         [Bindable]// formcode定义
+         public static var formcode:String;
+         [Bindable]
+         public static var tname:String="";
+         [Bindable]
+         public static var Tname1:String;
+         
+         public var tnaemlx:Label;
+         public var tenamelx:Label;
+         public var tenamelx0:Label;
+         public var tnaemlx0:Label;
+         public function init():void{   
+         EvTjFs.getInstance().addEventListener("SelectShow",SelectShow);
+          Biselecttable.qudongxuanz("DATASOURCE.DATASOURCE.DYFORM");
+          textpath="路径： "+AcquisitionDeliver.URLname+" 第4步，共6步";
+          vs=this.parent as ViewStack;
+         }
+         public function ccl():void{
+          if(!AcquisitionDeliver.modeltype){
+           var xml:XML=AcquisitionDeliver.controlxml;
+           var inxml:XMLList=new XMLList(xml.child("in"));
+           var xmllist:XMLList=new XMLList(XML(inxml[0]).child("column"));
+           var strname:String=xmllist[0].@name;
+           var arr:Array=strname.split(".");
+           formcode=inxml[0].@formcode;
+           	tnaemlx=new Label();
+           	tnaemlx.x=44;
+           	tnaemlx.y=55;
+           	tnaemlx.text="选 择 名：";
+           	tnaemlx.id="tnaemlx";
+         	canvas1.addChild(tnaemlx);
+         	
+         	tenamelx=new Label();
+         	tenamelx.x=147;
+         	tenamelx.y=121;
+         	tenamelx.id="tenamelx";
+         	tenamelx.width=406; 
+         	tenamelx.height=38;
+         	tenamelx.text=arr[0];
+         	canvas1.addChild(tenamelx);
+         	
+         	tenamelx0=new Label();
+         	tenamelx0.x=147;
+         	tenamelx0.y=55;
+         	tenamelx0.width=406;
+         	tenamelx0.height=38;
+         	tenamelx0.id="tenamelx0";
+         	tenamelx0.text=inxml.@name;
+         	canvas1.addChild(tenamelx0);
+         	
+         	tnaemlx0=new Label();
+         	tnaemlx0.x=44; 
+         	tnaemlx0.y=121;
+         	tnaemlx0.text="表 名 ID：";
+         	canvas1.addChild(tnaemlx0); 
+          }
+         }
+        //下一步时要选择表
+		 public function xuanzhebiaodan():void
+		 {
+		   if(tenamelx.text=="" || tenamelx.text==null){
+		    Alert.show("请选择目标表");  
+		    AcquisitionDeliver.Alias1=false;
+		    }else{
+		   AcquisitionDeliver.ss1=ss1 ;
+		   AcquisitionDeliver.ss2=ss2;
+		   AcquisitionDeliver.ss3=ss3;
+		   AcquisitionDeliver.ss4=ss4;
+		   AcquisitionDeliver.tablename=tenamelx.text;
+		   AcquisitionDeliver.tablezhongname=tenamelx0.text;
+		   AcquisitionDeliver.Alias1=true;
+		   AcquisitionDeliver.formcode=formcode;
+		   }
+	   }
+			 public function  Savefile1(event:ResultEvent):void{   
+	           
+		     }
+
+            public function xuanzhebiao1():void{
+                 variable.modelname="shujucaiji"; 
+			  var sf:SelectTree=new SelectTree(); 
+			  PopUpManager.addPopUp(sf,this,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);
+            }
+            //接收返回的表
+            public function BihanderResult(event:ResultEvent):void
+            {
+              var str:String=event.result as String;
+              var arr:Array=str.split("#");
+                ss4=arr[0];
+                ss1=arr[1];
+			    ss2=arr[2];
+		        ss3=arr[3];
+            }
+           public function SelectShow(event:MouseEvent):void{
+            canvas1.removeAllChildren();
+           	tnaemlx=new Label();
+           	tnaemlx.x=44;
+           	tnaemlx.y=55;
+           	tnaemlx.text="选 择 名：";
+           	tnaemlx.id="tnaemlx";
+         	canvas1.addChild(tnaemlx);
+         	
+         	tenamelx=new Label();
+         	tenamelx.x=147;
+         	tenamelx.y=121;
+         	tenamelx.id="tenamelx";
+         	tenamelx.width=406; 
+         	tenamelx.height=38;
+         	tenamelx.text=Tname1;
+         	canvas1.addChild(tenamelx);
+         	
+         	tenamelx0=new Label();
+         	tenamelx0.x=147;
+         	tenamelx0.y=55;
+         	tenamelx0.width=406;
+         	tenamelx0.height=38;
+         	tenamelx0.id="tenamelx0";
+         	tenamelx0.text=tname;
+         	canvas1.addChild(tenamelx0);
+         	
+         	tnaemlx0=new Label();
+         	tnaemlx0.x=44; 
+         	tnaemlx0.y=121;
+         	tnaemlx0.text="表 名 ID：";
+         	canvas1.addChild(tnaemlx0);          		
+           }
+ 
+ 		  //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("Checksheet1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+           xuanzhebiaodan();
+             if(tenamelx.text=="" || tenamelx.text==null || tenamelx0.text.toString()=="" || tenamelx0.text.toString()==null){
+              }else{
+                var o:Object=this.parent.getChildByName("RequiredFields1");
+                vs.selectedChild=o as Canvas;
+           }
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+         }
+	 	]]>
+	 </mx:Script>
+<mx:RemoteObject id="Biselecttable"   destination="tablename" showBusyCursor="true"    result="BihanderResult(event)"/>
+<mx:RemoteObject id="Savef" destination="savexmlfile" showBusyCursor="true" result="Savefile1(event)" />
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="选择目标表单"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="数据采集" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:选择目标表单, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="856" height="260"  x="249" y="208" fontSize="20"  >  
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 	<mx:Button x="141" y="208" label="入库表" fontSize="18" click="{xuanzhebiao1()}" alpha="1.0"/>
+</mx:Canvas>

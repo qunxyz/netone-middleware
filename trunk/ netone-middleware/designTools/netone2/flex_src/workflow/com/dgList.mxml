@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">   
+      <mx:Model id="comass">
+		<Soperate>
+		 <operate label="访问"/>
+	    <operate label="普通列表"/>
+         <operate label="共享应用列表"/>
+         <operate label="共享视图列表1"/>
+         <operate label="共享视图列表2"/>
+		  <operate label="快速创建"/>
+		</Soperate>
+	</mx:Model>
+ <mx:HBox>
+ <mx:ComboBox id="assess" dataProvider="{comass.operate}" width="151"/>
+  <mx:LinkButton id="manage" label="[管理]"/>
+  <mx:LinkButton id="daoru" label="[导入]"/>
+  <mx:LinkButton id="daochu" label="[导出]"/>
+  <mx:LinkButton id="describe" label="[描述]"/>
+  <mx:LinkButton id="choose" label="选择"/>
+</mx:HBox>
+</mx:Canvas>

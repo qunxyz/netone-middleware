@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:BI="BI.*"
+	 initialize="init()">
+  <mx:Script>
+  	<![CDATA[
+  		import ActionForm.vivid;
+  		import mx.collections.ArrayCollection;
+  		import mx.controls.Alert;
+  		import mx.charts.renderers.AreaRenderer;
+  		import mx.rpc.events.ResultEvent;
+  	    [Bindable]
+	     public var xmllist:XMLList;
+	     
+	     [Bindable]
+	     public var params:Object;
+	     
+	        public   var	_bFormcode:String  ;
+			public	var _bCutDimColumn:String; 
+			public  var  _bCutDimColumnValue:String;
+			public	var  _bExtendCondition:String;
+			public	var  _bXDimColumn:String;
+			public	var  _bTargetColumns:String;
+			public	var  _bNextConnectColumn:String;
+			public	var  _bDisplayMode:String;
+        
+            public  var  runtimeid:String;
+	     [Bindable]
+	     public 	var  arr:ArrayCollection;
+	     public function  loadxml(sourcexml:XML):void
+	    {      
+	      xmllist=new XMLList(sourcexml);
+	      DisplayColumnchart.loadxmllist(xmllist);
+	      DisplayLineChart.loadxmllist(xmllist);
+	      Displaybarchart.loadxmllist(xmllist);
+	      DisplayPieChart.loadxmllist(xmllist);
+	      DisplayColumnLineChart.loadxmllist(xmllist);
+	     }
+	     
+	     public function init():void{
+     	  var args:Object = getParams();    
+       	 if(args.runtimeid  != null || args.activityid  != null  ) {
+ 					TodoFlowA.BICollo(args.runtimeid,args.activityid);
+             } 
+
+	     }
+	         private function getParams():Object { 
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                   
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+	       //接收返回的表
+            public function BihanderResult(event:ResultEvent):void
+            {
+                 arr=event.result  as ArrayCollection;
+            	_bFormcode=arr[0]._bFormcode;
+            	_bCutDimColumn=arr[0]._bCutDimColumn;
+            	_bCutDimColumnValue=arr[0]._bCutDimColumnValue;
+            	_bExtendCondition=arr[0]._bExtendCondition;
+            	_bTargetColumns=arr[0]._bTargetColumns;
+            	_bNextConnectColumn=arr[0]._bNextConnectColumn;
+            	_bDisplayMode=arr[0]._bDisplayMode;
+            	_bXDimColumn=arr[0]._bXDimColumn;
+            	 
+            	 BISubject._bNextConnectColumn=_bNextConnectColumn;
+            	//初始图标
+		         switch (_bDisplayMode) {
+				case "chart-pie":
+					viewstack1.selectedChild=DisplayPieChart as Canvas;
+					break;
+			 case "chart-bar":
+					viewstack1.selectedChild=DisplayColumnchart as Canvas;
+					break;
+			  case "char-line":
+					viewstack1.selectedChild=Displaybarchart as Canvas;
+					break;
+				default:
+					break;
+				}
+            	//扩张 属性
+            		var extended:String="";
+            	if(_bExtendCondition=="" ||  _bExtendCondition== null){
+			          }else{
+		            	var extendedarr:Array=_bExtendCondition.split("#");
+		            	extendedarr.pop();
+			            	if(extendedarr.length>0){
+				            	for(var i:int=0;i<extendedarr.length;i++ ){
+				            	extended=extendedarr[i].toString().substring(2,extendedarr[i].toString().length);
+				            	}
+			            	}
+			          }
+                  var arrzibain:Array;
+            	if(_bTargetColumns==null || _bTargetColumns==""){
+                  }else{
+                     arrzibain=_bTargetColumns.split("#");
+                  }
+	                  if(_bFormcode=="" || _bCutDimColumn=="" || _bXDimColumn=="" ||  _bTargetColumns==""){
+		            }else{
+		            	  getzbObject.ZhuTiBIzhibiao(_bXDimColumn,arrzibain,_bFormcode,_bCutDimColumnValue,_bCutDimColumn,extended);
+		                  getzbObject1.getzhutiData(_bXDimColumn,_bFormcode);
+		            }
+	        }
+            
+            
+            //交收展示的数据
+            public var xmlarr:ArrayCollection;
+			[Bindable]
+			public var zbarr:ArrayCollection;
+			[Bindable]
+			public var pxml:XML;
+			public var cxml:XML;
+            public function zbResult(event:ResultEvent):void
+			{   
+			    zbarr=event.result as ArrayCollection;
+				 pxml=<info></info>;
+			    for(var i:int=0;i<zbarr.length;i++)
+			    {
+					cxml=new XML();
+					cxml=<dsinfo></dsinfo>;
+					if(zbarr.getItemAt(i).xdata!=null)
+					cxml.@x=zbarr.getItemAt(i).xdata.toString();
+					if(zbarr.getItemAt(i).ydata!=null)
+					cxml.@y=zbarr.getItemAt(i).ydata.toString();
+					if(zbarr.getItemAt(i).y1data!=null)
+				    cxml.@y1=zbarr.getItemAt(i).y1data.toString();
+				    if(zbarr.getItemAt(i).y2data!=null)
+				    cxml.@y2=zbarr.getItemAt(i).y2data.toString();
+				    if(zbarr.getItemAt(i).y3data!=null)
+				    cxml.@y3=zbarr.getItemAt(i).y3data.toString();
+				    if(zbarr.getItemAt(i).y4data!=null)
+				    cxml.@y4=zbarr.getItemAt(i).y4data.toString();
+				    if(zbarr.getItemAt(i).y5data!=null)
+				    cxml.@y5=zbarr.getItemAt(i).y5data.toString();
+				    if(zbarr.getItemAt(i).y6data!=null)
+				    cxml.@y6=zbarr.getItemAt(i).y6data.toString();
+				    if(zbarr.getItemAt(i).y7data!=null)
+				    cxml.@y7=zbarr.getItemAt(i).y7data.toString();
+			        pxml.appendChild(cxml);
+				  }
+				loadxml(pxml);
+			}
+         public function zhuanquzhi(event:ResultEvent):void
+			{   
+	    	  BISubject.zhuangquzhi=event.result as ArrayCollection;
+			}
+  	]]>
+  </mx:Script>
+    <mx:RemoteObject id="getzbObject1" showBusyCursor="true" result="zhuanquzhi(event)"
+	 	 destination="getwd"/>
+  	   <mx:RemoteObject id="getzbObject" showBusyCursor="true" result="zbResult(event)"
+	 	 destination="getwd"/>
+  <mx:RemoteObject id="TodoFlowA"   destination="TodoFlow1" showBusyCursor="true"    result="BihanderResult(event)"/>
+   <mx:ViewStack showEffect="WipeDown" hideEffect="WipeUp" id="viewstack1" width="100%" height="672" y="41" x="0">
+          <BI:ColumnChart id="DisplayColumnchart"  label="柱图"/>
+          <BI:LineChart id="DisplayLineChart" label="线图"/>
+          <BI:PieChart id="DisplayPieChart"  label="饼图"/>
+          <BI:BarChart id="Displaybarchart" label="条线图"/>
+          <BI:ColumnLineChart id="DisplayColumnLineChart" label="柱线图"/>
+       </mx:ViewStack>
+    <mx:ToggleButtonBar fontSize="15" fontWeight="bold"  dataProvider="{viewstack1}"   height="43"  width="948" x="0">
+    </mx:ToggleButtonBar>
+</mx:Canvas>

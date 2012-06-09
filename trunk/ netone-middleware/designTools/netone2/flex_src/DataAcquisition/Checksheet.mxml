@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="ccl()" xmlns:ns1="DataAcquisition.*" initialize="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import mx.controls.Alert;
+			import mx.containers.ViewStack;
+			import mx.rpc.events.ResultEvent;
+			import BI.EvTijiao;
+			 
+          public var vs:ViewStack;
+          [Bindable]//textpath
+          public var textpath:String;
+ 
+		  [Bindable]
+		  public static var Dateform:String;
+		  [Bindable]
+		  public static var Sqlstr:String;
+		  [Bindable]//扩展条件的添加
+		  public var ThdT:ExpandTerm;
+          public function init():void{
+          vs=this.parent as ViewStack;
+         textpath="路径： "+AcquisitionDeliver.URLname+" 第3步，共6步";
+          }
+          
+          public function ccl():void{
+          if(!AcquisitionDeliver.modeltype){
+              var xml:XML=AcquisitionDeliver.controlxml;
+              Sqlstr=xml.sql;
+              
+             if(xml.startScript!="" || xml.endScript!=""){
+               checkBox.selected=true;
+                ThdT=new ExpandTerm();
+         	    ThdT.x=46;
+                ThdT.id="thdt";
+         	    ThdT.y=checkBox.y+checkBox.height+10;
+         	    ThdT.startScriptstr=xml.startScript;
+         	    ThdT.endScriptstr=xml.endScript;
+               canvas1.addChild(ThdT);  
+              }
+             } 
+         
+          }
+ 
+		 public function  Savefile1(event:ResultEvent):void{
+	      }
+            //选择表
+		 public function xuanzhebiao():void{
+			 var OPTB:OptionTable=new OptionTable();
+				PopUpManager.addPopUp(OPTB, this, true);
+				PopUpManager.centerPopUp(OPTB);
+			}
+          //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ParentDataSourceChoice1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+           if(sqltext.text=="" || sqltext.text==null){
+        		Alert.show("SQL语句不能为空");
+        		AcquisitionDeliver.Alias=false;
+        	}else{
+        	 AcquisitionDeliver.Alias=true;
+        	 AcquisitionDeliver.tablename=Dateform;
+        	 AcquisitionDeliver.sqltext=sqltext.text.toString();
+             var o:Object=this.parent.getChildByName("ParentTagetDataSources1");
+            vs.selectedChild=o as Canvas;
+        	}
+        	 if(checkBox.selected==true){
+         	   AcquisitionDeliver.startScript=ThdT.startScript.text.toString();
+         	   AcquisitionDeliver.endScript=ThdT.endScript.text.toString();
+	         }else{
+	          AcquisitionDeliver.startScript="";
+	          AcquisitionDeliver.endScript="";
+	         }
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+         }
+         //采集的扩展条件
+          public function WhetherAdd():void{
+         if(checkBox.selected==true){
+         	  ThdT=new ExpandTerm();
+         	  ThdT.x=46;
+              ThdT.id="thdt";
+         	  ThdT.y=checkBox.y+checkBox.height+10;
+            canvas1.addChild(ThdT);  
+         }else{
+            canvas1.removeChild(ThdT);   
+         }
+         }
+		]]>
+	</mx:Script>
+	<mx:RemoteObject id="Savef" destination="savexmlfile" showBusyCursor="true" result="Savefile1(event)" />
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="采集表选择"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="数据采集" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:选择需要采集的表并且输入sql语句, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="863" height="385"  x="137" y="207" fontSize="18">
+ 	 	<mx:Label x="46" y="26" text="SQL语句:"  fontWeight="bold"/>
+ 	 	<mx:TextInput x="158.5" y="12" id="sqltext" text="{Sqlstr}" width="593.5" height="136" tabIndex="9"/>
+ 	 	<mx:Label x="44" y="62" text="(针对数据源)" fontSize="12" fontWeight="bold"/>
+ 	 	<mx:LinkButton x="760" y="24" label="选择表"  click="{xuanzhebiao()}"/>
+ 	 	<mx:CheckBox id="checkBox" x="158.5" y="154" label="是否添加采集条件" fontSize="15" change="WhetherAdd()"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

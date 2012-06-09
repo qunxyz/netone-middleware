@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas  xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" width="100%" height="100%"  x="233" y="109">
+	    <mx:Button y="20" click="SetExte()" width="50" height="29" x="1000" overSkin="@Embed(source='img1/fanhui.png')" upSkin="@Embed(source='img1/fanhui1.png')" downSkin="@Embed(source='img1/fanhui1.png')"/>
+	    <mx:Button x="88.5" y="59" label=""   height="119" width="144"  click="{Mrole()}" overSkin="@Embed(source='img2/3.1-01.png')" upSkin="@Embed(source='img2/3-01.png')" downSkin="@Embed(source='img2/3-01.png')"/>
+		<mx:Button x="388.5" y="59" label=""  height="119" width="144" click="{Excelcollect()}" overSkin="@Embed(source='img2/2.1-01.png')" upSkin="@Embed(source='img2/2-01.png')" downSkin="@Embed(source='img2/2-01.png')"/>
+    <mx:Script>
+	<![CDATA[
+	
+    	import mx.containers.ViewStack;
+		    private var vs:ViewStack;  
+			public var url1:URL1;
+			public function init():void{
+			url1=new URL1();
+			url1.init();
+	        vs=this.parent as ViewStack; 
+		      trace(vs.id);
+			}
+			
+		    public function SetExte():void{
+		           var o:Object=this.getChild("StateZHU1"); 
+		            vs.selectedChild=o as Canvas;
+		     }
+		    
+		   private function getChild(str:String):Object{ 
+		       for each(var obj:* in vs.getChildren()){ 
+		           if(obj.name==str){ 
+		           break; 
+				} 
+				} 
+				return obj; 
+			  } 
+		public function Excelcollect():void
+    		{
+    		    var url1:String=index.WEBSER_BIWEB+"/bi/etl/wizard/ExcelToDb/First.jsp?pagepath=X";  
+				var request1:URLRequest=new URLRequest(url1);  
+				navigateToURL(request1); 
+    		}
+    		public function Mdata():void
+    		{
+    		 var url2:String=URL1.str+"DATAMOVE.html";  
+				var request2:URLRequest=new URLRequest(url2);  
+				navigateToURL(request2); 
+    		}
+    		public function Mrole():void
+    		{ 
+    		    var url3:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=datasourceDblist&appname=DATASOURCE";  
+				var request3:URLRequest=new URLRequest(url3);  
+				navigateToURL(request3); 
+    		}
+	]]>
+</mx:Script>
+</mx:Canvas>

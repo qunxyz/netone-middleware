@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"  fontSize="15" title="多选列表格式" creationComplete="addcontent()"
+	 showCloseButton="true"  close="Eext(event)" width="562" height="430" initialize="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.ListEvent;
+			import mx.core.UIComponent;
+			import ActionForm.From.com.hitb.component.Data;
+			import ActionForm.From.com.hitb.util.GlobalManager;
+			import ActionForm.From.com.hitb.event.GlobalEvent;
+			import ActionForm.From.com.hitb.event.Component;
+			import mx.controls.Alert;
+		    import mx.managers.PopUpManager;
+	 		import mx.core.IFlexDisplayObject;
+	 	    public var comp:UIComponent=null;
+	 	    [Bindable]
+		    public var fd:int=0;
+		    [Bindable]
+	        public var  pzarr:ArrayCollection=new ArrayCollection();
+	         
+		     public function addcontent():void
+	    	{    
+            GlobalManager.getInstance().addEventListener(Data.Event_popextend,GetonMOUSEDOWN);
+	    	}
+	    public function GetonMOUSEDOWN(Component1:Component):void{
+
+              comp=Component1.getComponent1();
+         }
+ 
+         public function init():void{
+         	  	var arr:Array=vivid.kvlisting.split(",");
+           		arr.pop();
+           		for(var i:int;i<arr.length;i++){
+           		pzarr.addItem(arr[i]);
+           		}
+         }
+		public function bttokclick():void
+		{      
+			 var arr:ArrayCollection=list1.dataProvider as ArrayCollection;
+			 vivid.kvlisting="";
+		         var  sarrstr:String="";
+	            if(arr!=null){
+	            	for(var i:int=0;i<arr.length;i++){
+	                 	sarrstr=sarrstr+arr[i]+",";
+	             	}
+					  comp["PLANB"]=sarrstr;
+	                  GlobalManager.getInstance().dispatchEvent(new GlobalEvent(Data.Event_data,comp,comp,comp["_cross"],comp["_row"]));
+				}
+				PopUpManager.removePopUp( this as IFlexDisplayObject);
+				
+		}
+		    public function bttcannelclick():void
+			{   vivid.kvlisting="";
+				PopUpManager.removePopUp( this as IFlexDisplayObject);
+			}
+			public function Eext(event:CloseEvent):void{
+				 vivid.kvlisting="";
+			  PopUpManager.removePopUp( this as IFlexDisplayObject);
+			}
+			public function AddDate():void{
+			var  str:String=content.text+"-"+content0.text;
+			 pzarr.addItem(str);
+		     content.text="";
+		     content0.text="";
+			}
+			public function removeclick(event:ListEvent):void
+			{
+		     var spzlist:ArrayCollection= list1.dataProvider as ArrayCollection;
+		     var pzdata:String=event.itemRenderer.data.toString()
+		     var index:int=(list1.dataProvider as ArrayCollection).getItemIndex(pzdata);	
+		     spzlist.removeItemAt(index);
+		     pzarr=spzlist
+			}
+		]]>
+	</mx:Script>
+	<mx:Canvas width="100%" height="100%">
+		<mx:Label x="0" y="1" height="26" text="键" fontSize="16" width="70"/>
+		<mx:Label x="221" y="1" height="26" text="值" fontSize="16" width="50"/>
+		<mx:TextArea id="content"  x="0" y="33" width="191" height="43"/>
+		<mx:TextArea id="content0"  x="225" y="33" width="199" height="43"/>
+		<mx:Button id="bttok" click="bttokclick()" label="确定" x="297" y="333" width="88" height="37"/>
+		<mx:Button id="bttcannel" label="取消" click="bttcannelclick()" x="413" y="333" width="88" height="37"/>
+		<mx:List x="0"  id="list1" y="104" width="534" height="221"  dataProvider="{pzarr}" itemClick="removeclick(event)"></mx:List>
+		<mx:Button x="432" y="33" label="添加 " height="44" width="92" fontSize="15" click="AddDate()"/>
+	</mx:Canvas>
+</mx:TitleWindow>

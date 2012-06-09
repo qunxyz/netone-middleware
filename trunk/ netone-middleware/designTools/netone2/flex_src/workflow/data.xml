@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<catalog>
+        <employee  employeeId="1">
+           <CHName>人力</CHName>
+            <Name>BUSSWF.BUSSWF.NDYD</Name>
+            <Type>1</Type>
+
+            <Date>2011-06-01 12:04:28.0</Date>
+
+            <Valid>yes</Valid>
+            <operate>2</operate>
+        </employee>
+
+       <employee  employeeId="2">
+
+          <CHName>人力</CHName>
+
+            <Name>BUSSWF.BUSSWF.NDYD</Name>
+
+            <Type>1</Type>
+
+            <Date>2011-06-01 12:04:28.0</Date>
+
+            <Valid>yes</Valid>
+            <operate>2</operate>
+        </employee>
+
+      <employee  employeeId="3">
+
+          <CHName>hr</CHName>
+
+            <Name>BUSSWF.BUSSWF.NDYD</Name>
+
+            <Type>1</Type>
+
+            <Date>2011-06-01 12:04:28.0</Date>
+
+            <Valid>yes</Valid>
+            <operate>2</operate>
+        </employee>
+
+        <employee  employeeId="4">
+
+          <CHName>hr</CHName>
+
+            <Name>BUSSWF.BUSSWF.NDYD</Name>
+
+            <Type>1</Type>
+
+            <Date>2011-06-01 12:04:28.0</Date>
+
+            <Valid>yes</Valid>
+            <operate>2</operate>
+        </employee>
+    </catalog>

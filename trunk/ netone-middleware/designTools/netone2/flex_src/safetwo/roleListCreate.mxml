@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="init()">
+
+<mx:Script>
+	<![CDATA[
+		     import mx.containers.Canvas; 
+     import mx.containers.ViewStack; 
+     public var vs:ViewStack; 
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable] 
+     private var i:int=3; 
+     private function init():void{ 
+     vs=this.parent as ViewStack;
+      trace(vs.id); 
+     } 
+      private function getChild(str:String):Object{ 
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+		} 
+		} 
+		return obj; 
+		 } 
+		private function SetExit():void{
+				//新建目录的方法
+			 	var o1:Object=this.getChild("deprole"); 
+			    vs.selectedChild=o1 as Canvas; 
+     }
+	]]>
+</mx:Script>
+<mx:Panel title="创建角色目录"  layout="absolute" fontSize="12" height="100%" width="100%">
+	
+
+	<mx:Label y="37" text="名      称" fontSize="12" horizontalCenter="-268"/>
+	<mx:Label y="63" text="中文名称" fontSize="12" horizontalCenter="-268"/>
+	<mx:Label y="89" text="简      称" fontSize="12" horizontalCenter="-268"/>
+	<mx:TextInput y="37" width="470" horizontalCenter="1"/>
+	<mx:TextInput y="89" width="470" horizontalCenter="1"/>
+	<mx:TextInput y="63" width="470" horizontalCenter="1"/>
+	<mx:Button y="156" label="新建" fontSize="12" horizontalCenter="-144"/>
+	<mx:Button y="156" label="取消" fontSize="12" click="SetExit()" horizontalCenter="-16"/>
+</mx:Panel>	
+</mx:Canvas>

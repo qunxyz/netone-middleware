@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application backgroundAlpha="0" xmlns:mx="http://www.adobe.com/2006/mxml"  preloader="CustomPreloader" layout="absolute" xmlns:BI="BI.*" xmlns:ActionForm="ActionForm.*" xmlns:ns1="PolymerizationAnalysis.*">
+	<mx:ViewStack  id="ViewStack1" width="100%" height="100%">
+	    <ns1:NodeDeployment  id="NodeDeployment1" label="聚合分析节点配置" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+		<ns1:PolymerizationAnalysisone id="PolymerizationAnalysisone1" label="聚合分析" width="100%" height="100%" backgroundColor="#FFFFFF">
+		</ns1:PolymerizationAnalysisone>
+		<ns1:StytleCustomize id="StytleCustomize1" label="布局设计" width="100%" height="100%"  backgroundColor="#FFFFFF"/>
+	</mx:ViewStack>
+</mx:Application>

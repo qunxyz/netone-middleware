@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="482" height="37" initialize="init()">
+<mx:Script>
+	<![CDATA[
+		import mx.rpc.events.ResultEvent;
+		import mx.collections.ArrayCollection;
+		import mx.controls.Alert;
+		public var dorpb:Boolean=false;
+		public var zd:String;
+		public var syzd:String;
+		public var formcode:String;
+	
+	 [Bindable]
+	public var arrname:Array=new Array();
+	[Bindable]
+	public var arrziduan:ArrayCollection;
+		[Bindable]
+	public var arrdiyi:Array;
+	[Bindable]//pzziduan
+	public var refertoname:String="";
+	[Bindable]
+	public var namestr:String="";
+		public var arryuanziduan:ArrayCollection;
+			//连接数据库
+	      public  var   urlString:String;
+		  public  var   username:String;
+		  public  var   pwd:String;
+		  public  var   driver:String;
+		  public var tablename:String
+		  public var diyi:String;
+		  	public function init():void{
+			gfn.mappingColumname(formcode);
+			}
+			public function set THEID(value:String):void{
+				if(value!=""){
+				this.id=value;
+				}
+			}
+		public function drop1():void
+            {    
+              this.removeAllChildren();
+              dorpb=true;
+            } 
+            
+            public function handerResult(event:ResultEvent):void{
+          	   arryuanziduan=event.result as ArrayCollection;
+          	   arrdiyi=new Array();
+          	    for(var i:int=0;i<arryuanziduan.length;i++){
+          	    	arrdiyi[arrdiyi.length]=arryuanziduan[i].columname  as String;
+          	    }
+          	     if(namestr==""){		
+          	    }else{
+          	      var arrr:Array=namestr.split(".");
+          	      for(var j:int=0;j<arryuanziduan.length;j++){
+	          	      if(arrr[arrr.length-1]==arryuanziduan[j].columnid){
+	          	      biaoming.selectedIndex=j;
+	          	      diyi=arryuanziduan[j].columnid as String;	
+	          	       }
+	          	       if(refertoname==arryuanziduan[j].columname){
+	          	       biaoming0.selectedIndex=j;
+	          	       }
+          	      }
+          	    }
+            }
+            public function zhiduanleixing():void
+            {
+               for(var i:int=0;i<arryuanziduan.length;i++){
+					if(i==biaoming.selectedIndex as int){
+					diyi= arryuanziduan[i].columnid as String;
+					}
+          	      }
+            }
+	]]>
+</mx:Script>
+<mx:RemoteObject id="gfn" destination="getformname" result="{handerResult(event)}" showBusyCursor="true"/> 
+	<mx:Label x="0" y="0" text="字段名" fontSize="12"/>
+	<mx:Label x="212" y="2" text="使用字段" fontSize="12"/>
+	<mx:ComboBox x="40" y="0" width="167" id="biaoming"   prompt="请选择字段" dataProvider="{arrdiyi}" fontSize="12" height="30" change="{zhiduanleixing()}"></mx:ComboBox>
+	<mx:Button x="439" y="1" label="删" click="drop1()"  fontSize="12"/>
+	<mx:ComboBox x="269" y="2" width="167" id="biaoming0"   prompt="请选择字段" dataProvider="{arrdiyi}" fontSize="12" height="30" change="{zhiduanleixing()}"></mx:ComboBox>
+</mx:Canvas>

@@ -1,0 +1,18 @@
+/* CSS file */
+.thebutton{
+		    selectedOverSkin:       Embed("img/dianji.png");
+		    selectedUpSkin:         Embed("img/wei.png");
+		    selectedDownSkin:       Embed("img/dianji.png");
+}
+.bg
+		{
+		    backgroundImage:        Embed("img/9bj.png");   
+		}
+.tree{
+	backgroundImage:        Embed("img/tree.png");   
+ }
+Application
+		{
+		 backgroundColor:		#FFFFFF;
+		 backgroundImage:        Embed("img/10bj_2.png");  
+		}

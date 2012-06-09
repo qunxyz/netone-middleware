@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="416" height="37" initialize="initia()" creationComplete="init()">
+<mx:Script>
+	<![CDATA[
+		import mx.rpc.events.FaultEvent;
+		import BI.EvTijiao;
+		import BI.EvTjFs;
+		import mx.controls.Alert;
+		import mx.rpc.events.ResultEvent;
+		import mx.collections.ArrayCollection;
+		public var dorpb:Boolean=false;
+		public var zd:String;
+		public var index:int=0;
+		public var strname:String="";
+		[Bindable]
+		public var arr:ArrayCollection=new ArrayCollection();
+		public function initia():void{
+		SubForms.send();
+		}
+        public function init():void{
+         modeltype.selectedIndex=index;
+         zhibiao.text=zd;
+	         if(DyData.active=="1"){
+	  	        	shanchu.enabled = false;
+	                shanchu.removeEventListener(MouseEvent.CLICK,drop1);
+	         }else{
+	                shanchu.enabled=true;
+	         }
+        }
+	    private function dgevent():void
+	       { 
+	       	vivid.model=modeltype.selectedItem.name;
+	       }
+       		public function drop1():void
+            {    
+               this.parent.removeChild(this);
+               dorpb=true;
+               EvTjFs.getInstance().dispatchEvent(new EvTijiao("shancubiaodan",this.id));
+            } 
+        private function xmlResult(event:ResultEvent):void{
+            	var data:XML = XML(event.result);
+            	var xmllist:XMLList=data.child("moshi");
+            	for(var i:int=0;i<xmllist.length();i++){
+            	arr.addItem({name:xmllist[i].@name,value:xmllist[i]});
+            	}
+                 modeltype.selectedIndex=index;
+             vivid.model=modeltype.selectedItem.name;
+        }
+        private function xmlFault(event:FaultEvent):void{  
+			Alert.show("错误");
+		}
+	]]>
+</mx:Script>
+  <mx:HTTPService id="SubForms" url="ActionForm/From/Sub-Forms.xml" useProxy="false" fault="xmlFault(event);" result="xmlResult(event);" showBusyCursor="true" resultFormat="e4x"/>
+	<mx:Label x="0" y="0"  name="zhibiao" height="30" id="zhibiao" fontSize="12" width="149"/>
+	<mx:ComboBox x="155" y="0" width="216" id="modeltype" dataProvider="{arr}"  change="dgevent()"  labelField="value" fontSize="10" height="30"></mx:ComboBox>
+	<mx:Button x="373" y="3" id="shanchu" label="删" click="drop1()"  fontSize="12"/>
+</mx:Canvas>

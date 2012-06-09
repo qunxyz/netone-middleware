@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+	 initialize="init()">
+ <mx:Script>
+ 	<![CDATA[
+ 		 import mx.containers.Canvas; 
+     import mx.containers.ViewStack; 
+     public var vs:ViewStack; 
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable] 
+     private var i:int=3; 
+     private function init():void{ 
+     vs=this.parent as ViewStack;
+      trace(vs.id); 
+     } 
+      private function getChild(str:String):Object{ 
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+		} 
+		} 
+		return obj; 
+		 } 
+		private function SetExit():void{
+				//退出方法
+		    	var o1:Object=this.getChild("usermanage"); 
+			    vs.selectedChild=o1 as Canvas; 
+		}
+
+ 	]]>
+ </mx:Script>
+
+	<mx:TitleWindow x="0" y="0" width="100%" height="100%" layout="absolute" title="创建用户" fontSize="12">
+		<mx:TextInput y="3" width="448" horizontalCenter="-334"/>
+		<mx:TextInput y="43" width="448" horizontalCenter="-334"/>
+		<mx:TextInput y="85" width="448" horizontalCenter="-334"/>
+		<mx:TextInput y="129" horizontalCenter="-478"/>
+		<mx:TextInput y="171" width="448" horizontalCenter="-334"/>
+		<mx:TextInput y="210" width="448" horizontalCenter="-334"/>
+		<mx:TextInput y="250" width="448" height="57" horizontalCenter="-334"/>
+		<mx:Label y="7" text="姓  名" horizontalCenter="-623"/>
+		<mx:Label y="47" text="帐  号" horizontalCenter="-623"/>
+		<mx:Label y="87" text="机  构" horizontalCenter="-623"/>
+		<mx:Label y="131" text="组  别" horizontalCenter="-623"/>
+		<mx:Label y="173" text="联系电话" horizontalCenter="-615"/>
+		<mx:Label y="212" text="E-mail" horizontalCenter="-620"/>
+		<mx:Label y="252" text="描  述" horizontalCenter="-623"/>
+		<mx:Button y="440" label="提 交" horizontalCenter="-264"/>
+		<mx:Button y="440" label="取 消" click="{SetExit()}" horizontalCenter="-138"/>
+		<mx:Label y="315" text="角色管理" horizontalCenter="-615"/>
+		<mx:List y="315" height="149" id="rolelist" horizontalCenter="-479">
+			
+		</mx:List>
+		<!--点击弹出角色界面-->
+		<mx:Button y="318" label="添加" horizontalCenter="-266"/>
+		<mx:Button y="320" label="删除" horizontalCenter="-140"/>
+	</mx:TitleWindow>
+</mx:Canvas>

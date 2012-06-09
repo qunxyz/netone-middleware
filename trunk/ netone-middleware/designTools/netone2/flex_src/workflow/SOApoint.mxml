@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	 xmlns:renderer="my.renderer.checkbox1.*"
+	  initialize="init1()"
+	 height="100%" width="100%">
+   <mx:Script>
+		<![CDATA[
+			import workflow.com.dgList;
+			[Bindable]
+			public var arr:Array=[{chineseName:"斗1",Name:"sss",date:"2010-09-19",effective:"yes",fucked:true},
+				{chineseName:"斗2",Name:"www",date:"2010-09-19",effective:"yes"},
+				{chineseName:"斗3",Name:"ee",date:"2010-09-19",effective:"yes"},
+				{chineseName:"斗4",Name:"wssww",date:"2010-09-19",effective:"yes",disable:false},
+				{chineseName:"斗5",Name:"wwggw",date:"2010-09-19",effective:"yes"},
+				{chineseName:"斗6",Name:"wwhw",date:"2010-09-19",effective:"yes"},
+				{chineseName:"斗7",Name:"aae",date:"2010-09-19",effective:"NO"},
+				];
+			protected function init():void
+			{
+				for(var i:int=0;i<arr.length;i++)
+				{
+					arr[i]["ID"]=i+1;
+				}
+			}
+			
+			import mx.containers.Canvas; 
+			     import mx.containers.ViewStack; 
+			     public var vs:ViewStack; 
+			     [Bindable] 
+			     public var loginsuccess:String; 
+			     [Bindable] 
+			     private var i:int=3; 
+			     private function init1():void{ 
+			      vs=this.parent as ViewStack;
+			     } 
+			      private function getChild(str:String):Object{
+			       vs=this.parent as ViewStack; 
+			       for each(var obj:* in vs.getChildren()){ 
+			           if(obj.name==str){ 
+			           break; 
+					} 
+					} 
+					return obj; 
+					 } 
+			
+			private function SetButton():void{
+			   	var o3:Object=this.getChild("workflowHP"); 
+			    vs.selectedChild=o3 as Canvas; 			
+			}  
+			
+			
+		]]>
+	</mx:Script>
+      <mx:TitleWindow width="100%" height="100%" fontSize="13" title="SOA配置节点"
+      	 showCloseButton="true" close="SetButton();">
+   	  <mx:Canvas height="100%" width="100%">
+     <mx:ApplicationControlBar id="Cfmenu"  x="10" y="19" fontWeight="bold" width="1125" fontFamily="宋体"  fontSize="15">
+		 <mx:Label text="名称：" color="#000000"/>
+		 <mx:TextInput  width="98"/>
+        <mx:Label text="中文名:" />
+        <mx:TextInput width="105"/>
+        <mx:Label text="开始时间"/>
+        <mx:DateField id="startTime"/>
+        <mx:Label text="结束时间"/>
+        <mx:DateField id="endTime"/>
+        <mx:Button label="查询"  width="78"/>
+   </mx:ApplicationControlBar>
+   <mx:Canvas x="10" y="63" width="878" height="41">
+   	  <mx:LinkButton id="selectPath" x="10" y="5" label="选择路径："/>
+   	  <mx:Label id="txtpath" x="91" y="9" width="211"/>
+   </mx:Canvas>
+   <mx:Canvas>
+         <mx:DataGrid x="10" y="102" width="1129" height="309" dataProvider="{arr}" verticalScrollPolicy="off" horizontalScrollPolicy="off" >
+    	<mx:columns>
+     	    <renderer:CheckBoxColumn id="column" enableField="disable" dataField="fucked"/>
+    		<mx:DataGridColumn headerText="序号" width="45" dataField="ID"/>
+    		<mx:DataGridColumn headerText="中文名称" width="150" dataField="chineseName"/>
+    		<mx:DataGridColumn headerText="名称"   width="150"  dataField="Name"/>
+    		<mx:DataGridColumn headerText="日期"   width="150"   dataField="date"/>
+    		<mx:DataGridColumn headerText="有效" width="50"   dataField="effective"/>
+    	    <mx:DataGridColumn headerText="操作" width="250"  itemRenderer="workflow.com.configureBar"/>
+    	</mx:columns>
+    </mx:DataGrid>
+         
+     
+    </mx:Canvas>
+     
+   </mx:Canvas>
+   </mx:TitleWindow>
+</mx:Canvas>

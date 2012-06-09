@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="609" height="95">
+<mx:Script>
+	<![CDATA[
+		import mx.rpc.events.ResultEvent;
+		import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
+	public var zd:String;
+	public var yzd:String;
+	public var jb:String;
+	[Bindable]
+	public var arrname:ArrayCollection;
+	
+	[Bindable]
+	public var arrziduan:ArrayCollection;
+	
+	[Bindable]
+	public var inarrziduan:ArrayCollection;
+	[Bindable]
+	public var arryuanziduan:Array;
+		//连接数据库
+	      public  var   urlString:String;
+		  public  var   username:String;
+		  public  var   pwd:String;
+		  public  var   driver:String;
+	public var tablename:String
+	public var dorpa:Boolean=false;
+			public function set THEID(value:String):void{
+				if(value!=""){
+				this.id=value;
+				}
+				
+			}
+			public function drop1():void
+            {    
+              this.removeAllChildren();
+              dorpa=true;
+            } 
+            
+            public function biaomingxiu():void{ 
+         	   selecttable.GetTableField2(urlString,username,pwd,driver,"select * from  "+biaoming.selectedItem as String);
+            }
+            public function handerResult(event:ResultEvent):void{
+          	   arrziduan=event.result as ArrayCollection;
+          	    if(arrziduan.length>0){
+          	    	leixing.text=arrziduan[0].columnType;
+          	    	arryuanziduan=new Array();
+          	      for(var i:int=0;i<arrziduan.length;i++){
+          	       arryuanziduan[arryuanziduan.length]=arrziduan[i].columnname as String;
+          	      }
+          	    }
+            }
+            
+            public function zhiduanleixing():void
+            {
+              for(var i:int=0;i<arrziduan.length;i++){
+          	        if( ziduanming.selectedItem==arrziduan[i].columnname){
+          	         	leixing.text=arrziduan[i].columnType;
+          	        }
+          	      }
+            }
+            
+	]]>
+</mx:Script>
+ <mx:RemoteObject id="selecttable"   destination="tablename" showBusyCursor="true"  result="handerResult(event)"/>
+	<mx:Label x="0" y="0" text="字段名" fontSize="12"/>
+	<mx:Label x="318" y="2" text="源字段" fontSize="12"/>
+	<mx:Label x="501" y="5" text="类型" fontSize="12"/>
+	<mx:Label x="538" y="2" fontSize="15" id="leixing" width="68" height="29"/>
+	<mx:Label x="3" y="43" text="脚本" fontSize="12"/>
+	<mx:TextArea x="40" y="39" width="525" height="52" id="jiaoben" text="{jb}"/>
+	<mx:Button x="567" y="65" label="删" click="drop1()"/>
+	<mx:ComboBox x="40" y="2" width="166" id="biaoming" dataProvider="{arrname}" fontSize="9" change="biaomingxiu()" height="31"></mx:ComboBox>
+	<mx:ComboBox x="209" y="2" width="101" id="ziduanming" prompt="选择字段" dataProvider="{arryuanziduan}" fontSize="9" height="31" change="zhiduanleixing()"></mx:ComboBox>
+	<mx:ComboBox x="366" y="2" width="134" id="yuanziduan" fontSize="9" height="31" dataProvider="{inarrziduan}"></mx:ComboBox>
+</mx:Canvas>

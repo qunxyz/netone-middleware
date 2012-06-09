@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" fontSize="15"
+	 initialize="{init()}"	 	  >
+	
+	 <mx:Script>
+	 	<![CDATA[
+	 			 import mx.containers.ViewStack;   //导入viwstack包，下面要用到viewstack类型
+     import mx.controls.Alert;
+      [Bindable] 
+      public var info:String; 
+      
+     import mx.containers.Canvas;  
+     private var vs:ViewStack; 
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable] 
+     private var i:int=3; 
+     private function init():void{ 
+     vs=this.parent as ViewStack; 
+      trace(vs.id); 
+     } 
+      private function getChild(str:String):Object{ 
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+} 
+} 
+return obj; 
+} 
+//新建目录的方法
+private function SteExit():void{ 
+var o:Object=this.getChild("workflowHP"); 
+vs.selectedChild=o as Canvas; 
+} 
+
+	 	]]>
+	 </mx:Script>
+		 <mx:TitleWindow x="0" y="0" width="100%" height="100%" layout="absolute" 
+		 	title="拷贝工作流" showCloseButton="true" close="SteExit();">
+		<mx:Label x="103" y="54" width="102" text="名      称："/>
+		<mx:Label x="103" y="100" text="中文名称：" width="92" height="29"/>
+		<mx:Label x="103" y="154" text="拷  贝  源：" width="92" height="29"/>
+		<mx:TextInput x="203" y="52" width="326"/>
+		<mx:TextInput x="203" y="98" width="326"/>
+		<mx:TextInput x="203" y="152" width="326"/>
+		<mx:Button x="542" y="152" label="选择" width="63"/>
+		<mx:Button x="275" y="207" label="新建" width="100" />
+		<mx:Button x="429" y="207" label="取消" width="100" click="SteExit()"/>
+	</mx:TitleWindow>
+	<mx:Script>
+		<![CDATA[
+			
+			public function Exit():void{
+			 System.exit(1);
+			}
+		]]>
+	</mx:Script>
+</mx:Canvas>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="absolute">
+   <mx:XMLList id="xmlstate">
+    	  <name>准备中</name>
+    	  <name>执行中</name>
+          <name>完毕	</name>
+    	  <name> 异常 </name>
+    	  <name>撤销</name>
+    	</mx:XMLList>
+    	<mx:XMLList id="xmldgsource">
+    	<testsource>
+    	     <processname>金飞达</processname>
+    		<selectname>奋斗</selectname>
+    		<state>厄尔</state>
+    		<type>秋千</type>
+    		<starttime>2010-10-09</starttime>
+    		<endtime>2011-10-09</endtime>
+    	</testsource>
+    	</mx:XMLList>
+    	<mx:Script>
+    		<![CDATA[
+    			import com.controlBar;
+    		]]>
+    	</mx:Script>
+ <mx:Panel width="100%" height="100%" 
+    	fontSize="13" fontWeight="bold"
+        title="运行流程实列选择">
+       <mx:Canvas width="100%" height="100%">
+    	 <mx:ApplicationControlBar id="Cfmenu"  x="10" y="19" fontWeight="bold" width="1125" fontFamily="宋体"  fontSize="15">
+		 <mx:Label text="流程名称：" color="#000000"/>
+		 <mx:TextInput id="processname"  width="98"/>
+        <mx:Label text="状态:" />
+        <mx:ComboBox id="cstate" dataProvider="{xmlstate}"/>
+        <mx:Label text="开始时间"/>
+        <mx:DateField id="startTime"/>
+        <mx:Label text="结束时间"/>
+        <mx:DateField id="endTime"/>
+        <mx:Button label="查询流程" width="95"/>
+        <mx:Button label="创建流程" width="98"/>
+   </mx:ApplicationControlBar>
+    	 <mx:DataGrid x="10" y="63" width="100%" height="100%" dataProvider="{xmldgsource}">
+    	 	<mx:columns>
+    	 		<mx:DataGridColumn headerText="流程名" width="150" dataField="processname"/>
+    	 		<mx:DataGridColumn headerText="显示名" width="150" dataField="selectname"/>
+    	 		<mx:DataGridColumn headerText="状态" width="100" dataField="state"/>
+    	 	    <mx:DataGridColumn headerText="类型" width="100" dataField="type"/>
+    	 		<mx:DataGridColumn headerText="启动时间" width="150" dataField="starttime"/>
+    	        <mx:DataGridColumn headerText="结束时间" width="150" dataField="endtime"/>
+    	 		<mx:DataGridColumn headerText="控制" width="650" itemRenderer="com.controlBar"/>
+    	 	</mx:columns>
+    	 </mx:DataGrid>
+  </mx:Canvas>
+    </mx:Panel>
+</mx:Application>

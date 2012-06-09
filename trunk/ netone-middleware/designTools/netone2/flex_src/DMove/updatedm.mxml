@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="98.7%" height="100%" initialize="{init()}" >
+<mx:Script>
+	<![CDATA[
+		import mx.controls.List;
+		import mx.containers.TitleWindow;
+		import mx.rpc.events.ResultEvent;
+		import mx.core.UIComponent;
+		import mx.collections.ArrayCollection;
+		import mx.controls.Label;
+		import mx.controls.Alert;
+		import mx.controls.List;
+		import mx.managers.PopUpManager;
+		import BI.*;
+		import mx.containers.ViewStack;
+		
+		public var titleWindow:TitleWindow;
+		//fc
+		public var lx:incolumn;
+		public var lx1:incolumnref;
+		
+		//fc0
+		public var alx:incolumn;
+		public var alx1:incolumnref;
+		public var ic:int=1;
+		public var arr:Array=new Array();
+		//控件Y位子
+		public var cc:int=0;
+		public var cc1:int=0;
+		public var ss:int=0;
+		public var fss1:int=0;
+		//用于循环控件ID的
+		public var i:int=0;
+		public var j:int=0;
+		
+		//定义变量和属性,保存xml
+		[Bindable]
+		public var sc:XML;
+	    [Bindable]
+	    public var  pxml:XML;
+	  [Bindable]
+	    public var  pxml1:XML;
+	   [Bindable]
+	    public var  pxml2:XML;
+	    [Bindable]
+	    public var  sqlxml:XML;
+        [Bindable]
+	    public var  outxml:XML;
+	     [Bindable]
+	    public var  inxml:XML;
+	    [Bindable]
+	    public var  columnrefxml:XML;
+	    [Bindable]
+	    public var  columnxml:XML;
+	    public var  columnrefxml1:XML;
+	    [Bindable]
+	    public var  columnxml1:XML;
+	    
+	    [Bindable]
+	    public var  inxml1:XML;
+	    
+	    public var sqlid:String="sqlid";
+	    public var outid:String="outid";
+	    
+	    public var source1:String="source1";
+	    public var source2:String="source2";
+	    public var source3:String="source3";
+	    
+	    public var a1:String="<![CDATA[";
+
+		public var a2:String="]]";
+		public var a3:String=">";
+        [Bindable]
+        private var vs:ViewStack;
+        
+        public var uxml:XML;
+		
+
+		public function  init():void{
+			vs=this.parent as ViewStack; 
+			ename.text=BIid.xmlename;
+			cname.text=BIid.xmlname;
+            daima.text=BIid.thexml;
+             
+		}
+        public function  rexml():void{
+    
+        Savef.rewriteText1(BIid.xmlid,cname.text.toString(),daima.text.toString());
+        
+        var o:Object= this.parent.getChildByName("dmMain");
+       	vs.selectedChild=o as Canvas; 
+        }
+
+		
+		 public function  Savefile1(event:ResultEvent):void{
+           Alert.show("完成!");
+	    }
+	    
+
+
+	       public function clickbttcannel():void
+            {    
+            	  var o:Object= this.parent.getChildByName("dmMain");
+       	           vs.selectedChild=o as Canvas; 
+       	     
+            }
+	]]>
+</mx:Script>
+<mx:RemoteObject id="Savef" destination="savexmlfile" showBusyCursor="true" result="Savefile1(event)" />
+		<mx:Panel y="0" width="100%" height="120%" layout="absolute" title="XML修改" fontSize="18" horizontalCenter="0">
+		<mx:Label x="13" y="19" text="名称"/>
+		<mx:Label x="421" y="19" text="中文名称"/>
+		<mx:TextInput x="91" y="17" id="ename" editable="false"/>
+		<mx:TextInput x="529" y="17" width="286" id="cname"/>
+		<mx:TextArea x="91" y="57" width="724" height="414" id="daima"/>
+		<mx:Label x="13" y="58" text="代码"/>
+		<mx:Button x="840" y="57" label="修改" fontSize="12" click="rexml()"/>
+		<mx:Button x="840" y="97" label="取消" click="clickbttcannel()" fontSize="12"/>
+		
+	</mx:Panel>
+</mx:Canvas>
+

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="{init()}" creationComplete="ccl()" x="83" y="-62">
+	<mx:Script>
+	<![CDATA[
+		import mx.core.IFlexDisplayObject;
+		import mx.core.IUIComponent;
+		import BI.EvTijiao;
+		import BI.EvTjFs;
+	 /**
+  	  *  砖取制定 二层模式的界面
+  	  *  xuwei（2012-2-15）
+  	  * 
+  	  * 
+  	  * */
+		import mx.controls.Alert;
+		import ActionForm.vivid;
+		import framework.variable;
+		import mx.managers.PopUpManager;
+		import mx.containers.ViewStack;
+            
+            [Bindable]//vs定义
+            public var vs:ViewStack;
+            [Bindable]//textpath
+            public var textpath:String;
+            [Bindable]
+            public var index:int=1;
+            [Bindable]
+            public var arrID:Array=new Array(); 
+            [Bindable]//textChart 定义
+            public var textChart:String="";
+            public function init():void{
+            EvTjFs.getInstance().addEventListener("TwoAdd",TwoAdd);
+            textpath="路径： "+ BTData.URLname+" 第3步，共4步"; 
+            vs=this.parent as ViewStack;
+           
+           var TV:TBValueUI=new TBValueUI();
+            TV.x=10;
+            TV.y=10;
+            TV.index="父";
+            TV.id="Form1" ;
+            arrID.push(TV);
+            canvas1.addChild(TV);
+           var TV1:TBValueUI=new TBValueUI();
+            TV1.x=10;
+            TV1.y=70;
+            TV1.index="子";
+            TV1.id="Form2" ;
+            arrID.push(TV1);
+            canvas1.addChild(TV1);
+            }
+          public function ccl():void{
+             if(!BTData.modeltype){
+             	var wh:int=0;
+                var xml:XML=BTData.controlxml;
+                var xmllist1:XMLList=new XMLList(xml.child("TwoBrickTake"));
+                var xmllist:XMLList=new XMLList(xml.TwoBrickTake.child("Chart"));
+                if(xmllist1[0].@BTModel=="0"){
+                 for(var i:int=0;i<arrID.length;i++){
+                   TBValueUI(arrID[i]).textChart=xmllist[i].@ID;
+                 } 
+                }
+             }
+            } 
+   			public function TwoAdd(event:EvTijiao):void{
+   			  for(var i:int=0;i<arrID.length;i++){
+   			     if(arrID[i].id==BTData.TwoID){
+		    	     arrID[i].textChart=event.Formcode();
+		    	 }
+   			  }
+   			
+   			}
+	       //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("BTModelSelect1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+          	if(arrID[0].textChart!="" && arrID[1].textChart!=""){
+          BTData.TwoChartparent=arrID[0].textChart;
+          BTData.TwoChartsub=arrID[1].textChart;
+          var o:Object=this.parent.getChildByName("BTTwoValue1");
+          vs.selectedChild=o as Canvas; 
+          	}
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+         
+	]]>
+</mx:Script>
+	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="二层砖取关系对应"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="砖取制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置二层砖取需要的图表关系, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="754" height="321"  x="252" y="216" fontSize="20"  >  
+ 		 
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+
+</mx:Canvas>

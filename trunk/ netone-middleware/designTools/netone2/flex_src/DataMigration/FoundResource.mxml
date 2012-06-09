@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" xmlns:ns1="framework.*"    
+      xmlns:ns2="PolymerizationShow.*" fontSize="12"  width="100%" height="100%" >
+  <mx:Script>
+  	<![CDATA[
+  		import mx.events.ScrollEvent;
+  		import mx.events.FlexEvent;
+  		import mx.logging.ILogger;
+  		import com.blitzagency.xray.logger.Log;
+  		import com.blitzagency.xray.logger.Logger;
+  		import mx.containers.TitleWindow;
+  		import mx.containers.ViewStack;
+  		import ActionForm.From.com.hitb.util.GlobalManager;
+  		import mx.controls.Button;
+  		import mx.collections.ArrayCollection;
+  		import mx.rpc.events.ResultEvent;
+  		import mx.controls.Alert;
+  	      [Bindable]
+  	      public var params:Object;
+   
+  	       
+  	       [Bindable]//节点上的数据
+  	       public var Nodearr:ArrayCollection=new ArrayCollection();
+  	       [Bindable]//text上的提示绑定
+  	       public var text:String;
+  	        [Bindable]//text上的提示绑定节点name
+  	       public var Nodename:String;
+  	       [Bindable]//当前节点的
+  	       public var index:int=1;
+  	       [Bindable]
+  	       public var Ylable:int=0;  	      	        
+  	       [Bindable]
+  	       public var vs:ViewStack;
+  	       
+  	       [Bindable]
+  	       public var textpath:String="";
+  	    public function init():void{ //初始化的方法	     
+	             vs=this.parent as ViewStack;
+                 textpath="路径： "+MigrationData.URLname+" 第1步，共5步";
+  	    }
+         public function DownNode(event:MouseEvent):void{
+         	if(repid.text!="" && repdimxplay.text!=""){
+         	 queryID1.QueryID(MigrationData.URLname,repid.text);
+         	}else{
+         	 Alert.show("数据迁移ID或数据迁移中文名没有填写");
+         	 }
+         }
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+         }
+         
+         	//判断naturalname是否存在
+             public function handerResult1(event:ResultEvent):void{
+             	if(event.result as String =="0"){
+             	 Alert.show("ID已经存在");
+             	}else{
+             	  MigrationData.repidID=repid.text.toString();
+		          MigrationData.repdimxplay=repdimxplay.text.toString();
+		          var o:Object=this.parent.getChildByName("SuperChooseDataSource1");
+		          vs.selectedChild=o as Canvas 
+             	}
+             }
+		  	]]>
+  </mx:Script>
+   <mx:RemoteObject id="queryID1" destination="QueryID1" showBusyCursor="true"   result="handerResult1(event)" />
+	 <mx:Canvas width="100%" height="189" > 
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="创建资源"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="数据迁移" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:从以下填写需要的资源ID与资源名称 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="863" height="282"  x="137" y="219">
+	<mx:HBox x="0" y="50" verticalAlign="middle" width="445" height="64">
+		<mx:Label  text="数 据  迁 移 ID:"  fontSize="19" width="171" fontWeight="bold"/>
+		<mx:TextInput id="repid" width="240" height="34" restrict="a-zA-Z0-9"  fontSize="14"/>
+	</mx:HBox>
+	<mx:HBox x="0" y="157" verticalAlign="middle" width="445" height="64">
+		<mx:Label  text="数据迁移中文名:" fontSize="19"  width="171" fontWeight="bold"/>
+		<mx:TextInput x="147" y="84" id="repdimxplay" width="240" height="34" fontSize="14"/>
+	</mx:HBox>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+	 fontSize="12" fontWeight="bold" initialize="init()"
+	 width="454" height="394" title="修改资源">
+	 <mx:Script>
+	 	<![CDATA[
+	 		import mx.core.IFlexDisplayObject;
+	 		import mx.managers.PopUpManager;
+	    public function init():void
+	 	{     
+	 		 if(Rvivid.YNst=="1"){
+	 		 YNstate.selected=true;
+	 		 }
+	 		 else{
+	 		   YNstate.selected=false;
+	 		 }
+	 	         Cname.text=Rvivid.Cname;
+	 	         Nname.text=Rvivid.Nname;
+	 	         expendP.text=Rvivid.note;
+	 	 //       comtype.selectedItem=Rvivid.type;
+	 	         comtype.text=Rvivid.type;
+	    } 
+	 	  public function closeResource():void
+	 	  {
+	 	 
+	 	   PopUpManager.removePopUp(this as IFlexDisplayObject);
+	 	   }
+	 	  
+	 	  public var ns:String="0";
+	 	  public function updateResource():void
+	 	  {       if(YNstate.selected){
+	 	             ns="1";
+	 	         }
+	 	  	  
+	 	  		updateSObject.updateAppliction(Rvivid.Fid,ns,Nname.text,Cname.text,comtype.selectedItem.@value.toString(),expendP.text,mstext.text);
+	 	        PopUpManager.removePopUp(this as IFlexDisplayObject);
+	 	  }	
+	 	   	]]>
+	 </mx:Script>
+	 <mx:XMLList id="typesource">
+	 	<typeinfo name="组织机构" value="ORG" />
+	 	<typeinfo name="图片"     value="PIC " />
+	 	<typeinfo name="文字"     value="FILE" />
+	 	<typeinfo name="字典"     value="DICT " />
+	 	<typeinfo name="网元"     value="NetCell " />
+	 	<typeinfo name="动态表单" value="DYFORM" />
+	    <typeinfo name="二进制流" value="BINARY" />
+	 	<typeinfo name="PORTAL"  value="PORTAL" />	
+	  </mx:XMLList>
+	  	<mx:RemoteObject id="updateSObject" destination="selectchirdrenform" 
+	showBusyCursor="true"/>	
+	<mx:Canvas height="100%" width="100%"  fontSize="14">
+		<mx:Label text="有     效"/>
+		<mx:Label text="名     称" y="28"/>
+		<mx:Label text="中文名称" y="73"/>
+		<mx:Label text="类      型" y="114"/>
+		<mx:Label text="扩展属性" y="165"/>
+		<mx:Label text="描      述" x="0" y="246"/>
+		<mx:CheckBox id="YNstate" x="73" width="20"/>
+		<mx:TextInput id="Nname" x="73" y="26" width="343" enabled="false"/>
+		<mx:TextInput id="Cname" x="73" y="71" width="343"/>
+		<mx:ComboBox id="comtype"  dataProvider="{typesource}" labelField="@name" x="73" y="111" width="343"/>
+		<mx:TextArea id="expendP" x="73" y="164" width="343" height="62"/>
+		<mx:TextArea id="mstext" x="73" y="234" width="343" height="62"/>
+		<mx:Button id="bttok" click="updateResource()" label="确定" x="296" y="307"/>
+		<mx:Button id="bttCannel" label="取消" click="{closeResource()}" x="360" y="307"/>
+		
+	</mx:Canvas>
+</mx:TitleWindow>

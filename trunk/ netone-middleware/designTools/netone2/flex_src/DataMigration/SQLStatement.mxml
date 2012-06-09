@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" width="100%" height="100%">
+  <mx:Script>
+  	<![CDATA[
+  		import mx.controls.Alert;
+  		import mx.containers.ViewStack;
+         //定义vs的类型
+         public var vs:ViewStack;
+         [Bindable]
+         public var textpath:String;
+         public function init():void  //初始化的方法
+         {
+          textpath="路径： "+MigrationData.URLname+" 第3步，共5步";
+          vs=this.parent as ViewStack;
+         }
+         
+       
+          //输出的数据驱动
+          public function OUTDataDrive():void{
+          if(outdataid.selectedItem=="数据源1"){
+           MigrationData.OUTurlString=MigrationData.AurlString;
+           MigrationData.OUTusername=MigrationData.Ausername;
+           MigrationData.OUTpwd=MigrationData.Apwd;
+           MigrationData.OUTdriver=MigrationData.Adriver;
+           MigrationData.OUTdata="source1";
+           }if(outdataid.selectedItem=="数据源2"){
+           MigrationData.OUTurlString=MigrationData.BurlString;
+           MigrationData.OUTusername=MigrationData.Busername;
+           MigrationData.OUTpwd=MigrationData.Bpwd;
+           MigrationData.OUTdriver=MigrationData.Bdriver;
+             MigrationData.OUTdata="source2";
+           }if(outdataid.selectedItem=="数据源3"){
+           MigrationData.OUTurlString=MigrationData.CurlString;
+           MigrationData.OUTusername=MigrationData.Cusername;
+           MigrationData.OUTpwd=MigrationData.Cpwd;
+           MigrationData.OUTdriver=MigrationData.Cdriver;
+             MigrationData.OUTdata="source3";
+           }if(outdataid.selectedItem=="数据源4"){
+           MigrationData.OUTurlString=MigrationData.DurlString;
+           MigrationData.OUTusername=MigrationData.Dusername;
+           MigrationData.OUTpwd=MigrationData.Dpwd;
+           MigrationData.OUTdriver=MigrationData.Ddriver;
+             MigrationData.OUTdata="source4";
+           }if(outdataid.selectedItem=="数据源5"){
+           MigrationData.OUTurlString=MigrationData.EurlString;
+           MigrationData.OUTusername=MigrationData.Eusername;
+           MigrationData.OUTpwd=MigrationData.Epwd;
+           MigrationData.OUTdriver=MigrationData.Edriver;
+             MigrationData.OUTdata="source5";
+           }if(outdataid.selectedItem=="数据源6"){
+           MigrationData.OUTurlString=MigrationData.FurlString;
+           MigrationData.OUTusername=MigrationData.Fusername;
+           MigrationData.OUTpwd=MigrationData.Fpwd;
+           MigrationData.OUTdriver=MigrationData.Fdriver;
+           MigrationData.OUTdata="source6";
+           }
+          }
+          //输入的数据驱动
+          public function INDataDrive():void{
+          	 if(indataid.selectedItem=="数据源1"){
+           MigrationData.INurlString=MigrationData.AurlString;
+           MigrationData.INusername=MigrationData.Ausername;
+           MigrationData.INpwd=MigrationData.Apwd;
+           MigrationData.INdriver=MigrationData.Adriver;
+           MigrationData.INdata="source1";
+           }if(indataid.selectedItem=="数据源2"){
+           MigrationData.INurlString=MigrationData.BurlString;
+           MigrationData.INusername=MigrationData.Busername;
+           MigrationData.INpwd=MigrationData.Bpwd;
+           MigrationData.INdriver=MigrationData.Bdriver;
+           MigrationData.INdata="source2";
+           }if(indataid.selectedItem=="数据源3"){
+           MigrationData.INurlString=MigrationData.CurlString;
+           MigrationData.INusername=MigrationData.Cusername;
+           MigrationData.INpwd=MigrationData.Cpwd;
+           MigrationData.INdriver=MigrationData.Cdriver;
+           MigrationData.INdata="source3";
+           }if(indataid.selectedItem=="数据源4"){
+           MigrationData.INurlString=MigrationData.DurlString;
+           MigrationData.INusername=MigrationData.Dusername;
+           MigrationData.INpwd=MigrationData.Dpwd;
+           MigrationData.INdriver=MigrationData.Ddriver;
+           MigrationData.INdata="source4";
+           }if(indataid.selectedItem=="数据源5"){
+           MigrationData.INurlString=MigrationData.EurlString;
+           MigrationData.INusername=MigrationData.Eusername;
+           MigrationData.INpwd=MigrationData.Epwd;
+           MigrationData.INdriver=MigrationData.Edriver;
+           MigrationData.INdata="source5";
+           }if(indataid.selectedItem=="数据源6"){
+           MigrationData.INurlString=MigrationData.FurlString;
+           MigrationData.INusername=MigrationData.Fusername;
+           MigrationData.INpwd=MigrationData.Fpwd;
+           MigrationData.INdriver=MigrationData.Fdriver;
+           MigrationData.INdata="source6";
+           }
+          }
+          
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("SuperChooseDataSource1");
+            vs.selectedChild=o as Canvas;
+          }
+          public function DownNode(event:MouseEvent):void{
+          	if(outdataid.selectedIndex.toString()=="-1" || indataid.selectedIndex.toString()=="-1" ){
+          	Alert.show("out配置或in配置不能为空");
+          	}else{
+          	var o:Object=this.parent.getChildByName("SqlData1");
+            vs.selectedChild=o as Canvas;
+           }
+         }
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+         }
+  	]]>
+  </mx:Script>
+		<mx:Canvas width="100%" height="204" >
+	    <mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="数据来源"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="数据迁移" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148"  text="帮助提示:选择好out与in的数据源, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="900" height="287"  x="103" y="202">		
+		<mx:ComboBox x="196" y="48"  prompt="请选择数据源"  change="{OUTDataDrive()}" dataProvider="{MigrationData.Dataarr}" id="outdataid" tabIndex="26" width="181" height="33" fontSize="15"></mx:ComboBox>
+		<mx:ComboBox x="196" y="141"  prompt="请选择数据源" change="{INDataDrive()}" dataProvider="{MigrationData.Dataarr}" id="indataid" tabIndex="27" width="186" height="29" fontSize="15"></mx:ComboBox>
+		<mx:Label x="30" y="52" text="out配置(读出)" fontSize="19" fontWeight="bold" width="158"/>
+		<mx:Label x="30" y="141" text="in配置(写入)" fontSize="19" fontWeight="bold"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

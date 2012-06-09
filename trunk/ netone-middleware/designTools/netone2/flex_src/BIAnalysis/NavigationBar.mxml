@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="694" height="300">
+	<mx:Script>
+		<![CDATA[
+		 [Embed("img1/quxiao.png")]            
+         public var bttCanelIcon:Class; 
+          [Embed("img1/xiayibu.png")]            
+         public var bttNextIcon:Class; 
+          [Embed("img1/shangyibu.png")]            
+         public var bttUpIcon:Class; 
+		]]>
+	</mx:Script>
+		<mx:MenuBar  id="MenuBar" width="100%"
+			 labelField="@label"  
+			 iconField="@icon" 
+             click="clickHandler()"  
+			 height="45" fontSize="19" color="white">
+		 <mx:XMLList>
+		   <menuitem  data="createApplication" icon="bttUpIcon"/>
+		    <menuitem  data="createApplication" icon="bttNextIcon"/>
+		 	<menuitem  data="deleteApplication" icon="bttCanelIcon"/> 
+		 </mx:XMLList>
+		</mx:MenuBar>
+		<mx:Canvas x="0" y="43" width="100%" height="257">
+		</mx:Canvas>
+</mx:Canvas>

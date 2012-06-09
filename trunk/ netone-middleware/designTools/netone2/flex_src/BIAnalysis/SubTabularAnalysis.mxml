@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="{init()}">
+	<mx:Script>
+		<![CDATA[
+			import BI.EvTijiao;
+			import BI.EvTjFs;
+			import BI.BIid;
+			import mx.controls.Alert;
+			import mx.containers.ViewStack;
+			import BIAnalysis.SuperTabularAnalysis;
+		 [Embed("img1/quxiao.png")]            
+         public var bttCanelIcon:Class; 
+          [Embed("img1/xiayibu.png")]            
+         public var bttNextIcon:Class; 
+        //定义VS的是什么
+         private var vs:ViewStack;  
+        
+         public function init():void{
+          vs=this.parent as ViewStack; 
+         var supertabularanalysis:SuperTabularAnalysis=new SuperTabularAnalysis();
+         supertabularanalysis.x=0;
+         supertabularanalysis.y=0;
+         supertabularanalysis.percentHeight=100;
+         supertabularanalysis.percentWidth=100;
+         AnalysisVessel.addChild(supertabularanalysis);
+         }
+       private function getChild(str:String):Object{ 
+	       for each(var obj:* in vs.getChildren()){ 
+	           if(obj.name==str){ 
+	           break; 
+				} 
+				} 
+				return obj; 
+		} 
+         public function clickHandler():void{
+			 //下一步的点击事件
+			  if (MenuBar.selectedIndex==0) {
+                       var o:Object=this.getChild("SubTabularAnalysis2"); 
+                       vs.selectedChild=o as Canvas;
+                       EvTjFs.getInstance().dispatchEvent(new EvTijiao("xuanzhiweiduzhi","ass")); 
+			  }	
+			  //取消的点击事件
+			  if (MenuBar.selectedIndex==1) {
+			   navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+			  }	
+         }
+		]]>
+	</mx:Script>
+		<mx:MenuBar  id="MenuBar" width="100%"
+			 labelField="@label"  
+			 iconField="@icon" 
+             click="clickHandler()"  
+			 height="45" fontSize="19" color="white">
+		 <mx:XMLList>
+		    <menuitem  data="createApplication" icon="bttNextIcon"/>
+		 	<menuitem  data="deleteApplication" icon="bttCanelIcon"/> 
+		 </mx:XMLList>
+		</mx:MenuBar>
+		<mx:Canvas id="AnalysisVessel" x="0" y="43" width="100%" height="100%">
+		</mx:Canvas>
+</mx:Canvas>

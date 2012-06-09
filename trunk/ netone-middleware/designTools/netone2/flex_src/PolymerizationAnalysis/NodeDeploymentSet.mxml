@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  xmlns:ns1="framework.*" width="100%" height="354"  xmlns:ns3="safe.*"
+	 initialize="init()"  xmlns:ns2="PolymerizationShow.*"
+ >
+<mx:Script>
+    	<![CDATA[
+    		import mx.managers.PopUpManager;
+    		import BI.EvTjFs;
+    		import mx.controls.Alert;
+    		import mx.collections.ArrayCollection;
+    		import mx.rpc.events.ResultEvent;
+		    import mx.containers.Canvas; 
+		    import mx.containers.ViewStack;
+		    import mx.controls.dataGridClasses.DataGridListData; 
+     private var vs:ViewStack; 
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable]
+     public var arrdata:ArrayCollection=new ArrayCollection();
+     [Bindable] 
+     private var i:int=3; 
+     public var url:String;
+     public var r:URL1;
+     [Bindable]
+     public var liuchengurl:String;
+     [Bindable]
+     public static var idcreate:String;
+     [Bindable]
+     public var ID:String;
+     [Bindable]
+     public var flowID:String;
+     [Bindable]
+      public var params:Object;
+      public var pmtasone:PolymerizationAnalysisone;
+      
+     public  function init():void{  //初始化的 方法
+    
+     EvTjFs.getInstance().addEventListener("guendongshijian",Dataclick);
+     EvTjFs.getInstance().addEventListener("DataRefresh",Refresh);
+     	r=new URL1();
+     	r.init();
+     	  vs=this.parent.parent as ViewStack; 
+     	 var args:Object = getParams();    
+	           	 if(args.naturalname != null ) {
+	           	 	DataTransfer.flowid=args.naturalname;
+	           	 	DataTransfer.URLname=args.naturalname;
+	           	 	flowID=args.naturalname
+	 			    processnode1.QueryNode(args.naturalname);
+	             } 
+       } 
+       //刷新数据
+      public function Refresh(event:MouseEvent):void{
+      	ExternalInterface.call("zIndex", "iFrame10","1");
+        processnode1.QueryNode(flowID);
+      }
+        private function getParams():Object {  //获取URL上的数据
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                   
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+         
+      private function getChild(str:String):Object{ //状态跳转的方法
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+			} 
+			} 
+			return obj;
+			} 
+		private function clickHandler():void{
+			 
+			      var o1:Object=this.getChild("ApplicationFramework"); 
+			      vs.selectedChild=o1 as Canvas; 
+			                  
+			 }
+			  public  function clickEvent(naturalname:String,name:String):void{	
+			  	          ExternalInterface.call("zIndex", "iFrame10","-1");
+                          pmtasone=new PolymerizationAnalysisone();
+                          pmtasone.naturalname=naturalname;
+                          pmtasone.Name=name;
+                          PopUpManager.addPopUp(pmtasone,this.parent.parent,true);
+                          PopUpManager.centerPopUp(pmtasone);                  
+                }
+			 public function handerResult2(event:ResultEvent):void{
+                arrdata=event.result as  ArrayCollection;
+	              
+			 }
+			 public function Dataclick(event:MouseEvent):void{
+
+			 }
+
+
+    	]]>
+    </mx:Script> 	
+     	<mx:RemoteObject id="processnode1" destination="ProcessNode1" showBusyCursor="true"   result="handerResult2(event)"/>	
+     	<mx:DataGrid   id="DATA" editable="false"
+	        	fontSize="15"  dataProvider="{arrdata}" click="Dataclick(event)"
+	        	width="100%" height="322" y="0" x="0">
+	        <mx:columns>
+	                <mx:DataGridColumn headerText="中文名称"  width="250" dataField="name"/>
+	                <mx:DataGridColumn headerText="名    称"   dataField="naturalname"/>
+	                <mx:DataGridColumn headerText="状    态"  width="60"  dataField="objecttype"/>
+	                <mx:DataGridColumn headerText="配    置"  width="130" >
+	                <mx:itemRenderer>
+                	<mx:Component> 
+					<mx:LinkButton label="配置" color="blue"  click="{outerDocument.clickEvent(data.naturalname,data.name)}"/>
+					</mx:Component>
+				 </mx:itemRenderer>
+				</mx:DataGridColumn>
+	            </mx:columns>
+	        </mx:DataGrid>
+	        <mx:Canvas height="27"  width="100%" y="{DATA.height+DATA.y}" x="0">
+			</mx:Canvas>
+	       <!-- <ns3:PageController id="pcr" x="0" y="330" TargetUI="{DATA}" PerPage="1" width="100%" height="24">
+	        </ns3:PageController> -->
+</mx:Canvas>

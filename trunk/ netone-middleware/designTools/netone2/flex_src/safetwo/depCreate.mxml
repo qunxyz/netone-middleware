@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+	 initialize="init()">
+
+<mx:Script>
+	<![CDATA[
+		     import mx.containers.Canvas; 
+		     import mx.containers.ViewStack; 
+		     public var vs:ViewStack; 
+		     [Bindable] 
+		     public var loginsuccess:String; 
+		     [Bindable] 
+		     private var i:int=3; 
+		     private function init():void{ 
+		     vs=this.parent as ViewStack;
+		      trace(vs.id); 
+		     } 
+		      private function getChild(str:String):Object{ 
+		       for each(var obj:* in vs.getChildren()){ 
+		           if(obj.name==str){ 
+		           break; 
+		} 
+		} 
+		return obj; 
+		 } 
+     	    
+     	    private function SetExit():void	{
+     	    
+     	       var o1:Object=this.getChild("depperson");
+			    vs.selectedChild=o1 as Canvas; 
+			    }
+
+	]]>
+</mx:Script>
+<mx:TitleWindow width="100%" height="100%"  title="新建部门" fontSize="12" layout="absolute">
+	
+
+	<mx:TextInput width="461" id="chinesename" fontSize="12" y="68" horizontalCenter="28"/>
+	<mx:TextInput y="20" width="461" id="name1" fontSize="12" horizontalCenter="23"/>
+	<mx:TextInput y="122" width="461" id="depno" fontSize="12" horizontalCenter="28"/>
+	<mx:TextInput y="169" width="461" id="deptype" horizontalCenter="28"/>
+	<mx:Label y="70" text="中文名称" fontSize="12" horizontalCenter="-232"/>
+	<mx:Label y="22" text="拼音" fontSize="12" horizontalCenter="-242"/>
+	<mx:Label y="124" text="部门编码" fontSize="12" horizontalCenter="-232"/>
+	<mx:Label y="171" text="部门类型" fontSize="12" horizontalCenter="-232"/>
+	<mx:Button y="232" label="提交" fontSize="12" horizontalCenter="-103"/>
+	<mx:Button y="232" label="取消" fontSize="12" horizontalCenter="0" click="SetExit()"/>
+</mx:TitleWindow>	
+</mx:Canvas>

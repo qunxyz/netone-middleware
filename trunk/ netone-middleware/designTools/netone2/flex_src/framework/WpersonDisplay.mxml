@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:ns1="framework.*" initialize="init()" xmlns:ns2="PolymerizationShow.*">
+ <mx:Script>
+ 	<![CDATA[
+ 		import mx.core.IFlexDisplayObject;
+ 		import mx.managers.PopUpManager;
+ 	/**
+	  * 应用框架   参与者配置
+	  * xuwei（2012-2-23）
+	  * 
+	  * 
+	  * **/
+ 		import BI.EvTjFs;
+ 		import mx.controls.Alert;
+ 		import mx.controls.Label;
+ 		import mx.collections.ArrayCollection;
+ 		import mx.rpc.events.ResultEvent;
+ 	 	import mx.containers.ViewStack;
+ 	 	     [Bindable]
+		     private var vs:ViewStack;  
+		     [Bindable] 
+		     public var loginsuccess:String; 
+		     [Bindable]//textpath 
+		     public var textpath:String="";
+	        public var editPerson:EditPerson;
+		     [Bindable]
+		     public var arrdata:ArrayCollection=new ArrayCollection();
+		     [Bindable] 
+		     private var i:int=3; 
+		     public var url:String;
+		     public var r:URL1;
+		     [Bindable]
+		     public var liuchengurl:String;
+		     [Bindable]
+		     public static var idcreate:String;
+		     [Bindable]
+		     public var ID:String;
+ 
+		    private function init():void{ 
+		    	EvTjFs.getInstance().addEventListener("xianshigongzuoliu",xianshigongzuoliu);
+		    	vs=this.parent as ViewStack;
+      			textpath="路径： "+variable.URLname+" 第5步，共6步";  
+      			EvTjFs.getInstance().addEventListener("shuxianshuju1",shuxianshuju);
+      			EvTjFs.getInstance().addEventListener("pzshuju",pzshuju);
+		     	r=new URL1();
+		     	r.init();
+			    queryrenyuan1.Query(variable._idcreated1); 
+		     } 
+		        //工作流的移动效果  
+		 public function  xianshigongzuoliu(event:MouseEvent):void{
+               if(MoveAssembly1.x==this.width-80){
+               	myMove.end();
+                myMove.xTo=0; 
+                myMove.play();
+               } else{
+               	myMove.end();
+                myMove.xTo=this.width-80; 
+                myMove.play();
+               }
+			
+      	 }
+           // 第二次打开时的数据刷新
+		  public  function shuxianshuju(event:MouseEvent):void{
+		    queryrenyuan1.Query(variable._idcreated1);  
+		    MoveAssembly1.Urltext=variable.folwID; 
+		     EvTjFs.getInstance().dispatchEvent(new MouseEvent("chenggong"));
+		  }
+		  //配置完成数据刷新
+          public  function pzshuju(event:MouseEvent):void{
+		    queryrenyuan1.Query(variable._idcreated1); 
+          }
+
+			  public  function clickEvent(id:String,name:String):void{
+			  	            variable.zhiyuan=id;
+			  	            variable.zhiyuanname=name;
+			  	          	EditPerson.bool=true;
+			  	          	
+                          editPerson=new EditPerson();
+                          editPerson.idcreated1=variable._idcreated1;
+                         PopUpManager.addPopUp(editPerson,this.parent.parent,true);  
+                         PopUpManager.centerPopUp( editPerson as IFlexDisplayObject);
+			                    }
+			 public function handerResult2(event:ResultEvent):void{
+                arrdata=event.result as  ArrayCollection;
+                 if(arrdata[0].naturalname!="" || arrdata[0].naturalname!=null){
+                   ID=variable._woekchoose.substring(variable._woekchoose.indexOf("[")+1,variable._woekchoose.indexOf("]")); 
+                 }
+			 }
+ 
+          //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("HeaderorEnd1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("WflowFormDisplay");
+            vs.selectedChild=o as Canvas;
+                    }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+ 	 
+
+ 	]]>
+ </mx:Script>
+ 	<mx:RemoteObject id="queryrenyuan1" destination="Queryrenyuan1" showBusyCursor="true"   result="handerResult2(event)"/>	
+  <mx:Move id="myMove" target="{MoveAssembly1}"/>
+		 	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />  
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="参与者配置"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="业务框架" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置工作流上的参与者 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="100%" height="325"  x="0" y="207" fontSize="20">
+ 	 	  	 <mx:TitleWindow width="100%" height="100%"
+    	 fontSize="15" fontWeight="bold"
+    	  title="参与者配置" id="tw"
+    	  backgroundColor="#ffffff">
+     	<mx:DataGrid  id="DATA"
+	        	fontSize="15"  dataProvider="{arrdata}" 
+	        	width="100%" height="100%" y="0" x="0">
+	        <mx:columns>
+	                <mx:DataGridColumn headerText="中文名称" width="130" dataField="name"/>
+	                <mx:DataGridColumn headerText="名    称"   dataField="naturalname"/>
+	                <mx:DataGridColumn headerText="类    型" width="80"  dataField="objecttype"/>
+	                <mx:DataGridColumn headerText="配    置"  width="80">
+	                <mx:itemRenderer>
+                	<mx:Component> 
+					<mx:LinkButton label="配置" color="blue"  click="{outerDocument.clickEvent(data.naturalname,data.name)}"/>
+					</mx:Component>
+				 </mx:itemRenderer>
+				</mx:DataGridColumn>
+	            </mx:columns>
+	        </mx:DataGrid>
+      </mx:TitleWindow>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />  
+ 	     <ns2:MoveAssembly id="MoveAssembly1" Urltext="{variable.folwID}" x="{this.width-80}" y="138" width="100%" height="{380}">   	
+    </ns2:MoveAssembly>
+</mx:Canvas>

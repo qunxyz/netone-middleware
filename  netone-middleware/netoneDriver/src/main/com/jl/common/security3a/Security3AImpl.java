@@ -684,8 +684,10 @@ public final class Security3AImpl implements Security3AIfc {
 		UmsProtectedobject upo = new UmsProtectedobject();
 		upo.setParentdir(rs.loadResourceByNatural(parentNaturalname).getId());
 
+//		List list = rs.queryObjectProtectedObj(upo, null, 0, 1000,
+//				" order by CAST(reference AS UNSIGNED) desc");
 		List list = rs.queryObjectProtectedObj(upo, null, 0, 1000,
-				" order by CAST(reference AS UNSIGNED) desc");
+		" order by aggregation");
 		List listData = new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			UmsProtectedobject object = (UmsProtectedobject) iterator.next();

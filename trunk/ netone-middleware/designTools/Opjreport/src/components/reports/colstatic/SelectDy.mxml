@@ -15,6 +15,7 @@
 			
 			import mx.controls.Alert;
 			import mx.core.IFlexDisplayObject;
+			import mx.core.UIComponent;
 			import mx.managers.PopUpManager;
 			
 			import spark.events.TextOperationEvent;
@@ -37,9 +38,10 @@
 			}
 			public function Evnt_form(event:EvTijiao):void{
 					 dyform.text=event.Formcode();
-					(reportmanage.selectobj as   TableCav).sqlstr=event.Formcode();
-					(reportmanage.selectobj as   TableCav).focdstr=DataReport.Fcod;
-				  
+					/* (reportmanage.selectobj as   TableCav).sqlstr=event.Formcode();
+					(reportmanage.selectobj as   TableCav).focdstr=DataReport.Fcod; */
+					 UIComponent(reportmanage.selectobj)["sqlstr"]=event.Formcode();
+					 UIComponent(reportmanage.selectobj)["focdstr"]=DataReport.Fcod;
 			}
 			
 		]]>

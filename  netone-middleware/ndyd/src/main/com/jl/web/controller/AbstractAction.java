@@ -434,6 +434,75 @@ public abstract class AbstractAction extends DispatchAction {
 		}
 		return user;
 	}
+	
+	public static User getOnlineUserByMobile(HttpServletRequest request) {
+		Security3AIfc security3AIfc = getSecurityAPI(request);
+		User user = null;
+		final String _session_var = BussVar.SESSION_USER;
+
+		try {
+			String sessionId = request.getParameter("username");
+			if (sessionId == null) {// 不在线上或会话过期
+				return null;
+			}
+
+			user = (User) WebCache.getCache(_session_var + "_" + sessionId);
+			if (user != null) {
+				return user;
+			} else {
+				user = new User();
+
+				Client3A client = security3AIfc.loadUser(sessionId);
+				user.setUserId(client.getClientId());// 该方法建议取消
+				user.setUserCode(client.getClientId());
+				user.setUserName(client.getName());
+				user.setDepartmentId(client.getBussid());
+
+				if ("adminx".equals(user.getUserId())) {
+					user.setDepartmentCode("adminx");
+					user.setDepartmentName("adminx");
+					user.setParentDepartmentId("");
+					user.setLevel("adminx");
+					user.setNLevelName("/");
+				} else {
+					Department department = (Department) getCommonDAO()
+							.findForObject("Department.selectInfo",
+									client.getBussid());
+					Department departmentlevelrow = (Department) getCommonDAO()
+							.findForObject(
+									"Department.selectDepartmentlevelrow",
+									client.getBussid());// 上级数据信息集合
+
+					user.setDepartmentCode(department.getDepartmentCode());
+					user.setDepartmentName(department.getDepartmentName());
+					String pDeptId = department.getParentDepartmentId();
+					pDeptId = pDeptId == null ? "" : pDeptId;
+					user.setParentDepartmentId(pDeptId);
+					user.setLevel(department.getLevel());
+					user.setDepartmentLevelRow(departmentlevelrow);
+					user.setParentDepartment(department.getParentDepartment());
+
+					String nlevelName = department.getNLevelName();
+					nlevelName = StringUtils.replace(nlevelName, "[0]", "");
+					nlevelName = StringUtils.replace(nlevelName, "][", "/");
+					nlevelName = StringUtils.replace(nlevelName, "[", "");
+					nlevelName = StringUtils.replace(nlevelName, "]", "");
+					user.setNLevelName(nlevelName);
+				}
+				// 过30分钟
+				Calendar calendar = Calendar.getInstance();// 当前日期
+				calendar.setTime(new Date());
+				calendar.add(Calendar.MINUTE, 15);//
+				WebCache.setCache(_session_var + "_" + sessionId, user,
+						calendar.getTime());// 15分钟后失效
+				request.getSession().setAttribute(_session_var, sessionId);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return user;
+	}
 
 	public static User getUserByCode(String clientid) {
 

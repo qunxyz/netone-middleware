@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jl.common.workflow.DbTools;
-import com.jl.service.FileService;
 
 public class DownLoadFileAction extends HttpServlet {
 

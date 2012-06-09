@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="remoting-service" 
+    class="flex.messaging.services.RemotingService">
+
+    <adapters>
+        <adapter-definition id="java-object" class="flex.messaging.services.remoting.adapters.JavaAdapter" default="true"/>
+    </adapters>
+
+    <default-channels>
+        <channel ref="my-amf"/>
+    </default-channels>
+	
+	<!-- 保存报表相关文件 -->
+    <destination id="SaveAndRead">
+	    <properties>
+	        <source>readxml.readandmodify.AddRs</source>       
+	    </properties>
+    </destination>
+    <!-- 选择资源目录 -->
+    <destination id="xmltree1">
+	    <properties>
+	        <source>com.report.servlet.XmlTree</source>       
+	    </properties>
+    </destination>
+    <!-- 从focd中读取数据 -->
+    <destination id="getformname">
+		<properties>
+			<source>com.report.servlet.getformname</source>
+		</properties>
+	</destination>	
+	<!-- 更具SQL语句读取数据 -->
+	<destination id="tablename">
+		<properties>
+			<source>com.report.servlet.SelectTable</source>
+		</properties>
+	</destination>	
+    <!-- 读取报表接口 -->
+    <destination id="Getface"> 
+    	<properties>
+    		<source>com.report.servlet.Getrepface</source>
+    	</properties>
+    </destination>
+    <!--根据naturealname 获取到Extended里面的数据 -->
+    <destination id="QueryExtended1"> 
+    	<properties>
+    		<source>com.report.servlet.QueryExtended</source>
+    	</properties>
+    </destination>
+     <!--查询naturealname 是否已经村在 -->
+    <destination id="QueryID1"> 
+    	<properties>
+    		<source>com.report.servlet.QueryID</source>
+    	</properties>
+    </destination>
+     <!-- 读取rmi里面的服务 -->
+    <destination id="Strength1"> 
+    	<properties>
+    		<source>oe.bi.rmi.Strength</source>
+    	</properties>
+    </destination>
+    
+     <destination id="Getselectlist"> 
+    	<properties>
+    		<source>com.report.AppList</source>
+    	</properties>
+    </destination>
+      <!-- 手机配置里面对资源的操作 -->
+    <destination id="ResourceOperate1"> 
+    	<properties>
+    		<source>oe.jl.common.config.ResourceOperate</source>
+    	</properties>
+    </destination>
+     <!-- 手机配查询上一级是什么类型 -->    
+    <destination id="Resourcejudge1"> 
+    	<properties>
+    		<source>oe.jl.common.config.Resourcejudge</source>
+    	</properties>
+    </destination>
+         <!--  更具fromcode装载出表单字段 -->    
+    <destination id="getpColumn1"> 
+    	<properties>
+    		<source>com.report.servlet.getpColumn</source>
+    	</properties>
+    </destination>
+</service>

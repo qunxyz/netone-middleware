@@ -27,5 +27,23 @@ public class ScriptTools {
 		}
 		return null;
 	}
+	
+	static public Object todo(String elogicExpress,Object [] obj) {
+
+		try {
+			WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+			return console.exeScript(elogicExpress);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

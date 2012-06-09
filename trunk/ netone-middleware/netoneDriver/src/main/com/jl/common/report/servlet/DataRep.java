@@ -195,8 +195,7 @@ public class DataRep {
 //
 //	}
 
-	public Table getFooterTable() throws Exception {
-		Table th = new Table();
+	public Table getFooterTable(Table th) throws Exception {
 		Getdatalist listx = Readdata.gettablewiedata(reportobj, reportPools);
 		for (int i = 0; i < reportobj.getTablelist().size(); i++) {
 			String ssa = "wei";

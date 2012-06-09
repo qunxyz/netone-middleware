@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" fontSize="16"  initialize="init()"  width="100%" height="100%"  xmlns:components="BI.components.*">
+	<mx:Script>
+		<![CDATA[
+			import BI.BIid;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import ActionForm.vivid;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			public function init():void
+			{       
+			    if(BIid.Scolunm!=null)
+			    {	    	
+			       if(BIid.statetype=="11")  
+		          {  
+		             WdValuekvObject.getkvdata(BIid.Scolunm,vivid.formcode);
+		          }
+			   else{
+				   WdValueObject.getData(BIid.Scolunm,vivid.Tablename);
+			         }
+			   }
+			}
+			public function closeWindow():void
+			{
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+	      [Bindable]
+		   public var Bxml:XML=<selectxml></selectxml>;
+		  [Bindable]
+		  public var sletearr:ArrayCollection=new ArrayCollection();
+			public function wdvalue(event:ResultEvent):void
+			{   
+			     sletearr=event.result as ArrayCollection;
+			     slelectwd.dataProvider=event.result as ArrayCollection;
+			   
+			} 
+			public function bttok():void
+			{       
+			if(this.slelectwd.selectedItem.toString()!="")
+			{   
+			    if(BIid.statetype=="11")
+			    {
+			         var sarr:Array=this.slelectwd.selectedItem.toString().split("-");
+			         BIid.backstrr=sarr[1].toString();
+ 
+			    }
+			    else{
+				 BIid.backstrr=this.slelectwd.selectedItem.toString();
+				
+			     }
+			   
+			 }
+			 else
+				{ 
+				   Alert.show("请选择维度值");
+				}
+				 
+			} 
+			[Bindable]
+			public  var kvlist:ArrayCollection=null;
+			public function wdkvvalue(event:ResultEvent):void
+			{  
+			    var zsarr:Array=null;
+			    var kvstring:String=event.result.toString();
+			     var kvarr:Array=kvstring.split(",");
+			        slelectwd.dataProvider=kvarr;
+			 }
+			
+		]]>
+	</mx:Script>
+	 <mx:RemoteObject id="WdValuekvObject" showBusyCursor="true" result="{wdkvvalue(event)}"
+	 	 destination="getwd"/>
+	<mx:RemoteObject id="WdValueObject" showBusyCursor="true" result="{wdvalue(event)}"
+	 	 destination="getwd"/>
+	<mx:Canvas width="100%" height="100%">
+		<mx:Label  fontWeight="bold" text="所选维度:" width="103" x="4" y="23"/>
+    	<mx:ComboBox id="slelectwd" x="104" y="21"     dataProvider="{sletearr}"   width="230" change="bttok()"/>
+	</mx:Canvas>
+</mx:Canvas>

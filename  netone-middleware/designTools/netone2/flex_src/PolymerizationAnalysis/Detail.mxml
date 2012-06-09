@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" title="明细" fontSize="15" initialize="init()">
+   <mx:Script>
+   	<![CDATA[
+   		import mx.core.IFlexDisplayObject;
+   		import framework.SelectTree;
+   		import framework.variable;
+   		import mx.managers.PopUpManager;
+   		import mx.containers.ViewStack;
+   		[Bindable]
+   	    public var vs:ViewStack;
+   	    
+   	    public function init():void//初始化的方法
+   	    {
+   	    	vs=this.parent as ViewStack;
+   	    }
+   		public function selectDetail():void{ 
+              variable.modelname="选择明细";  
+			  var sf:SelectDate=new SelectDate();  
+			  PopUpManager.addPopUp(sf,this.parent.parent,true);
+			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);
+   		}
+   	]]>
+   </mx:Script>
+    <mx:Canvas x="0" y="0" width="100%" height="100%">
+    	 <mx:TextInput  id="textinput" text="{DataTransfer.Detail}" x="37" y="29" height="33" width="464"/>
+    	 <mx:LinkButton x="518" y="29" label="选择明细"  click="selectDetail()"/>
+    </mx:Canvas>
+</mx:Panel>

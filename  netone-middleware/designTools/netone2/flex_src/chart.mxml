@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" preloader="CustomPreloader"  layout="absolute" xmlns:ns1="BIAnalysis.*" initialize="init()" >
+		<mx:Script>
+			<![CDATA[
+				import BIAnalysis.BIData;
+				import BI.BIid;
+			public var params:Object;
+				public function init():void{
+				 var args:Object = getParams(); 
+				 if(args.name!=""){
+				 BIid.URLname=args.name;
+				 BIData.URLname=args.name;
+				 }
+				 if(args.mode=="new"){
+				 BIData.modeltype=true;
+				 }
+				 if(args.mode=="edit"){
+				 BIData.modeltype=false;
+				 }
+				}
+		  private function getParams():Object { 
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                   
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+			]]>
+		</mx:Script>
+   <mx:ViewStack  id="ViewStack1" x="0" y="0" width="100%" height="100%">
+      <ns1:ChartResource id="ChartResource1" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+      <ns1:ChartSelect  id="ChartSelect1" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+      <ns1:ChartType id="ChartType" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+      <ns1:ChartDimensionality id="ChartDimensionality1" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+      <ns1:ChartExpand id="ChartExpand1" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+      <ns1:ChartIndex id="ChartIndex1" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+      <ns1:ChartUnfold  id="ChartUnfold1" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+      <ns1:PredictiveAnalysis id="PredictiveAnalysis1" label="预测分析" width="100%" height="100%" backgroundColor="#FFFFFF">
+      </ns1:PredictiveAnalysis>
+      <ns1:Setitf id="Setitf1" label="配置接口" width="100%" height="100%" backgroundColor="#FFFFFF">
+      </ns1:Setitf>
+   </mx:ViewStack>
+</mx:Application>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application preloader="CustomPreloader"  initialize="init()" xmlns:viewStackEffects="org.efflex.mx.viewStackEffects.*" xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" xmlns:ns1="ActionForm.*" 
+	xmlns:ns2="ActionForm.From.*" > 
+   <mx:Script>
+   	<![CDATA[
+   		import ActionForm.vivid;
+   		import mx.collections.ArrayCollection;
+   		import mx.rpc.events.ResultEvent;
+   	    import ActionForm.DyData;
+			[Bindable]
+			public var params:Object;
+		//初始化
+		public function init():void{
+			DyData.modletype=false;
+		 var args:Object = getParams();    
+       	     if(args.formid != null && args.naturalname!=null) {
+       	 	  vivid.formid=args.formid;  
+              DyData.Urlname=args.naturalname;
+             } 
+              if(args.active!= null) {
+       	 	  DyData.active=args.active;
+             } 
+         }    
+         //更具js 获取到url上的数据    
+       private function getParams():Object { 
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+   	]]>
+   </mx:Script>
+      <mx:ViewStack width="100%" height="100%" x="0" y="0">
+		             <ns1:FlexDesignerPage id="FlexDesignerPage1" label="创建表单首页"  width="100%" height="100%"   borderColor="#FFFFFF" backgroundColor="#FFFFFF"/>
+                      <ns1:FlexDesignertwo id="FlexDesignertwo1" label="维度类型的创建" width="100%" height="100%"   borderColor="#FFFFFF" backgroundColor="#FFFFFF"/>
+				      <ns1:DySubForms id="DySubForms1" label="选择字表单" width="100%" height="100%"   borderColor="#FFFFFF" backgroundColor="#FFFFFF"/>
+				      <ns1:DyDesigner id="DyDesigner1" label="表单设计器" width="100%" height="100%"   borderColor="#FFFFFF" backgroundColor="#FFFFFF"/>
+                     <ns2:TestDataGrid id="TestDataGrid1" label="简单查询配置" width="100%" height="100%" showEffect="effect" borderColor="#FFFFFF" backgroundColor="#FFFFFF"/> 
+	                 <ns2:AdvancedDataGrid id="AdvancedDataGrid1" label="高级查询配置" width="100%" height="100%" showEffect="effect" borderColor="#FFFFFF" backgroundColor="#FFFFFF"/> 
+	                 <ns2:DisplayField id="DisplayField1" label="列表字段配置" width="100%" height="100%" showEffect="effect" borderColor="#FFFFFF" backgroundColor="#FFFFFF"/> 	     
+	                 <ns1:ScriptConfig id="ScriptConfig1" label="事件脚本的写" width="100%" height="100%" showEffect="effect" borderColor="#FFFFFF" backgroundColor="#FFFFFF"/> 	     
+		  </mx:ViewStack>
+</mx:Application>

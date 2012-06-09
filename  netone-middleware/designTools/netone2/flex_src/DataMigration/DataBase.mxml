@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  x="0" y="0"  width="100%" height="100%" initialize="init()">
+<mx:Script>
+	<![CDATA[
+		import BI.EvTjFs;
+		import BI.incolumnref;
+		import BI.incolumn;
+		import mx.containers.ViewStack;
+		import mx.containers.TitleWindow;
+		import mx.rpc.events.ResultEvent;
+		import mx.core.UIComponent;
+		import mx.collections.ArrayCollection;
+		import mx.controls.Label;
+		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		
+		public var titleWindow:TitleWindow;
+		//fc
+		public var lx:incolumn;
+		public var lx1:incolumnref;
+		
+		//fc0
+		public var alx:incolumn;
+		public var alx1:incolumnref;
+		//fc1
+		public var t1:incolumn;
+		public var t2:incolumnref;
+		
+		public var ic:int=1;
+		public var arr:Array=new Array();
+		//控件Y位子
+		public var cc:int=0;
+		public var cc1:int=0;
+		public var ss:int=0;
+		public var fss1:int=0;
+		public var ty1:int=0;
+		public var ty2:int=0;
+		//用于循环控件ID的
+		public var i:int=0;
+		public var j:int=0;
+		public var h:int=0;
+		public var t:int=0;
+		public var tid1:int=0;
+		public var tid2:int=0;
+		
+		//定义变量和属性,保存xml
+		[Bindable]
+		public var sc:XML;
+	    [Bindable]
+	    public var  pxml:XML;
+	  [Bindable]
+	    public var  pxml1:XML;
+	   [Bindable]
+	    public var  pxml2:XML;
+	    [Bindable]
+	    public var  sqlxml:XML;
+	    [Bindable]
+	    public var  TTermxml:XML;    
+        [Bindable]
+	    public var  outxml:XML;
+	    [Bindable]
+	    public var  inxml:XML;
+	        [Bindable]
+	    public var  inxmlin:XML;
+	    [Bindable]
+	    public var  inxml1:XML;
+	    [Bindable]
+	    public var  inxml2:XML;
+	    [Bindable]
+	    public var  columnrefxml:XML;
+	    [Bindable]
+	    public var  columnxml:XML;
+	    public var  columnrefxml1:XML;
+	    [Bindable]
+	    public var  columnxml1:XML;
+	    
+	    
+	    //数据查询
+	   [Bindable]//字段数据
+	   public static var DataArr:ArrayCollection;
+ 		[Bindable]//源字段数据
+	   public static var yuanDataArr:ArrayCollection;
+
+	   [Bindable]
+	    public var col:XML;
+	    [Bindable]
+	    public var col1:XML;
+	    
+	    public var sqlid:String="sqlidout";
+	    public var sqlidin:String="";
+	       
+	    public var source1:String="source1";
+	    public var source2:String="source2";
+	    public var source3:String="source3";
+	    public var source4:String="source4";
+	    public var source5:String="source5";
+	    public var source6:String="source6";	    
+	    
+	    public var a1:String="<![CDATA[";
+		public var a2:String="]]";
+		public var a3:String=">"; 
+       [Bindable] //定义vs的类型
+        private var vs:ViewStack;
+
+ 			//连接数据库
+	      public static var   urlString:String;
+		  public static var   username:String;
+		  public static var   pwd:String;
+		  public static var   driver:String;
+		  
+		   public static var   urlString1:String;
+		  public static var   username1:String;
+		  public static var   pwd1:String;
+		  public static var   driver1:String;
+		
+		[Bindable]
+		public var textpath:String;
+	 	public function columnclick():void{	
+	             DataArr=new ArrayCollection();
+				 selecttable.GetTableName2(MigrationData.INurlString,MigrationData.INusername,MigrationData.INpwd,MigrationData.INdriver);
+				 selecttable2.GetTableSql(MigrationData.OUTurlString,MigrationData.OUTusername,MigrationData.OUTpwd,MigrationData.OUTdriver,MigrationData.SQLstr);
+		}
+		 
+ 		public function columnclickref():void{
+			yuanDataArr=new ArrayCollection();
+		   selecttable1.GetTableName2(MigrationData.INurlString,MigrationData.INusername,MigrationData.INpwd,MigrationData.INdriver);                   
+		}
+ 
+		public function  init():void{
+			textpath="路径： "+MigrationData.URLname+" 第5步，共5步";
+			vs=this.parent as ViewStack; 
+			 
+		}
+		public function  test():void{
+
+         for(var k:int=0;k<i;k++){
+		Alert.show(incolumn(fc.getChildAt(k)).jiaoben.text.toString());   
+        Alert.show(incolumn(fc.getChildAt(k)).biaoming.selectedItem.toString()+"."+incolumn(fc.getChildAt(k)).ziduanming.selectedItem.toString());   
+        Alert.show(incolumn(fc.getChildAt(k)).leixing.text.toString());     
+         }		
+		}
+      public function  test1():void{
+
+             sc=<dataTrans></dataTrans>
+		  	// source1
+		     if(MigrationData.AurlString!=""){
+		     	if(MigrationData.Ausername=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(MigrationData.Apwd=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(MigrationData.Adriver=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source1;
+              pxml.@url=MigrationData.AurlString;
+              pxml.@password=MigrationData.Ausername;
+              pxml.@username=MigrationData.Apwd;
+              pxml.@driver=MigrationData.Adriver;
+              sc.appendChild(pxml);
+              }
+              //source2
+              if(MigrationData.BurlString!=""){
+		     	if(MigrationData.Busername=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(MigrationData.Bpwd=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(MigrationData.Bdriver=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source2;
+              pxml.@url=MigrationData.BurlString;
+              pxml.@password=MigrationData.Busername;
+              pxml.@username=MigrationData.Bpwd;
+              pxml.@driver=MigrationData.Bdriver;
+              sc.appendChild(pxml);
+              }
+             // source3
+              if(MigrationData.CurlString!=""){
+		     	if(MigrationData.Cusername=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(MigrationData.Cpwd=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(MigrationData.Cdriver=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source3;
+              pxml.@url=MigrationData.CurlString;
+              pxml.@password=MigrationData.Cusername;
+              pxml.@username=MigrationData.Cpwd;
+              pxml.@driver=MigrationData.Cdriver;
+              sc.appendChild(pxml);
+              }
+                 //source4           
+              if(MigrationData.DurlString!=""){
+		     	if(MigrationData.Dusername=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(MigrationData.Dpwd=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(MigrationData.Ddriver=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source4;
+              pxml.@url=MigrationData.DurlString;
+              pxml.@password=MigrationData.Dusername;
+              pxml.@username=MigrationData.Dpwd;
+              pxml.@driver=MigrationData.Ddriver;
+              sc.appendChild(pxml);
+              }
+              //source5
+             if(MigrationData.EurlString!=""){
+		     	if(MigrationData.Eusername=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(MigrationData.Epwd=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(MigrationData.Edriver=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source5;
+              pxml.@url=MigrationData.EurlString;
+              pxml.@password=MigrationData.Eusername;
+              pxml.@username=MigrationData.Epwd;
+              pxml.@driver=MigrationData.Edriver;
+              sc.appendChild(pxml);
+              }  
+              //source6
+             if(MigrationData.FurlString!=""){
+		     	if(MigrationData.Fusername=="")
+		     	{Alert.show("帐号不能为空");
+		     	return;}
+		     	if(MigrationData.Fpwd=="")
+		     	{Alert.show("密码不能为空");
+		     	return;}
+		     	if(MigrationData.Fdriver=="")
+		     	{Alert.show("驱动不能为空");
+		     	return;}
+              pxml=<source></source>;
+              pxml.@id=source6;
+              pxml.@url=MigrationData.FurlString;
+              pxml.@password=MigrationData.Fusername;
+              pxml.@username=MigrationData.Fpwd;
+              pxml.@driver=MigrationData.Fdriver;
+              sc.appendChild(pxml);
+              }             
+
+		      sqlxml=<sql>{a1+MigrationData.SQLstr+a2+a3}</sql>
+		      sqlxml.@id="sqlid";
+		      sc.appendChild(sqlxml);
+
+              TTermxml=<TTerm>{a1+MigrationData.TTerm+a2+a3}</TTerm>
+              TTermxml.@id="Term";
+		      sc.appendChild(TTermxml);
+		      
+		      outxml=<out></out>
+		      outxml.@id=sqlidin+"_out";
+		      outxml.@sourceid=MigrationData.OUTdata;
+		      outxml.@sqlid="sqlid";
+		      sc.appendChild(outxml);
+		      
+		      if(i!=0){
+		      inxml=<in></in>
+		      inxml.@id="in1";
+		      inxml.@outid=sqlidin+"_out";
+		      inxml.@tosourceid=MigrationData.INdata;
+		      inxml.@commit=100;
+		      sc.appendChild(inxml);
+		        if(j!=0)
+			      {
+			      	for(var q:int=0;q<j;q++){
+			      	columnrefxml=<columnref></columnref>
+			      	columnrefxml.@name=incolumnref(fc1.getChildAt(q)).biaoming.selectedItem.toString()+"."+incolumnref(fc1.getChildAt(q)).ziduanming.selectedItem.toString();
+			      	columnrefxml.@refertoname=incolumnref(fc1.getChildAt(q)).ziduanming0.selectedItem.toString();
+			      	if(incolumnref(fc1.getChildAt(q)).dorpb==false){
+			      	inxml.appendChild(columnrefxml);
+			      	}
+			      	}
+			      	}
+		      if(i!=0)
+		      {
+		      	for(var w:int=0;w<i;w++){
+		      	columnxml=<column>{a1+incolumn(fc.getChildAt(w)).jiaoben.text.toString()+a2+a3}</column>
+		      	columnxml.@name=incolumn(fc.getChildAt(w)).biaoming.selectedItem.toString()+"."+incolumn(fc.getChildAt(w)).ziduanming.selectedItem.toString();
+		      	columnxml.@outname=incolumn(fc.getChildAt(w)).yuanziduan.text.toString();
+		      	columnxml.@type=incolumn(fc.getChildAt(w)).leixing.text.toString();
+		      	if(incolumn(fc.getChildAt(w)).dorpa==false){
+		      	inxml.appendChild(columnxml);
+		      	}
+		      	}
+		      }
+		      }
+				MigrationData.xmlstr=sc.toString();
+              Alert.show(MigrationData.xmlstr);
+		} 
+		 public function  Savefile1(event:ResultEvent):void{
+          
+	    }
+
+
+            public function handerResult(event:ResultEvent):void{
+              DataArr=event.result as ArrayCollection;
+            }
+               public function handerResult1(event:ResultEvent):void{
+	             var   DataArr1:ArrayCollection=event.result as ArrayCollection;
+	             if(DataArr1!=null){
+		           	        lx1=new incolumnref();
+					        lx1.x=0;
+					        lx1.y=cc1;
+					        lx1.arrname=DataArr1;
+							lx1.urlString=MigrationData.INurlString;
+						    lx1.username=MigrationData.INusername;
+						    lx1.pwd=MigrationData.INpwd;
+							lx1.driver=MigrationData.INdriver;
+					        lx1.id="lx"+j;
+					        fc1.addChild(lx1);
+					        cc1=cc1+lx1.height;
+					        j++;
+	               }
+            }
+            //源字段的获取
+            public function handerResult2(event:ResultEvent):void
+            {
+               yuanDataArr=event.result as ArrayCollection;
+                if(DataArr!=null){
+	            lx =new incolumn();
+			    lx.x=0;
+			    lx.y=cc;
+			    lx.id="lxa"+i;
+			    lx.arrname=DataArr;
+			    lx.inarrziduan=yuanDataArr;
+			    lx.urlString=MigrationData.INurlString;
+				lx.username=MigrationData.INusername;
+				lx.pwd=MigrationData.INpwd;
+				lx.driver=MigrationData.INdriver;
+			    fc.addChild(lx);
+			    cc=cc+lx.height;
+			    i++;
+               }
+            }
+     
+     		public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("SqlData1");
+            vs.selectedChild=o as Canvas;
+          }
+          public function DownNode(event:MouseEvent):void{
+          	test1();       
+            Savef.dmwriteText(MigrationData.repidID,MigrationData.repdimxplay,MigrationData.xmlstr,MigrationData.URLname);
+             navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+         public function Cancel():void{
+          navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+	]]>
+</mx:Script>
+<mx:RemoteObject id="selecttable2"   destination="tablename" showBusyCursor="true"    result="handerResult2(event)"/>
+<mx:RemoteObject id="selecttable1"   destination="tablename" showBusyCursor="true"    result="handerResult1(event)"/>
+ <mx:RemoteObject id="selecttable"   destination="tablename" showBusyCursor="true"    result="handerResult(event)"/>
+ <mx:RemoteObject id="Savef" destination="savexmlfile" showBusyCursor="true" result="Savefile1(event)" />		
+    <mx:Canvas width="100%" height="184" >
+	    <mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="迁移字段对应关系"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="数据迁移" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置字段对应关系配置完成, 然后单击“完成”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="1291" height="365"  x="34" y="199">		
+		<mx:Button x="104" y="325" label="写入字段" click="{columnclick()}" id="fcc" fontSize="12" height="35" fontWeight="bold"/>
+		<mx:Button x="211" y="325" label="引用写入字段"  click="{columnclickref()}" id="fcr" fontSize="12" height="35"/>
+		<mx:Canvas x="91" y="7" width="643" height="302" id="fc" fontSize="12" horizontalScrollPolicy="off">
+		</mx:Canvas>
+		<mx:Canvas x="754" y="7" width="521" height="302" id="fc1" horizontalScrollPolicy="off" >
+		</mx:Canvas>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="完成" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 
+</mx:Canvas>

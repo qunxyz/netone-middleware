@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	  <mx:Script>
+	  	<![CDATA[
+	    [Bindable]
+	    public var xmllist:XMLList;
+	    public function  loadxmllist(sourcexmllist:XMLList):void
+	    {      
+	        xmllist=sourcexmllist;
+	    }
+	  	]]>
+	  </mx:Script>
+	  <mx:Panel id="PanelChart1" width="100%" height="100%"  title="柱图" x="0">	
+    	   <mx:ColumnChart id="barChart"
+						 width="100%"
+						 height="100%"
+						 dataProvider="{xmllist.dsinfo}"
+						 showDataTips="true"
+						 fontSize="12">
+						<mx:horizontalAxis>
+						  <mx:CategoryAxis categoryField="@x"/> 
+						  </mx:horizontalAxis>
+			            <mx:series>
+			           <mx:ColumnSeries yField="@y" xField="@x" displayName="y"/>
+			           <mx:ColumnSeries yField="@y1"  xField="@x"  displayName="y1"/>
+			           <mx:ColumnSeries  yField="@y2" xField="@x" displayName="y2"/>
+			           <mx:ColumnSeries  yField="@y3" xField="@x" displayName="y3"/> 
+			           <mx:ColumnSeries  yField="@y4" xField="@x" displayName="y4"/> 
+			           <mx:ColumnSeries  yField="@y5" xField="@x" displayName="y5"/> 
+			           <mx:ColumnSeries  yField="@y6" xField="@x" displayName="y6"/>
+			           <mx:ColumnSeries  yField="@y7" xField="@x" displayName="y7"/>      
+			           	</mx:series>
+			   </mx:ColumnChart>
+    	</mx:Panel>
+</mx:Canvas>

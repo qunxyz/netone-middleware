@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" 
+	  	xmlns:renderer="ActionForm.my.renderer.checkbox1.*" 
+	 	  creationComplete="{startService()}"
+	 	   initialize="{init()}"	 	  
+	 	 xmlns:s="library://ns.adobe.com/flex/spark" xmlns:ns1="workflow.*" xmlns:ns2="safe.*">
+	 	    <mx:Script>
+   	<![CDATA[
+     import mx.events.ListEvent;
+     import mx.controls.DataGrid;
+	 import mx.containers.ViewStack;
+	 import mx.controls.Alert; 
+     import mx.containers.Canvas; 
+   	 
+   	 import workflow.com.workBar;
+   	 import mx.controls.Alert;
+   	 import mx.events.FlexEvent;
+   	 import mx.rpc.events.ResultEvent;
+   	 import mx.collections.ArrayCollection;
+   	 import mx.containers.ViewStack;   //导入viwstack包，下面要用到viewstack类型
+     import mx.controls.Alert;
+     public var rcode:String;
+    [Bindable] 
+     public var info:String; 
+     import mx.containers.Canvas; 
+     import mx.containers.ViewStack; 
+     public var vs:ViewStack; 
+     [Bindable]
+     public var arr:ArrayCollection=new ArrayCollection();
+     [Bindable]
+     public var arrss:Array=new Array();
+     
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable] 
+     private var i:int=3; 
+     private function init():void{ 
+     	var url:URL1=new URL1();
+     	url.init();
+     	quearGongZuoLiu1.selectforms();
+      vs=this.parent as ViewStack;
+     } 
+      private function getChild(str:String):Object{
+       vs=this.parent as ViewStack; 
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+		} 
+		} 
+		return obj; 
+		 } 
+			private function clickHandler():void{
+				//新建目录的方法
+			 //创建流程
+			  if (MenuBar.selectedIndex==0) {
+			 	var url1:String=URL1.liucheng+"newprocessfile.do?pagepath=BUSSWF.BUSSWF";  
+				var request1:URLRequest=new URLRequest(url1);  
+				navigateToURL(request1,"_blank");
+			 }
+			 //创建拷贝
+			  if (MenuBar.selectedIndex==1) {
+			  	if(arrss.length==1 && rcode!=""){
+			    var url2:String=URL1.liucheng+"viewprocess.do?processid="+rcode;  
+				var request2:URLRequest=new URLRequest(url2);  
+				navigateToURL(request2,"_blank");
+					 }else 
+				  {
+						Alert.show("修改只能单条");
+				  }
+			
+			 }  
+			 if (MenuBar.selectedIndex==2) {
+			  	if(arrss.length==1 && rcode!=""){
+			    var url3:String=URL1.liucheng+"viewreadonlyprocess.do?processid="+rcode;  
+				var request3:URLRequest=new URLRequest(url3);  
+				navigateToURL(request3,"_blank");
+					 }else 
+				  {
+						Alert.show("修改只能单条");
+				  }
+			
+			 }  
+			 
+			}
+
+  	
+  	[Bindable]  //数据绑定
+    public 	var catalog:ArrayCollection=new ArrayCollection();
+
+    //读取xml的数据
+    private function productServiceResultHandler(event:ResultEvent):void{
+             catalog = event.result.catalog.employee;
+             init1();
+          } 
+           //发生事件获取xml的数据
+       private function startService():void
+        {
+            productService.send();
+        }
+      private function BUSSWF():void{
+			 
+			}
+		
+		
+		protected function init1():void	{
+			 for(var i:int=0;i<catalog.length;i++)
+				{
+					
+					catalog[i]["rowIndex"]=i+1;
+				}   
+			}
+  public function handerResult3(event:ResultEvent):void{ 
+                       arr=event.result as ArrayCollection;
+                 	 	 for(var i:int=0;i<arr.length;i++)
+						{
+						arr[i]["rowIndex"]=i+1;
+						}
+		     }  
+	protected function getValues(event:ListEvent):void
+			{     
+	               rcode=event.itemRenderer.data.rcode;
+				   arrss=column.selectItems;
+			}
+	 public function ClickMc():void
+		 {
+		      var name:String=nameinput.text;
+		 	  var st:String=startTime.text;
+		 	  var et:String=endTime.text;
+		 	  var Cname:String=chineseName.text;
+		 	  selectMHObject.selectMoHu(name,"BUSSWF.BUSSWF."+Cname,st,et,"WF");
+
+		 }	
+		 public function MHresultset(event:ResultEvent):void
+			 {
+			       arr=event.result as ArrayCollection;
+	                 	 	 for(var i:int=0;i<arr.length;i++)
+							{
+							arr[i]["rowIndex"]=i+1;
+							}
+			 }
+				
+   	]]>
+   </mx:Script>
+	 	<mx:RemoteObject id="selectMHObject" destination="selectchirdrenform" result="MHresultset(event)" 
+		showBusyCursor="true"/>	
+<mx:RemoteObject id="quearGongZuoLiu1" destination="QuearGongZuoLiu1" showBusyCursor="true"   result="handerResult3(event)" />
+<mx:Canvas label="View 1" width="100%" height="100%">	
+		<mx:TitleWindow x="0" y="0" width="100%" height="100%" layout="absolute" fontSize="15" 
+			title="创建工作流" showCloseButton="true" >
+		<mx:Text x="13" y="55" text="名     称：" fontSize="15"/>
+		<mx:Text x="8" y="12" text="中文名称：" fontSize="15"/>
+		<mx:Text x="10" y="113" text="路   径：" width="91"/>
+		<mx:Text x="326" y="10" text="开始时间："/>
+		<mx:Text x="654" y="13" text="结束时间："/>
+		<mx:TextInput  id="nameinput" x="120" y="8" height="31" width="185"/>
+		<mx:DateField id="startTime" x="424" y="11" width="199"/>
+		<mx:DateField  id="endTime" x="762" y="11" width="199"/>
+		<mx:MenuBar  id="MenuBar" width="100%"
+			 labelField="@label"
+			  click="clickHandler()" 
+			 height="43" y="150" x="0">
+		 <mx:XMLList>
+         <menuitem label="创建流程" data="createApplication"/>
+         <menuitem label="修改流程" data="createApplication"/>
+         <menuitem label="查看流程" data="createApplication"/>
+         <menuitem label="删除" data="createApplication"/>
+		 </mx:XMLList>	
+		 	
+		 </mx:MenuBar>
+		<mx:Label x="83" y="113" text="BUSSWF"  />
+		<mx:Button  id="select" x="802" y="63" label="查询" width="95"  click="ClickMc()" />
+		<mx:Canvas height="100%" y="191" width="100%">
+		<mx:DataGrid  id="dg" x="0" y="0" height="100%" width="100%" dataProvider="{arr}" rowHeight="30"  itemClick="{getValues(event)}">
+			<mx:columns>
+			    <renderer:CheckBoxColumn id="column" enableField="disable"  headerText="选择"  dataField="fucked"/>
+				<mx:DataGridColumn dataField="rowIndex" headerText="序号" width="50" textAlign="center"/>
+				<mx:DataGridColumn headerText="中文名称" dataField="rname"  width="170"  />
+				<mx:DataGridColumn headerText="名称" dataField="rcode" width="100"/>
+				<mx:DataGridColumn headerText="分类" dataField="objecttype" width="70"/>
+				<mx:DataGridColumn headerText="日期" dataField="dateTime" width="200" />
+				<mx:DataGridColumn headerText="有效" dataField="model" width=" 70"/>
+			</mx:columns>
+		</mx:DataGrid>
+		</mx:Canvas>
+		<mx:TextInput id="chineseName" x="120" y="53" height="31" width="185"/>
+	</mx:TitleWindow>
+   </mx:Canvas>     
+<mx:HTTPService id="productService" url="workflow/data.xml"
+        result="{productServiceResultHandler(event)}"/>
+
+</mx:Canvas>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" xmlns:ns1="framework.*"  creationComplete="ccp()"   
+      xmlns:ns2="PolymerizationShow.*" fontSize="12"  width="100%" height="300" >
+  <mx:Script>
+  	<![CDATA[
+  		import mx.core.IFlexDisplayObject;
+  		import mx.managers.PopUpManager;
+  		import mx.events.ScrollEvent;
+  		import mx.events.FlexEvent;
+  		import mx.logging.ILogger;
+  		import com.blitzagency.xray.logger.Log;
+  		import com.blitzagency.xray.logger.Logger;
+  		import mx.containers.TitleWindow;
+  		import mx.containers.ViewStack;
+  		import ActionForm.From.com.hitb.util.GlobalManager;
+  		import mx.controls.Button;
+  		import mx.collections.ArrayCollection;
+  		import mx.rpc.events.ResultEvent;
+  		import mx.controls.Alert;
+  	      [Bindable]
+  	      public var params:Object;
+   
+  	       
+  	       [Bindable]//节点上的数据
+  	       public var Nodearr:ArrayCollection=new ArrayCollection();
+  	       [Bindable]//text上的提示绑定
+  	       public var text:String;
+  	        [Bindable]//text上的提示绑定节点name
+  	       public var Nodename:String;
+  	       [Bindable]//当前节点的
+  	       public var index:int=1;
+  	       [Bindable]
+  	       public var Ylable:int=0;  	      	        
+  	       [Bindable]
+  	       public var vs:ViewStack;
+  	       
+  	       [Bindable]
+  	       public var textpath:String="";
+  	    public function init():void{ //初始化的方法	           
+	             vs=this.parent as ViewStack;
+                 textpath="路径： "+DyData.Urlname+" 第1步，共"+DyData.sum+"步"; 
+  				vivid.csscode=["默认样式[CSSFILE.CSSFILE.DEFAULT]"];
+  	    }
+  	    public function ccp():void{
+  	      if(!DyData.modletype){
+  	        updateform.selcetform(vivid.formid);
+  	      }
+  	    }
+         public function DownNode(event:MouseEvent):void{
+         	if(formname.text=="" || showCss.text==""){
+         	 Alert.show("表单名称或样式不能为空");
+         	}else{
+         	DyData.formname=formname.text.toString();
+         	DyData.showCss=showCss.text.toString();
+            var o:Object=this.parent.getChildByName("FlexDesignertwo1");
+            vs.selectedChild=o as Canvas;
+            }
+         }
+         public function Cancel():void{
+        navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+         //选择样的  
+        private function selectcssinfo():void
+       	 {   
+       	 	var ccf:choooseCssinfo=new choooseCssinfo();
+            PopUpManager.addPopUp(ccf,this,true);
+            PopUpManager.centerPopUp(ccf as IFlexDisplayObject);
+      	 }
+      	       
+      private function createformResult(event:ResultEvent):void  
+       {
+         var arr:ArrayCollection=ArrayCollection(event.result);
+   
+         DyData.formname=arr.getItemAt(0).formname;
+         DyData.msinfo=arr.getItemAt(0).description;	
+		 DyData.subform=arr.getItemAt(0).subform
+		 DyData.showCss=arr.getItemAt(0).styleinfo;	
+		 DyData.bussData=arr.getItemAt(0).belongx;
+         DyData.busstype=arr.getItemAt(0).dimlevel;
+         DyData.time=arr.getItemAt(0).timelevel;
+            formname.text=DyData.formname;	
+  	        showCss.text=DyData.showCss;
+       }
+		]]>
+  </mx:Script>
+   <mx:RemoteObject id="updateform" destination="updateFormjava" result="createformResult(event)" 
+      showBusyCursor="true"/>  
+   <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="创建表单"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="动态表单" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:填写表单名称和选择表单样式 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas  width="863" height="282"  x="137" y="207" fontSize="18">
+ 	 	<mx:TextInput id="formname" y="48" width="452" height="36" text="未命名表单" x="171" />
+ 	 	<mx:Label text="样 式   信 息：" y="131" x="10"/>
+ 	 	<mx:TextArea id="showCss" x="171" y="136" width="451" fontSize="12" text="{vivid.csscode.toString()}" height="35"/>
+ 	 	<mx:Button id="chooseCss"  label="选择" x="645" y="139" click="selectcssinfo()" width="70"/>
+ 	 	<mx:Label text="中  文 名  称：" y="50"  x="10" width="143"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="init()">
+  <mx:Script>
+         	<![CDATA[
+         		import ActionForm.vivid;
+         		import createform.updateform;
+         		import framework.variable;
+         		import mx.collections.HierarchicalData;
+         		import mx.containers.ViewStack;
+         		import mx.events.ListEvent;
+         	    import mx.rpc.events.ResultEvent;
+         		import mx.events.DragEvent;
+         		import mx.collections.XMLListCollection;
+         		import mx.collections.ArrayCollection;
+         		import mx.controls.Alert;
+         		import mx.events.TreeEvent;
+         		[Bindable]
+         		public static var fals:Boolean;
+         		[Bindable]
+         	    public var selectedNode:ArrayCollection;
+         	    [Bindable]
+         	    public var backresult:ArrayCollection;
+         	    [Bindable]
+                public  var rsarr:Array=null;
+                [Bindable]
+         	    private var vs:ViewStack;
+             public function treeEvent(event:ListEvent):void
+         	 { 
+         		     Lleft.dataProvider=null;
+     		     	 var ds:String =event.itemRenderer.data.rcode;
+     		         backObject.selectRsInDir(ds);
+             }
+              private function backResult(event:ResultEvent):void
+              {
+                backresult =ArrayCollection(event.result);
+                Lleft.dataProvider=backresult;
+              }
+               private function scResult(event:ResultEvent):void
+              {     
+                    rsarr =ArrayCollection(event.result).toArray() ;
+                    var root:Object=findChildren("", rsarr); 
+                    var tree:Object=platToHierarchical(rsarr, root[0]); 
+                    var hier:HierarchicalData=new HierarchicalData(tree); 
+                    adg1.dataProvider=hier; 
+               }
+              private function init():void
+              {  
+              	  vs=this.parent as ViewStack; 
+                  rfromObject.selectDirRs();
+              }
+          private function findChildren(parentId:String, source:Array , parentIdField:String="parentid"):Array
+          {  
+             var children:Array=new Array(); 
+             for each (var item:Object in source){ 
+             if (item[parentIdField]==parentId){ 
+             children.push(item); 
+              } 
+             } 
+             return children; 
+            } 
+       private function platToHierarchical(platData:Array, startNode:Object, childrenField:String="children",parentIdField:String="parentid"):Object
+         { 
+          var children:Array=findChildren(startNode.rcode, platData, parentIdField); 
+          var temp:Array=new Array(); 
+          for each (var item:Object in children){ 
+          temp.push(platToHierarchical(platData, item, childrenField, parentIdField)); 
+          }  
+          startNode[childrenField]=temp; 
+          return startNode; 
+        } 
+       
+       [Bindable]
+        public var brr:ArrayCollection;
+        public var o2:Object;
+        public function clickbttok():void
+         {  	
+            
+               brr=null;
+               vs=this.parent as ViewStack; 
+               if(vs!=null){
+               brr=Lright.dataProvider as ArrayCollection;
+            
+         	   if(brr.length==1)
+       	        {  
+       	          
+       	         var  ss:String=brr[0].rname+"["+brr[0].extendattribute+"]";
+       	         
+       	            o2= this.parent.getChildByName("BIXML1");
+       	            vs.selectedChild=o2 as Canvas; 
+       	            BIXML(o2).tnaemlx.text=BIXML(o2).tnaemlx.text+brr[0].rname;
+       	            BIXML(o2).formcode=brr[0].extendattribute;
+       	            gfn.selectRsInDir(brr[0].extendattribute);
+       	           
+       	          
+       	        }else{
+       	        	Alert.show("只能选择一张表单");
+               }
+                Lright.dataProvider=null;
+                Lleft.dataProvider=null;
+            }
+           }
+               public function clickbttcannel():void
+            {     	       
+       	       var o1:Object= this.parent.getChildByName("BIXML1");
+       	       vs.selectedChild=o1 as Canvas; 
+  
+            }
+
+               private function backstring(event:ResultEvent):void
+              {     
+              	
+                   var a:String =event.result as String;
+                  BIXML(o2).tenamelx.text=a;
+                  
+                   
+               }
+    ]]>
+     </mx:Script>
+          <mx:XMLList id="content">
+          <moshi name="1">普通列表显示</moshi>
+          <moshi name="2">列表显示简易模式</moshi>
+          <moshi name="3">列表显示仅仅察看模式</moshi>
+          <moshi name="4">显示表单</moshi>
+          <moshi name="5">显示创建表单</moshi>
+          <moshi name="6">列表显示</moshi>
+  </mx:XMLList> 
+     <mx:RemoteObject id="rfromObject" destination="selectchirdrenform" result="scResult(event)" 
+      showBusyCursor="true"/>  
+      <mx:RemoteObject id="backObject" destination="selectchirdrenform" result="backResult(event)" 
+      showBusyCursor="true"/>  
+            <mx:RemoteObject id="gfn" destination="getformname" result="backstring(event)" 
+      showBusyCursor="true"/> 
+	<mx:Panel width="1366" height="768" 
+	  	fontSize="13"
+	  	fontWeight="bold"
+	    title="资源多选" x="0" y="0">
+   <mx:HBox height="100%" width="100%" fontSize="15" x="78" y="34">
+       <mx:Canvas height="100%" width="161">
+         <mx:AdvancedDataGrid x="0" y="10" id="adg1"  itemClick="treeEvent(event)"  designViewDataType="tree" width="161" height="100%"> 
+            <mx:columns> 
+               <mx:AdvancedDataGridColumn headerText="目录" dataField="rname"/> 
+            </mx:columns> 
+        </mx:AdvancedDataGrid> 
+	   	</mx:Canvas>
+	    <mx:Canvas  width="721" height="100%">
+	    <mx:Label text="选中数据:" fontSize="17" x="10"/>
+	       <mx:Button id="bttok" label="确定" x="501" y="399" click="{clickbttok()}"/>
+	       <mx:Button id="bttCannel" label="取消" x="567" y="399" click="clickbttcannel()"/>
+	      <mx:Label text="所需数据:" fontSize="17" x="279" id="rightList"/>
+	      <mx:List id="Lright" 
+	     	      labelField="rname"
+			      allowMultipleSelection="true"
+			      dragEnabled="true" 
+			      dragMoveEnabled="true"
+			      dropEnabled="true"
+			      width="223" height="100%" x="279" y="29"/>
+	      <mx:List id="Lleft" 
+	      	     labelField="rname"
+	      	     allowMultipleSelection="true"
+	      		 dragEnabled="true" 
+	      	     dragMoveEnabled="true"
+	      	     dropEnabled="true"
+	      		 width="251" height="100%" x="10" y="29"/>
+	     </mx:Canvas>
+ </mx:HBox>
+</mx:Panel>
+</mx:Canvas>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:BI="BI.*">
+  <mx:Script>
+  	<![CDATA[
+  	    [Bindable]
+	     public var xmllist:XMLList;
+	    public function  loadxml(sourcexml:XML):void
+	    {      
+	      xmllist=new XMLList(sourcexml);
+	      DisplayColumnchart.loadxmllist(xmllist);
+	      DisplayLineChart.loadxmllist(xmllist);
+	      Displaybarchart.loadxmllist(xmllist);
+	      DisplayPieChart.loadxmllist(xmllist);
+	      DisplayColumnLineChart.loadxmllist(xmllist);
+	     }
+  	]]>
+  </mx:Script>
+   <mx:ViewStack showEffect="WipeDown" hideEffect="WipeUp" id="viewstack1" width="100%" height="100%" y="41" x="0">
+          <BI:ColumnChart id="DisplayColumnchart"  label="柱图"/>
+          <BI:LineChart id="DisplayLineChart" label="线图"/>
+          <BI:PieChart id="DisplayPieChart"  label="饼图"/>
+          <BI:BarChart id="Displaybarchart" label="条线图"/>
+          <BI:ColumnLineChart id="DisplayColumnLineChart" label="柱线图"/>
+       </mx:ViewStack>
+    <mx:ToggleButtonBar fontSize="15" fontWeight="bold"  dataProvider="{viewstack1}"   height="43"  width="100%">
+    </mx:ToggleButtonBar>
+</mx:Canvas>

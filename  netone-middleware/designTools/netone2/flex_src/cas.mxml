@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+     layout="vertical" horizontalAlign="left" fontSize="12"
+    initialize="init()"
+    viewSourceURL="srcview/index.html">
+    <mx:NumberFormatter id="filesizeFormatter" useThousandsSeparator="true"/>
+     <mx:Script>
+        <![CDATA[
+        	import mx.rpc.events.ResultEvent;
+            import mx.events.CollectionEvent;
+           import mx.formatters.NumberFormatter;
+            import mx.formatters.CurrencyFormatter;
+           import mx.collections.ArrayCollection;
+            import mx.controls.Alert;
+           private var fileRefs: FileReferenceList = new FileReferenceList();
+            //这个地址是我测试用的服务器地址
+             private var urlrequest: URLRequest;
+           //private var urlrequest: URLRequest = new URLRequest("http://42.120.40.204:84/netoneWebSerivce/uploadfile");
+           [Bindable]
+            private var selectedFiles: ArrayCollection = new ArrayCollection([]);
+            private var singleThreadFiles: Array = [];
+            [Bindable]
+           private var useSingleThread: Boolean = true;
+           private function init(): void
+             {  	
+                 Security.allowDomain("*");
+                 fileRefs.addEventListener(Event.SELECT, fileSelectHandler);
+                 fileRefs.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+                 fileRefs.addEventListener(Event.COMPLETE, completeHandler);
+                 addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);   
+             }
+              private function selectFile(): void
+             {
+                 fileRefs.browse([new FileFilter("Images (*.jpg, *.jpeg, *.gif, *.png)", "*.jpg;*.jpeg;*.gif;*.png"),
+                                        new FileFilter("所有文件(*.*)", "*.*")
+                              ]);
+             }
+            private function fileSelectHandler(event: Event): void
+             {
+                 for each (var f: FileReference in fileRefs.fileList)
+                {
+                     selectedFiles.addItem(f);
+                  }
+             }
+             private function uploadFile(): void
+             {               
+                 for each (var f: FileReference in selectedFiles)
+                 {           
+                     try
+                     {
+                         f.upload(urlrequest);
+                     }
+                     catch (e: Error)
+                     {
+                         Alert.show(e.message);
+                     }
+                 }               
+             }
+             private function singleThreadUploadFile(): void
+             {
+           
+                 //FIFO：逐个从列表中取出，进行同步上传
+                 urlrequest = new URLRequest(text.text);
+                 if (singleThreadFiles.length > 0)
+                 {   Alert.show(urlrequest.url);
+                     var f: FileReference = singleThreadFiles.pop() as FileReference;
+                     f.addEventListener(Event.COMPLETE, doSingleUploadFileComplete);
+                     f.upload(urlrequest);
+                 }
+             }
+             private function doSingleUploadFileComplete(event: Event): void
+             {
+                 var f: FileReference = event.target as FileReference;
+                 f.removeEventListener(Event.COMPLETE, doSingleUploadFileComplete);
+                 singleThreadUploadFile();
+            }
+            private function ioErrorHandler(e:IOErrorEvent): void
+            {
+                 Alert.show(e.text);
+             }
+            private function completeHandler(e: Event): void
+             {      
+              
+                 img.source = e.target.data;
+             }
+             private function showImage(e: Event): void
+             {               
+                var f: FileReference = (e.target as DataGrid).selectedItem as FileReference;
+                 f.addEventListener(Event.COMPLETE, completeHandler);
+                  f.load(); 
+             }
+             public function removeFile(f: FileReference): void
+             {
+                 var index: int = selectedFiles.getItemIndex(f);
+                 if (index != -1)
+                     selectedFiles.removeItemAt(index);
+             }
+                         //获取到表单的字段
+            public function getColumn_resultHandler(event:ResultEvent):void{   
+               var  arr:ArrayCollection=event.result as ArrayCollection;
+               for(var i:int=0;i<arr.length;i++){
+                Alert.show("ss");
+               }
+            }
+           ]]>
+     </mx:Script>
+     <mx:TextInput id="text" width="528" text="http://127.0.0.1:81/netoneWebSerivce/uploadfileAction?userid=adminx"/>
+     <mx:VBox>
+         <mx:HBox width="100%">
+             <mx:Button id="selectFileButton" label="浏览" click="selectFile()"/>
+             <mx:Box width="100%" horizontalAlign="right">
+                 <mx:Button click="selectedFiles.removeAll();" label="清空"/>
+             </mx:Box>
+         </mx:HBox>
+         <mx:DataGrid id="files" dataProvider="{selectedFiles}" change="showImage(event)">
+             <mx:columns>
+                 <mx:DataGridColumn width="150" headerText="文件名" dataField="name" />
+                 <mx:DataGridColumn headerText="大小(字节)" dataField="size">
+                     <mx:itemRenderer>
+                         <mx:Component>
+                             <mx:Label text="{outerDocument.filesizeFormatter.format(data.size)}" textAlign="right"/>
+                         </mx:Component>
+                     </mx:itemRenderer>
+               </mx:DataGridColumn>
+                 <mx:DataGridColumn headerText="上传进度" width="300">
+                    <mx:itemRenderer>
+                         <mx:Component>
+                             <mx:HBox fontSize="10" fontWeight="normal" fontThickness="1">
+                                <mx:Script>
+                                     <![CDATA[
+                                         import flash.profiler.showRedrawRegions;
+                                         import mx.controls.Alert;
+                                         import mx.controls.ProgressBar;
+                                          private function initProgressBar(event: Event): void
+                                         {
+                                             //使progressbar与file关联，从而产生进度条
+                                             var pb: ProgressBar = event.target as ProgressBar;
+                                             pb.label = "%3%%";
+                                             pb.setProgress(0, 100);
+                                              var f: FileReference = data as FileReference;
+                                              //使用闭包方法，更新进度条
+                                              f.addEventListener(ProgressEvent.PROGRESS,
+                                                  function(event: ProgressEvent): void
+                                                  {
+                                                      pb.setProgress(event.bytesLoaded, event.bytesTotal);
+                                                  }
+                                             );
+                                             f.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA,
+                                                 function (event: DataEvent): void
+                                                 {
+                                                     //服务器端一定要返回数据，否则，这个方法就不起作用了
+                                                     pb.label = event.data;
+                                                 }
+                                           );                                           
+                                          }
+                                     ]]>
+                                 </mx:Script>
+                                 <mx:ProgressBar verticalCenter="true" width="100%" paddingLeft="5" paddingRight="5"
+                                     maximum="100" minimum="0" labelPlacement="center" mode="manual"
+                                     label="%3%%" textAlign="left"
+                                     creationComplete="initProgressBar(event)"/>
+                              <mx:LinkButton label="Cancel">
+                                    <mx:click>
+                                     <![CDATA[
+                                            var f: FileReference = data as FileReference;
+                                            f.cancel();
+                                        ]]>
+                                    </mx:click>
+                               </mx:LinkButton>
+                                <mx:LinkButton label="Delete">
+                                   <mx:click>
+                                        <![CDATA[
+                                           var f: FileReference = data as FileReference;
+                                             outerDocument.removeFile(f);
+                                    ]]>
+                                   </mx:click>
+                             </mx:LinkButton>
+                            </mx:HBox>
+                        </mx:Component>
+                   </mx:itemRenderer>
+                 </mx:DataGridColumn>
+            </mx:columns>
+        </mx:DataGrid>
+     </mx:VBox>
+    <mx:HBox>
+       <mx:Button label="上传">
+             <mx:click>
+                 <![CDATA[
+                   
+                     if (useSingleThread)
+                     {
+                     	 
+                         //逐个上传     
+                         singleThreadFiles = selectedFiles.toArray().concat();
+                         singleThreadFiles.reverse();
+                         singleThreadUploadFile();
+                     }
+                    else
+                     {
+                     	 
+                        //多个文件同时上传
+                         uploadFile();
+                     }
+                ]]>
+            </mx:click>
+        </mx:Button>
+         <mx:CheckBox id="checkboxSingleThread" label="同时上传多个文件" selected="{!useSingleThread}"
+            change="useSingleThread = !checkboxSingleThread.selected"/>
+     </mx:HBox>
+     <mx:Image id="img" width="400" height="300"/>
+ </mx:Application>

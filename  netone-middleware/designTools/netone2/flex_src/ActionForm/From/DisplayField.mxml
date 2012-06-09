@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas  fontSize="18" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="init()" creationComplete="initApp();">
+     <mx:Script>
+     	<![CDATA[
+     		import ActionForm.DyData;
+     		import ActionForm.From.com.hitb.util.GlobalManager;
+     		import mx.charts.chartClasses.DataDescription;
+     		import mx.controls.Alert;
+     		import ActionForm.vivid;
+     		import mx.containers.ViewStack;
+     		import mx.collections.ArrayCollection;
+		import mx.controls.ComboBox;
+		[Bindable]
+		public var vs:ViewStack;
+		[Bindable]
+  	    public var textpath:String="";
+		public function init():void{
+		 vs=this.parent as ViewStack;
+	     textpath="路径： "+DyData.Urlname+" 第7步，共"+DyData.sum+"步"; 
+		}
+		private function initApp():void{ 
+		  GlobalManager.getInstance().addEventListener("shuanxintest3",shuanxintest);
+		  canvas1.removeAllChildren();
+		  vs=this.parent as ViewStack;
+		  
+		   if(!DyData.modletype){ 
+			  var xml:XML=vivid.updatexml;
+			  var xmllist:XMLList=new XMLList(XML(xml.config.DDataGridType[0]).child("DDataGrid"));
+			  for(var i:int=0;i<vivid.configarr.length;i++){
+			  	for(var j:int=0;j<xmllist.length();j++){
+			       if(vivid.configarr[i].cid==xmllist[j].@id){
+			         vivid.configarr[i].using=true;
+			       }
+			    }
+			  }
+			   if(xml.config.DDataGridType.@type=="1"){
+			    check.selected=true;
+			   var dgr:DataDisplay=new DataDisplay();
+				dgr.percentHeight=100;
+				dgr.percentWidth=100;
+				dgr.y=0;
+				dgr.x=0;
+				dgr.arr=vivid.configarr;
+				canvas1.addChild(dgr);
+			  }else{
+			  check.selected=false;
+			  }
+		  }else{
+		   var dgr:DataDisplay=new DataDisplay();
+			dgr.percentHeight=100;
+			dgr.percentWidth=100;
+			dgr.y=0;
+			dgr.x=0;
+			dgr.arr=vivid.configarr;
+			canvas1.addChild(dgr);
+		  }
+		}
+	   public function shuanxintest(event:MouseEvent):void{
+	   	canvas1.removeAllChildren();
+	   	 if(!vivid.modeltype){ 
+		  var xml:XML=vivid.updatexml;
+			  var xmllist:XMLList=new XMLList(XML(xml.config.DDataGridType[0]).child("DDataGrid"));
+			  for(var i:int=0;i<vivid.configarr.length;i++){
+			  	for(var j:int=0;j<xmllist.length();j++){
+			       if(vivid.configarr[i].cid==xmllist[j].@id){
+			         vivid.configarr[i].using=true;
+			       }
+			    }
+			  }
+		 }
+	    if(check.selected==true){
+		var dgr:DataDisplay=new DataDisplay();
+		dgr.percentHeight=100;
+		dgr.percentWidth=100;
+		dgr.y=0;
+		dgr.x=0;
+		dgr.arr=vivid.configarr;
+		canvas1.addChild(dgr);
+		}else{
+		 canvas1.removeAllChildren();
+        }
+		}
+		//是否配置的修改
+		public function changeQuery():void{
+		if(check.selected==true){
+		var dgr:DataDisplay=new DataDisplay();
+		dgr.percentHeight=100;
+		dgr.percentWidth=100;
+		dgr.y=0;
+		dgr.x=0;
+		dgr.arr=vivid.configarr;
+		canvas1.addChild(dgr);
+		}else{
+		 canvas1.removeAllChildren();
+        }
+  	  }
+  	    //构造xml的方法
+  	    public function xmlist():XML{
+  	    var xml:XML=<config></config>;
+  	    var xmlt:XML=<TDataGridType></TDataGridType>
+  	    if(vivid.Queryjd){
+  	     xmlt.@type="1";
+  	      for(var i:int=0;i<vivid.bfcf.length;i++){
+  	    	if(vivid.bfcf[i].using){
+  	    	  var xmltset:XML=<TDataGrid></TDataGrid>;
+  	    	  xmltset.@name=vivid.bfcf[i].cname;
+  	   		  xmltset.@id=vivid.bfcf[i].cid;
+  	   		  xmlt.appendChild(xmltset);
+  	   		}
+  	    }
+        xml.appendChild(xmlt);
+  	    }else{
+  	     xmlt.@type="0";
+  	    }
+  	    
+          var Axml:XML=<ADataGridType></ADataGridType>
+	  	    if(vivid.Querygj){
+	  	     Axml.@type="1";
+		  	  for(var j:int=0;j<vivid.dncf.length;j++){
+	  	    	if(vivid.dncf[j].using){
+	  	    	  var xmlA:XML=<ADataGrid></ADataGrid>;
+	  	    	  xmlA.@name=vivid.dncf[j].cname;
+	  	   		  xmlA.@id=vivid.dncf[j].cid;
+	  	   		  Axml.appendChild(xmlA);
+	  	   		 }
+		  	    }
+		  	   xml.appendChild(Axml);
+	  	    }else{
+	  	     Axml.@type="0";
+	  	    }
+  	   
+  	   
+  	     var Dxml:XML=<DDataGridType></DDataGridType>
+	  	    if(check.selected){
+	  	     Dxml.@type="1";
+	  	       for(var K:int=0;K<vivid.configarr.length;K++){
+  	    	 if(vivid.configarr[K].using){
+  	    	 var xmlD:XML=<DDataGrid></DDataGrid>;
+  	    	  xmlD.@name=vivid.configarr[K].cname;
+  	   		  xmlD.@id=vivid.configarr[K].cid;
+  	   		  if(vivid.configarr[K].order=="降序"){
+  	   		  xmlD.@order="0";
+  	   		  }else if(vivid.configarr[K].order=="升序"){
+  	   		  xmlD.@order="1";
+  	   		  }
+  	   		  Dxml.appendChild(xmlD);
+	  	   		}
+		  	 }
+		  	  xml.appendChild(Dxml);
+	  	    }else{
+	  	     Dxml.@type="0";
+	  	    }
+  	   
+  	    return xml;
+  	    }
+        //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          var o:Object=this.parent.getChildByName("AdvancedDataGrid1");
+		        vs.selectedChild=o as Canvas;
+          }
+         public function DownNode(event:MouseEvent):void{
+           	var xml:XML=xmlist();
+           	DyData.configxml=xml;
+           	var o:Object=this.parent.getChildByName("ScriptConfig1");
+           	vs.selectedChild=o as Canvas;
+         }
+         public function Cancel():void{
+       navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+     	]]>
+     </mx:Script>
+    <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+	    <mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+	    <mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="列表字段"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="动态表单" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置在列表上显示的字段,然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+	<mx:CheckBox id="check" x="137" y="197" selected="true" label="是否配置" change="changeQuery()"/>
+ 	<mx:Canvas id="canvas1" width="863" height="268"  x="137" y="245" fontSize="18">
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas> 

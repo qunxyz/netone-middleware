@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:ns1="safetwo.*" xmlns:ns2="safe.*">
+	<mx:ViewStack  x="0" y="0" id="viewstack1" width="100%" height="100%">
+		<ns2:usermanage id="usermanage" label="用户管理" width="100%" height="100%">
+		</ns2:usermanage>
+		<ns1:usermangeCreate  id="usermangeCreate" label="创建用户" width="100%" height="100%">
+		</ns1:usermangeCreate>
+		<ns1:usermangeUpdate id="usermangeUpdate" label="信息修改" width="100%" height="100%">
+		</ns1:usermangeUpdate>
+	</mx:ViewStack>
+	
+</mx:Canvas>

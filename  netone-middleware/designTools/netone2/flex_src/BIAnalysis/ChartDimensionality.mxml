@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="{init()}" x="83" y="-62"  creationComplete="ccl()">
+	<mx:Script>
+	<![CDATA[
+		import ActionForm.vivid;
+		import mx.rpc.events.ResultEvent;
+		import PolymerizationAnalysis.DataTransfer;
+		import BI.EvTijiao;
+		import BI.EvTjFs;
+		import mx.collections.ArrayCollection;
+		import BI.BIid;
+		import mx.controls.Alert;
+		import framework.variable;
+		import mx.managers.PopUpManager;
+		import mx.containers.ViewStack;
+            
+            [Bindable]//vs定义
+            public var vs:ViewStack;
+            [Bindable]//textpath
+            public var textpath:String;
+            
+            [Bindable]//Bxml定义
+		    public var Bxml:XML=<selectxml></selectxml>;
+		    [Bindable]
+			public var typexArr:ArrayCollection=null;
+		   [Bindable]
+	       public var sarr:ArrayCollection=new ArrayCollection();
+	       [Bindable]
+	        public var Tableinfo:ArrayCollection=null;
+	        [Bindable]
+	         public var Tablename:String;
+	         [Bindable]
+			public var allcolumn:ArrayCollection;
+			//初始化的方法
+            public function init():void{
+            EvTjFs.getInstance().addEventListener("NextsStepRefresh",NextsStepRefresh);
+            getTablenameObject.gettablename(BIData.formcode);
+			getWdObject.allColumn(BIData.formcode);
+            textpath="路径： "+BIData.URLname+" 第4步，共9步"; 
+            vs=this.parent as ViewStack;
+            }
+           //控件加载完成
+           public function ccl():void{
+           
+           }
+           
+           //刷新在次选择表单的数据
+           public function NextsStepRefresh(event:MouseEvent):void
+           {
+           	
+                 getTablenameObject.gettablename(BIData.formcode);
+				 getWdObject.allColumn(BIData.formcode);
+           }
+            //选择维度改变事件方法
+           public function changevalue():void
+			{    
+			 BIid.nathername=typesource.selectedItem.columnid.toString(); 
+			 wdValuetext.text=null;
+		     Bxml=<selectxml></selectxml>;
+		     var typearr:ArrayCollection=new  ArrayCollection();
+		     typexArr=new ArrayCollection();
+		     for(var j:int=0;j<sarr.length;j++){
+		     typexArr.addItem(sarr.getItemAt(j));
+		     
+		     } 
+			  slicingcutter.removeAllChildren();
+		   
+	       BIid.backstrr=null;
+	       BIid.typecolumnid=typesource.selectedItem.columnid;
+	       
+            var vt:String=typesource.selectedItem.viewtype.toString();
+           
+            if(vt=="17"||vt=="18"||vt=="22"||vt=="23")
+            {   
+                var startindex:int=typesource.selectedItem.valuelist.toString().indexOf("[",0);
+                var endindex:int=typesource.selectedItem.valuelist.toString().indexOf("]",0); 
+                var strstring:String=typesource.selectedItem.valuelist.toString().substring(startindex+1,endindex);
+                BIid.columncode=strstring;
+                 if(vt=="22"||vt=="23")
+                 { 
+                 BIid.sid=1;                 	 
+                 }
+                else
+                {
+                  BIid.sid=0; 
+                 }
+                 //vt 等于17 18 22 23 的ID时候出现SectionDimension这个控件
+                var   sectiondimension:SectionDimension=new SectionDimension();
+                sectiondimension.x=0;
+                sectiondimension.y=0;
+                sectiondimension.percentHeight=100;
+                sectiondimension.percentWidth=100;
+                slicingcutter.addChild(sectiondimension);
+                BIid.columncode=strstring;
+               
+              }
+              else{
+              	BIid.statetype="";
+                   if(vt=="11")
+		             {
+		             	BIid.statetype="11";
+		             }
+              	if(typesource.selectedItem.columnid!="init"){
+                   BIid.Scolunm=typesource.selectedItem.columnid.toString();
+                 }
+                var  sectiondimension1:SectionDimension1=new SectionDimension1();
+                sectiondimension1.x=0;
+                sectiondimension1.y=0;
+                sectiondimension1.percentHeight=100;
+                sectiondimension1.percentWidth=100;
+                slicingcutter.addChild(sectiondimension1);
+                BIData.qiepianweidu=typesource.selectedItem.columnid.toString();
+              }
+            }
+            //选择维度值
+			public function xuanzhiweiduzhi():void{  
+			BIid.zhiduan=wdValuetext.text;
+			BIData.qiepianweiduzhi=wdValuetext.text;
+			}
+	       //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ChartType");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+             if(typesource.selectedItem.toString()!="请选择维度字段"){
+                 xuanzhiweiduzhi();
+             	 BIData.qiepianweidu=typesource.selectedItem.columnid.toString();
+           		 var o:Object=this.parent.getChildByName("ChartExpand1");
+           		 vs.selectedChild=o as Canvas;
+             }else{
+              Alert.show("请选择切片纬度");
+             }
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+         
+           public function getTablename(event:ResultEvent):void  
+           {
+           	       Tableinfo=event.result as ArrayCollection;
+           	       Tablename=Tableinfo.getItemAt(0).tablename;      	    
+           	       vivid.Tablename=Tableinfo.getItemAt(0).tablename;  
+            } 
+             [Bindable]//展示数据
+             public var ArrData:ArrayCollection=new ArrayCollection();
+             [Bindable]
+              public var Arrindex:ArrayCollection=new ArrayCollection();
+              [Bindable]
+	  		  public var barr:ArrayCollection=new ArrayCollection();
+	  		  [Bindable]
+	  		  public var arrtype:ArrayCollection=new ArrayCollection();
+            public function RsColunm(event:ResultEvent):void
+			{
+			 sarr=new ArrayCollection();
+			 barr=new ArrayCollection();
+			 ArrData=new ArrayCollection();
+			 arrtype=new ArrayCollection();
+			 Arrindex=new ArrayCollection();
+			 allcolumn=event.result as ArrayCollection;
+	        for(var i:int=0;i<allcolumn.length;i++)
+			{       ArrData.addItem(allcolumn.getItemAt(i));
+					Arrindex.addItem(allcolumn.getItemAt(i).viewtype.toString());
+		           if(allcolumn.getItemAt(i).viewtype.toString()!="01" )
+			        {  
+			        	arrtype.addItem(allcolumn.getItemAt(i).viewtype.toString());
+                        sarr.addItem(allcolumn.getItemAt(i));
+			        }
+			}
+			 for(var j:int=0;j<allcolumn.length;j++)
+			{      
+		           if(allcolumn.getItemAt(j).viewtype.toString()=="01")
+			        {  
+                        barr.addItem(allcolumn.getItemAt(j));
+			        }
+			}
+			  if(allcolumn!=null){
+			         typesource.dataProvider=sarr;          
+              }
+                BIid.columnarr=sarr;
+                BIid.arrbarr=barr;
+                BIid.arrarrtype=arrtype;
+                BIid.ArrData=ArrData;
+                BIid.Arrindex=Arrindex;
+			 	WdValueObject.getData(allcolumn.getItemAt(1).columnid.toString(),Tablename);
+		  if(!BIData.modeltype){
+              var xml:XML=BIData.controlxml;
+              var xmllist:XMLList=new XMLList(xml.child("Graphic"));
+              for(var k:int=0;k<sarr.length;k++){
+              	 if(sarr[k].columnid==xmllist[0].@qiepianweidu){
+              	 typesource.selectedIndex=k;
+              	 }
+              }
+              changevalue();
+              BIid.backstrr=xmllist[0].@qiepianweiduzhi;
+             }
+			}
+			
+			 [Bindable]
+		   public var sletearr:ArrayCollection=new ArrayCollection();
+			public function wdvalue(event:ResultEvent):void
+			{ 
+                var cxml:XML=null;
+			    sletearr=event.result as ArrayCollection;
+		        for(var k:int=0;k<sletearr.length;k++)
+			    {    
+			    	if(sletearr.getItemAt(k).toString()=="请选择维度值")
+			    	{
+			    	Bxml.@name=sletearr.getItemAt(k).toString();
+			    	}
+			    	cxml=new XML();
+			    	cxml=<Dataxml></Dataxml>;
+			    	if(sletearr.getItemAt(k).toString()!="请选择维度值"){
+			    	cxml.@name=sletearr.getItemAt(k).toString();
+			    	Bxml.appendChild(cxml);
+			    	}
+			    }
+			   
+		
+			}
+	]]>
+</mx:Script>
+ <mx:RemoteObject id="getTablenameObject" destination="getwd" result="getTablename(event)"  showBusyCursor="true"/>
+ <mx:RemoteObject id="getWdObject" showBusyCursor="true" result="RsColunm(event)" destination="getwd"/>
+ <mx:RemoteObject id="WdValueObject" showBusyCursor="true" result="wdvalue(event)" destination="getwd"/>
+ 	<mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="切片维度"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="图表制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:选择表单上的字段并且选择一个切片维度, 然后单击“确定”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="1193" height="353"  x="119" y="221" fontSize="20"  >  
+    	   <mx:Label x="30" y="13" text="切片维度:" fontWeight="bold"/>
+    	   <mx:Label x="804" y="13" text="切片值:" fontWeight="bold"/>
+    	   	<mx:ComboBox id="typesource"   change="changevalue()" dataProvider="{sarr}" labelField="columname" width="193" x="10" y="52" height="27"/>
+    	   	<mx:TextArea id="wdValuetext" x="795" y="50" width="372"  text="{BIid.backstrr}" fontWeight="bold" height="61"  />
+    	   	<mx:Canvas id="slicingcutter" x="241" y="11" width="546" height="334">
+    	   	</mx:Canvas>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 
+</mx:Canvas>

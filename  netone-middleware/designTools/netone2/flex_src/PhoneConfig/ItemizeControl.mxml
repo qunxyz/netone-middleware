@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  fontSize="15" width="572" height="42">
+	<mx:Script>
+		<![CDATA[
+			/**
+		  	  *  手机端配置  页的配置的组件
+		  	  *  xuwei（2012-2-24）
+		  	  * 
+		  	  * 
+		  	  * */
+			import BrickTake.DelEvent;
+			import mx.controls.Alert;
+			import BI.EvTijiao;
+			import BI.EvTjFs;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			
+			[Bindable]//序号
+			public var index:String;
+			[Bindable]//页的选择
+			public var textChart:String="";
+ 
+			//点击添加
+			public function Add():void{
+			EvTjFs.getInstance().dispatchEvent(new DelEvent("ADDSelectControl",this)); 
+			}
+			//点击删除
+			public function Del():void{
+			EvTjFs.getInstance().dispatchEvent(new DelEvent("DelSelectControl",this));
+			}
+		]]>
+	</mx:Script>
+	<mx:TextInput id="textinput" text="{textChart}" x="36" y="0" height="30" width="408"/>
+	<mx:Button x="452" y="0" label="+" width="43" fontSize="20" height="28" click="Add()"/>
+	<mx:Button x="503" y="0" label="-" width="43" fontSize="20" fontWeight="bold" click="Del()" height="28"/>
+	<mx:Label id="lable" text="{index}" x="5" y="2"  width="28"/>
+</mx:Canvas>

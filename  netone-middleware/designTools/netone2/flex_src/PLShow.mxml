@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" preloader="CustomPreloader"  layout="absolute" xmlns:ns1="PolymerizationShow.*" width="100%"
+     backgroundAlpha="0"  initialize="init()">
+     <mx:Script>
+     	<![CDATA[
+     		import mx.managers.BrowserManager;
+     		public function init():void{
+     		BrowserManager.getInstance().setTitle('聚合展示');
+     		}
+     	]]>
+     </mx:Script>
+	 <mx:ViewStack id="VStack1" width="100%" height="100%" x="0" y="0">
+	 	 <ns1:PSMain id="PSMain1" label="聚合展示主页" x="0" width="100%" height="100%" backgroundColor="#FFFFFF">
+	 	 </ns1:PSMain>
+	 	 <ns1:InterstitialShow id="InterstitialShow1" x="0" width="100%" height="100%" backgroundColor="#FFFFFF"/>
+	 </mx:ViewStack>
+</mx:Application>

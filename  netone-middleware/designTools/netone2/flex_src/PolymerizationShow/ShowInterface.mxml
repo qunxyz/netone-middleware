@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="600"  scroll="guendong()"
+      initialize="init()">
+
+  <mx:Script>
+  	<![CDATA[
+  		import BI.EvTjFs;
+  		import mx.events.ScrollEvent;
+  		import ActionForm.From.com.hitb.util.GlobalManager;
+  		import mx.containers.Panel;
+  		import mx.controls.Label;
+  		import mx.containers.TitleWindow;
+  		import mx.events.MoveEvent;
+  		import framework.IFrame;
+  		import mx.controls.Alert;
+  		import mx.collections.ArrayCollection;
+  		import mx.rpc.events.ResultEvent;
+  		 [Bindable]//节点ID
+        public  var NodeID:String="";
+        [Bindable]//flowID
+        public  var folwID:String="";
+          
+        [Bindable]//Xmodel
+         public var Xmodel:int=0;
+         [Bindable]//Ymodel 
+         public var Ymodel:int=0;
+         
+         public var iframe:IFrame;
+         
+         [Bindable]//UrL的绑定
+         public var Url:String;
+         
+          [Bindable]//layouttype排版的类型
+          public var layouttype:String;
+          [Bindable]//showtype 展示的类型
+          public var showtype:String;
+          [Bindable]//row多少横
+          public var row:String;
+          [Bindable]//stand多少竖
+          public var stand:String;
+          
+          [Bindable]
+          public var hengrow:int=1;
+          [Bindable]
+          public var huanstand:int=1; 
+          [Bindable]
+          public var index:int=0;
+          
+          [Bindable]//记录添加节点
+          public var arrpanel:Array=new Array();
+          [Bindable]//记录节点的URL
+          public var urlarr:Array=new Array();
+
+
+  		public function init():void{
+  			EvTjFs.getInstance().addEventListener("shuanxin",shuanxin);
+  			var url:URL1=new URL1();
+  			url.init();
+  		   showdate1.LayoutQuery(folwID);
+  		   showdate2.Query(NodeID);
+  		}
+  		public function  Done():void{
+  			showdate2.Query(Datashow.NodeID);
+  		} 
+  		public function shuanxin(event:MouseEvent):void{
+  		   for(var i:int=0;i<arrpanel.length;i++){
+  		     PanelShow(arrpanel[i]).iframe.source=urlarr[i];
+  			 }
+  		}
+  		
+  		//节点上配置的数据
+  		public function NodeDate(event:ResultEvent):void{
+  		     var arr:ArrayCollection=event.result as  ArrayCollection;
+  		     if(arr.length==0){
+  		      Alert.show("该节点没有数据");
+  		     }else{
+		  		arr[0].interactive      	 
+	           var strmodel:String=arr[0].modeltype ;
+
+   			 if(strmodel=="明细"){
+   				var formID:String=(String)(arr[0].date).substring((String)(arr[0].date).indexOf("[")+1,
+   				(String)(arr[0].date).indexOf("]"));
+   				  var formturl:String=URL1.WEBSER_DYFORM+"/data/data/list.do?lsh=1&formcode="+formID;
+   				  var formPS:PanelShow=new PanelShow();
+   				  formPS._title=Datashow.Nodename;
+   				  formPS._url=formturl;
+   				  formPS.x=Xmodel;
+   				  formPS.y=Ymodel;
+   				  formPS._ID="form";
+   				  formPS.height=150;
+   				  formPS.width=250;
+   				  formPS.doubleClickEnabled=true;
+   				  formPS.addEventListener(MouseEvent.DOUBLE_CLICK,Chartshow);
+   				  arrpanel.push(formPS);
+   				  urlarr.push(formturl);
+   				  layout();
+   				  this.addChild(formPS); 
+   				  
+   			}
+   			if(strmodel=="报表"){
+   				   var ReportID:String=(String)(arr[0].date).substring((String)(arr[0].date).indexOf("[")+1,
+   				(String)(arr[0].date).indexOf("]"));
+   				  var Reporturl:String=URL1.xjyy+"/reportViewSvl?name="+ReportID+"&type=html";
+   				  var ReportPS:PanelShow=new PanelShow();
+   				  ReportPS._title=Datashow.Nodename;
+   				  ReportPS._url=Reporturl;
+   				  ReportPS.x=Xmodel;
+   				  ReportPS.y=Ymodel;
+   				  ReportPS._ID="Report";
+   				  ReportPS.height=150;
+   				  ReportPS.width=250;
+   				  ReportPS.doubleClickEnabled=true;
+   				  ReportPS.addEventListener(MouseEvent.DOUBLE_CLICK,Chartshow);
+   		          layout();
+   		          arrpanel.push(ReportPS);
+   		           urlarr.push(Reporturl);
+   				  this.addChild(ReportPS); 
+   			 
+   			}
+   			if(strmodel=="报表集"){
+   				 var ReportsetID:String=(String)(arr[0].date).substring((String)(arr[0].date).indexOf("[")+1,
+   				(String)(arr[0].date).indexOf("]"));
+   				  var Reportseturl:String=URL1.xjyy+"/xreport.do?method=view&naturalname="+ReportsetID;
+   				  var ReportsetPS:PanelShow=new PanelShow();
+   				  ReportsetPS._title=Datashow.Nodename;
+   				  ReportsetPS._url=Reportseturl;
+   				  ReportsetPS.x=Xmodel;
+   				  ReportsetPS.y=Ymodel;
+   				  ReportsetPS._ID="Reportset";
+   				  ReportsetPS.height=150;
+   				  ReportsetPS.width=250;
+   				  ReportsetPS.doubleClickEnabled=true;
+   				  ReportsetPS.addEventListener(MouseEvent.DOUBLE_CLICK,Chartshow);
+   				  layout();
+   				  arrpanel.push(ReportsetPS);
+   				  urlarr.push(Reportseturl);
+   				  this.addChild(ReportsetPS); 
+   			}
+   			if(strmodel=="图表"){
+   				  var chartID:String=(String)(arr[0].date).substring((String)(arr[0].date).indexOf("[")+1,
+   				(String)(arr[0].date).indexOf("]"));
+   				  var charturl:String=URL1.str+"/PieChartAction?naturalname="+chartID;
+   				  var chartPS:PanelShow=new PanelShow();
+   				  chartPS._title=Datashow.Nodename;
+   				  chartPS._url=charturl;
+   				  chartPS.x=Xmodel;
+   				  chartPS.y=Ymodel;
+   				  chartPS._ID="chart";
+   				  chartPS.height=150;
+   				  chartPS.width=250;
+   				  chartPS.doubleClickEnabled=true;
+   				  chartPS.addEventListener(MouseEvent.DOUBLE_CLICK,Chartshow);
+   	   			  layout();
+   	   			  arrpanel.push(chartPS);
+   	   			  urlarr.push(charturl);
+   				  this.addChild(chartPS); 
+   			}
+   			if(strmodel=="页"){
+   				var pageID:String=(String)(arr[0].date).substring((String)(arr[0].date).indexOf("[")+1,
+   				(String)(arr[0].date).indexOf("]"));
+   				 showdate4.pageQuery(pageID);
+   			}
+   			if(strmodel=="portal"){
+   				 var portalID:String=(String)(arr[0].date).substring((String)(arr[0].date).indexOf("[")+1,
+   				(String)(arr[0].date).indexOf("]"));
+   				 showdate3.portalQuery(portalID);
+   			}
+   			index++;
+          	}
+  			 Datashow.xiaokongjian=arrpanel;
+  		}
+  		
+  		//布局的方法
+  		public function layout():void{
+  				if(layouttype=="1"){
+   				   	if(huanstand>=int(stand)){
+   				   	  Xmodel=0;
+   				   	  Ymodel=Ymodel+160;
+   				      hengrow++;
+   				      huanstand=0;
+   				   	 }else{
+                 	 huanstand++;
+   				    Xmodel=Xmodel+260;
+   				   	 }
+   				  }else{
+   				  	if(hengrow>=int(row)){	 
+   				  	 Ymodel=0;
+   				  	 huanstand++;
+   				  	  hengrow=0;
+   				     Xmodel=Xmodel+260;
+   				  	}else{
+   				   	Ymodel=Ymodel+160;
+   				    hengrow++;
+   				    }
+   				  }
+  		}
+  		//portal 的数据
+  		public function portalDate(event:ResultEvent):void{
+  		 var portalData:String=event.result as String;
+		  		if(portalData==""){
+		  		 Alert.show("portal不存在");
+		  		}{
+		  		 var portalurl:String=URL1.yangshi+"/extportal.do?id="+portalData+"&portalmode=5";
+		   	     var portalPS:PanelShow=new PanelShow();
+		   		 portalPS._title=Datashow.Nodename;
+		   		 portalPS._url=portalurl;
+		   		 portalPS.x=Xmodel;
+		   		 portalPS.y=Ymodel;
+		   		 portalPS._ID="portal";
+		   		 portalPS.height=150;
+		   		 portalPS.width=250;
+		   		 portalPS.doubleClickEnabled=true;
+		   		 portalPS.addEventListener(MouseEvent.DOUBLE_CLICK,Chartshow);
+		   	     layout();
+		   	     arrpanel.push(portalPS);
+		   	     urlarr.push(portalurl);
+		   		 this.addChild(portalPS); 
+		   	}
+  		  }
+  		  
+  		  //页的数据
+  		  public function pageDate(event:ResultEvent):void{
+  		     var pageData:String=event.result as String;
+		  		if(pageData==""){
+		  		 Alert.show("页不存在");
+		  		}{
+		  		 var pageurl:String=URL1.yangshi+"/"+pageData+".jsp";
+		   	     var pagePS:PanelShow=new PanelShow();
+		   		 pagePS._title=Datashow.Nodename;
+		   		 pagePS._url=pageurl;
+		   		 pagePS.x=Xmodel;
+		   		 pagePS.y=Ymodel;
+		   		 pagePS._ID="page";
+		   		 pagePS.height=150;
+		   		 pagePS.width=250;
+		   		 pagePS.doubleClickEnabled=true;
+		   		 pagePS.addEventListener(MouseEvent.DOUBLE_CLICK,Chartshow);
+		   	     layout();
+		   	     arrpanel.push(pagePS);
+		   	     urlarr.push(pageurl);
+		   		 this.addChild(pagePS); 
+		   	}
+  		  }
+  		//布局数据
+  		 public function scResult(event:ResultEvent):void{
+         var arr:ArrayCollection=event.result as ArrayCollection; 
+	         if(arr.length==0){
+	            Alert.show("没有配置布局");
+	         }else{
+	         layouttype=arr[0].layouttype 
+	         showtype=arr[0].showtype  
+		     row=arr[0].row;
+		     stand=arr[0].stand;
+	         }
+         }
+         public function Chartshow(event:MouseEvent):void{
+            GlobalManager.getInstance().dispatchEvent(new PolymerizeEvent("quanping",event.target.name));
+         }
+         
+         public function guendong():void{
+         	 /*  for(var i:int=0;i<arrpanel.length;i++){
+            	 PanelShow(arrpanel[i]).Url=urlarr[i].toString();
+            	 PanelShow(arrpanel[i]).width=250;
+            	 PanelShow(arrpanel[i]).height=150;
+         	  }   */
+         }
+  	]]>
+  </mx:Script>
+     <mx:RemoteObject  id="showdate1" destination="ShowDate1" result="scResult(event)" showBusyCursor="true">
+   </mx:RemoteObject>
+	<mx:RemoteObject id="showdate2" destination="ShowDate1" result="NodeDate(event)"  showBusyCursor="true"/>
+ 	<mx:RemoteObject id="showdate3" destination="ShowDate1" result="portalDate(event)"  showBusyCursor="true"/>
+    <mx:RemoteObject id="showdate4" destination="ShowDate1" result="pageDate(event)"  showBusyCursor="true"/>
+</mx:Canvas>

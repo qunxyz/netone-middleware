@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="324" height="28">
+   
+    <mx:LinkButton id="Cactivity" label="[配置活动服务]" x="0" y="4"/>
+    <mx:LinkButton id="AConfing" label="[活动服务配置]" x="133" y="3"/>
+    <mx:LinkButton id="update" label="修改" x="272" y="3"/>
+  
+</mx:Canvas>

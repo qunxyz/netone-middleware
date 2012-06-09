@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="{init()}" xmlns:BIAnalysis="BIAnalysis.*">
+	<mx:Script>
+		<![CDATA[
+			import BI.EvTjFs;
+			import BI.BIid;
+			import mx.controls.Alert;
+			import mx.containers.ViewStack;
+			import BIAnalysis.SuperTabularAnalysis;
+		 [Embed("img1/quxiao.png")]            
+         public var bttCanelIcon:Class; 
+          [Embed("img1/xiayibu.png")]            
+         public var bttNextIcon:Class; 
+          [Embed("img1/shangyibu.png")]            
+         public var bttUpIcon:Class;
+
+        //定义VS的是什么
+         private var vs:ViewStack;  
+        
+         public function init():void{
+          vs=this.parent as ViewStack; 
+       
+         }
+       private function getChild(str:String):Object{ 
+	       for each(var obj:* in vs.getChildren()){ 
+	           if(obj.name==str){ 
+	           break; 
+				} 
+				} 
+				return obj; 
+		} 
+         public function clickHandler():void{
+              //上一步的点击事件
+                if (MenuBar.selectedIndex==0) {
+                   var o:Object=this.getChild("SubTabularAnalysis1"); 
+                       vs.selectedChild=o as Canvas;
+                }
+			 //下一步的点击事件
+			   if (MenuBar.selectedIndex==1) {
+			         if(BIid.indextype){
+                       var o2:Object=this.getChild("PredictiveAnalysis1"); 
+                       vs.selectedChild=o2 as Canvas;
+                       EvTjFs.getInstance().dispatchEvent(new MouseEvent("yuceshuju")); 
+		          }else{
+		        	  var o1:Object=this.getChild("Setitf1"); 
+                       vs.selectedChild=o1 as Canvas;
+                       EvTjFs.getInstance().dispatchEvent(new MouseEvent("shujuchuangsong")); 
+	          		 }
+			  }	
+			  //取消的点击事件
+			  if (MenuBar.selectedIndex==2) {
+			   navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+			  }	
+         }
+		]]>
+	</mx:Script>
+		<mx:MenuBar  id="MenuBar" width="100%"
+			 labelField="@label"  
+			 iconField="@icon" 
+             click="clickHandler()"  
+			 height="45" fontSize="19" color="white">
+		 <mx:XMLList>
+		    <menuitem  data="createApplication" icon="bttUpIcon"/>
+		    <menuitem  data="createApplication" icon="bttNextIcon"/>
+		 	<menuitem  data="deleteApplication" icon="bttCanelIcon"/> 
+		 </mx:XMLList>
+		</mx:MenuBar>
+		<mx:Canvas id="AnalysisVessel" x="0" y="43" width="100%" height="100%">
+		<BIAnalysis:TabularAnalysis id="TabularAnalysis" x="0" y="0" width="100%" height="100%">
+		</BIAnalysis:TabularAnalysis>
+		</mx:Canvas>
+</mx:Canvas>

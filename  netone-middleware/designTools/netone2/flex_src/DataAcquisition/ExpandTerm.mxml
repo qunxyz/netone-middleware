@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="713" height="142"  x="0" y="91">
+     <mx:Script>
+     	<![CDATA[
+     		[Bindable]//数据的startScript
+     		public var startScriptstr:String;
+     		[Bindable]//数据的endScript
+     		public var endScriptstr:String;
+     	]]>
+     </mx:Script>
+		 <mx:Label x="0" y="0" text="startScript:" fontSize="18" fontWeight="bold" />
+         <mx:TextArea x="128" y="0" id="startScript" text="{startScriptstr}" width="574.5" height="65" tabIndex="25" fontSize="14"/>
+         <mx:Label x="0" y="71" text="endScript:" fontSize="18" fontWeight="bold" />
+         <mx:TextArea x="128" y="71" id="endScript" text="{endScriptstr}" width="574.5" height="65" tabIndex="25" fontSize="14"/>
+</mx:Canvas>

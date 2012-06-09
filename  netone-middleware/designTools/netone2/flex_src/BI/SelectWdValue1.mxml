@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" fontSize="13"  creationComplete="test()" initialize="init()" layout="absolute" width="700" height="348" title="所选维度值 " xmlns:components="BI.components.*">
+	
+	<mx:Script>
+	<![CDATA[
+		import mx.core.IFlexDisplayObject;
+				
+			import BI.components.TreeComboBoxEvent;
+			import mx.events.ListEvent;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			
+			import mx.rpc.events.ResultEvent;
+			import mx.managers.PopUpManager;
+		
+			import mx.utils.ObjectUtil;
+			
+		
+	       public function init():void
+	       {  if(BIid.columncode!=null)
+	       	  rfromObject.selectBItree(BIid.columncode);
+	       	  else{
+	       	  Alert.show("this column is null");
+	       	  }
+	       }
+			public function clickbttok():void
+			{
+		    var larr:ArrayCollection=this.Lright.dataProvider as ArrayCollection;
+		    if(larr.length>1)
+		    {
+		    	Alert.show("只返回一组数据");
+		    }
+		    else{
+		     BIid.backstrr=larr.getItemAt(0).resourcename.toString();
+		    PopUpManager.removePopUp(this as IFlexDisplayObject);
+
+		     
+		    }
+			}
+			public function clickbttcannel():void
+			{  
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+		private function findChildren(parentId:String, source:Array , parentIdField:String="parentid"):Array
+          {  
+             var children:Array=new Array(); 
+             for each (var item:Object in source)
+           { 
+           if(item[parentIdField]==parentId)
+             {
+             	 children.push(item); 
+             } 
+             } 
+             return children; 
+          } 
+       private function platToHierarchical(platData:Array, startNode:Object, childrenField:String="children",parentIdField:String="parentid"):Object
+         { 
+        
+          var children:Array=findChildren(startNode.rcode, platData, parentIdField); 
+          var temp:Array=new Array(); 
+          for each (var item:Object in children){ 
+          temp.push(platToHierarchical(platData, item, childrenField, parentIdField)); 
+          }  
+          startNode[childrenField]=temp; 
+          return startNode; 
+        } 
+        [Bindable]
+        public var rsarr:Array;
+        [Bindable]
+        public var tArr:Array=null;
+         public function scResult(event:ResultEvent):void
+         {     
+         	 
+             rsarr =ArrayCollection(event.result).toArray() ;
+             var root:Object=findChildren("", rsarr); 
+             var tree:Object=platToHierarchical(rsarr, root[0]); 
+             tArr=new Array(tree);
+     
+             treecombox.dataProvider=tArr;
+        }
+         public function test():void{
+
+		  treecombox.addEventListener("changevalue",lc);
+		     }	
+		 public  function lc(event:TreeComboBoxEvent):void
+      {
+         var t:Object=event.uiobject;
+       
+         if(BIid.sid==0){
+             expendtreeObject.selectTreeInDir(t.rcode.toString());
+         }
+         else
+         {
+            PersontreeObject.selectMenInDIr(t.rcode.toString());
+         }
+      } 
+     public function PersontreeDir(event:ResultEvent):void
+   {
+        etArr=event.result as ArrayCollection;
+        this.Lleft.dataProvider=etArr;
+   }
+   [Bindable]
+   public var etArr:ArrayCollection;
+   public function EtreeDir(event:ResultEvent):void
+   {
+       etArr=event.result as ArrayCollection;
+       this.Lleft.dataProvider=etArr;
+   }
+
+		]]>
+	</mx:Script>
+	 <mx:RemoteObject id="expendtreeObject" destination="selectchirdrenform" result="EtreeDir(event)" 
+      showBusyCursor="true"/>  
+	<mx:RemoteObject id="PersontreeObject" destination="selectchirdrenform" result="PersontreeDir(event)" 
+      showBusyCursor="true"/>  
+	  <mx:RemoteObject id="rfromObject" destination="selectchirdrenform" result="scResult(event)" 
+      showBusyCursor="true"/>  
+	<mx:Canvas width="100%" height="100%">
+    	<mx:Label fontSize="10" fontWeight="bold" text="所选维度树图值:" width="86" x="10" y="12"/>
+    	<components:TreeComboBox  id="treecombox"  labelField="rname"  
+    		width="231" treeHeight="250" 
+    	     x="104" y="10"/>
+    	       <mx:List id="Lright" 
+	     	      labelField="resourcename"
+			      allowMultipleSelection="true"
+			      dragEnabled="true" 
+			      dragMoveEnabled="true"
+			      dropEnabled="true"
+			      width="317" height="222" x="357" y="72"/>
+	      <mx:List id="Lleft" 
+	      	     labelField="resourcename"
+	      	     allowMultipleSelection="true"
+	      		 dragEnabled="true" 
+	      	     dragMoveEnabled="true"
+	      	     dropEnabled="true"
+	      		 width="325" height="222" x="10" y="72"/>
+	       <mx:Label text="选中数据:" fontSize="17" x="10" y="38"/>
+	       <mx:Button id="bttok" label="确定"  click="clickbttok()" x="357" y="10" width="67"/>
+	       <mx:Button id="bttCannel" label="取消"  click="clickbttcannel()" x="432" y="10" width="63"/>
+	      <mx:Label text="所需数据:" fontSize="17" x="357" id="rightList" y="38"/>
+	</mx:Canvas>
+</mx:TitleWindow>

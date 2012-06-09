@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+	<mx:Script>
+		<![CDATA[
+			import BI.EvTjFs;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+		   public var xml:XML;
+		   public var servearr:ArrayCollection=new ArrayCollection();
+		    [Bindable]
+		    public static var str:String;
+		    public static var Urlstr:String;
+		     public static var strURLxml:String="E:/code/SpeedyForm_v1.3/WebContent/xmlfile/";
+		     public static var strURLandroid:String="E:/code/SpeedyForm_v1.3/dyformandroid/";
+		     public static var strarr:String="E:/code/SpeedyForm_v1.3/androidarr/";
+		    public static var url:String="http://127.0.0.1:81/wfweb/PagelistpathRightSvl?pagename=pagelist&appname=BUSSWF";
+		    public static var upateurl:String;
+		    [Bindable]
+		     public static var liucheng:String;
+		     [Bindable]
+             public static var xjyy:String;
+             [Bindable]
+		     public static var yangshi:String;
+
+		     public static var ShanA:String;
+             public static var BB:String;
+             public static var EXCEL:String;
+             public static var WORD:String;
+		     public static var WEBSER_BIWEB:String;
+		     public static var WEBSER_WFWEB:String;
+		     [Bindable]
+		     public static var WEBSER_DYFORM:String;
+		    public  function init():void{
+		       servea.Strength();
+		    	    }
+           public function xmlResult(event:ResultEvent):void{
+			    servearr=event.result as ArrayCollection;
+			     str=servearr[0].toString();
+			     upateurl=servearr[1].toString()+"/mod/LoginMvl?";
+			     liucheng=servearr[2].toString()+"/";
+		         xjyy=servearr[3].toString();
+		         ShanA=servearr[3].toString();
+                 yangshi=servearr[4].toString()+"/";
+                 Urlstr=servearr[5].toString();
+                 WEBSER_BIWEB=servearr[6].toString();
+                 WEBSER_WFWEB=servearr[7].toString();
+                 WEBSER_DYFORM=servearr[8].toString();
+                 EvTjFs.getInstance().dispatchEvent(new MouseEvent("chenggong"));
+			  }
+		]]>
+	</mx:Script>
+<mx:RemoteObject id="servea" destination="Strength1" result="xmlResult(event)" 
+		showBusyCursor="true"/>		
+
+</mx:Canvas>

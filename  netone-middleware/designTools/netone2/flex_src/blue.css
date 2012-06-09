@@ -1,0 +1,33 @@
+/* CSS file */
+Application
+{
+    backgroundColor:		#070936;
+    backgroundImage:        Embed("img2/beijing.png"); 
+}
+.menuid
+{
+	backgroundImage:        Embed("img2/2.png");
+}
+.ToggleButton
+{
+    cornerRadius:           0;
+    fillAlphas:             0, 0;
+    highlightAlphas:        .5, .25;
+    fontWeight:             "normal";
+    fontSize:               14;
+    color:                  #FFFFFF;
+    selectedOverSkin:       Embed("img2/w.png");
+    selectedUpSkin:         Embed("img2/q.png");
+    selectedDownSkin:       Embed("img2/x.png");
+    textSelectedColor:      #06B4A5;
+    textSelectedUpColor:    #06B4A5; 
+        
+}
+.mySelectedButtonTextStyleName {
+            color: #9AD5E2; 
+}
+.HBtn
+{
+	color:                  #FFFFFF;
+	fontSize:               12;
+}

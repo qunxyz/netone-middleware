@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" creationComplete="cci()"
+					 width="552" height="355" color="#010E4D" fontSize="15" 
+					 >
+	<mx:Script>
+		<![CDATA[
+			import BI.EvTjFs;
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import BI.BIid;
+			import mx.containers.ViewStack;
+			import mx.collections.ArrayCollection;
+			import mx.collections.XMLListCollection;
+			public var comBoxXML:XML =  
+				<list>  
+					  <typename>字符串</typename>  
+					  <typename>数字</typename>  
+					  <typename>时间</typename>  
+				</list>;
+			[Bindable]  
+			public var comBox:XMLListCollection=new XMLListCollection(comBoxXML.typename);  
+		     [Bindable]
+			public var vs:ViewStack;
+			[Bindable]//textpath
+			public var textpath:String;
+			[Bindable] 
+			public var itfarr:ArrayCollection=new ArrayCollection();
+			public function init():void{
+				itfarr=new ArrayCollection();
+				EvTjFs.getInstance().addEventListener("ConnectorData",ConnectorData);
+				textpath="路径： "+BIData.URLname+" 第9步，共9步"; 
+				vs=this.parent as ViewStack;
+				var ss:String="";
+			   for( var i:int=3; i< BIid.ArrData.length;i++)
+				{
+				if(BIid.Arrindex[i]=="00" || BIid.Arrindex[i]=="05" || BIid.Arrindex[i]=="06" || BIid.Arrindex[i]=="10" || BIid.Arrindex[i]=="11"
+				|| BIid.Arrindex[i]=="12" || BIid.Arrindex[i]=="13" || BIid.Arrindex[i]=="17" || BIid.Arrindex[i]=="18" || BIid.Arrindex[i]=="20"
+				|| BIid.Arrindex[i]=="21" || BIid.Arrindex[i]=="22" || BIid.Arrindex[i]=="23" || BIid.Arrindex[i]=="24" || BIid.Arrindex[i]=="24"
+				|| BIid.Arrindex[i]=="26" || BIid.Arrindex[i]=="27" || BIid.Arrindex[i]=="28" || BIid.Arrindex[i]=="29"){
+				 itfarr.addItem({itf:String(BIid.ArrData[i].columnid),itfdisplay:String(BIid.ArrData[i].columname),itftype:"字符串",remark:"未设置",using:false});
+				}
+				if(BIid.Arrindex[i]=="01"){
+				 itfarr.addItem({itf:String(BIid.ArrData[i].columnid),itfdisplay:String(BIid.ArrData[i].columname),itftype:"数字",remark:"未设置",using:false});
+				}
+				if(BIid.Arrindex[i]=="02" || BIid.Arrindex[i]=="03" || BIid.Arrindex[i]=="04"){
+				 itfarr.addItem({itf:String(BIid.ArrData[i].columnid),itfdisplay:String(BIid.ArrData[i].columname),itftype:"时间",remark:"未设置",using:false});
+				}
+				}
+				Save.itfarr=itfarr;
+			}
+		 //修改文件
+		 public function cci():void{
+		 if(!BIData.modeltype){
+		       var xml:XML=BIData.controlxml;
+		       var xmllist:XMLList=new XMLList(xml.child("Interface"));
+		      for(var j:int=0;j<itfarr.length;j++){
+		        for(var i:int=0;i<xmllist.length();i++){
+		            if(itfarr[j].itf==xmllist[i].@columns){
+		             itfarr[j].using=true;
+		            }
+		       }
+		     }
+		 }
+		 }
+		//接口数据刷新
+		public function ConnectorData(event:MouseEvent):void{
+		init();
+		}
+			//遍历ViewStack1里面的id
+		 private function getChild(str:String):Object{ 
+	       for each(var obj:* in vs.getChildren()){ 
+	           if(obj.name==str){ 
+	           break; 
+				} 
+				} 
+				return obj; 
+		  } 
+ 
+			//上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+            	 if(BIid.indextype){ 
+			       var o1:Object=this.getChild("PredictiveAnalysis1"); 
+                   vs.selectedChild=o1 as Canvas;
+			  	 }else{
+  				 var o:Object=this.parent.getChildByName("ChartUnfold1");
+                 vs.selectedChild=o as Canvas;
+      			 }
+          }
+          //完成的方法
+          public function DownNode(event:MouseEvent):void{
+          var xml:String=setxml();
+          if(!BIData.modeltype){
+          queryExtended1.Update(BIData.repidID,BIData.repdimxplay,xml,BIid.URLname);
+          }else{
+		  addtabularanalysis.AddCatalog(BIData.repidID,BIData.repdimxplay,xml,BIid.URLname);
+          }
+          navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self'); 
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+          
+           //保存数据的返回提示
+			public  function AddTabularAnalysis(event:ResultEvent):void   
+			{
+		
+			}
+			  //构造 xml 
+			public function setxml ():String
+			{
+				var  reportxml:String='<Report>\r\n';
+				reportxml+="<Formcode name=\""+BIData.namestr+"\"  formcode=\""+BIData.formcode+"\"/>\r\n";
+				reportxml+=XMLConfigurationData();
+				reportxml+=yucebaobiao();
+				reportxml+=getitf();
+				reportxml+='</Report>'
+				return reportxml;	
+			}
+			
+			// 配置的图表的xml数据
+			public function XMLConfigurationData():String{
+			 var xmlstr:String="";  
+			 var xml:XML=<Graphic></Graphic>;
+			 xmlstr="<Graphic qiepianweidu=\""+BIData.qiepianweidu+ "\" qiepianweiduzhi=\""+BIData.qiepianweiduzhi+
+						"\" zhankaiX=\"" + BIData.zhankaiX + "\" xuanzhezhibiao=\"" + BIData.xuanzhezhibiao+ "\" tubiaotype=\""+BIData.tubiaotype+"\">\r\n";
+				xmlstr+="<![CDATA["+BIData.kuozhantiaojian+"]"+"]>"+"</Graphic>"+'\r\n';		
+			 return xmlstr;
+			 }
+			 //预测时间
+			 public function yucebaobiao():String{
+ 				var stryuce:String="";
+ 				stryuce="<Forecast predictionbegan=\""+BIData.predictionbegan+"\" predictionend=\""+BIData.predictionend+"\" Predictiontype=\""
+ 				+BIData.Predictiontype+"\"/>\r\n";
+ 			  return stryuce;
+			 }
+			 
+			//构造接口xml方法
+			public function getitf():String
+			{
+				var itf:String="";
+				for(var j:int=0;j<itfarr.length;j++)
+				{
+					if(itfarr[j].using)
+					{
+					itf+="<Interface columns=\"" + itfarr[j].itf + "\" displayname=\""+itfarr[j].itfdisplay+
+						"\" stringtype=\"" + itfarr[j].itftype + "\" remark=\"" + itfarr[j].remark+ "\" using=\"" + itfarr[j].using.toString()+"\" " ;
+					itf+="/>"+'\r\n';
+					}
+				}
+				return itf;
+			}
+		]]>
+	</mx:Script>
+ 
+<mx:RemoteObject id="addtabularanalysis" destination="AddTabularAnalysis1" result="AddTabularAnalysis(event)" 
+	showBusyCursor="true"/>
+ <mx:RemoteObject id="queryExtended1" destination="QueryExtended1"  showBusyCursor="true"/>
+	
+	  <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="设置接口"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="图表制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:设置字段对应的接口, 然后单击“完成”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="865" height="308"  x="114" y="214" fontSize="20"  >  
+				<mx:DataGrid id="itfdata" width="100%" height="100%" dataProvider="{itfarr}" color="#5B5C62" 
+					 enabled="true" fontFamily="细明体" fontSize="15"  x="0" y="0">
+			<mx:columns>
+				<mx:DataGridColumn dataField="itf"  headerText="字段名"/>   
+				<mx:DataGridColumn dataField="itfdisplay" headerText="中文名"/>   
+				<mx:DataGridColumn dataField="itftype"  headerText="类型">
+				</mx:DataGridColumn>   
+				<mx:DataGridColumn dataField="remark" editable="true" headerText="描述"/>   
+				<mx:DataGridColumn dataField="using" editable="false" headerText="启用状态"
+								   resizable="false">
+					<mx:itemRenderer>
+						<mx:Component>
+							<mx:HBox horizontalAlign="center">  
+								<mx:CheckBox click="data.using=!data.using" selected="{data.using}"/>
+							</mx:HBox>			
+						</mx:Component>  
+					</mx:itemRenderer>
+				</mx:DataGridColumn>  
+			</mx:columns>
+		</mx:DataGrid>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="完成" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 	    
+</mx:Canvas>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+	 creationComplete="pdinit()" initialize="init()"
+	   xmlns:datefield2="BI.datefield2.*" fontWeight="bold" fontSize="15">
+	<mx:Script>
+		<![CDATA[
+			import BI.EvTjFs;
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			import ActionForm.vivid;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			 
+			 //定义vs的
+			 public var vs:ViewStack;
+			 [Bindable]//textpath
+			 public var textpath:String;
+			 public function init():void{
+			 	textpath="路径： "+BIData.URLname+" 第8步，共9步"; 
+			   vs=this.parent as ViewStack;
+			
+			 }
+			public function PAclose(event:MouseEvent):void
+			{
+		    PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			
+			[Bindable]
+			public var columnid:String;
+			public var value:String;
+			public function pdinit():void
+			{  
+				getStarttimeObject.getstarttime(vivid.Tablename);
+			   if(!BIData.modeltype){
+			    var xml:XML=BIData.controlxml;
+			    var xmllist:XMLList=new XMLList(xml.child("Forecast"));
+			    Initstarttime=xmllist[0].@predictionbegan;
+			    endtime.text=xmllist[0].@predictionend;
+			      for(var i:int=0;i<(Ptfunction as XMLList).length();i++)
+			      {
+			      	if(Ptfunction[i].@type==xmllist[0].@Predictiontype){
+			      	 selectsuanfa.selectedIndex=i;
+			      	}
+			      } 
+			   }
+			}
+			 [Bindable]
+			 public var Initstarttime:String;
+			 [Bindable]
+			 public var allcolumn:ArrayCollection;
+			  [Bindable]
+			 public var sarr:ArrayCollection;
+		
+		    public function changevalue():void
+			{
+				
+			}
+			public function endtimechange():void
+			{   
+				var starttimestr:String=starttime.text;
+				var endtimestr:String=endtime.text.toString();
+			
+			    getExpendtimeObject.getExpendTime(starttimestr,endtimestr);
+			}
+			public function CsColunm(event:ResultEvent):void
+			{
+				starttime.text=event.result.toString().substr(0,13);
+			} 
+			[Bindable]
+			  public var arr:Array=null;
+			  [Bindable]
+			  public var farr:ArrayCollection=new ArrayCollection();
+			public function EtColunm(event:ResultEvent):void
+			{      
+			   arr= event.result as Array;
+			   for(var i:int=0;i<arr.length;i++){
+			   farr.addItem(arr[i].toString());
+			   }
+		   }
+			[Bindable]
+			public var backarr:ArrayCollection;
+			public function rscolumn(event:ResultEvent):void
+			{
+				backarr=event.result as ArrayCollection;
+				vivid.backarr=backarr;
+			}
+			 private function getChild(str:String):Object{ 
+	          for each(var obj:* in vs.getChildren()){ 
+	           if(obj.name==str){ 
+	           break; 
+				} 
+				} 
+				return obj; 
+	     	} 
+			
+			
+		 //上一步的方法
+          public function UPNode(evetn:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ChartUnfold1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步的方法
+          public function DownNode(event:MouseEvent):void{
+          	     if(endtime.text.toString()!=""){
+                  var o1:Object=this.getChild("Setitf1"); 
+                   vs.selectedChild=o1 as Canvas;
+                   BIData.predictionbegan=starttime.text;
+                   BIData.predictionend=endtime.text;
+                   BIData.Predictiontype=selectsuanfa.selectedItem.@type.toString();
+                }else{
+                Alert.show("预测时间不能为空");
+                }
+         }
+         //取消的方法
+         public function Cancel():void{
+         navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self'); 
+         }
+		]]>
+	</mx:Script>
+          <mx:RemoteObject id="getTJObject" showBusyCursor="true" result="rscolumn(event)"
+	 	 destination="getEa"/>
+	 	 <mx:RemoteObject id="getStarttimeObject" showBusyCursor="true" result="CsColunm(event)"
+	 	 destination="getwd"/>
+	 	 <mx:RemoteObject id="getExpendtimeObject" showBusyCursor="true" result="EtColunm(event)"
+	 	 destination="getEt"/>
+	<mx:XMLList id="Ptfunction">
+		<psource label="自动选择预测算法"    type="auto"></psource>
+        <psource label="三指数平滑预测"      type="TripleExponentialSmoothingModel"></psource>
+		<psource label="线型回归模型预测"    type="RegressionModel"></psource>
+		<psource label="多线型回归模型预测"  type="MultipleLinearRegressionModel"></psource>
+		<psource label="多项式回归模型预测"  type="PolynomialRegressionModel"></psource>
+		<psource label="滑动均值模型预测法"  type="MovingAverageModel"></psource>
+		<psource label="自然数预测法"       type="NaiveForecastingModel"></psource>
+	</mx:XMLList>
+
+	
+	  <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C" fontWeight="normal"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="预测分析"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="图表制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:选择结束时间与预测算法, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="865" height="297"  x="114" y="225" fontSize="20"  >  
+		<mx:Label text="预测开始时间点:" y="24" x="25" fontWeight="bold"/>
+		<mx:Label text="预测结束时间点:" y="93.5" x="25"/>
+		<mx:Label text="选 择 预 算 法：" y="158.5" x="37"/>
+		<mx:ComboBox  id="selectsuanfa" dataProvider="{Ptfunction}" labelField="@label" x="237" y="156.25" width="254" height="33.5"/>
+		<mx:DateField id="starttime" text="{Initstarttime}" x="237" y="22" width="254"  enabled="false"  formatString="YYYY-MM-DD"/>
+		<datefield2:MyDateField id="endtime" x="237" y="91.5" width="254"  height="30" change="endtimechange()"/>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+ 	    
+</mx:Canvas>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  preloader="CustomPreloader" layout="absolute" 
+ xmlns:ns1="framework.*" viewSourceURL="srcview/index.html" xmlns:ns2="workflow.*" xmlns:viewStackEffects="org.efflex.mx.viewStackEffects.*" initialize="init()" xmlns:ns3="ActionForm.*">
+    <mx:Script>
+    	<![CDATA[
+    	import mx.controls.Alert;
+        import framework.variable;
+   	      [Bindable]
+   	      public var params:Object;
+   		 public function init():void{
+   		     var args:Object = getParams(); 
+				 if(args.parentdir!="" ){
+				 variable.URLname=args.parentdir;  
+				 }
+				 if(args.idcreated!=""){
+				 variable._idcreated1=args.idcreated;
+				 }
+				 if(args.mode!=""){
+				 	if(args.mode=="new"){
+				 		variable. Updatakuabgjian=true;
+				 	}
+				 	if(args.mode=="edit"){
+				 		variable. Updatakuabgjian=false;
+				 	}
+				 }
+			
+   		 }
+   		 
+   		  private function getParams():Object { 
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                   
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+    		
+    	]]>
+    </mx:Script>
+
+<mx:ViewStack x="0" y="0" id="viewFramWork1" width="100%" height="100%">
+          <ns1:FrameworkResource id="FrameworkResource1"  width="100%" height="100% " label="资源配置"   backgroundColor="#FFFFFF"/>
+          <ns1:FmFwSelect id="FmFwSelect1"  width="100%" height="100% " label="选择表单与工作流"   backgroundColor="#FFFFFF"/>
+          <ns1:AgencyPrompt id="AgencyPrompt1" width="100%" height="100% " label="配置代办提示"   backgroundColor="#FFFFFF"/>
+         <ns1:HeaderorEnd id="HeaderorEnd1"  width="100%" height="100% " label="配置表头表尾"   backgroundColor="#FFFFFF"/>
+         <ns1:WpersonDisplay id="WpersonDisplay" width="100%" height="100% " label="配置参与者" showEffect="effect"  backgroundColor="#FFFFFF"/>
+           <ns1:WflowFormDisplay id="WflowFormDisplay" width="100%" height="100% " label="应用环节配置" showEffect="effect" backgroundColor="#FFFFFF">
+        </ns1:WflowFormDisplay>
+</mx:ViewStack>
+</mx:Application>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+		import mx.controls.Alert;
+		[Bindable]
+	    public var xmllist:XMLList;
+	    public function  loadxmllist(sourcexmllist:XMLList):void
+	    {      
+	        xmllist=sourcexmllist;
+	        
+	    }
+		]]>
+	</mx:Script>
+	<mx:Panel id="PanelChart3" width="100%" horizontalScrollPolicy="off" verticalScrollPolicy="off" height="100%" title="线性图">
+          	 <mx:LineChart id="piechart3"
+          	 			 width="100%"
+          	 			 height="100%" 
+          	 			 dataProvider="{xmllist.dsinfo}"
+          	 			 showDataTips="true"
+          	 			 fontSize="12">
+          	 <mx:horizontalAxis>
+                <mx:CategoryAxis categoryField="@x"/>
+             </mx:horizontalAxis>
+          	    <mx:series>
+          	         	<mx:LineSeries yField="@y" form="curve" displayName="y"/>
+          	            <mx:LineSeries yField="@y1" form="curve" displayName="y1"/>
+          	         	<mx:LineSeries yField="@y2" form="curve" displayName="y2"/>
+          	         	<mx:LineSeries yField="@y3" form="curve" displayName="y3"/>
+          	         	<mx:LineSeries yField="@y4" form="curve" displayName="y4"/>
+          	         	<mx:LineSeries yField="@y5" form="curve" displayName="y5"/>
+          	         	<mx:LineSeries yField="@y6" form="curve" displayName="y6"/>
+          	            <mx:LineSeries yField="@y7" form="curve" displayName="y7"/>
+          	     </mx:series>
+          	 </mx:LineChart>
+          	  <mx:Legend dataProvider="{piechart3}" height="24"/>
+          	</mx:Panel>
+</mx:Canvas>

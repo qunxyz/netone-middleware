@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="多彩文档字段备注" close="planbclose(event)"
+	 fontSize="15"  width="412" height="286"  creationComplete="addcontent()">
+	 <mx:Script>
+	 	<![CDATA[
+	 		import mx.controls.Alert;
+	 		import ActionForm.From.com.hitb.event.Component;
+	 		import ActionForm.From.com.hitb.component.Data;
+	 		import ActionForm.From.com.hitb.event.GlobalEvent;
+	 		import ActionForm.From.com.hitb.util.GlobalManager;
+	 		import mx.core.UIComponent;
+	 		import mx.events.ListEvent;
+	 		import mx.managers.PopUpManager;
+	 		import mx.core.IFlexDisplayObject;
+	 		import mx.events.CloseEvent;
+	 	   public var comp:UIComponent=null;
+	 	   public function addcontent():void
+		{   
+            GlobalManager.getInstance().addEventListener(Data.Event_popextend,GetonMOUSEDOWN);
+		}
+	    public function GetonMOUSEDOWN(Component1:Component):void{
+	 	   
+	 	
+              comp=Component1.getComponent1();
+           
+         }
+	 	 public function changdata(event:ListEvent):void
+	 	 {
+	 	  content.text=selectmodel.selectedItem.toString();
+	 	 }
+	 	 public function planbclose(event:CloseEvent):void
+	 	 {
+	     	PopUpManager.removePopUp( event.target as IFlexDisplayObject);
+	 	 }
+	 	 public function bttclickok():void
+	 	 {    
+	 	     comp["PLANB"]=content.text;
+
+	 	     GlobalManager.getInstance().dispatchEvent(new GlobalEvent(Data.Event_data,comp,comp,comp["_cross"],comp["_row"]));
+	 	     PopUpManager.removePopUp( this as IFlexDisplayObject);
+	 	 }
+	 	 public function bttclickcannel():void
+	 	 { 
+	 	 	
+	 	  PopUpManager.removePopUp( this as IFlexDisplayObject);
+	 	 }
+	 	]]>
+	 </mx:Script>
+	 <mx:XMLList id="source">
+	    
+	 	<labelsource>outview</labelsource>
+	 	<labelsource>outedit</labelsource>
+	 </mx:XMLList>
+	 <mx:Canvas width="100%" height="100%">
+	 <mx:TextArea fontSize="13" text="提示：多彩文档字段中，
+	备选值可填写 outview/outedit 如果是outview模式那么别的用户只能查看 
+	该文档而不能编辑，如果是outedit模式，
+	那么别的用户也可以在线编辑文档实现Wiki模式的互动,可供模式选择:" height="79" x="10" y="7" width="353">
+	</mx:TextArea>
+	 <mx:Label text="备选值：" x="10" y="94" width="69"/>
+	 <mx:ComboBox id="selectmodel" change="changdata(event)" dataProvider="{source}" x="248" y="63" width="115" height="22"/>
+	 <mx:TextArea id="content" x="65" y="93" width="298" height="93"/>
+	 <mx:Button id="bttok" label="确定" x="236" y="194" click="bttclickok()"/>
+	  <mx:Button id="bttcannel" label="取消" x="302" y="194" click="bttclickcannel()"/>
+	</mx:Canvas>
+</mx:TitleWindow>

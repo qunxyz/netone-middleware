@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" fontSize="15"
+	 initialize="{init()}"	 >
+	 <mx:Script>
+	 	<![CDATA[
+	 		import mx.controls.Alert;
+	 		import mx.rpc.events.ResultEvent;
+	 		[Bindable] 
+           public var info:String; 
+      
+     import mx.containers.Canvas;  
+     import mx.containers.ViewStack; 
+     private var vs:ViewStack; 
+     [Bindable] 
+     public var loginsuccess:String; 
+     [Bindable] 
+     private var i:int=3; 
+     public var params:Object;
+     
+     [Bindable]
+     public var parentdir:String;
+     
+     public static var strid:String;
+     private function init():void{ 
+     	 vs=this.parent as ViewStack; 
+   		   trace(vs.id); 
+       var args:Object = getParams(); 
+       	 if(args.naturalname!=null || args.naturalname!="" ) {  
+              parentdir=args.naturalname
+             }
+     } 
+      private function getChild(str:String):Object{ 
+       for each(var obj:* in vs.getChildren()){ 
+           if(obj.name==str){ 
+           break; 
+           } 
+} 
+			return obj; 
+			} 
+			//新建目录的方法
+			private function newWork():void{ 
+            addNerve1.addAppliString(namen.text,naturalname.text,parentdir);
+			} 
+			private function SteExit():void{ 
+			 navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+			} 
+			public function handerResult3(event:ResultEvent):void{
+              strid=event.result as String;
+              if(strid!=null || strid!=""){
+              	var o:Object=this.getChild("OsWorkFlow1"); 
+			    vs.selectedChild=o as Canvas; 
+              }else{
+               Alert.show("创建没有成功");
+              }
+			}
+		  private function getParams():Object { 
+              params = {}; 
+             var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+             if(query) { 
+                 var pairs:Array = query.split("&"); 
+                 for(var i:uint=0; i < pairs.length; i++) { 
+                     var pos:int = pairs[i].indexOf("="); 
+                   
+                     if(pos != -1) { 
+                         var argname:String = pairs[i].substring(0, pos); 
+                         var value:String = pairs[i].substring(pos+1); 
+                         params[argname] = value; 
+                     } 
+                 } 
+             } 
+             return params; 
+         } 
+			
+	 	]]>
+	 </mx:Script>
+	   <mx:RemoteObject id="addNerve1" destination="AddNerve1"  result="handerResult3(event)" showBusyCursor="true"/>
+		 <mx:TitleWindow x="0" y="0" width="100%" height="100%" layout="absolute" title="创建神经元" 
+		 	fontSize="15"  showCloseButton="true"  close="SteExit();">
+		<mx:Text x="62" y="54" text="神  经  元  名：   " fontSize="15"/>
+		<mx:Text x="62" y="120" text="神经元中文名：   " fontSize="15"/>
+		<mx:TextInput id="naturalname" x="195" y="52" width="384" height="40"/>
+		<mx:TextInput  id="namen" x="195" y="118" width="384" height="39"/>
+		<mx:Button x="385" y="205" label="确定"  click="newWork()"/>
+		<mx:Button x="472" y="205" label="取消" click="SteExit()"/>
+		
+	</mx:TitleWindow>
+</mx:Canvas>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" initialize="init()" fontSize="12" 
+ fontWeight="bold" height="100%">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.HierarchicalData;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.events.ListEvent;
+			    [Bindable]
+                public  var rsarr:Array=null;
+			public function init():void
+			{
+				rfromObject.selectTreeSource(resourcename,resourcecode);
+			}
+			public function treeEvent(event:ListEvent):void
+			 {       
+			 	     Lleft.dataProvider=null;
+				   	 var ds:String =event.itemRenderer.data.rcode;
+				     backObject.selectRsInDir(ds);
+			}
+			 private function findChildren(parentId:String, source:Array , parentIdField:String="parentid"):Array
+            {  
+             var children:Array=new Array(); 
+             for each (var item:Object in source){ 
+             if (item[parentIdField]==parentId){ 
+             children.push(item); 
+              } 
+             } 
+             return children; 
+            } 
+       private function platToHierarchical(platData:Array, startNode:Object, childrenField:String="children",parentIdField:String="parentid"):Object
+         { 
+          var children:Array=findChildren(startNode.rcode, platData, parentIdField); 
+          var temp:Array=new Array(); 
+          for each (var item:Object in children){ 
+          temp.push(platToHierarchical(platData, item, childrenField, parentIdField)); 
+          }  
+          startNode[childrenField]=temp; 
+          return startNode; 
+        } 
+        [Bindable]
+        public var backresult:ArrayCollection;
+         private function backResult(event:ResultEvent):void
+          {
+                 backresult =ArrayCollection(event.result);
+                 Lleft.dataProvider=backresult;
+             
+          }
+         private function scResult(event:ResultEvent):void
+         {      
+                    rsarr =ArrayCollection(event.result).toArray() ;
+                    var root:Object=findChildren("", rsarr); 
+                    var tree:Object=platToHierarchical(rsarr, root[0]); 
+                    var hier:HierarchicalData=new HierarchicalData(tree); 
+                    adg1.dataProvider=hier; 
+               }
+			[Bindable]
+			public var resourcecode:String;
+			public var resourcename:String;
+		  ]]>
+	</mx:Script>
+	 <mx:RemoteObject id="rfromObject" destination="selectchirdrenform" result="scResult(event)" 
+      showBusyCursor="true"/>  
+      <mx:RemoteObject id="backObject" destination="selectchirdrenform" result="backResult(event)" 
+      showBusyCursor="true"/> 
+       <mx:Canvas height="100%" width="920">
+       <mx:Label text="该资源为：" width="92" y="2" x="10"/>
+       <mx:Label id="ResourceData" text="{resourcecode}" width="335" x="83" y="2"/>
+       <mx:AdvancedDataGrid x="0" fontSize="12" y="26" id="adg1"  itemClick="treeEvent(event)"  designViewDataType="tree" width="364" height="100%"> 
+            <mx:columns> 
+                  <mx:AdvancedDataGridColumn headerText="所选资源目录" dataField="rname"/> 
+            </mx:columns> 
+        </mx:AdvancedDataGrid> 
+        <mx:Label text="所选资源" x="372" y="2"/>
+          <mx:List id="Lleft" 
+	      	     labelField="rname"
+	      	     allowMultipleSelection="true"
+	      	     dragEnabled="true" 
+	      	     dragMoveEnabled="true"
+	      	     dropEnabled="true"
+	      		 width="461" height="100%" x="372" y="30"/>
+	      		 <mx:Button id="bttok" label="确定" x="841" y="410" width="79"/>
+	      		 <mx:Button id="bttCannel" label="取消" x="841" y="474" width="79"/>
+	   	</mx:Canvas>
+</mx:Canvas>

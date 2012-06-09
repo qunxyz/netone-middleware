@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  fontSize="15" width="552" height="50">
+	<mx:Script>
+		<![CDATA[
+			import framework.variable;
+			import mx.controls.Alert;
+			import BI.EvTijiao;
+			import BI.EvTjFs;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			
+			[Bindable]//序号
+			public var index:String;
+			[Bindable]//图表
+			public var textChart:String;
+			public function SChart():void{
+			BTData.TwoID=this.id;
+		    variable.modelname="两层砖取";   
+			var sct:SelectCharTree=new SelectCharTree();
+			PopUpManager.addPopUp(sct,this.parent.parent,true);
+			PopUpManager.centerPopUp(sct as IFlexDisplayObject);
+			}
+    
+			//点击添加
+			 
+		]]>
+	</mx:Script>
+	<mx:TextInput id="textinput" text="{textChart}" x="61" y="0" height="40" width="389"/>
+	<mx:Button x="458" y="10" label="选择图表" click="SChart()"/>
+	<mx:Label id="lable" text="{index}" x="10" y="8"  width="55"/>
+</mx:Canvas>

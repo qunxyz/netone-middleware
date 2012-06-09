@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:ns1="safe.*" xmlns:ns2="safetwo.*">
+	<mx:ViewStack id="classrolecom" x="0" y="0"  width="100%" height="100%">
+		<ns1:deprole id="deprole" label="部门角色" width="100%" height="100%">
+		</ns1:deprole>
+		<ns2:roleCreate id="roleCreate" label="创建部门角色" width="100%" height="100%">
+		</ns2:roleCreate>
+		<ns2:roleListCreate id="roleListCreate" label="创建角色目录" width="100%" height="100%">
+		</ns2:roleListCreate>
+	</mx:ViewStack>
+</mx:Canvas>

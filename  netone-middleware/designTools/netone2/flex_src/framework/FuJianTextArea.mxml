@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas width="600" height="40" fontSize="15" 
+		  x="0" y="0"  xmlns:mx="http://www.adobe.com/2006/mxml" >
+		      	<mx:Label x="0" y="9" text="附件提示:" />
+		      	<mx:TextArea id="fujiantext"  text="{variable.fujiantishi}" x="91" y="0"  height="35" width="499"/>
+ </mx:Canvas>
+ 
+ 

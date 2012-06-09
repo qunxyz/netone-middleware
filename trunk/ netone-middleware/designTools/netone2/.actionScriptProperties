@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionScriptProperties mainApplicationPath="login.mxml" version="3">
+<compiler additionalCompilerArguments="-services &quot;E:/code/netone/WebContent/WEB-INF/flex/services-config.xml&quot; -locale en_US" copyDependentFiles="true" enableModuleDebug="true" flexSDK="Flex 3.2" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersion="10.0.0" htmlPlayerVersionCheck="true" outputFolderPath="WebContent" rootURL="http://127.0.0.1:81/netone" sourceFolderPath="flex_src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
+<compilerSourcePath/>
+<libraryPath defaultLinkType="1">
+<libraryPathEntry kind="4" path="">
+<modifiedEntries>
+<libraryPathEntry kind="3" linkType="4" path="${PROJECT_FRAMEWORKS}/libs/framework.swc" useDefaultLinkType="true">
+<crossDomainRsls>
+<crossDomainRslEntry autoExtract="true" policyFileUrl="" rslUrl="framework_3.5.0.12683.swz"/>
+<crossDomainRslEntry autoExtract="true" policyFileUrl="" rslUrl="framework_3.5.0.12683.swf"/>
+</crossDomainRsls>
+</libraryPathEntry>
+</modifiedEntries>
+</libraryPathEntry>
+<libraryPathEntry kind="1" linkType="1" path="flex_libs"/>
+</libraryPath>
+<sourceAttachmentPath/>
+</compiler>
+<applications>
+<application path="selectFlow.mxml"/>
+<application path="BrickTakeEntry.mxml"/>
+<application path="login.mxml"/>
+<application path="StateZHU.mxml"/>
+<application path="Diagram.mxml"/>
+<application path="WConfigEngine.mxml"/>
+<application path="BiAnalysis.mxml"/>
+<application path="PLShow.mxml"/>
+<application path="Shujuyizhi.mxml"/>
+<application path="shujuguanli.mxml"/>
+<application path="NewDMXML.mxml"/>
+<application path="chart.mxml"/>
+<application path="Polling.mxml"/>
+<application path="UpdateDoForm.mxml"/>
+<application path="NewDoForm.mxml"/>
+<application path="DyFormView.mxml"/>
+<application path="index.mxml"/>
+<application path="sourceSelects.mxml"/>
+<application path="GenXML.mxml"/>
+<application path="cas.mxml"/>
+<application path="PhoneConfig.mxml"/>
+<application path="SafeManage.mxml"/>
+<application path="UseApplication.mxml"/>
+<application path="NewBIXML.mxml"/>
+</applications>
+<modules/>
+<buildCSSFiles>
+<buildCSSFileEntry destPath="WebContent" sourcePath="flex_src/SuperBox1.css"/>
+<buildCSSFileEntry destPath="WebContent" sourcePath="flex_src/SuperBox2.css"/>
+<buildCSSFileEntry destPath="WebContent" sourcePath="flex_src/SuperBox.css"/>
+<buildCSSFileEntry destPath="WebContent" sourcePath="flex_src/ching.css"/>
+</buildCSSFiles>
+</actionScriptProperties>

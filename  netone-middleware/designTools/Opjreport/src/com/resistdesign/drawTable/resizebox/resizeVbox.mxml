@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 borderColor="#000000"
+		 borderStyle="solid"   verticalGap="0" borderSides="['top','right']"
+		 
+		 >
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.drawTable.Table;
+			
+			public var table:Table;
+			
+			[Bindable]
+			public var actionbtn:Boolean=false;
+			
+			
+			
+			public function delrowbox(index:int,boxh:Number)
+			{
+				
+				this.removeChildAt(index);
+				
+				
+				for(var i:int=index;i<this.numChildren;i++)
+				{
+					(this.getChildAt(i) as ResizeVnote).updatebox();
+				}
+				
+				
+			}
+			
+			
+			public function insertrowbox(index:int,boxh:Number)
+			{
+			     var box:Rowbox=new Rowbox();
+				box.height=boxh;
+				box.init(table);
+				this.addChildAt(box,index); 
+				
+				
+				for(var i:int=index;i<this.numChildren;i++)
+				{
+					(this.getChildAt(i) as ResizeVnote).updatebox();
+				}  
+			}
+			
+			
+			
+			public function init(_table:Table,rownum:int,boxh:Number):void
+			{
+				
+				for(var i:int=0;i<rownum-1;i++)
+				{
+					var box:Rowbox=new Rowbox();
+					box.height=boxh;
+					table=_table;
+					box.init(_table);
+					this.addChild(box);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+</mx:VBox>

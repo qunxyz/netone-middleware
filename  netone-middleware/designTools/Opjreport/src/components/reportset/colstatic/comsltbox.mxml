@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<maininfo:mianwindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx"    xmlns:maininfo="com.openj.main.maininfo.*" width="368" height="346">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.reportsetcolr.SQLselect;
+			import com.resistdesign.reportsetcolr.Soaselect;
+			import com.resistdesign.reportsetcolr.resource;
+			
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			public var selectobj:Object;
+			[Bindable]//数据绑定
+			public  var DataBind:String="";
+ 
+			//字段绑定
+			private function getField():void{
+			var sqlselect:SQLselect=new SQLselect();
+			sqlselect.selectobj=selectobj;
+			sqlselect.seletextobj=this;
+			PopUpManager.addPopUp(sqlselect,this,true);
+			PopUpManager.centerPopUp(sqlselect as IFlexDisplayObject);
+			
+			}
+			//soa 的数据帮定
+			private function getSOA():void{
+			var soa:Soaselect=new Soaselect();
+			soa.selectobj=selectobj;
+			soa.seletextobj=this;
+			PopUpManager.addPopUp(soa,this,true);
+			PopUpManager.centerPopUp(soa as  IFlexDisplayObject);
+			
+			}
+			//资源的绑定
+			private  function getResource():void{
+			var rep:resource=new resource();
+			rep.selectobj=selectobj;
+			rep.seletextobj=this;
+			PopUpManager.addPopUp(rep,this,true);
+			PopUpManager.centerPopUp(rep as IFlexDisplayObject);
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<mx:DataGrid id="dg" x="10" y="14" width="348" height="200">
+		<mx:columns>
+			<mx:DataGridColumn dataField="label"  headerText="文本" />
+			<mx:DataGridColumn dataField="value"  headerText="值" />
+			<mx:DataGridColumn   headerText="默认值">
+				<mx:itemRenderer>
+					<fx:Component >	
+						<mx:HBox horizontalAlign="center">
+							<s:Button id="chk1" label="默认值"   click="btnClick()"/>
+							
+							<fx:Script>
+								<![CDATA[
+								import mx.managers.PopUpManager; 
+								public function btnClick():void{
+									parentDocument.selectobj.firstCmd();
+								}
+								]]>
+								
+							</fx:Script>
+						</mx:HBox>
+						
+					</fx:Component>
+				</mx:itemRenderer>
+			</mx:DataGridColumn>
+			<mx:DataGridColumn   headerText="删除">
+				<mx:itemRenderer>
+
+					<fx:Component >	
+						<mx:HBox horizontalAlign="center">
+							<s:Button id="btn1" label="删除" click="btnClick()"/>
+							<fx:Script>
+								<![CDATA[
+								private function btnClick():void{
+								parentDocument.selectobj.deleteData();
+								}
+								]]>
+							</fx:Script>
+						</mx:HBox>
+						
+					</fx:Component>
+					
+				</mx:itemRenderer>
+			</mx:DataGridColumn>
+		</mx:columns>
+	</mx:DataGrid>
+	<s:TextInput id="text" x="53" y="223" width="92" />
+	<s:TextInput id="Altetive" x="17" text="{DataBind}"  y="251" width="267" />
+	<s:Button x="288" y="223" label="添加" click="selectobj.setListData()"/>
+	<s:Button x="101" y="282" label="字段绑定" click="getField()"/>
+	<s:Button x="185" y="282" label="资源绑定" click="getResource()"/>
+	<s:Button x="10" y="282" label="SOA配置" click="getSOA()"/>
+	<s:Label x="17" y="227" fontSize="12" text="文本："/>
+	<s:Label x="151" y="227" fontSize="12" text="值："/>
+	<s:TextInput id="value" x="176" y="223"/>
+</maininfo:mianwindow>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="207" styleName="child">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Style  source="css/WorkStyle.css"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Image;
+			import mx.core.DragSource;
+			import mx.core.UIComponent;
+			import mx.managers.DragManager;
+			
+			private function startdrag(e:MouseEvent,fmt:String)
+			{
+				var child:UIComponent = UIComponent( e.currentTarget ); 
+				var dragProxy:Image=new Image();
+				dragProxy.source=e.currentTarget.getStyle("icon");
+				var dragSource:DragSource= new DragSource();
+				dragSource.addData( {"obj":child,"soure":fmt,"lab":e.currentTarget.label},fmt);
+				DragManager.doDrag( child, dragSource, e,dragProxy,-20, -20, 0.8 );
+			}
+		]]>
+	</fx:Script>
+	
+	<mx:Panel id="clrmain" y="0" right="0" width="113" height="100%" color="#C6C8C9" fontSize="12"
+			  title="控件箱">
+		<s:TileGroup width="100%" height="100%"   horizontalAlign="right" horizontalGap="0"
+					 orientation="columns" requestedColumnCount="1" verticalAlign="top"
+					 verticalGap="0"     >
+			<mx:Button width="93" height="46" label="时间字段" fontWeight="normal"
+					   icon="@Embed('ico/repico/DateField.png')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'reptime')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="时间比较字段" color="#033B58" fontWeight="normal"
+					   icon="@Embed('ico/repico/DateChooser.png')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'reptimec')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="时间范围字段" color="#033B58"
+					   icon="@Embed('ico/repico/DateChooser.png')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'reptimes')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="字符字段" color="#033B58"
+					   icon="@Embed('ico/label.jpg')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'repstr')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="模糊查询" color="#033B58"
+					   icon="@Embed('ico/label.jpg')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'repstrdim')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="字符比较" color="#033B58"
+					   icon="@Embed('ico/label.jpg')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'repstrcompare')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="下拉列表" color="#033B58"
+					   icon="@Embed('ico/repico/ComboBox.png')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'repselect')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="数值字段" color="#033B58"
+					   icon="@Embed('ico/repico/TextInput.png')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'repnum')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="数值比较字段" color="#033B58"
+					   icon="@Embed('ico/repico/TextInput.png')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'repnumc')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="数值范围字段" color="#033B58"
+					   icon="@Embed('ico/repico/TextInput.png')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'repnumss')" styleName="conlsky"/>
+			<mx:Button width="100%" height="100%" label="资源" color="#033B58"
+					   icon="@Embed('ico/repico/Tree.png')" labelPlacement="bottom"
+					   mouseDown="startdrag(event,'replistss')" styleName="conlsky"/>
+			
+		</s:TileGroup>
+	</mx:Panel>
+</s:Group>

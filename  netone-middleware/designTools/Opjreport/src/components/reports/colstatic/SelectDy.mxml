@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="217" height="124">
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.DataReport;
+			import com.resistdesign.EvTijiao;
+			import com.resistdesign.FromSelect;
+			import com.resistdesign.GlobalManager;
+			import com.resistdesign.drawTable.TableCav;
+			import com.resistdesign.reportcolr.Dataset;
+			
+			import components.reports.reportmanage;
+			
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			
+			import spark.events.TextOperationEvent;
+			
+			protected function sqlchange(event:TextOperationEvent):void
+			{
+				try{
+					(reportmanage.selectobj as  Dataset).sqlstr=event.currentTarget.text;
+				}
+				catch(e:*)
+				{
+					(reportmanage.selectobj as   TableCav).sqlstr=event.currentTarget.text;
+				}
+			}
+			public function xuanzhe():void{
+				GlobalManager.getInstance().addEventListener(DataReport.Evnt_form,Evnt_form);
+				var fs:FromSelect=new FromSelect();
+				PopUpManager.addPopUp(fs,this.parent.parent.parent.parent,true);
+				PopUpManager.centerPopUp(fs as IFlexDisplayObject);
+			}
+			public function Evnt_form(event:EvTijiao):void{
+					 dyform.text=event.Formcode();
+					(reportmanage.selectobj as   TableCav).sqlstr=event.Formcode();
+					(reportmanage.selectobj as   TableCav).focdstr=DataReport.Fcod;
+				  
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<mx:HBox x="0" y="0" width="217" height="24" horizontalAlign="left" verticalAlign="middle" horizontalGap="2">
+		<mx:HRule width="81" height="18"/>
+		<s:Label color="#02094D" fontFamily="中易黑体" fontSize="12" fontStyle="italic" fontWeight="bold"
+				 text="选择表单"/>
+		<mx:HRule width="82" height="18"/>
+	</mx:HBox>
+	<s:Button x="23" y="32" width="72" height="26" label="选择表单" click="xuanzhe()"/>	
+	<s:TextArea id="dyform" x="23" y="66" width="173" height="51" text="" change="sqlchange(event)"/>
+</mx:Canvas>
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<maininfo:mianwindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:maininfo="com.openj.main.maininfo.*" width="360" height="194"
+					 title="保存"
+					 >
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import components.ReportSelect;
+			
+			import mx.controls.Alert;
+			public function savarep():void
+			{
+				/* (this.parentDocument as ReportSelect).saverepset(repid.text,repdisplay.text); */ 
+				this.doclose();
+				
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<mx:Canvas x="24" y="15" width="311" height="127" borderColor="#B5B5B5" borderStyle="solid"
+			   cornerRadius="4">
+		<mx:HBox x="63" y="25" verticalAlign="middle">
+			<s:Label x="90" y="47" fontSize="12" text="查询界面ID:" />
+			<s:TextInput id="repid"/>
+		</mx:HBox>
+		<mx:HBox x="41" y="57" verticalAlign="middle">
+			<s:Label fontSize="12" text="查询界面中文名:"/>
+			<s:TextInput x="147" y="84" id="repdisplay"/>
+		</mx:HBox>
+		<s:Button x="120" y="85" label="保存" fontSize="12" click="savarep()"/>
+	</mx:Canvas>
+	
+	
+</maininfo:mianwindow>
+

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<mx:Canvas   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			xmlns:s="library://ns.adobe.com/flex/spark" 
+			xmlns:mx="library://ns.adobe.com/flex/mx"  initialize="init()"  
+			fontSize="12"  width="100%" height="300" >
+	<fx:Script>
+		<![CDATA[
+			/**
+			 *  报表设计器   创建资源页面
+			 *  xuwei（2012-3-13）
+			 * 
+			 * 
+			 * */
+			import mx.collections.ArrayCollection;
+			import mx.containers.TitleWindow;
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			import mx.controls.Button;
+			import mx.events.FlexEvent;
+			import mx.events.ScrollEvent;
+			import mx.logging.ILogger;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			public var params:Object;
+			[Bindable]
+			public var vs:ViewStack;
+			[Bindable]
+			public var textpath:String="";
+			public function init():void{ //初始化的方法	           
+			 vs=this.parent as ViewStack;
+			 textpath="路径： "+ DataReport.URLname+" 第1步，共3步"; 
+			 if(DataReport.modeltype){
+			 }else{
+				 queryExtended1.qudongxuanz(DataReport.URLname);
+			 }
+			}
+			public function DownNode(event:MouseEvent):void{
+				if(DataReport.modeltype){
+					if(repid.text.toString()!="" && repdimxplay.text.toString()!=""){
+						queryID1.QueryID(DataReport.URLname,repid.text);
+					}else{
+						Alert.show("报表制定ID或报表制定中文名没有填写");
+					}
+				}else{
+					DataReport.repidID=repid.text.toString();
+					DataReport.repdimxpla=repdimxplay.text.toString(); 
+					var o:Object=this.parent.getChildByName("PortDesignerPage1");
+					vs.selectedChild=o as Canvas  
+		    	}
+				
+			}
+			public function Cancel():void{
+				navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+			}
+			//判断naturalname是否存在
+			public function handerResult1(event:ResultEvent):void{
+				if(event.result as String =="0"){
+					Alert.show("ID已经存在");
+				}else{
+					DataReport.repidID=repid.text.toString();
+					DataReport.repdimxpla=repdimxplay.text.toString(); 
+					 var o:Object=this.parent.getChildByName("PortDesignerPage1");
+					 vs.selectedChild=o as Canvas  
+				}
+				
+			}
+			//获取资源里面的数据
+			public function queryExtended1_resultHandler(event:ResultEvent):void{
+				
+				var arr:ArrayCollection=event.result as ArrayCollection;
+				var xml:XML=new XML();
+				xml=XML(arr[0]);
+				DataReport.controlxml=xml;
+				var arrstr:Array=(arr[2] as String).split(".");
+				repid.text=arrstr[arrstr.length-1];
+				repid.editable=false;
+				repdimxplay.text=arr[1] as String;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:RemoteObject id="queryExtended1" destination="QueryExtended1" result="queryExtended1_resultHandler(event)"/>
+		<s:RemoteObject id="queryID1" destination="QueryID1" showBusyCursor="true"   result="handerResult1(event)" />
+	</fx:Declarations>
+	<mx:Canvas width="100%" height="189" >
+		<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+		<mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="创建资源"/>
+		<mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+			<mx:Label x="19" y="0" text="报表制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:从以下填写需要的资源ID与资源名称 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+	<mx:Canvas  width="863" height="282"  x="137" y="207">
+		<mx:HBox x="0" y="50" verticalAlign="middle" width="445" height="64">
+			<mx:Label  text="报 表 制 定 ID:"  fontSize="19" width="171" fontWeight="bold"/>
+			<mx:TextInput id="repid" width="240" restrict="a-zA-Z0-9"  height="34" fontSize="14"/>
+		</mx:HBox>
+		<mx:HBox x="0" y="153" verticalAlign="middle" width="445" height="64">
+			<mx:Label  text="报表制定中文名:" fontSize="19"  width="171" fontWeight="bold"/>
+			<mx:TextInput x="147" y="84" id="repdimxplay" width="240" height="34" fontSize="14"/>
+		</mx:HBox>
+	</mx:Canvas>
+	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+	</mx:Canvas>
+	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+
+</mx:Canvas>
+

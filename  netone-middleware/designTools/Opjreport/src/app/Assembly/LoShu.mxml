@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009"   
+		   xmlns:s="library://ns.adobe.com/flex/spark"   
+		   xmlns:mx="library://ns.adobe.com/flex/mx"  fontSize="15"  width="90%" height="100%" initialize="{init()}">
+	<fx:Script>
+		<![CDATA[
+			import app.config.DelEvent;
+			
+			import com.resistdesign.GlobalManager;
+			
+			import mx.controls.Alert;
+			/**
+			 * 应用程序   第一级配置组件 
+			 *  xu wei（2012-30-18）
+			 * 
+			 * */
+			
+			[Bindable]//记录组建s
+			public var arrID:Array=new Array();
+			[Bindable]//流程的节点数
+			public var index:int;
+ 
+			public function init():void{ //初始化的方法	 
+			GlobalManager.getInstance().addEventListener("ADDSelectChart",AddSelectChart);   
+			GlobalManager.getInstance().addEventListener("DelSelectChart",DelSelectChart);
+			var su:OneConfig=new OneConfig();
+			su.x=10;
+			su.y=10;
+			su.index="1";
+			arrID.push(su);
+			this.addChild(su);
+			}
+			
+			//添加AddSelectChart 方法
+			public function AddSelectChart(event:DelEvent):void{  
+				var su:OneConfig=new OneConfig();
+				su.x=10;
+				su.y=event.Comp().y+event.Comp().height+10;
+				for(var Add:int=0;Add<arrID.length;Add++){
+					if(arrID[Add]==event.Comp()){
+						if(Add==arrID.length-1){
+							arrID.push(su);
+						}else{
+							arrID.splice(Add+1,0,su);
+							for(var d:int=Add+2;d<arrID.length; d++){
+								arrID[d].y= arrID[d].y+event.Comp().height+10;
+							}
+						}
+					}
+				}
+				this.removeAllChildren();
+				for(var i:int=0;i<arrID.length;i++){
+					arrID[i].index=(i+1).toString();
+					this.addChild(arrID[i]);
+				}	
+				index++;
+				
+			}
+			
+			//删除 DelSelectChart 方法
+			public function DelSelectChart(event:DelEvent):void{
+				if(arrID.length>1){
+					this.removeAllChildren();
+					for(var Del:int=0;Del<arrID.length;Del++){
+						if(arrID[Del]==event.Comp()){
+							if(Del!=arrID.length-1){
+								for(var j:int=arrID.length-1;j>Del;j--){		
+									arrID[j].y=arrID[j-1].y;			
+								} 
+							}
+							arrID.splice(Del,1);
+						}
+					}	
+					
+					for(var i:int=0;i<arrID.length;i++){
+						arrID[i].index=(i+1).toString();
+						this.addChild(arrID[i]);
+					}			
+				}
+			}
+
+		]]>
+	</fx:Script>
+ 
+</mx:Canvas>

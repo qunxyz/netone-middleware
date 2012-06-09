@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				x="0" y="0" width="608" height="384" close="Exit(event)" fontSize="13"
+				fontWeight="bold" initialize="{init()}"  title="选择字段">
+	 <fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.HierarchicalData;
+			import mx.collections.XMLListCollection;
+			import mx.containers.TitleWindow;
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CloseEvent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.events.TreeEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+					[Bindable]
+					public var selectedNode:ArrayCollection;
+					[Bindable]
+					public var backresult:ArrayCollection;
+					[Bindable]
+					public  var rsarr:Array;
+					[Bindable]
+					private var vs:ViewStack;
+				   
+			[Bindable]
+			public var arryuanziduan:ArrayCollection;
+ 
+			 private function init():void
+			  {   
+				 vs=this.parent as ViewStack;
+				 gfn.Columname(DataReport.focdstr);				 
+			   }
+	
+		
+			public function handerResult(event:ResultEvent):void{
+				selectedNode=event.result as ArrayCollection;
+			}
+		  private function getChild(str:String):Object{ 
+			   for each(var obj:* in vs.getChildren()){ 
+				   if(obj.name==str){ 
+				   break; 
+					} 
+					} 
+			 return obj; 
+			} 
+			 
+			//确定
+			public function clickbttok(event:MouseEvent):void{
+			 var brr:ArrayCollection=Lright.dataProvider as ArrayCollection;
+				brr=Lright.dataProvider as ArrayCollection;
+				if(brr.length>0){
+				if(brr.length==1){
+					if(DataReport.type=="colums"){
+					 GlobalManager.getInstance().dispatchEvent(new EvTijiao(DataReport.Evnt_ziduan,brr[0].columname+"//"+brr[0].columnid));
+					}
+				   PopUpManager.removePopUp(this as IFlexDisplayObject);
+					Lright.dataProvider=null;
+					Lleft.dataProvider=null;
+			    	GlobalManager.getInstance().dispatchEvent(new EvTijiao(DataReport.Evnt_Data,brr[0].columname+"//"+brr[0].columnid));
+			   }else{ Alert.show("只能选择一张表");}
+			 }else{
+			  Alert.show("不能为空");
+			 }
+			}
+				public function quxiao():void
+				{
+				  PopUpManager.removePopUp(this as IFlexDisplayObject);  
+				  Lright.dataProvider=null;
+				  Lleft.dataProvider=null;  
+				}
+			  public function Exit(evt:CloseEvent):void    
+				{
+				  PopUpManager.removePopUp(evt.target as IFlexDisplayObject);  
+				  Lright.dataProvider=null;
+				  Lleft.dataProvider=null;  
+				}
+			//从focd中获取到字段数据
+			public function handerResult1(event:ResultEvent):void{
+				arryuanziduan=event.result as ArrayCollection;
+				selectedNode=arryuanziduan
+			}
+			
+		]]>
+	 </fx:Script>
+	<fx:Declarations>
+	 <s:RemoteObject id="selecttabletree"   destination="tablename" showBusyCursor="true"  result="handerResult(event)"/>
+	 <s:RemoteObject id="gfn" destination="getformname" result="{handerResult1(event)}" showBusyCursor="true"/>  
+	</fx:Declarations>
+		<mx:HBox height="100%" width="614" fontSize="15">
+			<mx:Canvas  width="611" height="100%">
+			<mx:Label text="字段:" fontSize="17" x="10"/>
+			   <mx:List id="Lleft" labelField="columname"
+					 allowMultipleSelection="true"
+					 dragEnabled="true" 
+					 dragMoveEnabled="true" 
+					 dropEnabled="true" dataProvider="{selectedNode}"
+					 width="283" height="266" x="10" y="34"/>
+					 <mx:Label text="所需字段:" fontSize="17" x="301" id="rightList"/>
+			  <mx:List id="Lright" labelField="columname"
+					  allowMultipleSelection="true"
+					  dragEnabled="true" 
+					  dragMoveEnabled="true"
+					  dropEnabled="true"
+					  width="291" height="266" x="305" y="33"/>
+				<mx:Canvas x="2" y="310" width="594">
+				 <mx:Button id="bttok" x="210" y="0" width="87" label="确定" click="clickbttok(event)"/>
+				 <mx:Button  label="取消" click="quxiao()" x="305"  y="0" width="87"/>
+				</mx:Canvas>
+		   </mx:Canvas>
+		  </mx:HBox>
+	</s:TitleWindow>

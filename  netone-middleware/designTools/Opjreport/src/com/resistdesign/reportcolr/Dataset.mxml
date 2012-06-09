@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"  toolTip="{_sqlstr}">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			private var _sqlstr:String="-NULL-";
+			[Bindable]
+			private var _focd:String="";
+			
+			public function get sqlstr():String
+			{
+				return _sqlstr;
+			}
+
+			public function set sqlstr(value:String):void
+			{
+				_sqlstr = value;
+			}
+            
+			public function get focd():String{
+			  return this._focd;
+			}
+			public function set focd(focd:String):void{
+			 this._focd=focd;
+			}
+		]]>
+	</fx:Script>
+</s:Button>

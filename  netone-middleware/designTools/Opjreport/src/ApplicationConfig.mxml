@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:ns1="app.config.*"
+			   xmlns:s="library://ns.adobe.com/flex/spark"  initialize="init()" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import app.config.DataApp;
+			import app.config.SystemStyle;
+			
+			import mx.controls.Alert;
+			import mx.core.Application;
+			import mx.core.FlexGlobals;
+			import mx.events.ResizeEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bidable]//定义params
+			public var params:Object;
+			public function init():void{
+				var args:Object = getParams(); 
+			   if(args.naturalname!=""){
+			   DataApp.URLname=args.naturalname; 
+			   }
+			}
+			//获取URL上的 naturalname的数据
+			private function getParams():Object { 
+				params = {}; 
+				var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+				if(query) { 
+					var pairs:Array = query.split("&"); 
+					for(var i:uint=0; i < pairs.length; i++) { 
+						var pos:int = pairs[i].indexOf("=");  
+						if(pos != -1) { 
+							var argname:String = pairs[i].substring(0, pos); 
+							var value:String = pairs[i].substring(pos+1); 
+							params[argname] = value; 
+						} 
+					} 
+				} 
+				return params; 
+			} 
+			
+ 
+		]]>
+	</fx:Script>
+	<mx:ViewStack id="ViewStack1" width="100%"  height="100%" x="0" y="0">
+		 <ns1:Applicationpage id="Applicationpage1" width="100%" height="100%" x="0" y="0"/>
+		 <ns1:SystemColour id="SystemColour1" width="100%" height="100%" x="0" y="0"/>
+		 <ns1:BackgroundConfig id="BackgroundConfig1" width="100%" height="100%" x="0" y="0"/>
+		 <ns1:AppPone id="AppPone1" width="100%" height="100%" x="0" y="0"/>
+		 <ns1:LevelIItype id="LevelIItype1" width="100%" height="100%" x="0" y="0"/>
+		 <ns1:Appconfigwy id="Appconfigwy1" width="100%" height="100%" x="0" y="0"/>
+		 <ns1:Appconfigsjl id="Appconfigsjl1" width="100%" height="100%" x="0" y="0"/>
+	</mx:ViewStack>
+</s:Application>

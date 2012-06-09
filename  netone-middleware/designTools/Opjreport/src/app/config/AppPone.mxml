@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<mx:Canvas   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx"  initialize="init()"  
+			 fontSize="12"  width="1262" height="670" >
+	<fx:Script>
+		<![CDATA[
+			import app.Assembly.OneConfig;
+			
+			import com.resistdesign.EvTijiao;
+			import com.resistdesign.GlobalManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.containers.TitleWindow;
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			import mx.controls.Button;
+			import mx.events.FlexEvent;
+			import mx.events.ScrollEvent;
+			import mx.logging.ILogger;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			public var params:Object;
+			[Bindable]
+			public var vs:ViewStack;
+			[Bindable]
+			public var textpath:String="";
+			[Bindable]//记录组建
+			public var arrID:Array=new Array();
+			[Bindable]//流程的节点数
+			public var index:int;
+			public  var fileReference:FileReference = new FileReference();
+			//这个地址是我测试用的服务器地址
+			private var urlrequest: URLRequest;
+			private var byteArray:ByteArray;
+			public function init():void{ //初始化的方法	 
+				GlobalManager.getInstance().addEventListener("UploadimageAction",singleThreadUploadFile);
+        		vs=this.parent as ViewStack;
+				textpath="路径： "+ DataApp.URLname+" 第2步，共"+DataApp.index+"步"; 
+				fileReference.addEventListener(Event.COMPLETE, completeHandler);
+				fileReference.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+				fileReference.addEventListener(Event.COMPLETE, completeHandler);			 
+				addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);   
+				
+			}
+ 
+			private function ioErrorHandler(e:IOErrorEvent): void
+			{
+				Alert.show(e.text);
+			}
+			//上传图片的方法
+			private function singleThreadUploadFile(event:EvTijiao): void
+			{
+			    //FIFO：逐个从列表中取出，进行同步上传
+				urlrequest = new URLRequest(DataApp.WEBSER_WebSerivce+"/uploadimageaction?id="+event.Formcode()+"&userid="+DataApp.userid);
+				fileReference.addEventListener(Event.COMPLETE, doSingleUploadFileComplete);
+				fileReference.addEventListener(HTTPStatusEvent.HTTP_STATUS ,resultHandler);
+				fileReference.upload(urlrequest);
+				
+			}
+			//返回是否上传成功
+			private function resultHandler(event: HTTPStatusEvent):void {
+				if (event.status.valueOf() == 800) {
+					navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');;
+				} else if (event.status.valueOf() == 700) {
+					Alert.show("上传失败");
+				}
+			}
+			private function doSingleUploadFileComplete(event: Event): void
+			{
+				var f: FileReference = event.target as FileReference;
+				f.removeEventListener(Event.COMPLETE, doSingleUploadFileComplete);	
+			}
+			//选择图片
+			public function dianji():void{
+				fileReference.browse([new FileFilter("Images (*.jpg, *.jpeg, *.gif, *.png)", "*.jpg;*.jpeg;*.gif;*.png") ]);
+				fileReference.addEventListener(Event.SELECT, fileReferenceSelectHandler);
+			}
+			//选择完图片的促发事件
+			private function fileReferenceSelectHandler(e:Event):void
+			{ 
+				fileReference.load();
+			}
+			
+			private function completeHandler(e: Event): void
+			{   
+				byteArray=fileReference.data;
+				image.source=byteArray;
+			} 
+
+			
+			//上一步的方法
+			public function UPNode(evetn:MouseEvent):void{
+				var o:Object=this.parent.getChildByName("Applicationpage1");
+				vs.selectedChild=o as Canvas;
+			}//下一步的方法
+			public function DownNode(event:MouseEvent):void{
+				DataApp.url="";
+				var o:Object=this.parent.getChildByName("LevelIItype1");
+				vs.selectedChild=o as Canvas;
+				if(model1.selected){
+					DataApp.active="1";
+				}
+				if(model2.selected){
+					DataApp.active="0";
+				}
+				LevelIItype.returnpage="AppPone1";
+			}
+			public function Cancel():void{
+				navigateToURL(new URLRequest('javascript:window.opener=null;window.close()'),'_self');
+			}
+ 
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+	 
+	</fx:Declarations>
+	<mx:Canvas width="100%" height="189" >
+		<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+		<mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="图标配置"/>
+		<mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+			<mx:Label x="19" y="0" text="手机程序配置" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置需要的界面信息 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+	<mx:Canvas id="canvas1"  width="863" height="334"  x="137" y="207" fontSize="18">
+		
+		<mx:Label   text="图标：" x="49" y="48"  width="102" height="24" />
+		<mx:Label   text="是否启用：" x="51" y="276"  width="102" height="24" />
+		<s:RadioButton id="model1" selected="true" x="161" y="276" label="是" fontWeight="bold"    groupName="radiogroup4"/>
+		<s:RadioButton id="model2" x="227" y="276" height="24" label="否"   fontWeight="bold"
+					   groupName="radiogroup4"/>
+		<mx:Image id="image" x="130" y="48" width="197" height="175" />
+		<mx:Button x="369" y="48" width="125" height="26" label="选择图表" click="dianji()"/>
+	</mx:Canvas>
+	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+	</mx:Canvas>
+	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+	
+</mx:Canvas>
+

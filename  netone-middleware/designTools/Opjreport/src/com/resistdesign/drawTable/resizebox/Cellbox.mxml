@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resizebox:ResizeNote xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:resizebox="com.resistdesign.drawTable.resizebox.*"
+					  height="20"   horizontalGap="0"  
+					  mouseDown="setcell()"  
+					  resize="setResize(event)"
+					  >
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.DataReport;
+			import com.resistdesign.drawTable.Table;
+			
+			import mx.controls.Alert;
+			import mx.events.ResizeEvent;
+			public var table:Table;
+			
+		    
+			public function init(_table:Table)
+			{
+				table=_table
+			}
+
+			
+			private function setcell()
+			{
+				DataReport.index=lable1.text; 
+				this.parentDocument.actionbtn=true;
+
+				this.parentDocument.parentDocument.leftbox.x=this.x+30-5;
+				this.parentDocument.parentDocument.leftbox.insertcellidx=this.idx2;
+				
+				this.parentDocument.parentDocument.topbox.x=this.x+30+(this.width/2)-5;
+				this.parentDocument.parentDocument.topbox.insertcellidx=this.idx2;
+				
+				this.parentDocument.parentDocument.rightbox.x=this.x+30+this.width-5;
+				this.parentDocument.parentDocument.rightbox.insertcellidx=this.idx2+1;
+				
+				this.parentDocument.parentDocument.topbox.selectw=this.width;
+				
+				
+				
+			}
+			private function setResize(e:ResizeEvent)
+			{
+				this.parentDocument.parentDocument.leftbox.x=e.currentTarget.x+30-5;
+				this.parentDocument.parentDocument.leftbox.insertcellidx=e.currentTarget.idx2;
+				
+				this.parentDocument.parentDocument.topbox.x=e.currentTarget.x+30+(e.currentTarget.width/2)-5;
+				this.parentDocument.parentDocument.topbox.insertcellidx=e.currentTarget.idx2;
+				
+				this.parentDocument.parentDocument.rightbox.x=e.currentTarget.x+30+e.currentTarget.width-5;
+				this.parentDocument.parentDocument.rightbox.insertcellidx=e.currentTarget.idx2+1;
+				
+				
+				this.parentDocument.parentDocument.topbox.selectw=this.width;
+				
+			}
+			
+			
+			
+			
+		]]>
+	</fx:Script>
+	
+	
+	
+	<mx:Label  id="lable1" width="{this.width-device.width}" height="{this.height}" 
+    text="{this.boxlabel}" textAlign="center"/>
+	<resizebox:Celldevice  id="device"   resizeobj="{this}"/>
+
+
+</resizebox:ResizeNote>

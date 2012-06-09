@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark"
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   xmlns:reportset="components.reportset.*"
+		   xmlns:reports="components.reports.*" styleName="bianh"
+		   width="1036" creationComplete="init(event)">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:Parallel  id="hid">
+			<s:Parallel target="{clrbar1.clrmain}" duration="500">
+				<mx:Move yFrom="0"  yTo="-560"/>
+				<s:Fade alphaFrom="1" alphaTo="0" />
+			</s:Parallel>
+			<s:Parallel  target="{squality.quamain}" duration="500">
+				<mx:Move  yFrom="0"  yTo="-560" />
+				<s:Fade alphaFrom="1" alphaTo="0" />
+			</s:Parallel>
+		</s:Parallel>
+		<s:Parallel   id="shw">
+			<s:Parallel  target="{clrbar1.clrmain}" duration="500">
+				<mx:Move  yFrom="-560"  yTo="0"/>
+				<s:Fade alphaFrom="0" alphaTo="1" />
+			</s:Parallel>
+			<s:Parallel target="{squality.quamain}" duration="500">
+				<mx:Move yFrom="-560"  yTo="0" />
+				<s:Fade alphaFrom="0" alphaTo="1" />
+			</s:Parallel>
+		</s:Parallel>
+		
+		<s:RemoteObject id="SaveAndRead" destination="SaveAndRead" result="SaveAndRead_resultHandler(event)"/>
+		<s:RemoteObject id="SaveAndRead1" destination="SaveAndRead"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.reportsetcolr.replistss;
+			import com.resistdesign.reportsetcolr.repnum;
+			import com.resistdesign.reportsetcolr.repnumc;
+			import com.resistdesign.reportsetcolr.repnumss;
+			import com.resistdesign.reportsetcolr.repselect;
+			import com.resistdesign.reportsetcolr.repstr;
+			import com.resistdesign.reportsetcolr.reptime;
+			import com.resistdesign.reportsetcolr.reptimec;
+			import com.resistdesign.reportsetcolr.reptimes;
+			import com.resistdesign.view.DockBox;
+			
+			import components.reportset.Inface;
+			import components.reportset.repclr;
+			import components.reportset.repsetmanage;
+			import components.reportset.setmanage;
+			
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.states.State;
+			
+			private var _repset:repsetmanage=new repsetmanage();
+			
+			
+			[Bindable]
+			public var ismody:Boolean=false;
+			protected function init(event:FlexEvent):void
+			{
+				if (getParams().type=="modify")
+				{
+					SaveAndRead.readxml(getParams().id);
+				}
+				else
+				{
+					
+				}
+				
+			}
+			private var params:Object; 
+			private function getParams():Object { 
+				params = {}; 
+				var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+				// Alert.show(ExternalInterface.call("window.location.href.toString",1)); 
+				// Alert.show(query); 
+				if(query) { 
+					var pairs:Array = query.split("&"); 
+					for(var i:uint=0; i < pairs.length; i++) { 
+						var pos:int = pairs[i].indexOf("="); 
+						//Alert.show(String(pos)); 
+						if(pos != -1) { 
+							var argname:String = pairs[i].substring(0, pos); 
+							var value:String = pairs[i].substring(pos+1); 
+							params[argname] = value; 
+						} 
+					} 
+				} 
+				return params; 
+			} 
+			
+			public function hide():void
+			{
+				hid.play(); 
+			}
+			public function show():void
+			{
+				shw.play();
+			}
+			public function saverepset(rid:String,rdisplay:String):void
+			{
+				if(rid==""|| rdisplay=="")
+				{
+					Alert.show("不能为空");
+					return;
+				}
+				var xmlstring:String =setm.getReportsetxml().toString();
+				xmlstring='<?xml version="1.0" encoding=\"utf-8\" ?>\r\n'+xmlstring
+				if(!DataRP.modeltype){
+					SaveAndRead1.Update(getParams().name,xmlstring,rid,rdisplay);
+				}else{
+				   SaveAndRead1.add(getParams().name,xmlstring,rid,rdisplay,"Reportds");
+				}
+				Alert.show("保存成功！");
+			}
+			
+			public var collist:XMLListCollection;
+			
+			protected function SaveAndRead_resultHandler(event:ResultEvent):void
+			{
+				
+				var repset:XML=new XML(event.result.toString());
+				
+				setm.sp3.selectlist=new XML(repset.replist);
+				setmanage.selectlist=new XML(repset.replist);
+				collist=new XMLListCollection(repset.clrlist.repclr);
+				mody();
+			}
+			public function mody():void
+			{
+				var cav:DockBox=setm.selectcav;
+				for (var i:int = 0; i < collist.length; i++) 
+				{
+					
+					var obj:Object=collist.getItemAt(i);
+					
+					switch(obj.@type.toString())
+					{
+						case "01":
+						{
+							var reptime1:reptime =new reptime();
+							reptime1.id=obj.@id;
+							reptime1.text=obj.@label;
+							setm.rt++;
+							reptime1.x = obj.@x;
+							reptime1.y = obj.@y;
+							reptime1.datetype="time"
+							reptime1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(reptime1);
+							setm.repset.setarrs(setm.idx,reptime1 as Object,"reptime",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "02":
+						{
+							var reptime1:reptime =new reptime();
+							reptime1.id=obj.@id;
+							reptime1.text=obj.@label;
+							setm.rt++;
+							reptime1.x = obj.@x;
+							reptime1.y = obj.@y;
+							reptime1.datetype="day"
+							reptime1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(reptime1);
+							setm.repset.setarrs(setm.idx,reptime1 as Object,"reptime",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "03":
+						{
+							var reptime1:reptime =new reptime();
+							reptime1.id=obj.@id;
+							reptime1.text=obj.@label;
+							setm.rt++;
+							reptime1.x = obj.@x;
+							reptime1.y = obj.@y;
+							reptime1.datetype="daytime"
+							reptime1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(reptime1);
+							setm.repset.setarrs(setm.idx,reptime1 as Object,"reptime",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "04":
+						{
+							var repstr1:repstr =new repstr();
+							repstr1.id=obj.@id;
+							setm.rstr++;
+							repstr1.text=obj.@label;
+							repstr1.x =obj.@x;
+							repstr1.y =obj.@y;
+							repstr1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(repstr1);
+							setm.repset.setarrs(setm.idx,repstr1 as Object,"repstr",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "05":
+						{
+							var repnum1:repnum =new repnum();
+							repnum1.id=obj.@id;
+							repnum1.text=obj.@label;
+							setm.rn++;
+							repnum1.x = obj.@x;
+							repnum1.y = obj.@y;
+							repnum1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(repnum1);
+							setm.repset.setarrs(setm.idx,repnum1 as Object,"repnum",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "06":
+						{
+							var obj2:reptimes =new reptimes();
+							obj2.id=obj.@id;
+							obj2.text=obj.@label;
+							setm.rts++;
+							obj2.x = obj.@x;
+							obj2.y = obj.@y;
+							obj2.datetype="time"
+							obj2.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(obj2);
+							setm.repset.setarrs(setm.idx,obj2 as Object,"reptimes",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "07":
+						{
+							var obj2:reptimes =new reptimes();
+							obj2.id=obj.@id;
+							obj2.text=obj.@label;
+							setm.rts++;
+							obj2.x = obj.@x;
+							obj2.y = obj.@y;
+							obj2.datetype="day"
+							obj2.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(obj2);
+							setm.repset.setarrs(setm.idx,obj2 as Object,"reptimes",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "08":
+						{
+							var obj2:reptimes =new reptimes();
+							obj2.id=obj.@id;
+							obj2.text=obj.@label;
+							setm.rts++;
+							obj2.x = obj.@x;
+							obj2.y = obj.@y;
+							obj2.datetype="daytime"
+							obj2.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(obj2);
+							setm.repset.setarrs(setm.idx,obj2 as Object,"reptimes",obj.@relat);
+							setm.idx++;
+							
+							break;
+						}
+						case  "09":
+						{
+							var repnums:repnumss =new repnumss();
+							repnums.id=obj.@id;
+							repnums.text=obj.@label;
+							setm.rns++;
+							repnums.x = obj.@x;
+							repnums.y = obj.@y;
+							repnums.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(repnums);
+							setm.repset.setarrs(setm.idx,repnums as Object,"repnumss",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "10":
+						{
+							var reptimec1:reptimec =new reptimec();
+							reptimec1.id=obj.@id;
+							reptimec1.text=obj.@label;
+							setm.rtc++;
+							reptimec1.x = obj.@x;
+							reptimec1.y = obj.@y;
+							reptimec1.datetype="time"
+							reptimec1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(reptimec1);
+							setm.repset.setarrs(setm.idx,reptimec1 as Object,"reptimec",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "11":
+						{
+							var repnumc1:repnumc =new repnumc();
+							repnumc1.id=obj.@id;
+							repnumc1.text=obj.@label;
+							setm.rnc++;
+							repnumc1.x = obj.@x;
+							repnumc1.y = obj.@y;
+							repnumc1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(repnumc1);
+							setm.repset.setarrs(setm.idx,repnumc1 as Object,"repnumc",obj.@relat);
+							setm.idx++;
+							
+							break;
+						}
+						case  "12":
+						{
+							var replistss1:replistss=new replistss();
+							replistss1.id=obj.@id;
+							replistss1.text=obj.@label;
+							setm.rlss++;
+							replistss1.x = obj.@x;
+							replistss1.y = obj.@y;
+							replistss1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							replistss1.rstype="reppers";
+							replistss1.binrs=obj.@data;
+							setm.selectcav.addChild(replistss1);
+							setm.repset.setarrs(setm.idx,replistss1 as Object,"replistss",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "13":
+						{
+							var replistss1:replistss=new replistss();
+							replistss1.id=obj.@id;
+							replistss1.text=obj.@label;
+							setm.rlss++;
+							replistss1.x = obj.@x;
+							replistss1.y = obj.@y;
+							replistss1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							replistss1.rstype="repperss";
+							replistss1.binrs=obj.@data;
+							setm.selectcav.addChild(replistss1);
+							setm.repset.setarrs(setm.idx,replistss1 as Object,"replistss",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "14":
+						{
+							var replistss1:replistss=new replistss();
+							replistss1.id=obj.@id;
+							replistss1.text=obj.@label;
+							setm.rlss++;
+							replistss1.x = obj.@x;
+							replistss1.y = obj.@y;
+							replistss1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							replistss1.rstype="replists";
+							replistss1.binrs=obj.@data;
+							setm.selectcav.addChild(replistss1);
+							setm.repset.setarrs(setm.idx,replistss1 as Object,"replistss",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "15":
+						{
+							var replistss1:replistss=new replistss();
+							replistss1.id=obj.@id;
+							replistss1.text=obj.@label;
+							setm.rlss++;
+							replistss1.x = obj.@x;
+							replistss1.y = obj.@y;
+							replistss1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							replistss1.rstype="replistss";
+							replistss1.binrs=obj.@data;
+							setm.selectcav.addChild(replistss1);
+							setm.repset.setarrs(setm.idx,replistss1 as Object,"replistss",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "16":
+						{
+							var replistss1:replistss=new replistss();
+							replistss1.id=obj.@id;
+							replistss1.text=obj.@label;
+							setm.rlss++;
+							replistss1.x = obj.@x;
+							replistss1.y = obj.@y;
+							replistss1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							replistss1.rstype="reprs";
+							replistss1.binrs=obj.@data;
+							setm.selectcav.addChild(replistss1);
+							setm.repset.setarrs(setm.idx,replistss1 as Object,"replistss",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "17":
+						{
+							var replistss1:replistss=new replistss();
+							replistss1.id=obj.@id;
+							replistss1.text=obj.@label;
+							setm.rlss++;
+							replistss1.x = obj.@x;
+							replistss1.y = obj.@y;
+							replistss1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							replistss1.rstype="reprss";
+							replistss1.binrs=obj.@data;
+							setm.selectcav.addChild(replistss1);
+							setm.repset.setarrs(setm.idx,replistss1 as Object,"replistss",obj.@relat);
+							setm.idx++;
+							break;
+						}
+						case  "18":
+						{
+							var repselect1:repselect =new repselect();
+							repselect1.id=obj.@id;
+							repselect1.text=obj.@label;
+							setm.rrs++;
+							repselect1.x = obj.@x;
+							repselect1.y = obj.@y;
+							repselect1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							
+							var cmbdata:String=obj.@data.toString();
+							if(cmbdata!=""&& cmbdata!="null")
+							{
+								var data:Array=cmbdata.split(",");
+								for (var j:int = 0; j < data.length; j++) 
+								{
+									
+									var data2:Array=(data[j].toString()).split("-");
+									repselect1.arr.addItem({label:data2[0].toString(),value:data2[1].toString()});
+								}
+							}
+							
+							setm.selectcav.addChild(repselect1);
+							setm.repset.setarrs(setm.idx,repselect1 as Object,"repselect",obj.@relat);
+							setm.idx++;
+							break;
+						}case  "19":
+						{
+							var reptimec1:reptimec =new reptimec();
+							reptimec1.id=obj.@id;
+							reptimec1.text=obj.@label;
+							setm.rtc++;
+							reptimec1.x = obj.@x;
+							reptimec1.y = obj.@y;
+							reptimec1.datetype="day"
+							reptimec1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(reptimec1);
+							setm.repset.setarrs(setm.idx,reptimec1 as Object,"reptimec",obj.@relat);
+							setm.idx++;
+							break;
+						}case  "20":
+						{
+							var reptimec1:reptimec =new reptimec();
+							reptimec1.id=obj.@id;
+							reptimec1.text=obj.@label;
+							setm.rtc++;
+							reptimec1.x = obj.@x;
+							reptimec1.y = obj.@y;
+							reptimec1.datetype="daytime"
+							reptimec1.addEventListener(MouseEvent.CLICK,setm.colclick);
+							setm.selectcav.addChild(reptimec1);
+							setm.repset.setarrs(setm.idx,reptimec1 as Object,"reptimec",obj.@relat);
+							setm.idx++;
+							break;
+						}
+					}
+				}
+				
+			}
+			
+			
+		]]>
+	</fx:Script>
+ 
+		<mx:HBox x="132" y="0" width="920" height="566" styleName="bianh" >
+			<reportset:setmain  id="setm" repset="{this.repset}"/>
+			<reportset:setquality id="squality"  height="560" repset="{this.repset}" />
+		</mx:HBox>
+	<reportset:selectcolbar id="clrbar1" x="4" y="6" width="117" height="560" styleName="bianh"/>
+ 
+</mx:Canvas>

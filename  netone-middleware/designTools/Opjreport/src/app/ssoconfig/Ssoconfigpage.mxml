@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<mx:Canvas   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark"  
+			 xmlns:mx="library://ns.adobe.com/flex/mx"  initialize="init()"  creationComplete="cpp()" 
+			 fontSize="12"  width="100%" height="100%" >
+	<fx:Script>
+		<![CDATA[
+			/**
+			 *  sso 配置界面
+			 *  xuwei（2012-5-3）
+			 * 
+			 * 
+			 * */
+			import mx.collections.ArrayCollection;
+			import mx.containers.TitleWindow;
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			import mx.controls.Button;
+			import mx.events.FlexEvent;
+			import mx.events.ScrollEvent;
+			import mx.logging.ILogger;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			public var params:Object;
+			[Bindable]
+			public var vs:ViewStack;
+			[Bindable]
+			public var textpath:String="";
+			public function init():void{ //初始化的方法	           
+				vs=this.parent as ViewStack;
+				textpath="路径： "+ DateSSO.URLname+" 第2步，共"+DateSSO.sum+"步"; 
+			}
+			public function cpp():void{
+				if(!DateSSO.modletype){
+				var xml:XML=DateSSO.Ssoxml;
+				newtextArea0.text=xml.config.@NewUrl;
+				newtextArea1.text=xml.config.@UpdateUrl;
+				newtextArea2.text=xml.config.@DelUrl;
+				newtextArea3.text=xml.config.@pws;
+				}
+			}
+			//上一步的方法
+			public function UPNode(evetn:MouseEvent):void{
+				var o:Object=this.parent.getChildByName("ssoresource1");
+				vs.selectedChild=o as Canvas;	
+			}
+			//下一步的方法
+			public function DownNode(event:MouseEvent):void{
+				
+				DateSSO.newtextArea0=newtextArea0.text.toString();
+				DateSSO.newtextArea1=newtextArea1.text.toString();
+				DateSSO.newtextArea2=newtextArea2.text.toString();
+				DateSSO.newtextArea3=newtextArea3.text.toString();
+					
+				var o:Object=this.parent.getChildByName("Ssourl1");
+				vs.selectedChild=o as Canvas;	
+ 
+			}
+			//取消
+			public function Cancel():void{
+				navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:Canvas width="100%" height="189" >
+		<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+		<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="695" fontSize="12" color="#53585C"/>
+		<mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="sso配置"/>
+		<mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+			<mx:Label x="19" y="0" text="报表制定" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:sso数据配置，然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+	<mx:Canvas  id="canvas1" width="90%" minHeight="300"   x="90" y="207"  fontSize="18" >
+	  <s:Label id="lable1" text="新增："  y="34" width="100" height="32" x="46"/>
+		<s:TextArea id="newtextArea1" x="146" y="92" width="482" height="38"/>
+		<s:TextArea id="newtextArea2" x="146" y="159" width="482" height="38"/>
+		<s:TextArea id="newtextArea3" x="146" y="233" width="482" height="38"/>
+		<s:TextArea id="newtextArea0" x="146" y="25" width="482" height="38"/>
+	  <s:Label id="lable2" text="修改："  x="46" y="100" width="75" height="32"/>
+	  <s:Label id="lable3" text="删除："  x="46" y="168" width="75" height="32"/>
+	  <s:Label id="lable4" text="密码模式："  x="46" y="242" width="100" height="32"/>
+	</mx:Canvas>
+	<mx:Canvas x="0" y="{canvas1.y+canvas1.height+70}" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+	</mx:Canvas>
+	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="{canvas1.y+canvas1.height+40}" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="{canvas1.y+canvas1.height+40}" height="28" width="97" fontSize="12"  />
+	<mx:Button x="{this.width-200}" y="{canvas1.y+canvas1.height+40}" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+	
+</mx:Canvas>
+

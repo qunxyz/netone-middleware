@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="217" height="108">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<mx:HBox x="0" y="0" width="217" height="22" horizontalAlign="left" verticalAlign="middle" horizontalGap="2">
+		<mx:HRule width="82" height="18"/>
+		<s:Label color="#02094D" fontFamily="中易黑体" fontSize="12" fontStyle="italic" fontWeight="bold"
+				 text="数据格式"/>
+		<mx:HRule width="82" height="18"/>
+	</mx:HBox>
+	<mx:VBox x="15" y="24" width="188" height="54" backgroundColor="#D2F6FD" borderStyle="solid"
+			 cornerRadius="7" horizontalAlign="center" verticalAlign="middle">
+		<mx:HBox  verticalAlign="middle">
+			<s:Label  text="合计方式："/>	
+			<s:DropDownList id="summation" width="120" labelField="label">
+				<s:dataProvider> 
+					<s:ArrayList> 
+						<fx:Object label="无" value="-NuLL-"/> 
+						<fx:Object label="累计" value="ToSum"/> 
+						<fx:Object label="平均值"  value="Toavg"/> 
+					</s:ArrayList> 
+				</s:dataProvider> 
+			</s:DropDownList>
+		</mx:HBox>
+		
+		<mx:HBox  verticalAlign="middle">	
+			<s:Label  text="转换类型："/>
+			<s:DropDownList id="tochange" width="121" labelField="label">
+				<s:dataProvider> 
+					<s:ArrayList> 
+						<fx:Object label="无" value="-NuLL-"/> 
+						<fx:Object label="转成数字" value="ToNum"/> 
+						<fx:Object label="转成字符串"  value="ToString"/> 
+						<fx:Object label="转成中文金额" value="ToCmoney"/> 
+					</s:ArrayList> 
+				</s:dataProvider> 
+			</s:DropDownList>
+		</mx:HBox>
+	</mx:VBox>
+	<mx:Button x="71" y="83" width="73" label="确定" color="#0F0F0F" cornerRadius="4" fontFamily="中易宋体"
+			   fontSize="11"/>
+</mx:Canvas>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayList> 
+ <Object label="我的代办" value="1"/> 
+<Object label="公告" value="2"/> 
+<Object label="文章频道"  value="3"/> 
+<Object label="查询"  value="4"/> 
+<Object label="业务流程"  value="5"/> 
+<Object label="拍照"  value="7"/> 
+<Object label="地图定位"  value="8"/> 
+<Object label="公司通讯录"  value="8"/> 
+<Object label="移动采集"  value="16"/> 
+</ArrayList> 

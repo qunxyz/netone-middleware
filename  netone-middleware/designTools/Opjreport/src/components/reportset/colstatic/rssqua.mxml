@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="217" height="130" >
+	
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import components.reportset.setmanage;
+			
+			protected function datechange(event:MouseEvent):void
+			{
+				switch(event.currentTarget.id)
+				{
+					case "ls":
+					{
+						setmanage.repset2.selectobj.rstype="replists";
+						break;
+					}
+					case "lss":
+					{
+						setmanage.repset2.selectobj.rstype="replistss";
+						break;
+					}
+					case "rs":
+					{
+						setmanage.repset2.selectobj.rstype="reprs";
+						break;
+					}
+					case "rss":
+					{
+						setmanage.repset2.selectobj.rstype="reprss";
+						break;
+					}case "ps":
+					{
+						setmanage.repset2.selectobj.rstype="reppers";
+						break;
+					}case "pss":
+					{
+						setmanage.repset2.selectobj.rstype="repperss";
+						break;
+					}
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:HBox x="0" y="0" width="217" height="24" horizontalAlign="left" verticalAlign="middle" horizontalGap="2">
+		<mx:HRule width="81" height="18"/>
+		<s:Label color="#02094D" fontFamily="中易黑体" fontSize="12" fontStyle="italic" fontWeight="bold"
+				 text="资源格式"/>
+		<mx:HRule width="82" height="18"/>
+	</mx:HBox>
+	<s:RadioButtonGroup  id="rgp">
+		
+	</s:RadioButtonGroup>
+	<mx:HBox x="28" y="28" width="183" height="24" horizontalAlign="left" horizontalGap="20"
+			 verticalAlign="middle">
+		
+		<mx:RadioButton   label="单选资源"  groupName="rgp" id="rs" click="datechange(event)"/>
+		<mx:RadioButton  label="多选资源"  groupName="rgp" id="rss"  click="datechange(event)"/>
+	</mx:HBox>
+	<mx:HBox x="28" y="58" width="183" height="24" horizontalAlign="left" horizontalGap="20"
+			 verticalAlign="middle">
+		<mx:RadioButton   label="单选目录"  groupName="rgp" id="ls" click="datechange(event)"/>
+		<mx:RadioButton  label="多选目录"  groupName="rgp" id="lss"  click="datechange(event)"/>
+	</mx:HBox>
+	<mx:HBox x="28" y="87" width="183" height="24" horizontalAlign="left" horizontalGap="20"
+			 verticalAlign="middle">
+		<mx:RadioButton  label="单选人员"  groupName="rgp" id="ps" click="datechange(event)"/>
+		<mx:RadioButton label="多选人员"  groupName="rgp" id="pss"  click="datechange(event)"/>
+	</mx:HBox>
+</mx:Canvas>

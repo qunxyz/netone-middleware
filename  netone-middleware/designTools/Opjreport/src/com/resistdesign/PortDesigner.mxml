@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark"
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   xmlns:reports="components.reports.*"
+		   xmlns:view="com.resistdesign.view.*"
+		   xmlns:colstatic="components.reports.colstatic.*"
+		   width="100%" height="100%" creationComplete="init(event)" currentState="deafualt"
+		   keyDown="RAV_keyDownHandler(event)"
+		   >
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		
+		<s:RemoteObject id="SaveAndRead" destination="SaveAndRead"/>
+		<s:RemoteObject id="Xmltree1" destination="xmltree1"  result="getfolderxml_resultHandler(event)"/>  
+		<s:RemoteObject id="gfn" destination="getformname" result="{handerResult1(event)}" showBusyCursor="true"/>  
+	</fx:Declarations>
+	 <fx:Style  source="css/WorkStyle.css"/>
+ 	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.*;
+			import com.resistdesign.Component;
+			import com.resistdesign.DataReport;
+			import com.resistdesign.GlobalManager;
+			import com.resistdesign.PortControl;
+			import com.resistdesign.drawTable.Tableitem;
+			import com.resistdesign.drawTable.Tablerow;
+			import com.resistdesign.reportcolr.Columns;
+			
+			import components.reports.repInterface.Setitf;
+			import components.reports.reportmanage;
+			import components.reports.showxml;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			
+			
+			private var params:Object; 
+			private function getParams():Object { 
+				params = {}; 
+				var query:String = ExternalInterface.call("window.location.search.substring", 1); 
+				// Alert.show(ExternalInterface.call("window.location.href.toString",1)); 
+				// Alert.show(query); 
+				if(query) { 
+					var pairs:Array = query.split("&"); 
+					for(var i:uint=0; i < pairs.length; i++) { 
+						var pos:int = pairs[i].indexOf("="); 
+						//Alert.show(String(pos)); 
+						if(pos != -1) { 
+							var argname:String = pairs[i].substring(0, pos); 
+							var value:String = pairs[i].substring(pos+1); 
+							params[argname] = value; 
+						} 
+					} 
+				} 
+				return params; 
+			} 
+			
+			
+			
+			protected function init(event:FlexEvent):void
+			{	 
+				Xmltree1.dataxml("DYVIEW");
+				GlobalManager.getInstance().addEventListener(DataReport.Evnt_CLICK,click);	
+				GlobalManager.getInstance().addEventListener("baocunshuju",savereport);
+				GlobalManager.getInstance().addEventListener("jiekashixian",jiekanshixian);
+				reportmanage.reportdesign=this;
+				reportmanage.reportboxs=this.RAV;
+				var Potr:PortControl=new PortControl();
+				Potr.x=10;
+				Potr.y=10;
+				Potr.id="Potr";
+				Potr.name="Potr";
+				reportmanage.addreportarr(Potr as Object,"Potr",false);
+				
+				Potr.removeEventListener(MouseEvent.MOUSE_DOWN,RAV.startDragChild);
+				Potr.removeEventListener(MouseEvent.MOUSE_UP, RAV.stopDragChild );
+				Potr.removeEventListener(ResizeEvent.RESIZE, RAV.resizeCanvas );
+				Potr.removeEventListener(MouseEvent.CLICK,RAV.showHandle );
+				this.RAV.addChild(Potr);
+ 
+			}
+			
+			//下一步的接口实现、
+			public function jiekanshixian(event:MouseEvent):void{
+				dataview=new ArrayCollection();
+				if(!DataReport.modeltype){
+					var xml:XML=DataReport.controlxml;
+					var arrxml:XMLList=xml.child("Interface");
+					for(var j:int=0;j<arrxml.length();j++){		
+						dataview.addItem({itf:arrxml[j].@columns,itfdisplay:arrxml[j].@displayname,itftype:arrxml[j].@stringtype,remark:arrxml[j].@remark,using:true});
+					}
+					
+				}else{
+					var arr:Array=new Array();
+					var arr1:Array=new  Array();
+					//获取全部的naturalname
+					for(var k:int=0;k<reportmanage.reportcolarr.length;k++){
+						 if(reportmanage.reportcolarr[k].coltyp=="Dataset"){
+                        	 arr.push((reportmanage.reportcolarr[k].col as Dataset).focd);
+						}if( reportmanage.reportcolarr[k].coltyp=="record" ){
+							arr.push((reportmanage.reportcolarr[k].col as TableCav).focdstr);
+						}  
+						
+					}
+					arr1=arr;
+					
+				    //删除相同的 naturalname
+					for(var c:int=0;c<arr.length;c++ ){
+						
+						for(var d:int=0;d<arr.length;d++){
+								  if(d!=c){
+									  if(arr[c]==arr[d]){
+										  arr1.splice(d,1);
+									  }
+								  }
+						}
+					}
+					//展示删除过的 相同的naturalname
+					for(var x:int=0;x<arr1.length;x++){
+						gfn.Columname(arr[x]);
+					}
+				}
+			}
+			
+			//查询接口实现的返回数据
+			public function handerResult1(event:ResultEvent):void{
+				var arryuanziduan:ArrayCollection=new ArrayCollection();
+				arryuanziduan=event.result as ArrayCollection;
+				for( var i:int=0; i<arryuanziduan.length;i++)
+				{ 
+					if(String(arryuanziduan[i].viewtype)=="01"){
+					dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"数字",remark:"未设置",using:false});
+					}else
+					if(String(arryuanziduan[i].viewtype)=="02" || String(arryuanziduan[i].viewtype)=="03" || String(arryuanziduan[i].viewtype)=="04"){
+						dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"时间",remark:"未设置",using:false});
+					}else{
+					dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"字符串",remark:"未设置",using:false});
+					}
+					}
+			}
+			//table点击事件的方法
+			public  function  click(event:Component):void{
+				var e:TableCav=event.getComponent1() as TableCav;	
+				
+				switch(NameUtil.getUnqualifiedClassName(e))
+				{
+					
+					case "TableCav":
+					{    
+						if(e.strname=="record")
+						{ 
+							this.currentState="record";
+							pubqua.colid.text=e.id;
+							pubqua.colh.value=e.height;
+							pubqua.colw.value=e.width;
+							pubqua.colx.value=e.x;
+							pubqua.coly.value=e.y;
+							
+							cssqua.bin_css.text=(e as  TableCav).cssstr;
+							sqlqua.bin_sql.text=e.sqlstr;
+							sqlqua.drive.text=e.drive;
+							reportmanage.selectobj=e;
+							
+						}
+						if(e.strname=="table")
+						{
+							this.currentState="table";
+							pubqua.colid.text=e.id;
+							pubqua.colh.value=e.height;
+							pubqua.colw.value=e.width;
+							pubqua.colx.value=e.x;
+							pubqua.coly.value=e.y;
+							SelectDy1.dyform.text=e.sqlstr;
+							
+							if((e as TableCav).ishead=="tou")
+							{
+								tbqua.tou.selected=true;
+							}
+							else
+							{
+								tbqua.wei.selected=true;
+							}
+							cssqua.bin_css.text=(e as  TableCav).cssstr;
+							reportmanage.selectobj=e;
+						}
+						if(e.strname=="tablewei"){
+							this.currentState="tablewei";
+							pubqua.colid.text=e.id;
+							pubqua.colh.value=e.height;
+							pubqua.colw.value=e.width;
+							pubqua.colx.value=e.x;
+							pubqua.coly.value=e.y;
+							SelectDy1.dyform.text=e.sqlstr;
+							
+							if((e as TableCav).ishead=="tou")
+							{
+								tbqua.tou.selected=true;
+							}
+							else
+							{
+								tbqua.wei.selected=true;
+							}
+							cssqua.bin_css.text=(e as  TableCav).cssstr;
+							reportmanage.selectobj=e;
+						}
+						if(e.name=="dyrecord"){
+							this.currentState="dyrecord";  
+							pubqua.colid.text=e.id;
+							pubqua.colh.value=e.height;
+							pubqua.colw.value=e.width;
+							pubqua.colx.value=e.x;
+							pubqua.coly.value=e.y;
+							DataReport.naturelname="BUSSFORM";
+							cssqua.bin_css.text=(e as  TableCav).cssstr;
+							SelectDy1.dyform.text=e.sqlstr;
+							reportmanage.selectobj=e; 
+						}   
+						break;
+					}
+					case "record":
+					{
+						
+						
+						break;
+					}
+				}
+			}
+			public function setxml ():String
+			{
+				var  reportxml:String='<?xml version="1.0" encoding=\"utf-8\" ?>\r\n<Report>\r\n';
+				
+				for(var i:int=0;i<reportmanage.reportcolarr.length;i++)
+				{   
+					if(!reportmanage.reportcolarr[i].istable)
+					{
+						reportxml+=getcolqua(reportmanage.reportcolarr[i].col);
+					}
+				}
+				reportxml+=getitf();
+				
+				reportxml+='</Report>'
+				Alert.show("保存成功！");
+				return reportxml;	
+			}
+			
+			public function getitf():String
+			{
+				
+				var itf:String="";
+				
+				
+				for(var j:int=0;j<dataview.length;j++)
+				{
+					if(dataview[j].using)
+					{
+						itf+="<Interface columns=\"" + dataview[j].itf + "\" displayname=\""+dataview[j].itfdisplay+
+							"\" stringtype=\"" + dataview[j].itftype + "\" remark=\"" + dataview[j].remark+ "\" using=\"" + dataview[j].using.toString()+"\" " ;
+						itf+="/>"+'\r\n';
+					}
+				}
+				
+				return itf;
+			}
+			
+			
+			public function setxml2 ():String
+			{
+				var  reportxml:String='<?xml version="1.0" encoding=\"utf-8\" ?>\r\n<Report>\r\n';
+				
+				for(var i:int=0;i<reportmanage.reportcolarr.length;i++)
+				{   
+					if(!reportmanage.reportcolarr[i].istable)
+					{
+						reportxml+=getcolqua(reportmanage.reportcolarr[i].col);
+					}
+				}
+				reportxml+=getitf();
+				reportxml+='</Report>'
+				
+				
+				var myWin:showxml = new showxml();
+				
+				PopUpManager.addPopUp(myWin, this, true);
+				PopUpManager.centerPopUp(myWin);	
+				myWin.xmlbox.text=reportxml;
+				return reportxml;
+			}
+			
+			private function getcolqua(obj:Object):String
+			{   
+				
+				var colinfo:String="";
+				switch(NameUtil.getUnqualifiedClassName(obj))
+				{
+					case "Label":
+					{
+						
+						colinfo="<Label"
+						colinfo+=" id=\"" + obj.id + "\" text=\""+obj.text+
+							"\" x=\"" + obj.x + "\" y=\"" + obj.y +
+							"\" width=\"" + obj.width + "\" height=\"" + obj.height +getCssStr(obj);
+						colinfo+= "/>"+'\r\n';
+						
+						break;
+					}
+					case "Dataset":
+					{
+						colinfo="<Dataset"
+						colinfo+=" id=\"" + obj.id + "\" text=\""+obj.label+
+							"\" x=\"" + obj.x + "\" y=\"" + obj.y +
+							"\" width=\"" + obj.width + "\" height=\"" + obj.height + getCssStr(obj);
+						colinfo+=">\r\n" +
+							"	<sql><![CDATA["+obj.sqlstr+"]"+"]></sql>\r\n" +
+							"</Dataset>"+'\r\n';
+						break;
+					}
+					case "Columns":
+					{
+						
+						colinfo="<Columns"
+						colinfo+=" id=\"" + obj.id + "\" text=\""+obj.label+
+							"\" x=\"" + obj.x + "\" y=\"" + obj.y +
+							"\" width=\"" + obj.width + "\" height=\"" + obj.height +"\" columns=\""+obj.bincolums+"\" statistyp=\"" + obj.binstatis.value+"\" stringtyp=\"" + obj.binchange.value +getCssStr(obj); 
+						colinfo+="/>"+'\r\n';
+						
+						break;
+					}
+					case "TableCav":
+					{
+						colinfo+=getGridStr(obj as TableCav);			
+						break;
+					}
+						
+						
+				}
+				
+				
+				return colinfo
+			}
+			
+			private function uintToHex(value:uint):String {
+				var prefix:String = "000000";
+				var str:String = String(prefix + value.toString(16));
+				return "#" + str.substr(-6).toUpperCase();
+			}
+			
+			private function getCssStr(obj:Object):String
+			{
+				var str:String="";
+				str+= "\" color" + "=\"" + uintToHex(obj.getStyle("color"))  +
+					"\" " + "fontWeight" + "=\"" +obj.getStyle("fontWeight") +
+					"\" " + "textDecoration" + "=\"" +  obj.getStyle("textDecoration") +
+					"\" " + "fontStyle" + "=\"" +  obj.getStyle("fontStyle") +
+					//										"\" " + "fillColors" + "=\"" +  uintToHex(colarray[i].obj.getStyle("fillColors")[0]) +
+					"\" " + "fontSize" + "=\"" + obj.getStyle("fontSize") +
+					"\" " + "fontFamily" + "=\""+obj.getStyle("fontFamily")+"\" " ;
+				return str;
+			}
+			
+			
+			
+			private function getGridStr(grid:TableCav):String
+			{
+				var tabletyp:String=""
+				var tableStr:String="";
+				if(grid.strname=="record")
+				{
+					tabletyp="Record";
+					tableStr="<"+tabletyp+"";
+					tableStr+=" id=\"" + grid.id +  "\" ishead=\"" + grid.ishead +"\" itemwidth=\"" + grid._table.width + "\" itemheight=\"" + grid._table.height + "\"  rows=\"" + String(grid._table.numChildren-1) + "\"  Drive=\""+grid.drive+"\"  cols=\"" + grid._table.cols+"\" CSS=\"" + grid.cssstr+"\">\r\n" +
+						"	<sql><![CDATA["+grid.sqlstr+"]"+"]></sql>\r\n";
+					
+				}
+				if(grid.strname=="table"){
+					tabletyp="Table"
+					tableStr="<"+tabletyp+"";
+					tableStr+=" id=\"" + grid.id +  "\" ishead=\"" + grid.ishead +"\" itemwidth=\"" + grid._table.width + "\" itemheight=\"" + grid._table.height + "\"  rows=\"" + String(grid._table.numChildren-1) + "\" cols=\"" + grid._table.cols+"\" CSS=\"" + grid.cssstr+"\">\r\n"+
+					"	<sql><![CDATA["+grid.sqlstr+"]"+"]></sql>\r\n";
+				}
+				if(grid.strname=="tablewei"){
+					tabletyp="Table"
+					tableStr="<"+tabletyp+"";
+					tableStr+=" id=\"" + grid.id +  "\" ishead=\"" + grid.ishead +"\" itemwidth=\"" + grid._table.width + "\" itemheight=\"" + grid._table.height + "\"  rows=\"" + String(grid._table.numChildren-1) + "\" cols=\"" + grid._table.cols+"\" CSS=\"" + grid.cssstr+"\">\r\n"+
+					"	<sql><![CDATA["+grid.sqlstr+"]"+"]></sql>\r\n";
+				}
+				if(grid.strname=="dyrecord"){
+					tabletyp="Record";
+/* 					if(grid.focdstr!=""){
+						var arr:Array=grid.focdstr.split(".");
+						var sql:String="select * from "+arr[arr.length-1];
+					} */
+					
+					tableStr="<"+tabletyp+"";
+					tableStr+=" id=\"" + grid.id +  "\" ishead=\"" + grid.ishead +"\"  focdstr=\""+grid.focdstr+"\" sqlstr=\""+grid.sqlstr+"\"  itemwidth=\"" + grid._table.width + "\" itemheight=\"" + grid._table.height + "\"  rows=\"" + String(grid._table.numChildren-1) + "\" cols=\"" + grid._table.cols+"\" CSS=\"" + grid.cssstr+"\">\r\n" +
+						"	<sql><![CDATA["+grid.sqlstr+"]"+"]></sql>\r\n";
+				}
+				
+				
+				var tableid:String=grid.id;
+				var nodeStr:String=tableid + "td";
+				for(var k:int=0;k<grid.resizecell.numChildren;k++)
+				{
+					tableStr+="	<col tableid=\"" + grid.id+"\" width=\"" + grid.resizecell.getChildAt(k).width + "\" colid=\"" + k+ "\"/>\r\n";
+				}
+				for(var i:int=0;i<grid._table.numChildren-1;i++)
+				{
+					tableStr+="	<tr tableid=\"" + grid.id+"\" rowid=\"" + i+ "\" height=\"" + grid._table.getChildAt(i).height  + "\"/>\r\n";
+					var row:Tablerow=grid._table.getChildAt(i) as Tablerow;
+					for(var j:int=0;j<row.numChildren;j++)
+					{
+						var type:String="";
+						type=NameUtil.getUnqualifiedClassName((row.getChildAt(j) as Tableitem).initem.col);
+						//									Alert.show(type);
+						//						Alert.show(type);
+						var width:String=(row.getChildAt(j) as Tableitem).width.toString();
+						var height:String =(row.getChildAt(j) as Tableitem).height.toString();
+						tableStr+="	<td tableid=\"" + grid.id+"\" width=\"" + width + "\" height=\"" + height + "\" row=\"" + i  + "\" col=\""+(row.getChildAt(j) as Tableitem).itemcol + "\" rowspan=\"" + (row.getChildAt(j) as Tableitem).rowSpan +"\" colspan=\"" + (row.getChildAt(j) as Tableitem).colSpan +
+							"\">\r\n ";
+						
+						
+						if((row.getChildAt(j) as Tableitem).initem.col!=null)
+						{
+							switch(type)
+							{
+								case "Label":
+								{
+									var colinfo:String="";
+									var obj:Object=((row.getChildAt(j) as Tableitem).initem.col as Object);
+									colinfo="		<Label";
+									colinfo+=" id=\"" + obj.id + "\" text=\""+((row.getChildAt(j) as Tableitem).initem.col as Object).text +getCssStr(obj);
+									colinfo+= "/>"+'\r\n';
+									tableStr+= colinfo+"	</td>\r\n"
+									break;
+								}
+								case "Dataset":
+								{
+									
+									var colinfo:String="";
+									var sqlstr:String=((row.getChildAt(j) as Tableitem).initem.col as Object).sqlstr;
+									var obj:Object=((row.getChildAt(j) as Tableitem).initem.col as Object);
+									colinfo="		<Dataset";
+									colinfo+=" id=\"" + obj.id + "\" text=\""+((row.getChildAt(j) as Tableitem).initem.col as Object).label +getCssStr(obj);
+									colinfo+= ">\r\n"+
+										"			<sql><![CDATA["+sqlstr+"]"+"]></sql>\r\n"
+										+"		</Dataset>"+'\r\n';
+									tableStr+= colinfo+"	</td>\r\n"
+									break;
+								}
+								case "Columns":
+								{
+									var colinfo:String="";
+									var obj:Object=((row.getChildAt(j) as Tableitem).initem.col as Object);
+									colinfo="		<Columns";
+									colinfo+=" id=\"" + obj.id + "\" text=\""+((row.getChildAt(j) as Tableitem).initem.col as Object).label+"\" columns=\"" + obj.bincolums+"\" statistyp=\"" + obj.binstatis.value+"\" stringtyp=\"" + obj.binchange.value +getCssStr(obj);
+									colinfo+= "/>"+'\r\n';
+									tableStr+= colinfo+"	</td>\r\n"
+									break;
+								}
+									
+							}
+							
+						}
+						else
+						{
+							tableStr+="	</td>\r\n";
+						}
+					}
+					
+				}
+				//							Alert.show(tableStr);
+				tableStr+="</"+tabletyp+">\r\n";
+				return tableStr;
+			}
+			
+			/* 
+			//			保存XML
+			
+			protected function savexml(event:MouseEvent):void
+			{
+				var myWin:saverep = new saverep();
+				
+				PopUpManager.addPopUp(myWin, this, true);
+				PopUpManager.centerPopUp(myWin as IFlexDisplayObject);	
+			} */
+			
+			public function savereport(event:MouseEvent):void
+			{
+				var xmlstring:String =  setxml();
+				
+				var args:Object = getParams(); 
+				if(args.mode=="new"){
+					SaveAndRead.add(getParams().name,xmlstring,DataReport.repidID,DataReport.repdimxpla,"Report");
+				} 
+				if(args.mode=="edit"){
+					SaveAndRead.Update(getParams().name,xmlstring,DataReport.repidID,DataReport.repdimxpla);
+				}
+				
+			}
+			
+			
+			protected function modifi(event:MouseEvent):void
+			{
+				//Alert.show(this.parameters.name);
+			}
+			
+			
+			
+			//	  		设置接口
+			
+			//          过滤字段
+			private function _filter(item:Object):Boolean
+			{
+				if(item.coltyp =="Colums")
+				{
+					return true;
+				}
+				return false;
+				
+			}
+			
+			
+			public var dataview:ArrayCollection = new ArrayCollection(); 
+			public  function setitf():void
+			{
+				DevisePort.itfarr=dataview;
+			 
+			}
+			//			<s:Button  height="33" label="导出HTML"  visible="false"
+			//			color="#030303" fontSize="12" fontStyle="italic" fontWeight="bold"/>
+			//			
+			//			
+			//			
+			//			
+			//				<s:Button label="导出PDF"  visible="false"
+			//						  y="2" height="33" color="#030303"
+			//						  fontSize="12" fontStyle="italic" fontWeight="bold" />
+			//				<s:Button label="导出EXCEL" visible="false"
+			//						  y="2" height="33" color="#030303" click="setxml2()"
+			//						  fontSize="12" fontStyle="italic" fontWeight="bold"/>
+			
+			public function RAV_keyDownHandler(event:KeyboardEvent):void
+			{
+				switch(event.keyCode )
+				{
+					case Keyboard.DELETE : 
+					{
+						for (var i:int = 0; i < reportmanage.reportcolarr.length; i++) 
+						{
+							if(reportmanage.reportcolarr.getItemAt(i).col==reportmanage.selectobj)
+							{
+								if(NameUtil.getUnqualifiedClassName(reportmanage.selectobj)=="TableCav")
+								{
+									for (var j:int =reportmanage.reportcolarr.length-1; j >=0; j--) 
+									{
+										if(NameUtil.getUnqualifiedClassName(reportmanage.selectobj)=="TableCav")
+										{}
+										else if(reportmanage.reportcolarr.getItemAt(j).col.parent.parent._table.parent==reportmanage.selectobj)
+										{
+											reportmanage.reportcolarr.removeItemAt(j);
+										}
+									}
+									reportmanage.reportcolarr.removeItemAt(i);
+									RAV.removeChild(reportmanage.selectobj as DisplayObject);
+									return;
+								}
+								else
+								{
+									reportmanage.reportcolarr.removeItemAt(i);
+									(reportmanage.selectobj.parent as  TableRader).havechild=false;
+									(reportmanage.selectobj.parent as  TableRader).col=null; 
+									reportmanage.selectobj.parent.removeChild(reportmanage.selectobj as DisplayObject);
+									return;
+								}
+								
+								
+								
+							}
+						}
+						break;
+					}
+				}
+				
+			}
+			//放回的数据
+			protected function getfolderxml_resultHandler(event:ResultEvent):void
+			{		
+				DataReport.tree=new XML(event.result.toString());
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<mx:states>
+		<s:State  name="lab"/>
+		<s:State  name="ds"/>
+		<s:State  name="col"/>
+		<s:State  name="table"/>
+		<s:State  name="tablewei"/>
+		<s:State  name="dyrecord"/>
+		<s:State  name="record"/>
+		<s:State  name="deafualt"/>
+	</mx:states>
+	
+	
+	
+	<mx:VBox width="100%" height="100%" styleName="bianh"
+			 >
+		<!--<mx:HBox width="100%" height="40"  styleName="bianh" horizontalAlign="center" verticalAlign="middle">
+			
+			<s:Button  height="33" label="保存报表" click="savexml(event)"
+					   color="#030303" fontSize="12" fontStyle="italic" fontWeight="bold"/>
+			
+			<s:Button  y="2" height="33" label="设置接口" color="#030303" click="setitf(event)"
+					   fontSize="12" fontStyle="italic" fontWeight="bold"/>
+			
+			
+			
+		</mx:HBox>-->
+		<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+			<!--<reports:reportbar id="clrbar" width="101" height="100%"  horizontalAlign="left"/>-->
+			<mx:Panel width="100%" height="100%" backgroundColor="#FCFCFD" borderColor="#C2C2C2"
+					  horizontalAlign="center" verticalAlign="top">
+				<fx:Script>
+					<![CDATA[
+						import mx.core.IUIComponent;
+						import mx.core.UIComponent;
+						import com.resistdesign.drawTable.TableRader;
+						import flash.text.engine.TabAlignment;
+						
+						import mx.utils.NameUtil;
+						import com.resistdesign.drawTable.TableCav;
+						import com.resistdesign.reportcolr.Columns;
+						import com.resistdesign.reportcolr.Dataset;
+						
+						import mx.controls.Alert;
+						import mx.controls.DateField;
+						import mx.events.DragEvent;
+						import mx.events.ResizeEvent;
+						import mx.managers.DragManager;
+						
+						import spark.components.Label;
+						
+						private function ondrag(e:DragEvent)
+						{   
+							DragManager.acceptDragDrop(reportbox(e.currentTarget));
+						}
+						
+						
+						public var lbid:int=1;
+						public var dfid:int=1;
+						public var tbid:int=1;
+						public var dsid:int=1;
+						public var rcid:int=1;
+						public var dyrcid:int=1;
+						public var clid:int=1;
+ 
+						public function colclick(e:MouseEvent):void
+						{
+						/* 	Alert.show(e.currentTarget as String)
+							Alert.show(NameUtil.getUnqualifiedClassName(e.currentTarget)); */
+							switch(NameUtil.getUnqualifiedClassName(e.currentTarget))
+							{
+								case "Label":
+								{
+									this.currentState="lab";
+									pubqua.colid.text=e.currentTarget.id;
+									pubqua.colh.value=e.currentTarget.height;
+									pubqua.colw.value=e.currentTarget.width;
+									pubqua.colx.value=e.currentTarget.x;
+									pubqua.coly.value=e.currentTarget.y;
+									txtqua.colitxt.text=e.currentTarget.text; 
+									reportmanage.selectobj=e.currentTarget;
+									
+									setcolstyle(e);
+									
+									break;
+								}
+								case "Dataset":
+								{
+									this.currentState="ds";
+									pubqua.colid.text=e.currentTarget.id;
+									pubqua.colh.value=e.currentTarget.height;
+									pubqua.colw.value=e.currentTarget.width;
+									pubqua.colx.value=e.currentTarget.x;
+									pubqua.coly.value=e.currentTarget.y;
+									SelectDy1.dyform.text=e.currentTarget.sqlstr;
+									reportmanage.selectobj=e.currentTarget;
+									DataReport.naturelname="Dataset";
+									setcolstyle(e);
+									break;
+								}
+								case "Columns":
+								{
+									this.currentState="col";
+									pubqua.colid.text=e.currentTarget.id;
+									pubqua.colh.value=e.currentTarget.height;
+									pubqua.colw.value=e.currentTarget.width;
+									pubqua.colx.value=e.currentTarget.x;
+									pubqua.coly.value=e.currentTarget.y;
+									colqua.bin_colums.text=(e.currentTarget as  Columns).bincolums;
+									reportmanage.selectobj=e.currentTarget;
+									
+									setcolstyle(e);
+									break;
+								}
+								case "TableCav":
+								{     
+									if(e.currentTarget.strname=="record")
+									{ 
+										this.currentState="record";
+										pubqua.colid.text=e.currentTarget.id;
+										pubqua.colh.value=e.currentTarget.height;
+										pubqua.colw.value=e.currentTarget.width;
+										pubqua.colx.value=e.currentTarget.x;
+										pubqua.coly.value=e.currentTarget.y;
+										SelectDy1.dyform.text=e.currentTarget.sqlstr;
+										
+										cssqua.bin_css.text=(e.currentTarget as  TableCav).cssstr;
+										sqlqua.bin_sql.text=e.currentTarget.sqlstr;
+										sqlqua.drive.text=e.currentTarget.drive;
+										reportmanage.selectobj=e.currentTarget;
+										
+									}
+									if(e.currentTarget.strname=="table")
+									{
+										this.currentState="table";
+										pubqua.colid.text=e.currentTarget.id;
+										pubqua.colh.value=e.currentTarget.height;
+										pubqua.colw.value=e.currentTarget.width;
+										pubqua.colx.value=e.currentTarget.x;
+										pubqua.coly.value=e.currentTarget.y;
+										SelectDy1.dyform.text=e.currentTarget.sqlstr;
+										
+										if((e.currentTarget as TableCav).ishead=="tou")
+										{
+											tbqua.tou.selected=true;
+										}
+										else
+										{
+											tbqua.wei.selected=true;
+										}
+										cssqua.bin_css.text=(e.currentTarget as  TableCav).cssstr;
+										reportmanage.selectobj=e.currentTarget;
+									}
+									if(e.currentTarget.name=="dyrecord"){
+										this.currentState="dyrecord";  
+										pubqua.colid.text=e.currentTarget.id;
+										pubqua.colh.value=e.currentTarget.height;
+										pubqua.colw.value=e.currentTarget.width;
+										pubqua.colx.value=e.currentTarget.x;
+										pubqua.coly.value=e.currentTarget.y;
+										DataReport.naturelname="BUSSFORM"; 
+										cssqua.bin_css.text=(e.currentTarget as  TableCav).cssstr;
+										SelectDy1.dyform.text=e.currentTarget.sqlstr;
+										reportmanage.selectobj=e.currentTarget; 
+									}   
+									break;
+								}
+								case "record":
+								{
+									
+									
+									break;
+								}
+							}
+						}
+						public function setcolstyle(e:*):void
+						{
+							styqua.objcolor.selectedColor=e.currentTarget.getStyle("color");
+							styqua.objfontWeight.selected= Boolean(e.currentTarget.getStyle("fontWeight")=="bold");
+							styqua.objtextDecoration.selected= Boolean(e.currentTarget.getStyle("textDecoration")=="underline");
+							styqua.objfontStyle.selected= Boolean(e.currentTarget.getStyle("fontStyle")=="italic");
+							
+							
+							var	CbStr:String=e.currentTarget.getStyle("fontFamily");
+							try
+							{
+								switch (CbStr)
+								{
+									case "Arial":
+									{
+										styqua.objfontFamily .selectedIndex=0;
+										break;
+									}
+									case "Times New Roman":
+									{
+										styqua.objfontFamily.selectedIndex=1;
+										break;
+									}
+									case "Courier New":
+									{
+										styqua.objfontFamily.selectedIndex=2;
+										break;
+									}
+									case "Georgia":
+									{
+										styqua.objfontFamily.selectedIndex=3;
+										break;
+									}
+									case "Verdana":
+									{
+										styqua.objfontFamily.selectedIndex=4;
+										break;
+									}
+									case "中易宋体":
+									{
+										styqua.objfontFamily.selectedIndex=5;
+										break;
+									}
+									case "中易黑体":
+									{
+										styqua.objfontFamily.selectedIndex=6;
+										break;
+									}
+									case "细明体":
+									{
+										styqua.objfontFamily.selectedIndex=7;
+										break;
+									}
+								}
+							}
+							catch(e:*)
+							{
+								Alert.show(e.toString());
+							}
+							
+							
+							styqua.objfontsize.value=e.currentTarget.getStyle("fontSize");
+							
+						}
+						
+						private function keyDownevent(e:KeyboardEvent):void
+						{
+							
+							switch(e.keyCode )
+							{
+								case Keyboard.DELETE : 
+								{
+									for (var i:int = 0; i < reportmanage.reportcolarr.length; i++) 
+									{
+										if(reportmanage.reportcolarr.getItemAt(i).col==reportmanage.selectobj)
+										{
+											if(NameUtil.getUnqualifiedClassName(reportmanage.selectobj)=="TableCav")
+											{
+												for (var j:int =reportmanage.reportcolarr.length-1; j >=0; j--) 
+												{
+													if(NameUtil.getUnqualifiedClassName(reportmanage.selectobj)=="TableCav")
+													{}
+													else if(reportmanage.reportcolarr.getItemAt(j).col.parent.parent._table.parent==reportmanage.selectobj)
+													{
+														reportmanage.reportcolarr.removeItemAt(j);
+													}
+												}
+												reportmanage.reportcolarr.removeItemAt(i);
+												RAV.removeChild(reportmanage.selectobj as DisplayObject);
+												return;
+											}
+											else
+											{
+												reportmanage.reportcolarr.removeItemAt(i);
+												(reportmanage.selectobj.parent as  TableRader).havechild=false;
+												(reportmanage.selectobj.parent as  TableRader).col=null; 
+												reportmanage.selectobj.parent.removeChild(reportmanage.selectobj as DisplayObject);
+												return;
+											}
+										}
+									}
+									
+									break;
+								}
+							}
+						}
+						
+					]]>
+				</fx:Script>
+				<view:reportbox id="RAV" width="100%" height="100%"  x="0" backgroundColor="#FFFFFF" backgroundAlpha="0.6" 
+								dragEnter="ondrag(event)" fontSize="12" dropShadowEnabled="true" dropShadowColor="#000000"
+								keyDown="RAV_keyDownHandler(event)" 
+								
+								>
+				</view:reportbox>
+			</mx:Panel>
+			
+			
+			<mx:Box height="100%" width="243"  horizontalAlign="center" verticalAlign="middle" styleName="bianh">
+				<mx:Panel width="100%" height="100%" color="#CFD4D5" title="属性">
+					<mx:VBox width="100%" height="100%" color="#011D42" fontSize="10"
+							 horizontalAlign="center" horizontalGap="2">
+						<colstatic:pubquality id="pubqua" includeIn="lab,tablewei,col,ds,table,record,dyrecord" ></colstatic:pubquality>    
+						<colstatic:txtuality id="txtqua" includeIn="lab"></colstatic:txtuality>
+						<colstatic:bincolums id="colqua" includeIn="col"></colstatic:bincolums>
+						<colstatic:binsql id="sqlqua" includeIn="record"></colstatic:binsql>
+						<colstatic:SelectDy id="SelectDy1" includeIn="dyrecord,ds,table,tablewei"/>
+						<!--<colstatic:DsSql id="DsSql1" includeIn="ds"/>-->
+						<colstatic:tablequa id="tbqua" includeIn="table,tablewei"></colstatic:tablequa>
+						<colstatic:stylequa id="styqua" includeIn="lab,col,ds"></colstatic:stylequa>
+						<colstatic:bincss id="cssqua" includeIn="table,tablewei,record,dyrecord"></colstatic:bincss>		
+					</mx:VBox>
+				</mx:Panel>
+			</mx:Box>
+			
+		</mx:HBox>
+	</mx:VBox>
+</mx:Canvas>

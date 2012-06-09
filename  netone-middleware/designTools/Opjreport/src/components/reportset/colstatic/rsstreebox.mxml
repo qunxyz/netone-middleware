@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<maininfo:mianwindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:maininfo="com.openj.main.maininfo.*" width="628" height="510">
+	
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			public var selectitext:XML=new XML;
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				
+				var selectlist2:XMLListCollection=new XMLListCollection(selectlist2.repfile);
+				selectobj.binrs=selectlist2.getItemAt(0).@naturalname;
+				for (var i:int =1; i < selectlist2.length; i++) 
+				{
+					selectobj.binrs+=","+selectlist2.getItemAt(i).@naturalname;
+				}
+				doclose();
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:RemoteObject id="getfolderxml" destination="Getxml"  result="getfolderxml_resultHandler(event)"/>
+		<s:RemoteObject id="getface" destination="Getface" result="getface_resultHandler(event)" />
+		<s:RemoteObject id="SaveAndRead" destination="SaveAndRead"/>
+	</fx:Declarations>
+	<s:Group width="630" height="474" 
+			 dragEnter="onDragEnter(event)" dragDrop="group1_dragDropHandler(event)"
+			 >
+		<fx:Script>
+			<![CDATA[
+				import components.reports.showxml;
+				import components.reportset.setmanage;
+				
+				import mx.collections.XMLListCollection;
+				import mx.controls.Alert;
+				import mx.core.DragSource;
+				import mx.core.UIComponent;
+				import mx.events.DragEvent;
+				import mx.events.FlexEvent;
+				import mx.managers.DragManager;
+				import mx.managers.PopUpManager;
+				import mx.rpc.events.ResultEvent;
+				
+				import spark.events.IndexChangeEvent;
+				
+				
+				public var comBoxXML: XML =  
+					<list>  
+						  <natural label="表单"  value="BUSSFORM"/>
+						  <natural label="报表"  value="ETL"/>
+						  <natural label="计划"  value="PLAN"/>
+					</list>;
+					
+					
+				[Bindable]  
+				public var comBox:XMLListCollection=new XMLListCollection(comBoxXML.natural);  
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				private var _reptree:XML;
+				private var _selectlist2:XML=<replist></replist>;
+				private var sidx:int;
+				private var isdrop:Boolean=false;
+				
+				
+				[Bindable]
+				public var selectfile :Boolean=true;
+				
+				
+				[Bindable]
+				public function get selectlist2():XML
+				{
+					return _selectlist2;
+				}
+				
+				public function set selectlist2(value:XML):void
+				{
+					_selectlist2 = value;
+				}
+				
+				[Bindable]
+				public function get reptree():XML
+				{
+					return _reptree;
+				}
+				
+				public function set reptree(value:XML):void
+				{
+					_reptree = value;
+				}
+				
+				[Bindable]
+				public var treeDataList2:XML=new XML();
+				
+				
+				
+				public var selectobj:Object;
+				
+				 
+				
+				protected function onDragEnter(event:DragEvent):void
+				{
+					DragManager.acceptDragDrop(UIComponent(event.currentTarget));
+				}
+				private function onDragOver( event:DragEvent ) : void
+				{
+					
+					
+					var dropTarget:Tree = Tree(event.currentTarget);
+					var r:int = dropTarget.calculateDropIndex(event);
+					
+					var node:XML =reporttree.selectedItem as XML;
+					
+					
+					
+					var data:XMLListCollection=new XMLListCollection(selectlist2.repfile);  
+					for (var i:int = 0; i < data.length; i++) 
+					{
+						if(data[i].@naturalname==node.@naturalname)
+						{
+							DragManager.showFeedback(DragManager.NONE);
+							//						Alert.show("已有该报表");
+							return;
+						}
+					}
+					
+					if(selectfile)
+					{
+						if(node.@type == "gen") {
+							DragManager.showFeedback(DragManager.NONE);
+							return;
+						}
+					}
+					else
+					{
+						
+						if (node.@type!="gen")
+						{
+							DragManager.showFeedback(DragManager.NONE);
+							return;
+						}
+					}
+					
+					
+					
+					if (event.ctrlKey)
+						DragManager.showFeedback(DragManager.COPY);
+					else if (event.shiftKey)
+						DragManager.showFeedback(DragManager.LINK);
+					else {
+						DragManager.showFeedback(DragManager.MOVE);
+					}
+				}
+				
+				
+				public var  notep:XML;
+				protected function onDragDrop(event:DragEvent):void
+				{
+					var ds:DragSource = event.dragSource;
+					var dropTarget:Tree = Tree(event.currentTarget);
+					
+					
+					var node:XML =reporttree.selectedItem as XML;
+					var node1:XML=<repfile></repfile>
+					node1.@name=node.@name;
+					node1.@type="gen";
+					node1.@naturalname=node.@naturalname
+					notep=node1;
+					selectlist2.appendChild(node1);
+					
+				}
+				
+				protected function clearn(event:MouseEvent):void
+				{
+					Alert.show(selectlist2.toString());
+					
+				}
+				
+				
+				
+				
+				protected function group1_dragEnterHandler(event:DragEvent):void
+				{
+					// TODO Auto-generated method stub
+					
+				}
+				
+				protected function group1_dragDropHandler(event:DragEvent):void
+				{
+					// TODO Auto-generated method stub
+					
+				}
+				
+				protected function getface_resultHandler(event:ResultEvent):void
+				{
+					
+					var xml:XML=new XML(event.result.toString());
+					var xml2:XMLListCollection=new XMLListCollection(xml.Interface); 
+					
+					for (var i:int = 0; i < xml2.length; i++) 
+					{
+						var xmllis:XML=<Inface></Inface>;
+						xmllis.@name=xml2.getItemAt(i).@displayname;
+						xmllis.@displayname=xml2.getItemAt(i).@displayname;
+						xmllis.@columns=xml2.getItemAt(i).@columns;
+						xmllis.@bindclr="无";
+						xmllis.@text="无";
+						xmllis.@remark=xml2.getItemAt(i).@remark;
+						xmllis.@stringtype=xml2.getItemAt(i).@stringtype;
+						notep.appendChild(xmllis);
+					}
+					
+					
+					
+					
+				}
+				
+				private function tree_labelFunc(item:XML):String 
+				{
+					
+					if (item.@type=="gen") 
+					{
+						return item.@name;
+					}
+					else
+					{
+						return "报表接口："+item.@displayname ;
+					}
+				} 
+				protected function rschange(event:IndexChangeEvent):void
+				{
+					getfolderxml.dataxml(rslist.selectedItem.@value.toString());  
+					
+				}
+				
+				protected function getfolderxml_resultHandler(event:ResultEvent):void
+				{
+					treeDataList2=new XML(event.result.toString());
+				}
+				
+				[Embed(source="ico/wenj.png")]         
+				[Bindable] 
+				public var foldericon:Class; 
+				
+				private function selecticonFun(item:Object):* 
+				{ 
+					if(!selectfile)
+					{
+						return foldericon;
+					}
+					else
+					{
+						return null;
+					}
+					
+				}  
+				
+			]]>
+		</fx:Script>
+		
+		
+		
+		<mx:Tree id="reporttree"  x="26" y="45" width="264" height="386"   alternatingItemColors="[#F6F3F3, #FBFCFD]"
+				 borderColor="#D7D7D7" borderStyle="solid" borderThickness="2" cornerRadius="7"
+				 dataProvider="{treeDataList2}"
+				 labelField="@name"
+				 dragEnabled="true"
+				 dragMoveEnabled="false" 
+				 allowMultipleSelection="true" 				 
+				 ></mx:Tree>
+		<mx:Tree id="seletlist" x="334" y="44" width="272" height="390" alternatingItemColors="[#E2FAF3, #FBF5F5]"
+				 borderColor="#D6D9DB" borderThickness="2" cornerRadius="5" 
+				 dataProvider="{selectlist2.repfile}"
+				 labelField="@name"
+				 iconFunction="selecticonFun"
+				 dragEnter="onDragEnter(event)"
+				 dragOver="onDragOver(event)"
+				 dragDrop="onDragDrop(event)"
+				 dragEnabled="true"
+				 dragMoveEnabled="true" 
+				 ></mx:Tree>
+		<s:Label x="26" y="23" color="#062486" fontSize="12" text="报表目录"/>
+		<s:Label x="334" y="23" color="#041985" fontSize="12" text="已选列表"/>
+		<s:Button x="535" y="20" label="清空" click="clearn(event)" visible="false"/>
+		<s:Button x="243" y="443" width="137" label="确定" fontSize="12" click="button1_clickHandler(event)"/>
+		<s:DropDownList id="rslist" x="86" y="18" width="204" change="rschange(event)" labelField="@label"  dataProvider="{comBox}">
+		
+		</s:DropDownList>
+	</s:Group>
+</maininfo:mianwindow>

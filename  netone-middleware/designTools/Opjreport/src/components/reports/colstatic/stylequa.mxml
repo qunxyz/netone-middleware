@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="217" height="168">
+	<fx:Script>
+		<![CDATA[
+			import components.reports.reportmanage;
+			
+			import mx.events.ColorPickerEvent;
+			
+			import spark.events.IndexChangeEvent;
+			
+			protected function colorchange(event:ColorPickerEvent):void
+			{
+				reportmanage.selectobj.setStyle("color",event.color);
+			}
+			
+			protected function stychange(event:Event):void
+			{
+				switch(event.currentTarget.id)
+				{
+					case "objfontWeight":
+					{
+						if(event.currentTarget.selected)
+						{
+							reportmanage.selectobj.setStyle("fontWeight","bold" );
+						}
+						else
+						{
+							reportmanage.selectobj.setStyle("fontWeight","normal" );
+						}
+							
+						break;
+					}
+					case "objtextDecoration":
+					{
+						if(event.currentTarget.selected)
+						{
+							reportmanage.selectobj.setStyle("textDecoration","underline" );
+						}
+						else
+						{
+							reportmanage.selectobj.setStyle("textDecoration","none" );
+						}
+						break;
+					}
+					case "objfontStyle":
+					{
+						if(event.currentTarget.selected)
+						{
+							reportmanage.selectobj.setStyle("fontStyle","italic" );
+						}
+						else
+						{
+							reportmanage.selectobj.setStyle("fontStyle","normal" );
+						}
+						break;
+					}
+				}
+			}
+			
+			protected function selectchange(event:IndexChangeEvent):void
+			{
+				reportmanage.selectobj.setStyle("fontFamily",objfontFamily.selectedItem.value);
+			}
+			
+			protected function sizechange(event:Event):void
+			{
+				reportmanage.selectobj.setStyle("fontSize",event.currentTarget.value);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	
+	
+	
+	
+	<mx:HBox x="0" y="0" width="217" height="24" horizontalAlign="left" verticalAlign="middle" horizontalGap="2">
+		<mx:HRule width="81" height="18"/>
+		<s:Label color="#02094D" fontFamily="中易黑体" fontSize="12" fontStyle="italic" fontWeight="bold"
+				 text="样式设置"/>
+		<mx:HRule width="82" height="18"/>
+	</mx:HBox>
+	<mx:ColorPicker id="objcolor" x="92" y="36" width="95" change="colorchange(event)"/>
+	<s:Label   x="39" y="42" text="字体颜色："/>
+	<s:ToggleButton  id="objfontWeight" x="38" y="67" width="50" label="粗体"  change="stychange(event)"/>
+	<s:ToggleButton id="objfontStyle" x="87" y="67" width="46" label="斜体"  change="stychange(event)"/>
+	<s:ToggleButton id="objtextDecoration" x="132" y="67" width="55" label="下划线" change="stychange(event)"/>
+	<s:Label   x="38" y="106" text="字体："/>
+	<s:DropDownList  id="objfontFamily" x="71" y="100" width="116" prompt="请选择字体..." change="selectchange(event)">
+		<mx:ArrayCollection> 
+			<fx:Object label="Arial" value="Arial"/> 
+			<fx:Object label="Times New Roman" value="Times New Roman"/> 
+			<fx:Object label="Courier New" value="Courier New"/> 
+			<fx:Object label="Georgia" value="Georgia"/> 
+			<fx:Object label="Verdana" value="Verdana"/> 
+			<fx:Object label="中易宋体" value="中易宋体"/> 
+			<fx:Object label="中易黑体" value="中易黑体"/> 
+			<fx:Object label="细明体" value="细明体"/> 
+		</mx:ArrayCollection> 
+	</s:DropDownList>
+	<s:Label x="38" y="136" text="字体大小："/>
+	<s:HSlider id="objfontsize" x="38" y="154" width="149" maximum="32" minimum="6" value="12" change="sizechange(event)"/>
+	
+</mx:Canvas>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="217" height="304" creationComplete="init(event)">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import components.reports.reportmanage;
+			import components.reportset.repsetmanage;
+			import components.reportset.setmanage;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.events.TextOperationEvent;
+			
+			private var _repset:repsetmanage;
+			
+			public function get repset():repsetmanage
+			{
+				return _repset;
+			}
+
+			public function set repset(value:repsetmanage):void
+			{
+				_repset = value;
+			}
+
+			protected function idchange(event:TextOperationEvent):void
+			{
+				switch(event.currentTarget.id)
+				{
+					case "colid":
+					{
+						setmanage.repset2.selectobj.id=event.currentTarget.text;
+						break;
+					}
+					case "collabel":
+					{
+						setmanage.repset2.selectobj.text=event.currentTarget.text;
+						break;
+					}	
+				}
+				
+				
+			}
+			
+			protected function xywhchangge(event:Event):void
+			{
+				switch(event.currentTarget.id)
+				{
+					case "colh":
+					{
+						setmanage.repset2.selectobj.height=event.currentTarget.value;
+						break;
+					}
+					case "colw":
+					{
+						setmanage.repset2.selectobj.width=event.currentTarget.value;
+						break;
+					}
+					case "coly":
+					{
+						setmanage.repset2.selectobj.y=event.currentTarget.value;
+						break;
+					}
+					case "colx":
+					{
+						setmanage.repset2.selectobj.x=event.currentTarget.value;
+						break;
+					}
+					case "row":
+					{
+						setmanage.repset2.selectobj.y=event.currentTarget.value*50;
+						break;
+					}
+					case "col":
+					{
+						setmanage.repset2.selectobj.x=(event.currentTarget.value-1)*300+50;
+						break;
+					}	
+				}
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				setmanage.repsetqua=this;
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:HBox x="0" y="0" width="217" height="24" horizontalAlign="left" verticalAlign="middle" horizontalGap="2">
+		<mx:HRule width="81" height="18"/>
+		<s:Label color="#02094D" fontFamily="中易黑体" fontSize="12" fontStyle="italic" fontWeight="bold"
+				 text="公共属性"/>
+		<mx:HRule width="82" height="18"/>
+	</mx:HBox>
+	
+	<mx:HBox x="23" y="32" width="173" height="24" horizontalAlign="left" verticalAlign="middle">
+		<s:Label y="5" width="38" height="14" text="ID："/>
+		<s:TextInput id="colid" width="125" change="idchange(event)" />
+	</mx:HBox>
+	
+	<mx:HBox x="23" y="64" width="173" height="24" horizontalAlign="left" verticalAlign="middle">
+		<s:Label y="5" width="38" height="14" text="标签："/>
+		<s:TextInput id="collabel" width="125" change="idchange(event)" />
+	</mx:HBox>
+
+	<mx:HBox x="23" y="193" width="173" height="24" horizontalAlign="left" verticalAlign="middle">
+		<s:Label width="38" text="宽："/>
+		<s:NumericStepper id="colh" width="123" change="xywhchangge(event)" maxChars="999"
+						  maximum="999" stepSize="21"/>
+	</mx:HBox>
+	<mx:HBox x="23" y="161" width="173" height="24" horizontalAlign="left" verticalAlign="middle">
+		<s:Label width="38" text="长："/>
+		<s:NumericStepper id="colw" width="123" change="xywhchangge(event)" maxChars="999"
+						  maximum="999" stepSize="21"/>
+	</mx:HBox>
+	<mx:HBox x="23" y="128" width="173" height="24" horizontalAlign="left" verticalAlign="middle">
+		<s:Label text="坐标Y：" textAlign="center" verticalAlign="middle"/>
+		<s:NumericStepper id="coly" width="123" change="xywhchangge(event)" maxChars="999"
+						  maximum="999" stepSize="21"/>
+	</mx:HBox>
+	<mx:HBox x="23" y="96" width="173" height="24" horizontalAlign="left" verticalAlign="middle">
+		<s:Label text="坐标X：" textAlign="center" verticalAlign="middle"/>  
+		<s:NumericStepper id="colx" width="123" change="xywhchangge(event)" maxChars="999"
+						  maximum="999" stepSize="21"/>
+	</mx:HBox>
+	<mx:HBox x="23" y="259" width="173" height="24" horizontalAlign="left" verticalAlign="middle">
+		<s:Label width="38" text="列："/>
+		<s:NumericStepper id="col" width="123" change="xywhchangge(event)" minimum="1" maxChars="999"
+						  maximum="999" stepSize="1"/>
+	</mx:HBox>
+	<mx:HBox x="23" y="227" width="173" height="24" horizontalAlign="left" verticalAlign="middle">
+		<s:Label width="38" text="行："/>
+		<s:NumericStepper id="row" width="123" change="xywhchangge(event)" minimum="1" maxChars="2"
+						  maximum="12" stepSize="1"/>
+	</mx:HBox>
+</mx:Canvas>

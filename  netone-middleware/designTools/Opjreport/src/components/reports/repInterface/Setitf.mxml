@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<maininfo:mianwindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+					 xmlns:s="library://ns.adobe.com/flex/spark"
+					 xmlns:mx="library://ns.adobe.com/flex/mx"
+					 xmlns:maininfo="com.openj.main.maininfo.*"
+					 width="552" height="409" color="#010E4D" fontSize="12" fontWeight="normal"
+					 title="设置接口">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.XMLListCollection;
+			public var comBoxXML: XML =  
+				<list>  
+					  <typename>字符串</typename>  
+					  <typename>数字</typename>  
+					  <typename>时间</typename>  
+				</list>;
+			[Bindable]  
+			public var comBox:XMLListCollection=new XMLListCollection(comBoxXML.typename);  
+		
+			[Bindable] 
+			public var itfarr:ArrayCollection;
+			
+		
+			
+		]]>
+	</fx:Script>
+	<mx:DataGrid id="itfdata" x="38" y="12" width="474" height="299" dataProvider="{itfarr}" color="#5B5C62" editable="true"
+				 enabled="true" fontFamily="细明体" fontSize="12" >
+		<mx:columns>
+			<mx:DataGridColumn dataField="itf" editable="true" headerText="字段名"/>   
+			<mx:DataGridColumn dataField="itfdisplay" editable="true" headerText="中文名"/>   
+			<mx:DataGridColumn dataField="itftype" editorDataField="value" headerText="类型">
+				<mx:itemEditor>    
+					<fx:Component>
+						<mx:HBox horizontalAlign="center">  
+							<fx:Script>  
+								<![CDATA[  
+									public function get value():Object  
+									{  
+										if(cmb.selectedItem == null)  
+											return null;  
+										var item1 :XML = cmb.selectedItem as XML;  
+										var method1 : String = item1.children()[0]; 
+										data.typename = method1;     
+										return method1;  
+									}  
+									override public function set data(value:Object):void  
+									{  
+										super.data=value;  
+										for each(var item1 :XML in cmb.dataProvider)  
+										{  
+											trace(item1.children()[0]);  
+											var method2 : String = item1.children()[0];  
+											if(method2 == value.typename){  
+												cmb.selectedItem=item1;  
+											}  
+										}  
+									}  
+								]]>  
+							</fx:Script>  
+							<mx:ComboBox id="cmb" width="95%" dataProvider="{outerDocument.comBox}"/>  
+						</mx:HBox>
+					</fx:Component>  
+				</mx:itemEditor>
+			</mx:DataGridColumn>   
+			<mx:DataGridColumn dataField="remark" editable="true" headerText="描述"/>   
+			<mx:DataGridColumn width="62" dataField="using" editable="false" headerText="启用状态"
+							   resizable="false">
+				  <mx:itemRenderer>
+					<fx:Component>
+						<mx:HBox horizontalAlign="center">  
+							<mx:CheckBox click="data.using=!data.using" selected="{data.using}"/>
+						</mx:HBox>		
+					</fx:Component> 	
+				</mx:itemRenderer>
+			</mx:DataGridColumn>  
+		</mx:columns>
+	</mx:DataGrid>
+	<s:Button x="193" y="319" label="保存" click="doclose()" />
+	<s:Button x="300" y="319" label="取消" click="doclose()"/>
+</maininfo:mianwindow>

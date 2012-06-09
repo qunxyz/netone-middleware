@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="632" height="475"   creationComplete="init(event)">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import components.reportset.setmanage;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.HierarchicalData;
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			[Bindable]
+			public var comBoxXML: XML=new XML;
+
+			[Bindable]  
+			public var comBox:XMLListCollection=new XMLListCollection(comBoxXML.colid);  
+			
+			
+			[Embed(source="ico/rep.png")]          
+			[Bindable] 
+			public var fileicon:Class;  
+			
+			[Embed(source="ico/itf.png")]          
+			[Bindable] 
+			public var itficon:Class;  
+		
+			
+			private function selecticonFun(item:Object):* 
+			{ 
+				var xml:XML     = item as XML; 
+				
+				if(xml.attribute("type") == "gen") 
+					return fileicon; 
+				else 
+					return itficon; 
+			}  
+			
+			
+			protected function init(event:FlexEvent):void
+			{
+//				collist=setmanage.repset2.setarr;
+			}
+			
+			protected function test(event:MouseEvent):void
+			{
+
+			}
+			
+		]]>
+	</fx:Script>
+	<mx:AdvancedDataGrid id="itfgrid" width="582" height="423" designViewDataType="tree" editable="true" enabled="true"
+						 horizontalCenter="0" verticalCenter="0" dataProvider="{new HierarchicalData(setmanage.selectlist.repfile)}" iconFunction="selecticonFun">
+		<mx:columns>
+			<mx:AdvancedDataGridColumn dataField="@name"   editable="false"  headerText="报表接口"  />
+			<mx:AdvancedDataGridColumn dataField="@text" editorDataField="value" headerText="绑定控件">
+					<mx:itemEditor>    
+						<fx:Component>
+							<mx:HBox horizontalAlign="center">  
+								<fx:Script>  
+									<![CDATA[  
+										public function get value():Object  
+										{  
+											if(cmb.selectedItem == null)  
+												return null;  
+											var item1 :XML = cmb.selectedItem as XML;  
+											var method1 : String = item1.@text; 
+											var method2 : String = item1.@clrid; 
+											if(data.@notetype=="gen") {
+												
+												return "";
+											}
+											else
+											{
+											data.@bindclr = method2;     
+											data.@text = method1;
+											return method1; 
+											}
+										}  
+										override public function set data(value:Object):void  
+										{  
+											super.data=value;  
+											for each(var item1 :XML in cmb.dataProvider)  
+											{  
+												trace(item1.children()[0]);  
+												var method2 : String = item1.@text;
+												if(method2 == value.@text){  
+													cmb.selectedItem=item1;  
+												}  
+											}  
+										}  
+									]]>  
+								</fx:Script>  
+								<mx:ComboBox id="cmb" width="95%" labelField="@text" dataProvider="{outerDocument.comBox}"/>  
+							</mx:HBox>
+						</fx:Component>
+					</mx:itemEditor>  
+			</mx:AdvancedDataGridColumn>
+		</mx:columns>
+	</mx:AdvancedDataGrid>
+	<s:Button x="537" y="3" label="测试"  click="test(event)" visible="false"/>
+</s:Group>

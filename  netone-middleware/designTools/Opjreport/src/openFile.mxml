@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   width="465" height="240" minWidth="955" minHeight="600">
+	<fx:Script>
+	<![CDATA[
+	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
+	import mx.managers.BrowserManager;
+	import mx.managers.IBrowserManager;
+	import mx.managers.PopUpManager;
+	import mx.rpc.events.FaultEvent;
+	import mx.rpc.events.ResultEvent;
+	import mx.utils.URLUtil;
+	protected	var	arr:ArrayCollection;
+	public var panel:String;
+//	protected function myFlex_resultHandler(event:ResultEvent):void
+//	{
+//	arr =event.result as ArrayCollection;
+//	fileList.dataProvider=arr;
+//	}
+	
+	protected function create(event:Event):void
+	{		 
+//	myFlex.getFileList(); 
+	closeButton.addEventListener(MouseEvent.CLICK,function(event){doClose()});
+	}
+	
+	
+	protected function getFileName():void
+	{
+//	this.fileName.text=fileList.selectedItem;		
+	}
+	
+	
+	internal function doClose():void {
+	PopUpManager.removePopUp(this);  
+	}
+	
+	public var flag:Boolean=false;
+	private function validator()
+	{
+//	var event:MouseEvent;
+//	flag=true;
+//	if(fileName.text=="")
+//	{
+//	Alert.show("文件名不能为空!");
+//	return;
+//	}
+//	else
+//	{
+//		
+//		readxml.createNewFolder();
+//		readxml.getPathCreateXmlFile(fileName.text,parentDocument.setxml());
+//		
+////	parentDocument.SetXML(fileName.text);
+////	parentDocument.getTable(fileName.text);
+		
+	doClose();
+	
+	}
+	private var fileRef:FileReference=new FileReference();
+	private var urlReq:URLRequest; 
+	
+	private var bm:IBrowserManager;  
+	private var str:String="";
+	
+	private function getUrl():void{   
+	bm=BrowserManager.getInstance();   
+	bm.init();    
+	str = bm.url;   
+	}
+	
+	private var httpURL:String="";
+	public function getHttpUrl(fileName:String):void {
+	
+	
+	getUrl();
+	var serverName:String = URLUtil.getServerName(str);
+	var serverPort:String = URLUtil.getPort(str).toString();
+	var serverProtocol:String = URLUtil.getProtocol(str);
+	fileName=encodeURI(fileName);
+	httpURL = serverProtocol + "://" + serverName + ":" +serverPort+"/Readxml/" + "xml/"+fileName;
+	
+	}
+	
+	private function downLoadFile()
+	{
+	getHttpUrl(fileName.text);
+	//				Alert.show(httpURL);
+	urlReq = new URLRequest(httpURL);
+	fileRef.download(urlReq); 
+	
+	}
+	
+	]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:RemoteObject id="readxml" destination="readxml"   />
+		
+	</fx:Declarations>
+	
+	<mx:Canvas id="ca" x="9" y="0" width="446" height="170">
+		
+		<s:List id="fileList" width="439" height="170" click="getFileName()" horizontalCenter="0"
+				verticalCenter="0"></s:List>
+		
+	</mx:Canvas>
+	<mx:Label x="109" y="179" width="41" text="文件名:"/>
+	<mx:TextInput id="fileName" x="158" y="178" width="139"/>
+	<s:Button id="btnOK" x="301" y="177" label="保存" click="validator()"/>
+	<s:Button id="btDownLoad" x="375" y="177" width="67" label="下载" click="downLoadFile()"
+			  enabled="false" visible="false"/>
+</s:TitleWindow>
+

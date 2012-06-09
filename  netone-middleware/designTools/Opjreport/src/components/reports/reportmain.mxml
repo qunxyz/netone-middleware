@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  color="#024764"  fontFamily="细明体" fontSize="12" 
+		  cornerRadius="0" layout="absolute"
+		  title="面板"
+		  >
+	
+	<fx:Declarations>
+		<mx:Resize id="resize" />
+		<mx:Blur id="blur"/>
+	</fx:Declarations>
+	<fx:Style  source="css/WorkStyle.css"/>
+	
+</mx:Panel>

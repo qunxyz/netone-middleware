@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  skinClass="com.resistdesign.drawTable.resizebox.insertbox.delbtnskin" height="14" width="10"
+		  click="del()"
+		  label="删除列"
+		  showEffect="{myEffect}"
+		  visible="{this.parentDocument.resizecell.actionbtn}"
+		  >
+	<fx:Declarations>
+		<mx:Sequence id="myEffect">
+			<mx:Parallel>
+				<mx:Fade />
+			</mx:Parallel>
+		</mx:Sequence>
+		
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.resistdesign.DataReport;
+			import com.resistdesign.drawTable.Table;
+			import com.resistdesign.drawTable.resizebox.resizemanage;
+			
+			import mx.controls.Alert;
+			public var insertcellidx:int;
+            public var selectw:Number;
+//			
+			
+			
+			public function del()
+			{
+				
+				/* this.parentDocument.resizecell.actionbtn=false;
+				 */
+				if(DataReport.index=="A"){
+				Alert.show("最后一个不能删除");
+				}else{
+			   	resizemanage.canins=false;
+				resizemanage.hbox.delcellbox(insertcellidx,resizemanage._table.itemw,selectw);  
+				
+				for(var i:int;i<DataReport.arrcontro.length;i++){  
+					DataReport.arrcontro[i]._table.selectcol=insertcellidx;
+					DataReport.arrcontro[i]._table.selectitemwidth=selectw;
+					DataReport.arrcontro[i].resizecell.actionbtn=false;
+					DataReport.arrcontro[i].removecol();
+				}
+			}
+			}
+		]]>
+	</fx:Script>
+	
+</s:Button>

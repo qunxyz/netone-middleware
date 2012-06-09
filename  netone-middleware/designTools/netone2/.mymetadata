@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="netone"
+  id="myeclipse.1313769525864"
+  context-root="/netone"
+  j2ee-spec="5.0"
+  archive="netone.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebContent" />
+  </attributes>
+</project-module>
+

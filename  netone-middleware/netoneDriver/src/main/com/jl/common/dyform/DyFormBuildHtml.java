@@ -175,7 +175,10 @@ public final class DyFormBuildHtml {
 		} else if (arr[21][0].equals(htmltype)) {// 25:当前部门
 			String userinfo_ = "";
 			if (StringUtils.isNotEmpty(userinfo)) {
-				userinfo_ = userinfo.split(",")[1];
+				String[] x = userinfo.split(",");
+				if (x.length == 2) {
+					userinfo_ = userinfo.split(",")[1];
+				}
 			} else {
 				userinfo_ = value;
 			}

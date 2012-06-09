@@ -1,6 +1,12 @@
 package com.jl.common.report;
 
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -12,9 +18,20 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
+import oe.env.client.EnvService;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
+import oe.security3a.seucore.obj.db.UmsProtectedobject;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
+
+import com.jl.common.dyform.DyEntry;
+import com.jl.common.dyform.DyFormColumn;
 import com.jl.common.dyform.DyFormComp;
 import com.jl.common.dyform.DyFormConsoleIfc;
 import com.jl.common.dyform.DyFormData;
+import com.jl.common.dyform.DyformConsoleImpl;
 import com.jl.common.report.obj.QueryColumn;
 import com.jl.common.report.obj.Report;
 
@@ -358,6 +375,8 @@ public class XReportFaceApi {
 		StringBuffer eventListenScripts = new StringBuffer();// 事件监听脚本
 		for (int i = 0; i < queryColumn.length; i++) {
 			QueryColumn column = queryColumn[i];
+			//字段绑定值的处理
+			dealWithKvDict(column);
 			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
 			String columnid = column.getColumnid();
 			// 字段名（中文）
@@ -369,6 +388,7 @@ public class XReportFaceApi {
 			int availColumnWidth = calcAvailColumnWidth(yoffset_.intValue());
 			htmlresult = buildTdHtml(htmlresult, availColumnWidth, column,
 					columnname, "", xoffset);
+			
 		}// end for
 
 		for (Iterator iterator = htmlresult.keySet().iterator(); iterator
@@ -481,5 +501,132 @@ public class XReportFaceApi {
 	public static void setAvailWidth(int availWidth) {
 		AvailWidth = availWidth;
 	}
+	//字段数据绑定
+	private static void dealWithKvDict(QueryColumn columnnew) {
+		ResourceRmi rs=null;
+		try {
+			rs = (ResourceRmi) RmiEntry.iv("resource");
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		// 扩展处理 k-v 列表，支持字典应用
+		String htmltype = columnnew.getColumntype();
+		System.out.println("-------------htmltype:"+htmltype);
+		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
+		StringBuffer but = new StringBuffer();
+		System.out.println(htmltype);
+		if ("18".equals(htmltype)) {
+			String valuelist = columnnew.getDefaultvalue();
+			//来自资源树某层目录的值
+			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
+			
+			if (StringUtils.isNotEmpty(rsinfo)) {
+				String valuetmp[]=StringUtils.split(rsinfo,",");
+				String rsNaturaname=valuetmp[0];
+				String rsKey=valuetmp.length==2?valuetmp[1]:"name";
+				if (!StringUtils.contains(rsNaturaname, ".")) {
+					rsNaturaname = rsNaturaname + "." + rsNaturaname;
+				}
+				try {
+					UmsProtectedobject upo = rs.loadResourceByNatural(rsNaturaname);
+					List sub = rs.subResource(upo.getId());
 
+					for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
+						UmsProtectedobject object = (UmsProtectedobject) iterator
+								.next();
+						String key=object.getName();
+						if(rsKey.equals("naturalname")){
+							key=object.getNaturalname();
+						}else if(rsKey.equals("id")){
+							key=object.getId();
+						}else if(rsKey.equals("nameid")){
+							key=object.getName()+"["+object.getId()+"]";
+						}else if(rsKey.equals("namenatual")){
+							key=object.getName()+"["+object.getNaturalname()+"]";
+						}
+						but.append(key + "-"
+								+ object.getName() + ",");
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			//来自SOA脚本
+			rsinfo = StringUtils.substringBetween(valuelist, "[SOA:", "]");
+			if (StringUtils.isNotEmpty(rsinfo)) {
+				UmsProtectedobject upo=null;
+				try {
+					upo = rs.loadResourceByNatural(rsinfo);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String param=upo.getDescription();
+				EnvService env = null;
+				try {
+
+					env = (EnvService) RmiEntry.iv("envinfo");
+					String value = env.fetchEnvValue("WEBSER_APPFRAME");
+					value=value+"Soasvl?naturalname="+rsinfo+param;
+
+							//System.out.println("sync user to php:"+url);
+							// 通讯协议
+							URL rul = new URL(value);
+							// 获得数据流
+							URLConnection urlc = rul.openConnection();
+							InputStream input = urlc.getInputStream();
+							// 进行数据交换
+
+							int read = 0;
+							while ((read = input.read()) != -1) {
+								but.append((char) read);
+							}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			
+			//来自其他表单字段
+			rsinfo = StringUtils.substringBetween(valuelist, "[DYFORM:", "]");
+
+			if (StringUtils.isNotEmpty(rsinfo)) {
+				String form[]=rsinfo.split(",");
+				DyFormData dfd=new DyFormData();
+				dfd.setFatherlsh("1");
+				dfd.setFormcode(form[0]);
+				String condition=form.length==4?form[3]:"";
+				try {
+					List data=DyEntry.iv().queryData(dfd, 0, 1000, condition);
+					for (Iterator iterator = data.iterator(); iterator
+							.hasNext();) {
+						DyFormData object = (DyFormData) iterator.next();
+						Object key=BeanUtils.getProperty(object, form[1]);
+						Object value=BeanUtils.getProperty(object, form[2]);
+						String keyinfo=key==null?"":key.toString();
+						String valueinfo=value==null?"":value.toString();
+						but.append(keyinfo + "-"
+								+ valueinfo + ",");
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		if (but.length() > 0) {
+			columnnew.setDefaultvalue(but.toString());
+		}
+	}
 }

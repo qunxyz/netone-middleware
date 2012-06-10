@@ -179,7 +179,7 @@
 			
 			protected function init(event:FlexEvent):void
 			{
-				Xmltree1.dataxml("dyfviewproc");	 
+				Xmltree1.dataxml("dyviewproc");	 
 			}
 			
 			

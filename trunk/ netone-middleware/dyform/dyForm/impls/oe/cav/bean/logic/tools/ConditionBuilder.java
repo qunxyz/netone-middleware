@@ -82,12 +82,20 @@ public class ConditionBuilder {
 									// 时间也当作字符串来处理
 									value = "'" + value + "%'";
 								} else {
-									value = "'" + value + "%'";
+									if(!element.getColumnid().equalsIgnoreCase("participant")){		
+										value = "'" + value + "%'";		
+									}
+								}
+								if(element.getColumnid().equalsIgnoreCase("participant")){
+									conditionInfo.append(" and "
+											+ element.getColumnid() + " in( "
+											+ value+")");
+								}else{
+									conditionInfo.append(" and "
+											+ element.getColumnid() + " like "
+											+ value);
 								}
 
-								conditionInfo.append(" and "
-										+ element.getColumnid() + " like "
-										+ value);
 							}
 						}
 

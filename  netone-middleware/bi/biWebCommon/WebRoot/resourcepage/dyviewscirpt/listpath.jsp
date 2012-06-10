@@ -14,7 +14,7 @@
 	<head>
 		<base href="<%=basePath%>">
 
-		<title>表单管理</title>
+		<title>视图报表</title>
 
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -59,17 +59,10 @@
 			form1.action="PagelistpathRightSvl";
 			form1.submit();
 		}
-		var totalMap = new Map();
-		var activeMap = new Map();
-		function mapinfo(){
-			<c:forEach items="${list}" var="list">
-			totalMap.put('${list.id}','${list.extendattribute}');
-			activeMap.put('${list.id}','${list.active}');
-			</c:forEach>
-		}
+
 		</script>
 	</head>
-	<body style="font-size: 12px; margin: 22px" onload='mapinfo()'>
+	<body style="font-size: 12px; margin: 22px">
 		<div style="width: 100%; height: 100%">
 			<form action="" method="post" name="form1">
 				<input type="hidden" name="pagename" value="${pagename}" />
@@ -140,13 +133,11 @@
 						<td colspan='9' align='right' nowrap>
 							&nbsp;&nbsp;
 							<script type="text/javascript">
+
 								function newds(){
+								 
 								   
-									window.open('resourcepage/dyformlist/First.jsp?pagepath=${pathreal}&id=${upo.id}','_blank');
-								}
-								function newds1(){
-								   
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>NewDoForm.html?parentdir=${upo.naturalname}','_blank');
+									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>/DyViewScript.html?name=${upo.naturalname}&model=new','_blank');
 								}
 								function edits(){
 									var k = 0;
@@ -166,131 +157,28 @@
 									if(k>1){
 										alert("只能选择单项进行修改");
 										return;
-									}
-									window.open('<%=path%>/ModifySummary.do?task=Modify&chkid='+value,'_blank');
+									} 
+									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>/DyViewScript.html?name=${upo.naturalname}&model=edits','_blank');
 								}
 								
-								function syn(){
-									var k = 0;
-									var value;
-									for(var i=0 ; i<form1.elements.length ; i++) {
-										if (form1.elements[i].name=="chkid") {
-											if(form1.elements[i].checked==true){
-												value = form1.elements[i].value;
-												k++;
-											}
-										}
-									}
-									if(k==0){
-										alert("请先选中需要修改的选项");
-										return;
-									}
-									if(k>1){
-										alert("只能选择单项进行修改");
-										return;
-									}
-									window.open('<%=path%>/SynSummary.do?task=Syn&chkid='+value,'_blank');
-								}
-								
-								function exportexcel(){
-									var k = 0;
-									var value;
-									for(var i=0 ; i<form1.elements.length ; i++) {
-										if (form1.elements[i].name=="chkid") {
-											if(form1.elements[i].checked==true){
-												value = form1.elements[i].value;
-												k++;
-											}
-										}
-									}
-									if(k==0){
-										alert("请先选中需要修改的选项");
-										return;
-									}
-									if(k>1){
-										alert("只能选择单项进行修改");
-										return;
-									}
-									window.open('<%=path%>/Export.do?task=show&chkid='+value,'_blank');
-								}
-								
-								function editsdy(type){
-									var k = 0;
-									var value;
-									for(var i=0 ; i<form1.elements.length ; i++) {
-										if (form1.elements[i].name=="chkid") {
-											if(form1.elements[i].checked==true){
-												value = form1.elements[i].value;
-												k++;
-											}
-										}
-									}
-									if(k==0){
-										alert("请先选中需要修改的选项");
-										return;
-									}
-									if(k>1){
-										alert("只能选择单项进行修改");
-										return;
-									}
-									var formcode=totalMap.get(value);
-									var active=activeMap.get(value);
-									if(type=='formcolumn')
-									window.open('/dyForm/design/system/column/list.do?formcode='+formcode,'_blank');
-									if(type=='forminfo')
-									window.open('/dyForm/design/system/form/modifyview.do?formcode='+formcode,'_blank');
-									if(type=='template')
-									window.open('/dyForm/design/system/form/createviewTemplate.do?formcode='+formcode,'_blank');
-									if(type=='security')
-									window.open('/dyForm/design/system/form/addToPermission.do?rsid='+value,'_blank');
-									if(type=='dyrs')
-									window.open('/dyForm/DyDataToSelectSvl?formcode='+formcode,'_blank');
-									if(type=='removesecurity')
-									window.open('/dyForm/design/system/form/addToPermission.do?rsid='+value+'&remove=yes','_blank');
-									if(type=='forminfox')
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>UpdateDoForm.html?naturalname=${upo.naturalname}&active='+active+'&formid='+formcode,'_blank');
-							        if(type=='copy')
-									window.open('/dyForm/DyFormCopySvl?pagepath=${upo.naturalname}&formcode='+formcode,'_blank');
-									if(type=='istake')
-									window.open('/netone/dyistake?pagepath=${upo.naturalname}&formcode='+formcode,'_blank');
-								}								
-
 							</script>
-							<input type="button" value="新建表单" onclick="newds1()" class="butt">
-							<input type="button" value="修改表单" onclick="editsdy('forminfox')" class="butt">&nbsp;&nbsp;
-						 
-							<input type="button" value="新建表单(旧)" onclick="newds()" class="butt">
-							
-							<input type="button" name="btnmodify1" value="修改表单(旧)"
-								onclick="editsdy('forminfo');" class="butt">
-							<input type="button" name="btnmodify2" value="修改字段(旧)"
-								onclick="editsdy('formcolumn');" class="butt">
-							<input type="button" name="btnmodify3" value="安全保护"
-								onclick="editsdy('security');" class="butt">
-							<input type="button" name="btnmodify3" value="取消保护"
-								onclick="editsdy('removesecurity');" class="butt">
-							 
-							<input type="button" name="btnmodify4" value="复制表单"
-								onclick="editsdy('copy');" class="butt">
-						    <input type="button" name="btnmodify5" value="是否启用"
-								onclick="editsdy('istake');" class="butt">
-							<!-- 
-							
-							<input type="button" name="btnmodify3" value="创建表单资源" onclick="editsdy('dyrs');" class="butt"> 
-							
-							-->
+
+
+
+						</td>
+					</tr>
+					<tr>
+						<td colspan='9' align='right' nowrap>
 							&nbsp;&nbsp;
-							<input type="button" name="btndelete" value="删除" onclick="del();"
+
+
+							<input type="button" value="新建表单" onclick="newds()" class="butt">
+							&nbsp;&nbsp;
+							<input type="button" value="修改" onclick="edit();"
 								class="butt">
-							<input type="button" name="btndelete" value="修改"
-								onclick="edit();" class="butt">
 							&nbsp;&nbsp;
-
-							<input type="button" name="btncheck" value="全选"
-								onclick="checkthese();" class="butt">
-
-
-
+							<input type="button" name="btndelete" value="删 除"
+								onclick="del();" class="butt">
 
 						</td>
 					</tr>
@@ -303,12 +191,13 @@
 							<input type="checkbox" name="checkall" onclick="allcheck();">
 							选择
 						</td>
-						<td class="td_titt_bg" nowrap>
+						<td class="td_titt_bg" width="70" nowrap>
 							中文名称
 						</td>
 						<td class="td_titt_bg" width="70" nowrap>
 							名称
 						</td>
+
 						<td class="td_titt_bg" width="70" nowrap>
 							分类
 						</td>
@@ -327,7 +216,6 @@
 							<td>
 								<input type="checkbox" name="chkid" value="${list.id}">
 							</td>
-
 							<td align='left' nowrap>
 								<c:if test="${list.inclusion == '1'}">
 									<a href="javascript:inclusionlink('${list.id}','${list.ou}');"><img
@@ -343,6 +231,7 @@
 							<td nowrap>
 								${list.naturalname}
 							</td>
+
 							<td nowrap>
 								${list.objecttype}
 							</td>
@@ -357,40 +246,13 @@
 									NO
 								</c:if>
 							</td>
-
-
 							<td nowrap>
-
-								<c:if test="${list.inclusion != '1'}">
-
-									
-									<a
-										href="javascript:window.open('<portal:envget envkey="WEBSER_APPFRAME"/>frame.do?method=onPreviewMain&formcode=${list.extendattribute}&isedit=1','_parent');"
-										target="_blank"><font color='red'>[预览]</font></a>									
-									<a   
-										href="javascript:window.open('<portal:envget envkey="WEBSER_APPFRAME"/>/frame.do?method=onMainView&naturalname=${list.naturalname}','_parent');"
-										target="_blank">[管理]</a>
-									<a
-										href="javascript:window.open('<%=path%>/Export.do?task=show&chkid=${list.id}','_parent');"
-										target="_blank">[导出]</a>
-										
-
-									<a
-										href="javascript:window.open('<portal:envget envkey="WEBSER_BIWEB"/>/PagelistRightSvl?pagename=dyformlist&appname=${list.naturalname}','_parent');"
-										target="_top">[功能配置]</a>
-										<!--  
-									<a
-										href="javascript:window.open('<%=path%>/SynSummary.do?task=Synbefore&chkid=${list.id}','_parent');"
-										target="_blank">[导入]</a>-->
-									<a
-										href="javascript:window.open('/dyForm/servlet/FormViewsvl?formcode=${list.extendattribute}','_parent');"
-										target="_top">[描述]</a>
-									<a href="javascript:checkthis('${list.extendattribute}');">选择</a>
-								</c:if>
-
-
+  									<a   
+										href="<portal:envget envkey="WEBSER_SpeedyForm"/>DyViewScript.html?parentdir=${upo.naturalname}&name=${list.naturalname}&model=edits"
+										target="_blank"><font color='red'>[修改]</font></a>
 
 							</td>
+
 						</tr>
 
 					</c:forEach>

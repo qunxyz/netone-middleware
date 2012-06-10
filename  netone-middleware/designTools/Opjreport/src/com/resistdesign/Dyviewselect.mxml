@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   width="630" height="492" close="titlewindow1_closeHandler(event)"
+			   creationComplete="init(event)" dragDrop="group1_dragDropHandler(event)"
+			   dragEnter="onDragEnter(event)" fontSize="18"   title="过程视图">
+	
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<s:RemoteObject id="Xmltree1" destination="xmltree1"  result="getfolderxml_resultHandler(event)"/> 
+		<s:RemoteObject id="Biselecttable1" destination="tablename" result="BihanderResult(event)"
+						showBusyCursor="true"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import components.reports.showxml;
+			import components.reportset.setmanage;
+			
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.core.DragSource;
+			import mx.core.EventPriority;
+			import mx.core.IFlexDisplayObject;
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.DragManager;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			private var _reptree:XML;
+			private var _selectlist:XML=<replist></replist>;
+			private var sidx:int;
+			private var isdrop:Boolean=false;
+			
+			[Bindable]
+			public function get selectlist():XML
+			{
+				return _selectlist;
+			}
+			
+			public function set selectlist(value:XML):void
+			{
+				_selectlist = value;
+			}
+			
+			[Bindable]
+			public function get reptree():XML
+			{
+				return _reptree;
+			}
+			
+			public function set reptree(value:XML):void
+			{
+				_reptree = value;
+			}
+			
+			[Bindable]
+			public var treeDataList:XML
+			
+			
+			
+			[Embed(source="ico/wenj.png")]         
+			[Bindable] 
+			public var foldericon:Class; 
+			
+			[Embed(source="ico/rep.png")]          
+			[Bindable] 
+			public var fileicon:Class;  
+			
+			[Embed(source="ico/itf.png")]          
+			[Bindable] 
+			public var itficon:Class;  
+			
+			
+			private function iconFun(item:Object):* 
+			{ 
+				var xml:XML     = item as XML; 
+				
+				if(xml.attribute("type") == "gen") 
+					return foldericon; 
+				else 
+					return fileicon; 
+			}  
+			
+			private function selecticonFun(item:Object):* 
+			{ 
+				var xml:XML     = item as XML; 
+				
+				if(xml.attribute("type") == "gen") 
+					return fileicon; 
+				else 
+					return itficon; 
+			}  
+			
+			protected function onDragEnter(event:DragEvent):void
+			{
+				DragManager.acceptDragDrop(UIComponent(event.currentTarget));
+			}
+			private function onDragOver( event:DragEvent ) : void
+			{
+				
+				
+				var dropTarget:Tree = Tree(event.currentTarget);
+				var r:int = dropTarget.calculateDropIndex(event);
+				
+				var node:XML =reporttree.selectedItem as XML;
+				
+				var data:XMLListCollection=new XMLListCollection(selectlist.repfile);
+				for (var i:int = 0; i < data.length; i++) 
+				{
+					if(data[i].@naturalname==node.@naturalname)
+					{
+						DragManager.showFeedback(DragManager.NONE);
+						//						Alert.show("已有该报表");
+						return;
+					}
+				}
+				
+				
+				
+				if(node.@type == "gen" ) {
+					DragManager.showFeedback(DragManager.NONE);
+					return;
+				}
+				
+				if (event.ctrlKey)
+					DragManager.showFeedback(DragManager.COPY);
+				else if (event.shiftKey)
+					DragManager.showFeedback(DragManager.LINK);
+				else {
+					DragManager.showFeedback(DragManager.MOVE);
+				}
+			}
+			
+			
+			public var  notep:XML;
+			protected function onDragDrop(event:DragEvent):void
+			{
+				var ds:DragSource = event.dragSource;
+				var dropTarget:Tree = Tree(event.currentTarget);
+				
+				var node:XML =reporttree.selectedItem as XML;
+				var node1:XML=<repfile></repfile>
+				node1.@name=node.@name;
+				node1.@type="gen";
+				node1.@naturalname=node.@naturalname
+				notep=node1;
+				selectlist.appendChild(node1);
+				setmanage.selectlist=this.selectlist;
+				
+				/* getface.readxmlByName(node1.@naturalname.toString()); */
+				
+			}
+			
+			protected function clearn(event:MouseEvent):void
+			{
+				Alert.show(selectlist.toString());
+				
+			}
+			
+			
+			
+			
+			protected function group1_dragEnterHandler(event:DragEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function group1_dragDropHandler(event:DragEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function init(event:FlexEvent):void
+			{
+				Xmltree1.dataxml("dyfviewproc");	 
+			}
+			
+			
+			/* 	  protected function getfolderxml_resultHandler(event:ResultEvent):void
+			{		
+			
+			treeDataList=new XML(event.result.toString());
+			}  
+			*/
+			protected function getface_resultHandler(event:ResultEvent):void
+			{
+				
+				var xml:XML=new XML(event.result.toString());
+				var xml2:XMLListCollection=new XMLListCollection(xml.Interface); 
+				
+				for (var i:int = 0; i < xml2.length; i++) 
+				{
+					var xmllis:XML=<Inface></Inface>;
+					xmllis.@name=xml2.getItemAt(i).@displayname;
+					xmllis.@displayname=xml2.getItemAt(i).@displayname;
+					xmllis.@columns=xml2.getItemAt(i).@columns;
+					xmllis.@bindclr="无";
+					xmllis.@text="无";
+					xmllis.@remark=xml2.getItemAt(i).@remark;
+					xmllis.@stringtype=xml2.getItemAt(i).@stringtype;
+					notep.appendChild(xmllis);
+				}
+				
+				
+				
+				
+			}
+			
+			private function tree_labelFunc(item:XML):String 
+			{
+				
+				if (item.@type=="gen") 
+				{
+					return item.@name;
+				}
+				else
+				{
+					return "报表接口："+item.@displayname ;
+				}
+			} 
+			
+			//退出选择表单面板
+			protected function titlewindow1_closeHandler(event:CloseEvent):void
+			{
+				// TODO Auto-generated method stub
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			//选择表单确定
+			public function queding():void{
+				var sx:XMLList= new XMLList(selectlist).children();
+				if(sx.length()>1){
+					Alert.show("只能选择一个表单");
+				}else{
+					DataReport.Fcod=sx[0].@naturalname.toString();
+					var arr:Array=sx[0].@naturalname.toString().split(".");
+					var formname:String=sx[0].@naturalname.toString();
+					GlobalManager.getInstance().dispatchEvent(new  EvTijiao(DataReport.Evnt_form,formname));
+					PopUpManager.removePopUp(this as IFlexDisplayObject);
+				}
+				
+			}
+			//取消
+			public function quxiao():void{
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			
+			protected function seletlist_itemClickHandler(event:ListEvent):void
+			{
+				// TODO Auto-generated method stub
+				var sx:XMLList= new XMLList(selectlist).children();
+				for(var i:int;i<sx.length();i++){
+					if(XML(event.itemRenderer.data).@naturalname.toString()==sx[i].@naturalname.toString()){
+						delete sx[i]; 
+					}
+				}
+			}
+			
+			//接收返回驱动
+			public function BihanderResult(event:ResultEvent):void
+			{
+				var str:String=event.result as String;
+				DataReport.Drivar=str;
+				GlobalManager.getInstance().dispatchEvent(new EvTijiao("qudong",str));
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			} 
+			
+			public function getfolderxml_resultHandler(event:ResultEvent):void{
+				treeDataList=new XML(event.result.toString());		 
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	
+	<mx:Tree id="reporttree" x="27" y="26" width="264" height="390" allowMultipleSelection="true"
+			 alternatingItemColors="[#F6F3F3, #FBFCFD]" borderColor="#D7D7D7" borderStyle="solid"
+			 borderThickness="2" cornerRadius="7" dataProvider="{treeDataList}" dragEnabled="true"
+			 dragMoveEnabled="false" fontSize="10" iconFunction="iconFun" labelField="@name"></mx:Tree>
+	<mx:Tree id="seletlist" x="338" y="26" width="272" height="390"
+			 alternatingItemColors="[#E2FAF3, #FBF5F5]" borderColor="#D6D9DB" borderThickness="2"
+			 cornerRadius="5" dataProvider="{selectlist.repfile}" doubleClickEnabled="true"
+			 dragDrop="onDragDrop(event)" dragEnabled="true" dragEnter="onDragEnter(event)"
+			 dragMoveEnabled="true" dragOver="onDragOver(event)" fontSize="10"
+			 iconFunction="selecticonFun" itemDoubleClick="seletlist_itemClickHandler(event)"
+			 labelField="@name" labelFunction="tree_labelFunc"></mx:Tree>
+	<s:Label id="lable1" x="27" y="8" color="#062486" fontSize="12" text="过程视图"/>
+	<s:Label id="lable2" x="340" y="8" color="#041985" fontSize="12" text="已选列表"/>
+	<s:Button x="249" y="427" label="确定" click="queding()"/>
+	<s:Button x="324" y="427" label="取消" click="quxiao()"/>
+</s:TitleWindow>

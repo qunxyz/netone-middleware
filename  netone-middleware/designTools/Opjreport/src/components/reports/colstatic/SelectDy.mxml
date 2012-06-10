@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" width="217" height="124">
+		   xmlns:mx="library://ns.adobe.com/flex/mx" width="217"  initialize="init()" height="124">
 	<fx:Script>
 		<![CDATA[
 			import com.resistdesign.DataReport;
+			import com.resistdesign.Dyviewselect;
 			import com.resistdesign.EvTijiao;
 			import com.resistdesign.FromSelect;
 			import com.resistdesign.GlobalManager;
@@ -30,9 +31,17 @@
 					(reportmanage.selectobj as   TableCav).sqlstr=event.currentTarget.text;
 				}
 			}
-			public function xuanzhe():void{
+			public function init():void{
 				GlobalManager.getInstance().addEventListener(DataReport.Evnt_form,Evnt_form);
+			}
+			public function xuanzhe():void{
+			
 				var fs:FromSelect=new FromSelect();
+				PopUpManager.addPopUp(fs,this.parent.parent.parent.parent,true);
+				PopUpManager.centerPopUp(fs as IFlexDisplayObject);
+			}
+			public function processview():void{
+				var fs:Dyviewselect=new Dyviewselect();
 				PopUpManager.addPopUp(fs,this.parent.parent.parent.parent,true);
 				PopUpManager.centerPopUp(fs as IFlexDisplayObject);
 			}
@@ -55,7 +64,8 @@
 				 text="选择表单"/>
 		<mx:HRule width="82" height="18"/>
 	</mx:HBox>
-	<s:Button x="23" y="32" width="72" height="26" label="选择表单" click="xuanzhe()"/>	
+	<s:Button x="23" y="32" width="72" height="26" label="视图表单" click="xuanzhe()"/>	
+	<s:Button x="117" y="32" width="72" height="26" label="过程视图" click="processview()"/>
 	<s:TextArea id="dyform" x="23" y="66" width="173" height="51" text="" change="sqlchange(event)"/>
 </mx:Canvas>
 

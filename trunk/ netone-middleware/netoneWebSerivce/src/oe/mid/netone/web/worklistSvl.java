@@ -114,7 +114,7 @@ public class worklistSvl extends HttpServlet {
 					dataobj.getData()[dataobj.getData().length - 1]);
 			JSONObject json = JSONObject.fromObject(dataobj.getExt());
 			map.put("lsh", json.get("bussid"));
-			map.put("url", rmiobj.getWEBSER_APPFRAME() + dataobj.getUrl());
+			map.put("url", rmiobj.getWEBSER_APPFRAME() +dataobj.getUrl());
 
 			String str = StringUtils.substringBetween(dataobj.getUrl(),
 					"&naturalname=", "&lsh=");

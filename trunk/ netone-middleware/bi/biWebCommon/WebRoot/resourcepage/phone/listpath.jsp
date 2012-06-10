@@ -125,8 +125,7 @@
 							<!-- ${pathreal} -->
 						</td>
 						<td colspan='1'>
-							<a href='javascript:newInclusion();'><font color='blue'>新建目录</font>
-							</a> &nbsp;&nbsp;
+						
 						</td>
 					</tr>
 					<tr>
@@ -135,9 +134,10 @@
 							<script type="text/javascript">
 
 								function newds(){
-								 
-								   
-									window.open('<portal:envget envkey="WEBSER_REPORT"/>/Opjreport-debug/ApplicationConfig.html?naturalname=${upo.naturalname}','_blank');
+									window.open('<portal:envget envkey="WEBSER_REPORT"/>/Opjreport-debug/Fileconfig.html?naturalname=${upo.naturalname}','_blank');
+								}
+								function newds1(){
+									window.open('<portal:envget envkey="WEBSER_REPORT"/>/Opjreport-debug/folderconfig.html?naturalname=${upo.naturalname}','_blank');
 								}
 								function edits(){
 									var k = 0;
@@ -170,9 +170,10 @@
 					<tr>
 						<td colspan='9' align='right' nowrap>
 							&nbsp;&nbsp;
+							<input type="button" value="新建层次" onclick="newds1()" class="butt">
+							&nbsp;&nbsp;
 
-
-							<input type="button" value="新建配置" onclick="newds()" class="butt">
+							<input type="button" value="新建程序" onclick="newds()" class="butt">
 							&nbsp;&nbsp;
 							<input type="button" value="修改" onclick="edit();"
 								class="butt">

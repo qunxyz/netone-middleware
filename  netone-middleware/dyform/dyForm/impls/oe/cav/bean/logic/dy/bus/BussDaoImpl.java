@@ -28,8 +28,14 @@ import oe.cav.bean.logic.tools.DyObj;
 import oe.cav.bean.logic.tools.DyObjFromXml;
 import oe.cav.bean.logic.tools.SQLTools;
 import oe.cav.bean.logic.tools.XmlPools;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.CupmRmi;
+import oe.security3a.client.rmi.ResourceRmi;
+import oe.security3a.seucore.obj.Clerk;
+import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -534,6 +540,50 @@ public class BussDaoImpl implements BussDao {
 		return queryObjects(obj, -1, -1, "");
 	}
 
+	private void permission(TCsBus obj) {
+		String participant = obj.getParticipant();
+		if (StringUtils.isEmpty(participant)) {
+			return;
+		}
+		try {
+			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+			CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
+			List okTeam = new ArrayList();
+			List sub = rs.subResourceByNaturalname("SYSTEAM.SYSTEAM");
+			for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
+				UmsProtectedobject object = (UmsProtectedobject) iterator
+						.next();
+				String name = object.getNaturalname();
+				boolean ok = cupm.checkUserPermission("0000", participant,
+						name, "3");
+				if (ok) {
+					okTeam.add(name);
+				}
+			}
+			StringBuffer but = new StringBuffer("'" + participant + "'");
+
+			for (Iterator iterator = okTeam.iterator(); iterator.hasNext();) {
+				String object = (String) iterator.next();
+				Clerk c1 = new Clerk();
+				c1.setProvince("%" + object + "@%");
+				Map map = new HashMap();
+				map.put("major", "like");
+				//后期queryObjectsClerk方法中加入cache来缓存 读取用户的性能
+				List list = rs.queryObjectsClerk("0000", c1, map, 0, 1000);
+				for (Iterator iterator2 = list.iterator(); iterator2.hasNext();) {
+					Clerk object2 = (Clerk) iterator2.next();
+					but.append(",'" + object2.getDescription() + "'");
+				}
+			}
+
+			obj.setParticipant(but.toString());
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public List queryObjects(TCsBus obj, int from, int to, String conditionPre) {
 		if (conditionPre == null) {
 			conditionPre = "";
@@ -542,11 +592,15 @@ public class BussDaoImpl implements BussDao {
 			log.error("输入对象TCsBus为空");
 			return null;
 		}
+
 		String formcode = obj.getFormcode();
 		// 根据数据库名读取DyObj对象属性
 		DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode).toString());
 
 		List columnlist = dfo.getColumn();
+		
+		//处理表单数据管理逻辑
+		permission(obj);
 
 		// 查询语句生成
 		String finalSQL = BussDaoReference._SELECT
@@ -592,9 +646,9 @@ public class BussDaoImpl implements BussDao {
 						return null;
 					}
 				}
-				try{
-				bus.setLsh(rs.getObject("LSH").toString());
-				}catch(Exception e){
+				try {
+					bus.setLsh(rs.getObject("LSH").toString());
+				} catch (Exception e) {
 					System.err.println("视图表单无LSH");
 					e.printStackTrace();
 				}
@@ -630,6 +684,9 @@ public class BussDaoImpl implements BussDao {
 		DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode).toString());
 
 		List columnlist = dfo.getColumn();
+		
+		//处理表单数据管理逻辑
+		permission(obj);
 
 		// 查询语句生成
 		String finalSQL = BussDaoReference._SELECTCOUNT

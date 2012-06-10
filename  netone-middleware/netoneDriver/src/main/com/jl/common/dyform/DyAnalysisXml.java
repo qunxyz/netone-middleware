@@ -55,20 +55,26 @@ public class DyAnalysisXml {
 
 				if (StringUtils.isNotEmpty(lsh)) {
 					DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
-					TCsBus bus = dy.loadData(lsh,formid);
-					Object obj = BeanUtils.getProperty(bus, "statusinfo");
-					script = dealWithScrpit(script, "statusinfo", obj);
-					Object obj1 = BeanUtils.getProperty(bus, "lsh");
-					script = dealWithScrpit(script, "lsh", obj1);
-					Object obj2 = BeanUtils.getProperty(bus, "participant");
-					script = dealWithScrpit(script, "participant", obj2);
-					Object obj3 = BeanUtils.getProperty(bus, "fatherlsh");
-					script = dealWithScrpit(script, "fatherlsh", obj3);
-					Object obj4 = BeanUtils.getProperty(bus, "formcode");
-					script = dealWithScrpit(script, "formcode", obj4);
-					for (int i = 1; i <= 50; i++) {
-						Object obj5 = BeanUtils.getProperty(bus, "column" + i);
-						script = dealWithScrpit(script, "column" + i, obj5);
+					TCsBus bus =null;
+					try{
+						bus=dy.loadData(lsh,formid);
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					script = dealWithScrpit(script, "lsh", lsh);
+					if(bus!=null){
+						Object obj = BeanUtils.getProperty(bus, "statusinfo");
+						script = dealWithScrpit(script, "statusinfo", obj);					
+						Object obj2 = BeanUtils.getProperty(bus, "participant");
+						script = dealWithScrpit(script, "participant", obj2);
+						Object obj3 = BeanUtils.getProperty(bus, "fatherlsh");
+						script = dealWithScrpit(script, "fatherlsh", obj3);
+						Object obj4 = BeanUtils.getProperty(bus, "formcode");
+						script = dealWithScrpit(script, "formcode", obj4);
+						for (int i = 1; i <= 50; i++) {
+							Object obj5 = BeanUtils.getProperty(bus, "column" + i);
+							script = dealWithScrpit(script, "column" + i, obj5);
+						}
 					}
 				}else{
 			

@@ -1,15 +1,19 @@
 package com.jl.common.report.servlet;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+
+import oe.midware.workflow.service.WorkflowConsole;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.jl.common.report.obj.core.Read_table;
-
+import com.jl.common.netone.view.Dyviewxml;
 import com.jl.common.report.obj.core.Read_dataset;
 import com.jl.common.report.obj.core.Read_report;
+import com.jl.common.report.obj.core.Read_table;
 import com.jl.common.report.obj.core.RecordPools;
 import com.jl.common.workflow.DbTools2;
 
@@ -63,8 +67,27 @@ public class XmlDataread {
 		return rps;
 	}
 	public static List datalist(String sqlstr,String condition)
-	{
-		List list=DbTools2.queryData(sqlstr+condition);
+	{	
+		List list=new ArrayList();
+		if(sqlstr!=null&&sqlstr.startsWith("DYVIEWPROC.DYVIEWPROC")){
+			try{
+			//是过程表单
+			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+			String viewproc=rs.loadResourceByNatural(sqlstr).getExtendattribute();
+			String script=Dyviewxml.readXML(viewproc).getScript();
+			//参考规范，过程视图中的SQL语句如果需要条件会在sql中加入  $(condition)
+			script=StringUtils.replace(script, "$(condition)", condition);
+			
+			WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+			list=(List)console.exeScript(script);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}else{
+			list=DbTools2.queryData(sqlstr+condition);
+				
+		}
 		return list;
+
 	}
 }

@@ -22,6 +22,7 @@ import oe.cav.bean.logic.form.TCsForm;
 import oe.cav.web.data.dyform.utils.DymaticFormCheck;
 import oe.env.client.EnvService;
 import oe.midware.dyform.service.DyFormService;
+import oe.midware.workflow.service.WorkflowView;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -31,6 +32,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.workflow.TWfActive;
+import com.jl.common.workflow.TWfConsoleIfc;
 
 public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
@@ -75,6 +77,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	public List<DyFormColumn> fetchColumnList(String formid) throws Exception {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 		List listcolumn = dy.fetchColumnList(formid);
+		
 		List newColumn = new ArrayList();
 		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		for (Iterator iterator = listcolumn.iterator(); iterator.hasNext();) {
@@ -82,6 +85,12 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			String typex = object.getViewtype();
 			if ("20".equals(typex) || "21".equals(typex) || "29".equals(typex)) {
 				// continue;
+			}
+			if(object.getColumncode().startsWith("num_")){
+				object.setViewtype("01");
+			}
+			if(object.getColumncode().startsWith("time_")){
+				object.setViewtype("04");
 			}
 			DyFormColumn columnnew = new DyFormColumn();
 			BeanUtils.copyProperties(columnnew, object);
@@ -97,7 +106,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		// columnnew.setHidden(true);
 		// columnnew.setMusk_(true);
 		// newColumn.add(columnnew);
-
+		
 		return newColumn;
 	}
 	

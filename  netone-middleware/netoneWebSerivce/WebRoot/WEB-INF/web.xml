@@ -175,6 +175,41 @@
     <servlet-name>Querybranchlisting</servlet-name>
     <servlet-class>oe.mid.netone.web.Querybranchlisting</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ListNextRouteActive</servlet-name>
+    <servlet-class>oe.mid.netone.web.ListNextRouteActive</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ListNextBackActive</servlet-name>
+    <servlet-class>oe.mid.netone.web.ListNextBackActive</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LoadCfgActive</servlet-name>
+    <servlet-class>oe.mid.netone.web.LoadCfgActive</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SaveAuditNote</servlet-name>
+    <servlet-class>oe.mid.netone.web.SaveAuditNote</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>NextByManual</servlet-name>
+    <servlet-class>oe.mid.netone.web.NextByManual</servlet-class>
+  </servlet>
+
+
+
+
+
 
 
 
@@ -334,6 +369,31 @@
   <servlet-mapping>
     <servlet-name>Querybranchlisting</servlet-name>
     <url-pattern>/querybranchlisting</url-pattern>
+  </servlet-mapping>
+  <!-- 可通过的下一个节点-->
+  <servlet-mapping>
+    <servlet-name>ListNextRouteActive</servlet-name>
+    <url-pattern>/listnextrouteactive</url-pattern>
+  </servlet-mapping>
+    <!-- 可退回的所有节点-->
+  <servlet-mapping>
+    <servlet-name>ListNextBackActive</servlet-name>
+    <url-pattern>/listnextbackactive</url-pattern>
+  </servlet-mapping>
+     <!-- 获得人员的细腻系-->
+  <servlet-mapping>
+    <servlet-name>LoadCfgActive</servlet-name>
+    <url-pattern>/loadcfgactive</url-pattern>
+  </servlet-mapping>
+       <!-- 保存意见-->
+  <servlet-mapping>
+    <servlet-name>SaveAuditNote</servlet-name>
+    <url-pattern>/saveauditnote</url-pattern>
+  </servlet-mapping>
+  <!-- 通过 或不通过 提交实际上是调用  -->
+  <servlet-mapping>
+    <servlet-name>NextByManual</servlet-name>
+    <url-pattern>/nextbymanual</url-pattern>
   </servlet-mapping>
 
 </web-app>

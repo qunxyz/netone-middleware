@@ -115,6 +115,8 @@ public class XmlTree {
 			cname="功能扩展";
 		}if(path.equals("EXTENDATTRIBUTE")){
 			cname="扩展功能";
+		}if(path.equals("dyfviewproc")){
+			cname="过程视图";
 		}
 		NetoneXmlTree dxml=new NetoneXmlTree();
 		return dxml.dataxml(path, cname);

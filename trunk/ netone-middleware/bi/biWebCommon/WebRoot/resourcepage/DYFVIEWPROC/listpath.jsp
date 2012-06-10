@@ -248,7 +248,7 @@
 							</td>
 							<td nowrap>
   									<a   
-										href="<portal:envget envkey="WEBSER_SpeedyForm"/>DyViewScript.html?parentdir=${upo.naturalname}&name=${list.naturalname}&model=edits"
+										href="<portal:envget envkey="WEBSER_SpeedyForm"/>DyViewScript.html?name=${upo.naturalname}&name=${list.naturalname}&model=edits"
 										target="_blank"><font color='red'>[ÐÞ¸Ä]</font></a>
 
 							</td>

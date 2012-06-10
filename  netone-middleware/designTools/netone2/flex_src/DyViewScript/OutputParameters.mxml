@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas  fontSize="18" xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()"  creationComplete="cmp()"  width="100%" height="100%" >
+     <mx:Script>
+     	<![CDATA[
+     		import mx.rpc.events.ResultEvent;
+     		import mx.collections.XMLListCollection;
+     		import ActionForm.DyData;
+     		import ActionForm.From.com.hitb.util.GlobalManager;
+     		import mx.controls.Alert;
+     		import ActionForm.vivid;
+     		import mx.containers.ViewStack;
+     		import mx.collections.ArrayCollection;
+		import mx.controls.ComboBox;
+		[Bindable]
+		public var vs:ViewStack;
+		[Bindable]
+  	    public var textpath:String="";
+  	    [Bindable]//列表上绑定 数据
+	   public static var itfarr:ArrayCollection=new ArrayCollection();
+	   	public var comBoxXML:XML =  
+				<list>  
+					  <typename>字符串</typename>  
+					  <typename>数字</typename>  
+					  <typename>时间</typename>  
+				</list>;
+	   [Bindable]  
+	   public var comBox:XMLListCollection=new XMLListCollection(comBoxXML.typename); 
+	    public var a1:String="<![CDATA[";
+
+		public var a2:String="]]";
+		public var a3:String=">";
+		public function init():void{
+		  vs=this.parent as ViewStack;
+	      textpath="路径： "+DateScript.Urlname+" 第2步，共"+DateScript.sum+"步";
+	     
+		}
+		 public function cmp():void{
+       if(!DateScript.modletype){ 
+	       var xml:XML=DateScript.controlxml;
+	       var xmllist:XMLList=xml.child("Output");
+	       for(var i:int=0;i<xmllist.length();i++){
+	        itfarr.addItem({itf:xmllist[i].@columns,itfdisplay:xmllist[i].@displayname,itftype:xmllist[i].@stringtype,
+	       	remark:xmllist[i].@remark,using:true});
+	       }
+       }else{
+             for(var i:int=0;i<15;i++){
+	         itfarr.addItem({itf:"字段名",itfdisplay:"中文名",itftype:"类型",remark:"描述",using:false});
+	        }
+	     }
+       }
+          public function xmllist():XML{
+           var xml:XML=<View></View>
+           for(var i:int=0;i<DateScript.itfarr.length;i++){
+           	 if(DateScript.itfarr[i].using){
+	           var input:XML=<Input></Input> 
+	              input.@columns=DateScript.itfarr[i].itf;
+            	  input.@displayname=DateScript.itfarr[i].itfdisplay;
+            	  input.@stringtype=DateScript.itfarr[i].itftype;
+            	  input.@remark=DateScript.itfarr[i].remark;
+            	  input.@using=DateScript.itfarr[i].using;
+	              xml.appendChild(input);
+           	 }
+           }
+           var script:XML=<Script>{a1+DateScript.Scrptstr+a2+a3}</Script>
+            xml.appendChild(script);
+     
+            for(var j:int=0;j<itfarr.length;j++){
+            	  if(itfarr[j].using){
+          		  var output:XML=<Output></Output> 
+            	  output.@columns=itfarr[j].itf;
+            	  output.@displayname=itfarr[j].itfdisplay;
+            	  output.@stringtype=itfarr[j].itftype;
+            	  output.@remark=itfarr[j].remark;
+            	  output.@using=itfarr[j].using;
+            	  xml.appendChild(output);
+            	 }
+             }
+            return xml;
+          }
+         //上一步的方法
+          public function UPNode(event:MouseEvent):void{
+          	var o:Object=this.parent.getChildByName("ScriptInput1");
+            vs.selectedChild=o as Canvas;
+          }
+          //下一步
+         public function DownNode(event:MouseEvent):void{	
+         	var xml:XML=xmllist();
+         if(!DateScript.modletype){
+          queryExtended1.Update(DateScript.repidID,DateScript.repdimxplay,xml.toString(),DateScript.Urlname);
+          }else{
+		  addtabularanalysis.Addxml(DateScript.repidID,DateScript.repdimxplay,xml.toString(),DateScript.Urlname);
+          }
+         }
+         public function Cancel():void{
+          navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+         public function AddTabularAnalysis(event:ResultEvent):void{
+          navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+         public function Update(event:ResultEvent):void{
+         navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
+         }
+     	]]>
+     </mx:Script>
+     <mx:RemoteObject id="addtabularanalysis" destination="AddTabularAnalysis1" result="AddTabularAnalysis(event)" 
+	showBusyCursor="true"/>
+	 <mx:RemoteObject id="queryExtended1" destination="QueryExtended1"  showBusyCursor="true" result="Update(event)"/>
+       <mx:Canvas width="100%" height="189" >
+	<mx:Canvas x="0" y="136" width="100%" height="3" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#5D5D5D"/>
+	    <mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
+		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+	    <mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="输出参数"/>
+	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
+		  <mx:Label x="19" y="0" text="过程视图" fontSize="20" fontWeight="bold"/>
+		</mx:Canvas>		
+		<mx:Label x="100" y="148" text="帮助提示:配置需要的输出参数，然后单击“下一步”。" color="#53585C" fontSize="18"/>
+	</mx:Canvas>
+ 	<mx:Canvas id="canvas1" width="598" height="341"  x="137" y="197" fontSize="18">
+ 	<mx:DataGrid id="itfdata" x="0" y="0" width="596" height="100%" dataProvider="{itfarr}" color="#5B5C62" editable="true"
+					 enabled="true" fontFamily="细明体" fontSize="12" >
+			<mx:columns>
+				<mx:DataGridColumn dataField="itf" editable="true" headerText="字段名"/>   
+				<mx:DataGridColumn dataField="itfdisplay" editable="true" headerText="中文名"/>   
+				<mx:DataGridColumn dataField="itftype" editorDataField="value" headerText="类型">
+					<mx:itemEditor>    
+						<mx:Component>
+							<mx:HBox horizontalAlign="center">  
+								<mx:Script>  
+									<![CDATA[  
+									public function get value():Object  
+									{  
+									if(cmb.selectedItem == null)  
+									return null;  
+									var item1 :XML = cmb.selectedItem as XML;  
+									var method1 : String = item1.children()[0]; 
+									data.typename = method1;     
+									return method1;  
+									}  
+									override public function set data(value:Object):void  
+									{  
+									super.data=value;  
+									for each(var item1 :XML in cmb.dataProvider)  
+									{  
+									trace(item1.children()[0]);  
+									var method2 : String = item1.children()[0];  
+									if(method2 == value.typename){  
+									cmb.selectedItem=item1;  
+									}  
+									}  
+									}  
+									]]>  
+								</mx:Script>  
+								<mx:ComboBox id="cmb" width="95%" dataProvider="{outerDocument.comBox}"/>  
+							</mx:HBox>
+						</mx:Component>  
+					</mx:itemEditor>
+				</mx:DataGridColumn>   
+				<mx:DataGridColumn dataField="remark" editable="true" headerText="描述"/>   
+				<mx:DataGridColumn width="62" dataField="using" editable="false" headerText="启用状态"
+								   resizable="false">
+					<mx:itemRenderer>
+						<mx:Component>
+							<mx:HBox horizontalAlign="center">  
+								<mx:CheckBox click="data.using=!data.using" selected="{data.using}"/>
+							</mx:HBox>		
+						</mx:Component> 	
+					</mx:itemRenderer>
+				</mx:DataGridColumn>  
+			</mx:columns>
+		</mx:DataGrid>
+	</mx:Canvas>
+ 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
+ 	</mx:Canvas>
+ 	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-300}" label="完成" click="DownNode(event)" y="560" height="28" width="97" fontSize="12"  />
+ 	<mx:Button x="{this.width-200}" y="560" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
+</mx:Canvas> 

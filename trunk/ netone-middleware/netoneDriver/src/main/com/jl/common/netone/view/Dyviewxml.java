@@ -18,9 +18,13 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import com.jl.common.netone.UmsProtecte;
-import com.jl.common.report.parse.AddRs;
- 
 
+ 
+/**
+ * 从視圖過程中解析数据
+ * @author robanco
+ *
+ */
 public class Dyviewxml {
    public static void main(String[] args) {
 	UmsProtecte uProtecte=new UmsProtecte();

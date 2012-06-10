@@ -56,4 +56,44 @@ public class AddTabularAnalysis {
 		}
 		return idcreated.toString();
 	}
+	
+	public String Addxml(String naturalname, String name,
+			String extendattribute,String parentdir) {
+		ResourceRmi rsrmi = null;
+		Serializable idcreated = null;
+
+		try {
+			// 读取名为resource的rmi服务
+			try {
+				rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+		}
+		String cString="<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+		extendattribute=extendattribute.replace("&lt;", "<");
+		extendattribute=cString+extendattribute.replace("&gt;", ">");
+
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setNaturalname(naturalname);
+		upo.setName(name);
+		upo.setActionurl("");
+		upo.setExtendattribute(extendattribute);
+		upo.setObjecttype("");
+		upo.setDescription("");
+
+		try {
+			idcreated = rsrmi.addResource(upo,parentdir);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return idcreated.toString();
+	}
 }

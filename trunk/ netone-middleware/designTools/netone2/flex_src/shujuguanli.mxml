@@ -75,13 +75,18 @@
 	           var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=dyview&appname=dyview";
 				var request:URLRequest=new URLRequest(url);  
 				navigateToURL(request); 
-	     
 	     }		
+	     //视图报表
+	     public  function viewform():void{
+	            var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=dyviewscirpt&appname=dyviewscirpt";
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+	     }
 	]]>
 </mx:Script>
         <mx:Button x="88.5"  y="45" label=""  height="119" width="144" click="{FormDesigner()}" overSkin="@Embed(source='img/1.1-01.png')" upSkin="@Embed(source='img/1-01.png')" downSkin="@Embed(source='img/1-01.png')"/>
 		<mx:Button x="388.5" y="45" label=""  height="119" width="144" click="{WorkflowDesign()}" overSkin="@Embed(source='img/2.1-01.png')" upSkin="@Embed(source='img/2-01.png')" downSkin="@Embed(source='img/2-01.png')"/>
-		<mx:Button x="688.5" y="45" label=""  height="119" width="144" click="{SafetyManagement()}" overSkin="@Embed(source='img/3.1-01.png')" upSkin="@Embed(source='img/3-01.png')" downSkin="@Embed(source='img/3-01.png')"/>
+		<mx:Button x="701.5" y="45" label=""  height="119" width="144" click="{SafetyManagement()}" overSkin="@Embed(source='img/3.1-01.png')" upSkin="@Embed(source='img/3-01.png')" downSkin="@Embed(source='img/3-01.png')"/>
 	    <mx:Button y="20" click="SetExte()" width="50" height="29" x="1000" overSkin="@Embed(source='img1/fanhui.png')" upSkin="@Embed(source='img1/fanhui1.png')" downSkin="@Embed(source='img1/fanhui1.png')"/>
 		
 		<mx:Button x="88.5" y="221" label=""  height="119" width="144" click="{RevampProject()}" overSkin="@Embed(source='img/6.1-01.png')" upSkin="@Embed(source='img/6-01.png')" downSkin="@Embed(source='img/6-01.png')"/>
@@ -89,4 +94,5 @@
 		<mx:Button x="701.5" y="221" label=""  height="119" width="144" click="{Excelcollect()}" overSkin="@Embed(source='img2/2.1-01.png')" upSkin="@Embed(source='img2/2-01.png')" downSkin="@Embed(source='img2/2-01.png')"/>
 	    <mx:Button x="88.5" y="401" label=""   height="119" width="144"  click="{Mrole()}" overSkin="@Embed(source='img2/3.1-01.png')" upSkin="@Embed(source='img2/3-01.png')" downSkin="@Embed(source='img2/3-01.png')"/>
 	    <mx:Button x="388.5" y="401" label=""   height="119" width="144"  click="{Sqlform()}" overSkin="@Embed(source='img/stbd2.png')" upSkin="@Embed(source='img/stbd1.png')" downSkin="@Embed(source='img/stbd1.png')"/>
+	    <mx:Button x="701.5" y="401" label="视图报表"   height="119" width="144"  click="{viewform()}" overSkin="@Embed(source='img/stbd2.png')" upSkin="@Embed(source='img/stbd1.png')" downSkin="@Embed(source='img/stbd1.png')"/>
 	  </mx:Canvas>

@@ -65,12 +65,11 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	public boolean deleteData(String formid, String id) throws Exception {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
-		boolean rs = dy.deleteData(formid, id);
-		if (rs) {
-			DyAnalysisXml dayx = new DyAnalysisXml();
-			dayx.script(formid, id, "Delete");
-		}
-		return rs;
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		dayx.script(formid, id, "Delete");
+
+		return  dy.deleteData(formid, id);
+
 	}
 
 	public List<DyFormColumn> fetchColumnList(String formid) throws Exception {

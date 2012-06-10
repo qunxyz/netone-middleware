@@ -78,7 +78,7 @@
 	     }		
 	     //视图报表
 	     public  function viewform():void{
-	            var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=dyviewscirpt&appname=dyviewscirpt";
+	            var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=dyviewproc&appname=dyviewproc";
 				var request:URLRequest=new URLRequest(url);  
 				navigateToURL(request); 
 	     }

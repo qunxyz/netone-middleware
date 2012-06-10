@@ -27,7 +27,7 @@
             
             //选择表单的方法
             public function xuanzhebiaodan():void{
-              variable.modelname="BUSSFORM"; 
+              variable.modelname="tubiaozhiding"; 
 			  var sf:SelectTree=new SelectTree();  
 			  PopUpManager.addPopUp(sf,this,true);
 			  PopUpManager.centerPopUp(sf as IFlexDisplayObject);

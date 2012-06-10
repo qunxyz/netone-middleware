@@ -5,17 +5,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
 import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
+import oe.midware.workflow.runtime.ormobj.TWfWorklist;
 import oe.midware.workflow.service.WorkflowView;
 import oe.rmi.client.RmiEntry;
-import net.sf.json.JSONArray;
+
+import org.apache.commons.lang.StringUtils;
+
 import com.jl.common.netone.RMI_SER;
 import com.jl.common.netone.RMI_SER_obj;
 import com.jl.common.workflow.DbTools;
+import com.jl.common.workflow.WfEntry;
 
 public class MyframeSvl extends HttpServlet {
 
@@ -119,7 +126,8 @@ public class MyframeSvl extends HttpServlet {
 		if (sqlStr != null) {
 			list = DbTools.queryData(sqlStr);
 			String strurl = null;
-			if (model.equals("0") || model.equals("2")) {
+			String appname=null;
+			if (model.equals("0")) {
 				list1 = new ArrayList();
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					Map map = (Map) iterator.next();
@@ -131,14 +139,44 @@ public class MyframeSvl extends HttpServlet {
 						TWfRelevantvar name = (TWfRelevantvar) iterator3.next();
 						String filedid = name.getDatafieldid();
 						String valuenow = name.getValuenow();
+					
 						if (this._DEFAULT_REV_KEY_BUSSURL.equals(filedid)) {
+							appname = StringUtils.substringBetween(valuenow,
+									"&naturalname=", "&lsh=");
 							strurl = rmiobj.getWEBSER_APPFRAME() + valuenow
 									+ map.get("lsh") + "&workcode="
 									+ map.get("workcode")
 									+ "&operatemode=01&commiter=" + username;
 						}
 					}
+					
+					String processid=null;
+					String actid=null;
+					 
+					String workcode=(String)map.get("workcode");
+					if(StringUtils.isNotEmpty(workcode)){
+					TWfWorklist twf=null;
+					try {
+						twf = WfEntry.iv().loadWorklist(workcode);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					 actid=twf.getActivityid();
+					 processid=twf.getProcessid();
+					}
 					map.put("url", strurl);
+					String string="function${";
+					string=string+"\"27\":"+"{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/QuerySvl?appname="+appname+"&lsh="+map.get("lsh")+"\",\"parameter\":\"\",\"displayfield\":\"\",\"imgae\":\"\"},"+
+					"\"29\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/Queryform?appname="+appname+"\",\"parameter\":\"\",\"displayfield\":\"\",\"imgae\":\"\"},"+
+					"\"30\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/listnextrouteactive?processid="+processid+"&activeid="+actid+"&runtimeid="+map.get("runtimeid")+"&commiter="+map.get("commiter")+"\",\"parameter\":\"\",\"displayfield\":\"\",\"imgae\":\"\"},"+
+					"\"31\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/listnextbackactive?runtimeid="+map.get("runtimeid")+"\",\"parameter\":\"\",\"displayfield\":\"\",\"imgae\":\"\"},"+
+					"\"32\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/loadcfgactive?naturalname="+map.get("naturalname")+"&commiter="+map.get("commiter")+"&runtimeid="+map.get("runtimeid")+"\",\"parameter\":\"[actid]\",\"displayfield\":\"\",\"imgae\":\"\"},"+
+					"\"33\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/saveauditnote?workcode="+map.get("workcode")+"\",\"parameter\":\"[participant,note]\",\"displayfield\":\"\",\"imgae\":\"\"},"+
+					"\"34\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/nextbymanual?workcode="+map.get("workcode")+"\",\"parameter\":\"[actid,clientId]\",\"displayfield\":\"\",\"imgae\":\"\"}," +
+					"\"26\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"//UpdataSvl?appname="+map.get("naturalname")+"\",\"parameter\":\"[lsh,userid]\",\"displayfield\":\"\",\"imgae\":\"\"}}$;";
+					map.put("serve", string);
+					map.put("appname",appname);
 					map.remove("lsh");
 					map.remove("runtimeid");
 					map.remove("workcode");

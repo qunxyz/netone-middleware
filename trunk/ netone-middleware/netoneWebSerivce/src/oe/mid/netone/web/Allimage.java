@@ -45,7 +45,7 @@ public class Allimage extends HttpServlet {
          request.setCharacterEncoding("utf-8");
          String appname=request.getParameter("appname");
          
-         String sqlStr="SELECT 	ID FROM  netone.ums_protectedobject  WHERE NATURALNAME LIKE '%"+appname+"%'";
+         String sqlStr="SELECT 	ID FROM  netone.ums_protectedobject  WHERE NATURALNAME LIKE '"+appname+"%'";
 		 List list= DbTools.queryData(sqlStr);
 		 List listx=new ArrayList();
 		 for (Iterator iterator = list.iterator(); iterator.hasNext();) {

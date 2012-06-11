@@ -196,8 +196,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				String sqzl = "select lsh from t_wf_participant where workcode='"
 						+ object.getWorkcode()
 						+ "' and extendattribute='"
-						+ activityid
-						+ "' and statusnow='00'";
+						+ activityid + "' and statusnow='00'";
 				List read_to_assigntask = wfview.coreSqlview(sqzl);
 
 				String workcode = object.getWorkcode();
@@ -348,7 +347,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		return this.OPE_TIP_SUCCESS;
 
 	}
-	
+
 	public String deleteProcess(String runtimeid) throws Exception {
 		if (runtimeid == null) {
 			return this.OPE_TIP_ERROR + "无效流程runtimeID";
@@ -409,10 +408,10 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				"", null, opemode, actid, actname);
 	}
 
-	private void specifyOperateByWorkcode(String uuid,String commiter, String workcode,
-			String participant, String types, boolean sync, String ext,
-			String status, String opemode, String actid, String actname)
-			throws Exception {
+	private void specifyOperateByWorkcode(String uuid, String commiter,
+			String workcode, String participant, String types, boolean sync,
+			String ext, String status, String opemode, String actid,
+			String actname) throws Exception {
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
 		String usercode = StringUtils.substringBetween(participant, "[", "]");
 		String username = StringUtils.substringBefore(participant, "[");
@@ -453,27 +452,27 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 					+ "' where lsh='" + uuid + "'";
 			console.coreSqlhandle(sql);
 		}
-		
-		
+
 		// 支持流程延迟
-		TWfWorklist wok=WfEntry.iv().loadWorklist(workcode);
-		String processid=wok.getProcessid();
-		Activity actx = this.loadProcess(processid)
-				.getActivity(wok.getActivityid());
-		if (this._ACT_EXT_DELAY_TRUE.equals(actx.getExtendedAttributes()
-				.get(this._ACT_EXT_DELAY))) {
+		TWfWorklist wok = WfEntry.iv().loadWorklist(workcode);
+		String processid = wok.getProcessid();
+		Activity actx = this.loadProcess(processid).getActivity(
+				wok.getActivityid());
+		if (this._ACT_EXT_DELAY_TRUE.equals(actx.getExtendedAttributes().get(
+				this._ACT_EXT_DELAY))) {
 			// 如果需要延迟 那么系统将活动挂起
 			this.pendingProcess(wok.getRuntimeid());
 		}
 
 	}
-	
+
 	private void specifyOperateByWorkcode(String commiter, String workcode,
 			String participant, String types, boolean sync, String ext,
 			String status, String opemode, String actid, String actname)
 			throws Exception {
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-		this.specifyOperateByWorkcode(uuid, commiter, workcode, participant, types, sync, ext, status, opemode, actid, actname);
+		this.specifyOperateByWorkcode(uuid, commiter, workcode, participant,
+				types, sync, ext, status, opemode, actid, actname);
 	}
 
 	private void addWorklistExtInfo(String workcode, String info)
@@ -560,25 +559,31 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		String actid = worklist.getActivityid();
 		String actname = this.loadProcess(worklist.getProcessid()).getActivity(
 				actid).getName();
-		
+
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-		specifyOperateByWorkcode(uuid,commiter, workcode, participant, types, false,
-				"", null, opemode, actid, actname);
-		
-		
+		specifyOperateByWorkcode(uuid, commiter, workcode, participant, types,
+				false, "", null, opemode, actid, actname);
+
 		String commitercode = StringUtils.substringBetween(commiter, "[", "]");
 		String commitername = StringUtils.substringBefore(commiter, "[");
-		String sql = "select auditnode from t_wf_participant where usercode='" + commitercode + "' and workcode = '"+workcode+"' order by createtime";
+		String sql = "select auditnode from t_wf_participant where usercode='"
+				+ commitercode + "' and workcode = '" + workcode
+				+ "' order by createtime";
 		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
 		List<Map> list = wfview.coreSqlview(sql);
 		String auditnode = "";
-		if (list!=null) 
+		if (list != null)
 			auditnode = (String) list.get(0).get("auditnode");
-		
+
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
-		String time=(new Timestamp(System.currentTimeMillis())).toString();
-		String sql_done = "update t_wf_participant set statusnow='02',donetime='"+time+"',auditnode='" + auditnode
-				+ "' where lsh='"+uuid+"' and types='04' and statusnow!='02' and usercode='normaluser' and workcode='"
+		String time = (new Timestamp(System.currentTimeMillis())).toString();
+		String sql_done = "update t_wf_participant set statusnow='02',donetime='"
+				+ time
+				+ "',auditnode='"
+				+ auditnode
+				+ "' where lsh='"
+				+ uuid
+				+ "' and types='04' and statusnow!='02' and usercode='normaluser' and workcode='"
 				+ workcode + "'";
 		console.coreSqlhandle(sql_done);
 
@@ -617,17 +622,17 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		return wfview.fetchDoneWorklist(runtimeid);
 	}
 
-	public List<TWfParticipant> listAllParticipantinfo(String runtimeid,boolean onlyDone)
-			throws Exception {
-		String extcondition="";
-		if(onlyDone){
-			extcondition=" and statusnow='02' order by donetime";
-		}else{
-			extcondition=" order by createtime";
-			
+	public List<TWfParticipant> listAllParticipantinfo(String runtimeid,
+			boolean onlyDone) throws Exception {
+		String extcondition = "";
+		if (onlyDone) {
+			extcondition = " and statusnow='02' order by donetime";
+		} else {
+			extcondition = " order by createtime";
+
 		}
 		String sql = "select * from t_wf_participant where workcode in (select workcode from t_wf_worklist where runtimeid='"
-				+ runtimeid + "')"+extcondition;
+				+ runtimeid + "')" + extcondition;
 		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
 		List list = wfview.coreSqlview(sql);
 		List listrt = new ArrayList();
@@ -703,10 +708,11 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 					first_rev);
 
 			String noticetitle = revtemp != null ? revtemp.getValuenow() : "";
-
-			String context = "您好！您在新版电子工作流平台有新的待办任务.文件标题:" + noticetitle
-					+ ", 发送人:" + fromUserObj.getName() + " 请尽快登陆10.51.176.5处理";
-
+			String appnametip = AppEntry.iv().loadApp(appname).getName();
+			String context = "您好！您在新版电子工作流平台有新的待办任务.文件标题:" + noticetitle + "("
+					+ appnametip + "), 发送人:" + fromUserObj.getName()
+					+ " 请尽快登陆10.51.176.5处理";
+			System.out.println(context);
 			Message.toMessageByUser(touser, context);
 
 		} catch (Exception e) {
@@ -863,8 +869,6 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				+ workcode + "' and statusnow='01'";
 		console.coreSqlhandle(sql_done);
 	}
-	
-	
 
 	public List<TWfWorklistExt> worklistDoneAndProcessDone(String customer)
 			throws Exception {
@@ -942,10 +946,10 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			return this.OPE_TIP_ERROR + "无法提交非运行状态的活动";
 		}
 		String usercode = clientId;
-		if(StringUtils.contains(clientId, "[")){
-			usercode=StringUtils.substringBetween(clientId, "[", "]");
+		if (StringUtils.contains(clientId, "[")) {
+			usercode = StringUtils.substringBetween(clientId, "[", "]");
 		}
-		
+
 		// 提交个人任务
 		String sql = "select types from t_wf_participant where statusnow='01' and usercode='"
 				+ usercode + "' and workcode='" + workcode + "'";
@@ -966,9 +970,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		boolean needsync = need_sync_check(workcode);
 		System.out.println("needsync:" + needsync);
 		// 检查同步的任务的执行情况，如果全部都执行完毕了，那么可以提交流程
-		if(needsync){
-			boolean syncpass=sync_pass(workcode);
-			if(!syncpass){
+		if (needsync) {
+			boolean syncpass = sync_pass(workcode);
+			if (!syncpass) {
 				return "";// 同步任务都未经执行完毕无法马上提交流程
 			}
 		}
@@ -976,20 +980,20 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		// 同步任务都已经执行完毕或者是 竞争者模式,可以继续提交流程了
 		if (StringUtils.isNotEmpty(actid)) {
 			console.commitActivityByManual(wl.getWorkcode(), actid);
-			System.out.println("--手动提交到流程节点--"+actid);
+			System.out.println("--手动提交到流程节点--" + actid);
 		} else {
 			console.commitActivity(wl);
-			System.out.println("--自动提交流程节点--"+wl.getActivityid());
+			System.out.println("--自动提交流程节点--" + wl.getActivityid());
 		}
 
 		// 检查新的活动节点,做附加处理，
 		String runtimeid = wl.getRuntimeid();
 		checkRunningAct(runtimeid);
-		System.out.println("--完成人员分配--"+wl.getActivityid());
+		System.out.println("--完成人员分配--" + wl.getActivityid());
 		// 检查是否特送方式归档
 		// 如果到了最后一个环节，可能是跳转过来的 ，这时流程还无法结束，我们需要手工结束流程
 		dealwith_buss_done(wl);
-		System.out.println("--本环节业务提交完毕--"+wl.getRuntimeid());
+		System.out.println("--本环节业务提交完毕--" + wl.getRuntimeid());
 		return "";
 	}
 
@@ -1033,7 +1037,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			return this.OPE_TIP_ERROR + "无法提交非运行状态的活动";
 		}
 		String usercode = StringUtils.substringBetween(clientId, "[", "]");
-		if(StringUtils.isEmpty(usercode)){
+		if (StringUtils.isEmpty(usercode)) {
 			throw new RuntimeException("lose user");
 		}
 		// 提交个人任务
@@ -1061,31 +1065,33 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		// }
 
 		// 在追加一个归档信息
-		if(StringUtils.isEmpty(clientId)){
+		if (StringUtils.isEmpty(clientId)) {
 			throw new RuntimeException("lose user");
 		}
 		this.specifyParticipantByWorkcode(clientId, workcode, clientId, false,
 				"03");
-		//commitMyTask(usercode, workcode);
+		// commitMyTask(usercode, workcode);
 
 		this.nextByAuto(workcode, usercode);
 
-//		console
-//				.coreSqlhandle("update t_wf_worklist set EXECUTESTATUS='02',donetime='"
-//						+ (new Timestamp(System.currentTimeMillis()))
-//								.toString()
-//						+ "' where workcode='"
-//						+ wl.getWorkcode() + "'");
-//		console
-//				.coreSqlhandle("update t_wf_runtime set STATUSNOW='02' where runtimeid='"
-//						+ wl.getRuntimeid() + "'");
+		// console
+		// .coreSqlhandle("update t_wf_worklist set
+		// EXECUTESTATUS='02',donetime='"
+		// + (new Timestamp(System.currentTimeMillis()))
+		// .toString()
+		// + "' where workcode='"
+		// + wl.getWorkcode() + "'");
+		// console
+		// .coreSqlhandle("update t_wf_runtime set STATUSNOW='02' where
+		// runtimeid='"
+		// + wl.getRuntimeid() + "'");
 		return "";
 	}
 
 	public int outTimeAlarm() {
 
 		int count = 0;
-		String sql = "select w2.lsh lsh, w3.d0 tip,w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w2.createtime,w2.limitime limitime,w2.usercode usercode,w2.commitername commitername from t_wf_worklist w1 left join t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS='01'"
+		String sql = "select w2.lsh lsh, w3.d0 tip,w3.appname appname,w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w2.createtime,w2.limitime limitime,w2.usercode usercode,w2.commitername commitername from t_wf_worklist w1 left join t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS='01'"
 				+ " and w2.statusnow='01"
 				+ "' and w2.types in('01','02') and w2.limitime is not null and w2.msg!='1' ";
 		try {
@@ -1099,6 +1105,8 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				String usercode = (String) object.get("usercode");
 				String workcode = (String) object.get("workcode");
 				String commitername = (String) object.get("commitername");
+				String appname = (String) object.get("appname");
+				String appnametip = AppEntry.iv().loadApp(appname).getName();
 
 				String tip = (String) object.get("tip");
 				int limittime = (Integer) object.get("limitime");
@@ -1110,8 +1118,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				if (timeOver > 0) {
 
 					String context = "电子工作流平台友情提醒:" + commitername
-							+ "发给您的待处理任务:" + tip + " 已经超出最后办理时限:" + timeOver
-							/ (3600 * 1000) + "小时,请尽快登陆新版电子工作流平台10.51.176.5处理";
+							+ "发给您的待处理任务:" + tip + "(" + appnametip
+							+ ") 已经超出最后办理时限:" + timeOver / (3600 * 1000)
+							+ "小时,请尽快登陆新版电子工作流平台10.51.176.5处理";
 
 					String rs = Message.toMessageByUser(usercode, context);
 					if ("ok".equals(rs)) {
@@ -1343,9 +1352,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			}
 			String formcode = object.getRev2formcode();
 			DyFormData data = DyEntry.iv().loadData(formcode, bussid);
-			String value = BeanUtils.getProperty(data, columnid.toLowerCase());
+			String value = BeanUtils.getProperty(data, columnid);
 			updateRev(runtimeid, revid, value);
-			value=StringUtils.replace(value, "'", "’");
+			value = StringUtils.replace(value, "'", "’");
 			rev_view_sql_value.append(",'" + value + "'");
 			rev_view_sql_column.append(",d" + count++);
 		}
@@ -1480,9 +1489,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		}
 
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
-		
+
 		// 预处理SOA脚本
-		//soaScript_preparecare(runtimeid, activeid);
+		// soaScript_preparecare(runtimeid, activeid);
 
 		findNext(map, needroute, console, listRouteAimActivity, runtimeid);
 		return makeTWfActive(listRouteAimActivity, appid, commiter, runtimeid);
@@ -1619,9 +1628,11 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			String actid = this.loadWorklist(workcode).getActivityid();
 			String processid = this.loadWorklist(workcode).getProcessid();
 			System.out.println("--------------------------------------");
-			System.out.println("actid:"+this.loadWorklist(workcode).getActivityid());
-			System.out.println("processid:"+processid);
-			System.out.println("1111:"+this.loadProcess(processid).getActivity(actid).getName());
+			System.out.println("actid:"
+					+ this.loadWorklist(workcode).getActivityid());
+			System.out.println("processid:" + processid);
+			System.out.println("1111:"
+					+ this.loadProcess(processid).getActivity(actid).getName());
 			System.out.println("--------------------------------------");
 			return this.loadProcess(processid).getActivity(actid).getName();
 		}
@@ -1660,7 +1671,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			List list = wfview.fetchExceptionWorklist(runtimeid);
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				TWfWorklist object = (TWfWorklist) iterator.next();
-				console.coreSqlhandle("update t_wf_worklist set EXECUTESTATUS='01' where workcode='"+object.getWorkcode()+"'");
+				console
+						.coreSqlhandle("update t_wf_worklist set EXECUTESTATUS='01' where workcode='"
+								+ object.getWorkcode() + "'");
 			}
 		}
 	}
@@ -1681,16 +1694,17 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			List list = this.listAllRunningWorklistByRuntimeid(runtimeid);
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				TWfWorklist object = (TWfWorklist) iterator.next();
-				console.coreSqlhandle("update t_wf_worklist set EXECUTESTATUS='03' where workcode='"+object.getWorkcode()+"'");
+				console
+						.coreSqlhandle("update t_wf_worklist set EXECUTESTATUS='03' where workcode='"
+								+ object.getWorkcode() + "'");
 			}
 
 		}
 
 	}
 
- 
 	public String fetchFirstActivityId(String processid) {
-		Activity[] act=null;
+		Activity[] act = null;
 		try {
 			act = WfEntry.iv().loadProcess(processid).getActivity();
 		} catch (Exception e) {
@@ -1703,8 +1717,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				return act[i].getId();
 			}
 		}
-		throw new RuntimeException("流程定义异常丢失首节点:"+processid);
+		throw new RuntimeException("流程定义异常丢失首节点:" + processid);
 	}
-
 
 }

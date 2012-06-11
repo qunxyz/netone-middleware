@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="init()" >
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import mx.charts.series.LineSeries;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.AbstractOperation;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			private var chartArray:ArrayCollection = new ArrayCollection();
+			
+			/** 全局变量 传递参数 **/
+			[Bindable] public var GLOBAL_PARAM:String; 
+			public function init():void {
+				var json:Object = JSON.decode(GLOBAL_PARAM);
+				la.title=json.YAxisLabel;
+				ca.title=json.XAxisLabel;
+				panel.title = json.title;
+				var o:AbstractOperation = remote.getOperation("loadData");
+				remote.endpoint=json.endpoint;
+				o.send(GLOBAL_PARAM);
+				o.addEventListener(ResultEvent.RESULT, loadJsonDataResult);
+			}
+			
+			private function loadJsonDataResult(event:ResultEvent):void{
+				var rawArray:Array = [];
+				var rawData:String = event.result as String;
+				rawArray = JSON.decode(rawData) as Array;
+				chartArray = new ArrayCollection(rawArray);
+				
+				if (chartArray.length==0){
+					Alert.show('查找不到数据.','提示');
+				}
+				
+				var array:Array = new Array();   
+				for(var i:int=1;i<=20;i++){
+					var lineSeries1:LineSeries=new LineSeries();  //设置图表的系列
+					lineSeries1.xField="columnKey";
+					lineSeries1.yField = "value"+i;
+					lineSeries1.displayName=chartArray.getItemAt(0)["rowKey"+i];
+					lineSeries1.setStyle("form", "curve"); 
+					if (lineSeries1.displayName!='' && lineSeries1.displayName!=null)
+					array.push( lineSeries1 );
+				}
+				linechart.series = array//给图表系列赋值
+			}
+			
+			private function faultEvent(e:Event):void{
+				Alert.show("通讯失败,请稍后重试.<br/>"+e.toString());
+			}
+			
+		]]>
+		
+	</mx:Script>
+	
+	<mx:RemoteObject id="remote" destination="lineChartService" showBusyCursor="true" fault="faultEvent(event)"/>
+	<mx:Sequence id="itemsChangeEffect1">
+		<mx:Blur blurYTo="12" blurXTo="12" duration="300" perElementOffset="150" filter="removeItem"/>
+		
+		<!-- Define the effects -->
+		<mx:Parallel id="showEffects">
+			<mx:WipeRight duration="100"/>
+			<mx:Pause duration="100" />
+			<mx:Blur startDelay="410" blurXFrom="18" blurYFrom="18" blurXTo="0" blurYTo="0" duration="300" filter="addItem"/>   
+			<mx:Dissolve id="dissolveIn" duration="1000" alphaFrom="2.0" alphaTo="3.0"/> 
+			
+			<mx:Fade alphaFrom="10" alphaTo="10" duration="100"/>
+		</mx:Parallel>
+	</mx:Sequence>	
+	<mx:Panel id="panel" letterSpacing="0"
+			  height="100%" width="100%" layout="horizontal"> 
+		
+		<mx:LineChart id="linechart" height="100%" width="100%" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
+					  showDataTips="true" dataProvider="{chartArray}" addedEffect="itemsChangeEffect1">
+			
+			<!-- vertical axis --> 
+			<mx:verticalAxis> 
+				<mx:LinearAxis id="la" baseAtZero="false" /> 
+			</mx:verticalAxis> 
+			
+			<!-- horizontal axis --> 
+			<mx:horizontalAxis> 
+				<mx:CategoryAxis id="ca" categoryField="columnKey"/> 
+			</mx:horizontalAxis> 
+			
+			<!-- horizontal axis renderer --> 
+			<mx:horizontalAxisRenderers> 
+				<mx:AxisRenderer axis="{ca}" canDropLabels="true" /> 
+			</mx:horizontalAxisRenderers> 
+			
+		</mx:LineChart>
+		
+		<!-- 
+		<mx:Legend dataProvider="{linechart}"/>
+		-->
+		
+	</mx:Panel>
+	
+</mx:Canvas>

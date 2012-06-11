@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="init()" >
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import mx.charts.series.ColumnSeries;
+			import mx.charts.series.LineSeries;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.AbstractOperation;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			private var chartArray:ArrayCollection = new ArrayCollection();
+			
+			/** 全局变量 传递参数 **/
+			[Bindable] public var GLOBAL_PARAM:String; 
+			public function init():void {
+				var json:Object = JSON.decode(GLOBAL_PARAM);
+				la.title=json.YAxisLabel;
+				ca.title=json.XAxisLabel;
+				mainPanel.title = json.title;
+				var o:AbstractOperation = remote.getOperation("loadData");
+				remote.endpoint=json.endpoint;
+				o.send(GLOBAL_PARAM);
+				o.addEventListener(ResultEvent.RESULT, loadJsonDataResult);
+			}
+			
+			private function loadJsonDataResult(event:ResultEvent):void{
+				var rawArray:Array = [];
+				var rawData:String = event.result as String;
+				rawArray = JSON.decode(rawData) as Array;
+				chartArray = new ArrayCollection(rawArray);
+				
+				if (chartArray.length==0){
+					Alert.show('查找不到数据.','提示');
+				}
+				
+				var array:Array = new Array();   
+				for(var i:int=1;i<=20;i++){
+					var columnSeries1:ColumnSeries=new ColumnSeries();  //设置图表的系列
+					columnSeries1.xField="columnKey";
+					columnSeries1.yField = "value"+i;
+					columnSeries1.displayName=chartArray.getItemAt(0)["rowKey"+i];
+					columnSeries1.setStyle("showDataEffect", slideIn);
+					columnSeries1.setStyle("hideDataEffect", slideOut);
+					if (columnSeries1.displayName!='' && columnSeries1.displayName!=null)
+					array.push( columnSeries1 );
+				}
+				chart.series = array//给图表系列赋值
+				chart.type = "clustered";
+			}
+			
+			private function faultEvent(e:Event):void{
+				Alert.show("通讯失败,请稍后重试.<br/>"+e.toString());
+			}
+			
+		]]>
+		
+	</mx:Script>
+	
+	<mx:RemoteObject id="remote" destination="barChartService" showBusyCursor="true" fault="faultEvent(event)"/>
+	<mx:SeriesSlide id="slideIn" direction="up"/>
+	<mx:SeriesSlide id="slideOut" direction="down"/>
+	
+	<mx:Panel id="mainPanel" height="100%" width="100%" layout="horizontal">
+		
+		<mx:ColumnChart id="chart"
+						height="100%"
+						width="100%" 
+						paddingLeft="5"
+						paddingRight="5"
+						showDataTips="true"
+						dataProvider="{chartArray}"
+						>
+			
+			<!-- vertical axis --> 
+			<mx:verticalAxis>
+				<mx:LinearAxis id="la" baseAtZero="false"/> 
+			</mx:verticalAxis>
+			
+			<mx:horizontalAxis>
+				<mx:CategoryAxis id="ca" categoryField="columnKey"/>
+			</mx:horizontalAxis>
+			
+		</mx:ColumnChart>
+		
+		<!--
+		<mx:Legend dataProvider="{chart}"/>
+		-->
+	</mx:Panel>
+	
+</mx:Canvas>

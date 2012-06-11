@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" xmlns:comp="com.report.chart.comp.*">
+	<mx:Style source="media/css/yflexskin/yflexskin.css"/>
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			import com.report.chart.comp.*;
+			
+			import mx.containers.ViewStack;
+			import mx.controls.Alert;
+			
+			public function init():void {
+				var GLOBAL_PARAM:String = ExternalInterface.call("onGetJsonParam");
+				if (GLOBAL_PARAM!=null){
+					var json:Object = JSON.decode(GLOBAL_PARAM);
+					if (json.$comp$=='COMP_PIE_CHART'){
+						var comp:PieChartComp=new PieChartComp();
+						comp.GLOBAL_PARAM=GLOBAL_PARAM;
+						ViewStack1.addChild(comp);
+					} else if (json.$comp$=='COMP_PIE_2L_CHART'){
+						var comp1:PieChart2LComp=new PieChart2LComp();
+						comp1.GLOBAL_PARAM=GLOBAL_PARAM;
+						ViewStack1.addChild(comp1);
+					} else if (json.$comp$=='COMP_PIE_LINK_CHART'){
+						var comp2:PieChartLinkComp=new PieChartLinkComp();
+						comp2.GLOBAL_PARAM=GLOBAL_PARAM;
+						ViewStack1.addChild(comp2);
+					} else if (json.$comp$=='COMP_LINE_CHART'){
+						var comp3:LineChartComp=new LineChartComp();
+						comp3.GLOBAL_PARAM=GLOBAL_PARAM;
+						ViewStack1.addChild(comp3);
+					} else if (json.$comp$=='COMP_LINE_2L_CHART'){
+						var comp4:LineChart2LComp=new LineChart2LComp();
+						comp4.GLOBAL_PARAM=GLOBAL_PARAM;
+						ViewStack1.addChild(comp4);
+					} else if (json.$comp$=='COMP_LINE_LINK_CHART'){
+						var comp5:LineChartLinkComp=new LineChartLinkComp();
+						comp5.GLOBAL_PARAM=GLOBAL_PARAM;
+						ViewStack1.addChild(comp5);	
+					} else if (json.$comp$=='COMP_BAR_CHART'){
+						var comp6:BarChartComp=new BarChartComp();
+						comp6.GLOBAL_PARAM=GLOBAL_PARAM;
+						ViewStack1.addChild(comp6);
+					} else if (json.$comp$=='COMP_BAR_2L_CHART'){
+						var comp7:BarChart2LComp=new BarChart2LComp();
+						comp7.GLOBAL_PARAM=GLOBAL_PARAM;
+						ViewStack1.addChild(comp7);
+					} else if (json.$comp$=='COMP_BAR_LINK_CHART'){
+						var comp8:BarChartLinkComp=new BarChartLinkComp();
+						comp8.GLOBAL_PARAM=GLOBAL_PARAM;
+						ViewStack1.addChild(comp8);		
+					} else {
+						Alert.show("查找不到对应组件.");
+					}
+				} else {
+					Alert.show("通讯失败,请稍后重试.");
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:ViewStack id="ViewStack1" width="100%" height="100%">
+	</mx:ViewStack>
+</mx:Application>

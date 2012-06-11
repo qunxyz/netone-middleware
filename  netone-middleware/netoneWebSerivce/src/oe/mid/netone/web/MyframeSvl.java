@@ -69,6 +69,13 @@ public class MyframeSvl extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String username = request.getParameter("userid");
 		String model = request.getParameter("model");
+		String naturalname=request.getParameter("naturalname");
+		
+		String extcondString="";
+		if(StringUtils.isNotEmpty(naturalname)){
+			extcondString=" and w3.appname='"+naturalname+"' ";
+		}
+		
 		if (model == null) {
 			model = "0";
 		}
@@ -93,15 +100,18 @@ public class MyframeSvl extends HttpServlet {
 					+ " where w1.EXECUTESTATUS='01' and w2.usercode='"
 					+ username
 					+ "' and w2.statusnow='01'"
-					+ "  and w2.types in('01','02') order by w1.starttime desc";
+					+ "  and w2.types in('01','02') "+extcondString+" order by w1.starttime desc";
 		}
 		// 当前代办工单数
 		if (model.equals("1")) {
-			sqlStr = "select  count(*) as countnum from netone.t_wf_worklist w1 left join netone.t_wf_participant "
-					+ "w2 on w1.workcode=w2.WORKCODE where w1.EXECUTESTATUS='01' and w2.usercode='"
-					+ username
-					+ "' and w2.statusnow='01' "
-					+ "and w2.types in ('01','02')";
+
+			sqlStr = "select   count(*) as countnum  from netone.t_wf_worklist "
+				+ "w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE "
+				+ "left join netone.t_wf_relevantvar_tmp w3 on w3.runtimeid=w1.runtimeid"
+				+ " where w1.EXECUTESTATUS='01' and w2.usercode='"
+				+ username
+				+ "' and w2.statusnow='01'"
+				+ "  and w2.types in('01','02') "+extcondString+" order by w1.starttime desc";
 		}
 		// 当前已办工单列表
 		if (model.equals("2")) {
@@ -109,16 +119,54 @@ public class MyframeSvl extends HttpServlet {
 			sqlStr = "SELECT w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
 					+ "workcode,w3.d0 actname,w1.starttime starttime,w2.commitername "
 					+ "commitername,w2.commitercode  commiter FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
-					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid WHERE w2.usercode='"
+					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid  WHERE w2.usercode='"
 					+ username
-					+ "' AND w2.statusnow='02' AND w2.types IN ('01','02')";
+					+ "' AND w2.statusnow='02'  and wx.statusnow='01' AND w2.types IN ('01','02')"+extcondString+"" ;
 		}
 		// 已办工单数
 		if (model.equals("3")) {
-			sqlStr = "select  count(*) as countnum3 from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on "
-					+ "w1.workcode=w2.WORKCODE where w2.usercode='"
+			sqlStr = "SELECT count(*) as countnum  FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
+				+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid  WHERE w2.usercode='"
+				+ username
+				+ "' AND w2.statusnow='02'  and wx.statusnow='01' AND w2.types IN ('01','02')"+extcondString+"" ;
+
+		}
+		// 已办且归档
+		if (model.equals("4")) {
+
+			sqlStr = "SELECT w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
+					+ "workcode,w3.d0 actname,w1.starttime starttime,w2.commitername "
+					+ "commitername,w2.commitercode  commiter FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
+					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid WHERE w2.usercode='"
 					+ username
-					+ "' and w2.statusnow='02' and w2.types in ('01','02')";
+					+ "' AND w2.statusnow='02' and wx.statusnow='02' AND w2.types IN ('01','02')"+extcondString+"";
+		}
+		// 已办且归档总数
+		if (model.equals("5")) {
+			
+			sqlStr = "SELECT  count(*) as countnum FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
+				+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid WHERE w2.usercode='"
+				+ username
+				+ "' AND w2.statusnow='02' and wx.statusnow='02' AND w2.types IN ('01','02')"+extcondString+"";
+
+		}
+		// 当前已办工单列表
+		if (model.equals("6")) {
+
+			sqlStr = "SELECT w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
+					+ "workcode,w3.d0 actname,w1.starttime starttime,w2.commitername "
+					+ "commitername,w2.commitercode  commiter FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
+					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid WHERE w2.usercode='"
+					+ username
+					+ "' AND w2.types IN ('01','02')"+extcondString+"";
+		}
+		// 已办工单数
+		if (model.equals("7")) {
+		
+			sqlStr = "SELECT count(*) as countnum FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
+				+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid WHERE w2.usercode='"
+				+ username
+				+ "' AND w2.types IN ('01','02')"+extcondString+"";
 
 		}
 		RMI_SER rmi = new RMI_SER();

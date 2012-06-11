@@ -68,11 +68,11 @@ public final class CuibangSvl extends HttpServlet {
 				TWfWorklist wf = wfview.loadWorklist(workcode);
 				TWfRelevantvar revtemp = wfview.fetchRelevantVar(wf
 						.getRuntimeid(), first_rev);
-
+				String appnametip=AppEntry.iv().loadApp(appname).getName();
 				String noticetitle = revtemp != null ? revtemp.getValuenow()
 						: "";
 
-				String context = "电子工作流平台催办提醒：您在新版电子工作流平台有待办任务.文件标题:" + noticetitle;
+				String context = "电子工作流平台催办提醒：您在新版电子工作流平台有待办任务.文件标题:" + noticetitle+"("+appnametip+")";
 				request.setAttribute("context", context);
 				request.setAttribute("workcode", workcode);
 				request.setAttribute("username", ", 发送人:" + username + " 请尽快登陆10.51.176.5处理");

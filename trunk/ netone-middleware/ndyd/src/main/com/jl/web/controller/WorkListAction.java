@@ -83,7 +83,7 @@ public class WorkListAction extends AbstractAction {
 		String appname = request.getParameter("appname");
 		String sortfield = request.getParameter("sortfield");
 		String sort = request.getParameter("sort");
- 
+		
 		List list = WlEntry.iv().listQueryColumn(appname);
 		if (StringUtils.isEmpty(sortfield)) {
 			sortfield = ((QueryColumn) list.get(list.size() - 1)).getId();
@@ -150,15 +150,15 @@ public class WorkListAction extends AbstractAction {
 		}
 
 		User user = getOnlineUser(request);// 当前登录者
-		String str=" AND u.usercode='" + user.getUserCode() + "'";
-		if("adminx".equals(user.getUserCode())){
-			str=" ";
+		String str = " AND u.usercode='" + user.getUserCode() + "'";
+		if ("adminx".equals(user.getUserCode())) {
+			str = " ";
 		}
 		String sql = null;
-		String count_sql=null;
+		String count_sql = null;
 		String listtype = request.getParameter("listType");
-		//首页more链接中处理
-		if("01".equals(listtype)){//待办
+		// 首页more链接中处理
+		if ("01".equals(listtype)) {// 待办
 			sql = "SELECT"
 					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
 					+ " FROM netone.t_wf_worklist w1 "
@@ -186,25 +186,27 @@ public class WorkListAction extends AbstractAction {
 			sql = "SELECT"
 					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
 					+ " FROM netone.t_wf_worklist w1 "
+					+ " LEFT JOIN netone.t_wf_runtime wx ON w1.runtimeid = wx.runtimeid"
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
 					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
 					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
 					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
 					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
 					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
-					+ " AND w2.statusnow='02' AND w2.types IN('01')" + str
+					+ " AND w2.statusnow='02' AND w2.types IN('01') AND wx.statusnow='01'" + str
 					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart
 					+ "," + iDisplayLength;
 			count_sql = "SELECT"
 					+ " count(*) total"
 					+ " FROM netone.t_wf_worklist w1 "
+					+ " LEFT JOIN netone.t_wf_runtime wx ON w1.runtimeid = wx.runtimeid"
 					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
 					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
 					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
 					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
 					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
 					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
-					+ " AND w2.statusnow ='02' AND w2.types IN('01')" + str;
+					+ " AND w2.statusnow ='02' AND w2.types IN('01')  AND wx.statusnow='01'" + str;
 		} else if ("03".equals(listtype)) {// 办理已归档
 			sql = "SELECT"
 					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"

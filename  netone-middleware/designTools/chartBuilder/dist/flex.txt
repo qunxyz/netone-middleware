@@ -1,0 +1,99 @@
+cvs history -c -l -u caiyd -D 2012-2-2 
+M 2012-02-02 08:18 +0000 caiyd 1.3 .classpath                      LucasReport                                                == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.2 .project                        LucasReport                                                == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.3 web.xml                         LucasReport/WebRoot/WEB-INF                                == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 messaging-config.xml            LucasReport/WebRoot/WEB-INF/flex                           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 proxy-config.xml                LucasReport/WebRoot/WEB-INF/flex                           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 remoting-config.xml             LucasReport/WebRoot/WEB-INF/flex                           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 services-config.xml             LucasReport/WebRoot/WEB-INF/flex                           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 backport-util-concurrent.jar    LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 commons-collections-3.1.jar     LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 ezmorph-1.0.4.jar               LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 flex-messaging-common.jar       LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 flex-messaging-core.jar         LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 flex-messaging-opt.jar          LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 flex-messaging-proxy.jar        LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 flex-messaging-remoting.jar     LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 json-lib-2.2.1-jdk15.jar        LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 json.jar                        LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 spring-aop.jar                  LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 spring-beans.jar                LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 spring-context-support.jar      LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 spring-context.jar              LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 spring-core.jar                 LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 spring-jdbc.jar                 LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 spring-mock.jar                 LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 spring.jar                      LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 springIbatis.jar                LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 springmodules-validator-0.1.jar LucasReport/WebRoot/WEB-INF/lib                            == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 AC_OETags.js                    LucasReport/WebRoot/flashchart                             == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 entry.jsp                       LucasReport/WebRoot/flashchart                             == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 flashchart.html                 LucasReport/WebRoot/flashchart                             == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 flashchart.swf                  LucasReport/WebRoot/flashchart                             == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 playerProductInstall.swf        LucasReport/WebRoot/flashchart                             == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 history.css                     LucasReport/WebRoot/flashchart/history                     == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 history.js                      LucasReport/WebRoot/flashchart/history                     == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 historyFrame.html               LucasReport/WebRoot/flashchart/history                     == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 misc.swf                        LucasReport/WebRoot/flashchart/media/css/yflexskin         == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 yflexskin.ai                    LucasReport/WebRoot/flashchart/media/css/yflexskin         == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 yflexskin.fla                   LucasReport/WebRoot/flashchart/media/css/yflexskin         == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 ChartCommon.java                LucasReport/src/chart/com/report/chart/common              == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.3 BarChartObj.java                LucasReport/src/chart/com/report/chart/entity              == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 BaseChartObj.java               LucasReport/src/chart/com/report/chart/entity              == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.3 LineChartObj.java               LucasReport/src/chart/com/report/chart/entity              == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.3 PieChartObj.java                LucasReport/src/chart/com/report/chart/entity              == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.3 Bar3DTest.java                  LucasReport/src/chart/com/test                             == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.2 BarTest.java                    LucasReport/src/chart/com/test                             == DON-PC
+R 2012-02-02 08:18 +0000 caiyd 1.3 ChartTestCommon.java            LucasReport/src/chart/com/test                             == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.2 ChartTestSvl.java               LucasReport/src/chart/com/test                             == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.2 Line3DTest.java                 LucasReport/src/chart/com/test                             == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.2 LineTest.java                   LucasReport/src/chart/com/test                             == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.2 Pie3DTest.java                  LucasReport/src/chart/com/test                             == DON-PC
+M 2012-02-02 08:18 +0000 caiyd 1.2 PieTest.java                    LucasReport/src/chart/com/test                             == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 application.xml                 LucasReport/src/flashchart                                 == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 BaseChart.java                  LucasReport/src/flashchart/com/report/flashchart           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 DateJsonValueProcessor.java     LucasReport/src/flashchart/com/report/flashchart           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 JSONUtil2.java                  LucasReport/src/flashchart/com/report/flashchart           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 JsonUtil.java                   LucasReport/src/flashchart/com/report/flashchart           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 NullJsonValueProcessor.java     LucasReport/src/flashchart/com/report/flashchart           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 SpringFactory.java              LucasReport/src/flashchart/com/report/flashchart           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 TimeUtil.java                   LucasReport/src/flashchart/com/report/flashchart           == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 FlashChartAction.java           LucasReport/src/flashchart/com/report/flashchart/action    == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 SampleChartAction.java          LucasReport/src/flashchart/com/report/flashchart/action    == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 BarChartServiceImpl.java        LucasReport/src/flashchart/com/report/flashchart/bar/impl  == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 ChartCompVar.java               LucasReport/src/flashchart/com/report/flashchart/entity    == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 ChartDataObj.java               LucasReport/src/flashchart/com/report/flashchart/entity    == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 BarChartService.java            LucasReport/src/flashchart/com/report/flashchart/ifc       == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 ChartService.java               LucasReport/src/flashchart/com/report/flashchart/ifc       == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 ChartServiceImpl.java           LucasReport/src/flashchart/com/report/flashchart/ifc       == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 LineChartService.java           LucasReport/src/flashchart/com/report/flashchart/ifc       == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 PieChartService.java            LucasReport/src/flashchart/com/report/flashchart/ifc       == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 LineChartServiceImpl.java       LucasReport/src/flashchart/com/report/flashchart/line/impl == DON-PC
+A 2012-02-02 08:18 +0000 caiyd 1.1 PieChartServiceImpl.java        LucasReport/src/flashchart/com/report/flashchart/pie/impl  == DON-PC
+
+
+flex 需要的jar,如果工程已有不需要引入
+backport-util-concurrent.jar
+commons-collections-3.1.jar
+ezmorph-1.0.4.jar
+flex-messaging-common.jar
+flex-messaging-core.jar
+flex-messaging-opt.jar
+flex-messaging-proxy.jar
+flex-messaging-remoting.jar
+
+扩展需要的包
+json处理需要的包，如果工程已有不需要引入
+json-lib-2.2.1-jdk15.jar
+json.jar
+
+spring需要的包，如果工程已有不需要引入
+spring-aop.jar
+spring-beans.jar
+spring-context-support.jar
+spring-context.jar
+spring-core.jar
+spring-jdbc.jar
+spring-mock.jar
+spring.jar
+springmodules-validator-0.1.jar

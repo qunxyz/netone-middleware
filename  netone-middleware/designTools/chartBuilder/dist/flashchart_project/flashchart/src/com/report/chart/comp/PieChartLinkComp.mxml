@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="init()" >
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import mx.charts.HitData;
+			import mx.charts.events.ChartItemEvent;
+			import mx.charts.series.items.PieSeriesItem;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.AbstractOperation;
+			import mx.rpc.events.ResultEvent;
+			
+			import utils.MergeArray;
+			[Bindable]
+			private var json:Object=new Object();
+			[Bindable]
+			private var chartArray:ArrayCollection = new ArrayCollection();
+			
+			/** 全局变量 传递参数 **/
+			[Bindable] public var GLOBAL_PARAM:String; 
+			public function init():void {
+				json = JSON.decode(GLOBAL_PARAM);
+				
+				mainPanel.title = json.title;
+				var o:AbstractOperation = remote.getOperation("loadData");
+				remote.endpoint=json.endpoint;
+				o.send(GLOBAL_PARAM);
+				o.addEventListener(ResultEvent.RESULT, loadJsonDataResult);
+			}
+			
+			private function loadJsonDataResult(event:ResultEvent):void{
+				var rawArray:Array = [];
+				var rawData:String = event.result as String;
+				rawArray = JSON.decode(rawData) as Array;
+				chartArray = new ArrayCollection(rawArray);
+				if (chartArray.length==0){
+					Alert.show('查找不到数据.','提示');
+				} else {
+					showTip();
+				}
+			}
+			
+			//初始显示
+			private function display(data:Object, field:String, index:Number, percentValue:Number):String {
+				return data.key;
+			}
+			
+			//鼠标获取焦点显示提示信息
+			private function faultEvent(e:Event):void{
+				Alert.show("通讯失败,请稍后重试.");
+			}
+			
+			private function showTip():void {
+				chart.dataTipFunction = tipFun;
+			}
+			
+			private function tipFun(item:HitData):String{
+				var pSI:PieSeriesItem = item.chartItem as PieSeriesItem; 
+				return pSI.item.key +":"+pSI.item.value + " " + 
+					"(<i>" + 
+					pSI.percentValue.toFixed(2) + "%</i>)";
+			}
+			
+			private function openW(e:ChartItemEvent):void{
+				var paramArray:Array = [];
+				var params:String = e.hitData.item.params;
+				if (params=='' || params==null){
+				}else{
+					paramArray = JSON.decode("["+params+"]" as String) as Array;
+				
+					var rawArray:Array = JSON.decode("["+JSON.encode(json)+"]" as String) as Array;
+					
+					for (var i:int = 0; i < rawArray.length; i++) {
+						delete rawArray[i].$comp$;//删除属性
+					}
+					
+					var jsonparam:String = "{}";
+					
+					if (rawArray.length==0 && paramArray.length==0){
+						jsonparam='{}';
+					} else if (rawArray.length>0 && paramArray.length>0){
+						var m:MergeArray = new MergeArray(); 
+						var a:Array=m.Merge(paramArray,rawArray);//合并参数数组
+						jsonparam=JSON.encode(a);
+						jsonparam = jsonparam.replace("},{",",");
+					} else if (rawArray.length>0 && paramArray.length==0){
+						jsonparam=JSON.encode(rawArray);
+					} else if (rawArray.length==0 && paramArray.length>0){
+						jsonparam=JSON.encode(paramArray);
+					}
+					
+					ExternalInterface.call("onSubmitToNext", jsonparam.replace("[","").replace("\"{","{").replace("}\"","}"));
+				}
+			}
+			
+		]]>
+		
+	</mx:Script>
+	
+	<mx:RemoteObject id="remote" destination="pieChartService" showBusyCursor="true" fault="faultEvent(event)"/>
+	
+	<mx:SeriesInterpolate id="slideZoomIn" duration="399" />
+	<mx:SeriesSlide id="slideZoomOut" duration="399" />
+	
+	<mx:Panel id="mainPanel" height="100%" width="100%">
+		<mx:PieChart id="chart" 
+					 height="100%" 
+					 width="100%" fontSize="14"
+					 paddingRight="5" 
+					 paddingLeft="5" 
+					 showDataTips="true" 
+					 itemClick="openW(event)"
+					 dataProvider="{chartArray}"
+					 showEffect="Fide" hideEffect="Fide" moveEffect="Glow" 
+					 focusInEffect="Glow"
+					 >
+			<mx:series>
+				<mx:PieSeries 
+					nameField="key"
+					labelPosition="callout" field="value"
+					labelFunction="display"
+					>
+					<!-- Clear the drop shadow filters from the chart. -->
+					<mx:filters>
+						<mx:Array/>
+					</mx:filters>
+				</mx:PieSeries>
+			</mx:series>
+		</mx:PieChart>  
+	</mx:Panel>
+	
+</mx:Canvas>

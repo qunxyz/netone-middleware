@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="init()" >
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import mx.charts.HitData;
+			import mx.charts.events.ChartItemEvent;
+			import mx.charts.series.items.PieSeriesItem;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.AbstractOperation;
+			import mx.rpc.events.ResultEvent;
+			
+			import utils.MergeArray;		
+			[Bindable]    
+			private var chartArray1L:ArrayCollection;
+			[Bindable]
+			public var mainDataProvider:ArrayCollection; 
+			[Bindable]
+			private var json:Object=new Object();
+			
+			/** 全局变量 传递参数 **/
+			[Bindable] public var GLOBAL_PARAM:String; 
+			public function init():void {
+				json = JSON.decode(GLOBAL_PARAM);
+				var o:AbstractOperation = remote.getOperation("loadData");
+				remote.endpoint=json.endpoint;
+				o.send(GLOBAL_PARAM);
+				o.addEventListener(ResultEvent.RESULT, loadJsonDataResult);
+			}
+			
+			private function loadJsonDataResult(event:ResultEvent):void{
+				var rawArray:Array = [];
+				var rawData:String = event.result as String;
+				rawArray = JSON.decode(rawData) as Array;
+				mainDataProvider = new ArrayCollection(rawArray);
+				chartArray1L = mainDataProvider;
+				if (mainDataProvider.length==0){
+					Alert.show('查找不到数据.','提示');
+				} else {
+					mainPanel.title = json.title;
+					chart.dataTipFunction = pieTipFun;
+				}
+			}
+			
+			private function loadJsonDataResult2(event:ResultEvent):void{
+				var rawArray:Array = [];
+				var rawData:String = event.result as String;
+				rawArray = JSON.decode(rawData) as Array;
+				mainDataProvider = new ArrayCollection(rawArray);
+				if (mainDataProvider.length==0){
+					Alert.show('查找不到数据.','提示');
+				} else {
+					chart.dataTipFunction = pieTipFun;
+				}
+			}
+			
+			//初始显示
+			private function display(data:Object, field:String, index:Number, percentValue:Number):String {
+				return data.key;
+			}
+			
+			//鼠标获取焦点显示提示信息
+			private function faultEvent(e:Event):void{
+				Alert.show("通讯失败,请稍后重试.",'提示');
+			}
+			
+			private function pieTipFun(item:HitData):String{
+				var pSI:PieSeriesItem = item.chartItem as PieSeriesItem; 
+				return pSI.item.key +":"+pSI.item.value + " " + 
+					"(<i>" + 
+					pSI.percentValue.toFixed(2) + "%</i>)";
+			}
+			
+			private function zoomInto(e:ChartItemEvent): void {
+				if (chartArray1L == mainDataProvider) {
+					var paramArray:Array = [];
+					var params:String = e.hitData.item.params;
+					if (params=='' || params==null){
+					}else{
+						paramArray = JSON.decode("["+params+"]" as String) as Array;
+						var rawArray:Array = JSON.decode("["+JSON.encode(json)+"]" as String) as Array;
+						
+						var o:AbstractOperation = remote.getOperation("load2LData");
+						var jsonparam:String = "{}";
+						
+						if (rawArray.length==0 && paramArray.length==0){
+							jsonparam='{}';
+						} else if (rawArray.length>0 && paramArray.length>0){
+							var m:MergeArray = new MergeArray(); 
+							var a:Array=m.Merge(paramArray,rawArray);//合并参数数组
+							jsonparam=JSON.encode(a);
+							jsonparam = jsonparam.replace("},{",",");
+						} else if (rawArray.length>0 && paramArray.length==0){
+							jsonparam=JSON.encode(rawArray);
+						} else if (rawArray.length==0 && paramArray.length>0){
+							jsonparam=JSON.encode(paramArray);
+						}
+						
+						o.send(jsonparam.replace("[","").replace("]",""));
+						o.addEventListener(ResultEvent.RESULT, loadJsonDataResult2);
+						var title = JSON.decode(params).title;
+						if (title!=null){
+							mainPanel.title = title;
+						} else {
+							mainPanel.title = e.hitData.item.key;
+						}						
+					}
+				} else {
+					//这里考虑是否再重载，目前不重载 (有2级跟1级的数据合起来不相同)
+					mainDataProvider = chartArray1L;
+					mainDataProvider.refresh();
+					chart.dataProvider=mainDataProvider;
+					mainPanel.title = json.title;
+					chart.dataTipFunction = pieTipFun;
+				}
+			}
+		]]>
+		
+	</mx:Script>
+	
+	<mx:RemoteObject id="remote" destination="pieChartService" showBusyCursor="true" fault="faultEvent(event)"/>
+	
+	<mx:SeriesInterpolate id="slideZoomIn" duration="399" />
+	<mx:SeriesSlide id="slideZoomOut" duration="399" />
+	
+	<mx:Panel id="mainPanel" height="100%" width="100%">
+		<mx:PieChart id="chart" 
+					 height="100%" 
+					 width="100%" fontSize="14"
+					 paddingRight="5" 
+					 paddingLeft="5" 
+					 showDataTips="true" 
+					 dataProvider="{mainDataProvider}"
+					 itemClick="zoomInto(event)"
+					 showEffect="Fide" hideEffect="Fide" moveEffect="Glow" 
+					 focusInEffect="Glow"
+					 >          
+			<mx:series>
+				<mx:PieSeries 
+					id="pieSeries"
+					nameField="key"   
+					labelPosition="callout" field="value"
+					hideDataEffect="slideZoomOut"
+					showDataEffect="slideZoomIn"
+					>
+					<!-- Clear the drop shadow filters from the chart. -->
+					<mx:filters>
+						<mx:Array/>
+					</mx:filters>
+				</mx:PieSeries>
+			</mx:series>
+		</mx:PieChart>  
+	</mx:Panel>
+	
+</mx:Canvas>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" initialize="init()" >
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.serialization.json.JSON;
+			
+			import mx.charts.events.ChartItemEvent;
+			import mx.charts.series.LineSeries;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.AbstractOperation;
+			import mx.rpc.events.ResultEvent;
+			
+			import utils.MergeArray;
+			[Bindable]    
+			private var chartArray1L:ArrayCollection;
+			[Bindable]
+			public var mainDataProvider:ArrayCollection; 
+			[Bindable]
+			private var json:Object=new Object();
+			
+			/** 全局变量 传递参数 **/
+			[Bindable] public var GLOBAL_PARAM:String; 
+			public function init():void {
+				json = JSON.decode(GLOBAL_PARAM);
+				la.title=json.YAxisLabel;
+				ca.title=json.XAxisLabel;
+				var o:AbstractOperation = remote.getOperation("loadData");
+				remote.endpoint=json.endpoint;
+				o.send(GLOBAL_PARAM);
+				o.addEventListener(ResultEvent.RESULT, loadJsonDataResult);
+			}
+			
+			private function loadJsonDataResult(event:ResultEvent):void{
+				var rawArray:Array = [];
+				var rawData:String = event.result as String;
+				rawArray = JSON.decode(rawData) as Array;
+				mainDataProvider = new ArrayCollection(rawArray);
+				chartArray1L = mainDataProvider;
+				
+				var array:Array = new Array();   
+				for(var i:int=1;i<=20;i++){
+					var lineSeries1:LineSeries=new LineSeries();  //设置图表的系列
+					lineSeries1.xField="columnKey";
+					lineSeries1.yField = "value"+i;
+					lineSeries1.displayName=mainDataProvider.getItemAt(0)["rowKey"+i];
+					lineSeries1.setStyle("form", "curve");
+					if (lineSeries1.displayName!='' && lineSeries1.displayName!=null)
+					array.push( lineSeries1 );
+				}
+				linechart.series = array//给图表系列赋值
+					
+				if (mainDataProvider.length==0){
+					Alert.show('查找不到数据.','提示');
+				} else {
+					panel.title = json.title;
+				}
+			}
+			
+			private function loadJsonDataResult2(event:ResultEvent):void{
+				var rawArray:Array = [];
+				var rawData:String = event.result as String;
+				rawArray = JSON.decode(rawData) as Array;
+				mainDataProvider = new ArrayCollection(rawArray);
+				
+				var array:Array = new Array();   
+				for(var i:int=1;i<=20;i++){
+					var lineSeries1:LineSeries=new LineSeries();  //设置图表的系列
+					lineSeries1.xField="columnKey";
+					lineSeries1.yField = "value"+i;
+					lineSeries1.displayName=mainDataProvider.getItemAt(0)["rowKey"+i];
+					lineSeries1.setStyle("form", "curve");
+					if (lineSeries1.displayName!='' && lineSeries1.displayName!=null)
+					array.push( lineSeries1 );
+				}
+				linechart.series = array//给图表系列赋值
+				
+				if (mainDataProvider.length==0){
+					Alert.show('查找不到数据.','提示');
+				} else {
+				}
+			}
+			
+			private function zoomInto(e:ChartItemEvent): void {
+				if (chartArray1L == mainDataProvider) {
+					var paramArray:Array = [];
+					var params:String = e.hitData.item.params;
+					if (params=='' || params==null){
+					}else{
+						paramArray = JSON.decode("["+params+"]" as String) as Array;
+						var rawArray:Array = JSON.decode("["+JSON.encode(json)+"]" as String) as Array;
+						
+						var o:AbstractOperation = remote.getOperation("load2LData");
+						var jsonparam:String = "{}";
+						
+						if (rawArray.length==0 && paramArray.length==0){
+							jsonparam='{}';
+						} else if (rawArray.length>0 && paramArray.length>0){
+							var m:MergeArray = new MergeArray(); 
+							var a:Array=m.Merge(paramArray,rawArray);//合并参数数组
+							jsonparam=JSON.encode(a);
+							jsonparam = jsonparam.replace("},{",",");
+						} else if (rawArray.length>0 && paramArray.length==0){
+							jsonparam=JSON.encode(rawArray);
+						} else if (rawArray.length==0 && paramArray.length>0){
+							jsonparam=JSON.encode(paramArray);
+						}
+						
+						o.send(jsonparam.replace("[","").replace("]",""));
+						o.addEventListener(ResultEvent.RESULT, loadJsonDataResult2);
+						var title = JSON.decode(params).title;
+						if (title!=null){
+							panel.title = title;
+						} else {
+							panel.title = e.hitData.item.columnKey;
+						}
+					}
+				} else {
+					//这里考虑是否再重载，目前不重载 (有2级跟1级的数据合起来不相同)
+					mainDataProvider = chartArray1L;
+					mainDataProvider.refresh();
+					linechart.dataProvider=mainDataProvider;
+					panel.title = json.title;
+				}
+			}
+			
+			private function faultEvent(e:Event):void{
+				Alert.show("通讯失败,请稍后重试.<br/>"+e.toString());
+			}
+			
+		]]>
+		
+	</mx:Script>
+	
+	<mx:RemoteObject id="remote" destination="lineChartService" showBusyCursor="true" fault="faultEvent(event)"/>
+	<mx:Sequence id="itemsChangeEffect1">
+		<mx:Blur blurYTo="12" blurXTo="12" duration="300" perElementOffset="150" filter="removeItem"/>
+		
+		<!-- Define the effects -->
+		<mx:Parallel id="showEffects">
+			<mx:WipeRight duration="100"/>
+			<mx:Pause duration="100" />
+			<mx:Blur startDelay="410" blurXFrom="18" blurYFrom="18" blurXTo="0" blurYTo="0" duration="300" filter="addItem"/>   
+			<mx:Dissolve id="dissolveIn" duration="1000" alphaFrom="2.0" alphaTo="3.0"/> 
+			
+			<mx:Fade alphaFrom="10" alphaTo="10" duration="100"/>
+		</mx:Parallel>
+	</mx:Sequence>
+	
+	<mx:Panel id="panel" letterSpacing="0"
+			  height="100%" width="100%" layout="horizontal"> 
+		
+		<mx:LineChart id="linechart" height="100%" width="100%" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"
+					  showDataTips="true" dataProvider="{mainDataProvider}" itemClick="zoomInto(event)" addedEffect="itemsChangeEffect1" >
+			
+			<!-- vertical axis --> 
+			<mx:verticalAxis>
+				<mx:LinearAxis id="la" baseAtZero="false" /> 
+			</mx:verticalAxis>
+			
+			<!-- horizontal axis --> 
+			<mx:horizontalAxis> 
+				<mx:CategoryAxis id="ca" categoryField="columnKey"/> 
+			</mx:horizontalAxis> 
+			
+			<!-- horizontal axis renderer --> 
+			<mx:horizontalAxisRenderers> 
+				<mx:AxisRenderer axis="{ca}" canDropLabels="true" /> 
+			</mx:horizontalAxisRenderers> 
+			
+		</mx:LineChart>
+		
+		<!-- 
+		<mx:Legend dataProvider="{linechart}"/>
+		-->
+	</mx:Panel>
+	
+</mx:Canvas>

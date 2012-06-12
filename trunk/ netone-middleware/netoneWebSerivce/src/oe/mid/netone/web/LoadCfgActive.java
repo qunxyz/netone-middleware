@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -77,10 +79,14 @@ public class LoadCfgActive extends HttpServlet {
 			e.printStackTrace();
 		}
 		String participant=twf.getParticipant();
+		String []participantx=StringUtils.split(participant,",");
 		List list=new ArrayList();
-		Map map=new HashMap();
-		map.put("participant", participant);
-		list.add(map);
+		for (int i = 0; i < participantx.length; i++) {
+			Map map=new HashMap();
+			map.put("participant", participantx[i]);
+			list.add(map);
+		}
+
 		
 		String jsonstr = JSONArray.fromObject(list).toString();
 		response.setContentType("text/html;charset=utf-8");

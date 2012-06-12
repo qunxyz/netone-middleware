@@ -93,8 +93,8 @@ public class MyframeSvl extends HttpServlet {
 		// 我的代办列表
 		if (model.equals("0")) {
 			sqlStr = "select w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
-					+ "workcode,w3.d0 actname,w1.starttime starttime,w2.commitername "
-					+ "commitername,w2.commitercode  commiter from netone.t_wf_worklist "
+					+ "workcode,left(w3.d0,10) actname,concat(substring(starttime,6,2),'月',substring(starttime,9,2),'日',substring(starttime,12,2),'时') starttime,w2.commitername "
+					+ "commitername,w2.commitercode  commiter,w3.appname appname from netone.t_wf_worklist "
 					+ "w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE "
 					+ "left join netone.t_wf_relevantvar_tmp w3 on w3.runtimeid=w1.runtimeid"
 					+ " where w1.EXECUTESTATUS='01' and w2.usercode='"
@@ -117,8 +117,8 @@ public class MyframeSvl extends HttpServlet {
 		if (model.equals("2")) {
 
 			sqlStr = "SELECT w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
-					+ "workcode,w3.d0 actname,w1.starttime starttime,w2.commitername "
-					+ "commitername,w2.commitercode  commiter FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
+					+ "workcode,left(w3.d0,10) actname,concat(substring(starttime,6,2),'月',substring(starttime,9,2),'日',substring(starttime,12,2),'时') starttime,w2.commitername "
+					+ "commitername,w2.commitercode  commiter,w3.appname appname FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
 					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid  WHERE w2.usercode='"
 					+ username
 					+ "' AND w2.statusnow='02'  and wx.statusnow='01' AND w2.types IN ('01','02')"+extcondString+"" ;
@@ -135,8 +135,8 @@ public class MyframeSvl extends HttpServlet {
 		if (model.equals("4")) {
 
 			sqlStr = "SELECT w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
-					+ "workcode,w3.d0 actname,w1.starttime starttime,w2.commitername "
-					+ "commitername,w2.commitercode  commiter FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
+					+ "workcode,left(w3.d0,10) actname,concat(substring(starttime,6,2),'月',substring(starttime,9,2),'日',substring(starttime,12,2),'时') starttime,w2.commitername "
+					+ "commitername,w2.commitercode  commiter,w3.appname appname FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
 					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid WHERE w2.usercode='"
 					+ username
 					+ "' AND w2.statusnow='02' and wx.statusnow='02' AND w2.types IN ('01','02')"+extcondString+"";
@@ -154,8 +154,8 @@ public class MyframeSvl extends HttpServlet {
 		if (model.equals("6")) {
 
 			sqlStr = "SELECT w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
-					+ "workcode,w3.d0 actname,w1.starttime starttime,w2.commitername "
-					+ "commitername,w2.commitercode  commiter FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
+					+ "workcode,left(w3.d0,10) actname,concat(substring(starttime,6,2),'月',substring(starttime,9,2),'日',substring(starttime,12,2),'时') starttime,w2.commitername "
+					+ "commitername,w2.commitercode  commiter,w3.appname appname FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
 					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid WHERE w2.usercode='"
 					+ username
 					+ "' AND w2.types IN ('01','02')"+extcondString+"";
@@ -173,34 +173,20 @@ public class MyframeSvl extends HttpServlet {
 		RMI_SER_obj rmiobj = rmi.RMI_SER();
 		if (sqlStr != null) {
 			list = DbTools.queryData(sqlStr);
-			String strurl = null;
-			String appname=null;
+
 			if (model.equals("0")) {
 				list1 = new ArrayList();
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					Map map = (Map) iterator.next();
-					List listRev = wfview.fetchRelevantVar((String) map
-							.get("runtimeid"));
-
-					for (Iterator iterator3 = listRev.iterator(); iterator3
-							.hasNext();) {
-						TWfRelevantvar name = (TWfRelevantvar) iterator3.next();
-						String filedid = name.getDatafieldid();
-						String valuenow = name.getValuenow();
 					
-						if (this._DEFAULT_REV_KEY_BUSSURL.equals(filedid)) {
-							appname = StringUtils.substringBetween(valuenow,
-									"&naturalname=", "&lsh=");
-							strurl = rmiobj.getWEBSER_APPFRAME() + valuenow
-									+ map.get("lsh") + "&workcode="
-									+ map.get("workcode")
-									+ "&operatemode=01&commiter=" + username;
-						}
-					}
+					String appname=(String) map.get("appname");
+					String lsh=(String) map.get("lsh");
+					String webUrl=rmiobj.getWEBSER_APPFRAME()+"frame.do?method=onEditViewMain&naturalname="+appname+"&lsh="+lsh + "&workcode="
+					+ map.get("workcode")
+					+ "&operatemode=01&commiter=" + username;
 					
 					String processid=null;
 					String actid=null;
-					 
 					String workcode=(String)map.get("workcode");
 					if(StringUtils.isNotEmpty(workcode)){
 					TWfWorklist twf=null;
@@ -213,7 +199,7 @@ public class MyframeSvl extends HttpServlet {
 					 actid=twf.getActivityid();
 					 processid=twf.getProcessid();
 					}
-					map.put("url", strurl);
+					map.put("url", webUrl);
 					String string="function${";
 					string=string+"\"27\":"+"{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/QuerySvl?appname="+appname+"&lsh="+map.get("lsh")+"\",\"parameter\":\"\",\"displayfield\":\"\",\"imgae\":\"\"},"+
 					"\"29\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/Queryform?appname="+appname+"\",\"parameter\":\"\",\"displayfield\":\"\",\"imgae\":\"\"},"+

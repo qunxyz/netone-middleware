@@ -93,7 +93,7 @@ public class MyframeSvl extends HttpServlet {
 		// 我的代办列表
 		if (model.equals("0")) {
 			sqlStr = "select w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
-					+ "workcode,left(w3.d0,10) actname,concat(substring(starttime,6,2),'月',substring(starttime,9,2),'日',substring(starttime,12,2),'时') starttime,w2.commitername "
+					+ "workcode,left(w3.d0,10) actname,concat(substring(w1.starttime,6,2),'-',substring(w1.starttime,9,2),' ',substring(w1.starttime,12,2),':',substring(w1.starttime,15,2)) starttime,w2.commitername "
 					+ "commitername,w2.commitercode  commiter,w3.appname appname from netone.t_wf_worklist "
 					+ "w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE "
 					+ "left join netone.t_wf_relevantvar_tmp w3 on w3.runtimeid=w1.runtimeid"
@@ -117,16 +117,16 @@ public class MyframeSvl extends HttpServlet {
 		if (model.equals("2")) {
 
 			sqlStr = "SELECT w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
-					+ "workcode,left(w3.d0,10) actname,concat(substring(starttime,6,2),'月',substring(starttime,9,2),'日',substring(starttime,12,2),'时') starttime,w2.commitername "
+					+ "workcode,left(w3.d0,10) actname,concat(substring(w1.starttime,6,2),'-',substring(w1.starttime,9,2),' ',substring(w1.starttime,12,2),':',substring(w1.starttime,15,2)) starttime,w2.commitername "
 					+ "commitername,w2.commitercode  commiter,w3.appname appname FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
-					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid  WHERE w2.usercode='"
+					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join netone.t_wf_runtime wx on wx.runtimeid=w1.runtimeid  WHERE w2.usercode='"
 					+ username
 					+ "' AND w2.statusnow='02'  and wx.statusnow='01' AND w2.types IN ('01','02')"+extcondString+"" ;
 		}
 		// 已办工单数
 		if (model.equals("3")) {
 			sqlStr = "SELECT count(*) as countnum  FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
-				+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid  WHERE w2.usercode='"
+				+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join netone.t_wf_runtime wx on wx.runtimeid=w1.runtimeid  WHERE w2.usercode='"
 				+ username
 				+ "' AND w2.statusnow='02'  and wx.statusnow='01' AND w2.types IN ('01','02')"+extcondString+"" ;
 
@@ -135,9 +135,9 @@ public class MyframeSvl extends HttpServlet {
 		if (model.equals("4")) {
 
 			sqlStr = "SELECT w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
-					+ "workcode,left(w3.d0,10) actname,concat(substring(starttime,6,2),'月',substring(starttime,9,2),'日',substring(starttime,12,2),'时') starttime,w2.commitername "
+					+ "workcode,left(w3.d0,10) actname,concat(substring(w1.starttime,6,2),'-',substring(w1.starttime,9,2),' ',substring(w1.starttime,12,2),':',substring(w1.starttime,15,2)) starttime,w2.commitername "
 					+ "commitername,w2.commitercode  commiter,w3.appname appname FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
-					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid WHERE w2.usercode='"
+					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join netone.t_wf_runtime wx on wx.runtimeid=w1.runtimeid WHERE w2.usercode='"
 					+ username
 					+ "' AND w2.statusnow='02' and wx.statusnow='02' AND w2.types IN ('01','02')"+extcondString+"";
 		}
@@ -145,22 +145,22 @@ public class MyframeSvl extends HttpServlet {
 		if (model.equals("5")) {
 			
 			sqlStr = "SELECT  count(*) as countnum FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
-				+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join t_wf_runtime wx on wx.runtimeid=w1.runtimeid WHERE w2.usercode='"
+				+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid left join netone.t_wf_runtime wx on wx.runtimeid=w1.runtimeid WHERE w2.usercode='"
 				+ username
 				+ "' AND w2.statusnow='02' and wx.statusnow='02' AND w2.types IN ('01','02')"+extcondString+"";
 
 		}
-		// 当前已办工单列表
+		// 所有工单
 		if (model.equals("6")) {
 
 			sqlStr = "SELECT w3.lsh lsh,w3.appname naturalname,w1.runtimeid runtimeid,w2.workcode "
-					+ "workcode,left(w3.d0,10) actname,concat(substring(starttime,6,2),'月',substring(starttime,9,2),'日',substring(starttime,12,2),'时') starttime,w2.commitername "
+					+ "workcode,left(w3.d0,10) actname,concat(substring(w1.starttime,6,2),'-',substring(w1.starttime,9,2),' ',substring(w1.starttime,12,2),':',substring(w1.starttime,15,2)) starttime,w2.commitername "
 					+ "commitername,w2.commitercode  commiter,w3.appname appname FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
 					+ "w1.workcode=w2.WORKCODE LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid=w1.runtimeid WHERE w2.usercode='"
 					+ username
 					+ "' AND w2.types IN ('01','02')"+extcondString+"";
 		}
-		// 已办工单数
+		// 所有工单数
 		if (model.equals("7")) {
 		
 			sqlStr = "SELECT count(*) as countnum FROM netone.t_wf_worklist w1 LEFT JOIN netone.t_wf_participant w2 ON  "
@@ -208,7 +208,7 @@ public class MyframeSvl extends HttpServlet {
 					"\"32\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/loadcfgactive?naturalname="+map.get("naturalname")+"&commiter="+map.get("commiter")+"&runtimeid="+map.get("runtimeid")+"\",\"parameter\":\"[actid]\",\"displayfield\":\"\",\"imgae\":\"\"},"+
 					"\"33\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/saveauditnote?workcode="+map.get("workcode")+"\",\"parameter\":\"[participant,note]\",\"displayfield\":\"\",\"imgae\":\"\"},"+
 					"\"34\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/nextbymanual?workcode="+map.get("workcode")+"\",\"parameter\":\"[actid,clientId]\",\"displayfield\":\"\",\"imgae\":\"\"}," +
-					"\"26\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"//UpdataSvl?appname="+map.get("naturalname")+"\",\"parameter\":\"[lsh,userid]\",\"displayfield\":\"\",\"imgae\":\"\"}}$;";
+					"\"26\":{\"url\":\""+rmiobj.getWEBSER_WebSerivce()+"/UpdataSvl?appname="+map.get("naturalname")+"\",\"parameter\":\"[lsh,userid]\",\"displayfield\":\"\",\"imgae\":\"\"}}$;";
 					map.put("serve", string);
 					map.put("appname",appname);
 					map.remove("lsh");

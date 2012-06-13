@@ -81,7 +81,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		List newColumn = new ArrayList();
 		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		for (Iterator iterator = listcolumn.iterator(); iterator.hasNext();) {
-			TCsColumn object = (TCsColumn) iterator.next();
+			TCsColumn object = (TCsColumn) iterator.next();		
 			String typex = object.getViewtype();
 			if ("20".equals(typex) || "21".equals(typex) || "29".equals(typex)) {
 				// continue;
@@ -691,6 +691,11 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 		}
 		}
+		
+		//表单字段授权控制
+		columnPermission(form,usercode);
+		
+		//流程表单控制
 		try {
 
 		//字表单字段控制

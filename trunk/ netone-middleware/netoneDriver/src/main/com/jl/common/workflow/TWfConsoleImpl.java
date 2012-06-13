@@ -1352,6 +1352,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			}
 			String formcode = object.getRev2formcode();
 			DyFormData data = DyEntry.iv().loadData(formcode, bussid);
+			columnid=columnid.toLowerCase();
 			String value = BeanUtils.getProperty(data, columnid);
 			updateRev(runtimeid, revid, value);
 			value = StringUtils.replace(value, "'", "¡¯");

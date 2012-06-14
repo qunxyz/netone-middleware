@@ -102,7 +102,7 @@ public class PhConfigService extends HttpServlet {
 					UmsProtectedobject upob = up
 							.loadUmsProtecteNaturalname(((String) map
 									.get("extendattribute")).trim());
-					if (StringUtils.isNotEmpty(upob.getExtendattribute())) {
+					if (upob!=null&&StringUtils.isNotEmpty(upob.getExtendattribute())) {
 						phobj.setExtendattribute(upob.getExtendattribute());
 					} else {
 						phobj.setExtendattribute("");

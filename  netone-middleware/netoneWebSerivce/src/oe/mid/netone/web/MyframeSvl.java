@@ -174,7 +174,7 @@ public class MyframeSvl extends HttpServlet {
 		if (sqlStr != null) {
 			list = DbTools.queryData(sqlStr);
 
-			if (model.equals("0")) {
+			if (model.equals("0")||model.equals("2")||model.equals("4")||model.equals("6")) {
 				list1 = new ArrayList();
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					Map map = (Map) iterator.next();

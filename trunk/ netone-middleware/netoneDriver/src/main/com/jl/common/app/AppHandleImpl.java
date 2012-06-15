@@ -32,7 +32,7 @@ public final class AppHandleImpl implements AppHandleIfc {
 			return app;
 		}
 		UmsProtectedobject upo = rs.loadResourceByNatural(naturalname);
-		app.setDescription(upo.getDescription());
+
 		if (naturalname.startsWith("BUSSFORM.BUSSFORM.")) {
 
 			app.setDyformCode_(upo.getExtendattribute());
@@ -49,6 +49,10 @@ public final class AppHandleImpl implements AppHandleIfc {
 		}
 
 		BeanUtils.copyProperties(app, upo);
+		String template=app.getDescription();
+		if(StringUtils.isNotEmpty(template)){
+			app.setDescription(StringUtils.substringBetween(template, "[","]"));
+		}
 		String actionurl = app.getActionurl();
 		if (actionurl != null) {
 			String[] appinfo = StringUtils.split(actionurl, ";");

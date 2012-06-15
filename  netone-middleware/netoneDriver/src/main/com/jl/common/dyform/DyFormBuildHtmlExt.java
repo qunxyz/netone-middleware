@@ -14,7 +14,6 @@ import java.util.UUID;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import oe.cav.bean.logic.column.TCsColumn;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -1589,8 +1588,19 @@ public final class DyFormBuildHtmlExt {
 		String formcode = dyform.getFormcode();
 		StringBuffer html = new StringBuffer();
 
+		DyFormColumn[] _formx = new DyFormColumn[0];
+
+		try {
+			List<DyFormColumn> list = DyEntry.iv().queryColumn(
+					dyform.getFormcode(), "2");
+			_formx = (DyFormColumn[]) list
+					.toArray(new DyFormColumn[list.size()]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		// 展示表单字段-针对表单中的相关字段
-		DyFormColumn _formx[] = dyform.getAllColumn_();
+		// DyFormColumn _formx[] = dyform.getAllColumn_();
 		if (StringUtils.isNotEmpty(lsh)) {// 公单已保存,不需要加载人员信息
 			userinfo = "";
 		}
@@ -1739,7 +1749,7 @@ public final class DyFormBuildHtmlExt {
 
 		return html.toString();
 	}
-
+	
 	public static String buildSubForm(DyForm subdyform, String fatherlsh,
 			boolean isedit, String userinfo, String parameter, User user)
 			throws Exception {
@@ -2044,7 +2054,18 @@ public final class DyFormBuildHtmlExt {
 	public static String buildExtFields(DyForm dyform) {
 		StringBuffer html = new StringBuffer();
 		// 展示表单字段-针对表单中的相关字段
-		DyFormColumn[] _formx = dyform.getAllColumn_();
+		// DyFormColumn[] _formx = dyform.getAllColumn_();
+
+		DyFormColumn[] _formx = new DyFormColumn[0];
+
+		try {
+			List<DyFormColumn> list = DyEntry.iv().queryColumn(
+					dyform.getFormcode(), "2");
+			_formx = (DyFormColumn[]) list
+					.toArray(new DyFormColumn[list.size()]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		html.append("{name: '" + "status" + "'}");
 		html.append("," + "{name: '" + "run" + "'}");
@@ -2062,7 +2083,7 @@ public final class DyFormBuildHtmlExt {
 		return html.toString();
 	}
 
-	public static String buildExtFieldsX(TCsColumn[] formx) {
+	public static String buildExtFieldsX(DyFormColumn[] formx) {
 		StringBuffer html = new StringBuffer();
 		// 展示表单字段-针对表单中的相关字段
 
@@ -2072,7 +2093,7 @@ public final class DyFormBuildHtmlExt {
 		html.append("," + "{name: '" + "lsh" + "'}");
 		if (formx != null) {
 			for (int i = 0; i < formx.length; i++) {
-				TCsColumn _qc1 = formx[i];
+				DyFormColumn _qc1 = formx[i];
 				// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
 				String columnid = _qc1.getColumnid();
 				// 字段名（中文）
@@ -2123,8 +2144,18 @@ public final class DyFormBuildHtmlExt {
 			boolean isedit, String usercode) {
 		StringBuffer html = new StringBuffer();
 		// 展示表单字段-针对表单中的相关字段
-		DyFormColumn[] _formx = dyform.getListColumn_();
+		// DyFormColumn[] _formx = dyform.getListColumn_();
 		String split = "";
+		DyFormColumn[] _formx = new DyFormColumn[0];
+
+		try {
+			List<DyFormColumn> list = DyEntry.iv().queryColumn(
+					dyform.getFormcode(), "2");
+			_formx = (DyFormColumn[]) list
+					.toArray(new DyFormColumn[list.size()]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		DyFormData data = new DyFormData();
 		data.setColumn3(usercode);
@@ -2140,38 +2171,40 @@ public final class DyFormBuildHtmlExt {
 			String columnname = _qc1.getColumname();
 
 			// 是否隐蔽
-			boolean hidden = _qc1.isHidden();
+			// boolean hidden = _qc1.isHidden();
 
-			if (hidden == false) {
-				String ext = routeAppointValue(_qc1.getViewtype(), columnid,
-						_qc1.getValuelist(), "ext");// 扩展脚本控制
-				// ext = null;
+			// if (hidden == false) {
+			String ext = routeAppointValue(_qc1.getViewtype(), columnid, _qc1
+					.getValuelist(), "ext");// 扩展脚本控制
+			// ext = null;
 
-				String musktip = _qc1.isMusk_() == true ? "<span style=\"color:red\">*</span>"
-						: "";
+			// String musktip = _qc1.isMusk_() == true ? "<span
+			// style=\"color:red\">*</span>"
+			// : "";
+			String musktip = "";
 
-				boolean disable = false;
-				if (jsonobj != null) {
-					if (jsonobj.containsKey(columnid)) {
-						String disables = (String) jsonobj.get(columnid);
-						if ("1".equals(disables)) {
-							disable = false;
-						} else {
-							disable = true;
-						}
+			boolean disable = false;
+			if (jsonobj != null) {
+				if (jsonobj.containsKey(columnid)) {
+					String disables = (String) jsonobj.get(columnid);
+					if ("1".equals(disables)) {
+						disable = false;
+					} else {
+						disable = true;
 					}
 				}
+			}
 
-				String[][] arr = DyFormConsoleIfc._HTML_LIST;
-				if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
-					html.append(split + "{header: '" + columnname + musktip
-							+ "', dataIndex: '" + columnid
-							+ "', sortable: true" + ",hidden:" + disable
-							+ (ext == null ? "" : ("," + ext)) + "}");
-					split = ",";
-				}
+			String[][] arr = DyFormConsoleIfc._HTML_LIST;
+			if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
+				html.append(split + "{header: '" + columnname + musktip
+						+ "', dataIndex: '" + columnid + "', sortable: true"
+						+ ",hidden:" + disable
+						+ (ext == null ? "" : ("," + ext)) + "}");
+				split = ",";
 			}
 		}
+		// }
 
 		if ("1".equals(type)) {
 			html
@@ -2226,15 +2259,15 @@ public final class DyFormBuildHtmlExt {
 		return html.toString();
 	}
 
-	public static String buildExtColumnsX(TCsColumn[] dyform, String type,
+	public static String buildExtColumnsX(DyFormColumn[] dyform, String type,
 			boolean isedit) {
 		StringBuffer html = new StringBuffer();
 		// 展示表单字段-针对表单中的相关字段
-		TCsColumn[] _formx = dyform;
+		DyFormColumn[] _formx = dyform;
 		String split = "";
 		if (_formx != null) {
 			for (int i = 0; i < _formx.length; i++) {
-				TCsColumn _qc1 = _formx[i];
+				DyFormColumn _qc1 = _formx[i];
 				// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
 				String columnid = _qc1.getColumnid();
 				// 字段名（中文）

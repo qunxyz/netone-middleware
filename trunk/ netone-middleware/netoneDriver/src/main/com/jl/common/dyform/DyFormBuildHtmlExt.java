@@ -1742,14 +1742,15 @@ public final class DyFormBuildHtmlExt {
 
 			if (columnid.contains("column")) {
 				if (_qc1.isHidden() == false)
-					html.append("," + columnid + ":" + "Ext.get('" + columnid
+					html.append("," + columnid + ":" + "(Ext.get('" + columnid
+							+ "')==null)?'':Ext.get('" + columnid
 							+ "').getValue()");
 			}
 		}
 
 		return html.toString();
 	}
-	
+
 	public static String buildSubForm(DyForm subdyform, String fatherlsh,
 			boolean isedit, String userinfo, String parameter, User user)
 			throws Exception {

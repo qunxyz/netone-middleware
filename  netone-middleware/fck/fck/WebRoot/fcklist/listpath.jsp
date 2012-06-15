@@ -148,7 +148,7 @@
 					<tr>
 						<td colspan='9' align='right' nowrap>
 							&nbsp;&nbsp;
-							<input type="button" value="新建元素" onClick="newElemnt();"
+							<input type="button" value="新建文档" onClick="newElemnt();"
 								class="butt">
 							&nbsp;&nbsp;
 							
@@ -226,12 +226,12 @@
 							<td nowrap>
 								<c:if test="${list.inclusion == '0'}">
 								<a href="javascript:edit('${list.id}');">修改</a>
-								<a href="javascript:view('${list.id}');">浏览1</a>
-								<a href="javascript:view1('${list.id}');">浏览2</a>
+								<a href="javascript:view('${list.id}');">带框架的预览</a>
+								<a href="javascript:view1('${list.id}');">单纯文档预览</a>
 								</c:if>
 								<a href="javascript:del('${list.id}');">删除</a>
 								<c:if test="${list.inclusion == '0'}">
-								<a href="javascript:checkthis('${list.id}','${list.naturalname}','${list.inclusion}','${list.parentdir}','${list.naturalname}');">选择</a>
+								<a href="javascript:checkthis('${list.id}','${list.name}','${list.inclusion}','${list.parentdir}','${list.naturalname}');">选择</a>
 								</c:if>
 							</td>
 						</tr>

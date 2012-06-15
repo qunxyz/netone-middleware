@@ -347,7 +347,7 @@ public class FrameAction extends AbstractAction {
 			forward = "/frame/editframe-" + naturalname + ".jsp";
 		}
 		String isadd = request.getParameter("isadd");
-		if (StringUtils.isNotEmpty(app.getDescription()) && !"1".equals(isadd)) {
+		if (StringUtils.isNotEmpty(app.getDescription()) && !"1".equals(isadd) && StringUtils.isEmpty(lsh)) {
 			forward = forward = "/frame/frameExtPage.jsp";
 			request.setAttribute("urltext", app.getDescription());
 		}

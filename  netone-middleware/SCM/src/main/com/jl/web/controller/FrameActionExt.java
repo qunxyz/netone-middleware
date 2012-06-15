@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import oe.cav.bean.logic.column.TCsColumn;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -40,6 +39,7 @@ import com.jl.common.app.AppObj;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormBuildHtmlExt;
+import com.jl.common.dyform.DyFormColumn;
 import com.jl.common.dyform.DyFormComp;
 import com.jl.common.dyform.DyFormData;
 import com.jl.common.resource.Resource;
@@ -81,31 +81,32 @@ public class FrameActionExt extends AbstractAction {
 		String queryColumnHtml = DyFormBuildHtmlExt.buildQueryColumn(dyform
 				.getQueryColumn_());
 		request.setAttribute("queryColumnsHtml", queryColumnHtml);
-		String queryConditionHtml = DyFormBuildHtmlExt
-				.buildQueryCondition(dyform.getAllColumn_());
-		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		// 样式
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("datecompFunc", DyFormComp.getInitFuncScript());
 
-		
-		//按钮控制
-		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+		// 按钮控制
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		UmsProtectedobject upo = new UmsProtectedobject();
 		upo.setExtendattribute(formcode);
 		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
 		Map map = new HashMap();
 		map.put("naturalname", "like");
 		List formlist = rs.fetchResource(upo, map);
-		if(formlist.size()!=1){
+		if (formlist.size() != 1) {
 			throw new RuntimeException("存在表单异常定义");
 		}
-		String naturalname_dyform=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
+				.getNaturalname();
 		request.setAttribute("naturalname_dyform", naturalname_dyform);
-		
+
 		// 普通查询
+		DyFormColumn[] simpleQuerydyform = null;
+		List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode, "0");
+		simpleQuerydyform = (DyFormColumn[]) listx
+				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
 		boolean issub = false;// 是否子表单
 		String forms = DyFormBuildHtmlExt.buildQueryForm1(dyform, user
@@ -113,6 +114,9 @@ public class FrameActionExt extends AbstractAction {
 				+ "/" + user.getUserName() + "," + user.getNLevelName(),
 				naturalname, lsh, issub, request.getParameter("url"));
 		request.setAttribute("queryform1", forms);
+		String queryConditionHtml = DyFormBuildHtmlExt
+				.buildQueryCondition(simpleQuerydyform);
+		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		// 高级查询
 		setExtQueryColumnVar(request, formcode);
@@ -151,19 +155,20 @@ public class FrameActionExt extends AbstractAction {
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("datecompFunc", DyFormComp.getInitFuncScript());
-		
-		//按钮控制
-		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+
+		// 按钮控制
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		UmsProtectedobject upo = new UmsProtectedobject();
 		upo.setExtendattribute(formcode);
 		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
 		Map map = new HashMap();
 		map.put("naturalname", "like");
 		List formlist = rs.fetchResource(upo, map);
-		if(formlist.size()!=1){
+		if (formlist.size() != 1) {
 			throw new RuntimeException("存在表单异常定义");
 		}
-		String naturalname_dyform=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
+				.getNaturalname();
 		request.setAttribute("naturalname_dyform", naturalname_dyform);
 
 		// 子表单0
@@ -175,6 +180,10 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("subfields", subfields);
 
 		// 普通查询
+		DyFormColumn[] simpleQuerydyform = null;
+		List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode, "0");
+		simpleQuerydyform = (DyFormColumn[]) listx
+				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
 		boolean issub = false;// 是否子表单
 		String forms = DyFormBuildHtmlExt.buildQueryForm1(dyform, user
@@ -182,6 +191,9 @@ public class FrameActionExt extends AbstractAction {
 				+ "/" + user.getUserName() + "," + user.getNLevelName(),
 				naturalname, lsh, issub, request.getParameter("url"));
 		request.setAttribute("queryform1", forms);
+		String queryConditionHtml = DyFormBuildHtmlExt
+				.buildQueryCondition(simpleQuerydyform);
+		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		// 高级查询
 		setExtQueryColumnVar(request, formcode);
@@ -189,9 +201,6 @@ public class FrameActionExt extends AbstractAction {
 		String queryColumnHtml = DyFormBuildHtmlExt.buildQueryColumn(dyform
 				.getQueryColumn_());
 		request.setAttribute("queryColumnsHtml", queryColumnHtml);
-		String queryConditionHtml = DyFormBuildHtmlExt
-				.buildQueryCondition(dyform.getAllColumn_());
-		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
 		File file = new File(path + "/frameSCMExt/frameMain2-" + naturalname
@@ -227,31 +236,34 @@ public class FrameActionExt extends AbstractAction {
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("datecompFunc", DyFormComp.getInitFuncScript());
-		
-		//按钮控制
-		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+
+		// 按钮控制
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		UmsProtectedobject upo = new UmsProtectedobject();
 		upo.setExtendattribute(formcode);
 		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
 		Map map = new HashMap();
 		map.put("naturalname", "like");
 		List formlist = rs.fetchResource(upo, map);
-		if(formlist.size()!=1){
+		if (formlist.size() != 1) {
 			throw new RuntimeException("存在表单异常定义");
 		}
-		String naturalname_dyform=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
+				.getNaturalname();
 		request.setAttribute("naturalname_dyform", naturalname_dyform);
 
 		// 汇总或明细
 		String extmode = request.getParameter("extmode");
-		TCsColumn[] extdyform = null;
+		DyFormColumn[] extdyform = null;
 
 		if ("1".equals(extmode)) {
-			List<TCsColumn> list = DyEntry.iv().QueryColumn(formcode, "2");
-			extdyform = (TCsColumn[]) list.toArray(new TCsColumn[list.size()]);
+			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, "2");
+			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
+					.size()]);
 		} else if ("2".equals(extmode)) {
-			List<TCsColumn> list = DyEntry.iv().QueryColumn(formcode, "3");
-			extdyform = (TCsColumn[]) list.toArray(new TCsColumn[list.size()]);
+			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, "3");
+			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
+					.size()]);
 		}
 		String extcolumns = DyFormBuildHtmlExt.buildExtColumnsX(extdyform,
 				null, true);
@@ -260,6 +272,10 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("extfields", extfields);
 
 		// 普通查询
+		DyFormColumn[] simpleQuerydyform = null;
+		List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode, "0");
+		simpleQuerydyform = (DyFormColumn[]) listx
+				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
 		boolean issub = false;// 是否子表单
 		String forms = DyFormBuildHtmlExt.buildQueryForm1(dyform, user
@@ -267,6 +283,9 @@ public class FrameActionExt extends AbstractAction {
 				+ "/" + user.getUserName() + "," + user.getNLevelName(),
 				naturalname, lsh, issub, request.getParameter("url"));
 		request.setAttribute("queryform1", forms);
+		String queryConditionHtml = DyFormBuildHtmlExt
+				.buildQueryCondition(simpleQuerydyform);
+		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		// 高级查询
 		setExtQueryColumnVar(request, formcode);
@@ -274,9 +293,6 @@ public class FrameActionExt extends AbstractAction {
 		String queryColumnHtml = DyFormBuildHtmlExt.buildQueryColumn(dyform
 				.getQueryColumn_());
 		request.setAttribute("queryColumnsHtml", queryColumnHtml);
-		String queryConditionHtml = DyFormBuildHtmlExt
-				.buildQueryCondition(dyform.getAllColumn_());
-		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
 		File file = new File(path + "/frameSCMExt/frameMain3-" + naturalname
@@ -312,31 +328,34 @@ public class FrameActionExt extends AbstractAction {
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("datecompFunc", DyFormComp.getInitFuncScript());
-		
-		//按钮控制
-		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+
+		// 按钮控制
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		UmsProtectedobject upo = new UmsProtectedobject();
 		upo.setExtendattribute(formcode);
 		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
 		Map map = new HashMap();
 		map.put("naturalname", "like");
 		List formlist = rs.fetchResource(upo, map);
-		if(formlist.size()!=1){
+		if (formlist.size() != 1) {
 			throw new RuntimeException("存在表单异常定义");
 		}
-		String naturalname_dyform=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
+				.getNaturalname();
 		request.setAttribute("naturalname_dyform", naturalname_dyform);
 
 		// 汇总或明细
 		String extmode = request.getParameter("extmode");
-		TCsColumn[] extdyform = null;
+		DyFormColumn[] extdyform = null;
 
 		if ("1".equals(extmode)) {
-			List<TCsColumn> list = DyEntry.iv().QueryColumn(formcode, "2");
-			extdyform = (TCsColumn[]) list.toArray(new TCsColumn[list.size()]);
+			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, "2");
+			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
+					.size()]);
 		} else if ("2".equals(extmode)) {
-			List<TCsColumn> list = DyEntry.iv().QueryColumn(formcode, "3");
-			extdyform = (TCsColumn[]) list.toArray(new TCsColumn[list.size()]);
+			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, "3");
+			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
+					.size()]);
 		}
 		String extcolumns = DyFormBuildHtmlExt.buildExtColumnsX(extdyform,
 				null, true);
@@ -353,6 +372,10 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("subfields", subfields);
 
 		// 普通查询
+		DyFormColumn[] simpleQuerydyform = null;
+		List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode, "0");
+		simpleQuerydyform = (DyFormColumn[]) listx
+				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
 		boolean issub = false;// 是否子表单
 		String forms = DyFormBuildHtmlExt.buildQueryForm1(dyform, user
@@ -360,6 +383,9 @@ public class FrameActionExt extends AbstractAction {
 				+ "/" + user.getUserName() + "," + user.getNLevelName(),
 				naturalname, lsh, issub, request.getParameter("url"));
 		request.setAttribute("queryform1", forms);
+		String queryConditionHtml = DyFormBuildHtmlExt
+				.buildQueryCondition(simpleQuerydyform);
+		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		// 高级查询
 		setExtQueryColumnVar(request, formcode);
@@ -367,9 +393,6 @@ public class FrameActionExt extends AbstractAction {
 		String queryColumnHtml = DyFormBuildHtmlExt.buildQueryColumn(dyform
 				.getQueryColumn_());
 		request.setAttribute("queryColumnsHtml", queryColumnHtml);
-		String queryConditionHtml = DyFormBuildHtmlExt
-				.buildQueryCondition(dyform.getAllColumn_());
-		request.setAttribute("queryConditionHtml", queryConditionHtml);
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
 		File file = new File(path + "/frameSCMExt/frameMain4-" + naturalname
@@ -649,15 +672,16 @@ public class FrameActionExt extends AbstractAction {
 				}
 
 			} else if ("2".equals(extmode)) {
-				List<TCsColumn> listx = DyEntry.iv().QueryColumn(formcode, "3");
-				TCsColumn[] extdyformx = (TCsColumn[]) listx
-						.toArray(new TCsColumn[listx.size()]);
+				List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode,
+						"3");
+				DyFormColumn[] extdyformx = (DyFormColumn[]) listx
+						.toArray(new DyFormColumn[listx.size()]);
 				Map<String, DyFormData> summaryMap = new HashMap<String, DyFormData>();
 
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					DyFormData group = (DyFormData) iterator.next();
 					StringBuffer key = new StringBuffer();
-					for (TCsColumn csColumn : extdyformx) {
+					for (DyFormColumn csColumn : extdyformx) {
 						String cid = csColumn.getColumnid();
 						String value = BeanUtils.getProperty(group, cid);
 						key.append("|^|" + value);
@@ -2390,7 +2414,7 @@ public class FrameActionExt extends AbstractAction {
 
 	private void setExtQueryColumnVar(HttpServletRequest request,
 			String formcode) {
-		//高级查询字段
+		// 高级查询字段
 		request
 				.setAttribute("ExtQueryColumn",
 						getExtQueryColumn(formcode, "1"));
@@ -2441,10 +2465,10 @@ public class FrameActionExt extends AbstractAction {
 	private String getExtQueryColumnC2(String formcode, String model) {
 
 		try {
-			List<TCsColumn> list = DyEntry.iv().QueryColumn(formcode, model);
+			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, model);
 			String split = "";
 			StringBuffer value = new StringBuffer();
-			for (TCsColumn dyFormColumn : list) {
+			for (DyFormColumn dyFormColumn : list) {
 				// if (dyFormColumn.isHidden() == false) {
 				value.append(split + dyFormColumn.getColumnid() + "-"
 						+ dyFormColumn.getColumname());
@@ -2461,10 +2485,10 @@ public class FrameActionExt extends AbstractAction {
 
 	private String getExtQueryColumn2(String formcode, String model) {
 		try {
-			List<TCsColumn> list = DyEntry.iv().QueryColumn(formcode, model);
+			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, model);
 			String split = "";
 			StringBuffer value = new StringBuffer();
-			for (TCsColumn dyFormColumn : list) {
+			for (DyFormColumn dyFormColumn : list) {
 				// if (dyFormColumn.isHidden() == false) {
 				value.append(split + "['" + dyFormColumn.getColumname() + "','"
 						+ dyFormColumn.getColumnid() + "']");
@@ -2526,14 +2550,12 @@ public class FrameActionExt extends AbstractAction {
 					data.setParticipant(user.getUserCode());
 					data.setFatherlsh("");
 					data.setLsh(lsh);
-					DyEntry.iv().modifyData(
-							formcode, data);
+					DyEntry.iv().modifyData(formcode, data);
 				} else {
 					data.setColumn4(JSONObject.fromObject(subdata).toString());
 					data.setParticipant(user.getUserCode());
 					data.setFatherlsh("");
-					DyEntry.iv().addData(formcode,
-							data);
+					DyEntry.iv().addData(formcode, data);
 				}
 			}
 			json.put("tip", "保存成功!");

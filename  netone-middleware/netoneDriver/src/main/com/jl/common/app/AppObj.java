@@ -22,6 +22,16 @@ public final class AppObj extends UmsProtectedobject {
 	private String formtitle;
 	//±ÌŒ≤–≈œ¢
 	private String formendtitle;
+	
+	private String description;
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public String getWorklistColumn() {
 		return worklistColumn;

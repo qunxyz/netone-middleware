@@ -346,6 +346,12 @@ public class FrameAction extends AbstractAction {
 		if (file.exists()) {
 			forward = "/frame/editframe-" + naturalname + ".jsp";
 		}
+		String isadd = request.getParameter("isadd");
+		if (StringUtils.isNotEmpty(app.getDescription()) && !"1".equals(isadd)) {
+			forward = forward = "/frame/frameExtPage.jsp";
+			request.setAttribute("urltext", app.getDescription());
+		}
+
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
 		// true不使用转向,默认是false代表转向

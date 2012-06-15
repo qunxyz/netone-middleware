@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>	
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
@@ -320,53 +321,68 @@ function $select(o,url){
 					 region:"north",
 					 cls:'',
 					 items:[
-					  		{
+					  	<rs:permission action="7" resource="${naturalname_dyform}.ADD">
+					 	{
 						  text:'新增',
 						  id:'ext_b_add',
 						  iconCls:"addIcon",
 						  handler: function (){
 								window.open('<c:url value="/frame.do?method=onEditViewMain&naturalname=${param.naturalname}"/>');
 						  }
-						}
+						},
+						</rs:permission>
 						
-						,{
+						<rs:permission action="7" resource="${naturalname_dyform}.MODI">
+						{
 						  text:'修改',
 						  id:'ext_b_edit',
 						  iconCls:"editIcon",
 						  handler: function (){
 								$edit();
 						  }
-						}
-						,{
+						},
+						</rs:permission>
+						
+						<rs:permission action="7" resource="${naturalname_dyform}.DELE">
+						{
 						  text:'删除',
 						  id:'ext_b_delete',
 						  iconCls:"deleteIcon",
 						  handler: function (){
 								$delete();
 						  }
-						}
+						},
+						</rs:permission>
 						
-						,{
+						<rs:permission action="7" resource="${naturalname_dyform}.CONF">
+						{
 						  text:'确认',
 						  iconCls:"reIcon",
 						  handler: function (){
 								$confirmStatus();
 						  }
-						}
-						,{
+						},
+						</rs:permission>
+						
+						<rs:permission action="7" resource="${naturalname_dyform}.UCONF">
+						{
 						  text:'反确认',
 						  iconCls:"resetIcon",
 						  handler: function (){
 								$unconfirmStatus();
 						  }
-						}
-						,{
+						},
+						</rs:permission>
+						
+						<rs:permission action="7" resource="${naturalname_dyform}.QUE">
+						{
 						  text:'查询',
 						  iconCls:"viewIcon",
 						  menu : querymenu
-						}
+						},
+						</rs:permission>
 						
-						,{
+						{
 						  text:'打印',
 						  iconCls:"print",
 						  handler: function (){

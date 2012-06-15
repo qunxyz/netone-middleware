@@ -20,6 +20,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import oe.cav.bean.logic.column.TCsColumn;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import oe.serialize.dao.PageInfo;
 
@@ -88,6 +90,21 @@ public class FrameActionExt extends AbstractAction {
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("datecompFunc", DyFormComp.getInitFuncScript());
 
+		
+		//按钮控制
+		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(formcode);
+		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+		List formlist = rs.fetchResource(upo, map);
+		if(formlist.size()!=1){
+			throw new RuntimeException("存在表单异常定义");
+		}
+		String naturalname_dyform=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+		request.setAttribute("naturalname_dyform", naturalname_dyform);
+		
 		// 普通查询
 		String lsh = "";
 		boolean issub = false;// 是否子表单
@@ -134,6 +151,20 @@ public class FrameActionExt extends AbstractAction {
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("datecompFunc", DyFormComp.getInitFuncScript());
+		
+		//按钮控制
+		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(formcode);
+		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+		List formlist = rs.fetchResource(upo, map);
+		if(formlist.size()!=1){
+			throw new RuntimeException("存在表单异常定义");
+		}
+		String naturalname_dyform=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+		request.setAttribute("naturalname_dyform", naturalname_dyform);
 
 		// 子表单0
 		DyForm subdyform = dyform.getSubform_()[0];
@@ -196,6 +227,20 @@ public class FrameActionExt extends AbstractAction {
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("datecompFunc", DyFormComp.getInitFuncScript());
+		
+		//按钮控制
+		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(formcode);
+		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+		List formlist = rs.fetchResource(upo, map);
+		if(formlist.size()!=1){
+			throw new RuntimeException("存在表单异常定义");
+		}
+		String naturalname_dyform=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+		request.setAttribute("naturalname_dyform", naturalname_dyform);
 
 		// 汇总或明细
 		String extmode = request.getParameter("extmode");
@@ -267,6 +312,20 @@ public class FrameActionExt extends AbstractAction {
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("datecompFunc", DyFormComp.getInitFuncScript());
+		
+		//按钮控制
+		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(formcode);
+		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+		List formlist = rs.fetchResource(upo, map);
+		if(formlist.size()!=1){
+			throw new RuntimeException("存在表单异常定义");
+		}
+		String naturalname_dyform=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+		request.setAttribute("naturalname_dyform", naturalname_dyform);
 
 		// 汇总或明细
 		String extmode = request.getParameter("extmode");
@@ -2331,6 +2390,7 @@ public class FrameActionExt extends AbstractAction {
 
 	private void setExtQueryColumnVar(HttpServletRequest request,
 			String formcode) {
+		//高级查询字段
 		request
 				.setAttribute("ExtQueryColumn",
 						getExtQueryColumn(formcode, "1"));
@@ -2354,7 +2414,7 @@ public class FrameActionExt extends AbstractAction {
 		// c3
 		s.append("'"
 				+ DyFormComp.getSelectKV("c3", "", "width:\"99%\"", "", false,
-						"&gt;->,&lt;-<,=-=,&gt;=->=,&lt;=-<=,like-like", "",
+						"&gt;->,&lt;-<,=-=,&gt;=->=,&lt;=-<=,like-包含", "",
 						false) + "'");
 		s.append(",");
 
@@ -2442,6 +2502,7 @@ public class FrameActionExt extends AbstractAction {
 			throws Exception {
 		JSONObject json = new JSONObject();
 
+		String formcode = request.getParameter("formcode");
 		String subform = request.getParameter("subform");
 		JSONArray jsonArray = JSONArray.fromObject(subform);
 
@@ -2466,12 +2527,12 @@ public class FrameActionExt extends AbstractAction {
 					data.setFatherlsh("");
 					data.setLsh(lsh);
 					DyEntry.iv().modifyData(
-							"4ea6cde8893211e1aecf5961a4b828b8_", data);
+							formcode, data);
 				} else {
 					data.setColumn4(JSONObject.fromObject(subdata).toString());
 					data.setParticipant(user.getUserCode());
 					data.setFatherlsh("");
-					DyEntry.iv().addData("4ea6cde8893211e1aecf5961a4b828b8_",
+					DyEntry.iv().addData(formcode,
 							data);
 				}
 			}

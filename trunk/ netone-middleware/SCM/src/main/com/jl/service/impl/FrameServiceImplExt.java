@@ -463,7 +463,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 						"north",
 						"north",
 						"toolbar",
-						"{text:' 保 存 ',id:'ext_b_add',iconCls:'addIcon',handler:function(){ _save();}},{text:' 删 除 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},{text:' 取 消 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}",
+						"{text:' 保 存 ',id:'ext_b_add',iconCls:'addIcon',handler:function(){ _save();}},{text:' 继续创建 ',id:'ext_b_add_continue',iconCls:'addIcon',handler:function(){ _continueAdd();}},{text:' 删 除 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},{text:' 取 消 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}",
 						null, "");
 		String viewport = DyFormComp.getExtBorderViewport(center, east, west,
 				south, north);

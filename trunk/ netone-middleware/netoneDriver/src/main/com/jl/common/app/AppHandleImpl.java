@@ -32,6 +32,7 @@ public final class AppHandleImpl implements AppHandleIfc {
 			return app;
 		}
 		UmsProtectedobject upo = rs.loadResourceByNatural(naturalname);
+		app.setDescription(upo.getDescription());
 		if (naturalname.startsWith("BUSSFORM.BUSSFORM.")) {
 
 			app.setDyformCode_(upo.getExtendattribute());

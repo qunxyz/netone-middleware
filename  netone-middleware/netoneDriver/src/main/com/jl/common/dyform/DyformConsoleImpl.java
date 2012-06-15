@@ -639,12 +639,19 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		String preNaturalname = ((UmsProtectedobject) formlist.get(0))
 				.getNaturalname();
 		String preId = ((UmsProtectedobject) formlist.get(0)).getId();
+		Map mapPermissionkey=new HashMap();
 		try {
 			List subResource = rmi.subResource(preId);
 			if (subResource == null || subResource.size() == 0) {
 				// 如果没有注册表单字段的保护资源，那么认为该表单不需要安全保护，直接返回所有的字段许可
 				return;
 			}
+			for (Iterator iterator = subResource.iterator(); iterator.hasNext();) {
+				UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+				System.out.println("-------------:"+object.getNaturalname());
+				mapPermissionkey.put(object.getNaturalname(), "");
+			}
+			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -654,6 +661,10 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyFormColumn object = columnList[i];
 			String naturalname = preNaturalname + "."
 					+ object.getColumncode().toUpperCase();
+			System.out.println("-------------x:"+naturalname);
+			if(!mapPermissionkey.containsKey(naturalname)){
+				continue;
+			}
 			boolean man = cupm.checkUserPermission("0000", usercode,
 					naturalname, "7");
 			if (!man) {
@@ -755,12 +766,23 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}
 	}
 
-	public List<TCsColumn> QueryColumn(String formcode, String model)
+	public List<TCsColumn> queryColumn(String formcode, String model)
 			throws Exception {
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
 		dyfcQuery.QueryColumn(formcode, model);
-		return dyfcQuery.QueryColumn(formcode, model);
+		List list= dyfcQuery.QueryColumn(formcode, model);
+		List newColumn=new ArrayList();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			TCsColumn object = (TCsColumn) iterator.next();
+			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+			DyFormColumn columnnew = new DyFormColumn();
+			BeanUtils.copyProperties(columnnew, object);
+			loadColumnx(columnnew);
+			dealWithKvDict(columnnew, rs);
+			newColumn.add(columnnew);
+		}
+		return newColumn;
 	}
 
 }

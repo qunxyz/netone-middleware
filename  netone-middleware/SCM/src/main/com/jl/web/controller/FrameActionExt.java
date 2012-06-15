@@ -104,7 +104,7 @@ public class FrameActionExt extends AbstractAction {
 
 		// 普通查询
 		DyFormColumn[] simpleQuerydyform = null;
-		List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode, "0");
+		List<DyFormColumn> listx = DyEntry.iv().queryColumnX(formcode, "0");
 		simpleQuerydyform = (DyFormColumn[]) listx
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
@@ -181,7 +181,7 @@ public class FrameActionExt extends AbstractAction {
 
 		// 普通查询
 		DyFormColumn[] simpleQuerydyform = null;
-		List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode, "0");
+		List<DyFormColumn> listx = DyEntry.iv().queryColumnX(formcode, "0");
 		simpleQuerydyform = (DyFormColumn[]) listx
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
@@ -257,11 +257,11 @@ public class FrameActionExt extends AbstractAction {
 		DyFormColumn[] extdyform = null;
 
 		if ("1".equals(extmode)) {
-			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, "2");
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, "2");
 			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
 					.size()]);
 		} else if ("2".equals(extmode)) {
-			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, "3");
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, "3");
 			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
 					.size()]);
 		}
@@ -273,7 +273,7 @@ public class FrameActionExt extends AbstractAction {
 
 		// 普通查询
 		DyFormColumn[] simpleQuerydyform = null;
-		List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode, "0");
+		List<DyFormColumn> listx = DyEntry.iv().queryColumnX(formcode, "0");
 		simpleQuerydyform = (DyFormColumn[]) listx
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
@@ -349,11 +349,11 @@ public class FrameActionExt extends AbstractAction {
 		DyFormColumn[] extdyform = null;
 
 		if ("1".equals(extmode)) {
-			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, "2");
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, "2");
 			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
 					.size()]);
 		} else if ("2".equals(extmode)) {
-			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, "3");
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, "3");
 			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
 					.size()]);
 		}
@@ -373,7 +373,7 @@ public class FrameActionExt extends AbstractAction {
 
 		// 普通查询
 		DyFormColumn[] simpleQuerydyform = null;
-		List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode, "0");
+		List<DyFormColumn> listx = DyEntry.iv().queryColumnX(formcode, "0");
 		simpleQuerydyform = (DyFormColumn[]) listx
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
@@ -672,7 +672,7 @@ public class FrameActionExt extends AbstractAction {
 				}
 
 			} else if ("2".equals(extmode)) {
-				List<DyFormColumn> listx = DyEntry.iv().queryColumn(formcode,
+				List<DyFormColumn> listx = DyEntry.iv().queryColumnX(formcode,
 						"3");
 				DyFormColumn[] extdyformx = (DyFormColumn[]) listx
 						.toArray(new DyFormColumn[listx.size()]);
@@ -2465,7 +2465,7 @@ public class FrameActionExt extends AbstractAction {
 	private String getExtQueryColumnC2(String formcode, String model) {
 
 		try {
-			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, model);
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, model);
 			String split = "";
 			StringBuffer value = new StringBuffer();
 			for (DyFormColumn dyFormColumn : list) {
@@ -2485,7 +2485,7 @@ public class FrameActionExt extends AbstractAction {
 
 	private String getExtQueryColumn2(String formcode, String model) {
 		try {
-			List<DyFormColumn> list = DyEntry.iv().queryColumn(formcode, model);
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, model);
 			String split = "";
 			StringBuffer value = new StringBuffer();
 			for (DyFormColumn dyFormColumn : list) {

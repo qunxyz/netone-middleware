@@ -191,5 +191,5 @@ public interface DyFormConsoleIfc {
 	 * @return
 	 * @throws RemoteException
 	 */
-	List<DyFormColumn> queryColumn(String formcode, String model) throws Exception;
+	List<DyFormColumn> queryColumnX(String formcode, String model) throws Exception;
 }

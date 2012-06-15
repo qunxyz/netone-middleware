@@ -766,7 +766,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}
 	}
 
-	public List<DyFormColumn> queryColumn(String formcode, String model)
+	public List<DyFormColumn> queryColumnX(String formcode, String model)
 			throws Exception {
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();

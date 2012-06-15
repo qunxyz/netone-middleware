@@ -1591,7 +1591,7 @@ public final class DyFormBuildHtmlExt {
 		DyFormColumn[] _formx = new DyFormColumn[0];
 
 		try {
-			List<DyFormColumn> list = DyEntry.iv().queryColumn(
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(
 					dyform.getFormcode(), "2");
 			_formx = (DyFormColumn[]) list
 					.toArray(new DyFormColumn[list.size()]);
@@ -2060,7 +2060,7 @@ public final class DyFormBuildHtmlExt {
 		DyFormColumn[] _formx = new DyFormColumn[0];
 
 		try {
-			List<DyFormColumn> list = DyEntry.iv().queryColumn(
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(
 					dyform.getFormcode(), "2");
 			_formx = (DyFormColumn[]) list
 					.toArray(new DyFormColumn[list.size()]);
@@ -2150,7 +2150,7 @@ public final class DyFormBuildHtmlExt {
 		DyFormColumn[] _formx = new DyFormColumn[0];
 
 		try {
-			List<DyFormColumn> list = DyEntry.iv().queryColumn(
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(
 					dyform.getFormcode(), "2");
 			_formx = (DyFormColumn[]) list
 					.toArray(new DyFormColumn[list.size()]);

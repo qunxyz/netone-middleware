@@ -178,6 +178,10 @@
 			return jsonStr;
 		}
 		
+		function _continueAdd(){//继续创建
+			window.location.href='<%=path%>/frame.do?method=onEditViewMain&naturalname=${param.naturalname}';
+		}
+		
 		function _save(){
 			 if(validateForm()){	
 					var msgTip = Ext.MessageBox.show({

@@ -1,19 +1,10 @@
 package com.jl.common.workflow;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.jl.common.app.AppObj;
-
-import oe.frame.web.WebCache;
-import oe.midware.workflow.runtime.ormobj.TWfWorklist;
-import oe.midware.workflow.xpdl.model.activity.Activity;
-
-import org.apache.commons.lang.StringUtils;
-
-import com.jl.common.app.AppEntry;
-import com.jl.common.workflow.worklist.WlEntry;
+import oe.midware.workflow.service.WorkflowConsole;
+import oe.rmi.client.RmiEntry;
 
 /**
  * 该Sample在针对高级的流程应用相关例子
@@ -24,6 +15,17 @@ import com.jl.common.workflow.worklist.WlEntry;
 public class Sample3 {
 
 	public static void main(String[] args) throws Exception {
+		//某个外部对象
+		Map obj=new HashMap();
+		obj.put("xxx", 999);
+		
+		String script="if(_param.length==1){Map map=(Map)_param[0];System.out.println(map.get(\"xxx\"));};";
+		Object []objArr={obj};
+		
+		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+		console.exeScript(script,objArr);
+
+
 
 //		com.jl.common.app.AppObj obj = AppEntry.iv().loadApp(
 //				"APPFRAME.APPFRAME.NDYD");

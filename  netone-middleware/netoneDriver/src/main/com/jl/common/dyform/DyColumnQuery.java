@@ -71,6 +71,7 @@ public class DyColumnQuery {
 			boolean fal = dColumnQuery.isExists(upjs.getActionurl(), "config");
 			if (fal) {
 				listxml = readXML(model, upjs.getActionurl());
+				if(listxml.size()>0){
 				for (Iterator iterator = listmame.iterator(); iterator
 						.hasNext();) {
 					TCsColumn object = (TCsColumn) iterator.next();
@@ -82,17 +83,12 @@ public class DyColumnQuery {
 						}
 					}
 				}
+				}else{
+					listx = listmame;
+				}
 			} else {
 				listx = listmame;
 			}
-		}
-		if (model.equals("3")) {
-			TCsColumn tcscolumn = new TCsColumn();
-			tcscolumn.setColumname("统计");
-			tcscolumn.setColumncode("statistical");
-			tcscolumn.setColumnid("statistical");
-			tcscolumn.setFormcode(formcode);
-			listx.add(tcscolumn);
 		}
 		return listx;
 	}
@@ -150,7 +146,7 @@ public class DyColumnQuery {
 							list.add(fObj);
 						}
 					}
-				} else if (model.equals("2") || model.equals("3")) {
+				} else if (model.equals("2")) {
 					Iterator typetiter = configEle
 							.elementIterator("DDataGridType");
 					while (typetiter.hasNext()) {
@@ -170,7 +166,23 @@ public class DyColumnQuery {
 							list.add(fObj);
 						}
 					}
-				}
+				}else if(model.equals("3")){
+					Iterator typetiter = configEle
+					.elementIterator("TJDataGridType");
+					while (typetiter.hasNext()) {
+						Element configEletype = (Element) typetiter.next();
+						Iterator diter = configEletype
+								.elementIterator("TJDataGrid"); // 获取根节点下的子节点ADataGrid
+						// 遍历TDataGrid节点
+						while (diter.hasNext()) {
+							Element recordEle = (Element) diter.next();
+							FullObj fObj = new FullObj();
+							fObj.setColumnid(recordEle.attributeValue("id"));
+							fObj.setColumnname(recordEle.attributeValue("name"));
+							list.add(fObj);
+						}
+						}
+						}
 			}
 		} catch (Exception e) {
 			System.out.println("xml不存在");

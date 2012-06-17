@@ -945,6 +945,18 @@ public class FrameActionExt extends AbstractAction {
 			String ext = request.getParameter("ext");
 			if ("APPFRAME.APPFRAME.JEWELRY.JEWELRY.JEWELRYAPP25"
 					.equals(naturalname)) {
+				if (StringUtils.isEmpty(ext)) {
+					DyFormData dydata = new DyFormData();
+					dydata.setFormcode(formcode);
+					dydata.setLsh(lsh);
+					dydata.setFatherlsh("1");
+					List list = DyEntry.iv().queryData(dydata, 0, 1, "");
+					if (list.size() > 0) {
+						Map mapx = (Map) list.get(0);
+						ext = (String) mapx.get("column14");
+					}
+				}
+
 				DyForm[] subDyForms = dyform.getSubform_();
 				for (int j = 0; j < subDyForms.length; j++) {
 					DyFormColumn[] subcolumnx = subDyForms[j].getAllColumn_();

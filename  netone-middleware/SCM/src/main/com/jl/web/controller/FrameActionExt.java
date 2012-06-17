@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
+import oe.midware.workflow.service.WorkflowConsole;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
@@ -915,6 +916,13 @@ public class FrameActionExt extends AbstractAction {
 				DyEntry.iv().permission(dyform, user.getUserCode(), act);// 表单鉴权
 			}
 
+			//某个外部对象
+//			String script="if(_param.length==1){Map map=(Map)_param[0];System.out.println(map.get(\"xxx\"));};";
+//			Object[] objArr={dyform};
+//			
+//			WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+//			console.exeScript(script, objArr);
+			
 			TWfActive act = WfEntry.iv().listCurrentActive(naturalname,
 					workcode, user.getUserCode());
 			Map subformmode = act.getSubformmode();
@@ -2465,7 +2473,8 @@ public class FrameActionExt extends AbstractAction {
 	private String getExtQueryColumnC2(String formcode, String model) {
 
 		try {
-			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, model);
+			List<DyFormColumn> list = DyEntry.iv()
+					.queryColumnX(formcode, model);
 			String split = "";
 			StringBuffer value = new StringBuffer();
 			for (DyFormColumn dyFormColumn : list) {
@@ -2485,7 +2494,8 @@ public class FrameActionExt extends AbstractAction {
 
 	private String getExtQueryColumn2(String formcode, String model) {
 		try {
-			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, model);
+			List<DyFormColumn> list = DyEntry.iv()
+					.queryColumnX(formcode, model);
 			String split = "";
 			StringBuffer value = new StringBuffer();
 			for (DyFormColumn dyFormColumn : list) {
@@ -2544,7 +2554,7 @@ public class FrameActionExt extends AbstractAction {
 				DyFormData data = new DyFormData();
 				data.setColumn3(user.getUserCode());
 				data.setColumn5(subdata.getFormcode());
-				String lsh = DyFormBuildHtmlExt.checkColConfigExist(data);
+				String lsh = DyFormBuildHtmlExt.checkColConfigExist(data,formcode);
 				if (StringUtils.isNotEmpty(lsh)) {
 					data.setColumn4(JSONObject.fromObject(subdata).toString());
 					data.setParticipant(user.getUserCode());

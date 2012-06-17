@@ -948,7 +948,8 @@ public class FrameActionExt extends AbstractAction {
 			// if (StringUtils.isNotEmpty(lsh) &&
 			// StringUtils.isNotEmpty(formcode)) {
 			formhtml = ins.load(workcode, naturalname, dyform, lsh, isedit,
-					subformmode, user.getUserName(), request
+					subformmode, user.getNLevelName() + "/"
+					+ user.getUserName() + "," + user.getNLevelName()+"/", request
 							.getParameter("url"), user, isprint);
 			// }
 			request.setAttribute("form", formhtml.toString());

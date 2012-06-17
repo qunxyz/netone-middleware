@@ -952,8 +952,8 @@ public class FrameActionExt extends AbstractAction {
 					dydata.setFatherlsh("1");
 					List list = DyEntry.iv().queryData(dydata, 0, 1, "");
 					if (list.size() > 0) {
-						Map mapx = (Map) list.get(0);
-						ext = (String) mapx.get("column14");
+						DyFormData mapx = (DyFormData) list.get(0);
+						ext = mapx.getColumn14();
 					}
 				}
 

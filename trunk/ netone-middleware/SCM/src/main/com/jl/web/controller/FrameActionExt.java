@@ -415,10 +415,11 @@ public class FrameActionExt extends AbstractAction {
 			throws Exception {
 		String naturalname = request.getParameter("naturalname");
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/listmain-" + naturalname + ".jsp");
-		String forward = "/frame/listmain.jsp";
+		File file = new File(path + "/frameSCMExt/listmain-" + naturalname
+				+ ".jsp");
+		String forward = "/frameSCMExt/listmain.jsp";
 		if (file.exists()) {
-			forward = "/frame/listmain-" + naturalname + ".jsp";
+			forward = "/frameSCMExt/listmain-" + naturalname + ".jsp";
 		}
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -434,7 +435,8 @@ public class FrameActionExt extends AbstractAction {
 		StringBuffer script = new StringBuffer();
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frame/list-" + naturalname + ".jcode");
+		File file = new File(path + "/frameSCMExt/list-" + naturalname
+				+ ".jcode");
 		if (file.exists()) {
 			BufferedReader reader = null;
 			try {
@@ -916,13 +918,30 @@ public class FrameActionExt extends AbstractAction {
 				DyEntry.iv().permission(dyform, user.getUserCode(), act);// 表单鉴权
 			}
 
-			//某个外部对象
-//			String script="if(_param.length==1){Map map=(Map)_param[0];System.out.println(map.get(\"xxx\"));};";
-//			Object[] objArr={dyform};
-//			
-//			WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
-//			console.exeScript(script, objArr);
+			// 重写dyform对象
+			String path = request.getSession().getServletContext().getRealPath(
+					"/");// 应用服务器目录
+			File file = new File(path + "/frameSCMExt/" + naturalname
+					+ ".jcode");
+			if (file.exists()) {
+				StringBuffer script = new StringBuffer();
+
+				BufferedReader in = new BufferedReader(new FileReader(file));
+				String str;
+				while ((str = in.readLine()) != null) {
+					script.append(str);
+				}
+				in.close();
+
+				Object[] objArr = { dyform,request };
+
+				WorkflowConsole console = (WorkflowConsole) RmiEntry
+						.iv("wfhandle");
+				console.exeScript(script.toString(), objArr);
+			}
 			
+			
+
 			TWfActive act = WfEntry.iv().listCurrentActive(naturalname,
 					workcode, user.getUserCode());
 			Map subformmode = act.getSubformmode();
@@ -2554,7 +2573,8 @@ public class FrameActionExt extends AbstractAction {
 				DyFormData data = new DyFormData();
 				data.setColumn3(user.getUserCode());
 				data.setColumn5(subdata.getFormcode());
-				String lsh = DyFormBuildHtmlExt.checkColConfigExist(data,formcode);
+				String lsh = DyFormBuildHtmlExt.checkColConfigExist(data,
+						formcode);
 				if (StringUtils.isNotEmpty(lsh)) {
 					data.setColumn4(JSONObject.fromObject(subdata).toString());
 					data.setParticipant(user.getUserCode());

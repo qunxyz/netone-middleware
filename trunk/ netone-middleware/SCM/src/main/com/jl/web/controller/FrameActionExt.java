@@ -258,7 +258,7 @@ public class FrameActionExt extends AbstractAction {
 		DyFormColumn[] extdyform = null;
 
 		if ("1".equals(extmode)) {
-			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, "2");
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, "3");
 			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
 					.size()]);
 		} else if ("2".equals(extmode)) {
@@ -350,7 +350,7 @@ public class FrameActionExt extends AbstractAction {
 		DyFormColumn[] extdyform = null;
 
 		if ("1".equals(extmode)) {
-			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, "2");
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(formcode, "3");
 			extdyform = (DyFormColumn[]) list.toArray(new DyFormColumn[list
 					.size()]);
 		} else if ("2".equals(extmode)) {
@@ -919,29 +919,52 @@ public class FrameActionExt extends AbstractAction {
 			}
 
 			// 重写dyform对象
-			String path = request.getSession().getServletContext().getRealPath(
-					"/");// 应用服务器目录
-			File file = new File(path + "/frameSCMExt/" + naturalname
-					+ ".jcode");
-			if (file.exists()) {
-				StringBuffer script = new StringBuffer();
-
-				BufferedReader in = new BufferedReader(new FileReader(file));
-				String str;
-				while ((str = in.readLine()) != null) {
-					script.append(str);
-				}
-				in.close();
-
-				Object[] objArr = { dyform,request };
-
-				WorkflowConsole console = (WorkflowConsole) RmiEntry
-						.iv("wfhandle");
-				console.exeScript(script.toString(), objArr);
-			}
+//			String path = request.getSession().getServletContext().getRealPath(
+//					"/");// 应用服务器目录
+//			File file = new File(path + "/frameSCMExt/" + naturalname
+//					+ ".jcode");
+//			if (file.exists()) {
+//				StringBuffer script = new StringBuffer();
+//
+//				BufferedReader in = new BufferedReader(new FileReader(file));
+//				String str;
+//				while ((str = in.readLine()) != null) {
+//					script.append(str);
+//				}
+//				in.close();
+//
+//				Object[] objArr = { dyform,request };
+//
+//				WorkflowConsole console = (WorkflowConsole) RmiEntry
+//						.iv("wfhandle");
+//				console.exeScript(script.toString(), objArr);
+//			}
 			
 			
-
+			//单品
+//			String ext = request.getParameter("ext");
+//			if ("APPFRAME.APPFRAME.JEWELRY.JEWELRY.JEWELRYAPP25".equals(naturalname)){
+//				DyForm [] subDyForms=dyform.getSubform_();
+//				for(int j=0;j<subDyForms.length;j++){
+//					DyFormColumn[] subcolumnx = subDyForms[j].getAllColumn_();
+//					 
+//					for (int i = 0; i < subcolumnx.length; i++) {
+//						subcolumnx[i].setHidden(true);
+//					}
+//					
+//					for (int i = 0; i < subcolumnx.length; i++) {
+//						String colid =subcolumnx[i].getColumnid();
+//						
+//						if (){
+//							subcolumnx[i].setHidden(true);
+//						}
+//						
+//						
+//					}
+//					
+//				}
+//			}
+			
 			TWfActive act = WfEntry.iv().listCurrentActive(naturalname,
 					workcode, user.getUserCode());
 			Map subformmode = act.getSubformmode();

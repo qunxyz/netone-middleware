@@ -42,6 +42,7 @@
 <application path="SafeManage.mxml"/>
 <application path="UseApplication.mxml"/>
 <application path="NewBIXML.mxml"/>
+<application path="DyViewScript.mxml"/>
 </applications>
 <modules/>
 <buildCSSFiles>

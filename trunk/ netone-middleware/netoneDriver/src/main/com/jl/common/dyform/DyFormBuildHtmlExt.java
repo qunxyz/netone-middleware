@@ -2563,8 +2563,8 @@ public final class DyFormBuildHtmlExt {
 		return data.getColumn4();
 	}
 
-	public static String checkColConfigExist(DyFormData dydata) {
-		dydata.setFormcode("4ea6cde8893211e1aecf5961a4b828b8_");// 用户自定义列配置
+	public static String checkColConfigExist(DyFormData dydata,String formcode) {
+		dydata.setFormcode(formcode);// 用户自定义列配置
 		List<DyFormData> list = new ArrayList();
 		try {
 			list = DyEntry.iv().queryData(dydata, 0, 9999999, "");

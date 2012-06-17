@@ -17,25 +17,20 @@
 			public function tijiao():void
 			{                     
 				var suanfa:String=selectsuanfa.selectedItem.@type.toString();
-	            getTJObject.ExpendValue(sarr,farr,suanfa);
-	            PopUpManager.removePopUp(this as IFlexDisplayObject);
-	            //事件回调分析按钮
-			    EvTjFs.getInstance().dispatchEvent(new MouseEvent("yuce"));
+	            getTJObject.ExpendValue(BIid.sarr,farr,suanfa);
 			}
 			[Bindable]
 			public var columnid:String;
 			public var value:String;
 			public function pdinit():void
 			{  
-				getStarttimeObject.getstarttime(vivid.Tablename);
+				getStarttimeObject.getstarttime(vivid.Tablename,vivid.timename);
 			}
 			 [Bindable]
 			 public var Initstarttime:String;
 			 [Bindable]
 			 public var allcolumn:ArrayCollection;
-			  [Bindable]
-			 public var sarr:ArrayCollection;
-		
+
 		    public function changevalue():void
 			{
 				
@@ -66,8 +61,14 @@
 			public var backarr:ArrayCollection;
 			public function rscolumn(event:ResultEvent):void
 			{
+				vivid.backarr=new ArrayCollection();
 				backarr=event.result as ArrayCollection;
-				vivid.backarr=backarr;
+				if(backarr!=null){
+				 vivid.backarr=backarr;
+				 PopUpManager.removePopUp(this as IFlexDisplayObject);
+	            //事件回调分析按钮
+			    EvTjFs.getInstance().dispatchEvent(new MouseEvent("yuce"));
+			 	}
 			}
 		]]>
 	</mx:Script>

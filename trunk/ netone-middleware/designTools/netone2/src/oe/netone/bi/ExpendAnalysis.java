@@ -14,8 +14,8 @@ import flex.messaging.io.amf.translator.ASTranslator;
 
 public class ExpendAnalysis {
 
-	public static List ExpendValue(ArrayCollection analysisList,
-			ArrayCollection etimEdatetimee, String suanfa) {
+	public static List ExpendValue(List analysisList,
+			List etimEdatetimee, String suanfa) {
 		List list = new ArrayList();
 		ArrayList<PAnalysis> myObjectArray = new ArrayList();
 		ArrayList<Object> timeArray = new ArrayList();
@@ -26,12 +26,14 @@ public class ExpendAnalysis {
 
 		for (int a = 0; a < analysisList.size(); a++) {
 
-			Object objct = analysisList.get(a);
+			Map map = (Map)analysisList.get(a);
+			PAnalysis pAnalysis=new PAnalysis();
 
-			aso = (ASObject) (objct);
-			aso.setType("org.BI.PAnalysis");
-			per = (PAnalysis) ast.convert(aso, PAnalysis.class);
-			myObjectArray.add(per);
+			pAnalysis.setDimdatetime((String)map.get("dimdatetime"));
+			pAnalysis.setEnddatetime((String)map.get("enddatetime"));
+			pAnalysis.setEndvalue(Double.valueOf(map.get("endvalue").toString()).doubleValue());
+			pAnalysis.setTarget(Double.valueOf(map.get("target").toString()).doubleValue());
+			myObjectArray.add(pAnalysis);
 		}
 		for (int b = 0; b < etimEdatetimee.size(); b++) {
 			Object per1 = etimEdatetimee.get(b);
@@ -59,8 +61,12 @@ public class ExpendAnalysis {
 			pAnalysis.setYdata(rs[i].toString());
 			list.add(pAnalysis);
 		}
-
 		return list;
+	}
+
+	private static Object String(Object object) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -84,7 +84,9 @@
         [Bindable]
         public static var zhibiaostring:String=null;//指标值
         [Bindable]
-          public static var Tablename:String=null;//表单名
+         public static var Tablename:String=null;//表单名
+         [Bindable]
+        public static var timename:String=null;//表单名
           [Bindable]
          public static var backarr:ArrayCollection=null;
          [Bindable]//kv列表上p备选直的数据

@@ -18,8 +18,8 @@
 		             WdValuekvObject.getkvdata(BIid.Scolunm,vivid.formcode);
 		          }
 			   else{
-				   WdValueObject.getData(BIid.Scolunm,vivid.Tablename);
-			         }
+				    WdValueObject.getData(BIid.Scolunm,vivid.Tablename);
+			       }
 			   }
 			}
 			public function changewdValue():void

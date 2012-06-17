@@ -643,7 +643,7 @@ var _querywindow = new Ext.Window({
             items:[
             new Ext.form.FieldSet({
                 title:'请选择系统大类',
-	        	width:420,height:120,
+	        	width:420,height:100,
 		        contentEl:'instorageform'
 		       }) 
             ,{

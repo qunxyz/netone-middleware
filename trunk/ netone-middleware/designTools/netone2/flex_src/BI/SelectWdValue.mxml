@@ -70,9 +70,8 @@
 			    var zsarr:Array=null;
 			    var kvstring:String=event.result.toString();
 			     var kvarr:Array=kvstring.split(",");
-			        slelectwd.dataProvider=kvarr;
-			      
-		            
+			     kvarr.pop();
+			     slelectwd.dataProvider=kvarr;
 			 }
 			
 		]]>

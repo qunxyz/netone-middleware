@@ -48,6 +48,7 @@
                      <ns2:TestDataGrid id="TestDataGrid1" label="简单查询配置" width="100%" height="100%" showEffect="effect" borderColor="#FFFFFF" backgroundColor="#FFFFFF"/> 
 	                 <ns2:AdvancedDataGrid id="AdvancedDataGrid1" label="高级查询配置" width="100%" height="100%" showEffect="effect" borderColor="#FFFFFF" backgroundColor="#FFFFFF"/> 
 	                 <ns2:DisplayField id="DisplayField1" label="列表字段配置" width="100%" height="100%" showEffect="effect" borderColor="#FFFFFF" backgroundColor="#FFFFFF"/> 	     
+	                 <ns2:Statistical id="Statistical1" label="统计字段" width="100%" height="100%" showEffect="effect" borderColor="#FFFFFF" backgroundColor="#FFFFFF"/> 
 	                 <ns1:ScriptConfig id="ScriptConfig1" label="事件脚本的写" width="100%" height="100%" showEffect="effect" borderColor="#FFFFFF" backgroundColor="#FFFFFF"/> 	     
 		  </mx:ViewStack>
 </mx:Application>

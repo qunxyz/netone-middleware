@@ -25,7 +25,7 @@ package ActionForm{
      [Bindable]//判断是修改还新建
      public static var modletype:Boolean=true;
      [Bindable]//config的xml文件传递
-     public static var  configxml:XML;
+	 public static var  configxml:XML;
      //选择表单的tree 数据
      [Bindable]
      public static var tree:XML;  

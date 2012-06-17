@@ -260,7 +260,11 @@ function $select(o,url){
 						  id:'ext_b_add',
 						  iconCls:"addIcon",
 						  handler: function (){
-								window.open('<c:url value="/frame.do?method=onEditViewMain&naturalname=${param.naturalname}"/>');
+								if ('${param.naturalname}'=='APPFRAME.APPFRAME.JEWELRY.JEWELRY.JEWELRYAPP25'){
+						  		$instorageWindow();
+						  		} else {
+						  		window.open('<c:url value="/frame.do?method=onEditViewMain&naturalname=${param.naturalname}"/>');
+						  		}
 						  }
 						},
 						</rs:permission>

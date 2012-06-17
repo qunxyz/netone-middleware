@@ -94,8 +94,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 			DyFormColumn columnnew = new DyFormColumn();
 			BeanUtils.copyProperties(columnnew, object);
-			loadColumnx(columnnew);
-			dealWithKvDict(columnnew, rs);
+			this.loadColumnx(columnnew);
+			this.dealWithKvDict(columnnew, rs);
+			this.dealwithTree(columnnew, rs);
 			newColumn.add(columnnew);
 		}
 
@@ -244,6 +245,23 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		
 		if (but.length() > 0) {
 			columnnew.setValuelist(but.toString());
+		}
+	}
+	
+	private void dealwithTree(DyFormColumn columnnew, ResourceRmi rs){
+		String htmltype = columnnew.getViewtype();
+		System.out.println("-------------htmltype:"+htmltype);
+		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
+		StringBuffer but = new StringBuffer();
+		System.out.println(htmltype);
+		if ("17".equals(htmltype)||"18".equals(htmltype)||"22".equals(htmltype)||"23".equals(htmltype)||"27".equals(htmltype)||"28".equals(htmltype)) {
+			String valuelist = columnnew.getValuelist();
+			//来自资源树某层目录的值
+			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
+			if(StringUtils.isNotEmpty(rsinfo)){
+				String name=StringUtils.substringBefore(valuelist, "[TREE:");
+				columnnew.setValuelist(name+"["+valuelist+"]");
+			}
 		}
 	}
 
@@ -780,6 +798,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			BeanUtils.copyProperties(columnnew, object);
 			loadColumnx(columnnew);
 			dealWithKvDict(columnnew, rs);
+			this.dealwithTree(columnnew, rs);
 			newColumn.add(columnnew);
 		}
 		return newColumn;

@@ -957,6 +957,7 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 		   vivid.configarr.addItem({cname:Columname,cid:Columid,using:false,order:"降序"});
 		   vivid.bfcf.addItem({cname:Columname,cid:Columid,using:false});
 		   vivid.dncf.addItem({cname:Columname,cid:Columid,using:false});
+		   vivid.tongji.addItem({cname:Columname,cid:Columid,using:false});
 		   UIComponent(vivid.AddCount[i])["_ID"]=Columid;
 		 
  		   arrcolumn.addItem({"Columname":Columname,"Columid":Columid,"Formcode":Formcode,"Viewtype":Viewtype,"property":property,"valuelist":valuelist,"Musk":Musk,"opemode":opemode,"conceal":conceal});

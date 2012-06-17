@@ -94,74 +94,15 @@
 		 canvas1.removeAllChildren();
         }
   	  }
-  	    //构造xml的方法
-  	    public function xmlist():XML{
-  	    var xml:XML=<config></config>;
-  	    var xmlt:XML=<TDataGridType></TDataGridType>
-  	    if(vivid.Queryjd){
-  	     xmlt.@type="1";
-  	      for(var i:int=0;i<vivid.bfcf.length;i++){
-  	    	if(vivid.bfcf[i].using){
-  	    	  var xmltset:XML=<TDataGrid></TDataGrid>;
-  	    	  xmltset.@name=vivid.bfcf[i].cname;
-  	   		  xmltset.@id=vivid.bfcf[i].cid;
-  	   		  xmlt.appendChild(xmltset);
-  	   		}
-  	    }
-        xml.appendChild(xmlt);
-  	    }else{
-  	     xmlt.@type="0";
-  	    }
-  	    
-          var Axml:XML=<ADataGridType></ADataGridType>
-	  	    if(vivid.Querygj){
-	  	     Axml.@type="1";
-		  	  for(var j:int=0;j<vivid.dncf.length;j++){
-	  	    	if(vivid.dncf[j].using){
-	  	    	  var xmlA:XML=<ADataGrid></ADataGrid>;
-	  	    	  xmlA.@name=vivid.dncf[j].cname;
-	  	   		  xmlA.@id=vivid.dncf[j].cid;
-	  	   		  Axml.appendChild(xmlA);
-	  	   		 }
-		  	    }
-		  	   xml.appendChild(Axml);
-	  	    }else{
-	  	     Axml.@type="0";
-	  	    }
   	   
-  	   
-  	     var Dxml:XML=<DDataGridType></DDataGridType>
-	  	    if(check.selected){
-	  	     Dxml.@type="1";
-	  	       for(var K:int=0;K<vivid.configarr.length;K++){
-  	    	 if(vivid.configarr[K].using){
-  	    	 var xmlD:XML=<DDataGrid></DDataGrid>;
-  	    	  xmlD.@name=vivid.configarr[K].cname;
-  	   		  xmlD.@id=vivid.configarr[K].cid;
-  	   		  if(vivid.configarr[K].order=="降序"){
-  	   		  xmlD.@order="0";
-  	   		  }else if(vivid.configarr[K].order=="升序"){
-  	   		  xmlD.@order="1";
-  	   		  }
-  	   		  Dxml.appendChild(xmlD);
-	  	   		}
-		  	 }
-		  	  xml.appendChild(Dxml);
-	  	    }else{
-	  	     Dxml.@type="0";
-	  	    }
-  	   
-  	    return xml;
-  	    }
         //上一步的方法
           public function UPNode(evetn:MouseEvent):void{
           var o:Object=this.parent.getChildByName("AdvancedDataGrid1");
 		        vs.selectedChild=o as Canvas;
           }
          public function DownNode(event:MouseEvent):void{
-           	var xml:XML=xmlist();
-           	DyData.configxml=xml;
-           	var o:Object=this.parent.getChildByName("ScriptConfig1");
+			vivid.FullList=check.selected;
+           	var o:Object=this.parent.getChildByName("Statistical1");
            	vs.selectedChild=o as Canvas;
          }
          public function Cancel():void{

@@ -99,6 +99,8 @@
          public static var bfcf:ArrayCollection=new ArrayCollection();
           [Bindable]//高级数据 配置
          public static var dncf:ArrayCollection=new ArrayCollection();
+           [Bindable]//统计数据 配置
+         public static var tongji:ArrayCollection=new ArrayCollection();
          [Bindable]//表单的流水号
          public static var pid:String="";
          
@@ -112,6 +114,8 @@
          public static var Querygj:Boolean=true;
          [Bindable]//字段列表是否启用
          public static var FullList:Boolean=true;  
+         [Bindable]//统计是否启用
+         public static var isTong:Boolean=true;
          [Bindable]// 控制添加字段不会出现多个
          public static var kongzhi:Boolean=true;   
  	}

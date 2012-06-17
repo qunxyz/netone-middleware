@@ -74,27 +74,11 @@ public class ManageBI {
 	public static String getkvdata(String columnstr, String formcode)
 			throws Exception {
 		String kvString = "";
-		DyFormDesignService dys = null;
-		try {
-			dys = (DyFormDesignService) RmiEntry.iv("dydesign");
-		} catch (NotBoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		TCsColumn busForm = new TCsColumn();
-		busForm.setFormcode(formcode);
-		busForm.setColumnid(columnstr);
-		List listmame = dys.queryObjects(busForm);
-		for (Iterator iterator1 = listmame.iterator(); iterator1.hasNext();) {
+		List aList = DyEntry.iv().fetchColumnList(formcode);
+		for (Iterator iterator1 = aList.iterator(); iterator1.hasNext();) {
 			TCsColumn columnname = (TCsColumn) iterator1.next();
-
-			int startnum = columnname.toString().indexOf("=");
-			int endnum = columnname.toString().indexOf("]");
-			String str = columnname.toString().substring(startnum + 1, endnum);
-
-			if (str.equals(columnstr)) {
-				kvString = columnname.getValuelist();
-
+			if(columnname.getColumnid().equals(columnstr)){
+				kvString=columnname.getValuelist();
 			}
 		}
 		System.out.println(kvString);

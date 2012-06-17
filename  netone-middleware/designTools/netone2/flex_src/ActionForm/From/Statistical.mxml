@@ -24,11 +24,11 @@
 		  vs=this.parent as ViewStack;
 		  if(!DyData.modletype){   
 		  var xml:XML=vivid.updatexml;
-			var xmllist:XMLList=new XMLList(XML(xml.config.TDataGridType[0]).child("TDataGrid"));
-			  for(var i:int=0;i<vivid.bfcf.length;i++){
+			var xmllist:XMLList=new XMLList(XML(xml.config.TJDataGridType[0]).child("TJDataGrid"));
+			  for(var i:int=0;i<vivid.tongji.length;i++){
 			  	for(var j:int=0;j<xmllist.length();j++){
-			       if(vivid.bfcf[i].cid==xmllist[j].@id){
-			         vivid.bfcf[i].using=true;
+			       if(vivid.tongji[i].cid==xmllist[j].@id){
+			         vivid.tongji[i].using=true;
 			       }
 			    }
 			  }
@@ -39,7 +39,7 @@
 				dgr.percentWidth=100;
 				dgr.y=0;
 				dgr.x=0;
-				dgr.arr=vivid.bfcf;
+				dgr.arr=vivid.tongji;
 				canvas1.addChild(dgr);
 		  }else{
 		  check.selected=false;
@@ -50,18 +50,18 @@
 			dgr.percentWidth=100;
 			dgr.y=0;
 			dgr.x=0;
-			dgr.arr=vivid.dncf;
+			dgr.arr=vivid.tongji;
 			canvas1.addChild(dgr);}
 		}
 		public function shuanxintest(event:MouseEvent):void{
 		canvas1.removeAllChildren();
 		  if(!vivid.modeltype){ 
 		       var xml:XML=vivid.updatexml;
-		      var xmllist:XMLList=new XMLList(XML(xml.TDataGridType[0]).child("TDataGrid"));
-			  for(var i:int=0;i<vivid.bfcf.length;i++){
+		      var xmllist:XMLList=new XMLList(XML(xml.TDataGridType[0]).child("TJDataGrid"));
+			  for(var i:int=0;i<vivid.tongji.length;i++){
 			  	for(var j:int=0;j<xmllist.length();j++){
-			       if(vivid.bfcf[i].cid==xmllist[j].@id){
-			         vivid.bfcf[i].using=true;
+			       if(vivid.tongji[i].cid==xmllist[j].@id){
+			         vivid.tongji[i].using=true;
 			       }
 			    }
 			  }
@@ -72,7 +72,7 @@
 		dgr.percentWidth=100;
 		dgr.y=0;
 		dgr.x=0;
-		dgr.arr=vivid.bfcf;
+		dgr.arr=vivid.tongji;
 		canvas1.addChild(dgr);
 		}else{
 		 canvas1.removeAllChildren();
@@ -86,25 +86,96 @@
 		dgr.percentWidth=100;
 		dgr.y=0;
 		dgr.x=0;
-		dgr.arr=vivid.bfcf;
+		dgr.arr=vivid.tongji;
 		canvas1.addChild(dgr);
 		}else{
 		 canvas1.removeAllChildren();
         }
   	  }
+  	   //构造xml的方法
+  	    public function xmlist():XML{
+  	    var xml:XML=<config></config>;
+  	    var xmlt:XML=<TDataGridType></TDataGridType>
+  	    if(vivid.Queryjd){
+  	     xmlt.@type="1";
+  	      for(var i:int=0;i<vivid.bfcf.length;i++){
+  	    	if(vivid.bfcf[i].using){
+  	    	  var xmltset:XML=<TDataGrid></TDataGrid>;
+  	    	  xmltset.@name=vivid.bfcf[i].cname;
+  	   		  xmltset.@id=vivid.bfcf[i].cid;
+  	   		  xmlt.appendChild(xmltset);
+  	   		}
+  	    }
+        xml.appendChild(xmlt);
+  	    }else{
+  	     xmlt.@type="0";
+  	    }
+  	    
+          var Axml:XML=<ADataGridType></ADataGridType>
+	  	    if(vivid.Querygj){
+	  	     Axml.@type="1";
+		  	  for(var j:int=0;j<vivid.dncf.length;j++){
+	  	    	if(vivid.dncf[j].using){
+	  	    	  var xmlA:XML=<ADataGrid></ADataGrid>;
+	  	    	  xmlA.@name=vivid.dncf[j].cname;
+	  	   		  xmlA.@id=vivid.dncf[j].cid;
+	  	   		  Axml.appendChild(xmlA);
+	  	   		 }
+		  	    }
+		  	   xml.appendChild(Axml);
+	  	    }else{
+	  	     Axml.@type="0";
+	  	    }
+  	   
+  	   
+  	     var Dxml:XML=<DDataGridType></DDataGridType>
+	  	    if(vivid.FullList){
+	  	     Dxml.@type="1";
+	  	       for(var K:int=0;K<vivid.configarr.length;K++){
+  	    	 if(vivid.configarr[K].using){
+  	    	 var xmlD:XML=<DDataGrid></DDataGrid>;
+  	    	  xmlD.@name=vivid.configarr[K].cname;
+  	   		  xmlD.@id=vivid.configarr[K].cid;
+  	   		  if(vivid.configarr[K].order=="降序"){
+  	   		  xmlD.@order="0";
+  	   		  }else if(vivid.configarr[K].order=="升序"){
+  	   		  xmlD.@order="1";
+  	   		  }
+  	   		  Dxml.appendChild(xmlD);
+	  	   		}
+		  	 }
+		  	  xml.appendChild(Dxml);
+	  	    }else{
+	  	     Dxml.@type="0";
+	  	    }
+  	   var DJxml:XML=<TJDataGridType></TJDataGridType>
+	  	    if(check.selected){
+	  	     DJxml.@type="1";
+		  	  for(var j:int=0;j<vivid.tongji.length;j++){
+	  	    	if(vivid.tongji[j].using){
+	  	    	  var xmlDJ:XML=<TJDataGrid></TJDataGrid>;
+	  	    	  xmlDJ.@name=vivid.tongji[j].cname;
+	  	   		  xmlDJ.@id=vivid.tongji[j].cid;
+	  	   		  DJxml.appendChild(xmlDJ);
+	  	   		 }
+		  	    }
+		  	   xml.appendChild(DJxml);
+	  	    }else{
+	  	     DJxml.@type="0";
+	  	    }
+  	    return xml;
+  	    }
          //上一步的方法
           public function UPNode(event:MouseEvent):void{
-          	vivid.bfcf=new ArrayCollection(); 
-		 	vivid.dncf=new ArrayCollection(); 
-		 	vivid.configarr=new ArrayCollection();
-		 	 vivid.tongji=new ArrayCollection();
-          	var o:Object=this.parent.getChildByName("DyDesigner1");
+          	var o:Object=this.parent.getChildByName("DisplayField1");
             vs.selectedChild=o as Canvas;
           }
           //下一步
          public function DownNode(event:MouseEvent):void{
-         	   vivid.Queryjd=check.selected;
-          	   var o:Object=this.parent.getChildByName("AdvancedDataGrid1"); 
+         		var xml:XML=xmlist();
+           		DyData.configxml=xml;
+         		vivid.isTong=check.selected;
+          	   var o:Object=this.parent.getChildByName("ScriptConfig1"); 
 	           vs.selectedChild=o as Canvas; 
          }
          public function Cancel():void{
@@ -118,11 +189,11 @@
 		<mx:Button id="Down" x="{this.width-300}" label="下一步" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
 		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
 	    <mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
-	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="简单查询"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="统计字段"/>
 	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
 		  <mx:Label x="19" y="0" text="动态表单" fontSize="20" fontWeight="bold"/>
 		</mx:Canvas>		
-		<mx:Label x="100" y="148" text="帮助提示:配置表单的简单查询字段 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+		<mx:Label x="100" y="148" text="帮助提示:统计字段的配置,然后单击“下一步”。" color="#53585C" fontSize="18"/>
 	</mx:Canvas>
 	<mx:CheckBox id="check" x="137" y="197" selected="true" label="是否配置" change="changeQuery()"/>
  	<mx:Canvas id="canvas1" width="863" height="268"  x="137" y="245" fontSize="18">

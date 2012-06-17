@@ -45,8 +45,8 @@ public class ManageBI {
 		initColumn.setColumnid("belongx");
 		initColumn.setViewtype("00");
 
-		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
-		wdList = dy.fetchColumnList(formcode);
+		
+		wdList = DyEntry.iv().fetchColumnList(formcode);
 		wdList.add(0, initColumn);
 		for (int i = 0; i < wdList.size(); i++) {
 			System.out.println(((TCsColumn) wdList.get(i)).getExt9viewtype()

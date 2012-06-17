@@ -58,7 +58,7 @@
           //上一步的方法
           public function UPNode(evetn:MouseEvent):void{
           	var o:Object=this.parent.getChildByName("GatherResource1");
-            vs.selectedChild=o as Canvas;
+            vs.selectedChild=o as Canvas; 
           }
           //下一步的方法
           public function DownNode(event:MouseEvent):void{
@@ -69,6 +69,9 @@
         	 	AcquisitionDeliver.s4=s4.text;
           	   var o:Object=this.parent.getChildByName("Checksheet1");
                vs.selectedChild=o as Canvas;
+               if(AcquisitionDeliver.isbiaodan){
+               Checksheet(o).biaodanxuanzhe();
+               }
              }else{
                Alert.show("选择的驱动不为空");
              }

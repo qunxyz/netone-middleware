@@ -50,6 +50,10 @@ package DataAcquisition{
  	public static var controlxml:XML;
  	[Bindable]//减去必须的字段现在的配置的字段
  	public static var pzziduan:Array=new Array();
+ 	[Bindable]//选择驱动的是否是动态表单
+ 	public static var isfrom:Boolean=false;
+ 	[Bindable]//选择驱动的是否是动态表单
+ 	public static var isbiaodan:Boolean=false;
  }
 
 }

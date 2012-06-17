@@ -71,7 +71,16 @@ public class LineChart extends BaseChart implements LineChartService {
 			Map map = jsonToMap(json);
 
 			List list = returnTestData(map);
-			list = transformLineChartData(list);
+			
+			List listx = new ArrayList();
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				LineChartObj lineChartObj = (LineChartObj) iterator.next();
+				System.out.println("rowkey:"+lineChartObj.getRowKey());
+				lineChartObj.setRowKey("1");
+				listx.add(lineChartObj);
+			}
+			
+			list = transformLineChartData(listx);
 			String s = toJSONStr(list);
 			return s;
 		} catch (Exception e) {

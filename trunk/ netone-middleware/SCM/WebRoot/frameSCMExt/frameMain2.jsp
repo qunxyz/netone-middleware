@@ -51,25 +51,25 @@
 		<div id="instorageform" style="display: none;">
 		<table border=0 >
 		<tr>
-			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="1" checked="checked" /><font style="font-size: 14px;">镶嵌类</font></td>
-			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="2" /><font style="font-size: 14px;">素金(件)</font></td>
-			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="3" /><font style="font-size: 14px;">玉器类</font></td>
-			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="4" /><font style="font-size: 14px;">宝石类</font></td>
-			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="5" /><font style="font-size: 14px;">银饰(件)</font></td>
+			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl001" checked="checked" /><font style="font-size: 14px;">镶嵌类</font></td>
+			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl002" /><font style="font-size: 14px;">素金(件)</font></td>
+			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl003" /><font style="font-size: 14px;">玉器类</font></td>
+			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl004" /><font style="font-size: 14px;">宝石类</font></td>
+			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl005" /><font style="font-size: 14px;">银饰(件)</font></td>
 		</tr>
 		<tr style="line-height: 25px;">
-			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="6" /><font color="red" style="font-size: 14px;font-weight: bold;">黄金(克)</font></td>
-			<td><input type='radio' id="bigcategorie" value="7" name="bigcategorie" /><font color="red" style="font-size: 14px;font-weight: bold;">铂金(克)</font></td>
-			<td><input type='radio' id="bigcategorie" value="8" name="bigcategorie" /><font color="red" style="font-size: 14px;font-weight: bold;">钯金(克)</font></td>
-			<td><input type='radio' id="bigcategorie" value="9" name="bigcategorie" /><font color="red" style="font-size: 14px;font-weight: bold;">K金(克)</font></td>
-			<td><input type='radio' id="bigcategorie" value="10" name="bigcategorie" /><font color="red" style="font-size: 14px;font-weight: bold;">银饰(克)</font></td>
+			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl006" /><font color="red" style="font-size: 14px;font-weight: bold;">黄金(克)</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl007" name="bigcategorie" /><font color="red" style="font-size: 14px;font-weight: bold;">铂金(克)</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl008" name="bigcategorie" /><font color="red" style="font-size: 14px;font-weight: bold;">钯金(克)</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl009" name="bigcategorie" /><font color="red" style="font-size: 14px;font-weight: bold;">K金(克)</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl010" name="bigcategorie" /><font color="red" style="font-size: 14px;font-weight: bold;">银饰(克)</font></td>
 		</tr>
 		<tr>
-			<td><input type='radio' id="bigcategorie" value="11" name="bigcategorie" /><font style="font-size: 14px;">半成品</font></td>
-			<td><input type='radio' id="bigcategorie" value="12" name="bigcategorie" /><font style="font-size: 14px;">定单类</font></td>
-			<td><input type='radio' id="bigcategorie" value="13" name="bigcategorie" /><font style="font-size: 14px;">物价类</font></td>
-			<td><input type='radio' id="bigcategorie" value="14" name="bigcategorie" /><font style="font-size: 14px;">赠品类</font></td>
-			<td><input type='radio' id="bigcategorie" value="15" name="bigcategorie" /><font style="font-size: 14px;">其他类</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl011" name="bigcategorie" /><font style="font-size: 14px;">半成品</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl012" name="bigcategorie" /><font style="font-size: 14px;">定单类</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl013" name="bigcategorie" /><font style="font-size: 14px;">物价类</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl014" name="bigcategorie" /><font style="font-size: 14px;">赠品类</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl015" name="bigcategorie" /><font style="font-size: 14px;">其他类</font></td>
 		</tr>
 		</table>
 		</div>
@@ -643,7 +643,7 @@ var _querywindow = new Ext.Window({
             items:[
             new Ext.form.FieldSet({
                 title:'请选择系统大类',
-	        	width:400,height:100,
+	        	width:420,height:120,
 		        contentEl:'instorageform'
 		       }) 
             ,{

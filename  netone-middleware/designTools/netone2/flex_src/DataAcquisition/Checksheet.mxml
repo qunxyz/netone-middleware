@@ -18,9 +18,34 @@
 		  public static var Sqlstr:String;
 		  [Bindable]//扩展条件的添加
 		  public var ThdT:ExpandTerm;
+		  private var button:Button;
           public function init():void{
           vs=this.parent as ViewStack;
          textpath="路径： "+AcquisitionDeliver.URLname+" 第3步，共6步";
+          if(AcquisitionDeliver.isfrom){
+          	button=new Button();
+          	button.label="选择表单";
+          	button.addEventListener(MouseEvent.CLICK,xuanzhebiaodan);
+          	button.x=0;
+          	button.y=0;          	
+         	canvasfrom.addChild(button);
+          }else{
+          canvasfrom.removeAllChildren();
+          button.removeEventListener(MouseEvent.CLICK,xuanzhebiaodan);
+          }
+          }
+          public function biaodanxuanzhe():void{
+           if(AcquisitionDeliver.isfrom){
+          	button=new Button();
+          	button.label="选择表单";
+          	button.addEventListener(MouseEvent.CLICK,xuanzhebiaodan);
+          	button.x=0;
+          	button.y=0;          	
+         	canvasfrom.addChild(button);
+          }else{
+           canvasfrom.removeAllChildren();
+           button.removeEventListener(MouseEvent.CLICK,xuanzhebiaodan);
+            }
           }
           
           public function ccl():void{
@@ -50,10 +75,18 @@
 				PopUpManager.addPopUp(OPTB, this, true);
 				PopUpManager.centerPopUp(OPTB);
 			}
+		 public function xuanzhebiaodan(event:MouseEvent):void{
+		       var select:SelectFrom=new SelectFrom();
+				PopUpManager.addPopUp(select, this, true);
+				PopUpManager.centerPopUp(select);
+		 }	
           //上一步的方法
           public function UPNode(evetn:MouseEvent):void{
           	var o:Object=this.parent.getChildByName("ParentDataSourceChoice1");
             vs.selectedChild=o as Canvas;
+            AcquisitionDeliver.isbiaodan=true;
+            canvasfrom.removeAllChildren();
+           button.removeEventListener(MouseEvent.CLICK,xuanzhebiaodan);
           }
           //下一步的方法
           public function DownNode(event:MouseEvent):void{
@@ -110,7 +143,9 @@
  	 	<mx:Label x="46" y="26" text="SQL语句:"  fontWeight="bold"/>
  	 	<mx:TextInput x="158.5" y="12" id="sqltext" text="{Sqlstr}" width="593.5" height="136" tabIndex="9"/>
  	 	<mx:Label x="44" y="62" text="(针对数据源)" fontSize="12" fontWeight="bold"/>
- 	 	<mx:LinkButton x="760" y="24" label="选择表"  click="{xuanzhebiao()}"/>
+ 	 	<mx:Button x="760" y="24" label="选择表"  click="{xuanzhebiao()}"/>
+ 	 	<mx:Canvas id="canvasfrom" x="760" y="80"  width="103" height="49">
+ 	 	</mx:Canvas> 	
  	 	<mx:CheckBox id="checkBox" x="158.5" y="154" label="是否添加采集条件" fontSize="15" change="WhetherAdd()"/>
 	</mx:Canvas>
  	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 

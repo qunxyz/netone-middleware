@@ -44,6 +44,9 @@ public class XmlTree {
 		if(path.equals("SOASCRIPT")){
 			cname="SOA选择";
 		}
+		if(path.equals("BUSSFORM")){
+			cname="表单选择";
+		}
 		NetoneXmlTree dxml=new NetoneXmlTree();
 		return dxml.dataxml(path, cname);
 	}

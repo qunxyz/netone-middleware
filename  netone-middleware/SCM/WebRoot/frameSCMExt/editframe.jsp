@@ -145,7 +145,7 @@
 			var column71,column72,column73,column74,column75,column76,column77,column78,column79,column80;
 		 	
 		 	var len = 0;
-			for(var i=1;i<=50;i++){
+			for(var i=1;i<=80;i++){
 				var _o = thisObj.find('#column'+i);
 				if (_o){
 					var $val_ =  _o.val();
@@ -178,7 +178,7 @@
 				
 			};
 			var json___ = Ext.util.JSON.encode(w);
-			if (json___.indexOf('column')>0 && len!=50){
+			if (json___.indexOf('column')>0 && len!=80){
 				jsonStr += deliter + json___;
 			    deliter = ',';
 			}

@@ -62,7 +62,7 @@
 		<init-param>
 			<param-name>AbortUrls</param-name>
 			<param-value>
-				/syscUser,/dataOuterBk.jsp,/SSOSvl,/servlet/SyncPhpCmsUserSvl,/servlet/ReturnRadomPasswordSvl,/dyinfo,/dyinfofull
+				/syscUser,/dataOuterBk.jsp,/SSOSvl,/servlet/SyncPhpCmsUserSvl,/servlet/ReturnRadomPasswordSvl,/dyinfo,/dyinfofull,/Soasvl
 			</param-value>
 		</init-param>
 	</filter>

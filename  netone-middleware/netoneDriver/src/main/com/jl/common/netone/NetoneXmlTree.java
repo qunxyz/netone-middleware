@@ -10,6 +10,7 @@ import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -40,33 +41,28 @@ public class NetoneXmlTree {
 		try {
 			List quanbushuju = SecurityEntry.iv().listRsInDir(strcode, "01", 0,
 					1000, "");
-			List file = SecurityEntry.iv().listDirRs(strcode);
 			for (Iterator iterator = quanbushuju.iterator(); iterator.hasNext();) {
 				Resource name = (Resource) iterator.next();
 				String code1 = name.getResourcecode();
 				Boolean fal = true;
 				if (code1.equals(strcode)) {
-					fal = false;
-				}
-				for (Iterator iterator2 = file.iterator(); iterator2.hasNext();) {
-					Resource resourcefile = (Resource) iterator2.next();
-					String code = resourcefile.getResourcecode();
-					if (code.equals(code1)) {
-						if (strcode.equals(resourcefile.getResourcecode()
-								.toString())) {
-							break;
-						} else {
-							repfolder.add(XmlDate(resourcefile
-									.getResourcename(), resourcefile
+				} else {
+					if (StringUtils.isNotEmpty(name.getInclusion())) {
+						if (name.getInclusion().equals("1")) {
+							repfolder.add(XmlDate(name.getResourcename(), name
 									.getResourcecode()));
+						} else {
+							repfolder.addElement("repfile").addAttribute(
+									"name", name.getResourcename())
+									.addAttribute("naturalname",
+											name.getResourcecode()).addText("");
 						}
-						fal = false;
+					} else {
+						repfolder.addElement("repfile").addAttribute("name",
+								name.getResourcename()).addAttribute(
+								"naturalname", name.getResourcecode()).addText(
+								"");
 					}
-				}
-				if (fal) {
-					repfolder.addElement("repfile").addAttribute("name",
-							name.getResourcename()).addAttribute("naturalname",
-							name.getResourcecode()).addText("");
 				}
 			}
 			OutputFormat format = OutputFormat.createPrettyPrint();
@@ -96,35 +92,28 @@ public class NetoneXmlTree {
 		try {
 			List quanbushuju = SecurityEntry.iv().listRsInDir(strcode, "01", 0,
 					1000, "");
-			List file = SecurityEntry.iv().listDirRs(strcode);
 			for (Iterator iterator = quanbushuju.iterator(); iterator.hasNext();) {
 				Resource name = (Resource) iterator.next();
 				String code1 = name.getResourcecode();
 				Boolean fal = true;
 				if (code1.equals(strcode)) {
-					fal = false;
-				}
-				for (Iterator iterator2 = file.iterator(); iterator2.hasNext();) {
-					Resource resourcefile = (Resource) iterator2.next();
-					String code = resourcefile.getResourcecode();
-
-					if (code.equals(code1)) {
-						if (paht.equals(code)) {
-							fal = false;
-							break;
-						} else {
-							repfolder.add(XmlDate(resourcefile
-									.getResourcename(), resourcefile
-									.getResourcecode()));
-						}
-						fal = false;
+				} else {
+					if (StringUtils.isNotEmpty(name.getInclusion())) {
+					if (name.getInclusion().equals("1")) {
+						repfolder.add(XmlDate(name.getResourcename(), name
+								.getResourcecode()));
+					} else {
+						String[] namestr = name.getResourcename().split("/");
+						repfolder.addElement("repfile").addAttribute("name",
+								namestr[namestr.length - 1]).addAttribute(
+								"naturalname", name.getResourcecode());
 					}
-				}
-				if (fal) {
-					String[] namestr = name.getResourcename().split("/");
-					repfolder.addElement("repfile").addAttribute("name",
-							namestr[namestr.length - 1]).addAttribute(
-							"naturalname", name.getResourcecode());
+					}else{
+						String[] namestr = name.getResourcename().split("/");
+						repfolder.addElement("repfile").addAttribute("name",
+								namestr[namestr.length - 1]).addAttribute(
+								"naturalname", name.getResourcecode());
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -147,33 +136,33 @@ public class NetoneXmlTree {
 		try {
 			List quanbushuju = SecurityEntry.iv().listRsInDir(strcode, "01", 0,
 					1000, "");
-			List file = SecurityEntry.iv().listDirRs(strcode);
 			for (Iterator iterator = quanbushuju.iterator(); iterator.hasNext();) {
 				Resource name = (Resource) iterator.next();
 				String code1 = name.getResourcecode();
 				Boolean fal = true;
 				if (code1.equals(strcode)) {
 					fal = false;
-				}
-				for (Iterator iterator2 = file.iterator(); iterator2.hasNext();) {
-					Resource resourcefile = (Resource) iterator2.next();
-					String code = resourcefile.getResourcecode();
-					if (code.equals(code1)) {
-						if (strcode.equals(resourcefile.getResourcecode()
-								.toString())) {
-							break;
+				} else {
+					if (StringUtils.isNotEmpty(name.getInclusion())) {
+						if (name.getInclusion().equals("1")) {
+							repfolder.add(dyfromXmlDate(name.getResourcename(),
+									name.getResourcecode()));
 						} else {
-							repfolder.add(dyfromXmlDate(resourcefile
-									.getResourcename(), resourcefile
-									.getResourcecode()));
+							repfolder.addElement("repfile").addAttribute(
+									"name", name.getResourcename())
+									.addAttribute(
+											"naturalname",
+											formcodeString(name
+													.getResourcecode()))
+									.addText("");
 						}
-						fal = false;
+					} else {
+						repfolder.addElement("repfile").addAttribute("name",
+								name.getResourcename()).addAttribute(
+								"naturalname",
+								formcodeString(name.getResourcecode()))
+								.addText("");
 					}
-				}
-				if (fal) {
-					repfolder.addElement("repfile").addAttribute("name",
-							name.getResourcename()).addAttribute("naturalname",
-							formcodeString(name.getResourcecode())).addText("");
 				}
 			}
 			OutputFormat format = OutputFormat.createPrettyPrint();
@@ -203,36 +192,33 @@ public class NetoneXmlTree {
 		try {
 			List quanbushuju = SecurityEntry.iv().listRsInDir(strcode, "01", 0,
 					1000, "");
-			List file = SecurityEntry.iv().listDirRs(strcode);
 			for (Iterator iterator = quanbushuju.iterator(); iterator.hasNext();) {
 				Resource name = (Resource) iterator.next();
 				String code1 = name.getResourcecode();
 				Boolean fal = true;
 				if (code1.equals(strcode)) {
-					fal = false;
-				}
-				for (Iterator iterator2 = file.iterator(); iterator2.hasNext();) {
-					Resource resourcefile = (Resource) iterator2.next();
-					String code = resourcefile.getResourcecode();
-
-					if (code.equals(code1)) {
-						if (paht.equals(code)) {
-							fal = false;
-							break;
+				} else {
+					if (StringUtils.isNotEmpty(name.getInclusion())) {
+						if (name.getInclusion().equals("1")) {
+							repfolder.add(dyfromXmlDate(name.getResourcename(),
+									name.getResourcecode()));
 						} else {
-							repfolder.add(dyfromXmlDate(resourcefile
-									.getResourcename(), resourcefile
-									.getResourcecode()));
+							String[] namestr = name.getResourcename()
+									.split("/");
+							repfolder.addElement("repfile").addAttribute(
+									"name", namestr[namestr.length - 1])
+									.addAttribute(
+											"naturalname",
+											formcodeString(name
+													.getResourcecode()));
 						}
-						fal = false;
+					} else {
+						String[] namestr = name.getResourcename().split("/");
+						repfolder.addElement("repfile").addAttribute("name",
+								namestr[namestr.length - 1]).addAttribute(
+								"naturalname",
+								formcodeString(name.getResourcecode()));
 					}
-				}
-				if (fal) {
-					String[] namestr = name.getResourcename().split("/");
-					repfolder.addElement("repfile").addAttribute("name",
-							namestr[namestr.length - 1]).addAttribute(
-							"naturalname",
-							formcodeString(name.getResourcecode()));
 				}
 			}
 		} catch (Exception e) {
@@ -261,7 +247,8 @@ public class NetoneXmlTree {
 		}
 		return upof.getExtendattribute();
 	}
-    // 根据路径和类型得到数据
+
+	// 根据路径和类型得到数据
 	public String Reportdsxml(String path, String cname, String type) {
 		String rs = null;
 		String strcode = path + "." + path;
@@ -273,36 +260,38 @@ public class NetoneXmlTree {
 		try {
 			List quanbushuju = SecurityEntry.iv().listRsInDir(strcode, "01", 0,
 					1000, "");
-			List file = SecurityEntry.iv().listDirRs(strcode);
 			for (Iterator iterator = quanbushuju.iterator(); iterator.hasNext();) {
 				Resource name = (Resource) iterator.next();
 				String code1 = name.getResourcecode();
 				Boolean fal = true;
 				if (code1.equals(strcode)) {
-					fal = false;
-				}
-				for (Iterator iterator2 = file.iterator(); iterator2.hasNext();) {
-					Resource resourcefile = (Resource) iterator2.next();
-					String code = resourcefile.getResourcecode();
-					if (code.equals(code1)) {
-						if (strcode.equals(resourcefile.getResourcecode()
-								.toString())) {
-							break;
+				} else {
+					if (StringUtils.isNotEmpty(name.getInclusion())) {
+						if (name.getInclusion().equals("1")) {
+							repfolder.add(ReportdsxmlDate(name
+									.getResourcename(), name.getResourcecode(),
+									type));
 						} else {
-							repfolder.add(ReportdsxmlDate(resourcefile
-									.getResourcename(), resourcefile
-									.getResourcecode(), type));
+							if (name.getTypes() != null) {
+								if (name.getTypes().equals(type)) {
+									repfolder.addElement("repfile")
+											.addAttribute("name",
+													name.getResourcename())
+											.addAttribute("naturalname",
+													name.getResourcecode())
+											.addText("");
+								}
+							}
 						}
-						fal = false;
-					}
-				}
-				if (fal) {
-					if (name.getTypes()!= null) {
-						if (name.getTypes().equals(type)) {
-							repfolder.addElement("repfile").addAttribute(
-									"name", name.getResourcename())
-									.addAttribute("naturalname",
-											name.getResourcecode()).addText("");
+					} else {
+						if (name.getTypes() != null) {
+							if (name.getTypes().equals(type)) {
+								repfolder.addElement("repfile").addAttribute(
+										"name", name.getResourcename())
+										.addAttribute("naturalname",
+												name.getResourcecode())
+										.addText("");
+							}
 						}
 					}
 				}
@@ -334,40 +323,37 @@ public class NetoneXmlTree {
 		try {
 			List quanbushuju = SecurityEntry.iv().listRsInDir(strcode, "01", 0,
 					1000, "");
-			List file = SecurityEntry.iv().listDirRs(strcode);
+
 			for (Iterator iterator = quanbushuju.iterator(); iterator.hasNext();) {
 				Resource name = (Resource) iterator.next();
 				String code1 = name.getResourcecode();
 				Boolean fal = true;
 				if (code1.equals(strcode)) {
-					fal = false;
-				}
-				for (Iterator iterator2 = file.iterator(); iterator2.hasNext();) {
-					Resource resourcefile = (Resource) iterator2.next();
-					String code = resourcefile.getResourcecode();
-
-					if (code.equals(code1)) {
-						if (paht.equals(code)) {
-							fal = false;
-							break;
+				} else {
+					if (StringUtils.isNotEmpty(name.getInclusion())) {
+						if (name.getInclusion().equals("1")) {
+							repfolder.add(ReportdsxmlDate(name
+									.getResourcename(), name.getResourcecode(),
+									type));
 						} else {
-							repfolder.add(ReportdsxmlDate(resourcefile
-									.getResourcename(), resourcefile
-									.getResourcecode(), type));
+							if (name.getTypes() != null) {
+								if (name.getTypes().equals(type)) {
+									String[] namestr = name.getResourcename()
+											.split("/");
+									repfolder
+											.addElement("repfile")
+											.addAttribute("name",
+													namestr[namestr.length - 1])
+											.addAttribute("naturalname",
+													name.getResourcecode());
+								}
+							}
 						}
-						fal = false;
-					}
-				}
-				if (fal) {
-					if (name.getTypes() != null) {
-						if (name.getTypes().equals(type)) {
-							String[] namestr = name.getResourcename()
-									.split("/");
-							repfolder.addElement("repfile").addAttribute(
-									"name", namestr[namestr.length - 1])
-									.addAttribute("naturalname",
-											name.getResourcecode());
-						}
+					} else {
+						String[] namestr = name.getResourcename().split("/");
+						repfolder.addElement("repfile").addAttribute("name",
+								namestr[namestr.length - 1]).addAttribute(
+								"naturalname", name.getResourcecode());
 					}
 				}
 			}

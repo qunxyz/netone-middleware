@@ -64,13 +64,18 @@
                getzbObject.getzhibiao(typesourcex.selectedItem.columnid.toString(),zbarr,vivid.Tablename,wdValuetext.text,typesource.selectedItem.columnid.toString(),extendtext.text);
              }
        		 }
+       		  EvTjFs.getInstance().removeEventListener("yuce",tijiaoData);
 	        }
 	     [Bindable]
-	     public var xyarr:ArrayCollection;
+	     public var xyarr:ArrayCollection=new ArrayCollection();
 	     public function xyDir(event:ResultEvent):void
 	     {
 	     	       xyarr= event.result as ArrayCollection;
-	     	       paselect.sarr=xyarr;
+	     	       for(var i:int=0;i<xyarr.length;i++){
+	     	       BIid.sarr.addItem({dimdatetime:xyarr[i].dimdatetime,target:xyarr[i].target,enddatetime:xyarr[i].enddatetime,endvalue:xyarr[i].endvalue});
+	     	       }
+	     	       paselect=PopUpManager.createPopUp(this,PredictiveAnalysis,true) as PredictiveAnalysis ;
+			       EvTjFs.getInstance().addEventListener("yuce",tijiaoData);
 	     }
 
 		
@@ -210,9 +215,9 @@
 				if(vivid.backarr!=null)
 				{ for(var b:int=0;b<vivid.backarr.length;b++)
 				  {
-				       zbarr.addItem(vivid.backarr.getItemAt(b));
+				       zbarr.addItem(vivid.backarr[b]);
 				  } 
-				  vivid.backarr=null;
+				//  vivid.backarr=null;
 				}
 				 pxml=<info></info>;
 			    for(var i:int=0;i<zbarr.length;i++)
@@ -249,15 +254,13 @@
 			public   var paselect:PredictiveAnalysis;
 			public function predictiveAnalysis():void
 		    {   
-		   if(typesourcex.selectedIndex>=2){//选择的typesourcex的指数只能大于等于2
-		      if(typesourcex.selectedIndex==2 || arrtype[typesourcex.selectedIndex-3]=="02" || arrtype[typesourcex.selectedIndex-3]=="03" || arrtype[typesourcex.selectedIndex-3]=="04"){
+		      if(typesourcex.selectedItem.viewtype=="02" || typesourcex.selectedItem.viewtype=="03" || typesourcex.selectedItem.viewtype=="04"){
 		      if(wdValuetext.text!=null){
 		         	 if(zhibiaosource.selectedItems==null || zhibiaosource.selectedItems.toString()=="" ){
 		         	 Alert.show("请选择指标");
        				}else{
-       				  EvTjFs.getInstance().addEventListener("yuce",tijiaoData);
-			         expendXyObject.ExpendXydata(typesourcex.selectedItem.columnid.toString(),zhibiaosource.selectedItem.columnid.toString(),typesource.selectedItem.columnid,wdValuetext.text,vivid.Tablename);
-			         paselect=PopUpManager.createPopUp(this,PredictiveAnalysis,true) as PredictiveAnalysis ;
+       				  vivid.timename=typesourcex.selectedItem.columnid;
+			         expendXyObject.ExpendXydata(typesourcex.selectedItem.columnid.toString(),zhibiaosource.selectedItem.columnid.toString(),typesource.selectedItem.columnid,wdValuetext.text,vivid.Tablename);	        
 		     		  }
 		       }else{
 		       Alert.show("所需数据不符条件！");
@@ -265,7 +268,6 @@
 		      }else
 		      {
 		      	Alert.show("预测分析应该在时间维度上进行!");
-		      }
 		      }
 		    }
 		  public function getTablename(event:ResultEvent):void

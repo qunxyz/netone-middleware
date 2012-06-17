@@ -11,26 +11,21 @@
 		]]>
 	</mx:Script>
 	<mx:Panel id="PanelChart4" width="100%" height="100%"  title="柱线图" x="0">
-    	  
-         <mx:ColumnChart id="myChart"  
-                        showDataTips="true"  
+    	    <mx:ColumnChart id="myChart"  
+                        showDataTips="true"   dataProvider="{xmllist.dsinfo}"
                         fontSize="14" width="100%" height="100%">  
-           <mx:horizontalAxis>  
-             <mx:CategoryAxis dataProvider="{xmllist.dsinfo}"  
-                                 categoryField="@x"/>  
+            <mx:horizontalAxis>  
+               <mx:CategoryAxis categoryField="@x"/>  
             </mx:horizontalAxis>  
-           
-                <!--设定左边Y轴坐标的数值范围 -->  
-                <mx:verticalAxis>
-						 	 <mx:CategoryAxis  dataProvider="{xmllist.dsinfo}"   categoryField="@y"/>
-				</mx:verticalAxis>
-            
             <mx:series>  
-              <mx:ColumnSeries id="cs1"  
-                                dataProvider="{xmllist.dsinfo}"  
-                                xField="@x"  
-                                yField="@y"  
-                                displayName="x"/>  
+             		   <mx:ColumnSeries yField="@y" xField="@x"   displayName="y"  />
+			           <mx:ColumnSeries yField="@y1"  xField="@x" displayName="y1" />
+			           <mx:ColumnSeries  yField="@y2" xField="@x" displayName="y2"  />
+			           <mx:ColumnSeries  yField="@y3" xField="@x" displayName="y3"  /> 
+			           <mx:ColumnSeries  yField="@y4" xField="@x" displayName="y4" /> 
+			           <mx:ColumnSeries  yField="@y5" xField="@x" displayName="y5"   /> 
+			           <mx:ColumnSeries  yField="@y6" xField="@x" displayName="y6"  />
+			           <mx:ColumnSeries  yField="@y7" xField="@x" displayName="y7"  /> 
             </mx:series>  
            <mx:secondVerticalAxis>  
                <!--设定Y轴坐标的数值范围 -->  
@@ -38,16 +33,14 @@
             </mx:secondVerticalAxis>  
             <!--定义第二个Series -->  
            <mx:secondSeries>  
-                <mx:LineSeries id="cs2"  
-                              dataProvider="{xmllist.dsinfo}"  
-                               xField="@x"  
-                               yField="@y1"  
-                               displayName="y1"/>  
-                <mx:LineSeries id="cs3"  
-                              dataProvider="{xmllist.dsinfo}"  
-                              xField="@x"  
-                               yField="@y1"   
-                              displayName="y1"/>  
+           				<mx:LineSeries yField="@y" form="curve" displayName="y"   dataProvider="{xmllist.dsinfo}"  />
+          	            <mx:LineSeries yField="@y1" form="curve" displayName="y1" dataProvider="{xmllist.dsinfo}"  />
+          	         	<mx:LineSeries yField="@y2" form="curve" displayName="y2" dataProvider="{xmllist.dsinfo}"  />
+          	         	<mx:LineSeries yField="@y3" form="curve" displayName="y3" dataProvider="{xmllist.dsinfo}"  />
+          	         	<mx:LineSeries yField="@y4" form="curve" displayName="y4" dataProvider="{xmllist.dsinfo}"  />
+          	         	<mx:LineSeries yField="@y5" form="curve" displayName="y5" dataProvider="{xmllist.dsinfo}"  />
+          	         	<mx:LineSeries yField="@y6" form="curve" displayName="y6" dataProvider="{xmllist.dsinfo}"  />
+          	            <mx:LineSeries yField="@y7" form="curve" displayName="y7" dataProvider="{xmllist.dsinfo}"  /> 
             </mx:secondSeries>  
         </mx:ColumnChart>  
     </mx:Panel>

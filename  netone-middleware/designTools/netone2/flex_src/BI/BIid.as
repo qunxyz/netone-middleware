@@ -74,6 +74,9 @@
  	     public static var statetype:String="";
  	     [Bindable]
  	     public static var kvbackarr:ArrayCollection=null;
+ 	      [Bindable]//数据绑定
+	     public static  var sarr:ArrayCollection=new ArrayCollection;
+		
  	}
  }
  

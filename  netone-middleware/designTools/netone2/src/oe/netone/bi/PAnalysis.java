@@ -5,18 +5,11 @@ public class PAnalysis {
   public double target;
   public String enddatetime;
   public double endvalue;
-
 public String getDimdatetime() {
 	return dimdatetime;
 }
-public double getEndvalue() {
-	   return endvalue;
-}
 public void setDimdatetime(String dimdatetime) {
 	this.dimdatetime = dimdatetime;
-}
-public void setEndvalue(double endvalue) {
-	this.endvalue = endvalue;
 }
 public double getTarget() {
 	return target;
@@ -30,6 +23,11 @@ public String getEnddatetime() {
 public void setEnddatetime(String enddatetime) {
 	this.enddatetime = enddatetime;
 }
-
+public double getEndvalue() {
+	return endvalue;
+}
+public void setEndvalue(double endvalue) {
+	this.endvalue = endvalue;
+}
 
 }

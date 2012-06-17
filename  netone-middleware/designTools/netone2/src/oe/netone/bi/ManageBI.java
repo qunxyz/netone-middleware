@@ -28,7 +28,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 
-
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyFormData;
 import com.jl.common.resource.Resource;
@@ -45,21 +44,20 @@ public class ManageBI {
 		initColumn.setColumnid("belongx");
 		initColumn.setViewtype("00");
 
-		
 		wdList = DyEntry.iv().fetchColumnList(formcode);
 		wdList.add(0, initColumn);
 		for (int i = 0; i < wdList.size(); i++) {
-			System.out.println(((TCsColumn) wdList.get(i)).getExt9viewtype()
+			System.out.println(((TCsColumn) wdList.get(i)).getViewtype()
 					.toString());
 		}
 		return wdList;
 	}
 
-	public static String getstarttime(String tablename) throws Exception {
+	public static String getstarttime(String tablename,String time) throws Exception {
 		String starttime = null;
 		List dataList = new ArrayList();
-		String sqlString = "select Timex from dyform." + tablename
-				+ " order by Timex";
+		String sqlString = "select "+time+"  from dyform." + tablename
+				+ " order by "+time;
 		ConnDB connDB = new ConnDB();
 		ResultSet rSet = connDB.doQuery(sqlString);
 		while (rSet.next()) {
@@ -77,8 +75,8 @@ public class ManageBI {
 		List aList = DyEntry.iv().fetchColumnList(formcode);
 		for (Iterator iterator1 = aList.iterator(); iterator1.hasNext();) {
 			TCsColumn columnname = (TCsColumn) iterator1.next();
-			if(columnname.getColumnid().equals(columnstr)){
-				kvString=columnname.getValuelist();
+			if (columnname.getColumnid().equals(columnstr)) {
+				kvString = columnname.getValuelist();
 			}
 		}
 		System.out.println(kvString);
@@ -107,9 +105,7 @@ public class ManageBI {
 		return dataList;
 	}
 
-	public static List getData(String columnstr, String tablename)
-
-	throws Exception {
+	public static List getData(String columnstr, String tablename)throws Exception {
 		List dataList = new ArrayList();
 		dataList.add("请选择维度值");
 		String sqlString = "select distinct " + columnstr + " from dyform."
@@ -326,7 +322,7 @@ public class ManageBI {
 		}
 		if (limit.equals("")) {
 			sqlString = "select " + xdata + "," + fdBuffer.toString()
-					+ " from dyform." + tablename + "";
+					+ " from dyform." + tablename + " ORDER BY "+xdata;
 		} else {
 			sqlString = "select  " + xdata + " ," + fdBuffer.toString()
 					+ " from dyform." + tablename + " where " + limitcolumn
@@ -431,15 +427,16 @@ public class ManageBI {
 
 	}
 
-	public static List<PAnalysis> ExpendXydata(String xData,String yData, String column,
-			String tiaojian, String tablename) throws Exception {
+	public static List<PAnalysis> ExpendXydata(String xData, String yData,
+			String column, String tiaojian, String tablename) throws Exception {
 		String sqlString = null;
 		List<PAnalysis> dtList = new ArrayList<PAnalysis>();
-		if (tiaojian.equals("") || tiaojian== null) {
-			sqlString = "select "+xData+"," + yData + " from dyform." + tablename;
+		if (tiaojian.equals("") || tiaojian == null) {
+			sqlString = "select " + xData + "," + yData + " from dyform."
+					+ tablename;
 		} else {
-			sqlString = "select "+xData+"," + yData + " from dyform." + tablename 
-					+ " where " + column + "='" + tiaojian + "'";
+			sqlString = "select " + xData + "," + yData + " from dyform."
+					+ tablename + " where " + column + "='" + tiaojian + "'";
 		}
 		System.out.println("www" + sqlString);
 		ConnDB connDB = new ConnDB();

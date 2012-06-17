@@ -919,52 +919,396 @@ public class FrameActionExt extends AbstractAction {
 			}
 
 			// 重写dyform对象
-//			String path = request.getSession().getServletContext().getRealPath(
-//					"/");// 应用服务器目录
-//			File file = new File(path + "/frameSCMExt/" + naturalname
-//					+ ".jcode");
-//			if (file.exists()) {
-//				StringBuffer script = new StringBuffer();
-//
-//				BufferedReader in = new BufferedReader(new FileReader(file));
-//				String str;
-//				while ((str = in.readLine()) != null) {
-//					script.append(str);
-//				}
-//				in.close();
-//
-//				Object[] objArr = { dyform,request };
-//
-//				WorkflowConsole console = (WorkflowConsole) RmiEntry
-//						.iv("wfhandle");
-//				console.exeScript(script.toString(), objArr);
-//			}
-			
-			
-			//单品
-//			String ext = request.getParameter("ext");
-//			if ("APPFRAME.APPFRAME.JEWELRY.JEWELRY.JEWELRYAPP25".equals(naturalname)){
-//				DyForm [] subDyForms=dyform.getSubform_();
-//				for(int j=0;j<subDyForms.length;j++){
-//					DyFormColumn[] subcolumnx = subDyForms[j].getAllColumn_();
-//					 
-//					for (int i = 0; i < subcolumnx.length; i++) {
-//						subcolumnx[i].setHidden(true);
-//					}
-//					
-//					for (int i = 0; i < subcolumnx.length; i++) {
-//						String colid =subcolumnx[i].getColumnid();
-//						
-//						if (){
-//							subcolumnx[i].setHidden(true);
-//						}
-//						
-//						
-//					}
-//					
-//				}
-//			}
-			
+			// String path =
+			// request.getSession().getServletContext().getRealPath(
+			// "/");// 应用服务器目录
+			// File file = new File(path + "/frameSCMExt/" + naturalname
+			// + ".jcode");
+			// if (file.exists()) {
+			// StringBuffer script = new StringBuffer();
+			//
+			// BufferedReader in = new BufferedReader(new FileReader(file));
+			// String str;
+			// while ((str = in.readLine()) != null) {
+			// script.append(str);
+			// }
+			// in.close();
+			//
+			// Object[] objArr = { dyform,request };
+			//
+			// WorkflowConsole console = (WorkflowConsole) RmiEntry
+			// .iv("wfhandle");
+			// console.exeScript(script.toString(), objArr);
+			// }
+
+			// 单品
+			String ext = request.getParameter("ext");
+			if ("APPFRAME.APPFRAME.JEWELRY.JEWELRY.JEWELRYAPP25"
+					.equals(naturalname)) {
+				DyForm[] subDyForms = dyform.getSubform_();
+				for (int j = 0; j < subDyForms.length; j++) {
+					DyFormColumn[] subcolumnx = subDyForms[j].getAllColumn_();
+
+					for (int i = 0; i < subcolumnx.length; i++) {
+						subcolumnx[i].setHidden(true);
+					}
+
+					for (int i = 0; i < subcolumnx.length; i++) {
+						String colid = subcolumnx[i].getColumnid();
+
+						if ("dl001".equals(ext)) {
+							if ("column3".equals(colid)
+									|| "column4".equals(colid)
+									|| "column48".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column51".equals(colid)
+									|| "column50".equals(colid)
+									|| "column11".equals(colid)
+									|| "column12".equals(colid)
+									|| "column13".equals(colid)
+									|| "column14".equals(colid)
+									|| "column15".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column18".equals(colid)
+									|| "column19".equals(colid)
+									|| "column21".equals(colid)
+									|| "column22".equals(colid)
+									|| "column24".equals(colid)
+									|| "column25".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl002".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column27".equals(colid)
+									|| "column28".equals(colid)
+									|| "column53".equals(colid)
+									|| "column30".equals(colid)
+									|| "column31".equals(colid)
+									|| "column32".equals(colid)
+									|| "column33".equals(colid)
+									|| "column34".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl003".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column51".equals(colid)
+									|| "column12".equals(colid)
+									|| "column14".equals(colid)
+									|| "column18".equals(colid)
+									|| "column20".equals(colid)
+									|| "column24".equals(colid)
+									|| "column25".equals(colid)
+									|| "column26".equals(colid)
+									|| "column54".equals(colid)
+									|| "column37".equals(colid)
+									|| "column38".equals(colid)
+									|| "column39".equals(colid)
+									|| "column40".equals(colid)
+									|| "column55".equals(colid)
+									|| "column56".equals(colid)
+									|| "column57".equals(colid)
+									|| "column44".equals(colid)
+									|| "column45".equals(colid)
+									|| "column60".equals(colid)
+									|| "column61".equals(colid)
+									|| "column62".equals(colid)
+									|| "column27".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl004".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column12".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column21".equals(colid)
+									|| "column24".equals(colid)
+									|| "column54".equals(colid)
+									|| "column36".equals(colid)
+									|| "column37".equals(colid)
+									|| "column38".equals(colid)
+									|| "column40".equals(colid)
+									|| "column55".equals(colid)
+									|| "column56".equals(colid)
+									|| "column57".equals(colid)
+									|| "column46".equals(colid)
+									|| "column64".equals(colid)
+									|| "column65".equals(colid)
+									|| "column66".equals(colid)
+									|| "column67".equals(colid)
+									|| "column69".equals(colid)
+									|| "column70".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl005".equals(ext)) {
+
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column16".equals(colid)
+									|| "column24".equals(colid)
+									|| "column59".equals(colid)
+									|| "column31".equals(colid)
+									|| "column32".equals(colid)
+									|| "column33".equals(colid)
+									|| "column34".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl006".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column15".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column24".equals(colid)
+									|| "column27".equals(colid)
+									|| "column28".equals(colid)
+									|| "column53".equals(colid)
+									|| "column59".equals(colid)
+									|| "column31".equals(colid)
+									|| "column32".equals(colid)
+									|| "column33".equals(colid)
+									|| "column34".equals(colid)) {
+
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl007".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column24".equals(colid)
+									|| "column27".equals(colid)
+									|| "column28".equals(colid)
+									|| "column53".equals(colid)
+									|| "column30".equals(colid)
+									|| "column31".equals(colid)
+									|| "column32".equals(colid)
+									|| "column33".equals(colid)
+									|| "column34".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl008".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column24".equals(colid)
+									|| "column27".equals(colid)
+									|| "column28".equals(colid)
+									|| "column53".equals(colid)
+									|| "column30".equals(colid)
+									|| "column31".equals(colid)
+									|| "column32".equals(colid)
+									|| "column33".equals(colid)
+									|| "column34".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl009".equals(ext)) {
+							subcolumnx[i].setHidden(false);
+						}
+						if ("dl010".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column24".equals(colid)
+									|| "column27".equals(colid)
+									|| "column28".equals(colid)
+									|| "column53".equals(colid)
+									|| "column30".equals(colid)
+									|| "column31".equals(colid)
+									|| "column32".equals(colid)
+									|| "column33".equals(colid)
+									|| "column34".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl011".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column12".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column21".equals(colid)
+									|| "column24".equals(colid)
+									|| "column54".equals(colid)
+									|| "column36".equals(colid)
+									|| "column37".equals(colid)
+									|| "column38".equals(colid)
+									|| "column40".equals(colid)
+									|| "column55".equals(colid)
+									|| "column56".equals(colid)
+									|| "column57".equals(colid)
+									|| "column46".equals(colid)
+									|| "column64".equals(colid)
+									|| "column65".equals(colid)
+									|| "column66".equals(colid)
+									|| "column67".equals(colid)
+									|| "column69".equals(colid)
+									|| "column70".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl012".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column12".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column21".equals(colid)
+									|| "column24".equals(colid)
+									|| "column54".equals(colid)
+									|| "column36".equals(colid)
+									|| "column37".equals(colid)
+									|| "column38".equals(colid)
+									|| "column40".equals(colid)
+									|| "column55".equals(colid)
+									|| "column56".equals(colid)
+									|| "column57".equals(colid)
+									|| "column46".equals(colid)
+									|| "column64".equals(colid)
+									|| "column65".equals(colid)
+									|| "column66".equals(colid)
+									|| "column67".equals(colid)
+									|| "column69".equals(colid)
+									|| "column70".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl013".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column12".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column21".equals(colid)
+									|| "column24".equals(colid)
+									|| "column54".equals(colid)
+									|| "column36".equals(colid)
+									|| "column37".equals(colid)
+									|| "column38".equals(colid)
+									|| "column40".equals(colid)
+									|| "column55".equals(colid)
+									|| "column56".equals(colid)
+									|| "column57".equals(colid)
+									|| "column46".equals(colid)
+									|| "column64".equals(colid)
+									|| "column65".equals(colid)
+									|| "column66".equals(colid)
+									|| "column67".equals(colid)
+									|| "column69".equals(colid)
+									|| "column70".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl014".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column16".equals(colid)
+									|| "column24".equals(colid)
+									|| "column59".equals(colid)
+									|| "column31".equals(colid)
+									|| "column32".equals(colid)
+									|| "column33".equals(colid)
+									|| "column34".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+						if ("dl015".equals(ext)) {
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column12".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column21".equals(colid)
+									|| "column24".equals(colid)
+									|| "column54".equals(colid)
+									|| "column36".equals(colid)
+									|| "column37".equals(colid)
+									|| "column38".equals(colid)
+									|| "column40".equals(colid)
+									|| "column55".equals(colid)
+									|| "column56".equals(colid)
+									|| "column57".equals(colid)
+									|| "column46".equals(colid)
+									|| "column64".equals(colid)
+									|| "column65".equals(colid)
+									|| "column66".equals(colid)
+									|| "column67".equals(colid)
+									|| "column69".equals(colid)
+									|| "column70".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
+						}
+
+					}
+
+				}
+			}
+
 			TWfActive act = WfEntry.iv().listCurrentActive(naturalname,
 					workcode, user.getUserCode());
 			Map subformmode = act.getSubformmode();
@@ -972,8 +1316,8 @@ public class FrameActionExt extends AbstractAction {
 			// StringUtils.isNotEmpty(formcode)) {
 			formhtml = ins.load(workcode, naturalname, dyform, lsh, isedit,
 					subformmode, user.getNLevelName() + "/"
-					+ user.getUserName() + "," + user.getNLevelName()+"/", request
-							.getParameter("url"), user, isprint);
+							+ user.getUserName() + "," + user.getNLevelName()
+							+ "/", request.getParameter("url"), user, isprint);
 			// }
 			request.setAttribute("form", formhtml.toString());
 

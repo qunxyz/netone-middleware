@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import net.sf.json.JSONArray;
 
 import oe.rmi.client.RmiEntry;
@@ -80,9 +82,11 @@ public class GisPointSvl extends HttpServlet {
 			if(formlist.size()!=1){
 			throw new RuntimeException("存在表单异常定义");
 			}
-			String tablename=((UmsProtectedobject)formlist.get(0)).getDescription();
+			String naturalname=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+			String tablename=StringUtils.substringAfterLast(naturalname, ".");
 			
-			String sql="select lsh,column5 from "+tablename+" where "+xoffCond;
+			String sql="select lsh,column5 from dyform."+tablename+" where "+xoffCond;
+			System.out.println(sql);
 			list=DbTools.queryData(sql);
 
 		} catch (Exception e) {

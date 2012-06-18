@@ -172,8 +172,11 @@
 				column36 : column36,column37 : column37,column38 : column38,column39 : column39,column40 : column40,
 				column41 : column41,column42 : column42,column43 : column43,column44 : column44,column45 : column45,
 				column46 : column46,column47 : column47,column48 : column48,column49 : column49,column50 : column50,
+				column51 : column51,column52 : column52,column53 : column53,column54 : column54,column55 : column55,
 				column56 : column56,column57 : column57,column58 : column58,column59 : column59,column60 : column60,
+				column61 : column61,column62 : column62,column63 : column63,column64 : column64,column65 : column65,
 				column66 : column66,column67 : column67,column68 : column68,column69 : column69,column70 : column70,
+				column71 : column71,column72 : column72,column73 : column73,column74 : column74,column75 : column75,
 				column76 : column76,column77 : column77,column78 : column78,column79 : column79,column80 : column80
 				
 			};

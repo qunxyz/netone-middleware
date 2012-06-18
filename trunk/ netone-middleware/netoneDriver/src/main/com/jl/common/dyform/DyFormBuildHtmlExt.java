@@ -87,7 +87,7 @@ public final class DyFormBuildHtmlExt {
 	// #C5E4FE;border-top:outset 3px #C5E4FE;border-left:3px outset
 	// #C5E4FE;border-right:3px inset #C5E4FE; width:"
 	// + AvailWidth + "px;table-layout:fixed; border-collapse:collapse;";
-	public static final String TableExtProperties = " style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\"";
+	public static final String TableExtProperties = " style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
 	public static final String TableTdStyle = "";
 	public static final String TableTdStyle2 = "";
 
@@ -1072,7 +1072,7 @@ public final class DyFormBuildHtmlExt {
 			html.append(DyFormComp.getTr("", tdstr, "", FORM_TR, "") + _N);
 		}
 
-		String TableExtPropertiesExt = " border=\"1\" width=\"900px\" style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"#FFFFDB\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\"";
+		String TableExtPropertiesExt = " border=\"1\" width=\"900px\" style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"#FFFFDB\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
 
 		String html_ = DyFormComp.getTable(formcode, html.toString(),
 				TableStyle, TABLE_FORM, 0, TableExtPropertiesExt);
@@ -1178,7 +1178,7 @@ public final class DyFormBuildHtmlExt {
 			html.append(DyFormComp.getTr("", tdstr, "", FORM_TR, "") + _N);
 		}
 
-		String TableExtPropertiesExt = " border=\"1\" width=\"900px\" style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"#D2CF98\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\"";
+		String TableExtPropertiesExt = " border=\"1\" width=\"900px\" style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"#D2CF98\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
 		String html_ = DyFormComp.getTable(formcode, html.toString(),
 				TableStyle, TABLE_FORM, 0, TableExtPropertiesExt);
 		// 输出文档普通字段内容结束
@@ -1670,7 +1670,7 @@ public final class DyFormBuildHtmlExt {
 			html.append(DyFormComp.getTr("", tdstr, "", FORM_TR, "") + _N);
 		}
 
-		String TableExtPropertiesExt = " border=\"1\" width=\"900px\" style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\"";
+		String TableExtPropertiesExt = " border=\"1\" width=\"900px\" style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
 		String html_ = DyFormComp.getTable(formcode, html.toString(),
 				TableStyle, TABLE_FORM, 0, TableExtPropertiesExt);
 		// 输出文档普通字段内容结束

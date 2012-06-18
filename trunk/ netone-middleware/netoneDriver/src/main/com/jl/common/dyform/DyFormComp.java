@@ -50,7 +50,7 @@ public final class DyFormComp {
 		String readonlystr = readonly == true ? " readonly=\"readonly\" " : "";
 
 		return startTag + idAnamestr + valuestr + stylestr + classnamestr
-				+ readonlystr + " " + extvalue + " " + endTag;
+				+ readonlystr + " " + extvalue +" unselectable=\"off\" onFocus=\"this.select()\" "+ " " + endTag;
 	}
 
 	/**
@@ -1385,7 +1385,7 @@ public final class DyFormComp {
 		String framename = id;
 		js.append("Ext.ns('" + framename + ".Data');\n");
 		js.append(framename
-				+ ".Data.FrameGrid  =  Ext.extend(Ext.grid.GridPanel,{\n");
+				+ ".Data.FrameGrid  =  Ext.extend(Ext.grid.EditorGridPanel,{\n");
 
 		js.append("		 initComponent: function() {\n");
 
@@ -1414,7 +1414,7 @@ public final class DyFormComp {
 		js.append("						" + columns + "\n");
 		js.append("				],\n");
 		js
-				.append("				viewConfig:{forceFit:false,width:800,autoScroll:true},\n");
+				.append("				viewConfig:{forceFit:false,autoScroll:true,width:800},\n");
 		js.append("				loadMask:true\n");
 		js.append("		   }\n");
 
@@ -1461,18 +1461,18 @@ public final class DyFormComp {
 	public static String getExtGridPanel2(String id, String data,
 			String fields, String columns) {
 		StringBuffer js = new StringBuffer();
-		js.append("var $" + id + " = new Ext.grid.GridPanel({ \n");
+		js.append("var $" + id + " = new Ext.grid.EditorGridPanel({ \n");
 		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
-				+ "',forceFit:false,onLayout : function(vw, vh){\n");
+				+ "',forceFit:false,autoHeight:true,autoScroll:true,width:800,onLayout : function(vw, vh){\n");
 		js.append("	    var g = this.grid;\n");
-		js.append("	    if(g.autoHeight){\n");
+		js.append("	    \n");
 		js.append("	        /**原本Ext设置的是visible，不会出现滚动条*/\n");
 		js.append("	        this.scroller.dom.style.overflow = 'auto';\n");
 		js.append("	        /**另外还要更新表头宽度，以便滚动位置同步*/\n");
 		js.append("	        if(this.innerHd){\n");
 		js.append("	            this.innerHd.style.width = (vw)+'px';\n");
 		js.append("	        }\n");
-		js.append("	    }\n");
+		js.append("	    \n");
 		js.append("	}\n");
 		js.append("},\n");
 		js

@@ -19,6 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
+import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import oe.serialize.dao.PageInfo;
 
 import org.apache.commons.lang.StringUtils;
@@ -458,13 +461,44 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 				null, "");
 		// String north = layoutnorth.toString().substring(0,
 		// layoutnorth.length() - 1);
-		String north = DyFormComp
-				.getExtPanelAttr(
-						"north",
-						"north",
-						"toolbar",
-						"{text:' 保 存 ',id:'ext_b_add',iconCls:'addIcon',handler:function(){ _save();}},{text:' 继续创建 ',id:'ext_b_add_continue',iconCls:'addIcon',handler:function(){ _continueAdd();}},{text:' 删 除 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},{text:' 取 消 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}",
-						null, "");
+
+		StringBuffer btnStr = new StringBuffer();
+
+		// 按钮控制
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(dyform.getFormcode());
+		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+		List formlist = rs.fetchResource(upo, map);
+		if (formlist.size() != 1) {
+			throw new RuntimeException("存在表单异常定义");
+		}
+		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
+				.getNaturalname();
+		if (SecurityEntry.iv().permission(user.getUserCode(),
+				naturalname_dyform + ".MODI")) {
+			btnStr
+					.append("{text:' 保 存 ',id:'ext_b_add',iconCls:'addIcon',handler:function(){ _save();}},");
+		}
+		if (SecurityEntry.iv().permission(user.getUserCode(),
+				naturalname_dyform + ".ADD")) {
+			btnStr
+					.append("{text:' 继续创建 ',id:'ext_b_add_continue',iconCls:'addIcon',handler:function(){ _continueAdd();}},");
+		}
+		if (SecurityEntry.iv().permission(user.getUserCode(),
+				naturalname_dyform + ".DELE")) {
+			btnStr
+					.append("{text:' 删 除 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},");
+		}
+		btnStr
+				.append("{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},");
+		btnStr
+				.append("{text:' 取 消 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}");
+
+		String north = DyFormComp.getExtPanelAttr("north", "north", "toolbar",
+				btnStr.toString(), null, "");
 		String viewport = DyFormComp.getExtBorderViewport(center, east, west,
 				south, north);
 		// System.out.println("--------");

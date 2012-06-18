@@ -1470,7 +1470,7 @@ public final class DyFormComp {
 		js.append("	        this.scroller.dom.style.overflow = 'auto';\n");
 		js.append("	        /**另外还要更新表头宽度，以便滚动位置同步*/\n");
 		js.append("	        if(this.innerHd){\n");
-		js.append("	            this.innerHd.style.width = (vw)+'px';\n");
+		js.append("	            this.innerHd.style.width = '100%';\n");
 		js.append("	        }\n");
 		js.append("	    \n");
 		js.append("	}\n");

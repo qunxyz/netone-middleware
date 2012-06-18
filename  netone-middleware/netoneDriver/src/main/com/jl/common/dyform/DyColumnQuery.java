@@ -90,6 +90,14 @@ public class DyColumnQuery {
 				listx = listmame;
 			}
 		}
+		if (model.equals("3")) {
+			TCsColumn tcscolumn = new TCsColumn();
+			tcscolumn.setColumname("Í³¼Æ");
+			tcscolumn.setColumncode("statistical");
+			tcscolumn.setColumnid("statistical");
+			tcscolumn.setFormcode(formcode);
+			listx.add(tcscolumn);
+		}
 		return listx;
 	}
 

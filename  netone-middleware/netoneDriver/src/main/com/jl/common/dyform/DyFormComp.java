@@ -1416,8 +1416,6 @@ public final class DyFormComp {
 		js.append("						cb,\n");
 		js.append("						" + columns + "\n");
 		js.append("				],\n");
-		js.append("bodyStyle:'width:100%', \n");
-		js.append("autoWidth:true, \n");
 		js
 				.append("				viewConfig:{forceFit:false,autoScroll:true},\n");
 		js.append("				loadMask:true\n");
@@ -1467,8 +1465,8 @@ public final class DyFormComp {
 			String fields, String columns) {
 		StringBuffer js = new StringBuffer();
 		js.append("var $" + id + " = new Ext.grid.EditorGridPanel({ \n");
-		js.append("bodyStyle:'width:100%', \n");
-		js.append("autoWidth:true, \n");
+		
+		js.append("autoHeight:true, \n");
 		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
 				+ "',forceFit:false,autoHeight:true,autoScroll:true,\n");
 		js.append("layout : function() { \n");
@@ -1485,7 +1483,7 @@ public final class DyFormComp {
 		js.append("	} \n");
 		js.append("	if (g.autoHeight) { \n");
 		js.append("	if (this.innerHd) { \n");
-		js.append("	this.innerHd.style.width = (vw) + 'px'; \n");
+		js.append("	this.innerHd.style.width = '100%'; \n");
 		js.append("	} \n");
 		js.append("	} else { \n");
 		js.append("	this.el.setSize(csize.width, csize.height); \n");
@@ -1493,7 +1491,7 @@ public final class DyFormComp {
 		js.append("	var vh = csize.height - (hdHeight); \n");
 		js.append("	this.scroller.setSize(vw, vh); \n");
 		js.append("	if (this.innerHd) { \n");
-		js.append("	this.innerHd.style.width = (vw) + 'px'; \n");
+		js.append("	this.innerHd.style.width = '100%'; \n");
 		js.append("	} \n");
 		js.append("	} \n");
 		js.append("	if (this.forceFit) { \n");
@@ -1507,6 +1505,21 @@ public final class DyFormComp {
 		js.append("	} \n");
 		js.append("	this.onLayout(vw, vh); \n");
 		js.append("	} \n");
+		
+		
+//		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
+//				+ "',forceFit:false,autoHeight:true,autoScroll:true,onLayout : function(vw, vh){\n");
+//		js.append("	    var g = this.grid;\n");
+//		js.append("	    \n");
+//		js.append("	        /**原本Ext设置的是visible，不会出现滚动条*/\n");
+//		js.append("	        this.scroller.dom.style.overflow = 'auto';\n");
+//		js.append("	        /**另外还要更新表头宽度，以便滚动位置同步*/\n");
+//		js.append("	        if(this.innerHd){\n");
+//		js.append("	            this.innerHd.style.width = '100%';\n");
+//		js.append("	        }\n");
+//		js.append("	    \n");
+//		js.append("	}\n");
+		
 
 		js.append("},\n");
 		js

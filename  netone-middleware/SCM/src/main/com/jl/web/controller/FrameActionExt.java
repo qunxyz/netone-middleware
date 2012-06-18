@@ -650,7 +650,12 @@ public class FrameActionExt extends AbstractAction {
 							+ "'");
 					split = ",";
 				}
-				extconditions.append(")");
+				extconditions.append(")  ");
+
+				if ("1".equals(extmode)) {
+					extconditions.append(" order by created desc ");
+				}
+
 			}
 
 			DyFormData dydata = new DyFormData();

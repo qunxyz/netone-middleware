@@ -472,6 +472,28 @@
 	    <servlet-name>DyFormCopySvl</servlet-name>
 	    <url-pattern>/DyFormCopySvl</url-pattern>
 	  </servlet-mapping>
+  	<servlet>
+		<servlet-name>FormViewsvl</servlet-name>
+		<servlet-class>
+			oe.bi.common.FormViewsvl
+		</servlet-class>
+	</servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DySecuritySvl</servlet-name>
+    <servlet-class>oe.bi.common.DySecuritySvl</servlet-class>
+  </servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>FormViewsvl</servlet-name>
+		<url-pattern>/servlet/FormViewsvl</url-pattern>
+	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DySecuritySvl</servlet-name>
+    <url-pattern>/servlet/DySecuritySvl</url-pattern>
+  </servlet-mapping>
   
 	<!-- ###################### -->
 

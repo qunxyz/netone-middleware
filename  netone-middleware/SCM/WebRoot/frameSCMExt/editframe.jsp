@@ -596,6 +596,15 @@
 				if(Ext.getCmp('ext_b_delete')) Ext.getCmp('ext_b_delete').hide();
 				if(Ext.getCmp('ext_b_cancel')) Ext.getCmp('ext_b_cancel').hide();
 			}
+			
+			//自动窗口最大化
+			if (window.screen) {              //判断浏览器是否支持window.screen判断浏览器是否支持screen
+		    	var myw = screen.availWidth;   //定义一个myw，接受到当前全屏的宽
+		    	var myh = screen.availHeight;  //定义一个myw，接受到当前全屏的高
+		    	window.moveTo(0, 0);           //把window放在左上脚
+		    	window.resizeTo(myw, myh);     //把当前窗体的长宽跳转为myw和myh
+		    }
+			
 		});
 		
 		</script>

@@ -6,8 +6,10 @@ A:active {color: #928BA4; text-decoration: none}
 A:visited {color: #928BA4;} 
 p{text-indent: 2em;}
 form{padding: 0px 0px 0px 0px;margin: 0px 0px 0px 0px;}
-input{font-size:9pt;}
-select{font-size:9pt}
+input{font-size:9pt;
+ background-color:expression((this.readOnly && this.readOnly==true)? "#cccccc ": " ") 
+}
+select{font-size:9pt; background-color:expression((this.readOnly && this.readOnly==true)? "#cccccc ": " ") }
 table{font-size:9pt;}
 div{font-size:9pt;}
 td{font-size:9pt;}
@@ -20,9 +22,9 @@ html.VIE7 A{color: #006699;text-decoration: none;cursor:hand;font-size:12pt;font
 html.VIE7 A:hover {color: #D95F40; text-decoration: none}
 html.VIE7 A:active {color: #928BA4; text-decoration: none}
 html.VIE7 A:visited {color: #928BA4;} 
-html.VIE7 input{font-size:9pt;font-family:Î¢ÈíÑÅºÚ;padding:0px;}
-html.VIE7 textarea{font-size:9pt;font-family:Î¢ÈíÑÅºÚ;padding:0px}
-html.VIE7 select{font-size:9pt;font-family:Î¢ÈíÑÅºÚ;padding:0px}
+html.VIE7 input{font-size:9pt;font-family:Î¢ÈíÑÅºÚ;padding:0px; background-color:expression((this.readOnly && this.readOnly==true)? "#cccccc ": " ") }
+html.VIE7 textarea{font-size:9pt;font-family:Î¢ÈíÑÅºÚ;padding:0px; background-color:expression((this.readOnly && this.readOnly==true)? "#cccccc ": " ") }
+html.VIE7 select{font-size:9pt;font-family:Î¢ÈíÑÅºÚ;padding:0px; background-color:expression((this.readOnly && this.readOnly==true)? "#cccccc ": " ") }
 html.VIE7 table{font-size:9pt;font-family:Î¢ÈíÑÅºÚ}
 html.VIE7 div{font-size:9pt;font-family:Î¢ÈíÑÅºÚ}
 html.VIE7 td{font-size:9pt;font-family:Î¢ÈíÑÅºÚ}

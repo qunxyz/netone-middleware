@@ -2276,7 +2276,7 @@ public final class DyFormBuildHtmlExt {
 
 				String ext = routeAppointValue(_qc1.getViewtype(), columnid,
 						_qc1.getValuelist(), "ext");// 扩展脚本控制
-				ext = null;
+				// ext = null;
 
 				String musktip = "";
 				String[][] arr = DyFormConsoleIfc._HTML_LIST;
@@ -2563,7 +2563,7 @@ public final class DyFormBuildHtmlExt {
 		return data.getColumn4();
 	}
 
-	public static String checkColConfigExist(DyFormData dydata,String formcode) {
+	public static String checkColConfigExist(DyFormData dydata, String formcode) {
 		dydata.setFormcode(formcode);// 用户自定义列配置
 		List<DyFormData> list = new ArrayList();
 		try {

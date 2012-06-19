@@ -117,7 +117,44 @@ function $select(o,url){
 						cb,
 						${columns}
 				],
-				viewConfig:{forceFit:false},
+				viewConfig:{forceFit:false,autoHeight:true,autoScroll:true,
+					layout : function() { 
+						if (!this.mainBody) { 
+						return; 
+						} 
+						var g = this.grid; 
+						var c = g.getGridEl(); 
+						var csize = c.getSize(true); 
+						var vw = csize.width; 
+						if (!g.hideHeaders && (vw < 20 || csize.height < 20)) { 
+						return; 
+						} 
+						if (g.autoHeight) { 
+						if (this.innerHd) { 
+						this.innerHd.style.width = '100%'; 
+						} 
+						} else { 
+						this.el.setSize(csize.width, csize.height); 
+						var hdHeight = this.mainHd.getHeight(); 
+						var vh = csize.height - (hdHeight); 
+						this.scroller.setSize(vw, vh); 
+						if (this.innerHd) { 
+						this.innerHd.style.width = '100%'; 
+						} 
+						} 
+						if (this.forceFit) { 
+						if (this.lastViewWidth != vw) { 
+						this.fitColumns(false, false); 
+						this.lastViewWidth = vw; 
+						} 
+						} else { 
+						this.autoExpand(); 
+						this.syncHeaderScroll(); 
+						} 
+						this.onLayout(vw, vh); 
+						} 
+				
+				},
 				loadMask:true	
 		   }
 		   
@@ -199,7 +236,43 @@ function $select(o,url){
 						cb,
 						${subcolumns}
 				],
-				viewConfig:{forceFit:false},
+				viewConfig:{forceFit:false,autoHeight:true,autoScroll:true,
+					layout : function() { 
+						if (!this.mainBody) { 
+						return; 
+						} 
+						var g = this.grid; 
+						var c = g.getGridEl(); 
+						var csize = c.getSize(true); 
+						var vw = csize.width; 
+						if (!g.hideHeaders && (vw < 20 || csize.height < 20)) { 
+						return; 
+						} 
+						if (g.autoHeight) { 
+						if (this.innerHd) { 
+						this.innerHd.style.width = '100%'; 
+						} 
+						} else { 
+						this.el.setSize(csize.width, csize.height); 
+						var hdHeight = this.mainHd.getHeight(); 
+						var vh = csize.height - (hdHeight); 
+						this.scroller.setSize(vw, vh); 
+						if (this.innerHd) { 
+						this.innerHd.style.width = '100%'; 
+						} 
+						} 
+						if (this.forceFit) { 
+						if (this.lastViewWidth != vw) { 
+						this.fitColumns(false, false); 
+						this.lastViewWidth = vw; 
+						} 
+						} else { 
+						this.autoExpand(); 
+						this.syncHeaderScroll(); 
+						} 
+						this.onLayout(vw, vh); 
+						} 
+					},
 				loadMask:true	
 		   }
 		   

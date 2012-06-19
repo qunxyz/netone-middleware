@@ -2161,7 +2161,7 @@ public final class DyFormBuildHtmlExt {
 		DyFormData data = new DyFormData();
 		data.setColumn3(usercode);
 		data.setColumn5(dyform.getFormcode());
-		String json = getColDisableConfig(data);
+		String json = getColDisableConfig(data, dyform.getFormcode());
 		JSONObject jsonobj = JSONObject.fromObject(json);
 
 		for (int i = 0; i < _formx.length; i++) {
@@ -2310,7 +2310,7 @@ public final class DyFormBuildHtmlExt {
 		DyFormData data = new DyFormData();
 		data.setColumn3(usercode);
 		data.setColumn5(dyform.getFormcode());
-		String json = getColDisableConfig(data);
+		String json = getColDisableConfig(data, dyform.getFormcode());
 		JSONObject jsonobj = JSONObject.fromObject(json);
 
 		html
@@ -2468,7 +2468,7 @@ public final class DyFormBuildHtmlExt {
 			DyFormData data = new DyFormData();
 			data.setColumn3(usercode);
 			data.setColumn5(formcode);
-			String json = getColDisableConfig(data);
+			String json = getColDisableConfig(data, dyform.getFormcode());
 
 			html.append("<table id=\"" + formcode + "\">");
 			for (int i = 0; i < col.length; i++) {
@@ -2549,8 +2549,8 @@ public final class DyFormBuildHtmlExt {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getColDisableConfig(DyFormData dydata) {
-		dydata.setFormcode("4ea6cde8893211e1aecf5961a4b828b8_");// 用户自定义列配置
+	public static String getColDisableConfig(DyFormData dydata, String formcode) {
+		dydata.setFormcode(formcode);// 用户自定义列配置
 		List<DyFormData> list = new ArrayList();
 		try {
 			list = DyEntry.iv().queryData(dydata, 0, 9999999, "");

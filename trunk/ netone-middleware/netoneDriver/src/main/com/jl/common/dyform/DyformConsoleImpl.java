@@ -262,7 +262,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
 			if(StringUtils.isNotEmpty(rsinfo)){
 				String name=StringUtils.substringBefore(valuelist, "[TREE:");
-				columnnew.setValuelist(name+"["+rsinfo+"]");
+				String treex[]=rsinfo.split(",");
+				//在树中只取一个naturalname其他不用
+				columnnew.setValuelist(name+"["+treex[0]+"]");
 			}
 		}
 	}

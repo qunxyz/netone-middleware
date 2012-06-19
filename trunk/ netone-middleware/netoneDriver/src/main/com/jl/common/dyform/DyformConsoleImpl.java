@@ -136,7 +136,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	private void dealWithKvDict(DyFormColumn columnnew, ResourceRmi rs) {
 		// 扩展处理 k-v 列表，支持字典应用
 		String htmltype = columnnew.getViewtype();
-		System.out.println("-------------htmltype:"+htmltype);
+
 		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
 		StringBuffer but = new StringBuffer();
 		System.out.println(htmltype);
@@ -252,7 +252,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	
 	private void dealwithTree(DyFormColumn columnnew, ResourceRmi rs){
 		String htmltype = columnnew.getViewtype();
-		System.out.println("-------------htmltype:"+htmltype);
+
 		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
 		StringBuffer but = new StringBuffer();
 		System.out.println(htmltype);

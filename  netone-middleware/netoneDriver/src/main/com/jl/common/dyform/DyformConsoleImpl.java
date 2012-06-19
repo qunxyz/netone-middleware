@@ -168,6 +168,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 							key=object.getName()+"["+object.getId()+"]";
 						}else if(rsKey.equals("namenatual")){
 							key=object.getName()+"["+object.getNaturalname()+"]";
+						}else if(rsKey.equals("actionurl")){
+							key=object.getActionurl();
 						}
 						but.append(key + "-"
 								+ object.getName() + ",");

@@ -16,6 +16,7 @@
 		<script language="javascript" type="text/javascript" src="<%=path%>/My97DatePicker/WdatePicker.js" charset="gb2312"></script>
 		<script type="text/javascript" src="<%=path%>/script/ext/extend/pPageSize.js"></script>
 		<script type="text/javascript" src="<%=path%>/script/ext/extend/gridToExcel.js"></script>
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery.blockUI.js"></script>
 		<script>
 		/** getdata1,getdata2方法必须添加 */
 		function getdata1(){

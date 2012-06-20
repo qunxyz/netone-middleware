@@ -1,7 +1,6 @@
 //分销入库条码处理脚本
-$("table#0b1fcad0ad4f11e1bbb551abdbadc425_").find('#column3').live('focus',function(){     
-var xxxx1= $(this).val();   
-$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.DPXX&sr_table=DY_271334208897439&sr_column4='+xxxx1,  {     
+$("table#0b1fcad0ad4f11e1bbb551abdbadc425_").find('#column3').live('focus',function(){ 
+$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.DPRK,  {     
 multiple: false,   dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse: 
 function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column4,        result: 
 row.column4}   }); },  formatItem: function(item) { return  item.column4+' '+item.column7; },  formatResult: function(item) { 
@@ -19,27 +18,33 @@ return item.column4; }   }).result(function(e, item) {
  $(this).parent().parent().parent().find('#column15').val(item.column58);    
  $(this).parent().parent().parent().find('#column16').val(item.column55);    
  $(this).parent().parent().parent().find('#column17').val(item.column56);   
- $(this).parent().parent().parent().find('#column19').val(item.column65);  
- $(this).parent().parent().parent().find('#column23').val(item.column57);  
+ $(this).parent().parent().parent().find('#column19').val(item.bigtype);  
+ $(this).parent().parent().parent().find('#column23').val(item.column57);
  }  });  $(this).unbind("focus");    }); 
  
  
  //分销退货条码处理脚本
  $("table#0b1fcad0ad4f11e1bbb551abdbadc425_").find('#column3').live('focus',function(){     
- var xxxx1= $(this).val();   
-  $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl? datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.DPXX&sr_table=DY_271334208897439&sr_column4='+xxxx1,  {     multiple: false,    dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse:  function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column4,        result:  row.column4}   }); },  formatItem: function(item) { return  item.column4+' '+item.column7; },  formatResult: function(item) {  return item.column4; }   }).result(function(e, item) {   
-   if (item!=null){ $(this).parent().parent().parent().find ('#column4').val(item.column7);    
-   $(this).parent().parent().parent().find('#column5').val(item.column34);    
-   $(this).parent ().parent().parent().find('#column8').val(item.column15);    
-   $(this).parent().parent().parent().find('#column9').val (item.column12);   
-   $(this).parent().parent().parent().find('#column10').val(item.column13);    
-   $(this).parent().parent().parent ().find('#column11').val(item.column16);    
-   $(this).parent().parent().parent().find('#column12').val(item.column17);    
-   $(this).parent().parent().parent().find('#column13').val(item.column24);  
-   $(this).parent().parent().parent().find ('#column14').val(item.column36);   
-   $(this).parent().parent().parent().find('#column15').val(item.column58);    
-   $(this).parent ().parent().parent().find('#column16').val(item.column55);    
-   $(this).parent().parent().parent().find('#column17').val (item.column56);   
-   $(this).parent().parent().parent().find('#column19').val(item.column65);  
-   $(this).parent().parent().parent ().find('#column23').val(item.column57);  }  });  
+   $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl? datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.DPTH,  { multiple: false,    dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse:  function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column4,        result:  row.column4}   }); },  formatItem: function(item) { return  item.column4+' '+item.column7; },  formatResult: function(item) {  return item.column4; }   }).result(function(e, item) {   
+   if (item!=null){ 
+   /*销价*/
+   $(this).parent().parent().parent().find ('#column5').val(item.column5);    
+   $(this).parent().parent().parent().find('#column6').val(item.column6);    
+   $(this).parent ().parent().parent().find('#column8').val(item.column22);    
+   $(this).parent().parent().parent().find('#column9').val (item.column8);   
+   $(this).parent().parent().parent().find('#column10').val(item.column9);    
+   $(this).parent().parent().parent ().find('#column11').val(item.column10);    
+   $(this).parent().parent().parent().find('#column12').val(item.column11);    
+   $(this).parent().parent().parent().find('#column13').val(item.column12);  
+   $(this).parent().parent().parent().find ('#column14').val(item.column13);   
+   $(this).parent().parent().parent().find('#column15').val(item.column14);    
+   $(this).parent ().parent().parent().find('#column16').val(item.column15);    
+   $(this).parent().parent().parent().find('#column17').val (item.column16);   
+   $(this).parent().parent().parent().find('#column18').val(item.column17);  
+   $(this).parent().parent().parent ().find('#column19').val(item.column57);  
+   $(this).parent().parent().parent ().find('#column20').val(item.column19); 
+   $(this).parent().parent().parent ().find('#column21').val(item.column22);    
+   $(this).parent().parent().parent ().find('#column22').val(item.column4); 
+   $(this).parent().parent().parent ().find('#column23').val(item.fzx); 
+   }  });  
  $(this).unbind("focus");    }); 

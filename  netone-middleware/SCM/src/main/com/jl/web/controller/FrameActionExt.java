@@ -641,6 +641,7 @@ public class FrameActionExt extends AbstractAction {
 
 			JSONArray jsonArray = JSONArray.fromObject(conditions);
 			StringBuffer extconditions = new StringBuffer();
+			int size = 9999999;
 			if ("1".equals(extmode)) {
 				if (jsonArray.size() > 0) {
 					extconditions.append(" and lsh IN (");
@@ -658,13 +659,15 @@ public class FrameActionExt extends AbstractAction {
 					}
 
 				}
+				size = 20;
 			}
 
 			DyFormData dydata = new DyFormData();
 			dydata.setFormcode(formcode);
 			dydata.setFatherlsh("1");
 			List list = new ArrayList();
-			list = DyEntry.iv().queryData(dydata, 0, 9999999,
+
+			list = DyEntry.iv().queryData(dydata, 0, size,
 					extconditions.toString());
 
 			StringBuffer jsonBuffer = new StringBuffer();

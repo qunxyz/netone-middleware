@@ -1416,8 +1416,7 @@ public final class DyFormComp {
 		js.append("						cb,\n");
 		js.append("						" + columns + "\n");
 		js.append("				],\n");
-		js
-				.append("				viewConfig:{forceFit:false,autoScroll:true},\n");
+		js.append("				viewConfig:{forceFit:false,autoScroll:true},\n");
 		js.append("				loadMask:true\n");
 		js.append("		   }\n");
 
@@ -1465,7 +1464,7 @@ public final class DyFormComp {
 			String fields, String columns) {
 		StringBuffer js = new StringBuffer();
 		js.append("var $" + id + " = new Ext.grid.EditorGridPanel({ \n");
-		
+
 		js.append("autoHeight:true, \n");
 		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
 				+ "',forceFit:false,autoHeight:true,autoScroll:true,\n");
@@ -1505,21 +1504,20 @@ public final class DyFormComp {
 		js.append("	} \n");
 		js.append("	this.onLayout(vw, vh); \n");
 		js.append("	} \n");
-		
-		
-//		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
-//				+ "',forceFit:false,autoHeight:true,autoScroll:true,onLayout : function(vw, vh){\n");
-//		js.append("	    var g = this.grid;\n");
-//		js.append("	    \n");
-//		js.append("	        /**原本Ext设置的是visible，不会出现滚动条*/\n");
-//		js.append("	        this.scroller.dom.style.overflow = 'auto';\n");
-//		js.append("	        /**另外还要更新表头宽度，以便滚动位置同步*/\n");
-//		js.append("	        if(this.innerHd){\n");
-//		js.append("	            this.innerHd.style.width = '100%';\n");
-//		js.append("	        }\n");
-//		js.append("	    \n");
-//		js.append("	}\n");
-		
+
+		// js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
+		// + "',forceFit:false,autoHeight:true,autoScroll:true,onLayout :
+		// function(vw, vh){\n");
+		// js.append(" var g = this.grid;\n");
+		// js.append(" \n");
+		// js.append(" /**原本Ext设置的是visible，不会出现滚动条*/\n");
+		// js.append(" this.scroller.dom.style.overflow = 'auto';\n");
+		// js.append(" /**另外还要更新表头宽度，以便滚动位置同步*/\n");
+		// js.append(" if(this.innerHd){\n");
+		// js.append(" this.innerHd.style.width = '100%';\n");
+		// js.append(" }\n");
+		// js.append(" \n");
+		// js.append(" }\n");
 
 		js.append("},\n");
 		js
@@ -1625,9 +1623,9 @@ public final class DyFormComp {
 				// if ("mode7".equals(mode)) {
 				items
 						.append(split
-								+ "{listeners:{show:function(tab){Ext.getCmp('"
+								+ "{listeners:{show:function(tab){var s=Ext.getCmp('"
 								+ id
-								+ "Grid').store.sort('sid');} },autoHeight:true,items:["
+								+ "Grid');s.getColumnModel().setHidden(1,true);s.getColumnModel().setHidden(1,false);  } },autoHeight:true,items:["
 								+
 
 								"$" + id + ""

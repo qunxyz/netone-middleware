@@ -641,21 +641,23 @@ public class FrameActionExt extends AbstractAction {
 
 			JSONArray jsonArray = JSONArray.fromObject(conditions);
 			StringBuffer extconditions = new StringBuffer();
-			if (jsonArray.size() > 0) {
-				extconditions.append(" and lsh IN (");
-				String split = "";
-				for (int i = 0; i < jsonArray.size(); i++) {
-					JSONObject obj = jsonArray.getJSONObject(i);
-					extconditions.append(split + "'" + obj.getString("lsh")
-							+ "'");
-					split = ",";
-				}
-				extconditions.append(")  ");
+			if ("1".equals(extmode)) {
+				if (jsonArray.size() > 0) {
+					extconditions.append(" and lsh IN (");
+					String split = "";
+					for (int i = 0; i < jsonArray.size(); i++) {
+						JSONObject obj = jsonArray.getJSONObject(i);
+						extconditions.append(split + "'" + obj.getString("lsh")
+								+ "'");
+						split = ",";
+					}
+					extconditions.append(")  ");
 
-				if ("1".equals(extmode)) {
-					extconditions.append(" order by created desc ");
-				}
+					if ("1".equals(extmode)) {
+						extconditions.append(" order by created desc ");
+					}
 
+				}
 			}
 
 			DyFormData dydata = new DyFormData();

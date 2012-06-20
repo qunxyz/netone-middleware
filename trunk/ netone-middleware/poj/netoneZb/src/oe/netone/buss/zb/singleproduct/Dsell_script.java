@@ -17,7 +17,7 @@ public class Dsell_script extends OeScript{
 	 * @return
 	 */
 	public String todo1(){
-		String sql="select sub.*,father.column14 bigtype from DY_271334208897441 sub,DY_271334208897439 father   where sub.fatherlsh=father.lsh and sub.column4 like '$(q)%'";
+		String sql="select sub.*,father.column14 bigtype from DY_271334208897441 sub,DY_271334208897439 father   where father.STATUSINFO='01' and sub.fatherlsh=father.lsh and sub.column4 like '$(q)%'";
 
 		Connection con =db.con("DATASOURCE.DATASOURCE.DYFORM");
 		List list=db.queryData(con, sql);
@@ -42,11 +42,11 @@ public class Dsell_script extends OeScript{
 	
 	/**
 	 * 分销退货获取单品条码脚本
-	 * 对应的资源目录： SOASCRIPT.SOASCRIPT.ZB.FXGL.DPTH
+	 * 对应的资源目录： SOASCRIPT.SOASCRIPT.ZB.FXGL.FXTH
 	 * @return
 	 */
 	public String todo2(){
-		String sql="select sub.*,fa.column9 fzx from DY_661338441749388 sub，DY_661338441749389 fa where sub.fatherlsh=fa.lsh and sub.column3 like '$(q)%'";
+		String sql="select sub.*,fa.column9 fzx from DY_661338441749388 sub,DY_661338441749389 fa where fa.STATUSINFO='01' and sub.fatherlsh=fa.lsh and sub.column3 like '$(q)%'";
 
 		Connection con =db.con("DATASOURCE.DATASOURCE.DYFORM");
 		List list=db.queryData(con, sql);

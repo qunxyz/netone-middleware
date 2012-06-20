@@ -172,7 +172,7 @@
 						<td colspan='9' align='right' nowrap>
 							&nbsp;&nbsp;
 	
-							<input type="button" value="新建" onclick="newds()" class="butt">
+							<input type="button" value="新建" onclick="newElemnt()" class="butt">
 							&nbsp;&nbsp;
 							<input type="button" value="修改" onclick="edit();"
 								class="butt">

@@ -588,7 +588,7 @@ function $delete(){
 }
 
 function $colconfig(){
-	window.open('<c:url value="/frame.do?method=colconfig"/>&formcode=&naturalname=${param.naturalname}');
+	window.open('<c:url value="/frame.do?method=colconfig"/>&formcode=47c36268b7c611e1ba92af790c025a41_&naturalname=${param.naturalname}');
 }
 
 </script>

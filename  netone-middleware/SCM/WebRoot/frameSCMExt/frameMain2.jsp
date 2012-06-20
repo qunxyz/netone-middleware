@@ -742,6 +742,6 @@ var _querywindow = new Ext.Window({
 	_querywindow.center();
 }
 function $colconfig(){
-	window.open('<c:url value="/frame.do?method=colconfig"/>&naturalname=${param.naturalname}');
+	window.open('<c:url value="/frame.do?method=colconfig"/>&formcode=47c36268b7c611e1ba92af790c025a41_&naturalname=${param.naturalname}');
 }
 </script>

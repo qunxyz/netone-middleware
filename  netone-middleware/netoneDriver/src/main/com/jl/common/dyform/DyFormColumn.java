@@ -33,6 +33,11 @@ public final class DyFormColumn extends TCsColumn {
 
 	double width;
 
+	/**
+	 * 默认值
+	 */
+	String defaultValue;
+
 	/** 汇总类型 sum,average,count,max,min */
 	String summarytype;
 
@@ -146,6 +151,14 @@ public final class DyFormColumn extends TCsColumn {
 
 	public void setGroupsize(int groupsize) {
 		this.groupsize = groupsize;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 }

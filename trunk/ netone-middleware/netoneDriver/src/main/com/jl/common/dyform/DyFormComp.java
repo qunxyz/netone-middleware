@@ -548,7 +548,7 @@ public final class DyFormComp {
 		jshtml.append("var val = '';");
 		jshtml.append("for (var i = 0; i < v.length; i++) {");
 		jshtml.append("	var x = v[i].split('-');");
-		jshtml.append("	if (v == x[0]) {");
+		jshtml.append("	if (pre == x[0]) {");
 		jshtml.append("		val=x[1];break;");
 		jshtml.append("	}");
 		jshtml.append("}");

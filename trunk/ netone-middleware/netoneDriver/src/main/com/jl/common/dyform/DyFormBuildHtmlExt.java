@@ -566,7 +566,7 @@ public final class DyFormBuildHtmlExt {
 			return value;
 		} else if (arr[22][0].equals(htmltype)) {// 26:多选选项
 			if ("ext".equals(type)) {
-				return null;
+				return DyFormComp.getJsGroupRadioTextKV(value,selectedvalue);
 			}
 			return DyFormComp.getCheckboxsText(value, selectedvalue);
 		} else if (arr[23][0].equals(htmltype)) {// 27:组织机构单选
@@ -584,7 +584,7 @@ public final class DyFormBuildHtmlExt {
 				return null;
 			}
 			return DyFormComp.getIframe("", value, "", "", false, "");
-		} else if (arr[26][0].equals(htmltype)) {// 29:URL
+		} else if (arr[26][0].equals(htmltype)) {// 30:单选组
 			if ("ext".equals(type)) {
 				String columnid = value;
 				return DyFormComp

@@ -5,6 +5,11 @@ import java.util.List;
 
 import oescript.parent.OeScript;
 
+/**
+ * 分销管理SOA脚本
+ * @author robanco
+ *
+ */
 public class Dsell_script extends OeScript{
 	/**
 	 * 通用条码获取脚本

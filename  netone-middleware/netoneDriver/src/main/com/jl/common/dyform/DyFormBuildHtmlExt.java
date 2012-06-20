@@ -108,7 +108,10 @@ public final class DyFormBuildHtmlExt {
 	protected static String routeAppointComp(String htmltype, String id,
 			String value, String style, String classname, boolean readonly,
 			String selectedvalue, String extvalue, String userinfo,
-			String parameter) {
+			String parameter, String defaultValue) {
+		if (StringUtils.isEmpty(value)) {
+			value = defaultValue;
+		}
 
 		String[][] arr = DyFormConsoleIfc._HTML_LIST;
 		if (readonly)
@@ -240,7 +243,11 @@ public final class DyFormBuildHtmlExt {
 	protected static String routeAppointComp2(String htmltype, String id,
 			String value, String style, String classname, boolean readonly,
 			String selectedvalue, String extvalue, String userinfo,
-			String parameter) {
+			String parameter, String defaultValue) {
+		if (StringUtils.isEmpty(value)) {
+			value = defaultValue;
+		}
+
 		String[][] arr = DyFormConsoleIfc._HTML_LIST;
 		if (arr[0][0].equals(htmltype)) {// 00:通用
 			return DyFormComp.getText(id, value, style, classname, readonly,
@@ -566,7 +573,7 @@ public final class DyFormBuildHtmlExt {
 			return value;
 		} else if (arr[22][0].equals(htmltype)) {// 26:多选选项
 			if ("ext".equals(type)) {
-				return DyFormComp.getJsGroupRadioTextKV(value,selectedvalue);
+				return DyFormComp.getJsGroupRadioTextKV(value, selectedvalue);
 			}
 			return DyFormComp.getCheckboxsText(value, selectedvalue);
 		} else if (arr[23][0].equals(htmltype)) {// 27:组织机构单选
@@ -750,7 +757,7 @@ public final class DyFormBuildHtmlExt {
 					String comp = routeAppointComp(column.getViewtype(), column
 							.getColumnid(), "" + value, style, "", column
 							.isReadonly(), column.getValuelist(), "", userinfo,
-							parameter);
+							parameter, column.getDefaultValue());
 
 					td_.append(DyFormComp.getTd("", comp, TableTdStyle
 							+ ((wpercent == null || wpercent == 0) ? ""
@@ -819,7 +826,7 @@ public final class DyFormBuildHtmlExt {
 					String comp = routeAppointComp(column.getViewtype(), column
 							.getColumnid(), "" + value, style, "", column
 							.isReadonly(), column.getValuelist(), "", userinfo,
-							parameter);
+							parameter, column.getDefaultValue());
 
 					td_.append(DyFormComp.getTd("", comp, TableTdStyle
 							+ ((wpercent == null || wpercent == 0) ? ""
@@ -861,7 +868,7 @@ public final class DyFormBuildHtmlExt {
 					String comp = routeAppointComp(column.getViewtype(), column
 							.getColumnid(), "" + value, "width:99%;", "",
 							column.isReadonly(), column.getValuelist(), "",
-							userinfo, parameter);
+							userinfo, parameter, column.getDefaultValue());
 					datas.append(split + "'" + comp + "'");
 					split = ",";
 
@@ -924,7 +931,7 @@ public final class DyFormBuildHtmlExt {
 				String comp = routeAppointComp(_qc1.getViewtype(), _qc1
 						.getColumnid(), "", "width:99%;", "",
 						_qc1.isReadonly(), _qc1.getValuelist(), "", userinfo,
-						parameter);
+						parameter, _qc1.getDefaultValue());
 				datas.append(split + "'" + _col + "':" + "'" + comp + "'");
 				split = ",";
 			}
@@ -966,7 +973,7 @@ public final class DyFormBuildHtmlExt {
 					String comp = routeAppointComp(column.getViewtype(), column
 							.getColumnid(), "" + value, style, "", column
 							.isReadonly(), column.getValuelist(), "", userinfo,
-							parameter);
+							parameter, column.getDefaultValue());
 					ext = "renderer:( value , cellmeta , record , rowIndex , columnIndex , store ){ return '"
 							+ comp + "';}";
 
@@ -1350,7 +1357,7 @@ public final class DyFormBuildHtmlExt {
 								.getColumnid(), "" + value,
 								"overflow:hidden;width:" + _width_input, "",
 								true, column.getValuelist(), "", userinfo,
-								parameter) + _N;
+								parameter, column.getDefaultValue()) + _N;
 			} else {
 				_startDiv = "<div class=\"" + FORM_FIELD_INPUT_READ
 						+ "\" style=\"width:" + _width + "\" align=\"left\">"
@@ -1377,8 +1384,8 @@ public final class DyFormBuildHtmlExt {
 					+ routeAppointComp(column.getViewtype(), column
 							.getColumnid(), "" + value,
 							"width:" + _width_input, "", column.isReadonly(),
-							column.getValuelist(), "", userinfo, parameter)
-					+ _N;
+							column.getValuelist(), "", userinfo, parameter,
+							column.getDefaultValue()) + _N;
 			if (!isMultiDoc) {
 				_startDiv = "<div class=\"" + FORM_FIELD_INPUT
 						+ "\" style=\"width:" + _width + "\" align=\"left\">"
@@ -1713,7 +1720,8 @@ public final class DyFormBuildHtmlExt {
 			if (columnid.contains("column")) {
 				String input = DyFormComp.getTag("<span>&nbsp;" + columnname
 						+ ":", "</span>", routeAppointComp2(htmltype, columnid,
-						"", "", "", false, valuelist, "", "", ""));
+						"", "", "", false, valuelist, "", "", "", _qc1
+								.getDefaultValue()));
 				html.append(input);
 			}
 		}
@@ -2333,7 +2341,8 @@ public final class DyFormBuildHtmlExt {
 						+ routeAppointComp(_qc1.getViewtype(), _qc1
 								.getColumnid(), "" + _qc1.getValuelist(),
 								"width:99%", "", _qc1.isReadonly(), _qc1
-										.getValuelist(), "", "", "") + "';}";
+										.getValuelist(), "", "", "", _qc1
+										.getDefaultValue()) + "';}";
 				ext = null;
 
 				String musktip = _qc1.isMusk_() == true ? "<span style=\"color:red\">*</span>"

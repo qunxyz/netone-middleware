@@ -16,6 +16,7 @@
 		<script language="javascript" type="text/javascript" src="<%=path%>/My97DatePicker/WdatePicker.js" charset="gb2312"></script><!-- 样式文件 -->
 		<script type="text/javascript" src="<%=path%>/script/ext/extend/pPageSize.js"></script>
 		<script type="text/javascript" src="<%=path%>/script/ext/extend/gridToExcel.js"></script>
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery.blockUI.js"></script>
 		<script>
 		/** getdata1,getdata2方法必须添加 */
 		function getdata1(){
@@ -54,6 +55,28 @@
 	</body>
 </html>
 <script type="text/javascript">
+
+if($.browser.msie){//IE
+	    var height = 0;
+	    var width = 0;
+		if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+		    height = document.documentElement.clientHeight;
+		    width = document.documentElement.clientWidth;
+		} else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+		    height = document.body.clientHeight;
+		    width = document.body.clientWidth;
+	    }
+		var leftW = width/2-50;   
+		var top = height/2;
+		
+		var _html = "<div id='___loading' style='position:absolute;left:0;width:100%;height:"+height+"px;top:0;background:#E0ECFF;opacity:0.8;filter:alpha(opacity=80);'><div style='position:absolute;  cursor1:wait;left:"+leftW+"px;top:"+top+"px;width:auto;height:16px;padding:12px 5px 10px 30px;border:2px solid #ccc;color:#000;'>正在加载，请稍候...</div></div>";   
+		    
+		window.onload = function(){
+		 	var _mask = document.getElementById('___loading');   
+	   		_mask.parentNode.removeChild(_mask);   
+		}
+		document.write(_html);  
+}
 
 var selectObjVar = null;//全局变量 存放需要选择资源返回值的对象
 function $select(o,url){
@@ -590,5 +613,17 @@ function $delete(){
 function $colconfig(){
 	window.open('<c:url value="/frame.do?method=colconfig"/>&formcode=47c36268b7c611e1ba92af790c025a41_&naturalname=${param.naturalname}');
 }
+
+$(function(){
+ 	if(!$.browser.msie){ //not IE
+ 	    // 在FF/Linux下启用遮罩层透明
+ 	    $.blockUI.defaults.applyPlatformOpacityRules = false;
+	    $.blockUI({message: '<div style=\"padding:12px 5px 10px 30px;height:16px\">正在加载，请稍候...</div>',css:{border:'2px solid #ccc'},overlayCSS:{backgroundColor: '#E0ECFF',opacity:.8}});		   	
+ 	}
+  		    		    		
+	if(!$.browser.msie){ //not IE
+		$.unblockUI();
+	}
+})
 
 </script>

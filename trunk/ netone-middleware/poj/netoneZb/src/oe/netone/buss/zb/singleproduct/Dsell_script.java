@@ -6,9 +6,12 @@ import java.util.List;
 import oescript.parent.OeScript;
 
 public class Dsell_script extends OeScript{
-	
+	/**
+	 * 通用条码获取脚本
+	 * @return
+	 */
 	public String todo1(){
-		String sql="select * from $(sr_table)  where column4 ike '%$(q)%'";
+		String sql="$(sql) '%$(q)%'";
 
 		Connection con =db.con("DATASOURCE.DATASOURCE.DYFORM");
 		List list=db.queryData(con, sql);
@@ -16,7 +19,7 @@ public class Dsell_script extends OeScript{
 		java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
 		String split = "";
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println("testSize1:"+i);
+
 			try{
 			String jsonStr = net.sf.json.JSONObject.fromObject(list.get(i))
 					.toString();

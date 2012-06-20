@@ -161,7 +161,7 @@ function _save(){
 	     */
 	    jsonStr = '[' + jsonStr + ']';
 	    Ext.Ajax.request({
-	        url: "<c:url value='/frame.do?method=savecolconfig' />",
+	        url: "<c:url value='/frame.do?method=savecolconfig&formcode=47c36268b7c611e1ba92af790c025a41_' />",
 	        // 请求的服务器地址
 	        // 指定要提交的表单id
 	        method: 'POST',

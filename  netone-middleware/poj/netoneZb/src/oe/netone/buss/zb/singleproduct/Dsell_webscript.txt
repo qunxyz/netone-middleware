@@ -1,6 +1,6 @@
-//分销入库条码处理脚本
-$("table#0b1fcad0ad4f11e1bbb551abdbadc425_").find('#column3').live('focus',function(){ 
-$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.DPRK,  {     
+//分销入库条码处理脚本 
+$("table#84bbd11aad4711e1bbb551abdbadc425_").find('#column3').live('focus',function(){ 
+$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.DPRK',  {     
 multiple: false,   dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse: 
 function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column4,        result: 
 row.column4}   }); },  formatItem: function(item) { return  item.column4+' '+item.column7; },  formatResult: function(item) { 
@@ -25,7 +25,7 @@ return item.column4; }   }).result(function(e, item) {
  
  //分销退货条码处理脚本
  $("table#0b1fcad0ad4f11e1bbb551abdbadc425_").find('#column3').live('focus',function(){     
-   $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl? datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.DPTH,  { multiple: false,    dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse:  function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column4,        result:  row.column4}   }); },  formatItem: function(item) { return  item.column4+' '+item.column7; },  formatResult: function(item) {  return item.column4; }   }).result(function(e, item) {   
+   $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.FXTH',  { multiple: false,    dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse:  function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column3,        result:  row.column3}   }); },  formatItem: function(item) { return  item.column3+' '+item.column4; },  formatResult: function(item) {  return item.column3; }   }).result(function(e, item) {   
    if (item!=null){ 
    /*销价*/
    $(this).parent().parent().parent().find ('#column5').val(item.column5);    

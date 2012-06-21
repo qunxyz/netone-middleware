@@ -449,6 +449,8 @@ public final class DyFormComp {
 		StringBuffer valuestr = new StringBuffer();
 		for (int i = 0; i < v.length; i++) {
 			String[] x = v[i].split("-");
+			if (value == null)
+				value = "";
 			if (value.equals(x[0]) || value == x[0]) {
 				if (x.length == 2) {
 					return x[1];

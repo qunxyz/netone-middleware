@@ -695,9 +695,9 @@ public final class DyFormBuildHtmlExt {
 				Double y1 = col1.getYoffset();
 
 				// 首先比较行，如果行相同，则比较列
-				int flag = x0.compareTo(x1);
+				int flag = y0.compareTo(y1);
 				if (flag == 0) {
-					return y0.compareTo(y1);
+					return x0.compareTo(x1);
 				} else {
 					return flag;
 				}

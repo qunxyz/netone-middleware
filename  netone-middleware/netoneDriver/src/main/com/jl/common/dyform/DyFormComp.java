@@ -405,7 +405,7 @@ public final class DyFormComp {
 			String[] x = v[i].split("-");
 			if (x != null && x.length == 2) {
 				String sele = "";
-				if (value.equals(x[0]) || value == x[0]) {
+				if (x[0].equals(value) || x[0] == value) {
 					sele = " selected=\"selected\" ";
 				}
 				valuestr.append("<option value=\"" + x[0] + "\" " + sele + " >"

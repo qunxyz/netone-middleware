@@ -132,7 +132,7 @@ jQuery 下拉选择框 添加/删除Select的Option项 javascript参考写法
 5. $("#select_id option[text='4']").remove();  //删除Select中Text='4'的Option  
  
  
-促销公司方案编号生成
+促销公司方案编号生成 INIT
 var t7806a31e97f811e1b01667a74cfdf95c_column3 = $('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column3');
 if (t7806a31e97f811e1b01667a74cfdf95c_column3.val()==''){
 	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETCUXIAO", 
@@ -142,7 +142,7 @@ if (t7806a31e97f811e1b01667a74cfdf95c_column3.val()==''){
 		}
 	});
 } 
- 
+/** 促销网点名称 联想组件 */ 
 $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
 	multiple: false,
 	dataType: "json",
@@ -185,7 +185,20 @@ $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('http
 	}
 });
 
-
+/** 促销网点结款方式 初始化*/
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD",   
+	function(jsonx){   
+		$.each(jsonx, function(ii,itemx){    
+		if (itemx!=null){     
+		var column9_val = '';     
+		var column9_obj = $('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column9_hidden');
+		if (column9_obj) column9_val=column9_obj.val();     
+		var selected = '';     
+		if (column9_val==itemx.FItemID) selected = " selected=\'selected\' ";   
+		$('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column9').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');  
+		}   
+	});
+});
 
 子表单操作
 $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',function(){ 
@@ -300,7 +313,7 @@ $('table#5fe85cb097f911e1b01667a74cfdf95c_').find('#column19').each(function(){
 
 ---
 
-//促销结算期限
+//促销结款方式
 --
 $.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
  function(jsonx){
@@ -317,23 +330,7 @@ $.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOAS
 
 });
 --
-//新品结算期限
---
-$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
- function(jsonx){
-  $.each(jsonx, function(ii,itemx){
-  	if (itemx!=null){
-  		var column9_val = '';
-  		var column9_obj = $('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column9_hidden');
-  		if (column9_obj) column9_val=column9_obj.val();
-  		var selected = '';
-  		if (column9_val==itemx.FItemID) selected = " selected=\'selected\' ";
-		$('table#eed24806997411e192f721ec7b3aba82_').find('#column9').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
-	}
-  });
 
-});
---
 
 /** 访问子表单每行指定列字段的值 */
 总计现折
@@ -504,6 +501,7 @@ if (teed24806997411e192f721ec7b3aba82_column4.val()==''){
 	});
 } 
 
+/** 网点名称 联想组件*/
 $('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
 	multiple: false,
 	dataType: "json",
@@ -545,6 +543,24 @@ $('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('http
 	$('table#eed24806997411e192f721ec7b3aba82_').find("#column11").val('');	
 	}
 });
+
+//新品结款方式
+--
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
+ function(jsonx){
+  $.each(jsonx, function(ii,itemx){
+  	if (itemx!=null){
+  		var column9_val = '';
+  		var column9_obj = $('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column9_hidden');
+  		if (column9_obj) column9_val=column9_obj.val();
+  		var selected = '';
+  		if (column9_val==itemx.FItemID) selected = " selected=\'selected\' ";
+		$('table#eed24806997411e192f721ec7b3aba82_').find('#column9').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
+	}
+  });
+
+});
+--
 
 物料
 $("table#22c5bb08997611e192f721ec7b3aba82_").find('#column3').live('focus',function(){ 
@@ -664,66 +680,128 @@ col5.val(((v2-v1-v3-v4)/v1_2).toFixed(2));
 
 
 //新用户
-获取辅助资料ByFTypeID 501
-$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETSUBMESSAGEINFO&q=501", 
- function(jsonx){
-  $.each(jsonx, function(ii,itemx){
-  	if (itemx!=null){
-  		var column_val = '';
-  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23_hidden');
-  		if (column_obj) column_val=column_obj.val();
-  		var selected = '';
-  		if (column_val==itemx.FInterID) selected = " selected=\'selected\' ";
-		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23').append('<option value=\"'+itemx.FInterID+'\" '+selected+'>'+itemx.FName+'</option>');
-	}
-  });
-});
 
-获取客户级别
+获取客户级别 INIT
+var div0001=$('<select style=\"display:none\"></select>');
+div0001.attr('id','div0001');
+div0001.appendTo('body');
 $.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETCLIENTLEVEL", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
   		var column_val = '';
-  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column6_hidden');
+  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column24');
   		if (column_obj) column_val=column_obj.val();
   		var selected = '';
   		if (column_val==itemx.FItemID) selected = " selected=\'selected\' ";
-		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column6').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column6').append('<option value=\"'+itemx.FName+'\" '+selected+'>'+itemx.FName+'</option>');
+		$('#div0001').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
 	}
   });
 });
+#change
+var thisobj = $(this);
+if (thisval!=''){      
+   
+   $('#div0001 option').each(function(index, domEle){  
+   if (thisobj.val()==$(domEle).text()){
+   		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column24').val(thisobj.val()); 
+   }  
+   });
+   
+}
 
-获取分属部门
+
+获取分属部门 INIT
+var div0002=$('<select style=\"display:none\"></select>');
+div0002.attr('id','div0002');
+div0002.appendTo('body');
 $.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETDEPTLEVEL", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
   		var column_val = '';
-  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21_hidden');
+  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column25');
   		if (column_obj) column_val=column_obj.val();
   		var selected = '';
   		if (column_val==itemx.FItemID) selected = " selected=\'selected\' ";
-		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21').append('<option value=\"'+itemx.FName+'\" '+selected+'>'+itemx.FName+'</option>');
+		$('#div0002').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
 	}
   });
 });
+#change
+var thisobj = $(this);
+if (thisval!=''){      
+   
+   $('#div0002 option').each(function(index, domEle){  
+   if (thisobj.val()==$(domEle).text()){
+   		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column25').val(thisobj.val()); 
+   }  
+   });
+   
+}
 
-付款方式
+付款方式 INIT
+var div0003=$('<select style=\"display:none\"></select>');
+div0003.attr('id','div0003');
+div0003.appendTo('body');
 $.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
   		var column_val = '';
-  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column22_hidden');
+  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column26');
   		if (column_obj) column_val=column_obj.val();
   		var selected = '';
   		if (column_val==itemx.FItemID) selected = " selected=\'selected\' ";
-		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column22').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column22').append('<option value=\"'+itemx.FName+'\" '+selected+'>'+itemx.FName+'</option>');
+		$('#div0003').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');
 	}
   });
 
 });
+#change
+var thisobj = $(this);
+if (thisval!=''){      
+   
+   $('#div0003 option').each(function(index, domEle){  
+   if (thisobj.val()==$(domEle).text()){
+   		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column26').val(thisobj.val()); 
+   }  
+   });
+   
+}
+
+客户分类 获取辅助资料ByFTypeID 501 INIT
+var div0004=$('<select style=\"display:none\"></select>');
+div0004.attr('id','div0004');
+div0004.appendTo('body');
+$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETSUBMESSAGEINFO&q=501", 
+ function(jsonx){
+  $.each(jsonx, function(ii,itemx){
+  	if (itemx!=null){
+  		var column_val = '';
+  		var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column27');
+  		if (column_obj) column_val=column_obj.val();
+  		var selected = '';
+  		if (column_val==itemx.FInterID) selected = " selected=\'selected\' ";
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23').append('<option value=\"'+itemx.FName+'\" '+selected+'>'+itemx.FName+'</option>');
+		$('#div0004').append('<option value=\"'+itemx.FInterID+'\" '+selected+'>'+itemx.FName+'</option>');
+	}
+  });
+});
+#change
+var thisobj = $(this);
+if (thisval!=''){      
+   
+   $('#div0004 option').each(function(index, domEle){  
+   if (thisobj.val()==$(domEle).text()){
+   		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column27').val(thisobj.val()); 
+   }  
+   });
+   
+}
 
 // 新用户客户编号  change事件
 var thisobj = $(this);

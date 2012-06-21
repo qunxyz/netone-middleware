@@ -96,7 +96,11 @@ public final class DyFormBuildHtml {
 	protected static String routeAppointComp(String htmltype, String id,
 			String value, String style, String classname, boolean readonly,
 			String selectedvalue, String extvalue, String userinfo,
-			String parameter) {
+			String parameter, String defaultValue) {
+		if (StringUtils.isEmpty(value)) {
+			value = defaultValue;
+		}
+
 		String[][] arr = DyFormConsoleIfc._HTML_LIST;
 		if (readonly)
 			extvalue += " onfocus=\"this.blur()\" ";
@@ -227,7 +231,11 @@ public final class DyFormBuildHtml {
 	protected static String routeAppointComp2(String htmltype, String id,
 			String value, String style, String classname, boolean readonly,
 			String selectedvalue, String extvalue, String userinfo,
-			String parameter) {
+			String parameter, String defaultValue) {
+		if (StringUtils.isEmpty(value)) {
+			value = defaultValue;
+		}
+
 		String[][] arr = DyFormConsoleIfc._HTML_LIST;
 		if (arr[0][0].equals(htmltype)) {// 00:通用
 			return DyFormComp.getText(id, value, style, classname, readonly,
@@ -681,9 +689,9 @@ public final class DyFormBuildHtml {
 				Double y1 = col1.getYoffset();
 
 				// 首先比较行，如果行相同，则比较列
-				int flag = x0.compareTo(x1);
+				int flag = y0.compareTo(y1);
 				if (flag == 0) {
-					return y0.compareTo(y1);
+					return x0.compareTo(x1);
 				} else {
 					return flag;
 				}
@@ -760,7 +768,7 @@ public final class DyFormBuildHtml {
 					String comp = routeAppointComp(column.getViewtype(), column
 							.getColumnid(), "" + value, style, "", column
 							.isReadonly(), column.getValuelist(), "", userinfo,
-							parameter);
+							parameter, column.getDefaultValue());
 
 					td_.append(DyFormComp.getTd("", comp, TableTdStyle
 							+ ((wpercent == null || wpercent == 0) ? ""
@@ -1037,7 +1045,7 @@ public final class DyFormBuildHtml {
 								.getColumnid(), "" + value,
 								"overflow:hidden;width:" + _width_input, "",
 								true, column.getValuelist(), "", userinfo,
-								parameter) + _N;
+								parameter, column.getDefaultValue()) + _N;
 			} else {
 				_startDiv = "<div class=\"" + FORM_FIELD_INPUT_READ
 						+ "\" style=\"width:" + _width + ";\"" + hiddenstyle
@@ -1064,7 +1072,8 @@ public final class DyFormBuildHtml {
 					+ routeAppointComp(column.getViewtype(), column
 							.getColumnid(), "" + value, "width:" + _width_input
 							+ hiddenstyle, "", column.isReadonly(), column
-							.getValuelist(), "", userinfo, parameter) + _N;
+							.getValuelist(), "", userinfo, parameter, column
+							.getDefaultValue()) + _N;
 			if (!isMultiDoc) {
 				_startDiv = "<div class=\"" + FORM_FIELD_INPUT
 						+ "\" style=\"width:" + _width + "\" align=\"left\">"
@@ -1136,7 +1145,8 @@ public final class DyFormBuildHtml {
 			html_ += routeAppointComp(column.getViewtype(), column
 					.getColumnid(), "" + value, "width:"
 					+ (availColumnWidth - 0) + "px;", "", column.isReadonly(),
-					column.getValuelist(), "", userinfo, parameter)
+					column.getValuelist(), "", userinfo, parameter, column
+							.getDefaultValue())
 					+ _N;
 		}
 
@@ -1233,7 +1243,7 @@ public final class DyFormBuildHtml {
 			html_ += routeAppointComp(column.getViewtype(), column
 					.getColumnid(), "" + value, "width:" + _width_input, "",
 					column.isReadonly(), column.getValuelist(), "", userinfo,
-					parameter)
+					parameter, column.getDefaultValue())
 					+ _N;
 		}
 
@@ -1470,7 +1480,8 @@ public final class DyFormBuildHtml {
 			if (columnid.contains("column")) {
 				String input = DyFormComp.getTag("<span>&nbsp;" + columnname
 						+ ":", "</span>", routeAppointComp2(htmltype, columnid,
-						"", "", "", false, valuelist, "", "", ""));
+						"", "", "", false, valuelist, "", "", "", _qc1
+								.getDefaultValue()));
 				html.append(input);
 			}
 		}
@@ -2033,7 +2044,7 @@ public final class DyFormBuildHtml {
 		String[][] arr = DyFormConsoleIfc._HTML_LIST;
 		for (int i = 0; i < arr.length; i++) {
 			String script = routeAppointComp(arr[i][0], "column" + i, "", "",
-					"", false, "男-男,女-女", "", "", "");
+					"", false, "男-男,女-女", "", "", "", "");
 			System.out.println(arr[i][0] + ":" + arr[i][1] + ":" + script);
 		}
 	}

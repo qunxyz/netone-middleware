@@ -14,7 +14,7 @@
 	<head>
 		<base href="<%=basePath%>">
 
-		<title>视图表单</title>
+		<title>SSO配置</title>
 
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -137,7 +137,7 @@
 								function newds(){
 								 
 								   
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>/DyFormView.html?name=${upo.naturalname}&model=new','_blank');
+									window.open('<portal:envget envkey="WEBSER_REPORT"/>/Opjreport-debug/Ssoconfig.html?name=${upo.naturalname}&model=new','_blank');
 								}
 								function edits(){
 									var k = 0;
@@ -172,7 +172,7 @@
 							&nbsp;&nbsp;
 
 
-							<input type="button" value="新建表单" onclick="newds()" class="butt">
+							<input type="button" value="SSO配置" onclick="newds()" class="butt">
 							&nbsp;&nbsp;
 							<input type="button" value="修改" onclick="edit();"
 								class="butt">
@@ -248,7 +248,7 @@
 							</td>
 							<td nowrap>
   									<a   
-										href="<portal:envget envkey="WEBSER_SpeedyForm"/>DyFormView.html?parentdir=${upo.naturalname}&name=${list.naturalname}&model=edits"
+										href="<portal:envget envkey="WEBSER_REPORT"/>/Opjreport-debug/Ssoconfig.html?name=${upo.naturalname}&name=${list.naturalname}&modle=edits"
 										target="_blank"><font color='red'>[修改]</font></a>
 
 							</td>

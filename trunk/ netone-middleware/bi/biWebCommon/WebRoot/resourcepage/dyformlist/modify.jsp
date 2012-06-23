@@ -10,7 +10,7 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>修改子结点</title>
+		<title>修改表单</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
@@ -80,8 +80,8 @@
 							引用
 						</td>
 						<td>
-							<input type="text" name="actionurl" value="${upo.actionurl}"
-								class="textinput_td" />
+
+							<textarea rows="10" cols="100" name="actionurl">${upo.actionurl}</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -89,7 +89,7 @@
 							扩展属性
 						</td>
 						<td>
-							<textarea rows="8" cols="60" name="extendattribute">${upo.extendattribute}</textarea>
+							<textarea rows="1" cols="60" name="extendattribute">${upo.extendattribute}</textarea>
 						</td>
 					</tr>
 					<tr>

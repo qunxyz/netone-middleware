@@ -1,4 +1,9 @@
 		 
+function choiceprocess0(processid){
+		  var url= pathinfo+'listBiRuntimeprocess.do?processid='+processid;
+		  window.open(url,"_blank","toolbar=no, menubar=no,scrollbars=yes, resizable=yes");
+}
+
 function choiceprocess1(processid){
 		  var url= pathinfo+'/viewprocess.do?processid='+processid;
 		  window.open(url,"_blank","toolbar=no, menubar=no,scrollbars=yes, resizable=yes");
@@ -19,11 +24,21 @@ function choiceprocess3(processid){
 }
 
 function choiceprocess4(processid){
-
+                  
 		  var url= pathinfo+'/listUseprocess.do?processid='+processid;
 		  window.open(url,"_blank","toolbar=no, menubar=no,scrollbars=yes, resizable=yes");
 }
 
+function choiceprocess5(processid,name){
+ 			
+		  var url=name+'/PLShow.html?naturalname='+processid;
+		   window.open(url,"_blank");
+}
+
+function choiceprocess6(processid,name){
+		  var url= name+'/BiAnalysis.html?naturalname='+processid;
+		  window.open(url,"_blank");
+}
 
 function newprocess(pagepath){
 		

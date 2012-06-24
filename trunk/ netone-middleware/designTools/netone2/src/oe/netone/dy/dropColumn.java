@@ -1,6 +1,11 @@
 package oe.netone.dy;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import oe.cav.bean.logic.column.TCsColumn;
 import oe.midware.dyform.service.DyFormDesignService;
+import oe.midware.dyform.service.DyFormService;
 import oe.rmi.client.RmiEntry;
 
 
@@ -24,5 +29,9 @@ public class dropColumn {
 		} 
 		return index;
 	}
-	
+	public List getc(String formid) throws Exception {
+		DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
+		List aList = dysc.fetchColumnList(formid);
+		return aList;
+	}
 }

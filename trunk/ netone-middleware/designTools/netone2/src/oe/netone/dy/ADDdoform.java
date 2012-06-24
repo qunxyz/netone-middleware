@@ -3,6 +3,7 @@ package oe.netone.dy;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +11,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.UUID;
+
+import javax.servlet.jsp.JspException;
 
 import oe.cav.bean.logic.form.TCsForm;
 import oe.midware.dyform.service.DyFormDesignService;
@@ -21,6 +25,7 @@ import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsApplication;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.netone.Dycreate;
@@ -28,12 +33,12 @@ import com.jl.common.netone.UmsProtecte;
 import com.jl.common.resource.Resource;
 import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.DbTools;
+import com.jl.common.workflow.DbTools2;
 
 public class ADDdoform {
 	public ADDdoform() {
 		super();
 	}
-
 	public static List selectMenInDIr(String deptid) throws Exception {
 		String sqlString1 = "select ID from netone.ums_protectedobject where NATURALNAME='"
 				+ deptid + "'";
@@ -217,6 +222,32 @@ public class ADDdoform {
 		Dycreate dycreate = new Dycreate();
 		String exart = dycreate.createForms(busForm, parentdir);
 		return exart;
+	}
+	public String ceshisql(String sql){
+		List list=new ArrayList();
+		StringBuffer butBuffer=new StringBuffer();
+		if(StringUtils.isNotEmpty(sql))
+		{	
+			try {
+			 list=DbTools2.queryData(sql);
+			 for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				Map object = (Map) iterator.next();
+				for (Iterator iterator2 = object.keySet().iterator(); iterator2.hasNext();) {
+					String key = (String) iterator2.next();
+					Object value=object.get(key);
+					String valueReal=value==null?"":value.toString();
+					butBuffer.append(key+"-"+valueReal+";");
+				}
+				butBuffer.append("\n\r");
+			 }
+			} catch (Exception e) {
+				// TODO: handle exception
+				//e.printStackTrace();
+				System.out.println("ss:");
+				return e.getMessage();
+			}
+		}
+		return butBuffer.toString();
 	}
     //根据formcode删除表单
 	public Boolean Delform(String formcode,String naturalname){	

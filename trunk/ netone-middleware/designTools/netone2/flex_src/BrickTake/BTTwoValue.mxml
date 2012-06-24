@@ -110,16 +110,16 @@
 		<mx:Button id="Down" x="{this.width-300}" label="完成" click="DownNode(event)" y="66" height="28" width="97" fontSize="12"  />
 		<mx:Button x="{this.width-200}" y="66" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
 		<mx:Label id="lable" x="107" y="71" text="{textpath}"   width="553" fontSize="12" color="#53585C"/>
-	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="砖取值配置"/>
+	    <mx:Label  x="107" y="104" width="164" fontSize="15" fontWeight="bold" color="#53585C" text="钻取值配置"/>
 	     <mx:Canvas x="0" y="28" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">
-		  <mx:Label x="19" y="0" text="砖取制定" fontSize="20" fontWeight="bold"/>
+		  <mx:Label x="19" y="0" text="钻取制定" fontSize="20" fontWeight="bold"/>
 		</mx:Canvas>		
-		<mx:Label x="100" y="148" text="帮助提示:配置砖取下一接的值, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
+		<mx:Label x="100" y="148" text="帮助提示:配置钻取下一接的值, 然后单击“下一步”。" color="#53585C" fontSize="18"/>
 	</mx:Canvas>
  	<mx:Canvas id="canvas1" width="761" height="321"  x="263" y="216" fontSize="20"  >  
       <mx:TextInput id="textinput" x="126" y="75" width="447"/>
-      <mx:Label x="30" y="77" text="砖取值"/>
-      <mx:Button x="592" y="75"   label="选择砖取值" click="TwoSV()"/>
+      <mx:Label x="30" y="77" text="钻取值"/>
+      <mx:Button x="592" y="75"   label="选择钻取值" click="TwoSV()"/>
 	</mx:Canvas>
  	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
  	</mx:Canvas>

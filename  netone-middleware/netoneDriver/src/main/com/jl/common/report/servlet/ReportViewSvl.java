@@ -52,7 +52,7 @@ public class ReportViewSvl extends HttpServlet {
 			condition="";
 		}
 		try {
-			ReportBuilder.generateReport(type, name,condition, response);
+			ReportBuilder.generateReport(type, name,condition, response,request);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

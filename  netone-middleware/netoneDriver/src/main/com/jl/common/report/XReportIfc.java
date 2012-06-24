@@ -1,5 +1,6 @@
 package com.jl.common.report;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jl.common.report.obj.QueryCondition;
@@ -34,6 +35,6 @@ public interface XReportIfc {
 	 * @return
 	 */
 	Object buildReport(String naturalname, String type,QueryCondition qd,
-			HttpServletResponse rs);
+			HttpServletResponse rs,HttpServletRequest rq);
 
 }

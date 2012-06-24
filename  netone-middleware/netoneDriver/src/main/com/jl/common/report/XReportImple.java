@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
@@ -55,7 +56,7 @@ public class XReportImple implements XReportIfc {
 	}
 
 	public Object buildReport(String types, String naturalname,
-			QueryCondition qd, HttpServletResponse rs) {
+			QueryCondition qd, HttpServletResponse rs,HttpServletRequest rq) {
 		XReportImple xr // TODO Auto-generated method stub
 		= new XReportImple();
 		XReportFace xrf = xr.buildFace(naturalname);
@@ -94,7 +95,7 @@ public class XReportImple implements XReportIfc {
 			// 掉用下一个方法
 			System.out.println("condition:" + condition);
 			ReportBuilder.generateReport(types, selectReportId, " where 1=1 "
-					+ condition, rs);
+					+ condition, rs,rq);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

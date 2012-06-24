@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jl.common.report.obj.QueryColumn;
@@ -108,7 +109,7 @@ public class XReportImplSample implements XReportIfc {
 	}
 
 	public Object buildReport(String naturalname, String type,QueryCondition qd,
-			HttpServletResponse rs) {
+			HttpServletResponse rs,HttpServletRequest rq) {
 		// TODO Auto-generated method stub
 		XReportFace xp = this.buildFace(naturalname);
 		Map map1 = qd.getColumn2Value();

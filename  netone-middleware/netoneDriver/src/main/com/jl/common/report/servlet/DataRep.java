@@ -3,10 +3,27 @@ package com.jl.common.report.servlet;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+import sun.rmi.transport.proxy.HttpReceiveSocket;
 
 import com.jl.common.report.obj.core.Getdatalist;
 import com.jl.common.report.obj.core.Read_clr;
@@ -21,14 +38,8 @@ import com.jl.common.report.obj.core.table.Read_tcol;
 import com.jl.common.report.obj.core.table.Read_td;
 import com.jl.common.report.obj.core.table.Read_tr;
 import com.jl.common.report.parse.AddRs;
-
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.dom4j.Attribute;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
+import com.jl.common.security3a.Client3A;
+import com.jl.common.security3a.SecurityEntry;
 import com.lucaslee.report.ReportManager;
 import com.lucaslee.report.grouparithmetic.AverageArithmetic;
 import com.lucaslee.report.grouparithmetic.SumArithmetic;
@@ -42,9 +53,13 @@ public class DataRep {
 	private Read_report reportobj;
 	private RecordPools reportPools;
 
-	public void fetchData(String name, String condition) throws Exception {
+	public void fetchData(String name, String condition,HttpServletRequest request) throws Exception {
 
 		String xmlinfo = AddRs.readxmlByName(name);
+		
+		xmlinfo=addVarinfo(xmlinfo,request);
+
+		
 		InputStream input = new ByteArrayInputStream(xmlinfo.getBytes("utf-8"));
 
 		SAXReader reader = new SAXReader();
@@ -52,6 +67,43 @@ public class DataRep {
 
 		reportobj = readXMLElementBySAX(document, condition);
 		reportPools = XmlDataread.readXMLSql(reportobj, condition);
+	}
+	
+	private String addVarinfo(String xmlinfo,HttpServletRequest rq){
+
+		Date date=new Date();
+		SimpleDateFormat dateformat1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String datetime=dateformat1.format(date);
+		
+		SimpleDateFormat dateformat2=new SimpleDateFormat("HH:mm:ss");
+		String time=dateformat2.format(date);
+		
+		SimpleDateFormat dateformat3=new SimpleDateFormat("yyyy-MM-dd");
+		String dates=dateformat3.format(date);
+
+		xmlinfo=StringUtils.replace(xmlinfo, "$(time)", time);
+		xmlinfo=StringUtils.replace(xmlinfo, "$(datetime)", datetime);
+		xmlinfo=StringUtils.replace(xmlinfo, "$(date)", dates);
+		
+		Client3A client;
+		try {
+			client = SecurityEntry.iv().onlineUser(rq);
+			String username=client.getName();
+			xmlinfo=StringUtils.replace(xmlinfo, "$(username)", username);
+			String userid=client.getClientId();
+			xmlinfo=StringUtils.replace(xmlinfo, "$(userid)", userid);
+			String deptid=client.getBelongto();
+			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+			String deptname=rs.loadResourceById(deptid).getName();
+			
+			
+			xmlinfo=StringUtils.replace(xmlinfo, "$(userdept)", deptname);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return xmlinfo;
+
 	}
 
 	public Table getRecord() throws Exception {

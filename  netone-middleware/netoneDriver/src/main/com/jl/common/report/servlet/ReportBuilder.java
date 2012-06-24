@@ -1,5 +1,6 @@
 package com.jl.common.report.servlet;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lucaslee.report.model.HeaderTable;
@@ -17,10 +18,10 @@ public class ReportBuilder {
 	 * @throws Exception
 	 */
 	public static void generateReport(String type, String name,String condition,
-			HttpServletResponse rs) throws Exception {
+			HttpServletResponse rs,HttpServletRequest rq) throws Exception {
 
 		DataRep data = new DataRep();
-		data.fetchData(name,condition);
+		data.fetchData(name,condition,rq);
 		Table header = null;
 		HeaderTable colHeader = data.getColHeader();
 		Table record = data.getRecord();

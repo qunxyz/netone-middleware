@@ -29,6 +29,38 @@ import com.sun.org.apache.commons.beanutils.BeanUtils;
 
 public class DyAnalysisXml {
 	// 脚本的使用
+	public List  script2(String formid, List param)throws Exception {
+		String mxlstr = null;
+		DyAnalysisXml dyxml = new DyAnalysisXml();
+		String xml = dyxml.XmlDate(formid);
+		boolean falconfig = dyxml.isExists(xml, "config");
+		if (falconfig) {
+			Document doc = null;
+			try {
+				doc = DocumentHelper.parseText(xml);
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				System.out.println("xml解析错误");
+				e.printStackTrace();
+			}
+			Element rootElt = doc.getRootElement();
+			Iterator iter = rootElt.elementIterator("config");
+			while (iter.hasNext()) {
+				Element configEle = (Element) iter.next();
+				mxlstr = configEle.asXML();
+			}
+			if (!mxlstr.equals("") || mxlstr != null) {
+				String script = dyxml.readXML(mxlstr, "OnList");
+
+               if(StringUtils.isNotEmpty(script)){
+            	   Object []obj={param};
+				return (List)ScriptTools.todo(script,obj);
+               }
+			}
+		}
+		return param;
+	}
+	// 脚本的使用
 	public Object script(String formid, String lsh, String fatherNode)
 			throws Exception {
 		String mxlstr = null;

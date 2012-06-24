@@ -550,11 +550,12 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			return new ArrayList();
 		}
 		List list = dy.queryData(bux, form, to, condition);
-
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		String formcode = bus.getFormcode();
 		if (list == null || list.size() == 0) {
-			String formcode = bus.getFormcode();
+			
 
-			DyAnalysisXml dayx = new DyAnalysisXml();
+			
 			// 创建初始化处理，有些时候主表单需要自动带出几条子表单信息
 			// 信息格式为 List(TCsBus)
 			// 根据外部脚本自动构造子表单初始数据信息
@@ -565,6 +566,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				list = (ArrayList) rsinfo;
 			}
 		}
+		//处理列表预处理事件
+		list=dayx.script2(formcode, list);
+		
 		List listnew = new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsBus object = (TCsBus) iterator.next();
@@ -572,6 +576,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			BeanUtils.copyProperties(data, object);
 			listnew.add(data);
 		}
+		
+	
 		return listnew;
 	}
 

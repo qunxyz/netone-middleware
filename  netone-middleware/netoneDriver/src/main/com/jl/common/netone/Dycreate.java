@@ -38,7 +38,12 @@ public class Dycreate {
 		upo.setReference(busForm.getDescription());
 		upo.setActive("0");
 		rsrmi.updateResource(upo);
-		return  info[1]+"&"+rsname;
+		if (info[0].toUpperCase().startsWith("DYV_")) {
+			return  info[1]+"&"+rsname;
+		}else{
+			return  info[1];
+		}
+		
 	}
  
 	//删除表单的方法

@@ -242,8 +242,9 @@ public final class DbTools2 {
 			return queryData(sql, con);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
 		}
-		return new ArrayList();
+		
 	}
 
 	/**
@@ -302,6 +303,7 @@ public final class DbTools2 {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
 		} finally {
 			if (rs != null) {
 				try {
@@ -470,6 +472,7 @@ public final class DbTools2 {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
 		} finally {
 			if (rs != null) {
 				try {

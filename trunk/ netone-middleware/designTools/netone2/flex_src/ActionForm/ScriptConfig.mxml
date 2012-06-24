@@ -122,6 +122,17 @@
                         text.percentWidth=100;
                         arrcomp.push(text);
                         canvas8.addChild(text);
+				}if(xml.config.OnList.@model=="1"){
+				        check7.selected=true;
+				        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.text=xml.config.OnList;
+                        text.id="check7";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas9.addChild(text);
 				}
 			}else{
 				        var text:TextArea=new TextArea();
@@ -195,6 +206,15 @@
                         text6.percentWidth=100;
                         arrcomp.push(text6);
                         canvas8.addChild(text6);
+                        
+                        var text7:TextArea=new TextArea();
+                        text7.x=0;
+                        text7.y=0;
+                        text7.id="check7";
+                        text7.percentHeight=100;
+                        text7.percentWidth=100;
+                        arrcomp.push(text7);
+                        canvas9.addChild(text7);
 			}
 		}
 		//加载填写脚本的事件
@@ -352,6 +372,25 @@
 	                      }
                         }
 					break;
+			  case "check7":
+					  if(check7.selected==true){
+                        var text:TextArea=new TextArea();
+                        text.x=0;
+                        text.y=0;
+                        text.id="check7";
+                        text.percentHeight=100;
+                        text.percentWidth=100;
+                        arrcomp.push(text);
+                        canvas9.addChild(text);
+                        }else{
+                        canvas9.removeAllChildren();
+                         for(var i:int=0;i<arrcomp.length;i++){
+	                        	if(UIComponent(arrcomp[i]).id=="check7"){
+	                                 arrcomp.splice(i,1);
+	                             }
+	                      }
+                        }
+					break;
 				}
 		}
 		public function xmllist():XML{
@@ -398,6 +437,11 @@
 			xml.@model="1";
 			DyData.configxml.appendChild(xml);
 			}
+			if(UIComponent(arrcomp[i]).id=="check7"){
+			xml=<OnList>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</OnList>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			}
 			} 			 	
      		return DyData.configxml;
 		}
@@ -437,9 +481,9 @@
 		</mx:Canvas>		
 		<mx:Label x="100" y="148" text="帮助提示:配置表单在使用的时候需要的事件，然后单击“下一步”。" color="#53585C" fontSize="18"/>
 	</mx:Canvas>
- 	<mx:Canvas id="canvas1" width="894" height="814"  x="106" y="197" fontSize="18">
+ 	<mx:Canvas id="canvas1" width="894" height="903"  x="106" y="197" fontSize="18">
 	 	<mx:CheckBox id="check"  name="check" selected="true" x="0" y="93"  label="新建保存" change="changeQuery(event)"/>
-	 	<mx:CheckBox id="check4"  name="check4" selected="true" x="0" y="0"  label="新建装载" change="changeQuery(event)"/>
+	 	<mx:CheckBox id="check4"  name="check4" selected="true" x="0" y="0"  label="子数据预处理" change="changeQuery(event)"/>
 	
 		<mx:CheckBox id="check0" name="check0"  selected="true" x="0" y="193" label="修改保存" change="changeQuery(event)"/>
 		<mx:CheckBox id="check1" name="check1"  selected="true" x="0" y="296" label="删除" change="changeQuery(event)"/>
@@ -447,6 +491,9 @@
  	 	<mx:CheckBox id="check3" name="check3"  selected="true" x="0" y="498" label="展示修改" change="changeQuery(event)"/>
  	 	<mx:CheckBox id="check5" name="check5"  selected="true" x="0" y="602" label="确认" change="changeQuery(event)"/>
  	 	<mx:CheckBox id="check6" name="check6"  selected="true" x="0" y="696" label="反确认" change="changeQuery(event)"/> 	 
+ 	 	<mx:CheckBox id="check7" name="check7"  selected="true" x="0" y="796" label="列表预处理" change="changeQuery(event)"/>
+ 	 	<mx:Canvas id="canvas8" width="863" height="57"  x="0" y="736" fontSize="18">
+ 	 	</mx:Canvas>
  	 	<mx:Canvas id="canvas0" width="863" height="57"  x="0" y="124" fontSize="18">
  	 	</mx:Canvas>
  	 	 <mx:Canvas id="canvas2" width="863" height="57"  x="0" y="231" fontSize="18">
@@ -461,7 +508,7 @@
 	 	</mx:Canvas>
  	 	  <mx:Canvas id="canvas7" width="863" height="57"  x="0" y="635" fontSize="18">
  	 	 </mx:Canvas>
- 	 	  <mx:Canvas id="canvas8" width="863" height="57"  x="0" y="736" fontSize="18">
+ 	 	  <mx:Canvas id="canvas9" width="863" height="57"  x="0" y="836" fontSize="18">
  	 	  </mx:Canvas>
 	</mx:Canvas>
  	<mx:Canvas x="0" y="{canvas1.height+canvas1.y+70}" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 

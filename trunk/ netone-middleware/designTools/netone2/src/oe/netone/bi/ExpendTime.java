@@ -14,11 +14,14 @@ public class ExpendTime {
 	    return timex;
    }
 	public static void main(String[] args) {
-		String startime = "2011-05-04 12:09:00";
-		String endtime = "2011-05-06 12:09:00";
+		String startime = "2011-05-04 00";
+		String endtime = "2011-05-06 00";
 		// int timemode = Calendar.HOUR;
 		// Calendar.YEAR,Calendar.MONTH,Calendar.DATE,Calendar.HOUR,Calendar.MINUTE,Calendar.SECOND
 		String[] timex = tdo(startime, endtime, readType(startime));
+		for (int i = 0; i < timex.length; i++) {
+			System.out.println(timex[i]);
+		}
 
 	}
 

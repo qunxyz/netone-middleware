@@ -34,17 +34,13 @@
 				var ss:String="";
 			   for( var i:int=3; i< BIid.ArrData.length;i++)
 				{
-				if(BIid.Arrindex[i]=="00" || BIid.Arrindex[i]=="05" || BIid.Arrindex[i]=="06" || BIid.Arrindex[i]=="10" || BIid.Arrindex[i]=="11"
-				|| BIid.Arrindex[i]=="12" || BIid.Arrindex[i]=="13" || BIid.Arrindex[i]=="17" || BIid.Arrindex[i]=="18" || BIid.Arrindex[i]=="20"
-				|| BIid.Arrindex[i]=="21" || BIid.Arrindex[i]=="22" || BIid.Arrindex[i]=="23" || BIid.Arrindex[i]=="24" || BIid.Arrindex[i]=="24"
-				|| BIid.Arrindex[i]=="26" || BIid.Arrindex[i]=="27" || BIid.Arrindex[i]=="28" || BIid.Arrindex[i]=="29"){
-				 itfarr.addItem({itf:String(BIid.ArrData[i].columnid),itfdisplay:String(BIid.ArrData[i].columname),itftype:"字符串",remark:"未设置",using:false});
-				}
+
 				if(BIid.Arrindex[i]=="01"){
 				 itfarr.addItem({itf:String(BIid.ArrData[i].columnid),itfdisplay:String(BIid.ArrData[i].columname),itftype:"数字",remark:"未设置",using:false});
-				}
-				if(BIid.Arrindex[i]=="02" || BIid.Arrindex[i]=="03" || BIid.Arrindex[i]=="04"){
+				}else if(BIid.Arrindex[i]=="02" || BIid.Arrindex[i]=="03" || BIid.Arrindex[i]=="04"){
 				 itfarr.addItem({itf:String(BIid.ArrData[i].columnid),itfdisplay:String(BIid.ArrData[i].columname),itftype:"时间",remark:"未设置",using:false});
+				}else{
+				 itfarr.addItem({itf:String(BIid.ArrData[i].columnid),itfdisplay:String(BIid.ArrData[i].columname),itftype:"字符串",remark:"未设置",using:false});
 				}
 				}
 				Save.itfarr=itfarr;

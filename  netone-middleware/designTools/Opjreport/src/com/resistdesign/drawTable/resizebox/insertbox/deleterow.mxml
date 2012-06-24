@@ -32,15 +32,23 @@
 			
 			public function del()
 			{
-				if(DataReport.index=="0"){
-					Alert.show("最后一个不能删除");
-				}else{
+ 				if(DataReport.index=="0"){
+					if(DataReport.zhongshu==0){
+						Alert.show("最后一个不能删除");
+					}else{
+						GlobalManager.getInstance().dispatchEvent(new EvTijiao("daltable",this.parentDocument.name));
+						this.parentDocument.resizerow.actionbtn=false;
+						this.parentDocument._table.selectrow=insertrowidx;
+						this.parentDocument.removerow();
+						this.parentDocument.resizerow.delrowbox(insertrowidx,resizemanage._table.itemh);
+					}
+				}else{  
 				GlobalManager.getInstance().dispatchEvent(new EvTijiao("daltable",this.parentDocument.name));
 					this.parentDocument.resizerow.actionbtn=false;
 					this.parentDocument._table.selectrow=insertrowidx;
 					this.parentDocument.removerow();
 					this.parentDocument.resizerow.delrowbox(insertrowidx,resizemanage._table.itemh);
-				}  
+				   }   
 			}
 		]]>
 	</fx:Script>

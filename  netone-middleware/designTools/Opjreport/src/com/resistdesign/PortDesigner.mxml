@@ -87,42 +87,19 @@
 			//下一步的接口实现、
 			public function jiekanshixian(event:MouseEvent):void{
 				dataview=new ArrayCollection();
-				if(!DataReport.modeltype){
-					var xml:XML=DataReport.controlxml;
-					var arrxml:XMLList=xml.child("Interface");
-					for(var j:int=0;j<arrxml.length();j++){		
-						dataview.addItem({itf:arrxml[j].@columns,itfdisplay:arrxml[j].@displayname,itftype:arrxml[j].@stringtype,remark:arrxml[j].@remark,using:true});
-					}
-					
-				}else{
-					var arr:Array=new Array();
-					var arr1:Array=new  Array();
-					//获取全部的naturalname
-					for(var k:int=0;k<reportmanage.reportcolarr.length;k++){
-						 if(reportmanage.reportcolarr[k].coltyp=="Dataset"){
-                        	 arr.push((reportmanage.reportcolarr[k].col as Dataset).focd);
-						}if( reportmanage.reportcolarr[k].coltyp=="record" ){
-							arr.push((reportmanage.reportcolarr[k].col as TableCav).focdstr);
-						}  
-						
-					}
-					arr1=arr;
-					
-				    //删除相同的 naturalname
-					for(var c:int=0;c<arr.length;c++ ){
-						
-						for(var d:int=0;d<arr.length;d++){
-								  if(d!=c){
-									  if(arr[c]==arr[d]){
-										  arr1.splice(d,1);
-									  }
-								  }
-						}
-					}
-					//展示删除过的 相同的naturalname
-					for(var x:int=0;x<arr1.length;x++){
-						gfn.Columname(arr[x]);
-					}
+				var str:String="";
+				
+				for(var k:int=0;k<reportmanage.reportcolarr.length;k++){
+					if( reportmanage.reportcolarr[k].coltyp=="record" ){
+						str=(reportmanage.reportcolarr[k].col as TableCav).focdstr;
+					}  
+				}
+				if(str=="")
+				{
+				}
+				else
+				{
+				 	gfn.Columname(str);
 				}
 			}
 			
@@ -130,17 +107,41 @@
 			public function handerResult1(event:ResultEvent):void{
 				var arryuanziduan:ArrayCollection=new ArrayCollection();
 				arryuanziduan=event.result as ArrayCollection;
-				for( var i:int=0; i<arryuanziduan.length;i++)
-				{ 
-					if(String(arryuanziduan[i].viewtype)=="01"){
-					dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"数字",remark:"未设置",using:false});
-					}else
-					if(String(arryuanziduan[i].viewtype)=="02" || String(arryuanziduan[i].viewtype)=="03" || String(arryuanziduan[i].viewtype)=="04"){
-						dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"时间",remark:"未设置",using:false});
-					}else{
-					dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"字符串",remark:"未设置",using:false});
-					}
-					}
+				if(!DataReport.modeltype){
+					var xml:XML=DataReport.controlxml;
+					var arrxml:XMLList=xml.child("Interface");
+					
+					for( var i:int=0; i<arryuanziduan.length;i++)
+					{ 
+						if(String(arryuanziduan[i].viewtype)=="01"){
+							dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"数字",remark:"未设置",using:false});
+						}else
+							if(String(arryuanziduan[i].viewtype)=="02" || String(arryuanziduan[i].viewtype)=="03" || String(arryuanziduan[i].viewtype)=="04"){
+								dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"时间",remark:"未设置",using:false});
+						}else{
+								dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"字符串",remark:"未设置",using:false});
+						}
+						for(var j:int=0;j<arrxml.length();j++)
+						{	
+							if(arrxml[j].@columns==dataview[i].itf)
+							{
+								dataview[i].using=true;	
+							}
+						}
+					}	
+				}else{
+					for( var i:int=0; i<arryuanziduan.length;i++)
+					{ 
+						if(String(arryuanziduan[i].viewtype)=="01"){
+							dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"数字",remark:"未设置",using:false});
+						}else
+							if(String(arryuanziduan[i].viewtype)=="02" || String(arryuanziduan[i].viewtype)=="03" || String(arryuanziduan[i].viewtype)=="04"){
+								dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"时间",remark:"未设置",using:false});
+							}else{
+								dataview.addItem({itf:arryuanziduan[i].columnid as String,itfdisplay:arryuanziduan[i].columname as String,itftype:"字符串",remark:"未设置",using:false});
+							}
+					}	
+				}
 			}
 			//table点击事件的方法
 			public  function  click(event:Component):void{
@@ -267,14 +268,16 @@
 			}
 			
 			
-			public function setxml2 ():String
+			/* public function setxml2 ():String
 			{
 				var  reportxml:String='<?xml version="1.0" encoding=\"utf-8\" ?>\r\n<Report>\r\n';
 				
 				for(var i:int=0;i<reportmanage.reportcolarr.length;i++)
 				{   
+					
 					if(!reportmanage.reportcolarr[i].istable)
 					{
+						
 						reportxml+=getcolqua(reportmanage.reportcolarr[i].col);
 					}
 				}
@@ -288,7 +291,7 @@
 				PopUpManager.centerPopUp(myWin);	
 				myWin.xmlbox.text=reportxml;
 				return reportxml;
-			}
+			} */
 			
 			private function getcolqua(obj:Object):String
 			{   
@@ -544,7 +547,7 @@
 			
 			public function RAV_keyDownHandler(event:KeyboardEvent):void
 			{
-				switch(event.keyCode )
+				switch(event.keyCode)
 				{
 					case Keyboard.DELETE : 
 					{
@@ -552,32 +555,18 @@
 						{
 							if(reportmanage.reportcolarr.getItemAt(i).col==reportmanage.selectobj)
 							{
-								if(NameUtil.getUnqualifiedClassName(reportmanage.selectobj)=="TableCav")
-								{
-									for (var j:int =reportmanage.reportcolarr.length-1; j >=0; j--) 
-									{
-										if(NameUtil.getUnqualifiedClassName(reportmanage.selectobj)=="TableCav")
-										{}
-										else if(reportmanage.reportcolarr.getItemAt(j).col.parent.parent._table.parent==reportmanage.selectobj)
-										{
-											reportmanage.reportcolarr.removeItemAt(j);
-										}
-									}
-									reportmanage.reportcolarr.removeItemAt(i);
-									RAV.removeChild(reportmanage.selectobj as DisplayObject);
+								 if(NameUtil.getUnqualifiedClassName(reportmanage.selectobj)=="TableCav")
+								 {
 									return;
-								}
+								 }
 								else
-								{
+								{ 
 									reportmanage.reportcolarr.removeItemAt(i);
 									(reportmanage.selectobj.parent as  TableRader).havechild=false;
 									(reportmanage.selectobj.parent as  TableRader).col=null; 
 									reportmanage.selectobj.parent.removeChild(reportmanage.selectobj as DisplayObject);
 									return;
-								}
-								
-								
-								
+								 } 
 							}
 						}
 						break;
@@ -831,48 +820,6 @@
 							
 							styqua.objfontsize.value=e.currentTarget.getStyle("fontSize");
 							
-						}
-						
-						private function keyDownevent(e:KeyboardEvent):void
-						{
-							
-							switch(e.keyCode )
-							{
-								case Keyboard.DELETE : 
-								{
-									for (var i:int = 0; i < reportmanage.reportcolarr.length; i++) 
-									{
-										if(reportmanage.reportcolarr.getItemAt(i).col==reportmanage.selectobj)
-										{
-											if(NameUtil.getUnqualifiedClassName(reportmanage.selectobj)=="TableCav")
-											{
-												for (var j:int =reportmanage.reportcolarr.length-1; j >=0; j--) 
-												{
-													if(NameUtil.getUnqualifiedClassName(reportmanage.selectobj)=="TableCav")
-													{}
-													else if(reportmanage.reportcolarr.getItemAt(j).col.parent.parent._table.parent==reportmanage.selectobj)
-													{
-														reportmanage.reportcolarr.removeItemAt(j);
-													}
-												}
-												reportmanage.reportcolarr.removeItemAt(i);
-												RAV.removeChild(reportmanage.selectobj as DisplayObject);
-												return;
-											}
-											else
-											{
-												reportmanage.reportcolarr.removeItemAt(i);
-												(reportmanage.selectobj.parent as  TableRader).havechild=false;
-												(reportmanage.selectobj.parent as  TableRader).col=null; 
-												reportmanage.selectobj.parent.removeChild(reportmanage.selectobj as DisplayObject);
-												return;
-											}
-										}
-									}
-									
-									break;
-								}
-							}
 						}
 						
 					]]>

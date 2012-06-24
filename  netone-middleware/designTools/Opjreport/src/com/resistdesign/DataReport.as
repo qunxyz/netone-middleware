@@ -41,6 +41,8 @@ package com.resistdesign
 		public static var arrcontro:Array;
         [Bindable]//index
 		public static var index:String="";
+		[Bindable]//index
+		public static var zhongshu:int=0;
 		[Bindable]//type
 		public static var model:String="";
 		[Bindable]//arrxml数据

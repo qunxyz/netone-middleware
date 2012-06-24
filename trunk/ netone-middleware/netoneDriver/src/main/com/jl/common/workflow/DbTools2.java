@@ -422,8 +422,8 @@ public final class DbTools2 {
 			return queryData(sql, classobj, con);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
 		}
-		return new ArrayList();
 	}
 
 	/**

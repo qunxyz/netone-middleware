@@ -118,6 +118,9 @@ public class XmlTree {
 		}if(path.equals("dyviewproc")){
 			cname="过程视图";
 		}
+		if(path.equals("Mapp")){
+			cname="扩展属性";
+		}
 		NetoneXmlTree dxml=new NetoneXmlTree();
 		return dxml.dataxml(path, cname);
 	}

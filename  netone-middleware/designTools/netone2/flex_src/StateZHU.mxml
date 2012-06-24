@@ -106,7 +106,12 @@
          }
          //SOA的配置
          public function SOAconfig():void{
-               var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=pagelist&appname=SOASCRIPT";
+               var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=soascript&appname=SOASCRIPT";
+				var request:URLRequest=new URLRequest(url);  
+				navigateToURL(request); 
+         }
+         public function mapp():void{
+          		var url:String=index.WEBSER_BIWEB+"/PagelistpathRightSvl?pagename=mapp&appname=MAPP";
 				var request:URLRequest=new URLRequest(url);  
 				navigateToURL(request); 
          }
@@ -127,5 +132,6 @@
 		
 		<mx:Button x="64.5" y="401" height="119" width="144" click="{shoujipz()}" overSkin="@Embed(source='img/ygcx2.png')" upSkin="@Embed(source='img/ygcx1.png')" downSkin="@Embed(source='img/ygcx1.png')"/>
 		<mx:Button x="264.5" y="401" height="119" width="144" click="{xtcd()}" overSkin="@Embed(source='img/xtcd2.png')" upSkin="@Embed(source='img/xtcd1.png')" downSkin="@Embed(source='img/xtcd1.png')"/>
+		<mx:Button x="464.5" y="401" height="119" width="144" click="{mapp()}" overSkin="@Embed(source='img/mapp2.png')" upSkin="@Embed(source='img/mapp1.png')" downSkin="@Embed(source='img/mapp1.png')"/>
 		
 		</mx:Canvas>

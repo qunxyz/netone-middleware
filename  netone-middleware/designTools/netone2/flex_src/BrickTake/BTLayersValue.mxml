@@ -29,7 +29,7 @@
 	</mx:Script>
 	<mx:TextInput id="textinput" text="{textChart}" x="139" y="1" height="40" width="389"/>
 	<mx:Label id="lable" text="{index}" x="76" y="9"  width="55"/>
-	<mx:Label x="10" y="8" text="砖取值" width="58"/>
-	<mx:LinkButton x="549" y="4" label="选择砖取值" click="selectvalue()"/>
+	<mx:Label x="10" y="8" text="钻取值" width="58"/>
+	<mx:Button x="549" y="4" label="选择钻取值" click="selectvalue()"/>
 </mx:Canvas>
  

@@ -217,7 +217,7 @@
 				 		 var str:String=sx[0].@name+"["+sx[0].@naturalname+"]";
            	            EvTjFs.getInstance().dispatchEvent(new EvTijiao("AddChart",str));
 					 }
-					 if(variable.modelname=="两层砖取"){
+					 if(variable.modelname=="两层钻取"){
 					   var str:String=sx[0].@name+"["+sx[0].@naturalname+"]";
            	            EvTjFs.getInstance().dispatchEvent(new EvTijiao("TwoAdd",str));
      					}

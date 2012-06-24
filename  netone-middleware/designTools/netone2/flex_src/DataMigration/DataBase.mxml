@@ -283,7 +283,7 @@
 			      	for(var q:int=0;q<j;q++){
 			      	columnrefxml=<columnref></columnref>
 			      	columnrefxml.@name=incolumnref(fc1.getChildAt(q)).biaoming.selectedItem.toString()+"."+incolumnref(fc1.getChildAt(q)).ziduanming.selectedItem.toString();
-			      	columnrefxml.@refertoname=incolumnref(fc1.getChildAt(q)).ziduanming0.selectedItem.toString();
+			      	columnrefxml.@refertoname=incolumnref(fc1.getChildAt(q)).biaoming.selectedItem.toString()+"."+incolumnref(fc1.getChildAt(q)).ziduanming0.selectedItem.toString();
 			      	if(incolumnref(fc1.getChildAt(q)).dorpb==false){
 			      	inxml.appendChild(columnrefxml);
 			      	}

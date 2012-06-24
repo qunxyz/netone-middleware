@@ -215,8 +215,8 @@
 			public function queding():void{
 				var sx:XMLList= new XMLList(selectlist).children();
 				if(sx.length()==1){
-              		 vivid.comp["_soa"]=sx[0].@name+"[SOA:/Soasvl?naturalname="+sx[0].@naturalname+textarea.text+"]";
-              		 vivid.comp["PLANB"]=sx[0].@name+"[SOA:/Soasvl?naturalname="+sx[0].@naturalname+textarea.text+"]";
+              		 vivid.comp["_soa"]=sx[0].@name+"[SOA:"+sx[0].@naturalname+","+textarea.text+"]";
+              		 vivid.comp["PLANB"]=sx[0].@name+"[SOA:"+sx[0].@naturalname+","+textarea.text+"]";
 					 PopUpManager.removePopUp(this as IFlexDisplayObject); 
 					 GlobalManager.getInstance().dispatchEvent(new GlobalEvent(Data.Event_data,  vivid.comp,  vivid.comp,  vivid.comp["_cross"],  vivid.comp["_row"]));
 				     

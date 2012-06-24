@@ -15,7 +15,7 @@
 			public var textChart:String;
 			public function SChart():void{
 			BTData.TwoID=this.id;
-		    variable.modelname="两层砖取";   
+		    variable.modelname="两层钻取";   
 			var sct:SelectCharTree=new SelectCharTree();
 			PopUpManager.addPopUp(sct,this.parent.parent,true);
 			PopUpManager.centerPopUp(sct as IFlexDisplayObject);

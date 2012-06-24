@@ -254,6 +254,9 @@
 					if(variable.modelname=="选择portal" ){
 					 DataTransfer.portal=sx[0].@name+"["+sx[0].@naturalname+"]";
 					}	  
+					if(variable.modelname=="选择图表" ){
+					 DataTransfer.Chart=sx[0].@name+"["+sx[0].@naturalname+"]";
+					}
 					 PopUpManager.removePopUp(this as IFlexDisplayObject);
 				 }else{
 				   Alert.show("只能选择一个");
@@ -316,7 +319,7 @@
 	</mx:Script>
 	    <mx:RemoteObject id="gfn" destination="getformname" result="backstring(event)" showBusyCursor="true"/> 
 	    <mx:RemoteObject id="Biselecttable1"   destination="tablename" showBusyCursor="true"    result="BihanderResult(event)"/>	  
-	    <mx:RemoteObject id="Xmltree1" destination="xmltree1"  result="getfolderxml_resultHandler(event)"/> 
+	    <mx:RemoteObject id="Xmltree1" destination="xmltree1" showBusyCursor="true"  result="getfolderxml_resultHandler(event)"/> 
 	   	<mx:Canvas x="0" y="0" width="100%" height="100%">
 		<mx:Tree id="seletlist" width="272" height="390"
 				 alternatingItemColors="[#E2FAF3, #FBF5F5]" borderColor="#D6D9DB" borderThickness="2"

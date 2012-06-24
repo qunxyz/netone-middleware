@@ -56,20 +56,24 @@
   	   			 if(DateView.Updatearr!=null)
   	   			 {
 	  	         var arr:Array=DateView.fieldname.split("$_$");
-	  	         var arrname:Array=String(arr[0]).split(",");
-	  	         var arrtype:Array=String(arr[1]).split(",");
+	  	         var arrname:Array=new Array();
+	  	         arrname=String(arr[0]).split(",");
+	  	         var arrtype:Array=new Array();
+	  	         arrtype=String(arr[1]).split(",");
 	  	         arrtype.pop();
 	  	         arrname.pop(); 
 	  	         var h:int=10; 
 	  	         canvas1.removeAllChildren();        
-	  	         for(var i:int=0;i<arrtype.length;i++){
+	  	         for(var i:int=0;i<arrname.length;i++){
 	  	           var fc:FieldControl=new FieldControl();
 		  	       fc.x=55;
 		  	       fc.y=h;	   
 		  	       fc.id="fc"+i;   
 		  	       fc.Name=arrname[i];
 		  	       fc.type=arrtype[i];
+		  	       if(DateView.Updatearr.length-1>=i){
 		  	       fc.zhongName=DateView.Updatearr[i].columname;
+		  	       }
 		  	       canvas1.addChild(fc);
 		  	       h=h+43;
 	  	         }
@@ -81,7 +85,7 @@
 	  	         arrname.pop(); 
 	  	         var h:int=10; 
 	  	         canvas1.removeAllChildren();        
-	  	           for(var i:int=0;i<arrtype.length;i++){
+	  	           for(var i:int=0;i<arrname.length;i++){
 	  	           var fc:FieldControl=new FieldControl();
 		  	       fc.x=55;
 		  	       fc.y=h;	   
@@ -101,7 +105,7 @@
   	         arrname.pop(); 
   	         var h:int=10; 
   	         canvas1.removeAllChildren();        
-  	         for(var i:int=0;i<arrtype.length;i++){
+  	         for(var i:int=0;i<arrname.length;i++){
   	           var fc:FieldControl=new FieldControl();
 	  	       fc.x=55;
 	  	       fc.y=h;	   
@@ -124,6 +128,7 @@
   	    }
   	      //上一步的方法
           public function UPNode(evetn:MouseEvent):void{
+          	DateView.fal=false;
           	var o:Object=this.parent.getChildByName("Dyformsqlview1");
             vs.selectedChild=o as Canvas;
           }

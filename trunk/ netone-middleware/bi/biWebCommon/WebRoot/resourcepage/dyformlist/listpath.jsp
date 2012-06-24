@@ -242,11 +242,11 @@
 									if(type=='template')
 									window.open('/dyForm/design/system/form/createviewTemplate.do?formcode='+formcode,'_blank');
 									if(type=='security')
-									window.open('/dyForm/design/system/form/addToPermission.do?rsid='+value,'_blank');
+									window.open('/biWeb/servlet/DySecuritySvl?rsid='+value,'_blank');
 									if(type=='dyrs')
 									window.open('/dyForm/DyDataToSelectSvl?formcode='+formcode,'_blank');
 									if(type=='removesecurity')
-									window.open('/dyForm/design/system/form/addToPermission.do?rsid='+value+'&remove=yes','_blank');
+									window.open('/biWeb/servlet/DySecuritySvl?rsid='+value+'&remove=yes','_blank');
 									if(type=='forminfox')
 									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>UpdateDoForm.html?naturalname=${upo.naturalname}&active='+active+'&formid='+formcode,'_blank');
 							        if(type=='copy')
@@ -258,18 +258,18 @@
 							</script>
 							<input type="button" value="新建表单" onclick="newds1()" class="butt">
 							<input type="button" value="修改表单" onclick="editsdy('forminfox')" class="butt">&nbsp;&nbsp;
-						 
+
+							<input type="button" name="btnmodify2" value="修改字段"
+								onclick="editsdy('formcolumn');" class="butt">
+						<!--  
+
 							<input type="button" value="新建表单(旧)" onclick="newds()" class="butt">
 							
 							<input type="button" name="btnmodify1" value="修改表单(旧)"
 								onclick="editsdy('forminfo');" class="butt">
-							<input type="button" name="btnmodify2" value="修改字段(旧)"
-								onclick="editsdy('formcolumn');" class="butt">
-							<input type="button" name="btnmodify3" value="安全保护"
-								onclick="editsdy('security');" class="butt">
-							<input type="button" name="btnmodify3" value="取消保护"
-								onclick="editsdy('removesecurity');" class="butt">
-							 
+
+
+							-->
 							<input type="button" name="btnmodify4" value="复制表单"
 								onclick="editsdy('copy');" class="butt">
 						    <input type="button" name="btnmodify5" value="是否启用"
@@ -373,8 +373,16 @@
 									<a
 										href="javascript:window.open('<%=path%>/Export.do?task=show&chkid=${list.id}','_parent');"
 										target="_blank">[导出]</a>
+									<a
+										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>Diagram.html?formcode=${list.extendattribute}&isedit=1','_parent');"
+										target="_blank"><font color='red'>[查看图表]</font></a>									
+									<a
+										href="resourcepage/dyformlist2/report.jsp?formcode=${list.extendattribute}"
+										target="_blank"><font color='red'>[查看报表]</font></a>
+									<a
+										href="resourcepage/dyformlist2/reportExcel.jsp?formcode=${list.extendattribute}"
+										target="_blank"><font color='red'>[导出EXCEL]</font></a>
 										
-
 									<a
 										href="javascript:window.open('<portal:envget envkey="WEBSER_BIWEB"/>/PagelistRightSvl?pagename=dyformlist&appname=${list.naturalname}','_parent');"
 										target="_top">[功能配置]</a>
@@ -383,8 +391,10 @@
 										href="javascript:window.open('<%=path%>/SynSummary.do?task=Synbefore&chkid=${list.id}','_parent');"
 										target="_blank">[导入]</a>-->
 									<a
-										href="javascript:window.open('/dyForm/servlet/FormViewsvl?formcode=${list.extendattribute}','_parent');"
+										href="javascript:window.open('/biWeb/servlet/FormViewsvl?formcode=${list.extendattribute}','_parent');"
 										target="_top">[描述]</a>
+										
+										
 									<a href="javascript:checkthis('${list.extendattribute}');">选择</a>
 								</c:if>
 

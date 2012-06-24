@@ -47,7 +47,7 @@
 	<mx:ViewStack id="ViewStack1" width="100%"  height="100%" x="0" y="0">
 		<ns1:Fileapplevels id="Fileapplevels1" width="100%" height="100%" x="0" y="0"/>
 		<ns1:Appconfigsjl id="Appconfigsjl1" width="100%" height="100%" x="0" y="0"/>
-		<ns1:fileIItype id="fileIItype1" width="100%" height="100%" x="0" y="0"/>
+		<!--<ns1:fileIItype id="fileIItype1" width="100%" height="100%" x="0" y="0"/>-->
 		<ns1:Fileicon id="Fileicon1" width="100%" height="100%" x="0" y="0"/>
 	</mx:ViewStack>
 </s:Application>

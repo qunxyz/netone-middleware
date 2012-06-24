@@ -180,7 +180,7 @@
 			
 			protected function init(event:FlexEvent):void
 			{
-				Xmltree1.dataxml("Mapp");	 
+				Xmltree1.dataxml("MAPP");	 
 			}
 			
 			

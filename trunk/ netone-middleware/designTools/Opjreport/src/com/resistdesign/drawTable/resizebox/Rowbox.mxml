@@ -20,6 +20,7 @@
 			import components.reports.reportmanage;
 			
 			import mx.controls.Alert;
+			import mx.controls.Image;
 			import mx.events.ResizeEvent;
 			import mx.utils.NameUtil;
 			public var table:Table;

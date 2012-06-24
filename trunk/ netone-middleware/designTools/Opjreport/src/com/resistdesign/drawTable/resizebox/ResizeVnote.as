@@ -1,5 +1,7 @@
 package com.resistdesign.drawTable.resizebox
 {
+	import com.resistdesign.DataReport;
+	
 	import mx.containers.VBox;
 	import mx.controls.Alert;
 	import mx.events.FlexEvent;
@@ -56,6 +58,7 @@ package com.resistdesign.drawTable.resizebox
 			var idx:int=this.parent.getChildIndex(this);
 			var str:String=idx.toString();
 			boxlabel=str;
+			DataReport.zhongshu=idx;
 		}
 
 	}

@@ -5,15 +5,12 @@
 			 fontSize="12"  width="1262" height="670" >
 	<fx:Script>
 		<![CDATA[
-			/**
-			 * 应用程序配置  第三级配置
-			 * xuwei（2012-3-19）
-			 * **/
 			import app.Assembly.Datasource;
 			import app.Assembly.LoShu;
 			import app.Assembly.OneConfig;
 			import app.Assembly.Webpage;
 			
+			import com.resistdesign.EvTijiao;
 			import com.resistdesign.GlobalManager;
 			
 			import mx.collections.ArrayCollection;
@@ -21,9 +18,11 @@
 			import mx.containers.ViewStack;
 			import mx.controls.Alert;
 			import mx.controls.Button;
+			import mx.core.IFlexDisplayObject;
 			import mx.events.FlexEvent;
 			import mx.events.ScrollEvent;
 			import mx.logging.ILogger;
+			import mx.managers.PopUpManager;
 			import mx.rpc.events.ResultEvent;
 			
 			[Bindable]
@@ -44,9 +43,11 @@
 				
 				vs=this.parent as ViewStack;
 				textpath="路径： "+ DataApp.URLname+" 第2步，共"+DataApp.index+"步"; 
-				
+				GlobalManager.getInstance().addEventListener("xuanzheshuxing",xuanzheshuxing);
 			}
-	 
+	 		public function xuanzheshuxing(event:EvTijiao):void{
+				textarea.text=event.Formcode();
+			}
  
 			//上一步的方法
 			public function UPNode(evetn:MouseEvent):void{
@@ -75,6 +76,11 @@
 					navigateToURL(new URLRequest('javascript:window.opener.location.reload();window.close()'),'_self');
 				}
 			}
+			public function xuanzheshuxin():void{
+			var smap:SelectMapp=new SelectMapp();
+			PopUpManager.addPopUp(smap,this,true);
+			PopUpManager.centerPopUp(smap as IFlexDisplayObject);
+			}
 		]]>
 	</fx:Script>
 	 
@@ -92,11 +98,12 @@
 	</mx:Canvas>
 	<mx:Canvas width="100%" height="334"  x="105" y="207" fontSize="18">
 		<s:Label x="41" y="104" width="122" height="23" text="数据列服务：" />
-		<s:TextArea id="textarea"  x="149" y="92" width="417" height="53" />
+		<s:TextArea id="textarea"  x="149" y="92"  width="417" height="53" />
 		<mx:Label   text="是否启用：" x="41" y="196"  width="102" height="24" />
 		<s:RadioButton id="model1" selected="true" x="151" y="196" label="是" fontWeight="bold"    groupName="radiogroup4"/>
 		<s:RadioButton id="model2" x="217" y="196" height="24" label="否"   fontWeight="bold"
 					   groupName="radiogroup4"/>
+		<s:Button x="590" y="92" height="35" label="选择属性" click="xuanzheshuxin()"/>
 	</mx:Canvas>
 	<mx:Canvas x="0" y="600" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
 	</mx:Canvas>

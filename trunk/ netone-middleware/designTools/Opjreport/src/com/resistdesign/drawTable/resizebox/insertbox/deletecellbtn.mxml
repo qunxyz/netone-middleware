@@ -35,7 +35,7 @@
 				 */
 				if(DataReport.index=="A"){
 				Alert.show("最后一个不能删除");
-				}else{
+				}else{ 
 			   	resizemanage.canins=false;
 				resizemanage.hbox.delcellbox(insertcellidx,resizemanage._table.itemw,selectw);  
 				
@@ -45,7 +45,7 @@
 					DataReport.arrcontro[i].resizecell.actionbtn=false;
 					DataReport.arrcontro[i].removecol();
 				}
-			}
+			} 
 			}
 		]]>
 	</fx:Script>

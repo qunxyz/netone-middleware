@@ -144,7 +144,7 @@ package com.resistdesign.drawTable
 			createGrid();
 		}
 		//创建表格
-        private function createGrid()
+        private function createGrid():void
 		{   
 			
  			var rp:Number = height%_rows;

@@ -16,6 +16,5 @@ package app.config
 		public  static var url:String="";  
 		[Bindable]//下一级 展示类型、
 		public static var showtype:String="";
-
 	}	
 }

@@ -28,6 +28,7 @@
 		  public  var   driver:String;
 		  public var tablename:String
 		  public var diyi:String;
+		  public var diyi0:String;
 		  	public function init():void{
 			gfn.mappingColumname(formcode);
 			}
@@ -70,6 +71,14 @@
 					}
           	      }
             }
+             public function zhiduanleixing0():void
+            {
+               for(var i:int=0;i<arryuanziduan.length;i++){
+					if(i==biaoming0.selectedIndex as int){
+					diyi0= arryuanziduan[i].columnid as String;
+					}
+          	      }
+            }
 	]]>
 </mx:Script>
 <mx:RemoteObject id="gfn" destination="getformname" result="{handerResult(event)}" showBusyCursor="true"/> 
@@ -77,5 +86,5 @@
 	<mx:Label x="212" y="2" text="使用字段" fontSize="12"/>
 	<mx:ComboBox x="40" y="0" width="167" id="biaoming"   prompt="请选择字段" dataProvider="{arrdiyi}" fontSize="12" height="30" change="{zhiduanleixing()}"></mx:ComboBox>
 	<mx:Button x="439" y="1" label="删" click="drop1()"  fontSize="12"/>
-	<mx:ComboBox x="269" y="2" width="167" id="biaoming0"   prompt="请选择字段" dataProvider="{arrdiyi}" fontSize="12" height="30" change="{zhiduanleixing()}"></mx:ComboBox>
+	<mx:ComboBox x="269" y="2" width="167" id="biaoming0"   prompt="请选择字段" dataProvider="{arrdiyi}" fontSize="12" height="30" change="{zhiduanleixing0()}"></mx:ComboBox>
 </mx:Canvas>

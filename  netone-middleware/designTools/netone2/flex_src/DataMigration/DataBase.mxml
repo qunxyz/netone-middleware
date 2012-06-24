@@ -156,8 +156,8 @@
               pxml=<source></source>;
               pxml.@id=source1;
               pxml.@url=MigrationData.AurlString;
-              pxml.@password=MigrationData.Ausername;
-              pxml.@username=MigrationData.Apwd;
+              pxml.@password=MigrationData.Apwd;
+              pxml.@username=MigrationData.Ausername;
               pxml.@driver=MigrationData.Adriver;
               sc.appendChild(pxml);
               }
@@ -175,8 +175,8 @@
               pxml=<source></source>;
               pxml.@id=source2;
               pxml.@url=MigrationData.BurlString;
-              pxml.@password=MigrationData.Busername;
-              pxml.@username=MigrationData.Bpwd;
+              pxml.@password=MigrationData.Bpwd;
+              pxml.@username=MigrationData.Busername;
               pxml.@driver=MigrationData.Bdriver;
               sc.appendChild(pxml);
               }
@@ -194,8 +194,8 @@
               pxml=<source></source>;
               pxml.@id=source3;
               pxml.@url=MigrationData.CurlString;
-              pxml.@password=MigrationData.Cusername;
-              pxml.@username=MigrationData.Cpwd;
+              pxml.@password=MigrationData.Cpwd;
+              pxml.@username=MigrationData.Cusername;
               pxml.@driver=MigrationData.Cdriver;
               sc.appendChild(pxml);
               }
@@ -213,8 +213,8 @@
               pxml=<source></source>;
               pxml.@id=source4;
               pxml.@url=MigrationData.DurlString;
-              pxml.@password=MigrationData.Dusername;
-              pxml.@username=MigrationData.Dpwd;
+              pxml.@password=MigrationData.Dpwd;
+              pxml.@username=MigrationData.Dusername;
               pxml.@driver=MigrationData.Ddriver;
               sc.appendChild(pxml);
               }
@@ -232,8 +232,8 @@
               pxml=<source></source>;
               pxml.@id=source5;
               pxml.@url=MigrationData.EurlString;
-              pxml.@password=MigrationData.Eusername;
-              pxml.@username=MigrationData.Epwd;
+              pxml.@password=MigrationData.Epwd;
+              pxml.@username=MigrationData.Eusername;
               pxml.@driver=MigrationData.Edriver;
               sc.appendChild(pxml);
               }  
@@ -251,8 +251,8 @@
               pxml=<source></source>;
               pxml.@id=source6;
               pxml.@url=MigrationData.FurlString;
-              pxml.@password=MigrationData.Fusername;
-              pxml.@username=MigrationData.Fpwd;
+              pxml.@password=MigrationData.Fpwd;
+              pxml.@username=MigrationData.Fusername;
               pxml.@driver=MigrationData.Fdriver;
               sc.appendChild(pxml);
               }             
@@ -303,7 +303,7 @@
 		      }
 		      }
 				MigrationData.xmlstr=sc.toString();
-              Alert.show(MigrationData.xmlstr);
+              //Alert.show(MigrationData.xmlstr);
 		} 
 		 public function  Savefile1(event:ResultEvent):void{
           

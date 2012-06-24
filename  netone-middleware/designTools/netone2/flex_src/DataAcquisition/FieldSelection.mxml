@@ -312,7 +312,7 @@
 		      	for(var q:int=0;q<j;q++){
 		      	columnrefxml=<columnref></columnref>
 		        columnrefxml.@name=AcquisitionDeliver.tablename+"."+caiincolumnref(fc1.getChildAt(q)).diyi;
-		      	columnrefxml.@refertoname=caiincolumnref(fc1.getChildAt(q)).biaoming0.selectedItem.toString();
+		      	columnrefxml.@refertoname=AcquisitionDeliver.tablename+"."+caiincolumnref(fc1.getChildAt(q)).diyi0;
 		      if(caiincolumnref(fc1.getChildAt(q)).dorpb==false){
 		      	AcquisitionDeliver.xmlData.appendChild(columnrefxml);
 		     	 }

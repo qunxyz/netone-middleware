@@ -119,12 +119,13 @@
 		<mx:Button x="864.5" y="45" label=""  height="119" width="144" click="{AentranceComponent()}" overSkin="@Embed(source='img1/mhrk2.png')" upSkin="@Embed(source='img1/mhrk1.png')" downSkin="@Embed(source='img1/mhrk1.png')" />
 		
 		<mx:Button x="64.5" y="221" height="119" width="144" click="{shucanku()}" overSkin="@Embed(source='img1/6.1.png')" upSkin="@Embed(source='img1/6.png')" downSkin="@Embed(source='img1/6.png')" />
-	    <mx:Button x="264.5" y="221" label="" height="119" width="144" click="{BusinessIntelligence()}" overSkin="@Embed(source='img1/7.1.png')" upSkin="@Embed(source='img1/7.png')" downSkin="@Embed(source='img1/7.png')"/>
+	    <!--<mx:Button x="264.5" y="221" label="" height="119" width="144" click="{BusinessIntelligence()}" overSkin="@Embed(source='img1/7.1.png')" upSkin="@Embed(source='img1/7.png')" downSkin="@Embed(source='img1/7.png')"/>-->
+		<mx:Button x="264.5" y="221" height="119" width="144" click="{SOAconfig()}" overSkin="@Embed(source='img/soa.png')" upSkin="@Embed(source='img/soa1.png')" downSkin="@Embed(source='img/soa1.png')"/>
 		<mx:Button x="464.5" y="221" label="" height="119" width="144" click="{IntelligentTour()}" overSkin="@Embed(source='img1/8.1.png')" upSkin="@Embed(source='img1/8.png')" downSkin="@Embed(source='img1/8.png')"/>
 		<mx:Button x="668.5" y="221" label="" height="119" width="144" click="{scheduled()}" overSkin="@Embed(source='img1/9.1.png')" upSkin="@Embed(source='img1/9.png')" downSkin="@Embed(source='img1/9.png')" />
 		<mx:Button x="864.5" y="221" label=""  height="119" width="144" click="{BusinessComponent()}" overSkin="@Embed(source='img1/14.1.png')" upSkin="@Embed(source='img1/14.png')" downSkin="@Embed(source='img1/14.png')" />
 		
 		<mx:Button x="64.5" y="401" height="119" width="144" click="{shoujipz()}" overSkin="@Embed(source='img/ygcx2.png')" upSkin="@Embed(source='img/ygcx1.png')" downSkin="@Embed(source='img/ygcx1.png')"/>
 		<mx:Button x="264.5" y="401" height="119" width="144" click="{xtcd()}" overSkin="@Embed(source='img/xtcd2.png')" upSkin="@Embed(source='img/xtcd1.png')" downSkin="@Embed(source='img/xtcd1.png')"/>
-		<mx:Button x="464.5" y="401" height="119" width="144" click="{SOAconfig()}" overSkin="@Embed(source='img/soa.png')" upSkin="@Embed(source='img/soa1.png')" downSkin="@Embed(source='img/soa1.png')"/>
+		
 		</mx:Canvas>

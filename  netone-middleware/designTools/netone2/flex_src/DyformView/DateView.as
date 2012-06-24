@@ -28,6 +28,8 @@ public class DateView{
      public static var Formcode1:String="";
      [Bindable] // 表单字段
     public static var zidaun:ArrayCollection=new ArrayCollection();   
+    [Bindable]
+    public static var Updatearr:ArrayCollection=new ArrayCollection();
 }
 
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" showCloseButton="true"  
+			   width="1000" height="500" close="titlewindow1_closeHandler(event)"
+			  >
+      <mx:Script>
+      	<![CDATA[
+      		import mx.collections.ArrayCollection;
+      		import mx.rpc.events.ResultEvent;
+      		import mx.core.IFlexDisplayObject;
+      		import mx.managers.PopUpManager;
+      		import mx.events.CloseEvent;
+      		[Bindable]
+      		public var str:String;
+      		public function init():void{
+      		createformObject.ceshisql(DateView.sqlstr);
+      		}
+      		
+      		public function titlewindow1_closeHandler(event:CloseEvent):void{
+      		PopUpManager.removePopUp(this as IFlexDisplayObject);
+      		}
+      		public function createformResult(event:ResultEvent):void
+      		{
+      			str=event.result as String;
+      			Lleft.text=str;
+      		}
+      	]]>
+      </mx:Script>
+         <mx:RemoteObject id="createformObject" destination="selectchirdrenform" result="createformResult(event)" 
+      showBusyCursor="true"/>  
+       <mx:TextArea id="Lleft" 
+	      		 width="100%" height="100%" x="10" y="89"/>
+</mx:TitleWindow>

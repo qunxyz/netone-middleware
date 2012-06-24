@@ -62,7 +62,7 @@
 					DataApp.active="0";
 				}
 				FileDate.url=textarea.text;
-				var o:Object=this.parent.getChildByName("fileIItype1");
+				var o:Object=this.parent.getChildByName("Fileicon1");
 				vs.selectedChild=o as Canvas;
 			}
 			public function Cancel():void{

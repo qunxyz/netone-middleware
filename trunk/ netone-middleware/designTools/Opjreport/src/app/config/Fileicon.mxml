@@ -113,7 +113,7 @@
 			
 			//上一步的方法
 			public function UPNode(evetn:MouseEvent):void{
-				var o:Object=this.parent.getChildByName("fileIItype1");
+				var o:Object=this.parent.getChildByName("Appconfigsjl");
 				vs.selectedChild=o as Canvas;
 			}//下一步的方法
 			public function DownNode(event:MouseEvent):void{	

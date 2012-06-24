@@ -115,11 +115,11 @@ public class XmlTree {
 			cname="功能扩展";
 		}if(path.equals("EXTENDATTRIBUTE")){
 			cname="扩展功能";
-		}if(path.equals("dyviewproc")){
+		}if(path.equalsIgnoreCase("DYVIEWPROC")){
 			cname="过程视图";
 		}
-		if(path.equals("Mapp")){
-			cname="扩展属性";
+		if(path.equals("MAPP")){
+			cname="手机功能";
 		}
 		NetoneXmlTree dxml=new NetoneXmlTree();
 		return dxml.dataxml(path, cname);

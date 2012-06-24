@@ -38,7 +38,7 @@ public class Dycreate {
 		upo.setReference(busForm.getDescription());
 		upo.setActive("0");
 		rsrmi.updateResource(upo);
-		return  info[1];
+		return  info[1]+"&"+rsname;
 	}
  
 	//删除表单的方法

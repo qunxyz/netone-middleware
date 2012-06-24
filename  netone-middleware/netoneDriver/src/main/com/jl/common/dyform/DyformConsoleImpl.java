@@ -182,20 +182,20 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			//来自SOA脚本
 			rsinfo = StringUtils.substringBetween(valuelist, "[SOA:", "]");
 			if (StringUtils.isNotEmpty(rsinfo)) {
+				String naturalname[]=rsinfo.split(",");
 				UmsProtectedobject upo=null;
 				try {
-					upo = rs.loadResourceByNatural(rsinfo);
+					upo = rs.loadResourceByNatural(naturalname[0]);
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String param=upo.getDescription();
 				EnvService env = null;
 				try {
 
 					env = (EnvService) RmiEntry.iv("envinfo");
 					String value = env.fetchEnvValue("WEBSER_APPFRAME");
-					value=value+"Soasvl?naturalname="+rsinfo+param;
+					value=value+"Soasvl?naturalname="+naturalname[0]+(naturalname.length==2?naturalname[1]:"");
 
 							//System.out.println("sync user to php:"+url);
 							// 通讯协议

@@ -214,13 +214,24 @@ public class ADDdoform {
 	}
 
 	// 创建sql表单
-	public String createsql(String formname, String sql, String parentdir)
+	public String createsql(String formname, String sql, String parentdir,String tablename)
 			throws Exception {
-		TCsForm busForm = new TCsForm();
-		busForm.setFormname(formname);
-		busForm.setSqlinfo(sql);
-		Dycreate dycreate = new Dycreate();
-		String exart = dycreate.createForms(busForm, parentdir);
+		String exart=null;
+		try {
+			TCsForm busForm = new TCsForm();
+			busForm.setFormname(formname);
+			if(StringUtils.isNotEmpty(tablename)){
+			 busForm.setTablename(StringUtils.substringAfterLast(tablename, "."));
+			}
+			busForm.setSqlinfo(sql);
+			Dycreate dycreate = new Dycreate();
+			exart= dycreate.createForms(busForm, parentdir);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		
 		return exart;
 	}
 	public String ceshisql(String sql){
@@ -277,50 +288,22 @@ public class ADDdoform {
 		Dycreate dycreate = new Dycreate();
 		return dycreate.DeleteForm(busForm);
 	}
-	 //根据formcode删除视图表单
-	public Boolean DelformView(String formcode,String naturalname){	
-		ResourceRmi resourceRmi = null;
-		List list=new ArrayList();
-		try {
-			resourceRmi = (ResourceRmi) RmiEntry.iv("resource");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-		UmsProtecte up=new UmsProtecte();
-		UmsProtectedobject upbj=up.loadUmsProtecteNaturalname(naturalname);
-		String id=upbj.getId();
-		try {
-			list=resourceRmi.subResource(id);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			UmsProtectedobject object = (UmsProtectedobject) iterator.next();
-			Boolean fal=up.delUmsProtecte(object);
-		}
- 
-		Boolean fal=up.delUmsProtecte(upbj);
-		DyFormService dysc=null;
-		TCsForm tCsForm=null;
-		try {
-			dysc = (DyFormService) RmiEntry.iv("dyhandle");
-			tCsForm=dysc.loadForm(formcode);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String sql="Drop view dyform."+tCsForm.getTablename();
-		DbTools.countData(sql);
-		return fal;
-	}
+//	 //根据formcode删除视图表单
+//	public Boolean DelformView(String formcode,String naturalname){	
+//		DyFormService dysc=null;
+//		TCsForm tCsForm=null;
+//		try {
+//			dysc = (DyFormService) RmiEntry.iv("dyhandle");
+//			tCsForm=dysc.loadForm(formcode);
+//			String sql="Drop view dyform."+tCsForm.getTablename();
+//			DbTools.countData(sql);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return false;
+//		} 
+//		return true;
+//	}
 	public void saveAppliction(String YSstate, String Nname, String Cname,
 			String typeString, String ependString, String note)
 			throws Exception {

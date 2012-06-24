@@ -11,5 +11,7 @@
         public static var Clickurl:String="";
          [Bindable]//点击的节点名称
         public static var xiaokongjian:Array;
+        [Bindable]//processid
+        public static var  processid:String="";
     }
  }

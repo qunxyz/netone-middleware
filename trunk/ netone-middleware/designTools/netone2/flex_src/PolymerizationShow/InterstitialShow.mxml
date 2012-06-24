@@ -3,6 +3,7 @@
       title="{}"  initialize="init()" close="Exest()" width="100%" height="100%" xmlns:ns1="framework.*" >
 	 <mx:Script>
 	 	<![CDATA[
+	 		import mx.controls.Alert;
 	 		import BI.EvTijiao;
 	 		import BI.EvTjFs;
 	 		import mx.containers.Canvas;
@@ -14,7 +15,7 @@
 	 	     public var url:String;
 	 	    public function init():void{//初始化的方法
 	 	    EvTjFs.getInstance().addEventListener("URLshuanxin",URLshuanxin);
-	 	    vs=this.parent as ViewStack;
+	 	    vs=this.parent as ViewStack;	 	   
 	 	    iframe.source=url;
 	 	    }
 	 		public function Exest():void{//退出全屏的方法

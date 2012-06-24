@@ -30,6 +30,8 @@ public class DateView{
     public static var zidaun:ArrayCollection=new ArrayCollection();   
     [Bindable]
     public static var Updatearr:ArrayCollection=new ArrayCollection();
+    [Bindable]
+    public static var fal:Boolean=true;
 }
 
 }

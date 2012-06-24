@@ -41,6 +41,7 @@
   	      public  var xmllist:XMLList;
   	       [Bindable]
   	       public var textpath:String="";
+  	       public var rsname:String;
   	    public function init():void{ //初始化的方法	
   	            EvTjFs.getInstance().addEventListener("选择表单",xuanzhebiaodan);           
 	             vs=this.parent as ViewStack;
@@ -90,9 +91,14 @@
           DateView.fieldname=event.result as String;
           if(!DateView.modletype){
           	getColumn.getc(DateView.Formcode1);
-            delform.DelformView(DateView.Formcode1,DateView.Urlname);
+          	createformObject.createsql(DateView.formname,DateView.sqlstr,DateView.parentdir1,DateView.Urlname); 
+            //delform.DelformView(DateView.Formcode1,DateView.Urlname);
           }else{
-           createformObject.createsql(DateView.formname,DateView.sqlstr,DateView.Urlname); 
+          	if(DateView.fal){
+              createformObject.createsql(DateView.formname,DateView.sqlstr,DateView.Urlname,""); 
+            }else{
+              createformObject.createsql(DateView.formname,DateView.sqlstr,DateView.Urlname,rsname); 
+            }
           }
          }
         }
@@ -102,6 +108,9 @@
               Alert.show("创建失败");
               }else{
               	DateView.Formcode=event.result as String;
+              	var arr:Array=(DateView.Formcode).split("&");
+              	DateView.Formcode=arr[0];
+              	rsname=arr[1];
                var o:Object=this.parent.getChildByName("dyformfield1");
                vs.selectedChild=o as Canvas;
                dyformfield(o).ziduanshuju();
@@ -110,7 +119,7 @@
          // 视图表单是否删除
          public function deleteform(event:ResultEvent):void{
            if(event.result as Boolean){
-           createformObject.createsql(DateView.formname,DateView.sqlstr,DateView.parentdir1); 
+           
            }
          }
          //测试按钮调用的方法

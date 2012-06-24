@@ -23,6 +23,6 @@
  </mx:Script>
 	<mx:Canvas x="0" y="0" width="100%" height="100%">
 		<mx:TextInput  id="textinput1" text="{DataTransfer.Report}" x="37" y="29" height="33" width="464"/>	
-		<mx:LinkButton x="509" y="29" label="选择报表" click="OptionReport()"/>
+		<mx:Button x="509" y="29" label="选择报表" click="OptionReport()"/>
 	</mx:Canvas>
 </mx:Panel>

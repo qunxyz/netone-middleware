@@ -23,7 +23,7 @@
 	</mx:Script>
 	
 	<mx:Canvas x="0" y="0" width="100%" height="100%">			
-	<mx:LinkButton x="519" y="29" label="选择portal" click="tubaioxuanzhe()"/>
+	<mx:Button x="519" y="29" label="选择portal" click="tubaioxuanzhe()"/>
 	<mx:TextInput id="textinput1" text="{DataTransfer.portal}" x="37" y="29" height="33" width="464"/>	
 	</mx:Canvas>
 </mx:Panel>

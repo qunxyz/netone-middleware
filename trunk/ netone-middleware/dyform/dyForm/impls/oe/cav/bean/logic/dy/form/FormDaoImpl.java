@@ -66,7 +66,7 @@ public class FormDaoImpl implements FormDao {
 			if(StringUtils.isEmpty(form.getSqlinfo())||"*".equals(form.getSqlinfo())){
 				info=DbScriptTools.create(systemid);
 			}else{
-				info=DbScriptTools.createV(systemid,form.getSqlinfo());
+				info=DbScriptTools.createV(systemid,form.getSqlinfo(),form.getTablename());
 			}
 			form.setDescription(info[0]);
 			form.setDesigner(info[1]);

@@ -247,9 +247,24 @@
 								</c:if>
 							</td>
 							<td nowrap>
+							<c:if test="${list.inclusion != '1'}">
+																<a
+										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>Diagram.html?formcode=${list.extendattribute}&isedit=1','_parent');"
+										target="_blank"><font color='red'>[查看图表]</font></a>									
+									<a
+										href="resourcepage/dyformlist2/report.jsp?formcode=${list.extendattribute}"
+										target="_blank"><font color='red'>[查看报表]</font></a>
+									<a
+										href="resourcepage/dyformlist2/reportExcel.jsp?formcode=${list.extendattribute}"
+										target="_blank"><font color='red'>[导出EXCEL]</font></a>
+							
   									<a   
 										href="<portal:envget envkey="WEBSER_SpeedyForm"/>DyFormView.html?parentdir=${upo.naturalname}&name=${list.naturalname}&model=edits"
 										target="_blank"><font color='red'>[修改]</font></a>
+																			<a
+										href="javascript:window.open('/biWeb/servlet/FormViewsvl?formcode=${list.extendattribute}','_parent');"
+										target="_top">[描述]</a>
+										</c:if>
 
 							</td>
 

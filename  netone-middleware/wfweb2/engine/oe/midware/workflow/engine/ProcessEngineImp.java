@@ -176,4 +176,11 @@ public class ProcessEngineImp implements ProcessEngine {
 		return ruleEngine.todo(logicExp);
 	}
 
+	@Override
+	public Object exeScript(String logicExp, Object[] obj)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		return ruleEngine.todo(logicExp,obj);
+	}
+
 }

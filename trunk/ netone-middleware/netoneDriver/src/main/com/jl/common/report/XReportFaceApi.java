@@ -347,7 +347,7 @@ public class XReportFaceApi {
 			if (i == 0)
 				checked = "1";
 
-			list.add(DyFormComp.getRadio($REPORTID + "KEY", checked, "", "",
+			list.add(DyFormComp.getSingleRadio($REPORTID + "KEY", checked, "", "",
 					false, clickjs)
 					+ "&nbsp;" + r.getRpName());
 			split = ",";

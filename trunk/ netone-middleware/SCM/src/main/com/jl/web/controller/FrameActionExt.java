@@ -661,10 +661,13 @@ public class FrameActionExt extends AbstractAction {
 				}
 				size = 20;
 			}
-
+			User user = getOnlineUser(request);
 			DyFormData dydata = new DyFormData();
 			dydata.setFormcode(formcode);
 			dydata.setFatherlsh("1");
+			if (!"adminx".equals(user.getUserCode())) {
+				dydata.setParticipant(user.getUserCode());
+			}
 			List list = new ArrayList();
 
 			list = DyEntry.iv().queryData(dydata, 0, size,
@@ -1825,12 +1828,20 @@ public class FrameActionExt extends AbstractAction {
 			DyFormData data = new DyFormData();
 			data.setLsh(lsh);
 			data.setStatusinfo("01");
-			boolean succ = DyEntry.iv().modifyData(formcode, data);
-			if (succ) {
-				json.put("tip", "确认成功!");
-			} else {
-				json.put("tip", "确认失败!");
+			data.setFatherlsh("1");
+
+			int count = DyEntry.iv().queryDataNum(data, "");
+			if (count > 0) {
+				json.put("tip", "已确认,不需要再确认!");
 				json.put("error", "yes");
+			} else {
+				boolean succ = DyEntry.iv().modifyData(formcode, data);
+				if (succ) {
+					json.put("tip", "确认成功!");
+				} else {
+					json.put("tip", "确认失败!");
+					json.put("error", "yes");
+				}
 			}
 		} catch (Exception e) {
 			json.put("tip", "确认失败!");
@@ -1856,13 +1867,22 @@ public class FrameActionExt extends AbstractAction {
 			DyFormData data = new DyFormData();
 			data.setLsh(lsh);
 			data.setStatusinfo("00");
-			boolean succ = DyEntry.iv().modifyData(formcode, data);
-			if (succ) {
-				json.put("tip", "反确认成功!");
-			} else {
-				json.put("tip", "反确认失败!");
+			data.setFatherlsh("1");
+
+			int count = DyEntry.iv().queryDataNum(data, "");
+			if (count > 0) {
+				json.put("tip", "已反确认,不需要再反确认!");
 				json.put("error", "yes");
+			} else {
+				boolean succ = DyEntry.iv().modifyData(formcode, data);
+				if (succ) {
+					json.put("tip", "反确认成功!");
+				} else {
+					json.put("tip", "反确认失败!");
+					json.put("error", "yes");
+				}
 			}
+
 		} catch (Exception e) {
 			json.put("tip", "反确认失败!");
 			json.put("error", "yes");

@@ -1296,6 +1296,15 @@ public final class DyFormBuildHtmlExt {
 			DyFormColumn column, String columnname, String formcode,
 			boolean isedit, String value, String userinfo, double xoffset,
 			String parameter) {
+		return buildTdHtml(htmlresult, availColumnWidth, column, columnname,
+				formcode, isedit, value, userinfo, xoffset, parameter, true);
+	}
+
+	protected static Map<Double, String> buildTdHtml(
+			Map<Double, String> htmlresult, int availColumnWidth,
+			DyFormColumn column, String columnname, String formcode,
+			boolean isedit, String value, String userinfo, double xoffset,
+			String parameter, boolean isMusk_) {
 		int columnsize = (columnname.length() * 12) + 12;
 		String html_ = "<div class=\"" + FORM_FIELD_CONTENT
 				+ "\" style=\"width:" + availColumnWidth + "px\">" + _N;
@@ -1322,7 +1331,7 @@ public final class DyFormBuildHtmlExt {
 					+ "\">"
 					+ "&nbsp;"
 					+ columnname
-					+ (column.isMusk_() == true ? "<span style=\"color:red\">*</span>"
+					+ ((column.isMusk_() && isMusk_) == true ? "<span style=\"color:red\">*</span>"
 							: "") + "</div>" + _N;
 			_width = "99%;";
 			_width_input = "99%;";
@@ -1338,7 +1347,7 @@ public final class DyFormBuildHtmlExt {
 					+ ""
 					+ "\">"
 					+ columnname
-					+ (column.isMusk_() == true ? "<span style=\"color:red\">*</span>"
+					+ ((column.isMusk_() && isMusk_) == true ? "<span style=\"color:red\">*</span>"
 							: "") + ":</div>" + _N;
 		}
 		if (!isedit) {
@@ -1664,7 +1673,8 @@ public final class DyFormBuildHtmlExt {
 				availColumnWidth = calcAvailColumnWidth(yoffset_.intValue());
 
 				htmlresult = buildTdHtml(htmlresult, availColumnWidth, column,
-						columnname, formcode, true, "" + value, "", xoffset, "");
+						columnname, formcode, true, "" + value, "", xoffset,
+						"", false);
 			}// end if
 		}// end for
 

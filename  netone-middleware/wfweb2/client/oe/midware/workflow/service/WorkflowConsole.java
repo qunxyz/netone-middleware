@@ -185,5 +185,14 @@ public interface WorkflowConsole extends Remote, ProcessEngine {
 	 * @return 可以返回任意类型
 	 */
 	Object exeScript(String script) throws RemoteException;
+	
+	
+	/**
+	 * 执行脚本
+	 * @param script 脚本由外部做预处理，比如 $(var)表示变量可以处理
+	 * @param param 外部参数对象  这些对象必须是持久化对象
+	 * @return 可以返回任意类型
+	 */
+	Object exeScript(String script,Object []param) throws RemoteException;
 
 }

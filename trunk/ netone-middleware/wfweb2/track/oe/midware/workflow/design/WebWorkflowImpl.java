@@ -40,9 +40,9 @@ public class WebWorkflowImpl implements WebWorkflow {
 	}
 
 	private String fetchActivitySerialNumber(WorkflowProcess proc) {
-		String indexMax = "20";// 通常情况下一个流程图中的节点个数不会超过20个,那么如果出现意外,读不到上次的节点最大数,默认让最大数为20是个安全的做法
-		String indexCount = "20";
-		String otherCount = "20";
+		String indexMax = "100";// 通常情况下一个流程图中的节点个数不会超过20个,那么如果出现意外,读不到上次的节点最大数,默认让最大数为20是个安全的做法
+		String indexCount = "100";
+		String otherCount = "100";
 		try {
 			Map info = proc.getExtendedAttributes().getMap();
 			indexMax = (String) info.get("activitymaxcount");

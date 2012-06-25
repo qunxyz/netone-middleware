@@ -306,6 +306,7 @@ public class DyObjFromDatabaseImpl implements DyObjFromDatabase {
 								|| type.equals("integer")
 								|| type.equals("NUMBER")) {
 							tcc.setChecktype("number");
+							tcc.setViewtype("01");
 							tcc.setHtmltype("");
 						} else if (type.equals("datetime")
 								|| type.equals("smalldatetime")
@@ -316,6 +317,7 @@ public class DyObjFromDatabaseImpl implements DyObjFromDatabase {
 						} else {
 							tcc.setChecktype("");
 							tcc.setHtmltype(type);
+							tcc.setViewtype("");
 						}
 						tcc.setColumname(column);
 						tcc.setColumncode(column);
@@ -329,7 +331,7 @@ public class DyObjFromDatabaseImpl implements DyObjFromDatabase {
 						tcc.setStatusinfo("");
 						tcc.setUseable(XMLReference.TRUE);
 						tcc.setValuelist(DyReference.VALUELIST_VALUE);
-						tcc.setViewtype("");
+						
 						formcolumn.add(tcc);
 						indexvalue++;
 					}

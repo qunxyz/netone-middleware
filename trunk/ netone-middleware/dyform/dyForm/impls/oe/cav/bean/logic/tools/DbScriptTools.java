@@ -55,8 +55,13 @@ public class DbScriptTools {
 
 	
 	
-	public static String[] createV(String ds,String sqlinfo) {
+	public static String[] createV(String ds,String sqlinfo,String tableOld) {
 		String tableName = "DYV_" + IdServer.xnumID();
+		//因为视图的修改是删除，然后重新创建，所以要保留原来的名字
+		if(StringUtils.isNotEmpty(tableOld)){
+			tableName=tableOld;
+		}
+		
 		// String createScript = "create table "
 		// + tableName
 		// +
@@ -71,12 +76,20 @@ public class DbScriptTools {
 		 * Incorrect string value: '\xE9\xBB\x98\xE8\xAE\xA4...' for column
 		 * 'BELONG X' at row 1
 		 */
+		Connection con =null;
+		if(StringUtils.isNotEmpty(tableOld)){
+			con = SQLTools.getConn(ds);
+			tableName=tableOld;
+			String sql="drop view "+tableOld;
+			DbTools.execute(con, sql);
+		}
+		con = SQLTools.getConn(ds);
 		// character set gbk 添加字段编码以GBK保存
 		String createScript = "create View "
 				+ tableName
 				+ " as ("+sqlinfo+")";
 
-		Connection con = SQLTools.getConn(ds);
+
 		log.debug("create view form:" + createScript);
 		DbTools.execute(con, createScript);
 

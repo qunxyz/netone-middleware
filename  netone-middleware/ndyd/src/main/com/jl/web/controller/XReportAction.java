@@ -121,7 +121,7 @@ public class XReportAction extends AbstractAction {
 			if (StringUtils.isEmpty(type)) {
 				type = "html";
 			}
-			ins.buildReport(type, naturalname, condition, response);
+			ins.buildReport(type, naturalname, condition, response,request);
 		}
 
 	}

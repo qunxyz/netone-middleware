@@ -257,26 +257,9 @@
 								<c:if test="${list.inclusion != '1'}">
 									<a
 										href="<portal:envget envkey='WEBSER_APPFRAME'/>/servlet/DataTrans?name=${list.naturalname}"
-										target="_blank"><font color='red'>[执行]</font>
+										target="_blank"><font color='red'>[运行]</font>
 									</a>
-									<c:if test="${list.objecttype=='trans'}">
-									       
-										<a
-											href="<portal:envget envkey="WEBSER_DYFORM"/>/dyForm/data/data/list.do?lsh=1&formcode=${list.description}"
-											target="_blank"><font color='red'>[数据平滑]</font>
-										</a>
-										<a
-										href="<portal:envget envkey="WEBSER_SpeedyForm"/>NewDMXML.html?name=${list.naturalname}&mode=edit"
-										target="_blank"><font color='red'>[修改]</font></a>
 
-									</c:if>
-									<c:if test="${list.objecttype=='etl'}">
-
-										<a
-										href="<portal:envget envkey="WEBSER_SpeedyForm"/>NewBIXML.html?name=${list.naturalname}&mode=edit"
-										target="_blank"><font color='red'>[修改]</font></a>
-
-									</c:if>
 								</c:if>
 
 							</td>

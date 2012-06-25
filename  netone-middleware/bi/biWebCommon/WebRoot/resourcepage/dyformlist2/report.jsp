@@ -60,6 +60,12 @@
 					<td>
 						${data.column11}
 					</td>
+					<td>
+						${data.column12}
+					</td>
+					<td>
+						${data.column13}
+					</td>
 				</tr>
 
 			</c:forEach>

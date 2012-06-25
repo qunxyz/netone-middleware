@@ -64,10 +64,42 @@
 			window.open("CreateDySubSvl?&pagename=${pagename}&chkid="+id);
 		}
 		
-		function man(name){
-			var url='<portal:envget envkey="WEBSER_APPFRAME"/>frame.do?method=onMainView&naturalname='+name;
+		function man(name,value){
+		    
+		    var url='<portal:envget envkey="WEBSER_APPFRAME"/>frame.do?method=onMainView&naturalname='+name;
+		    if(value=='-1')return;
+		    if(value=='0'){
+		    }else if(value=='1'){
+			   url='<portal:envget envkey="WEBSER_APPFRAMEX"/>frame.do?method=onMainView&naturalname='+name;
+			}else {
+			   url='<portal:envget envkey="WEBSER_APPFRAMEX"/>frame.do?method=onMainView'+value+'&naturalname='+name+'&extmode=2';
+			}
+			
 			window.open(url);
 		}
+		
+		function manx(name,value){
+			if(value=='0'){
+				worklist(name);
+				return;
+			}
+			if(value=='1'){
+				worklistR(name);
+				return;
+			}
+			if(value=='2'){
+				worklistdone1(name);
+				return;
+			}
+			if(value=='3'){
+				worklistdone2(name);
+				return;
+			}				
+			if(value=='4'){
+				worklistdone3(name);return;
+			}
+		}
+			
 		
 		function editx(id){
 			var url='<portal:envget envkey="WEBSER_SpeedyForm"/>WConfigEngine.html?mode=edit&idcreated='+id;
@@ -82,6 +114,11 @@
 		function worklist(name){    
 			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=onMainView2&mode=1&height=460&listtype=01&sortfield=&sort=&psize=20&appname='+name;
 			window.open(url);
+		}
+		
+		function worklistdone3(name){
+				var urlx='<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?height=260&appname='+name+'&sort=&psize=20&sortfield=&listtype=00&mode=1&method=onMainView2';
+			    window.open(urlx);	
 		}
 		
 		function worklistR(name){    
@@ -171,9 +208,9 @@
 					<tr>
 						<td colspan='9' align='right' nowrap>
 							&nbsp;&nbsp;
-							<input type="button" value="新建应用X" onclick="newx('${upo.naturalname}');"
+							<input type="button" value="新建应用" onclick="newx('${upo.naturalname}');"
 								class="butt">
-							<input type="button" value="新建应用" onclick="newElemnt();"
+							<input type="button" value="新建应用Old" onclick="newElemnt();"
 								class="butt">
 
 							&nbsp;&nbsp;
@@ -250,13 +287,31 @@
 										href="javascript:edit('${list.id}');"><font color='#999999'>[框架配置](旧)</font></a> <a
 										href="javascript:cfg_p('${list.id}');"><font color='#999999'>[参与者配置](旧)</font></a> <a
 										href="javascript:cfg_dy('${list.id}');"><font color='#999999'>[流程表单配置](旧)</font></a> 
-										
-									<a href="javascript:man('${list.naturalname}');"><font color='green'>过程:管理</font></a>
-									<a href="javascript:worklist('${list.naturalname}');"><font color='green'>待办应用</font></a>
-									<a href="javascript:worklistR('${list.naturalname}');"><font color='green'>待阅应用</font></a>
-									<a href="javascript:worklistdone1('${list.naturalname}');"><font color='green'>已办未归档</font></a>
-									<a href="javascript:worklistdone2('${list.naturalname}');"><font color='green'>已办且归档</font></a>
-									<a href="<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?height=260&appname=${list.naturalname}&sort=&psize=20&sortfield=&listtype=00&mode=1&method=onMainView2" target='_blank'><font color='green'>管理员视图</font></a>
+									
+									
+										<select id='appmode' name='appmode'  onchange="javascript:man('${list.naturalname}',this.value);">
+									        <option value="-1">-应用选择-</option>
+											<option value="0">过程</option>
+											<option value="1">通用</option>
+											<option value="2">带子表单</option>
+											<option value="3">带汇总</option>
+											<option value="4">带子表单+汇总</option>
+										</select>
+
+										<select id='flowmode' name='flowmode'  onchange="javascript:manx('${list.naturalname}',this.value);">
+									        <option value="-1">-流程应用选择-</option>
+											<option value="0" >待办应用</option>
+											<option value="1">待阅应用</option>
+											<option value="2">已办未归档</option>
+											<option value="3">已办且归档</option>
+											<option value="4">管理员视图</option>
+										</select>
+																			
+									<a href="javascript:worklist('${list.naturalname}');"><font color='green'></font></a>
+									<a href="javascript:worklistR('${list.naturalname}');"><font color='green'></font></a>
+									<a href="javascript:worklistdone1('${list.naturalname}');"><font color='green'></font></a>
+									<a href="javascript:worklistdone2('${list.naturalname}');"><font color='green'></font></a>
+									<a href="" target='_blank'><font color='green'></font></a>
 									
 									<a href="javascript:init('${list.id}');">初始化</a>
 									<a href="javascript:del('${list.id}');">删除</a>

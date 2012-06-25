@@ -41,7 +41,7 @@ var offx = 40;
 var activitycount=0; //活动总数管理
 var activitymaxcount=0; //活动最大个数管理
 var initmaxcount="false";// 该变量是开关作用,用于第一次初始化activitymaxcount时使用,一旦初始化后为true;
-var maxactivitycount=20;
+var maxactivitycount=100; 
 
 var othercount=0;//其他元素总数管理
 
@@ -526,7 +526,7 @@ trackFactory.prototype.createTrackRoute2 = function(){
 //创建节点///
 trackFactory.prototype._createTrack = function(dispname,type,bordercolor,activityColor){
    	if(activitycount==maxactivitycount){
-   		alert("节点个数超出20个");
+   		alert("节点个数超出100个");
    		return;
    }
    activitycount++;

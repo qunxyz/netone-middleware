@@ -39,5 +39,14 @@ public interface RuleEngine {
 	 * @return 原始對象
 	 */
 	public Object todo(String elogicExpress);
+	
+	/**
+	 * 执行脚本处理
+	 * 
+	 * @param elogicExpress
+	 * @param param 外部参数对象  这些对象必须是持久化对象
+	 * @return 原始對象
+	 */
+	public Object todo(String elogicExpress,Object []param);
 
 }

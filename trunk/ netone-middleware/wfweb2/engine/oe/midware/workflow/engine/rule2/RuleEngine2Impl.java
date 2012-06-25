@@ -1,5 +1,7 @@
 package oe.midware.workflow.engine.rule2;
 
+import org.apache.commons.lang.StringUtils;
+
 import bsh.EvalError;
 import bsh.Interpreter;
 
@@ -22,6 +24,8 @@ public class RuleEngine2Impl implements RuleEngine {
 		if (elogicExpress == null || elogicExpress.equals("")) {
 			return true;
 		}
+		
+		elogicExpress=StringUtils.replace(elogicExpress, "‘", "'");
 
 		Interpreter itp = new Interpreter();
 
@@ -50,7 +54,7 @@ public class RuleEngine2Impl implements RuleEngine {
 		if (elogicExpress == null || elogicExpress.equals("")) {
 			return "";
 		}
-
+		elogicExpress=StringUtils.replace(elogicExpress, "‘", "'");
 		Interpreter itp = new Interpreter();
 
 		try {
@@ -74,7 +78,7 @@ public class RuleEngine2Impl implements RuleEngine {
 		if (elogicExpress == null || elogicExpress.equals("")) {
 			return null;
 		}
-
+		elogicExpress=StringUtils.replace(elogicExpress, "‘", "'");
 		Interpreter itp = new Interpreter();
 
 		try {
@@ -98,6 +102,31 @@ public class RuleEngine2Impl implements RuleEngine {
 
 	public void setScripthead(String scripthead) {
 		this.scripthead = scripthead;
+	}
+
+	@Override
+	public Object todo(String elogicExpress, Object[] param) {
+		// 如果没有规则那么默认为真
+		if (elogicExpress == null || elogicExpress.equals("")) {
+			return null;
+		}
+		elogicExpress=StringUtils.replace(elogicExpress, "‘", "'");
+		Interpreter itp = new Interpreter();
+
+		try {
+			itp.set("_param", param);
+			itp.set("runtimeid", "");
+			itp.set("workcode", "");
+			Object revValue = itp.eval(scripthead + elogicExpress);
+			if (revValue != null) {
+				return revValue;
+			}
+			return null;
+
+		} catch (EvalError e) {
+			throw new RuntimeException("规则语法错误:" + elogicExpress + " detail:"
+					+ e.getMessage());
+		}
 	}
 
 }

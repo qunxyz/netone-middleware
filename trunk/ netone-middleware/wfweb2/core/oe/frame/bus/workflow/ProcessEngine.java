@@ -137,6 +137,9 @@ public interface ProcessEngine {
 	
 	
 	public Object exeScript(String eLogicExp)throws RemoteException;
+	
+	
+	public Object exeScript(String eLogicExp,Object []obj)throws RemoteException;
 
 	/**
 	 * 初始化流程，将流程恢复到初始状态

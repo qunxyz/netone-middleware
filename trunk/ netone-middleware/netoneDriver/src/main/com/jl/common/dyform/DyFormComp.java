@@ -484,6 +484,28 @@ public final class DyFormComp {
 				+ DyFormBuildHtml.uuid(), "", style, classname, readonly,
 				extvalue);
 	}
+	
+	/**
+	 * 获取单一radio
+	 * 
+	 * @param id
+	 * @param value
+	 * @param style
+	 * @param classname
+	 * @param readonly
+	 * @return
+	 */
+	public static String getSingleRadio(String id, String value, String style,
+			String classname, boolean readonly, String extvalue) {
+		String checkstr = "";
+		if ("1".equals(value)) {
+			checkstr = " checked=\"checked\" ";
+		} else {
+			checkstr = " ";
+		}
+		return getComp("<input type=\"radio\" ", checkstr + " />", id, "", style, classname, readonly,
+				extvalue);
+	}
 
 	/**
 	 * 获取radio组

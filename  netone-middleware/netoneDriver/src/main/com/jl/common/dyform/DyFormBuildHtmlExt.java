@@ -629,12 +629,19 @@ public final class DyFormBuildHtmlExt {
 			Double yoffset = _qc1.getXoffset();
 			Double xoffset = _qc1.getYoffset();
 			boolean hidden = _qc1.isHidden();
+
+			String[][] arr = DyFormConsoleIfc._HTML_LIST;
+
 			if (hidden == false) {
 				// 每行最大列数存储
 				if (columnmap.containsKey(xoffset)) {
 					Double yoffset_ = columnmap.get(xoffset);
 					if (yoffset > yoffset_) {
-						columnmap.put(xoffset, yoffset);
+						if (arr[28][0].equals(_qc1.getViewtype())) {
+							columnmap.put(xoffset, yoffset_);
+						} else {
+							columnmap.put(xoffset, yoffset);
+						}
 					}
 				} else {
 					columnmap.put(xoffset, yoffset);

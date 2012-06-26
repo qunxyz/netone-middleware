@@ -2982,18 +2982,19 @@ public class FrameActionExt extends AbstractAction {
 				DyFormData data = new DyFormData();
 				data.setColumn3(user.getUserCode());
 				data.setColumn5(subdata.getFormcode());
+				data.setFatherlsh("1");
 				String lsh = DyFormBuildHtmlExt.checkColConfigExist(data,
 						formcode);
 				if (StringUtils.isNotEmpty(lsh)) {
 					data.setColumn4(JSONObject.fromObject(subdata).toString());
 					data.setParticipant(user.getUserCode());
-					data.setFatherlsh("");
+					data.setFatherlsh("1");
 					data.setLsh(lsh);
 					DyEntry.iv().modifyData(formcode, data);
 				} else {
 					data.setColumn4(JSONObject.fromObject(subdata).toString());
 					data.setParticipant(user.getUserCode());
-					data.setFatherlsh("");
+					data.setFatherlsh("1");
 					DyEntry.iv().addData(formcode, data);
 				}
 			}

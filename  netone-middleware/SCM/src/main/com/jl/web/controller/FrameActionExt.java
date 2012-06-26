@@ -1829,11 +1829,11 @@ public class FrameActionExt extends AbstractAction {
 			data.setStatusinfo("01");
 			data.setFatherlsh("1");
 
-			int count = DyEntry.iv().queryDataNum(data, "");
-			if (count > 0) {
-				json.put("tip", "已确认,不需要再确认!");
-				json.put("error", "yes");
-			} else {
+//			int count = DyEntry.iv().queryDataNum(data, "");
+//			if (count > 0) {
+//				json.put("tip", "已确认,不需要再确认!");
+//				json.put("error", "yes");
+//			} else {
 				boolean succ = DyEntry.iv().modifyData(formcode, data);
 				if (succ) {
 					json.put("tip", "确认成功!");
@@ -1841,7 +1841,7 @@ public class FrameActionExt extends AbstractAction {
 					json.put("tip", "确认失败!");
 					json.put("error", "yes");
 				}
-			}
+//			}
 		} catch (Exception e) {
 			json.put("tip", "确认失败!");
 			json.put("error", "yes");
@@ -1868,11 +1868,11 @@ public class FrameActionExt extends AbstractAction {
 			data.setStatusinfo("00");
 			data.setFatherlsh("1");
 
-			int count = DyEntry.iv().queryDataNum(data, "");
-			if (count > 0) {
-				json.put("tip", "已反确认,不需要再反确认!");
-				json.put("error", "yes");
-			} else {
+//			int count = DyEntry.iv().queryDataNum(data, "");
+//			if (count > 0) {
+//				json.put("tip", "已反确认,不需要再反确认!");
+//				json.put("error", "yes");
+//			} else {
 				boolean succ = DyEntry.iv().modifyData(formcode, data);
 				if (succ) {
 					json.put("tip", "反确认成功!");
@@ -1880,7 +1880,7 @@ public class FrameActionExt extends AbstractAction {
 					json.put("tip", "反确认失败!");
 					json.put("error", "yes");
 				}
-			}
+//			}
 
 		} catch (Exception e) {
 			json.put("tip", "反确认失败!");

@@ -2577,6 +2577,7 @@ public final class DyFormBuildHtmlExt {
 	 */
 	public static String getColDisableConfig(DyFormData dydata, String formcode) {
 		dydata.setFormcode(formcode);// 用户自定义列配置
+		dydata.setFatherlsh("1");
 		List<DyFormData> list = new ArrayList();
 		try {
 			list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
@@ -2593,6 +2594,7 @@ public final class DyFormBuildHtmlExt {
 		dydata.setFormcode(formcode);// 用户自定义列配置
 		List<DyFormData> list = new ArrayList();
 		try {
+			dydata.setFatherlsh("1");
 			list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
 		} catch (Exception e) {
 			e.printStackTrace();

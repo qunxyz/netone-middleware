@@ -982,8 +982,7 @@ public class FrameActionExt extends AbstractAction {
 						String colid = subcolumnx[i].getColumnid();
 
 						if ("dl001".equals(ext)) {
-							if ("column3".equals(colid)
-									|| "column4".equals(colid)
+							if ("column4".equals(colid)
 									|| "column48".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)

@@ -2977,7 +2977,7 @@ public class FrameActionExt extends AbstractAction {
 
 				DyFormData subdata = new DyFormData();
 				BeanUtils.copyProperties(subdata, obj);
-				subdata.setFatherlsh("");
+				subdata.setFatherlsh("1");
 
 				DyFormData data = new DyFormData();
 				data.setColumn3(user.getUserCode());

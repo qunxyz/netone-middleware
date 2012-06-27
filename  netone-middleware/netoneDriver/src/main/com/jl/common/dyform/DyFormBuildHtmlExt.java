@@ -2178,19 +2178,24 @@ public final class DyFormBuildHtmlExt {
 		String split = "";
 		DyFormColumn[] _formx = new DyFormColumn[0];
 
-		try {
-			List<DyFormColumn> list = DyEntry.iv().queryColumnX(
-					dyform.getFormcode(), "2");
-			_formx = (DyFormColumn[]) list
-					.toArray(new DyFormColumn[list.size()]);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		DyFormData data = new DyFormData();
 		data.setColumn3(usercode);
 		data.setColumn5(dyform.getFormcode());
 		String json = getColDisableConfig(data);
+
+		if (json == null) {// 使用后台默认配置，否则使用用户自定义配置
+			try {
+				List<DyFormColumn> list = DyEntry.iv().queryColumnX(
+						dyform.getFormcode(), "2");
+				_formx = (DyFormColumn[]) list.toArray(new DyFormColumn[list
+						.size()]);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			_formx = dyform.getAllColumn_();
+		}
+
 		JSONObject jsonobj = JSONObject.fromObject(json);
 
 		for (int i = 0; i < _formx.length; i++) {
@@ -2594,8 +2599,9 @@ public final class DyFormBuildHtmlExt {
 		return data.getColumn4();
 	}
 
-	public static String checkColConfigExist(DyFormData dydata, String formcode) {
-		dydata.setFormcode(formcode);// 用户自定义列配置
+	public static String checkColConfigExist(DyFormData dydata) {
+		// dydata.setFormcode(formcode);// 用户自定义列配置
+		dydata.setFormcode("47c36268b7c611e1ba92af790c025a41_");// 用户自定义列配置
 		List<DyFormData> list = new ArrayList();
 		try {
 			dydata.setFatherlsh("1");

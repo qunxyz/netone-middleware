@@ -1828,20 +1828,23 @@ public class FrameActionExt extends AbstractAction {
 			data.setLsh(lsh);
 			data.setStatusinfo("01");
 			data.setFatherlsh("1");
+			User user = getOnlineUser(request);
 
-//			int count = DyEntry.iv().queryDataNum(data, "");
-//			if (count > 0) {
-//				json.put("tip", "已确认,不需要再确认!");
-//				json.put("error", "yes");
-//			} else {
-				boolean succ = DyEntry.iv().modifyData(formcode, data);
-				if (succ) {
-					json.put("tip", "确认成功!");
-				} else {
-					json.put("tip", "确认失败!");
-					json.put("error", "yes");
-				}
-//			}
+			// int count = DyEntry.iv().queryDataNum(data, "");
+			// if (count > 0) {
+			// json.put("tip", "已确认,不需要再确认!");
+			// json.put("error", "yes");
+			// } else {
+			data.setParticipant(user.getUserCode() + "[" + user.getUserName()
+					+ "]");
+			boolean succ = DyEntry.iv().modifyData(formcode, data);
+			if (succ) {
+				json.put("tip", "确认成功!");
+			} else {
+				json.put("tip", "确认失败!");
+				json.put("error", "yes");
+			}
+			// }
 		} catch (Exception e) {
 			json.put("tip", "确认失败!");
 			json.put("error", "yes");
@@ -1865,22 +1868,26 @@ public class FrameActionExt extends AbstractAction {
 
 			DyFormData data = new DyFormData();
 			data.setLsh(lsh);
-			data.setStatusinfo("00");
+			data.setStatusinfo("02");
 			data.setFatherlsh("1");
+			User user = getOnlineUser(request);
+			
+			// int count = DyEntry.iv().queryDataNum(data, "");
+			// if (count > 0) {
+			// json.put("tip", "已反确认,不需要再反确认!");
+			// json.put("error", "yes");
+			// } else {
+			data.setParticipant(user.getUserCode() + "[" + user.getUserName()
+					+ "]");
 
-//			int count = DyEntry.iv().queryDataNum(data, "");
-//			if (count > 0) {
-//				json.put("tip", "已反确认,不需要再反确认!");
-//				json.put("error", "yes");
-//			} else {
-				boolean succ = DyEntry.iv().modifyData(formcode, data);
-				if (succ) {
-					json.put("tip", "反确认成功!");
-				} else {
-					json.put("tip", "反确认失败!");
-					json.put("error", "yes");
-				}
-//			}
+			boolean succ = DyEntry.iv().modifyData(formcode, data);
+			if (succ) {
+				json.put("tip", "反确认成功!");
+			} else {
+				json.put("tip", "反确认失败!");
+				json.put("error", "yes");
+			}
+			// }
 
 		} catch (Exception e) {
 			json.put("tip", "反确认失败!");

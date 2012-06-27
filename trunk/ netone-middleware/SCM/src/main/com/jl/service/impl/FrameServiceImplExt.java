@@ -485,7 +485,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		if (SecurityEntry.iv().permission(user.getUserCode(),
 				naturalname_dyform + ".ADD")) {
 			btnStr
-					.append("{text:' 继续创建 ',id:'ext_b_add_continue',iconCls:'addIcon',handler:function(){ _continueAdd();}},");
+					.append("{text:' 继续添加 ',id:'ext_b_add_continue',iconCls:'addIcon',handler:function(){ _continueAdd();}},");
 		}
 		if (SecurityEntry.iv().permission(user.getUserCode(),
 				naturalname_dyform + ".DELE")) {
@@ -495,7 +495,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		btnStr
 				.append("{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},");
 		btnStr
-				.append("{text:' 取 消 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}");
+				.append("{text:' 关 闭 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}");
 
 		String north = DyFormComp.getExtPanelAttr("north", "north", "toolbar",
 				btnStr.toString(), null, "");

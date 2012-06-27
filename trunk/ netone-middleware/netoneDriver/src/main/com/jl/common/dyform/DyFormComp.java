@@ -576,6 +576,7 @@ public final class DyFormComp {
 		jshtml.append("		val=x[1];break;");
 		jshtml.append("	}");
 		jshtml.append("}");
+		jshtml.append("if(val=='undefined' || val==null) val='';");
 		jshtml.append("return val;");
 
 		return getTag(
@@ -792,6 +793,7 @@ public final class DyFormComp {
 		jshtml.append("		val=x[1];break;");
 		jshtml.append("	}");
 		jshtml.append("}");
+		jshtml.append("if(val=='undefined' || val==null) val='';");
 		jshtml.append("return val;");
 
 		return getTag(

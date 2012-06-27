@@ -1953,6 +1953,7 @@ public final class DyFormBuildHtmlExt {
 					++colspan;
 				}
 
+				if (isedit)
 				eventListenScripts
 						.append(DyFormComp.getLiveEventScript("$('table#"
 								+ formcode + "').find('#" + columnid + "')",

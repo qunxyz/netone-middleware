@@ -675,17 +675,21 @@ public final class DyFormBuildHtmlExt {
 	 * @return
 	 */
 	protected static String htmEncode(String s) {
-		// System.out.println("大文本转换前:" + s);
-		s = s.replaceAll("<br>", "\n");
-		s = s.replaceAll("<BR>", "\n");
-		// System.out.println("大文本转换后:" + s);
+		if (StringUtils.isNotEmpty(s)) {
+			// System.out.println("大文本转换前:" + s);
+			s = s.replaceAll("<br>", "\n");
+			s = s.replaceAll("<BR>", "\n");
+			// System.out.println("大文本转换后:" + s);
+		}
 		return s;
 	}
 
 	protected static String htmEncode2(String s) {
-		// System.out.println("多彩文档转换前:" + s);
-		s = StringEscapeUtils.unescapeHtml(s);
-		// System.out.println("多彩文档转换后:" + s);
+		if (StringUtils.isNotEmpty(s)) {
+			// System.out.println("多彩文档转换前:" + s);
+			s = StringEscapeUtils.unescapeHtml(s);
+			// System.out.println("多彩文档转换后:" + s);
+		}
 		return s;
 	}
 
@@ -2186,7 +2190,7 @@ public final class DyFormBuildHtmlExt {
 		DyFormData data = new DyFormData();
 		data.setColumn3(usercode);
 		data.setColumn5(dyform.getFormcode());
-		String json = getColDisableConfig(data, dyform.getFormcode());
+		String json = getColDisableConfig(data);
 		JSONObject jsonobj = JSONObject.fromObject(json);
 
 		for (int i = 0; i < _formx.length; i++) {
@@ -2335,7 +2339,7 @@ public final class DyFormBuildHtmlExt {
 		DyFormData data = new DyFormData();
 		data.setColumn3(usercode);
 		data.setColumn5(dyform.getFormcode());
-		String json = getColDisableConfig(data, dyform.getFormcode());
+		String json = getColDisableConfig(data);
 		JSONObject jsonobj = JSONObject.fromObject(json);
 
 		html
@@ -2494,7 +2498,7 @@ public final class DyFormBuildHtmlExt {
 			DyFormData data = new DyFormData();
 			data.setColumn3(usercode);
 			data.setColumn5(formcode);
-			String json = getColDisableConfig(data, dyform.getFormcode());
+			String json = getColDisableConfig(data);
 
 			html.append("<table id=\"" + formcode + "\">");
 			for (int i = 0; i < col.length; i++) {
@@ -2575,8 +2579,8 @@ public final class DyFormBuildHtmlExt {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getColDisableConfig(DyFormData dydata, String formcode) {
-		dydata.setFormcode(formcode);// 用户自定义列配置
+	public static String getColDisableConfig(DyFormData dydata) {
+		dydata.setFormcode("47c36268b7c611e1ba92af790c025a41_");// 用户自定义列配置
 		dydata.setFatherlsh("1");
 		List<DyFormData> list = new ArrayList();
 		try {

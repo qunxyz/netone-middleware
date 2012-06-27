@@ -662,19 +662,21 @@ public final class DyFormBuildHtml {
 	 * @return
 	 */
 	protected static String htmEncode(String s) {
-		if(StringUtils.isNotEmpty(s)){
-		// System.out.println("大文本转换前:" + s);
-		s = s.replaceAll("<br>", "\n");
-		s = s.replaceAll("<BR>", "\n");
-		// System.out.println("大文本转换后:" + s);
+		if (StringUtils.isNotEmpty(s)) {
+			// System.out.println("大文本转换前:" + s);
+			s = s.replaceAll("<br>", "\n");
+			s = s.replaceAll("<BR>", "\n");
+			// System.out.println("大文本转换后:" + s);
 		}
 		return s;
 	}
 
 	protected static String htmEncode2(String s) {
-		// System.out.println("多彩文档转换前:" + s);
-		s = StringEscapeUtils.unescapeHtml(s);
-		// System.out.println("多彩文档转换后:" + s);
+		if (StringUtils.isNotEmpty(s)) {
+			// System.out.println("多彩文档转换前:" + s);
+			s = StringEscapeUtils.unescapeHtml(s);
+			// System.out.println("多彩文档转换后:" + s);
+		}
 		return s;
 	}
 

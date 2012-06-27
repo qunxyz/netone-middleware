@@ -3110,14 +3110,30 @@ public class FrameActionExt extends AbstractAction {
 				data.setColumn5(subdata.getFormcode());
 				data.setFatherlsh("1");
 				String lsh = DyFormBuildHtmlExt.checkColConfigExist(data);
+				JSONObject subdatajson = new JSONObject();
+				subdatajson = JSONObject.fromObject(subdata);
+				subdatajson.remove("belongx");
+				subdatajson.remove("timex");
+				subdatajson.remove("sys_int_id");
+				subdatajson.remove("lshs");
+				subdatajson.remove("participant");
+				subdatajson.remove("run");
+				subdatajson.remove("runtimeid");
+				subdatajson.remove("start_time");
+				subdatajson.remove("statistical");
+				subdatajson.remove("status");
+				subdatajson.remove("statusinfo");
+				subdatajson.remove("extendattribute");
+				subdatajson.remove("fatherlsh");
+
 				if (StringUtils.isNotEmpty(lsh)) {
-					data.setColumn4(JSONObject.fromObject(subdata).toString());
+					data.setColumn4(subdatajson.toString());
 					data.setParticipant(user.getUserCode());
 					data.setFatherlsh("1");
 					data.setLsh(lsh);
 					DyEntry.iv().modifyData(formcode, data);
 				} else {
-					data.setColumn4(JSONObject.fromObject(subdata).toString());
+					data.setColumn4(subdatajson.toString());
 					data.setParticipant(user.getUserCode());
 					data.setFatherlsh("1");
 					DyEntry.iv().addData(formcode, data);

@@ -1,7 +1,8 @@
-#Mon Jun 13 14:50:12 CST 2011
+#Thu Jun 14 10:01:38 CST 2012
 eclipse.preferences.version=1
 encoding//RESOUCE/MySql/initScript/iss_struct.sql=UTF-8
 encoding//RESOUCE/MySql/tmp/struct_fix.sql=UTF-8
+encoding//WebRoot/frameSCMExt/query.js=UTF-8
 encoding//WebRoot/quickAccess.jsp=GBK
 encoding//src/main/config/config.properties=GBK
 encoding//src/main/config/jdbc.properties=GBK

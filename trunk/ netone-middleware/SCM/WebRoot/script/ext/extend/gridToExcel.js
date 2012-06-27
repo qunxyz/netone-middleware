@@ -165,28 +165,33 @@ Ext.override(Ext.grid.GridPanel, {
                         '<ss:Data ss:Type="String">' + cm.getColumnHeader(i) + '</ss:Data>' +
                         '<ss:NamedCell ss:Name="Print_Titles" /></ss:Cell>';
                     var fld = this.store.recordType.prototype.fields.get(cm.getDataIndex(i));
-                    switch(fld.type) {
-                        case "int":
-                            cellType.push("Number");
-                            cellTypeClass.push("int");
-                            break;
-                        case "float":
-                            cellType.push("Number");
-                            cellTypeClass.push("float");
-                            break;
-                        case "bool":
-                        case "boolean":
-                            cellType.push("String");
-                            cellTypeClass.push("");
-                            break;
-                        case "date":
-                            cellType.push("DateTime");
-                            cellTypeClass.push("date");
-                            break;
-                        default:
-                            cellType.push("String");
-                            cellTypeClass.push("");
-                            break;
+                    if(fld=='undefined' || fld==null){
+                    	cellType.push("String");
+	                    cellTypeClass.push("");
+                    } else {
+	                    switch(fld.type) {
+	                        case "int":
+	                            cellType.push("Number");
+	                            cellTypeClass.push("int");
+	                            break;
+	                        case "float":
+	                            cellType.push("Number");
+	                            cellTypeClass.push("float");
+	                            break;
+	                        case "bool":
+	                        case "boolean":
+	                            cellType.push("String");
+	                            cellTypeClass.push("");
+	                            break;
+	                        case "date":
+	                            cellType.push("DateTime");
+	                            cellTypeClass.push("date");
+	                            break;
+	                        default:
+	                            cellType.push("String");
+	                            cellTypeClass.push("");
+	                            break;
+	                    }
                     }
                 }
             }
@@ -229,6 +234,7 @@ Ext.override(Ext.grid.GridPanel, {
                 if ((cm.getDataIndex(j) != '')
                     && (includeHidden || !cm.isHidden(j))) {
                     var v = r[cm.getDataIndex(j)];
+                    if(v=='undefined' || v==null){v='';}
                     if (cellType[k] !== "None") {
                         t += '<ss:Cell ss:StyleID="' + cellClass + cellTypeClass[k] + '"><ss:Data ss:Type="' + cellType[k] + '">';
                         if (cellType[k] == 'DateTime') {
@@ -362,28 +368,33 @@ Ext.override(Ext.grid.GridPanel, {
                         '<ss:Data ss:Type="String">' + cm.getColumnHeader(i) + '</ss:Data>' +
                         '<ss:NamedCell ss:Name="Print_Titles" /></ss:Cell>';
                     var fld = this.store.recordType.prototype.fields.get(cm.getDataIndex(i));
-                    switch(fld.type) {
-                        case "int":
-                            cellType.push("Number");
-                            cellTypeClass.push("int");
-                            break;
-                        case "float":
-                            cellType.push("Number");
-                            cellTypeClass.push("float");
-                            break;
-                        case "bool":
-                        case "boolean":
-                            cellType.push("String");
-                            cellTypeClass.push("");
-                            break;
-                        case "date":
-                            cellType.push("DateTime");
-                            cellTypeClass.push("date");
-                            break;
-                        default:
-                            cellType.push("String");
-                            cellTypeClass.push("");
-                            break;
+                    if(fld=='undefined' || fld==null){
+                    	cellType.push("String");
+	                    cellTypeClass.push("");
+                    } else {
+	                    switch(fld.type) {
+	                        case "int":
+	                            cellType.push("Number");
+	                            cellTypeClass.push("int");
+	                            break;
+	                        case "float":
+	                            cellType.push("Number");
+	                            cellTypeClass.push("float");
+	                            break;
+	                        case "bool":
+	                        case "boolean":
+	                            cellType.push("String");
+	                            cellTypeClass.push("");
+	                            break;
+	                        case "date":
+	                            cellType.push("DateTime");
+	                            cellTypeClass.push("date");
+	                            break;
+	                        default:
+	                            cellType.push("String");
+	                            cellTypeClass.push("");
+	                            break;
+	                    }
                     }
                 }
             }
@@ -426,6 +437,7 @@ Ext.override(Ext.grid.GridPanel, {
                 if ((cm.getDataIndex(j) != '')
                     && (includeHidden || !cm.isHidden(j))) {
                     var v = r[cm.getDataIndex(j)];
+                    if(v=='undefined' || v==null){v='';}
                     if (cellType[k] !== "None") {
                         t += '<ss:Cell ss:StyleID="' + cellClass + cellTypeClass[k] + '"><ss:Data ss:Type="' + cellType[k] + '">';
                         if (cellType[k] == 'DateTime') {

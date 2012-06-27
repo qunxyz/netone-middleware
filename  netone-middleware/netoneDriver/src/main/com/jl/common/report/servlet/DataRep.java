@@ -631,7 +631,17 @@ public class DataRep {
 				|| name == "fontSize" || name == "colid" || name == "rowid"
 				|| name == "row" || name == "col" || name == "rowspan"
 				|| name == "colspan") {
-			return Integer.parseInt(cvalue);
+			try{
+			if(!StringUtils.contains(cvalue, '.')){
+				
+				return Integer.parseInt(cvalue);
+			}else{
+				return Double.parseDouble(cvalue);
+			}
+			}catch(Exception e){
+				e.printStackTrace();
+				return "0";
+			}
 		} else {
 			return cvalue;
 		}

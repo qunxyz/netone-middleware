@@ -24,11 +24,13 @@ import oe.security3a.seucore.obj.Clerk;
 import oe.security3a.seucore.obj.ProtectedObjectReference;
 import oe.security3a.seucore.obj.db.UmsApplication;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
+import oe.security3a.seucore.obj.db.UmsRole;
 import oe.security3a.sso.onlineuser.DefaultOnlineUserMgr;
 import oe.security3a.sso.onlineuser.OnlineUser;
 import oe.security3a.sso.onlineuser.OnlineUserMgr;
 import oe.security3a.sso.util.Encryption;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.resource.Resource;
@@ -713,10 +715,17 @@ public final class Security3AImpl implements Security3AIfc {
 			rsinfo = this.listHumanInDir(parentNaturalname, from, size,
 					condition);
 			return rsinfo;
+		}else if(parentNaturalname.startsWith("SYSROLE.SYSROLE")){
+			rsinfo = this.listRoleInDir(parentNaturalname, from, size,
+					condition);
+			return rsinfo;
+		}else{
+			List other = listOtherRsInDir(parentNaturalname, from, size, condition);
+			rsinfo.addAll(other);
+			return rsinfo;
 		}
-		List other = listOtherRsInDir(parentNaturalname, from, size, condition);
-		rsinfo.addAll(other);
-		return rsinfo;
+
+
 
 	}
 
@@ -738,6 +747,26 @@ public final class Security3AImpl implements Security3AIfc {
 			rsx.setResourcename(parseDnName(objectx) + object.getName());
 			listData.add(rsx);
 		}
+		return listData;
+	}
+	
+	private List<Resource> listRoleInDir(String parentNaturalname, int from,
+			int size, String condition) throws Exception {
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+	    UmsProtectedobject upox = rs.loadResourceByNatural(parentNaturalname);
+	    UmsRole role = new UmsRole();
+	    role.setBelongingness(upox.getNaturalname());
+	    List list = rs.fetchRole(role, null, "");
+	    List listData = new ArrayList();
+	      for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+	    	  UmsRole cl = (UmsRole) iterator.next();
+				Resource rsx = new Resource();
+				rsx.setResourceid(cl.getId().toString());
+				rsx.setResourcecode(cl.getNaturalname());
+				rsx.setResourcename(cl.getName());
+				listData.add(rsx);
+	      }
+
 		return listData;
 	}
 

@@ -2242,6 +2242,7 @@ public final class DyFormBuildHtmlExt {
 		html.append("," + "{name: '" + "run" + "'}");
 		html.append("," + "{name: '" + "runtimeid" + "'}");
 		html.append("," + "{name: '" + "lsh" + "'}");
+		html.append("," + "{name: '" + "lshs" + "'}");
 		if (formx != null) {
 			for (int i = 0; i < formx.length; i++) {
 				DyFormColumn _qc1 = formx[i];

@@ -420,7 +420,12 @@ function $select(o,url){
 						}
 						
 						,{text : '导出Excel',iconCls:'excelIcon',handler:function(){
-									var vExportContent = Ext.getCmp('PlanGrid').getExcelXml();
+									var selectionSet = Ext.getCmp('PlanGrid').getSelectionModel().getSelections();
+								    if (selectionSet == undefined || selectionSet.length <= 0) {
+								        Ext.MessageBox.alert('提示', '请选择一条或多条记录进行导出操作!');
+								        return;
+								    }
+									var vExportContent = Ext.getCmp('PlanGrid').getSelectedExcelXml();
 									vExportContent = vExportContent.replace(/<BR>/ig, " ");
 							        if (Ext.isIE6 || Ext.isIE7 || Ext.isSafari || Ext.isSafari2 || Ext.isSafari3) {
 							            var fd=Ext.get('frmDummy');
@@ -770,6 +775,12 @@ function $colconfig(){
 }
 
 $(function(){
+	<rs:noPermission action="7" resource="${naturalname_dyform}.LIST">
+	alert('无操作权限，请联系管理员！');
+	window.opener=null;
+	window.close();
+	</rs:noPermission>
+
  	if(!$.browser.msie){ //not IE
  	    // 在FF/Linux下启用遮罩层透明
  	    $.blockUI.defaults.applyPlatformOpacityRules = false;

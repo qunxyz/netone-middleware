@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
-import oe.midware.workflow.service.WorkflowConsole;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
@@ -1001,7 +1000,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column21".equals(colid)
 									|| "column22".equals(colid)
 									|| "column24".equals(colid)
-									|| "column25".equals(colid)) {
+									|| "column25".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1021,7 +1028,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column31".equals(colid)
 									|| "column32".equals(colid)
 									|| "column33".equals(colid)
-									|| "column34".equals(colid)) {
+									|| "column34".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1051,7 +1066,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column60".equals(colid)
 									|| "column61".equals(colid)
 									|| "column62".equals(colid)
-									|| "column27".equals(colid)) {
+									|| "column27".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1081,7 +1104,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column66".equals(colid)
 									|| "column67".equals(colid)
 									|| "column69".equals(colid)
-									|| "column70".equals(colid)) {
+									|| "column70".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1098,7 +1129,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column31".equals(colid)
 									|| "column32".equals(colid)
 									|| "column33".equals(colid)
-									|| "column34".equals(colid)) {
+									|| "column34".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1120,7 +1159,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column31".equals(colid)
 									|| "column32".equals(colid)
 									|| "column33".equals(colid)
-									|| "column34".equals(colid)) {
+									|| "column34".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
 							}
@@ -1142,7 +1189,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column31".equals(colid)
 									|| "column32".equals(colid)
 									|| "column33".equals(colid)
-									|| "column34".equals(colid)) {
+									|| "column34".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1163,7 +1218,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column31".equals(colid)
 									|| "column32".equals(colid)
 									|| "column33".equals(colid)
-									|| "column34".equals(colid)) {
+									|| "column34".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1187,7 +1250,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column31".equals(colid)
 									|| "column32".equals(colid)
 									|| "column33".equals(colid)
-									|| "column34".equals(colid)) {
+									|| "column34".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1217,7 +1288,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column66".equals(colid)
 									|| "column67".equals(colid)
 									|| "column69".equals(colid)
-									|| "column70".equals(colid)) {
+									|| "column70".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1247,7 +1326,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column66".equals(colid)
 									|| "column67".equals(colid)
 									|| "column69".equals(colid)
-									|| "column70".equals(colid)) {
+									|| "column70".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1277,7 +1364,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column66".equals(colid)
 									|| "column67".equals(colid)
 									|| "column69".equals(colid)
-									|| "column70".equals(colid)) {
+									|| "column70".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1293,7 +1388,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column31".equals(colid)
 									|| "column32".equals(colid)
 									|| "column33".equals(colid)
-									|| "column34".equals(colid)) {
+									|| "column34".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1323,7 +1426,15 @@ public class FrameActionExt extends AbstractAction {
 									|| "column66".equals(colid)
 									|| "column67".equals(colid)
 									|| "column69".equals(colid)
-									|| "column70".equals(colid)) {
+									|| "column70".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1828,23 +1939,25 @@ public class FrameActionExt extends AbstractAction {
 			data.setLsh(lsh);
 			data.setStatusinfo("01");
 			data.setFatherlsh("1");
+			data.setFormcode(formcode);
 			User user = getOnlineUser(request);
 
-			// int count = DyEntry.iv().queryDataNum(data, "");
-			// if (count > 0) {
-			// json.put("tip", "已确认,不需要再确认!");
-			// json.put("error", "yes");
-			// } else {
-			data.setParticipant(user.getUserCode() + "[" + user.getUserName()
-					+ "]");
-			boolean succ = DyEntry.iv().modifyData(formcode, data);
-			if (succ) {
-				json.put("tip", "确认成功!");
-			} else {
-				json.put("tip", "确认失败!");
+			int count = DyEntry.iv().queryDataNum(data,  " or statusinfo = '02' ");
+			if (count > 0) {
+				json.put("tip", "已审核状态,不能进行其他操作!");
 				json.put("error", "yes");
+			} else {
+				// data.setParticipant(user.getUserCode() + "[" +
+				// user.getUserName()
+				// + "]");
+				boolean succ = DyEntry.iv().modifyData(formcode, data);
+				if (succ) {
+					json.put("tip", "确认成功!");
+				} else {
+					json.put("tip", "确认失败!");
+					json.put("error", "yes");
+				}
 			}
-			// }
 		} catch (Exception e) {
 			json.put("tip", "确认失败!");
 			json.put("error", "yes");
@@ -1870,24 +1983,26 @@ public class FrameActionExt extends AbstractAction {
 			data.setLsh(lsh);
 			data.setStatusinfo("02");
 			data.setFatherlsh("1");
+			data.setFormcode(formcode);
 			User user = getOnlineUser(request);
-			
-			// int count = DyEntry.iv().queryDataNum(data, "");
-			// if (count > 0) {
-			// json.put("tip", "已反确认,不需要再反确认!");
-			// json.put("error", "yes");
-			// } else {
-			data.setParticipant(user.getUserCode() + "[" + user.getUserName()
-					+ "]");
 
-			boolean succ = DyEntry.iv().modifyData(formcode, data);
-			if (succ) {
-				json.put("tip", "反确认成功!");
-			} else {
-				json.put("tip", "反确认失败!");
+			int count = DyEntry.iv().queryDataNum(data, " or statusinfo = '01' ");
+			if (count > 0) {
+				json.put("tip", "已审核状态,不能进行其他操作!");
 				json.put("error", "yes");
+			} else {
+				// data.setParticipant(user.getUserCode() + "[" +
+				// user.getUserName()
+				// + "]");
+
+				boolean succ = DyEntry.iv().modifyData(formcode, data);
+				if (succ) {
+					json.put("tip", "反确认成功!");
+				} else {
+					json.put("tip", "反确认失败!");
+					json.put("error", "yes");
+				}
 			}
-			// }
 
 		} catch (Exception e) {
 			json.put("tip", "反确认失败!");
@@ -2990,8 +3105,7 @@ public class FrameActionExt extends AbstractAction {
 				data.setColumn3(user.getUserCode());
 				data.setColumn5(subdata.getFormcode());
 				data.setFatherlsh("1");
-				String lsh = DyFormBuildHtmlExt.checkColConfigExist(data,
-						formcode);
+				String lsh = DyFormBuildHtmlExt.checkColConfigExist(data);
 				if (StringUtils.isNotEmpty(lsh)) {
 					data.setColumn4(JSONObject.fromObject(subdata).toString());
 					data.setParticipant(user.getUserCode());

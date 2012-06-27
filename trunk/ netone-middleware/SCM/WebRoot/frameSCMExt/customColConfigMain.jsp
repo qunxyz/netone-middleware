@@ -104,9 +104,12 @@ function $todo(thisObj,formcode,jsonStr){
 	var column21,column22,column23,column24,column25,column26,column27,column28,column29,column30;
 	var column31,column32,column33,column34,column35,column36,column37,column38,column39,column40;
 	var column41,column42,column43,column44,column45,column46,column47,column48,column49,column50;
+	var column51,column52,column53,column54,column55,column56,column57,column58,column59,column60;
+	var column61,column62,column63,column64,column65,column66,column67,column68,column69,column70;
+	var column71,column72,column73,column74,column75,column76,column77,column78,column79,column80;
  	
  	var len = 0;
-	for(var i=1;i<=50;i++){
+	for(var i=1;i<=80;i++){
 		var _o = thisObj.find('#column'+i);
 		if (_o){
 			var $val_ =  _o.val();
@@ -123,19 +126,25 @@ function $todo(thisObj,formcode,jsonStr){
 	    
 	 var w = {
 		formcode : formcode,
-		column1 : column1,column2 : column2,column3 : column3,column4 : column4,column5 : column5,
-		column6 : column6,column7 : column7,column8 : column8,column9 : column9,column10 : column10,
-		column11 : column11,column12 : column12,column13 : column13,column14 : column14,column15 : column15,
-		column16 : column16,column17 : column17,column18 : column18,column19 : column19,column20 : column20,
-		column21 : column21,column22 : column22,column23 : column23,column24 : column24,column25 : column25,
-		column26 : column26,column27 : column27,column28 : column28,column29 : column29,column30 : column30,
-		column31 : column31,column32 : column32,column33 : column33,column34 : column34,column35 : column35,
-		column36 : column36,column37 : column37,column38 : column38,column39 : column39,column40 : column40,
-		column41 : column41,column42 : column42,column43 : column43,column44 : column44,column45 : column45,
-		column46 : column46,column47 : column47,column48 : column48,column49 : column49,column50 : column50
+				column1 : column1,column2 : column2,column3 : column3,column4 : column4,column5 : column5,
+				column6 : column6,column7 : column7,column8 : column8,column9 : column9,column10 : column10,
+				column11 : column11,column12 : column12,column13 : column13,column14 : column14,column15 : column15,
+				column16 : column16,column17 : column17,column18 : column18,column19 : column19,column20 : column20,
+				column21 : column21,column22 : column22,column23 : column23,column24 : column24,column25 : column25,
+				column26 : column26,column27 : column27,column28 : column28,column29 : column29,column30 : column30,
+				column31 : column31,column32 : column32,column33 : column33,column34 : column34,column35 : column35,
+				column36 : column36,column37 : column37,column38 : column38,column39 : column39,column40 : column40,
+				column41 : column41,column42 : column42,column43 : column43,column44 : column44,column45 : column45,
+				column46 : column46,column47 : column47,column48 : column48,column49 : column49,column50 : column50,
+				column51 : column51,column52 : column52,column53 : column53,column54 : column54,column55 : column55,
+				column56 : column56,column57 : column57,column58 : column58,column59 : column59,column60 : column60,
+				column61 : column61,column62 : column62,column63 : column63,column64 : column64,column65 : column65,
+				column66 : column66,column67 : column67,column68 : column68,column69 : column69,column70 : column70,
+				column71 : column71,column72 : column72,column73 : column73,column74 : column74,column75 : column75,
+				column76 : column76,column77 : column77,column78 : column78,column79 : column79,column80 : column80
 	};
 	var json___ = Ext.util.JSON.encode(w);
-	if (json___.indexOf('column')>0 && len!=50){
+	if (json___.indexOf('column')>0 && len!=80){
 		jsonStr += deliter + json___;
 	    deliter = ',';
 	}
@@ -179,6 +188,7 @@ function _save(){
 	            } else {
 	                Ext.ux.Toast.msg("", result.tip);
 	            }
+	            window.opener.window.location.reload();
 	            window.close();
 	        },
 	        failure: function (response, options) {

@@ -179,6 +179,7 @@ function _save(){
 	            } else {
 	                Ext.ux.Toast.msg("", result.tip);
 	            }
+	            window.close();
 	        },
 	        failure: function (response, options) {
 	            msgTip.hide();

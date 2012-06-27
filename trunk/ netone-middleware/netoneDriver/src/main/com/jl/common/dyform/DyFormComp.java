@@ -1440,7 +1440,8 @@ public final class DyFormComp {
 		js.append("						cb,\n");
 		js.append("						" + columns + "\n");
 		js.append("				],\n");
-		js.append("				viewConfig:{forceFit:false,autoScroll:true},\n");
+		//js.append("				viewConfig:{forceFit:false,autoScroll:true},\n");
+		js.append("			    autoScroll:true,\n");
 		js.append("				loadMask:true\n");
 		js.append("		   }\n");
 
@@ -1490,44 +1491,46 @@ public final class DyFormComp {
 		js.append("var $" + id + " = new Ext.grid.EditorGridPanel({ \n");
 
 		js.append("autoHeight:true, \n");
-		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
-				+ "',forceFit:false,autoHeight:true,autoScroll:true,\n");
-		js.append("layout : function() { \n");
-		js.append("	if (!this.mainBody) { \n");
-		js.append("	return; \n");
-		js.append("	} \n");
-		js.append("	var g = this.grid; \n");
-		js.append("	var c = g.getGridEl(); \n");
-		js.append("	var csize = c.getSize(true); \n");
-		js.append("	var vw = csize.width; \n");
-		js
-				.append("	if (!g.hideHeaders && (vw < 20 || csize.height < 20)) { \n");
-		js.append("	return; \n");
-		js.append("	} \n");
-		js.append("	if (g.autoHeight) { \n");
-		js.append("	if (this.innerHd) { \n");
-		js.append("	this.innerHd.style.width = '100%'; \n");
-		js.append("	} \n");
-		js.append("	} else { \n");
-		js.append("	this.el.setSize(csize.width, csize.height); \n");
-		js.append("	var hdHeight = this.mainHd.getHeight(); \n");
-		js.append("	var vh = csize.height - (hdHeight); \n");
-		js.append("	this.scroller.setSize(vw, vh); \n");
-		js.append("	if (this.innerHd) { \n");
-		js.append("	this.innerHd.style.width = '100%'; \n");
-		js.append("	} \n");
-		js.append("	} \n");
-		js.append("	if (this.forceFit) { \n");
-		js.append("	if (this.lastViewWidth != vw) { \n");
-		js.append("	this.fitColumns(false, false); \n");
-		js.append("	this.lastViewWidth = vw; \n");
-		js.append("	} \n");
-		js.append("	} else { \n");
-		js.append("	this.autoExpand(); \n");
-		js.append("	this.syncHeaderScroll(); \n");
-		js.append("	} \n");
-		js.append("	this.onLayout(vw, vh); \n");
-		js.append("	} \n");
+		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")+ "'}\n");
+		
+//		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
+//				+ "',forceFit:false,autoHeight:true,autoScroll:true,\n");
+//		js.append("layout : function() { \n");
+//		js.append("	if (!this.mainBody) { \n");
+//		js.append("	return; \n");
+//		js.append("	} \n");
+//		js.append("	var g = this.grid; \n");
+//		js.append("	var c = g.getGridEl(); \n");
+//		js.append("	var csize = c.getSize(true); \n");
+//		js.append("	var vw = csize.width; \n");
+//		js
+//				.append("	if (!g.hideHeaders && (vw < 20 || csize.height < 20)) { \n");
+//		js.append("	return; \n");
+//		js.append("	} \n");
+//		js.append("	if (g.autoHeight) { \n");
+//		js.append("	if (this.innerHd) { \n");
+//		js.append("	this.innerHd.style.width = '100%'; \n");
+//		js.append("	} \n");
+//		js.append("	} else { \n");
+//		js.append("	this.el.setSize(csize.width, csize.height); \n");
+//		js.append("	var hdHeight = this.mainHd.getHeight(); \n");
+//		js.append("	var vh = csize.height - (hdHeight); \n");
+//		js.append("	this.scroller.setSize(vw, vh); \n");
+//		js.append("	if (this.innerHd) { \n");
+//		js.append("	this.innerHd.style.width = '100%'; \n");
+//		js.append("	} \n");
+//		js.append("	} \n");
+//		js.append("	if (this.forceFit) { \n");
+//		js.append("	if (this.lastViewWidth != vw) { \n");
+//		js.append("	this.fitColumns(false, false); \n");
+//		js.append("	this.lastViewWidth = vw; \n");
+//		js.append("	} \n");
+//		js.append("	} else { \n");
+//		js.append("	this.autoExpand(); \n");
+//		js.append("	this.syncHeaderScroll(); \n");
+//		js.append("	} \n");
+//		js.append("	this.onLayout(vw, vh); \n");
+//		js.append("	} \n");
 
 		// js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
 		// + "',forceFit:false,autoHeight:true,autoScroll:true,onLayout :

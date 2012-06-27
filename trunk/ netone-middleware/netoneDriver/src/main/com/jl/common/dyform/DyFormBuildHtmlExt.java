@@ -1597,7 +1597,7 @@ public final class DyFormBuildHtmlExt {
 	}
 
 	/**
-	 * 生成字段列表 
+	 * 生成字段列表
 	 * 
 	 * @param dyform
 	 * @param userinfo
@@ -1716,9 +1716,9 @@ public final class DyFormBuildHtmlExt {
 						+ hiddenlsh + html_) + _N;
 		return html_2;
 	}
-	
+
 	/**
-	 * 生成字段列表 
+	 * 生成字段列表
 	 * 
 	 * @param dyform
 	 * @param userinfo
@@ -2328,40 +2328,40 @@ public final class DyFormBuildHtmlExt {
 			String columnname = _qc1.getColumname();
 
 			// 是否隐蔽
-			// boolean hidden = _qc1.isHidden();
+			boolean hidden = _qc1.isHidden();
 
-			// if (hidden == false) {
-			String ext = routeAppointValue(_qc1.getViewtype(), columnid, _qc1
-					.getValuelist(), "ext");// 扩展脚本控制
-			// ext = null;
+			if (hidden == false) {
+				String ext = routeAppointValue(_qc1.getViewtype(), columnid,
+						_qc1.getValuelist(), "ext");// 扩展脚本控制
+				// ext = null;
 
-			// String musktip = _qc1.isMusk_() == true ? "<span
-			// style=\"color:red\">*</span>"
-			// : "";
-			String musktip = "";
+				// String musktip = _qc1.isMusk_() == true ? "<span
+				// style=\"color:red\">*</span>"
+				// : "";
+				String musktip = "";
 
-			boolean disable = false;
-			if (jsonobj != null) {
-				if (jsonobj.containsKey(columnid)) {
-					String disables = (String) jsonobj.get(columnid);
-					if ("1".equals(disables)) {
-						disable = false;
-					} else {
-						disable = true;
+				boolean disable = false;
+				if (jsonobj != null) {
+					if (jsonobj.containsKey(columnid)) {
+						String disables = (String) jsonobj.get(columnid);
+						if ("1".equals(disables)) {
+							disable = false;
+						} else {
+							disable = true;
+						}
 					}
 				}
-			}
 
-			String[][] arr = DyFormConsoleIfc._HTML_LIST;
-			if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
-				html.append(split + "{header: '" + columnname + musktip
-						+ "', dataIndex: '" + columnid + "', sortable: true"
-						+ ",hidden:" + disable
-						+ (ext == null ? "" : ("," + ext)) + "}");
-				split = ",";
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
+					html.append(split + "{header: '" + columnname + musktip
+							+ "', dataIndex: '" + columnid
+							+ "', sortable: true" + ",hidden:" + disable
+							+ (ext == null ? "" : ("," + ext)) + "}");
+					split = ",";
+				}
 			}
 		}
-		// }
 
 		if ("1".equals(type)) {
 			html

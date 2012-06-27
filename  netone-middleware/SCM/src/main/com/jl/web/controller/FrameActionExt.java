@@ -705,9 +705,11 @@ public class FrameActionExt extends AbstractAction {
 						DyFormData data = summaryMap.get(key.toString());
 						Integer sum = Integer.parseInt(data.getStatistical());
 						data.setStatistical("" + (sum + 1));
+						data.setLshs(data.getLshs() + group.getLsh() + ",");
 						summaryMap.put(key.toString(), data);
 					} else {
 						group.setStatistical("1");
+						group.setLshs(group.getLsh() + ",");
 						summaryMap.put(key.toString(), group);
 					}
 				}
@@ -1942,7 +1944,8 @@ public class FrameActionExt extends AbstractAction {
 			data.setFormcode(formcode);
 			User user = getOnlineUser(request);
 
-			int count = DyEntry.iv().queryDataNum(data,  " or statusinfo = '02' ");
+			int count = DyEntry.iv().queryDataNum(data,
+					" or statusinfo = '02' ");
 			if (count > 0) {
 				json.put("tip", "已审核状态,不能进行其他操作!");
 				json.put("error", "yes");
@@ -1986,7 +1989,8 @@ public class FrameActionExt extends AbstractAction {
 			data.setFormcode(formcode);
 			User user = getOnlineUser(request);
 
-			int count = DyEntry.iv().queryDataNum(data, " or statusinfo = '01' ");
+			int count = DyEntry.iv().queryDataNum(data,
+					" or statusinfo = '01' ");
 			if (count > 0) {
 				json.put("tip", "已审核状态,不能进行其他操作!");
 				json.put("error", "yes");

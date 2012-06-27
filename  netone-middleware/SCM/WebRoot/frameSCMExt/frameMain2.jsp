@@ -140,6 +140,7 @@ function $select(o,url){
 						cb,
 						${columns}
 				],
+				/**
 				viewConfig:{forceFit:false,autoHeight:true,autoScroll:true,
 					layout : function() { 
 						if (!this.mainBody) { 
@@ -178,6 +179,8 @@ function $select(o,url){
 						} 
 				
 				},
+				**/
+				autoScroll:true,
 				loadMask:true	
 		   }
 		   
@@ -259,6 +262,7 @@ function $select(o,url){
 						cb,
 						${subcolumns}
 				],
+				/**
 				viewConfig:{forceFit:false,autoHeight:true,autoScroll:true,
 					layout : function() { 
 						if (!this.mainBody) { 
@@ -296,6 +300,8 @@ function $select(o,url){
 						this.onLayout(vw, vh); 
 						} 
 					},
+				**/
+				autoScroll:true,
 				loadMask:true	
 		   }
 		   

@@ -109,7 +109,7 @@ public class FrameActionExt extends AbstractAction {
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
 		boolean issub = false;// 是否子表单
-		String forms = DyFormBuildHtmlExt.buildQueryForm1(dyform, user
+		String forms = DyFormBuildHtmlExt.buildQueryForm0(dyform, user
 				.getNLevelName()
 				+ "/" + user.getUserName() + "," + user.getNLevelName(),
 				naturalname, lsh, issub, request.getParameter("url"));
@@ -186,7 +186,7 @@ public class FrameActionExt extends AbstractAction {
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
 		boolean issub = false;// 是否子表单
-		String forms = DyFormBuildHtmlExt.buildQueryForm1(dyform, user
+		String forms = DyFormBuildHtmlExt.buildQueryForm0(dyform, user
 				.getNLevelName()
 				+ "/" + user.getUserName() + "," + user.getNLevelName(),
 				naturalname, lsh, issub, request.getParameter("url"));
@@ -278,7 +278,7 @@ public class FrameActionExt extends AbstractAction {
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
 		boolean issub = false;// 是否子表单
-		String forms = DyFormBuildHtmlExt.buildQueryForm1(dyform, user
+		String forms = DyFormBuildHtmlExt.buildQueryForm0(dyform, user
 				.getNLevelName()
 				+ "/" + user.getUserName() + "," + user.getNLevelName(),
 				naturalname, lsh, issub, request.getParameter("url"));
@@ -378,7 +378,7 @@ public class FrameActionExt extends AbstractAction {
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
 		boolean issub = false;// 是否子表单
-		String forms = DyFormBuildHtmlExt.buildQueryForm1(dyform, user
+		String forms = DyFormBuildHtmlExt.buildQueryForm0(dyform, user
 				.getNLevelName()
 				+ "/" + user.getUserName() + "," + user.getNLevelName(),
 				naturalname, lsh, issub, request.getParameter("url"));

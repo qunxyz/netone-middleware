@@ -1,0 +1,72 @@
+/**
+条形码 初始化事件
+BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.SINGLE PRODUCT MANAGEMENT.SSXS.SSTK.DY_621338820565622
+**/
+$("table#0d062da4ae5411e1a1d4a9c1a0b05fbc_").find('#column3').live('focus',function(){    
+	$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.DPXX2', {
+	multiple: false,  
+	dataType: "json",  
+	autoFill: true,  
+	mustMatch: true,  
+	matchContains: false,  
+	scrollHeight: 220,  
+	width:300,  
+	parse: function(data) {   
+		return $.map(data, function(row) {    
+		return {     
+			data: row,     
+			value: row.column4,     
+			result: row.column4    
+		}   
+	});  
+},  
+formatItem: function(item) {   
+return  item.column4+' '+item.column7;  },  
+formatResult: function(item) {   
+return item.column4;  
+}  
+}) 
+.result(function(e, item) {  
+	var thisobj = $(this).parent().parent().parent();  
+	if (item!=null){   
+		thisobj.find('#column3').val(item.column4);  
+		thisobj.find('#column4').val(item.column7);  
+		thisobj.find('#column26').val(item.column48);  
+		thisobj.find('#column6').val(item.column34);  
+		thisobj.find('#column10').val(item.column15);  
+		thisobj.find('#column12').val(item.column13);  
+		thisobj.find('#column13').val(item.column16);  
+		thisobj.find('#column15').val(item.column17);  
+		thisobj.find('#column16').val(item.column24);  
+		thisobj.find('#column24').val(item.column55);  
+		thisobj.find('#column19').val(item.column56);  
+		thisobj.find('#column25').val(item.column57);  
+		thisobj.find('#column18').val(item.column58);  
+		thisobj.find('#column17').val(item.column37);  
+		thisobj.find('#column22').val(item.column66);  
+		thisobj.find('#column27').val(item.column71);  
+		thisobj.find('#column28').val(item.column31);  
+		thisobj.find('#column29').val(item.column32);    
+	} else {   
+		thisobj.find('#column3').val('');  
+		thisobj.find('#column4').val('');  
+		thisobj.find('#column26').val('');  
+		thisobj.find('#column6').val('');  
+		thisobj.find('#column10').val('');  
+		thisobj.find('#column12').val('');  
+		thisobj.find('#column13').val('');  
+		thisobj.find('#column15').val('');  
+		thisobj.find('#column16').val('');  
+		thisobj.find('#column24').val('');  
+		thisobj.find('#column19').val('');  
+		thisobj.find('#column25').val('');  
+		thisobj.find('#column18').val('');  
+		thisobj.find('#column17').val('');  
+		thisobj.find('#column22').val('');  
+		thisobj.find('#column27').val('');  
+		thisobj.find('#column28').val('');  
+		thisobj.find('#column29').val('');  
+	}   
+}); 
+$(this).unbind("focus");  
+});

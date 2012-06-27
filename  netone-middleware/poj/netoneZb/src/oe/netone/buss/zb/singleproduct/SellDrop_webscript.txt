@@ -1,0 +1,83 @@
+/**
+首饰销退 单号初始化事件
+BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.SINGLE PRODUCT MANAGEMENT.SSXS.SSXT.DY_621338820565627 */
+var x0a3090beae5a11e1a1d4a9c1a0b05fbc_column3 = $('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column3'); 
+if (x0a3090beae5a11e1a1d4a9c1a0b05fbc_column3.val()==''){  
+	$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETINDENTCODE2",    
+	function(jsonx){   
+		if (jsonx!=null){    x0a3090beae5a11e1a1d4a9c1a0b05fbc_column3.val(jsonx.maxcode);   
+		}  
+	}); 
+} 
+
+
+/**
+首饰销退 分销商初始化事件
+BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.SINGLE PRODUCT MANAGEMENT.SSXS.SSXT.DY_621338820565627
+**/
+var divcae6d5c095f411e19d04e1f804e88ddd_=$('<select style=\"display:none\"></select>'); 
+divcae6d5c095f411e19d04e1f804e88ddd_.attr('id','divcae6d5c095f411e19d04e1f804e88ddd_'); 
+divcae6d5c095f411e19d04e1f804e88ddd_.appendTo('body'); 
+	$.getJSON("http://42.120.40.204:83/scm/dyinfo?lsh=&model=0&ext=&formcode=697afe8595db11e191e44dc1824bccae_&fatherlsh=1",   
+	function(json){  
+		$.each(json, function(i,item){  
+		$('#divcae6d5c095f411e19d04e1f804e88ddd_').append("<option value="+item.column3+">"+item.column4+"</option>");
+	 });  
+ });
+/** 
+首饰销退 分销商数据改变事件
+ BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.SINGLE PRODUCT MANAGEMENT.SSXS.SSXT.DY_621338820565627
+*/
+ var thisval = $(this).val();   
+ if (thisval!=''){      
+ $('table#c7b6024aae5611e1a1d4a9c1a0b05fbc_').find('#column16').empty();  
+ $('#divcae6d5c095f411e19d04e1f804e88ddd_  option').each(function(index, domEle){   
+ 	if (thisval==$(domEle).val()){    
+ 		$('table#c7b6024aae5611e1a1d4a9c1a0b05fbc_').find('#column16').append("<option value="+ $(domEle).val()+">"+$(domEle).text()+"</option>");   
+ 	}  
+ }); 
+ }
+
+
+/**
+首饰销退 客户初始化事件
+BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.SINGLE PRODUCT MANAGEMENT.SSXS.SSXT.DY_621338820565627 */
+$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column12').autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETVIPINFO2',  {
+  multiple: false,  
+  dataType: "json",  
+  autoFill: true,  
+  mustMatch: true,  
+  matchContains: false,  
+  scrollHeight: 220,  width:300,  
+  parse: function(data) {   
+  return $.map(data, function(row) {    
+  return {     data: row,     value: row.column3,     
+  result: row.column3    }   });  },  
+  formatItem: function(item) {   
+  return  item.column3+' '+item.column27;  },  
+  formatResult: function(item) {   return item.column3;  }  
+ }) 
+ .result(function(e, item) {     
+ 	if (item!=null){         
+ 	/** 积分 **/   
+ 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column17').val(item.column30);   
+ 	/** 可兑分 **/   
+ 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column18').val(item.column31);      
+ 	$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETVIPLEVELBYPOINT&q="+item.column30,     
+	 	function(jsonx2){      
+	 	/** 会员卡*/    
+	 	if (jsonx2!=null){     
+	 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column13').val(jsonx2.column3);    
+	 	} else {     
+	 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column13').val('');    
+	 	}   
+ 	});    
+ 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column16').val(item.column27);     
+ 	} else {   
+ 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column17').val(0);   
+ 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column18').val(0);   
+ 	/** 会员级别编码 **/
+ 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column13').val('');   
+ 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column16').val('');  
+ 	}   
+ });

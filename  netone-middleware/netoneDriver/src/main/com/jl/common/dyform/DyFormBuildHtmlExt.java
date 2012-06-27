@@ -1597,7 +1597,7 @@ public final class DyFormBuildHtmlExt {
 	}
 
 	/**
-	 * 生成查询表单（普通查询）
+	 * 生成字段列表 
 	 * 
 	 * @param dyform
 	 * @param userinfo
@@ -1620,6 +1620,127 @@ public final class DyFormBuildHtmlExt {
 		try {
 			List<DyFormColumn> list = DyEntry.iv().queryColumnX(
 					dyform.getFormcode(), "2");
+			_formx = (DyFormColumn[]) list
+					.toArray(new DyFormColumn[list.size()]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// 展示表单字段-针对表单中的相关字段
+		// DyFormColumn _formx[] = dyform.getAllColumn_();
+		if (StringUtils.isNotEmpty(lsh)) {// 公单已保存,不需要加载人员信息
+			userinfo = "";
+		}
+		// 排序
+		Arrays.sort(_formx, getFormComparator());
+		Map<Double, Double> columnmap = getMaxYoffsetByX(_formx);// 存放每行最大列数
+		Map<String, DyFormColumn> columnmapx = getDyFormColumnById(_formx);// 映射
+
+		// 输出文档普通字段内容开始
+		DyFormData dydata = new DyFormData();
+		// if (StringUtils.isNotEmpty(lsh)) {
+		// if (issub) {
+		// dydata.setFormcode(formcode);
+		// dydata.setFatherlsh(lsh);
+		// List list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
+		// if (list.size() > 0) {
+		// dydata = (DyFormData) list.get(0);
+		// } else {
+		// dydata = new DyFormData();
+		// }
+		// } else {
+		// dydata = DyEntry.iv().loadData(formcode, lsh);
+		// }
+		// }
+		Map<Double, String> htmlresult = new TreeMap<Double, String>();// 存放每行HTML代码
+
+		StringBuffer eventListenScripts = new StringBuffer();// 事件监听脚本
+		for (int i = 0; i < _formx.length; i++) {
+			DyFormColumn _qc1 = _formx[i];
+			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
+			String columnid = _qc1.getColumnid();
+			// 字段名（中文）
+			String columnname = _qc1.getColumname();
+
+			Double xoffset = _qc1.getYoffset();
+
+			boolean hidden = _qc1.isHidden();
+			if (hidden == false) {
+
+				eventListenScripts.append(DyFormComp.getEventScript("$('table#"
+						+ formcode + "').find('#" + columnid + "')", _qc1
+						.getInitScript(), "", "", ""));// 添加事件监听
+
+				// System.out.println(columnname + ":" + xoffset + ":" + yoffset
+				// + ":" + hidden);
+				String value = BeanUtils.getProperty(dydata, columnid);
+				value = value == null ? "" : value;
+				DyFormColumn column = columnmapx.get(columnid);
+				Double yoffset_ = columnmap.get(xoffset);// 最大列数
+				// int availColumnWidth =
+				// calcAvailColumnWidth(yoffset_
+				// .intValue());
+				int availColumnWidth = 0;
+				availColumnWidth = calcAvailColumnWidth(yoffset_.intValue());
+
+				htmlresult = buildTdHtml(htmlresult, availColumnWidth, column,
+						columnname, formcode, true, "" + value, "", xoffset,
+						"", false);
+			}// end if
+		}// end for
+
+		for (Iterator iterator = htmlresult.keySet().iterator(); iterator
+				.hasNext();) {
+			Double x_ = (Double) iterator.next();
+
+			String tdstr = DyFormComp.getTd("", htmlresult.get(x_),
+					TableTdStyle, FORM_TD, "");
+			html.append(DyFormComp.getTr("", tdstr, "", FORM_TR, "") + _N);
+		}
+
+		String TableExtPropertiesExt = " border=\"1\" width=\"900px\" style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
+		String html_ = DyFormComp.getTable(formcode, html.toString(),
+				TableStyle, TABLE_FORM, 0, TableExtPropertiesExt);
+		// 输出文档普通字段内容结束
+
+		String hiddenid = DyFormComp.getHiddenInput("naturalname", naturalname);
+		String hiddenunid = DyFormComp.getHiddenInput("unid", lsh);
+		String hiddenlsh = DyFormComp.getHiddenInput("lsh", lsh);
+		if (issub) {
+			hiddenid = "";
+			hiddenunid = "";
+			hiddenlsh = "";
+		}
+		String html_2 = eventListenScripts.toString()
+				+ DyFormComp.getForm(_FORM_ID, hiddenid + hiddenunid
+						+ hiddenlsh + html_) + _N;
+		return html_2;
+	}
+	
+	/**
+	 * 生成字段列表 
+	 * 
+	 * @param dyform
+	 * @param userinfo
+	 * @param naturalname
+	 * @param lsh
+	 * @param issub
+	 * @param parameter
+	 * @return
+	 * @throws Exception
+	 */
+	public static String buildQueryForm0(DyForm dyform, String userinfo,
+			String naturalname, String lsh, boolean issub, String parameter)
+			throws Exception {
+
+		String formcode = dyform.getFormcode();
+		StringBuffer html = new StringBuffer();
+
+		DyFormColumn[] _formx = new DyFormColumn[0];
+
+		try {
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(
+					dyform.getFormcode(), "0");
 			_formx = (DyFormColumn[]) list
 					.toArray(new DyFormColumn[list.size()]);
 		} catch (Exception e) {

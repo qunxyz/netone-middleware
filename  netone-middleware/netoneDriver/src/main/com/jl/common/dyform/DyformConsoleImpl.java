@@ -526,7 +526,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				DyAnalysisXml dayx = new DyAnalysisXml();
 				dayx.script(formid, lsh, "UpdateSave"); //正常保存
 			}
-			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("00")){
+			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("02")){
 				DyAnalysisXml dayx = new DyAnalysisXml();
 				dayx.script(formid, lsh, "Onaffirm");//反确认
 			}

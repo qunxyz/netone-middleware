@@ -8,7 +8,11 @@ public final class DyFormData extends TCsBus {
 	private boolean run;
 	private String runtimeid;
 	private String statistical;
-	
+	/**
+	 * »ã×ÜLSH ¸ñÊ½£º1,2,3,4
+	 */
+	private String lshs;
+
 	public String getStatistical() {
 		return statistical;
 	}
@@ -39,6 +43,14 @@ public final class DyFormData extends TCsBus {
 
 	public void setRun(boolean run) {
 		this.run = run;
+	}
+
+	public String getLshs() {
+		return lshs;
+	}
+
+	public void setLshs(String lshs) {
+		this.lshs = lshs;
 	}
 
 }

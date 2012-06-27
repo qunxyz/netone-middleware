@@ -315,7 +315,7 @@ function $select(o,url){
 								        Ext.MessageBox.alert('提示', '请选择一条或多条记录进行导出操作!');
 								        return;
 								    }
-									var vExportContent = Ext.getCmp('PlanGrid').getSelectedExcelXml();
+									var vExportContent = Ext.getCmp('PlanGrid').getSelectedExcelXml(false);
 									vExportContent = vExportContent.replace(/<BR>/ig, " ");
 							        if (Ext.isIE6 || Ext.isIE7 || Ext.isSafari || Ext.isSafari2 || Ext.isSafari3) {
 							            var fd=Ext.get('frmDummy');

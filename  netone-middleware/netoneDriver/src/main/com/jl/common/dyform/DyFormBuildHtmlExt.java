@@ -1718,7 +1718,7 @@ public final class DyFormBuildHtmlExt {
 	}
 
 	/**
-	 * 生成字段列表
+	 * 生成普通查询
 	 * 
 	 * @param dyform
 	 * @param userinfo
@@ -1802,7 +1802,7 @@ public final class DyFormBuildHtmlExt {
 				// calcAvailColumnWidth(yoffset_
 				// .intValue());
 				int availColumnWidth = 0;
-				availColumnWidth = calcAvailColumnWidth(yoffset_.intValue());
+				availColumnWidth = calcAvailColumnWidthN(yoffset_.intValue());
 
 				htmlresult = buildTdHtml(htmlresult, availColumnWidth, column,
 						columnname, formcode, true, "" + value, "", xoffset,
@@ -1819,7 +1819,7 @@ public final class DyFormBuildHtmlExt {
 			html.append(DyFormComp.getTr("", tdstr, "", FORM_TR, "") + _N);
 		}
 
-		String TableExtPropertiesExt = " border=\"1\" width=\"900px\" style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
+		String TableExtPropertiesExt = " border=\"1\" width=\"700px\" style=\"word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
 		String html_ = DyFormComp.getTable(formcode, html.toString(),
 				TableStyle, TABLE_FORM, 0, TableExtPropertiesExt);
 		// 输出文档普通字段内容结束

@@ -1,0 +1,86 @@
+/** 赠品退库 **/
+
+/***
+
+赠品退库子表单  BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.HUIYUANGUANLI.ZENGPINGUANLI.ZPTK.DY_381336140843616  
+编号 初始化事件
+**/
+$("table#7ba7e2ba97cf11e19d04e1f804e88ddd_").find('#column3').live('focus',function(){ 
+
+ $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRESENTININFO', {
+	multiple: false,
+	dataType: "json",
+	autoFill: true,
+	mustMatch: true,
+	matchContains: false,
+	scrollHeight: 220,
+	width:300,
+	parse: function(data) {
+		return $.map(data, function(row) {
+			return {
+				data: row,
+				value: row.column3,
+				result: row.column3
+			}
+		});
+	},
+	formatItem: function(item) {
+		return  item.column3+' '+item.column4;
+	},
+	formatResult: function(item) {
+		return item.column3;
+	}
+
+})
+.result(function(e, item) {
+ var o = $(this).parent().parent().parent();
+ if (item!=null){
+ 	o.find('#column4').val(item.column4);
+	o.find('#column5').val(item.column5);
+	o.find('#column6').val(item.column6);
+	o.find('#column7').val(item.column7);
+	
+	var v1=parseFloat(o.find('#column5').val());
+	if(isNaN(v1)){
+		v1=0;
+	}
+	var v2=parseFloat(o.find('#column7').val());
+	if(isNaN(v2)){
+		v2=0;
+	}
+	var $sum = v1*v2;
+	$sum=$sum.toFixed(2);
+	o.find('#column8').val($sum);
+	
+	
+	o.find('#column9').val(item.column10);
+ } else {
+	o.find('#column4').val('');
+	o.find('#column5').val('');
+	o.find('#column6').val('');
+	o.find('#column7').val('');
+	o.find('#column8').val('');
+	o.find('#column9').val('');
+ }
+	
+});
+$(this).unbind("focus");
+
+});
+
+/***数量  进货单价 数据改变事件***/
+var parentobj = $(this).parent().parent().parent();
+var vo1=parentobj.find('#column5');
+var vo2=parentobj.find('#column7');
+var vo3=parentobj.find('#column8');
+var v1=parseFloat(vo1.val());
+if(isNaN(v1)){
+	v1=0;
+}
+var v2=parseFloat(vo2.val());
+if(isNaN(v2)){
+	v2=0;
+}
+var $sum = v1*v2;
+$sum=$sum.toFixed(2);
+vo3.val($sum);

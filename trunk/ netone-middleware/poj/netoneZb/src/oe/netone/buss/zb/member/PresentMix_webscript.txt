@@ -1,0 +1,51 @@
+/** 赠品调拨 **/
+
+
+/***
+
+赠品调拨子表单  BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.HUIYUANGUANLI.ZENGPINGUANLI.ZPDB.DY_381336140843618  
+编号 初始化事件
+**/
+$("table#ad3651be97d211e19d04e1f804e88ddd_").find('#column3').live('focus',function(){ 
+
+ $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRESENTININFO', {
+	multiple: false,
+	dataType: "json",
+	autoFill: true,
+	mustMatch: true,
+	matchContains: false,
+	scrollHeight: 220,
+	width:300,
+	parse: function(data) {
+		return $.map(data, function(row) {
+			return {
+				data: row,
+				value: row.column3,
+				result: row.column3
+			}
+		});
+	},
+	formatItem: function(item) {
+		return  item.column3+' '+item.column4;
+	},
+	formatResult: function(item) {
+		return item.column3;
+	}
+
+})
+.result(function(e, item) {
+ var o = $(this).parent().parent().parent();
+ if (item!=null){
+ 	o.find('#column4').val(item.column4);
+	o.find('#column6').val(item.column6);
+	o.find('#column7').val(item.column10);
+ } else {
+	o.find('#column4').val('');
+	o.find('#column6').val('');
+	o.find('#column7').val('');
+ }
+	
+});
+$(this).unbind("focus");
+
+});

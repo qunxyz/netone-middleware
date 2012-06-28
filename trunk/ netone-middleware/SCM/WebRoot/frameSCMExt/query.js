@@ -135,7 +135,7 @@ function _query(){
 $('#queryform1').css('display','block');
 var _querywindow = new Ext.Window({  
             title:"普通查询",  
-            width:950,  
+            width:750,  
             height:300, 
             layout:"form",  
             allowDomMove: false,

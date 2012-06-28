@@ -1234,7 +1234,33 @@ public class FrameActionExt extends AbstractAction {
 							}
 						}
 						if ("dl009".equals(ext)) {
-							subcolumnx[i].setHidden(false);
+							if ("column4".equals(colid)
+									|| "column52".equals(colid)
+									|| "column7".equals(colid)
+									|| "column49".equals(colid)
+									|| "column11".equals(colid)
+									|| "column16".equals(colid)
+									|| "column17".equals(colid)
+									|| "column19".equals(colid)
+									|| "column24".equals(colid)
+									|| "column27".equals(colid)
+									|| "column28".equals(colid)
+									|| "column53".equals(colid)
+									|| "column30".equals(colid)
+									|| "column31".equals(colid)
+									|| "column32".equals(colid)
+									|| "column33".equals(colid)
+									|| "column34".equals(colid)
+									|| "column72".equals(colid)
+									|| "column73".equals(colid)
+									|| "column74".equals(colid)
+									|| "column75".equals(colid)
+									|| "column76".equals(colid)
+									|| "column77".equals(colid)
+									|| "column78".equals(colid)
+									|| "column79".equals(colid)) {
+								subcolumnx[i].setHidden(false);
+							}
 						}
 						if ("dl010".equals(ext)) {
 							if ("column4".equals(colid)

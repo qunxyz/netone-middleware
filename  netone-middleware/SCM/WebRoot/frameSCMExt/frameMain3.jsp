@@ -43,6 +43,7 @@
 		<input type="hidden" id="fatherlsh" name="fatherlsh" value="" />
 		<input type="hidden" id="addlsh" name="addlsh" value="" />
 		<input type="hidden" id="openerWinId" name="openerWinId" value="app" />
+		
 		<!--<input type="hidden" id="beginTime" name="beginTime">
 		<input type="hidden" id="endTime" name="endTime">
 		<input type="hidden" id="status" name="status">
@@ -187,7 +188,26 @@ function $select(o,url){
 				  var extquery = document.getElementById('extquery').value;
 				  if (extquery=="1"){
 				  	options.params.conditions = Ext.util.JSON.encode({});
-				  	options.params.extconditions = extconditions;
+				  	options.params.extconditions = "";
+				  } else if (extquery=="2"){
+				  	options.params.conditions = Ext.util.JSON.encode({});
+				  	
+				  	var selectionSet = Ext.getCmp('ExtData').getSelectionModel().getSelections();
+			        var lshs = selectionSet[0].get('lshs');
+			        if (lshs!='') {
+			        	lshs = lshs.substr(0, lshs.length-1);
+			        	var lshstrs = lshs.split(',');
+			        	var strs = ' and lsh in ( ';
+			        	var split = "";
+			        	for(var i=0;i<lshstrs.length;i++){
+			        		strs += split+"'"+lshstrs[i]+"'";
+			        		split=",";
+			        	}
+			        	strs+=") ";
+			        	options.params.extconditions = strs;
+			        } else {
+			        	options.params.extconditions = '';
+			        }
 				  } else {
 				  	options.params.conditions = Ext.util.JSON.encode(conditions);
 				  	options.params.extconditions = "";
@@ -577,6 +597,16 @@ Ext.onReady(function () { //页面加载时候触发事件
         var lsh = selectionSet[0].get('lsh');
         if (lsh!='')
         window.open('<c:url value="/frame.do?method=onEditViewMain"/>&naturalname=${param.naturalname}&lsh='+lsh);
+    });
+    
+    Ext.getCmp('ExtData').addListener('celldblclick', function (grid, rowIndex, columnIndex, e) { // 列表双击事件--查看明细
+        var selectionSet = grid.getSelectionModel().getSelections();
+        var lshs = selectionSet[0].get('lshs');
+        var extmode = '${param.extmode}'.trim();
+        if (lshs!='' && extmode=='2'){
+        	document.getElementById('extquery').value='2';
+        	refresh();
+        }
     });    
 });
 

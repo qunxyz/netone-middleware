@@ -871,8 +871,9 @@ public final class DyFormBuildHtmlExt {
 
 				if (isedit == false) {
 					datas.append(split
+							+ "'"
 							+ routeAppointValue(column.getViewtype(), ""
-									+ value + "", column.getValuelist()));
+									+ value + "'", column.getValuelist()));
 					split = ",";
 				} else {
 
@@ -1954,12 +1955,12 @@ public final class DyFormBuildHtmlExt {
 				}
 
 				if (isedit)
-				eventListenScripts
-						.append(DyFormComp.getLiveEventScript("$('table#"
-								+ formcode + "').find('#" + columnid + "')",
-								_qc1.getInitScript(), _qc1.getFocusScript(),
-								_qc1.getLoseFocusScript(), _qc1
-										.getOnchangeScript()));// 添加事件监听
+					eventListenScripts.append(DyFormComp.getLiveEventScript(
+							"$('table#" + formcode + "').find('#" + columnid
+									+ "')", _qc1.getInitScript(), _qc1
+									.getFocusScript(), _qc1
+									.getLoseFocusScript(), _qc1
+									.getOnchangeScript()));// 添加事件监听
 
 			}
 		}
@@ -2191,7 +2192,11 @@ public final class DyFormBuildHtmlExt {
 
 		map.put("html", htmlall.toString());
 		map.put("count", list.size());
-		map.put("js", bbarjs.toString());
+		if (isedit) {
+			map.put("js", bbarjs.toString());
+		} else {
+			map.put("js", "");
+		}
 		return map;
 	}
 

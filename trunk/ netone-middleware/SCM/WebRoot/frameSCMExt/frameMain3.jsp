@@ -42,6 +42,7 @@
 		<input type="hidden" id="extquery" name="extquery" value="0" />
 		<input type="hidden" id="fatherlsh" name="fatherlsh" value="" />
 		<input type="hidden" id="addlsh" name="addlsh" value="" />
+		<input type="hidden" id="extconditions" name="extconditions" value="" /><!-- 缓存条件 -->
 		<input type="hidden" id="openerWinId" name="openerWinId" value="app" />
 		
 		<!--<input type="hidden" id="beginTime" name="beginTime">
@@ -186,15 +187,17 @@ function $select(o,url){
 				  options.params.naturalname = '${param.naturalname}';
 				  options.params.fatherlsh = document.getElementById('fatherlsh').value;
 				  var extquery = document.getElementById('extquery').value;
+				  var extconditions = document.getElementById('extconditions');
 				  if (extquery=="1"){
 				  	options.params.conditions = Ext.util.JSON.encode({});
 				  	options.params.extconditions = "";
+				  	extconditions.value='';
 				  } else if (extquery=="2"){
 				  	options.params.conditions = Ext.util.JSON.encode({});
 				  	
 				  	var selectionSet = Ext.getCmp('ExtData').getSelectionModel().getSelections();
-			        var lshs = selectionSet[0].get('lshs');
-			        if (lshs!='') {
+			        if (lshs!='' && selectionSet.length>0) {
+			        	var lshs = selectionSet[0].get('lshs');
 			        	lshs = lshs.substr(0, lshs.length-1);
 			        	var lshstrs = lshs.split(',');
 			        	var strs = ' and lsh in ( ';
@@ -205,13 +208,15 @@ function $select(o,url){
 			        	}
 			        	strs+=") ";
 			        	options.params.extconditions = strs;
+			        	extconditions.value=strs;
 			        } else {
-			        	options.params.extconditions = '';
+			        	options.params.extconditions = extconditions.value;
 			        }
 				  } else {
 				  	options.params.conditions = Ext.util.JSON.encode(conditions);
 				  	options.params.extconditions = "";
 				  	document.getElementById('extquery').value="0";
+				  	extconditions.value='';
 				  }
 				  return true;
 		  });

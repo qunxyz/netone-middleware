@@ -777,6 +777,7 @@ function $confirmStatus(){
                 Ext.MessageBox.alert('提示', result.tip);
             } else {
             	Ext.ux.Toast.msg("", result.tip);
+            	refresh();
             }
         },
         failure: function (response, options) {
@@ -817,6 +818,7 @@ function $unconfirmStatus(){
                 Ext.MessageBox.alert('提示', result.tip);
             } else {
             	Ext.ux.Toast.msg("", result.tip);
+            	refresh();
             }
         },
         failure: function (response, options) {

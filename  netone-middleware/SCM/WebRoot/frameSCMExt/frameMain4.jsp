@@ -727,7 +727,7 @@ Ext.onReady(function () { //页面加载时候触发事件
         if (lsh!='')
         window.open('<c:url value="/frame.do?method=onEditViewMain"/>&naturalname=${param.naturalname}&lsh='+lsh);
     });
-    Ext.getCmp('ExtData').addListener('celldblclick', function (grid, rowIndex, columnIndex, e) { // 列表双击事件--查看明细
+    Ext.getCmp('ExtData').addListener('cellclick', function (grid, rowIndex, columnIndex, e) { // 列表双击事件--查看明细
         var selectionSet = grid.getSelectionModel().getSelections();
         var lshs = selectionSet[0].get('lshs');
         var extmode = '${param.extmode}'.trim();

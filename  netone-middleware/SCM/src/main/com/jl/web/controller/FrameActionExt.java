@@ -494,7 +494,8 @@ public class FrameActionExt extends AbstractAction {
 			paramJson = JSONObject.fromObject(conditions);
 		}
 		if (StringUtils.isNotEmpty(extconditions)) {
-			extconditions = DyFormBuildHtmlExt.getQueryCondition(extconditions);
+			// extconditions =
+			// DyFormBuildHtmlExt.getQueryCondition(extconditions);
 		}
 		User user = getOnlineUser(request);
 		String naturalname = request.getParameter("naturalname");

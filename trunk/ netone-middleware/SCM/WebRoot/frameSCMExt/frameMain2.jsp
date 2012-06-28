@@ -466,12 +466,14 @@ function $select(o,url){
 					    region:"center",
 			            border:false,
 			            hideBorders:true,
+			            split:true,
 			            height : clientHeight/2-20,
 					 	autoScroll:true
 				 	  },{
 					    id:"PlanGrid2",
 					    xtype:"PlanGrid2",
 					    region:"south",
+					    split:true,
 			            border:false,
 			            hideBorders:true,
 			            height : clientHeight/2-20,

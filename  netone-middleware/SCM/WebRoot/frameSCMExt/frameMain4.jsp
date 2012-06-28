@@ -577,6 +577,7 @@ function $select(o,url){
 				            border:false,
 				            hideBorders:true,
 				            autoWidth:true,
+				            split:true,
 				            height : clientHeight/2-20,
 						 	autoScroll:true
                 		},{
@@ -584,6 +585,7 @@ function $select(o,url){
 						    xtype:"PlanGrid2",
 				            border:false,
 				            hideBorders:true,
+				            split:true,
 				            autoWidth:true,
 				            height : clientHeight/2-20,
 						 	autoScroll:true

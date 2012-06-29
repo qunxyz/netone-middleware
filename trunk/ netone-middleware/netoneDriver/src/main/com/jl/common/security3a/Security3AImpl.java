@@ -714,16 +714,14 @@ public final class Security3AImpl implements Security3AIfc {
 		if ("22".equals(rstype) || "23".equals(rstype)) {
 			rsinfo = this.listHumanInDir(parentNaturalname, from, size,
 					condition);
-			return rsinfo;
 		}else if(parentNaturalname.startsWith("SYSROLE.SYSROLE")){
 			rsinfo = this.listRoleInDir(parentNaturalname, from, size,
 					condition);
-			return rsinfo;
-		}else{
+		}
 			List other = listOtherRsInDir(parentNaturalname, from, size, condition);
 			rsinfo.addAll(other);
 			return rsinfo;
-		}
+	
 
 
 
@@ -763,7 +761,7 @@ public final class Security3AImpl implements Security3AIfc {
 				Resource rsx = new Resource();
 				rsx.setResourceid(cl.getId().toString());
 				rsx.setResourcecode(cl.getNaturalname());
-				rsx.setResourcename(cl.getName());
+				rsx.setResourcename(cl.getName()+"["+cl.getId().toString()+"]");
 				listData.add(rsx);
 	      }
 

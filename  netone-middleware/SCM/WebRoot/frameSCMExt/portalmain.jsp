@@ -1,5 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>
+<%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>	
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%String path = request.getContextPath();
@@ -128,10 +130,41 @@
 			if(!$.browser.msie){ //not IE
 				$.unblockUI();
 			}
+			
+			
+			
+			//提醒
+			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTTIPS&sr_participant=<rs:logininfo />", 
+			 function(jsonx){
+			  var html = '';
+			  $.each(jsonx, function(ii,itemx){
+			  	if (itemx!=null){
+			  		html+="<div><a target='_blank' href='http://42.120.40.204:83/scm/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.ZHUBAO2.SSXS&lsh="+itemx.column4+"'>"+itemx.column5+"</a></div>";
+				}
+			  });
+			  if (html!=''){
+			  		$('#messager').html(html);
+				    $("#messager").dialog({ 
+				    	title:'提醒(5秒后自动关闭窗口，点击【查看提醒】再次打开 )'
+					    ,position:  ['right','bottom']
+					    ,closeText: 'hide'
+					    ,focus: function(event, ui) {
+					    }
+				     });
+				     setTimeout(function(){$("#messager").dialog('close');},5000); 
+			  }
+			});
+			
 		})
+		
+		function showmessager(){
+			$("#messager").dialog('open');
+		}
 		</script>
 	</head>
 	<body class="easyui-layout">
+	
+		<div id="messager"></div>
 		<div region="north" style="height: 68px; overflow: hidden;">
 			<div id="app-header">
 				<div id="header-left">
@@ -180,7 +213,8 @@
 			${info}
 			<a href="<%=basePath %>/logoutsvl?gotourl=<%=basePath %>" >[注销]</a>
 				<a href='<rs:changepassword/>' target='_blank'>【修改密码】</a>
-	<a href='<rs:userinfo/>' target='_blank'>【个人信息】</a>
+				<a href='<rs:userinfo/>' target='_blank'>【个人信息】</a>
+				<a href="javascript:void(0)" onclick="showmessager();">查看提醒</a>
 		</div>
 	</body>
 </html>

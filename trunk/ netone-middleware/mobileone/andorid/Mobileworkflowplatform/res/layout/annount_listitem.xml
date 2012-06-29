@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dip"
+    android:orientation="horizontal"
+    android:gravity="center_vertical" >
+
+    <TextView android:id="@+id/annountTitle"
+		android:layout_width="0.0dip"
+		android:layout_height="wrap_content"
+		android:layout_weight="7"
+		android:layout_marginLeft="5dip"
+		android:layout_marginRight="15dip"
+		android:textSize="15sp"
+		android:textColor="@drawable/gray"
+		android:singleLine="true"
+		android:ellipsize="end"
+		/>
+    <TextView android:id="@+id/annountDatetime"
+		android:layout_width="0.0dip"
+		android:layout_height="wrap_content"
+		android:layout_weight="3"
+		android:textSize="15sp"
+		android:gravity="right"
+		android:textColor="@drawable/gray"
+		android:layout_marginRight="5dip"
+		/>
+
+</LinearLayout>

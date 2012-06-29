@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/white">
+	<RadioGroup android:gravity="center_vertical" android:layout_gravity="bottom" android:orientation="horizontal" android:id="@+id/main_radio" android:layout_width="fill_parent" android:layout_height="50dip">
+	        <RadioButton android:id="@+id/agencyOrdersBt"
+	            android:text="@string/agencyorders" 
+	            android:checked="true" 
+	            style="@style/allorders_tab_top" />
+	        <RadioButton android:id="@+id/haveBeenOrdersBt" 
+	            android:text="@string/haveBeenOrganizedWorkOrder" 
+	            style="@style/allorders_tab_top" />
+	        <RadioButton android:id="@+id/hasGoneThroughOrdersBt" 
+	            android:text="@string/hasGoneThroughOrders" 
+	            style="@style/allorders_tab_top" />
+	        <RadioButton android:id="@+id/allOrdersBt" 
+	            android:text="@string/allOrders" 
+	            style="@style/allorders_tab_top" />
+	</RadioGroup>
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="35dip"
+	    android:orientation="horizontal"
+	    android:background="@drawable/search_bg" >
+        <TextView android:id="@+id/orderNameHead"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="6.0"
+            android:text="@string/nowNodeName"
+            android:textColor="@drawable/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingLeft="3dip"
+            android:layout_gravity="center"/>
+        <TextView android:id="@+id/submittedByHead"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.0"
+            android:text="@string/submittedBy"
+            android:textColor="@drawable/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+        <TextView android:id="@+id/submittedHead"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.0"
+            android:text="@string/submitted"
+            android:textColor="@drawable/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_gravity="center"/>
+	</LinearLayout>
+	<ListView android:id="@+id/ordersListView"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:divider="@drawable/order_list_line"
+	    android:cacheColorHint="@drawable/transparent_background"
+	    />
+</LinearLayout>

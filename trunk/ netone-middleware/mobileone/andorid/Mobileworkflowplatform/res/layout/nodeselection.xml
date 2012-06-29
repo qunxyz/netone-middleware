@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/white">
+    <LinearLayout android:id="@+id/formTitle_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="30dip"
+	    android:background="@drawable/search_bg">
+	    <TextView android:id="@+id/formTitle"
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:textColor="@drawable/white"
+	    	android:layout_gravity="center_vertical"
+	    	android:layout_marginLeft="5dip"
+	    	android:text="@string/examine"/>
+	</LinearLayout>  
+	<!-- 操作按钮 -->
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="50dip"
+	    android:background="@drawable/examine_bt_bg">
+	    <Button android:id="@+id/upStep2"
+	        android:layout_width="0dip"
+	        android:layout_height="35dip"
+	        android:layout_weight="1"
+	        android:layout_marginLeft="7dip"
+	        android:layout_marginRight="7dip"
+	        android:text="@string/upStep"
+	        android:layout_gravity="center_vertical"/>
+	    <Button android:id="@+id/downStep2"
+	        android:layout_width="0dip"
+	        android:layout_height="35dip"
+	        android:layout_weight="1"
+	        android:layout_marginLeft="7dip"
+	        android:layout_marginRight="7dip"
+	        android:text="@string/downStep"
+	        android:layout_gravity="center_vertical"/>
+	    <Button android:id="@+id/cancel2"
+	        android:layout_width="0dip"
+	        android:layout_height="35dip"
+	        android:layout_weight="1"
+	        android:layout_marginLeft="7dip"
+	        android:layout_marginRight="7dip"
+	        android:text="@string/cancel"
+	        android:layout_gravity="center_vertical"/>
+	</LinearLayout>  
+    
+	<!-- 节点选择-->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+            android:paddingLeft="8dip">
+        <TextView android:id="@+id/nodeTitle"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dealwithNode"
+            android:textSize="16dip"
+            android:textColor="@drawable/darkgray"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
+        <Spinner android:id="@+id/nodeSpinner"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="2.8"/>"
+    </LinearLayout>
+    <!-- 意见填写  -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dip"
+        android:layout_marginTop="30dip">
+        <TextView android:id="@+id/suggestionTitle"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/suggestion"
+            android:textSize="16dip"
+            android:textColor="@drawable/darkgray"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
+        <LinearLayout 
+	        android:layout_width="0dip"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:layout_weight="2.8">
+	        <Spinner android:id="@+id/suggestionSpinner"
+	            android:layout_width="match_parent"
+	            android:layout_height="55dip"
+	            />
+	        <EditText android:id="@+id/suggestionText"
+	            android:layout_width="match_parent"
+	            android:layout_height="130dip"
+	            android:hint="@string/suggestiontip"
+	            android:textSize="16dip"
+	            android:textColor="@drawable/darkgray"
+	            android:textStyle="bold"
+	            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

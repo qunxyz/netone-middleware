@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/white" >
+
+    <LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="30dip"
+	    android:background="@drawable/search_bg">
+	    <TextView android:id="@+id/uploadHistoryTitle"
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:text="@string/uploadhistorytitle"
+	    	android:textColor="@drawable/white"
+	    	android:layout_gravity="center_vertical"
+	    	android:layout_marginLeft="5dip"/>
+	</LinearLayout>
+	<ListView android:id="@+id/historyListView"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_marginLeft="7dip"
+		    android:layout_marginTop="7dip"
+		    android:layout_marginRight="3dip"
+		    android:divider="@drawable/list_line"
+		    android:cacheColorHint="@drawable/transparent_background"/>
+
+</LinearLayout>

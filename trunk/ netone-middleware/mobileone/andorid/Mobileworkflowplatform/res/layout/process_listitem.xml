@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dip"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+     >
+
+    <ImageView android:id="@+id/pDetailImg"
+	    android:layout_width="0.0dip"
+	    android:layout_height="25dip"
+	    android:layout_weight="1.5"
+	    android:maxWidth="25dip"
+	    android:maxHeight="25dip"
+	    android:layout_marginTop="2dip"/>
+	<TextView android:id="@+id/pDetailText"
+	    android:layout_width="0.0dip"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="6"
+	    android:textColor="@drawable/gray"
+	    android:textSize="18sp"
+	    android:layout_marginLeft="10dip"
+	    android:ellipsize="end"
+	    android:singleLine="true"/>
+	<LinearLayout android:id="@+id/fileFuncitonBt_layout"
+	    android:layout_width="0.0dip"
+	    android:layout_height="55dip"
+	    android:layout_weight="7.5"
+	    android:gravity="center_vertical|right"
+	    android:layout_marginLeft="5dip">
+		<!-- 动态添加功能按钮 -->
+	</LinearLayout>
+</LinearLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/func_bg" >
+
+    <RelativeLayout android:id="@+id/search_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="50dip"
+	    android:orientation="horizontal"
+	    android:background="@drawable/search_bg">
+	    <Spinner android:id="@+id/queryTypeSpinner"
+	        android:layout_width="105dip"
+	        android:layout_height="match_parent"
+	        android:layout_marginLeft="10dip"
+	        android:textColor="@drawable/white"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"/>
+	    <EditText android:id="@+id/qSearchText"
+	        android:layout_width="160dip"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/searchTip"
+	        android:layout_marginTop="5dip"
+	        android:layout_toLeftOf="@+id/qSearchBt"/>
+	    <ImageButton android:id="@+id/qSearchBt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/search_bt"
+	        android:background="@drawable/transparent_background"
+	        android:layout_marginTop="10dip"
+	        android:layout_marginLeft="3dip"
+	        android:layout_marginRight="5dip"
+	        android:layout_alignParentRight="true"
+	        />
+	</RelativeLayout>
+	<LinearLayout android:id="@+id/searchResult_layout"
+	    android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginLeft="5dip"
+		android:layout_marginRight="5dip"
+		android:layout_marginTop="4dip"
+		android:layout_marginBottom="50dip"
+		android:layout_below="@+id/search_layout"
+		android:background="@drawable/list_border">
+		<ListView android:id="@+id/searchResultListView"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_marginLeft="7dip"
+		    android:layout_marginTop="7dip"
+		    android:layout_marginBottom="7dip"
+		    android:layout_marginRight="3dip"
+		    android:divider="@drawable/list_line"
+		    android:cacheColorHint="@drawable/transparent_background"/>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/resultCount_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="50dip"
+	    android:gravity="right"
+	    android:layout_alignParentBottom="true">
+	    <TextView android:id="@+id/searchResultNum"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/searchResultGet"
+	        android:textColor="@drawable/deepblue"
+	        android:textSize="14dip"
+	        android:textStyle="bold"
+	        android:layout_marginRight="10dip"
+	        android:layout_gravity="center_vertical"/>
+
+	</LinearLayout>
+</RelativeLayout>

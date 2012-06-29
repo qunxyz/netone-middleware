@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white" >
+	
+	<LinearLayout android:id="@+id/formTitle_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="30dip"
+	    android:background="@drawable/search_bg">
+	    <TextView android:id="@+id/formTitle"
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:textColor="@drawable/white"
+	    	android:layout_gravity="center_vertical"
+	    	android:layout_marginLeft="5dip"/>
+	</LinearLayout>  
+	<ScrollView android:id="@+id/formScroll"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_below="@+id/formTitle_layout"
+	    android:layout_above="@+id/bt_layout">
+		<!-- 动态表单布局区 -->
+		<LinearLayout android:id="@+id/dyform_layout"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:orientation="vertical">
+	
+		</LinearLayout>
+	</ScrollView>
+	
+	<RelativeLayout android:id="@+id/bt_layout"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:minHeight="55dip"
+	    android:layout_alignParentBottom="true"
+	    >
+	
+	    <!-- 配置功能布局区 -->
+		<LinearLayout android:id="@+id/formFunc_layout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:paddingLeft="5dip"
+		    android:layout_alignParentLeft="true"
+		    android:layout_alignBottom="@+id/formOpBt_layout"
+		    android:layout_marginBottom="7dip">
+		    
+		</LinearLayout>
+	    
+	    <!-- 表单操作按钮布局区 -->
+		<LinearLayout android:id="@+id/formOpBt_layout"
+	        android:orientation="vertical"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:minHeight="45dip"
+	        android:paddingLeft="5dip"
+	        android:layout_marginTop="8dip"
+	        android:layout_marginRight="15dip"
+	        android:layout_alignParentRight="true">
+	        <LinearLayout android:id="@+id/isapprove_layout"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:visibility="gone">
+				<CheckBox android:id="@+id/isapprove"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="@string/isapprove"
+				    android:textColor="@drawable/darkgray"
+				    android:textSize="16sp"/>
+			</LinearLayout>
+			<LinearLayout 
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal">
+			    <Button android:id="@+id/createFormBt"
+			        android:layout_width="80dip"
+			        android:layout_height="wrap_content"
+			        android:text="@string/create"
+			        android:visibility="gone"/>
+				<Button android:id="@+id/editFormBt"
+			        android:layout_width="80dip"
+			        android:layout_height="wrap_content"
+			        android:text="@string/edit"
+			        android:visibility="gone"/>
+			    <Button android:id="@+id/exitFormBt"
+			        android:layout_width="80dip"
+			        android:layout_height="wrap_content"
+			        android:text="@string/back"/>
+			</LinearLayout>
+
+
+	    </LinearLayout>
+	    
+	</RelativeLayout>
+	
+
+
+</RelativeLayout>

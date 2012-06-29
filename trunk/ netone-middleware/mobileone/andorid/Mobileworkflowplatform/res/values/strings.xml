@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, MobileworkflowplatformActivity!</string>
+    <string name="app_name">MiOne移动中间件</string>
+	<string name="searchTip">输入关键字..</string>
+	<string name="currentWorkOrder">当前待办工单 </string>
+	<string name="haveBeenOrganizedWorkOrder">已处理工单 </string>
+	<string name="article"> 条</string>
+	<string name="searchResultGet">本次搜索获得8条结果</string>
+	<string name="result">结果</string>
+	<string name="mainHome">首页</string>
+	<string name="myagency">我的待办</string>
+	<string name="recommend">推荐</string>
+	<string name="logtwitter">日志</string>
+	<string name="content">查询</string>
+	<string name="agencyorders">待办工单</string>
+	<string name="hasGoneThroughOrders">已办结工单</string>
+	<string name="allOrders">所有工单</string>
+	<string name="nowNodeName">当前节点</string>
+	<string name="submittedBy">提交者</string>
+	<string name="submitted">提交时间</string>
+	<string name="reflush">刷新</string>
+	<string name="systemsetting">系统设置</string>
+	<string name="exit">退出</string>
+	<string name="errorcode">系统错误！错误代码：</string>
+	<string name="nowloading">正在加载数据</string>
+	<string name="pleasewait">请稍等...</string>
+	<string name="serviceerror">未增加此 功能模块，查看服务端配置是否有误</string>
+	<string name="createorder">新建工单</string>
+	<string name="cancelDataLoad">取消数据加载</string>
+	<string name="noSDCard">未插入SD卡！</string>
+	<string name="webtimeoutorfail">服务端访问超时或失败</string>
+	<string name="notFindOrderNO">无效工单号</string>
+	<string name="notFindOrderImg">此表单无附件</string>
+	<string name="positionUploadSuccess">上传位置坐标成功！</string>
+	<string name="orderUploadImg">附件管理</string>
+	<string name="uploadhistorytitle">上传图片历史记录</string>
+	<string name="upload">上传</string>
+	<string name="open">打开</string>
+	<string name="formName">商超表单名称</string>
+	<string name="personChoose">人员选择</string>
+	<string name="operate">操作</string>
+	<string name="uploadProcess">上传进度</string>
+	<string name="cancelUpload">取消上传</string>
+	<string name="imageName">图片名称：</string>
+	<string name="bytes">字节</string>
+	<string name="uploadfilesuccess">已成功上传文件</string>
+	<string name="getPicture">加载图片列表</string>
+	<string name="username">用户名</string>
+	<string name="password">密码</string>
+	<string name="emputUsername">用户名不能为空！</string>
+	<string name="emputPsd">密码不能为空！</string>
+	<string name="nowLogin">正在登录...</string>
+	<string name="loginfail">用户名或密码有误，请重试</string>
+	<string name="serviceImaUrlError">图片加载有误</string>
+	<string name="noProcessNaturalName">无此流程编号</string>
+	<string name="unUploadFile">未上传附件</string>
+	<string name="uploadFile">已上传附件</string>
+	<string name="delete">删除</string>
+	<string name="deleteFilesuccess">已删除此附件</string>
+	<string name="insertFile">添加附件</string>
+	<string name="uploadAllFile">上传所有附件</string>
+	<string name="deleteAllFile">删除所有未上传附件</string>
+	<string name="noOpenGPS">未检查到GPS信号或GPS未开启</string>
+	<string name="prompt">提示</string>
+	<string name="GPSsetting">GPS设置</string>
+	<string name="cancel">取消</string>
+	<string name="isCheckFile">确认选择此文件？</string>
+	<string name="select">选择</string>
+	<string name="sdcarddir">SD卡目录</string>
+	<string name="notFoundFile">文件不存在</string>
+	<string name="fileStraficError">文件传输异常</string>
+	<string name="copyFileToFormDir">正在复制图片到表单目录..</string>
+	<string name="isDeleteAllFiles">确认删除所有附件？</string>
+	<string name="create">新建</string>
+	<string name="edit">编辑</string>
+	<string name="query">查看</string>
+	<string name="back">返回</string>
+	<string name="invalid">作废</string>
+	<string name="formoperate">表单操作</string>
+	<string name="browoperate">查看选择</string>
+	<string name="yes">是</string>
+	<string name="no">否</string>
+	<string name="addForm">新建表单</string>
+	<string name="editForm">编辑表单</string>
+	<string name="queryForm">查看表单</string>
+	<string name="isDeleteFormData">确认删除当前表单数据？</string>
+	<string name="alreadyDeleteFormData">已删除此表单数据</string>
+	<string name="createFormFail">表单创建失败</string>
+	<string name="notnull">不能为空</string>
+	<string name="createformsuccess">新建表单成功</string>
+	<string name="editformsuccess">修改表单成功</string>
+	<string name="operatefail">操作失败</string>
+	<string name="loadfile">加载附件</string>
+	<string name="nofileupload">无附件上传</string>
+	<string name="nofiledelete">无附件删除</string>
+	<string name="queryMarketPosition">正在获取商超位置信息</string>
+	<string name="initSyatemData">加载系统图标..</string>
+	<string name="noNetWork">未开启网络，请设置网络连接</string>
+	<string name="noSDcardExists">未检测到SD卡，请插入后重新开启系统</string>
+	<string name="networkSetting">网络设置</string>
+	<string name="functionOperate">功能操作</string>
+	<string name="photograph">拍照</string>
+	<string name="allPerson">所有人员</string>
+	<string name="uploadnow">立即上传</string>
+	<string name="examine">审核</string>
+	<string name="isapprove">是否审核通过</string>
+	<string name="upStep">上一步</string>
+	<string name="downStep">下一步</string>
+	<string name="complete">完成</string>
+	<string name="dealwithNode">处理节点</string>
+	<string name="suggestion">意见填写</string>
+	<string name="suggestiontip">请选择以上意见或自行填写</string>
+	<string name="deadline">办理期限</string>
+	<string name="candealwithperson">可处理人员</string>
+	<string name="commiter">已选处理人员</string>
+	<string name="notvalue">无值</string>
+	<string name="saveSuccessSugg">成功提交意见</string>
+	<string name="submitAudit">提交节点审核成功</string>
+	<string name="emptycommiter">请选择节点审核人员</string>
+	<string name="searchedMarket">搜索到的网点</string>
+	<string name="rangehasnosupermarket">此范围无商超信息</string>
+	<string name="searchRangeMarket">搜索范围内的网点</string>
+	<string name="openCamera">启动相机</string>
+	<string name="settingImgFlush">系统图标更新</string>
+	<string name="settingRangeMarket">网点搜索范围</string>
+	<string name="setting">设置</string>
+	<string name="onlyInteger">提示：只允许输入整数数字（单位：米）</string>
+	<string name="noEmptyRange">搜索范围不能为空</string>
+	<string name="cameraException">相机启动异常，请重新启动系统，恢复相机正常使用</string>
+	
+	<!-- 表单查看选择列表 -->
+	<string-array name="formbrowarray">
+	    <item>应用中查看</item>
+	    <item>浏览器查看</item>
+	</string-array>
+	
+	<!-- 办理期限选择列表 -->
+	<string-array name="deadlinearray">
+	    <item>一般72小时</item>
+	    <item>紧急36小时</item>
+	</string-array>
+	
+	<!-- 审批意见选择列表 -->
+	<string-array name="suggestionarray">
+	    <item>同意</item>
+	    <item>已阅</item>
+	    <item>不通过</item>
+	</string-array>
+</resources>

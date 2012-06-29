@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg">
+	<RelativeLayout android:id="@+id/search_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="50dip"
+	    android:orientation="horizontal"
+	    android:background="@drawable/search_bg">
+	    <TextView android:id="@+id/projectName"
+	        android:layout_width="wrap_content"
+	        android:layout_height="30dip"
+	        android:text="@string/app_name"
+	        android:textSize="16sp"
+	        android:layout_marginLeft="5dip"
+	        android:textColor="@drawable/white"
+	        android:layout_marginTop="15dip"
+	        android:layout_alignParentLeft="true"
+	        android:focusable="true"/>
+	    <EditText android:id="@+id/rearchText"
+	        android:layout_width="145dip"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/searchTip"
+	        android:layout_marginTop="5dip"
+	        android:layout_toLeftOf="@+id/searchbt"/>
+	    <ImageButton android:id="@+id/searchbt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/searchbt"
+	        android:background="@drawable/transparent_background"
+	        android:layout_marginTop="10dip"
+	        android:layout_marginLeft="3dip"
+	        android:layout_marginRight="5dip"
+	        android:layout_alignParentRight="true"/>
+	</RelativeLayout>
+
+	<GridView android:id="@+id/main_function_gridview"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:numColumns="4"
+	    android:gravity="center"
+	    android:layout_marginTop="15dip"
+	    android:verticalSpacing="15dip"
+	    android:layout_below="@+id/search_layout">
+	</GridView>
+	
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true">
+	    <RadioGroup android:gravity="center_vertical" android:layout_gravity="bottom" android:orientation="horizontal" android:id="@+id/main_radio" android:background="@drawable/maintab_toolbar_bg" android:layout_width="fill_parent" android:layout_height="50dip">
+	        <RadioButton android:text="@string/myagency" android:id="@+id/myagencybt" android:layout_marginTop="2.0dip" style="@style/main_tab_bottom" android:drawableTop="@drawable/myagencytab" />
+	        <RadioButton android:id="@+id/recommendbt" android:layout_marginTop="2.0dip" android:text="@string/recommend" style="@style/main_tab_bottom" android:drawableTop="@drawable/recommend" />
+	        <RadioButton android:id="@+id/logtwitterbt" android:layout_marginTop="2.0dip" android:text="@string/logtwitter" style="@style/main_tab_bottom" android:drawableTop="@drawable/log" />
+	        <RadioButton android:id="@+id/querybt" android:layout_marginTop="2.0dip" android:text="@string/content" style="@style/main_tab_bottom" android:drawableTop="@drawable/search_tab" />
+	        <RadioButton android:id="@+id/mainHomebt" android:layout_marginTop="2.0dip" android:text="@string/mainHome" style="@style/main_tab_bottom" android:drawableTop="@drawable/home" />
+	    </RadioGroup>
+	</LinearLayout>
+	    
+</RelativeLayout>

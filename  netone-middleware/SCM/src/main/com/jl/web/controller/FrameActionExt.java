@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ import oe.serialize.dao.PageInfo;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -53,6 +57,15 @@ import com.jl.common.workflow.WfEntry;
 import com.jl.entity.User;
 import com.jl.service.BaseService;
 import com.jl.service.FrameService;
+import com.lucaslee.report.ReportManager;
+import com.lucaslee.report.model.Rectangle;
+import com.lucaslee.report.model.Report;
+import com.lucaslee.report.model.ReportBody;
+import com.lucaslee.report.model.Table;
+import com.lucaslee.report.model.TableCell;
+import com.lucaslee.report.model.TableRow;
+import com.lucaslee.report.printer.ExcelCss;
+import com.lucaslee.report.printer.ExcelPrinter;
 
 public class FrameActionExt extends AbstractAction {
 
@@ -3175,6 +3188,281 @@ public class FrameActionExt extends AbstractAction {
 			super.writeJsonStr(response, json.toString());
 		}
 
+	}
+
+	// 打印 珠宝 首饰销售打印
+	public void print(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String lsh = request.getParameter("lsh");
+
+		final String MY_STYLE1 = "customStyle1";
+
+		final String MY_DATA_STYLE1 = "customDataStyle1";
+		final String MY_DATA_STYLE2 = "customDataStyle2";
+		final String MY_HEADER_STYLE1 = "customHeaderStyle1";
+
+		final String MY_RIGHT_STYLE1 = "customRIGHTStyle1";
+
+		// 报表管理器
+		ReportManager rm = new ReportManager();
+		// 获得原始数据表格
+		Table t = new Table(14, 9);
+
+		// 首饰销售
+		DyFormData dydata0 = new DyFormData();
+		dydata0.setFormcode("8a606025a84f11e19b54fb13b166e993_");
+		dydata0.setFatherlsh("1");
+		dydata0.setLsh(lsh);
+		List listx0 = DyEntry.iv().queryData(dydata0, 0, 1, "");
+		dydata0 = (DyFormData) listx0.get(0);
+		String clientId = dydata0.getColumn8();// 分销商
+
+		// 分销商信息
+		DyFormData dydata1 = new DyFormData();
+		dydata1.setFormcode("697afe8595db11e191e44dc1824bccae_");
+		dydata1.setFatherlsh("1");
+		dydata1.setColumn4(clientId);
+		List listx1 = DyEntry.iv().queryData(dydata1, 0, 1, "");
+		dydata1 = (DyFormData) listx1.get(0);
+		String address = dydata1.getColumn7();// 联系地址
+		String tel = dydata1.getColumn11();// 联系电话
+
+		// 首饰销售明细数据
+		DyFormData dydata = new DyFormData();
+		dydata.setFormcode("1dde2f9fa81711e19b54fb13b166e993_");
+		dydata.setFatherlsh(lsh);
+		List listx = DyEntry.iv().queryData(dydata, 0, 6, "");
+
+		for (int i = 0; i < 4; i++) {
+			TableRow tr = new TableRow();
+
+			TableCell tc = new TableCell();
+			tc.setColSpan(2);
+			tr.addCell(tc);
+			TableCell tc2 = new TableCell();
+			tc2.setIsHidden(true);
+			tr.addCell(tc2);
+
+			tr.addCell(new TableCell());
+			tr.addCell(new TableCell());
+			tr.addCell(new TableCell());
+			tr.addCell(new TableCell());
+			tr.addCell(new TableCell());
+			tr.addCell(tc);
+			tr.addCell(tc2);
+
+			t.setRow(i, tr);
+		}
+
+		TableRow tr = new TableRow();
+
+		TableCell tc = new TableCell("" + address, Rectangle.ALIGN_CENTER);
+		tc.setColSpan(4);
+		tr.addCell(tc);
+		TableCell tc2 = new TableCell();
+		tc2.setIsHidden(true);
+		tr.addCell(tc2);
+
+		tr.addCell(tc2);
+		tr.addCell(tc2);
+
+		TableCell tcx = new TableCell("" + tel, Rectangle.ALIGN_CENTER);
+		tcx.setColSpan(2);
+		tr.addCell(tcx);
+		tr.addCell(tc2);
+		tr.addCell(new TableCell());
+
+		TableCell tcx0 = new TableCell(com.jl.common.TimeUtil
+				.getYear(new java.util.Date())
+				+ "年"
+				+ com.jl.common.TimeUtil.getMonth(new java.util.Date())
+				+ "月"
+				+ com.jl.common.TimeUtil.getDay(new java.util.Date())
+				+ "日	", Rectangle.ALIGN_CENTER);
+		tcx0.setColSpan(2);
+		tr.addCell(tcx0);
+		tr.addCell(tc2);
+
+		t.setRow(4, tr);
+
+		TableRow tr00_ = new TableRow();
+
+		TableCell tc00_ = new TableCell("");
+		tc00_.setColSpan(2);
+		tr00_.addCell(tc00_);
+		tr00_.addCell(tc2);
+
+		TableCell tc01_ = new TableCell("");
+		tc01_.setColSpan(4);
+		tr00_.addCell(tc01_);
+		tr00_.addCell(tc2);
+		tr00_.addCell(tc2);
+		tr00_.addCell(tc2);
+
+		tr00_.addCell(new TableCell());
+		TableCell tc02_ = new TableCell("");
+		tc02_.setColSpan(2);
+		tr00_.addCell(tc02_);
+		tr00_.addCell(tc2);
+
+		tr00_.setType(MY_DATA_STYLE1);
+		t.setRow(5, tr00_);
+
+		int cur = 6;
+		Double sum = new Double("0");
+		for (int j = 0; j < listx.size(); j++) {
+			DyFormData object = (DyFormData) listx.get(j);
+
+			TableRow tr00 = new TableRow();
+
+			TableCell tc00 = new TableCell(object.getColumn3());
+			tc00.setColSpan(2);
+			tr00.addCell(tc00);
+			tr00.addCell(tc2);
+
+			TableCell tc01 = new TableCell(object.getColumn4());
+			tc01.setColSpan(4);
+			tr00.addCell(tc01);
+			tr00.addCell(tc2);
+			tr00.addCell(tc2);
+			tr00.addCell(tc2);
+
+			tr00.addCell(new TableCell());
+			TableCell tc02 = new TableCell(object.getColumn15());
+			tc02.setColSpan(2);
+			tr00.addCell(tc02);
+			tr00.addCell(tc2);
+
+			if (object.getColumn15() != null) {
+				sum += Double.valueOf(object.getColumn15());
+			}
+
+			tr00.setType(MY_DATA_STYLE1);
+			t.setRow(cur + j, tr00);
+		}
+
+		TableRow tr000_ = new TableRow();
+
+		TableCell tc000_ = new TableCell("");
+		tc000_.setColSpan(2);
+		tr000_.addCell(tc000_);
+		tr000_.addCell(tc2);
+
+		TableCell tc001_ = new TableCell("");
+		tc001_.setColSpan(4);
+		tr000_.addCell(tc001_);
+		tr000_.addCell(tc2);
+		tr000_.addCell(tc2);
+		tr000_.addCell(tc2);
+
+		tr000_.addCell(new TableCell());
+		TableCell tc002_ = new TableCell(""
+				+ com.jl.common.MathHelper.round(sum, 2));
+		tc002_.setColSpan(2);
+		tr000_.addCell(tc002_);
+		tr000_.addCell(tc2);
+
+		tr000_.setType(MY_DATA_STYLE1);
+		t.setRow(13, tr000_);
+
+		// 定义报表对象
+		Report report = new Report();
+
+		// **************设置报表主体部分**************
+		ReportBody body = new ReportBody();
+		body.setData(t);
+		report.setBody(body);
+
+		// 输出文件
+		response.setContentType("application/vnd.ms-excel");
+		OutputStream os = response.getOutputStream();
+		try {
+
+			// 执行EXCEL格式报表的输出
+			ExcelCss css = new ExcelCss() {
+
+				public void init(HSSFWorkbook workbook) {
+					// 大、粗字体
+					HSSFFont fontBig = workbook.createFont();
+					fontBig.setFontHeightInPoints((short) 15);
+					fontBig.setFontName("宋体");
+					fontBig.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+
+					HSSFFont fontNormal = workbook.createFont();
+					fontNormal.setFontHeightInPoints((short) 13);
+					fontNormal.setFontName("宋体");
+					// *****************end定义字体*****************
+
+					// ***************设置EXCEL报表的样式表******************
+					HSSFCellStyle style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					this.setStyle(Report.DATA_TYPE, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setFont(fontBig);
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					this.setStyle(MY_STYLE1, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					this.setStyle(MY_RIGHT_STYLE1, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					this.setStyle(MY_DATA_STYLE1, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					this.setStyle(MY_DATA_STYLE2, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setBorderBottom((short) 0);
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					this.setStyle(MY_HEADER_STYLE1, style);
+
+				}
+			};
+			new ExcelPrinter().print(report, css, os, true);
+		} finally {
+			if (os != null)
+				os.close();
+		}
 	}
 
 }

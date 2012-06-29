@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal" >
+
+    <ImageView android:id="@+id/processImg"
+	    android:layout_width="50dip"
+	    android:layout_height="50dip"
+	    android:maxWidth="50dip"
+	    android:maxHeight="50dip"/>
+	<TextView android:id="@+id/processText"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textColor="@drawable/gray"
+	    android:singleLine="true"
+	    android:ellipsize="end"/>
+
+</LinearLayout>

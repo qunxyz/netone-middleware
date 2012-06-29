@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/white">
+	<LinearLayout android:id="@+id/formTitle_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="30dip"
+	    android:background="@drawable/search_bg">
+	    <TextView android:id="@+id/formTitle"
+	        android:layout_width="match_parent"
+	    	android:layout_height="wrap_content"
+	    	android:textColor="@drawable/white"
+	    	android:layout_gravity="center_vertical"
+	    	android:layout_marginLeft="5dip"
+	    	android:text="@string/examine"/>
+	</LinearLayout>  
+    
+	<!-- 操作按钮 -->
+	<LinearLayout android:id="@+id/opBt_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="50dip"
+	    android:background="@drawable/examine_bt_bg"
+	    android:layout_below="@+id/formTitle_layout">
+	    <Button android:id="@+id/upStep3"
+	        android:layout_width="0dip"
+	        android:layout_height="35dip"
+	        android:layout_weight="1"
+	        android:layout_marginLeft="7dip"
+	        android:layout_marginRight="7dip"
+	        android:text="@string/upStep"
+	        android:layout_gravity="center_vertical"/>
+	    <Button android:id="@+id/complete"
+	        android:layout_width="0dip"
+	        android:layout_height="35dip"
+	        android:layout_weight="1"
+	        android:layout_marginLeft="7dip"
+	        android:layout_marginRight="7dip"
+	        android:text="@string/complete"
+	        android:layout_gravity="center_vertical"/>
+	    <Button android:id="@+id/cancel3"
+	        android:layout_width="0dip"
+	        android:layout_height="35dip"
+	        android:layout_weight="1"
+	        android:layout_marginLeft="7dip"
+	        android:layout_marginRight="7dip"
+	        android:text="@string/cancel"
+	        android:layout_gravity="center_vertical"/>
+	</LinearLayout>
+	
+	<!-- 期限选择 -->
+	<LinearLayout android:id="@+id/deadline_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:paddingLeft="8dip"
+        android:layout_below="@+id/opBt_layout">
+        <TextView android:id="@+id/deadlineTitle"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/deadline"
+            android:textSize="16dip"
+            android:textColor="@drawable/darkgray"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
+        <Spinner android:id="@+id/deadlineSpinner"
+            android:layout_width="0dip"
+            android:layout_height="55dip"
+            android:layout_weight="2.8"/>
+    </LinearLayout>
+    
+	<!-- 人员选择 -->
+	<LinearLayout android:id="@+id/choosePerson_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_marginTop="15dip"
+	    android:layout_below="@+id/deadline_layout"
+	    android:layout_above="@+id/commiter_layout">
+	    <TextView android:id="@+id/choosePersonTitle"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/candealwithperson"
+	        android:textColor="@drawable/darkgray"
+	        android:textSize="16sp"
+	        android:textStyle="bold"
+	        android:drawableBottom="@drawable/greenline"
+	        android:paddingLeft="8dip"/>
+	    <ListView android:id="@+id/commiterListView"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:divider="@drawable/list_line"
+	        android:cacheColorHint="@drawable/transparent_background"/>
+	</LinearLayout>
+	<!-- 已选人员 -->
+	<LinearLayout android:id="@+id/commiter_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_marginTop="15dip"
+	    android:layout_alignParentBottom="true">
+	    <TextView android:id="@+id/commiterTitle"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/commiter"
+	        android:textColor="@drawable/darkgray"
+	        android:textSize="16sp"
+	        android:textStyle="bold"
+	        android:drawableBottom="@drawable/greenline"
+	        android:paddingLeft="8dip"/>
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="50dip"
+	        android:layout_marginTop="10dip"
+	        android:layout_marginLeft="8dip">
+	        <EditText android:id="@+id/commiterText"
+	            android:layout_width="0dip"
+	            android:layout_height="45dip"
+	            android:layout_weight="6"
+	            android:layout_gravity="center_vertical"
+	            android:editable="false"/>
+	        <ImageButton android:id="@+id/resetCommiter"
+	            android:layout_width="35dip"
+	            android:layout_height="35dip"
+	            android:src="@drawable/xx"
+	            android:layout_marginLeft="15dip"
+	            android:layout_marginRight="25dip"
+	            android:layout_gravity="center_vertical"/>
+	    </LinearLayout>
+	</LinearLayout>
+</RelativeLayout>

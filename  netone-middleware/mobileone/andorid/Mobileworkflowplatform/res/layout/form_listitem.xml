@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dip"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:descendantFocusability="blocksDescendants" >
+
+ 	<TextView android:id="@+id/formName"
+        android:layout_width="0.0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:textColor="@drawable/gray"
+        android:textSize="16sp"
+        android:paddingLeft="3dip"
+        android:singleLine="true"
+        android:ellipsize="end"/>
+	<LinearLayout 
+		android:layout_width="0.0dip"
+		android:layout_height="wrap_content"
+		android:layout_weight="2.1"
+		android:orientation="horizontal"
+		android:layout_marginRight="5dip">
+		<ImageView android:id="@+id/fphotographImgBt"
+		    android:layout_width="40dip"
+		    android:layout_height="40dip"
+		    android:layout_marginRight="20dip"
+		    android:layout_marginLeft="10dip"
+		    android:background="@drawable/uploadphonebt"
+		    android:focusable="false"/>
+		<ImageView android:id="@+id/fuploadImageBt"
+		    android:layout_width="40dip"
+		    android:layout_height="40dip"
+		    android:background="@drawable/uploadimagebt"
+		    android:focusable="false"/>
+		<!-- <ImageView android:id="@+id/fhistoryImageBt"
+		    android:layout_width="30dip"
+		    android:layout_height="30dip"
+		    android:background="@drawable/historybt"
+		    /> -->
+	</LinearLayout>
+
+
+</LinearLayout>

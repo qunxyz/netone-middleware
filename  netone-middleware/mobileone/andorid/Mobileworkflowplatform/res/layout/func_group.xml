@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/func_bg" >
+
+    <RelativeLayout android:id="@+id/fucSelect_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="60dip"
+	    android:orientation="horizontal"
+	    android:background="@drawable/search_bg"
+	    android:gravity="center_vertical">
+	    <TextView android:id="@+id/projectName"
+	        android:layout_width="wrap_content"
+	        android:layout_height="30dip"
+	        android:text="@string/app_name"
+	        android:textSize="16sp"
+	        android:layout_marginLeft="5dip"
+	        android:textColor="@drawable/white"
+	        android:layout_marginTop="15dip"
+	        android:layout_alignParentLeft="true"
+/>
+	    <Spinner android:id="@+id/mainfuncSpinner"
+	        android:layout_width="185dip"
+	        android:layout_height="70dip"
+	        android:layout_alignParentRight="true"
+	        />
+	</RelativeLayout>
+	
+    <!-- 我的代办布局 -->
+    <LinearLayout android:id="@+id/myagency_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_below="@+id/fucSelect_layout"
+	    android:layout_marginBottom="50dip"
+		android:visibility="gone" >
+	
+	    <LinearLayout android:id="@+id/myAgencyList_layout"
+		    android:layout_width="match_parent"
+			android:layout_height="310dip"
+			android:layout_marginLeft="5dip"
+			android:layout_marginRight="5dip"
+			android:layout_marginTop="4dip"
+			android:background="@drawable/list_border">
+			<ListView android:id="@+id/myAgencyListview"
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    android:layout_marginLeft="7dip"
+			    android:layout_marginTop="7dip"
+			    android:layout_marginBottom="7dip"
+			    android:layout_marginRight="3dip"
+			    android:divider="@drawable/list_line"
+			    android:cacheColorHint="@drawable/transparent_background"/>
+		</LinearLayout>
+		<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="40dip"
+		    android:gravity="center_horizontal"
+		    android:layout_marginTop="5dip">
+		    <TextView android:id="@+id/currentWorkOrder"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textColor="@drawable/deepblue"
+		        android:textSize="14dip"
+		        android:textStyle="bold"
+		        android:layout_marginRight="10dip"/>
+		    <TextView android:id="@+id/haveBeenOrganizedWorkOrder"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textColor="@drawable/deepblue"
+		        android:textSize="14dip"
+		        android:textStyle="bold"/>
+		</LinearLayout>
+	</LinearLayout>
+	
+	<!-- 公告布局 -->
+    <LinearLayout android:id="@+id/annount_layout"
+	    android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginLeft="5dip"
+		android:layout_marginRight="5dip"
+		android:layout_marginTop="4dip"
+		android:layout_marginBottom="53dip"
+		android:background="@drawable/list_border"
+		android:layout_below="@+id/fucSelect_layout"
+		android:visibility="gone">
+		<ListView android:id="@+id/annountList"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_marginLeft="7dip"
+		    android:layout_marginTop="7dip"
+		    android:layout_marginBottom="7dip"
+		    android:layout_marginRight="3dip"
+		    android:divider="@drawable/list_line"
+		    android:cacheColorHint="@drawable/transparent_background"/>
+	    
+	</LinearLayout>
+	
+    <!-- 频道首页布局 -->
+    <GridView android:id="@+id/channelGridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="2"
+        android:verticalSpacing="30dip"
+        android:layout_marginTop="10dip"
+        android:layout_marginBottom="50dip"
+        android:layout_below="@+id/fucSelect_layout"
+        android:visibility="gone"/>
+
+    <!-- 频道栏目树页面布局 -->
+    <LinearLayout android:id="@+id/channelTree_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    android:background="@drawable/func_bg"
+	    android:layout_below="@+id/fucSelect_layout"
+	    android:visibility="gone"
+	    android:layout_marginBottom="50dip" >
+	
+		<RelativeLayout 
+			android:layout_width="match_parent"
+			android:layout_height="60dip"
+			>
+		    <ImageView android:id="@+id/departmentImg"
+		        android:layout_width="23dip"
+		        android:layout_height="25dip"
+		        android:src="@drawable/article"
+		        android:layout_alignParentLeft="true"
+		        android:layout_marginLeft="10dip"
+		        android:layout_marginRight="10dip"
+		        android:layout_centerVertical="true"/>
+		    <TextView android:id="@+id/departmentName"
+		        android:layout_width="130dip"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@+id/departmentImg"
+		        android:layout_centerVertical="true"
+				android:gravity="center_vertical"
+		        android:textColor="@drawable/darkgray"
+		        android:textSize="20sp"/>
+		    <ImageButton android:id="@+id/dBackdepart"
+		        android:layout_width="32dip"
+		        android:layout_height="32dip"
+		        android:src="@drawable/backbt"
+		        android:background="@drawable/transparent_background"
+		        android:layout_centerVertical="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_marginRight="20dip"/>
+		</RelativeLayout>    
+		<ExpandableListView
+			android:id="@+id/channelTree"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:childDivider="@drawable/channel_tree_line"
+			android:divider="@drawable/white"
+			android:footerDividersEnabled="true"
+			android:cacheColorHint="@drawable/transparent_background" />
+	</LinearLayout>
+	
+    
+    <!-- 资源目录页面布局 -->
+	<LinearLayout android:id="@+id/resource_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical"
+	    android:background="@drawable/func_bg"
+	    android:layout_below="@+id/fucSelect_layout"
+	    android:visibility="gone"
+	    android:layout_marginBottom="53dip" >
+	
+	    <RelativeLayout 
+			android:layout_width="match_parent"
+			android:layout_height="45dip"
+			android:layout_marginTop="10dip"
+			>
+
+		    <TextView android:id="@+id/processName"
+		        android:layout_width="130dip"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_centerVertical="true"
+				android:gravity="center_vertical"
+		        android:textColor="@drawable/darkgray"
+		        android:layout_marginLeft="20dip"
+		        android:textSize="20sp"/>
+		    <ImageButton android:id="@+id/pBackProcess"
+		        android:layout_width="32dip"
+		        android:layout_height="32dip"
+		        android:src="@drawable/backbt"
+		        android:background="@drawable/transparent_background"
+		        android:layout_centerVertical="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_marginRight="20dip"/>
+		</RelativeLayout>    
+		<LinearLayout android:id="@+id/resourceView_layout"
+		    android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="5dip"
+			android:layout_marginRight="5dip"
+			android:layout_marginTop="4dip">
+		    <GridView android:id="@+id/resourceGridView"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:numColumns="4"
+			    android:gravity="center"
+			    android:layout_marginTop="10dip"
+			    android:layout_marginBottom="50dip"
+			    android:verticalSpacing="15dip"
+			    android:layout_below="@+id/fucSelect_layout"
+			    android:visibility="gone"/>
+			<ListView android:id="@+id/resourceListView"
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    android:layout_marginLeft="7dip"
+			    android:layout_marginTop="10dip"
+			    android:layout_marginBottom="7dip"
+			    android:layout_marginRight="3dip"
+			    android:divider="@drawable/list_line"
+			    android:cacheColorHint="@drawable/transparent_background"
+			    android:visibility="gone"/>
+	    
+		</LinearLayout>
+	</LinearLayout>
+	
+	<!-- 表单目录布局 -->
+    <GridView android:id="@+id/formDirGridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="4"
+	    android:gravity="center"
+	    android:layout_marginTop="20dip"
+	    android:layout_marginBottom="50dip"
+	    android:verticalSpacing="15dip"
+	    android:layout_below="@+id/fucSelect_layout"
+	    android:visibility="gone"/>
+	
+    <ListView android:id="@+id/commentListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+	    android:layout_marginTop="5dip"
+	    android:layout_marginBottom="50dip"
+	    android:layout_below="@+id/fucSelect_layout"
+	    android:visibility="gone"/>
+	<!-- 中间动态加载View -->
+    <!--<FrameLayout android:measureAllChildren="true" 
+        android:id="@+id/containerBody"
+        android:layout_weight="1" 
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/fucSelect_layout"
+        android:paddingBottom="50dip">
+    </FrameLayout>-->
+       
+    <LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true">
+	    <RadioGroup android:gravity="center_vertical" android:layout_gravity="bottom" android:orientation="horizontal" android:id="@+id/func_radio" android:background="@drawable/maintab_toolbar_bg" android:layout_width="fill_parent" android:layout_height="50dip">
+	        <RadioButton android:text="@string/myagency" android:id="@+id/fmyagencybt" android:layout_marginTop="2.0dip" style="@style/main_tab_bottom" android:drawableTop="@drawable/myagencytab" />
+	        <RadioButton android:id="@+id/frecommendbt" android:layout_marginTop="2.0dip" android:text="@string/recommend" style="@style/main_tab_bottom" android:drawableTop="@drawable/recommend" />
+	        <RadioButton android:id="@+id/flogtwitterbt" android:layout_marginTop="2.0dip" android:text="@string/logtwitter" style="@style/main_tab_bottom" android:drawableTop="@drawable/log" />
+	        <RadioButton android:id="@+id/fquerybt" android:layout_marginTop="2.0dip" android:text="@string/content" style="@style/main_tab_bottom" android:drawableTop="@drawable/search_tab" />
+	        <RadioButton android:id="@+id/fmainHomebt" android:layout_marginTop="2.0dip" android:text="@string/mainHome" style="@style/main_tab_bottom" android:drawableTop="@drawable/home" />
+	    </RadioGroup>
+	</LinearLayout>
+</RelativeLayout>

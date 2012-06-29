@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+<style name="main_tab_bottom">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@drawable/gray</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@drawable/home_btn_bg</item>
+        <item name="android:paddingTop">2pt</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">50dip</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:drawablePadding">1pt</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:button">@null</item>
+</style>
+
+<style name="allorders_tab_top">
+    <item name="android:textSize">14sp</item>
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">55dip</item>
+    <item name="android:layout_weight">1.0</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:background">@drawable/orderstypebt</item>
+    <item name="android:paddingTop">13pt</item>
+    <item name="android:button">@null</item>
+    <item name="android:textColor">@drawable/darkgray</item>
+    <item name="android:gravity">center_horizontal</item>
+</style>
+
+</resources>

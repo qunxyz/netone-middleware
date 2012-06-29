@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dip"
+    android:orientation="horizontal" 
+    android:gravity="center_vertical"
+    android:layout_gravity="center_vertical"
+    android:layout_marginLeft="8dip">
+
+	<ImageView android:id="@+id/funcOpImg"
+	    android:layout_width="35dip"
+	    android:layout_height="35dip"
+
+	    android:layout_marginLeft="8dip"/>
+	<TextView android:id="@+id/funcOpText"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textSize="18sp"
+	    android:layout_marginLeft="15dip"
+	    android:textColor="@drawable/darkgray"/>
+</LinearLayout>

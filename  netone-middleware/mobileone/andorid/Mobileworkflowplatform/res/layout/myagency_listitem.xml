@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dip"
+    android:orientation="horizontal"
+    android:gravity="center_vertical" >
+
+    <TextView android:id="@+id/agencyTitle"
+		android:layout_width="0.0dip"
+		android:layout_height="wrap_content"
+		android:layout_weight="2.5"
+		android:layout_marginLeft="2dip"
+		android:layout_marginRight="3dip"
+		android:textSize="16sp"
+		android:textColor="@drawable/gray"
+		android:singleLine="true"
+		android:ellipsize="end"
+		/>
+    <TextView android:id="@+id/agencyPersonName"
+		android:layout_width="0.0dip"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:textSize="16sp"
+		android:textColor="@drawable/gray"
+		android:layout_marginRight="6dip"
+		android:ellipsize="end"
+		/>
+    <TextView android:id="@+id/agencyDateTime"
+		android:layout_width="0.0dip"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.4"
+		android:textSize="16sp"
+		android:textColor="@drawable/gray"
+		android:layout_marginRight="3dip"
+		/>
+
+</LinearLayout>

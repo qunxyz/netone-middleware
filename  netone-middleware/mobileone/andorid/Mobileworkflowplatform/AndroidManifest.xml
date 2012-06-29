@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wfp.activity"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="8" />
+
+    <application
+        android:icon="@drawable/junling"
+        android:label="@string/app_name" >
+        <uses-library android:name="com.google.android.maps" />
+        <activity
+            android:label="@string/app_name"
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MobileworkflowplatformActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>  
+				<action android:name="com.wfp.activity.MobileworkflowplatformActivity"/>  
+				<category android:name="android.intent.category.DEFAULT"/>  
+			</intent-filter> 
+        </activity>
+        <activity android:name=".FuncGroupActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>  
+				<action android:name="com.wfp.activity.FuncGroupActivity"/>  
+				<category android:name="android.intent.category.DEFAULT"/>  
+			</intent-filter> 
+        </activity>
+        <activity android:name=".ChannelMainActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ChannelTreeActivity"
+            android:screenOrientation="portrait">
+            
+            <intent-filter>  
+				<action android:name="com.wfp.activity.ChannelTreeActivity"/>  
+				<category android:name="android.intent.category.DEFAULT"/>  
+			</intent-filter> 
+        </activity>
+        <activity android:name=".AnnouncementActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>  
+				<action android:name="com.wfp.activity.AnnouncementActivity"/>  
+				<category android:name="android.intent.category.DEFAULT"/>  
+			</intent-filter> 
+        </activity>
+        <activity android:name=".ProcessDetailActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>  
+				<action android:name="com.wfp.activity.ProcessDetailActivity"/>  
+				<category android:name="android.intent.category.DEFAULT"/>  
+			</intent-filter> 
+        </activity>
+        <activity android:name=".ProcessMainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>  
+				<action android:name="com.wfp.activity.ProcessMainActivity"/>  
+				<category android:name="android.intent.category.DEFAULT"/>  
+			</intent-filter> 
+        </activity>
+        <activity android:name=".QueryContentActivity"
+             android:windowSoftInputMode="stateHidden"
+             android:screenOrientation="portrait" ></activity>
+        <activity android:name=".MyAgencyActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>  
+				<action android:name="com.wfp.activity.MyAgencyActivity"/>  
+				<category android:name="android.intent.category.DEFAULT"/>  
+			</intent-filter> 
+        </activity>
+        <activity android:name=".WorkOrdersActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".CameraActivity" 
+          android:label="@string/app_name" 
+          android:screenOrientation="landscape"> 
+		</activity>
+		<activity android:name=".MyMapActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".OrdersUploadImgActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".FormListActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".UploadHistoryActivity" android:screenOrientation="portrait"></activity>
+	
+		<activity android:name=".WelcomeActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".RegisterActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".SDCardDirActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".DynamicFormActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".WebActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".NodeSelectionActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".ChoosePersonActivity" 
+		    android:screenOrientation="portrait"
+		    android:windowSoftInputMode="stateHidden"></activity>
+		<activity android:name=".ChooseMarketActivity" android:screenOrientation="portrait"></activity>
+		<activity android:name=".SystemSettingActivity" android:screenOrientation="portrait"></activity>
+		
+
+    </application>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_CHECKIN_PROPERTIES"/>
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+	<uses-feature android:name="android.hardware.camera" />
+	<uses-feature android:name="android.hardware.camera" android:required="false" />
+
+</manifest>

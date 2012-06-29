@@ -3321,7 +3321,7 @@ public class FrameActionExt extends AbstractAction {
 			tr00.addCell(tc00);
 			tr00.addCell(tc2);
 
-			TableCell tc01 = new TableCell(object.getColumn4());
+			TableCell tc01 = new TableCell(object.getColumn4() + " 1¼þ");
 			tc01.setColSpan(4);
 			tr00.addCell(tc01);
 			tr00.addCell(tc2);

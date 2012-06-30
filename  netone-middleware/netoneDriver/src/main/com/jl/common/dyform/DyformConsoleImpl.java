@@ -549,13 +549,17 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		if (StringUtils.isEmpty(bus.getFatherlsh())) {
 			return new ArrayList();
 		}
-		List list = dy.queryData(bux, form, to, condition);
-		DyAnalysisXml dayx = new DyAnalysisXml();
+		
 		String formcode = bus.getFormcode();
+		
+		String subcondtion=subCondition(formcode,bux);
+		
+		List list = dy.queryData(bux, form, to, subcondtion+condition);
+		
+		
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		
 		if (list == null || list.size() == 0) {
-			
-
-			
 			// 创建初始化处理，有些时候主表单需要自动带出几条子表单信息
 			// 信息格式为 List(TCsBus)
 			// 根据外部脚本自动构造子表单初始数据信息
@@ -585,9 +589,32 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 		TCsBus bux = new TCsBus();
 		BeanUtils.copyProperties(bux, bus);
+		String subcondtion=subCondition(bux.getFormcode(),bux);
 		int number = dy.queryDataNum(bux, condition);
 		return number;
 
+	}
+	
+	private String subCondition(String formcode,TCsBus bus)throws Exception{
+		//处理扩展条件
+		List listx=this.queryColumnQ(formcode);
+		StringBuffer butCon=new StringBuffer();
+		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
+			DyFormColumn objx = (DyFormColumn) iterator.next();
+			String columnid=objx.getColumnid();
+			String value=BeanUtils.getProperty(bus, columnid);
+			String addcondition=objx.getExtendattribute();
+			// 自定义的查询字段如果有特殊条件的情况下
+			if(StringUtils.isNotEmpty(value)&&StringUtils.isNotEmpty(addcondition)){
+				// 特殊条件中可能且仅有可能存在该字段的变量值格式为 $()
+				String key="$(value)";
+				//将条件中的变量替换为真实值
+				butCon.append(" "+StringUtils.replace(addcondition, key, value));
+				//将表单中该字段设置为空，避免被拿去普通查询
+				BeanUtils.setProperty(bus, columnid, "");
+			}
+		}
+		return butCon.toString();
 	}
 
 	public int deleteAll(String formcode, String fatherlsh) throws Exception {
@@ -810,6 +837,24 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			dealWithKvDict(columnnew, rs);
 			this.dealwithTree(columnnew, rs);
 			newColumn.add(columnnew);
+		}
+		return newColumn;
+	}
+
+	@Override
+	public List<DyFormColumn> queryColumnQ(String formcode)
+			throws Exception {
+		// TODO Auto-generated method stub
+		DyColumnQuery dyfcQuery = new DyColumnQuery();
+		List list= dyfcQuery.QueryColumnQ(formcode);
+		List newColumn=new ArrayList();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			DyFormColumn object = (DyFormColumn) iterator.next();
+			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+
+			dealWithKvDict(object, rs);
+			this.dealwithTree(object, rs);
+			newColumn.add(object);
 		}
 		return newColumn;
 	}

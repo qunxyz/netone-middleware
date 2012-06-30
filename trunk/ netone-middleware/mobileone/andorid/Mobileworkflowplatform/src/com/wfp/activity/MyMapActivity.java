@@ -42,7 +42,9 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.wfp.overlay.MyOverlay;
 import com.wfp.util.ConnectionServiceThread;
+import com.wfp.util.ConnectionServiceThread2;
 import com.wfp.util.HelpHandler;
+import com.wfp.util.HelpHandler2;
 
 public class MyMapActivity extends MapActivity {
 	/** Called when the activity is first created. */
@@ -62,7 +64,7 @@ public class MyMapActivity extends MapActivity {
 	private String currentCity = "";
 	private String serchAddress = "";
 	private static int POINT_TYPE = 1;
-	private ConnectionServiceThread connServiceThread;
+	private ConnectionServiceThread2 connServiceThread2;
 	private ProgressDialog pDialog;
 	private int selectPersonNum;
 	private ArrayList upPrsonArray;
@@ -141,11 +143,11 @@ public class MyMapActivity extends MapActivity {
         pDialog.setMessage(getResources().getString(R.string.queryMarketPosition));
         pDialog.show();
 		//获取到服务端流程名称数据，并装载数据
-		HelpHandler helpHandler = new HelpHandler(pDialog,
+		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 				this);
 		//启动请求服务端线程，封装数据给handler
-		connServiceThread = new ConnectionServiceThread(this, 27, helpHandler, "");
-		connServiceThread.start();
+		connServiceThread2 = new ConnectionServiceThread2(this, 27, helpHandler2, "");
+		connServiceThread2.start();
 		
 //		Intent intent = getIntent();
 //		if (intent != null) {
@@ -441,7 +443,7 @@ public class MyMapActivity extends MapActivity {
 		if (item.getItemId() == 5) {
 //			finish();
 			//将list解析为指定数组
-			upPrsonArray = connServiceThread.getResultList();
+			upPrsonArray = connServiceThread2.getResultList();
 			StringBuffer upPrsonStr = new StringBuffer();
 			upPrsonStr.append(getResources().getString(R.string.allPerson));
 			upPrsonStr.append(";");

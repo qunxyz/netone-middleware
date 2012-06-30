@@ -35,7 +35,6 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -44,8 +43,10 @@ import com.wfp.config.ModulesConfig;
 import com.wfp.config.PathConfig;
 import com.wfp.customcontrols.WebImageListAdapter;
 import com.wfp.util.ConnectionServiceThread;
+import com.wfp.util.ConnectionServiceThread2;
 import com.wfp.util.FunctionUtil;
 import com.wfp.util.HelpHandler;
+import com.wfp.util.HelpHandler2;
 public class MobileworkflowplatformActivity extends Activity {
 	
 	//界面视图元素
@@ -219,8 +220,11 @@ public class MobileworkflowplatformActivity extends Activity {
 								return;
 							}
 						}
-						String funcJsonStr = extendattribute.split("\\$")[1];	//功能json字符串
-						JSONObject jsonObj = new JSONObject(funcJsonStr);
+						String funcJsonStr = null;
+						JSONObject jsonObj = null;
+						funcJsonStr = extendattribute.split("\\$")[1];	//功能json字符串
+						if(funcJsonStr != null)
+						jsonObj = new JSONObject(funcJsonStr);
 						if(key == 7){	//启动拍照功能
 							String radiusMarketUrl = FunctionUtil.getFuncUrl(jsonObj, radiusMarketFuncid);
 							String addFormUrl = FunctionUtil.getFuncUrl(jsonObj, addFormFuncid);
@@ -230,13 +234,13 @@ public class MobileworkflowplatformActivity extends Activity {
 							startActivity(intent);
 						} else if(key == 8){	//启动google地图
 
-							Log.i("mapfuncJsonStr", funcJsonStr);
-							String marketPointUrl = FunctionUtil.getFuncUrl(jsonObj, queryMarketPoint);
-							String personPointUrl = FunctionUtil.getFuncUrl(jsonObj, queryPersonPoint);
-							//String uploadPicPersonUrl = FunctionUtil.getFuncUrl(jsonObj, UploadPicPersonInfo);
-							intent = new Intent(MobileworkflowplatformActivity.this, MyMapActivity.class);
-							
-							startActivityForResult(intent, MAP);
+//							Log.i("mapfuncJsonStr", funcJsonStr);
+//							String marketPointUrl = FunctionUtil.getFuncUrl(jsonObj, queryMarketPoint);
+//							String personPointUrl = FunctionUtil.getFuncUrl(jsonObj, queryPersonPoint);
+//							//String uploadPicPersonUrl = FunctionUtil.getFuncUrl(jsonObj, UploadPicPersonInfo);
+//							intent = new Intent(MobileworkflowplatformActivity.this, MyMapActivity.class);
+//							
+//							startActivityForResult(intent, MAP);
 						} else if(key == 16){	//启动表单应用
 
 							String formListUrl = FunctionUtil.getFuncUrl(jsonObj, openFuncid);
@@ -480,11 +484,11 @@ public class MobileworkflowplatformActivity extends Activity {
 			
 											SharedPreferences serviceInfo = getSharedPreferences(SERVICE_INFO,0);
 											String nowDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date()); 
-											String serviceip = serviceInfo.getString("serviceip", "http://42.120.40.204:84");
+											String serviceip = serviceInfo.getString("serviceip", "http://112.5.5.114:84");
 											StringBuffer uploadInfo = new StringBuffer();	//新增表单数据
 											String addFormUrl = null;
 											try {
-												addFormUrl = FunctionUtil.getFuncUrl(jsonObj, "addFormFuncid");
+												addFormUrl = FunctionUtil.getFuncUrl(jsonObj, addFormFuncid);
 
 											} catch (JSONException e) {
 												// TODO Auto-generated catch block
@@ -534,11 +538,11 @@ public class MobileworkflowplatformActivity extends Activity {
 													R.string.pleasewait), true, true);
 
 											// 获取到服务端流程名称数据，并装载数据
-											HelpHandler helpHandler = new HelpHandler(pDialog, MobileworkflowplatformActivity.this);
+											HelpHandler2 helpHandler2 = new HelpHandler2(pDialog, MobileworkflowplatformActivity.this);
 											// 启动请求服务端线程，封装数据给handler
-											ConnectionServiceThread connServiceThread = new ConnectionServiceThread(
-													MobileworkflowplatformActivity.this, 22, helpHandler, uploadInfo.toString());
-											connServiceThread.start();
+											ConnectionServiceThread2 connServiceThread2 = new ConnectionServiceThread2(
+													MobileworkflowplatformActivity.this, 22, helpHandler2, uploadInfo.toString());
+											connServiceThread2.start();
 													
 										}
 					

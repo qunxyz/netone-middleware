@@ -25,8 +25,10 @@ import android.widget.SimpleAdapter;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.wfp.util.ConnectionServiceThread;
+import com.wfp.util.ConnectionServiceThread2;
 import com.wfp.util.FunctionUtil;
 import com.wfp.util.HelpHandler;
+import com.wfp.util.HelpHandler2;
 
 public class UploadHistoryActivity extends Activity {
 	
@@ -53,6 +55,8 @@ public class UploadHistoryActivity extends Activity {
     private String loadFormUrl;
     private String addFormUrl;
     private String opFlags;		//表单操作标签
+    private static int EDIT_FORM = 14;
+    private String formtype;
 
 	/** Called when the activity is first created. */
     @Override
@@ -68,7 +72,7 @@ public class UploadHistoryActivity extends Activity {
         //初始化数据
         Intent intent = getIntent();
         final String funcJsonStr = intent.getStringExtra("funcJsonStr");
-        final String formtype = intent.getStringExtra("formtype");
+        formtype = intent.getStringExtra("formtype");
 		
         // 获取功能url
 		formListUrl = "";
@@ -206,7 +210,7 @@ public class UploadHistoryActivity extends Activity {
 								intent.putExtra("funcJsonStr", funcJsonStr);
 								intent.putExtra("formflag", "edit");
 								intent.putExtra("lsh", lsh);
-								startActivity(intent);
+								startActivityForResult(intent, EDIT_FORM);
 							//删除表单
 							}else if(opText.equals(getResources().getString(R.string.delete))){
 								AlertDialog.Builder deleteFormbuilder = new AlertDialog.Builder(UploadHistoryActivity.this);
@@ -235,11 +239,11 @@ public class UploadHistoryActivity extends Activity {
 							            pDialog.setMessage(getResources().getString(R.string.isDeleteFormData));
 							            pDialog.show();
 							    		//获取到服务端流程名称数据，并装载数据
-							    		HelpHandler helpHandler = new HelpHandler(pDialog,
+							    		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 							    				UploadHistoryActivity.this);
 							    		//启动请求服务端线程，封装数据给handler
-							    		ConnectionServiceThread connServiceThread = new ConnectionServiceThread(UploadHistoryActivity.this, 21, helpHandler, url);
-							    		connServiceThread.start();
+							    		ConnectionServiceThread2 connServiceThread2 = new ConnectionServiceThread2(UploadHistoryActivity.this, 21, helpHandler2, url);
+							    		connServiceThread2.start();
 									}
 								});
 								//取消删除按钮点击事件
@@ -258,5 +262,29 @@ public class UploadHistoryActivity extends Activity {
 				}
 			}
 		});
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	// TODO Auto-generated method stub
+    	super.onActivityResult(requestCode, resultCode, data);
+    	if(requestCode == EDIT_FORM){
+    		if(resultCode == RESULT_OK){
+    			String params = formListUrl + ";" + formtype;
+    	        //显示等待dialog
+    	        ProgressDialog pDialog = ProgressDialog.show(
+    					this, 
+    					getResources().getString(R.string.nowloading), 
+    					getResources().getString(R.string.pleasewait), 
+    					true, true);	
+
+    			//获取到服务端流程名称数据，并装载数据
+    			HelpHandler helpHandler = new HelpHandler(pDialog,
+    					this);
+    			//启动请求服务端线程，封装数据给handler
+    			connServiceThread = new ConnectionServiceThread(this, 15, helpHandler, params);
+    			connServiceThread.start();
+    		}
+    	}
     }
 }

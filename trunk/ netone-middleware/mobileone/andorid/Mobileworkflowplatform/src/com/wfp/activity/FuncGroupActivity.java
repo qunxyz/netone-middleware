@@ -53,8 +53,10 @@ import com.wfp.config.ModulesConfig;
 import com.wfp.config.PathConfig;
 import com.wfp.customcontrols.WebImageListAdapter;
 import com.wfp.util.ConnectionServiceThread;
+import com.wfp.util.ConnectionServiceThread2;
 import com.wfp.util.FunctionUtil;
 import com.wfp.util.HelpHandler;
+import com.wfp.util.HelpHandler2;
 
 public class FuncGroupActivity extends Activity {
 	
@@ -328,8 +330,8 @@ public class FuncGroupActivity extends Activity {
 									startActivity(intent);
 									return;
 							} else if(key == 8){
-									intent = new Intent(FuncGroupActivity.this, MyMapActivity.class);
-									startActivity(intent);
+//									intent = new Intent(FuncGroupActivity.this, MyMapActivity.class);
+//									startActivity(intent);
 									return;
 							}else if(key == 1){
 								String extendattribute = (String) map.get("extendattribute");
@@ -462,7 +464,7 @@ public class FuncGroupActivity extends Activity {
 							//得到服务端IP
 							SharedPreferences serviceInfo = getSharedPreferences(SERVICE_INFO,0);
 							String nowDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date()); 
-							String serviceip = serviceInfo.getString("serviceip", "http://42.120.40.204:84");
+							String serviceip = serviceInfo.getString("serviceip", "http://112.5.5.114:84");
 							url = serviceip+PathConfig.freeLoginPrefix+userid+"&password="+passWord+"&gotourl="+URLEncoder.encode(url);
 							Intent intent = new Intent( Intent.ACTION_VIEW );
 							intent.setData( Uri.parse( url)); //这里面是需要调转的url
@@ -882,7 +884,7 @@ public class FuncGroupActivity extends Activity {
 			
 											SharedPreferences serviceInfo = getSharedPreferences(SERVICE_INFO,0);
 											String nowDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date()); 
-											String serviceip = serviceInfo.getString("serviceip", "http://42.120.40.204:84");
+											String serviceip = serviceInfo.getString("serviceip", "http://112.5.5.114:84");
 											StringBuffer uploadInfo = new StringBuffer();	//新增表单数据
 											String addFormUrl = null;
 											try {
@@ -936,11 +938,11 @@ public class FuncGroupActivity extends Activity {
 													R.string.pleasewait), true, true);
 
 											// 获取到服务端流程名称数据，并装载数据
-											HelpHandler helpHandler = new HelpHandler(pDialog, FuncGroupActivity.this);
+											HelpHandler2 helpHandler2 = new HelpHandler2(pDialog, FuncGroupActivity.this);
 											// 启动请求服务端线程，封装数据给handler
-											ConnectionServiceThread connServiceThread = new ConnectionServiceThread(
-													FuncGroupActivity.this, 22, helpHandler, uploadInfo.toString());
-											connServiceThread.start();
+											ConnectionServiceThread2 connServiceThread2 = new ConnectionServiceThread2(
+													FuncGroupActivity.this, 22, helpHandler2, uploadInfo.toString());
+											connServiceThread2.start();
 													
 										}
 					
@@ -1117,11 +1119,11 @@ public class FuncGroupActivity extends Activity {
 //								true, true);
 //
 //						//获取到服务端流程名称数据，并装载数据
-//						HelpHandler helpHandler = new HelpHandler(pDialog,
+//						HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 //								FuncGroupActivity.this);
 //						//启动请求服务端线程，封装数据给handler
-//						connServiceThread = new ConnectionServiceThread(FuncGroupActivity.this, 16, helpHandler, flag);
-//						connServiceThread.start();
+//						ConnectionServiceThread2 connServiceThread2 = new ConnectionServiceThread2(FuncGroupActivity.this, 16, helpHandler2, flag);
+//						connServiceThread2.start();
 //					}else{
 //						Intent intent = new Intent(FuncGroupActivity.this, FormListActivity.class);
 //						intent.putExtra("naturalName", naturalName);

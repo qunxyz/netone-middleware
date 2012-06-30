@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.wfp.util.ConnectionServiceThread;
-import com.wfp.util.HelpHandler;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences.Editor;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -20,13 +16,15 @@ import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+
+import com.wfp.util.ConnectionServiceThread2;
+import com.wfp.util.HelpHandler2;
 
 public class SystemSettingActivity extends Activity {
 
@@ -69,16 +67,15 @@ public class SystemSettingActivity extends Activity {
 				// TODO Auto-generated method stub
 				if(position == 0){
 					//下载服务端图片
-			    	//显示等待dialog
-			        ProgressDialog pDialog = new ProgressDialog(SystemSettingActivity.this);
-			        pDialog.setMessage(getResources().getString(R.string.initSyatemData));
-			        pDialog.show();
+			    	//正在下载提示
+					Toast.makeText(SystemSettingActivity.this, R.string.initSyatemData, Toast.LENGTH_LONG).show();
+
 					//获取到服务端流程名称数据，并装载数据
-					HelpHandler helpHandler = new HelpHandler(pDialog,
+					HelpHandler2 helpHandler2 = new HelpHandler2(null,
 							SystemSettingActivity.this);
 					//启动请求服务端线程，封装数据给handler
-					ConnectionServiceThread connServiceThread = new ConnectionServiceThread(SystemSettingActivity.this, 28, helpHandler, "");
-					connServiceThread.start();
+					ConnectionServiceThread2 connServiceThread2 = new ConnectionServiceThread2(SystemSettingActivity.this, 28, helpHandler2, "");
+					connServiceThread2.start();
 				}else if(position == 1){
 					//初始化网点范围设置对话框列表
 					LayoutInflater inflater = getLayoutInflater();

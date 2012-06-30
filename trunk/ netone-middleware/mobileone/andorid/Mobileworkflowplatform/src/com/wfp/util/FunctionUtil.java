@@ -188,7 +188,7 @@ public class FunctionUtil {
 		try {
 			//获取服务端域名和端口
 			SharedPreferences serviceInfo = context.getSharedPreferences(SERVICE_INFO,0);
-			String serviceip = serviceInfo.getString("serviceip", "http://42.120.40.204:84");
+			String serviceip = serviceInfo.getString("serviceip", "http://112.5.5.114:84");
 			//文件网络路径
 			URL url = new URL(serviceip+urlstr);
 			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
@@ -221,11 +221,11 @@ public class FunctionUtil {
 					output.flush();
 					return true;
 				} else {
-					Toast.makeText(context, context.getResources().getString(R.string.noSDCard), Toast.LENGTH_LONG).show();
+					//Toast.makeText(context, context.getResources().getString(R.string.noSDCard), Toast.LENGTH_LONG).show();
 					return false;
 				}
 			}else{
-				Toast.makeText(context, context.getResources().getString(R.string.errorcode)+urlConn.getResponseCode(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(context, context.getResources().getString(R.string.errorcode)+urlConn.getResponseCode(), Toast.LENGTH_LONG).show();
 				return false;
 			}
 		} catch (MalformedURLException e) {

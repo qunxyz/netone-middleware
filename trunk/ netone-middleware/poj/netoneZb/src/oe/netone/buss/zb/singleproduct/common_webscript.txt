@@ -1,6 +1,6 @@
 
 /** 首饰入库表 DY_271334208897441  */
-$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_271334208897441'+'&sr_pcode='+$(this).val(),     
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column4&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_271334208897441'+'&sr_pcode='+$(this).val(),     
 	function(jsonx2){      
 	if (jsonx2!=null){     
 		if (jsonx2.count>0){
@@ -12,7 +12,7 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.
 
 
 /** 首饰退库表 DY_621338820565622  */
-$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_621338820565622'+'&sr_pcode='+$(this).val(),     
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_621338820565622'+'&sr_pcode='+$(this).val(),     
 	function(jsonx2){      
 	if (jsonx2!=null){     
 		if (jsonx2.count>0){
@@ -24,7 +24,7 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.
 
 
 /** 分销进货 DY_661338441749388   */
-$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_661338441749388'+'&sr_pcode='+$(this).val(),     
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_661338441749388'+'&sr_pcode='+$(this).val(),     
 	function(jsonx2){      
 	if (jsonx2!=null){     
 		if (jsonx2.count>0){
@@ -36,7 +36,7 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.
 
 
 /** 分销退货 DY_661338441749392    */
-$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_661338441749392'+'&sr_pcode='+$(this).val(),     
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_661338441749392'+'&sr_pcode='+$(this).val(),     
 	function(jsonx2){      
 	if (jsonx2!=null){     
 		if (jsonx2.count>0){
@@ -48,7 +48,7 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.
 
 
 /*** 首饰销售-销售明细 DY_371337952339238 　**/
-$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_371337952339238'+'&sr_pcode='+$(this).val(),     
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_371337952339238'+'&sr_pcode='+$(this).val(),     
 	function(jsonx2){      
 	if (jsonx2!=null){     
 		if (jsonx2.count>0){
@@ -59,7 +59,7 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.
 });
 
 /** 首饰销售-销退明细 DY_371337952339240  ***/
-$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_371337952339240'+'&sr_pcode='+$(this).val(),     
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_371337952339240'+'&sr_pcode='+$(this).val(),     
 	function(jsonx2){      
 	if (jsonx2!=null){     
 		if (jsonx2.count>0){
@@ -71,7 +71,7 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.
 
 
 /** 首饰退库（） DY_621338820565625 ***/
-$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_621338820565625'+'&sr_pcode='+$(this).val(),     
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_621338820565625'+'&sr_pcode='+$(this).val(),     
 	function(jsonx2){      
 	if (jsonx2!=null){     
 		if (jsonx2.count>0){

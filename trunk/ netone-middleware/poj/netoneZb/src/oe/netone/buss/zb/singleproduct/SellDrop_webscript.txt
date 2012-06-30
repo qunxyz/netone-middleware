@@ -1,5 +1,5 @@
 /**
-首饰销退 单号初始化事件
+首饰退库销退 单号初始化事件
 BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.SINGLE PRODUCT MANAGEMENT.SSXS.SSXT.DY_621338820565627 */
 var x0a3090beae5a11e1a1d4a9c1a0b05fbc_column3 = $('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column3'); 
 if (x0a3090beae5a11e1a1d4a9c1a0b05fbc_column3.val()==''){  
@@ -12,7 +12,7 @@ if (x0a3090beae5a11e1a1d4a9c1a0b05fbc_column3.val()==''){
 
 
 /**
-首饰销退 分销商初始化事件
+首饰退库销退 分销商初始化事件
 BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.SINGLE PRODUCT MANAGEMENT.SSXS.SSXT.DY_621338820565627
 **/
 var divcae6d5c095f411e19d04e1f804e88ddd_=$('<select style=\"display:none\"></select>'); 
@@ -25,7 +25,7 @@ divcae6d5c095f411e19d04e1f804e88ddd_.appendTo('body');
 	 });  
  });
 /** 
-首饰销退 分销商数据改变事件
+首饰退库销退 分销商数据改变事件
  BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.SINGLE PRODUCT MANAGEMENT.SSXS.SSXT.DY_621338820565627
 */
  var thisval = $(this).val();   
@@ -38,9 +38,56 @@ divcae6d5c095f411e19d04e1f804e88ddd_.appendTo('body');
  }); 
  }
 
+/**
+首饰退库销退 
+**/
+$("table#c7b6024aae5611e1a1d4a9c1a0b05fbc_").find('#column3').live('focus',function(){    
+	$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTBYINDENT', {  
+	multiple: false,  
+	dataType: "json",  
+	autoFill: true,  
+	mustMatch: true,  
+	matchContains: false,  
+	scrollHeight: 220,  
+	width:300,  
+	parse: function(data) {   return $.map(data, function(row) {    
+	return {     data: row,     value: row.column3,     result: row.column3    }   }); 
+	 },formatItem: function(item) {   return  item.column3+' '+item.column4;  },  
+	 formatResult: function(item) {   return item.column3;  }  }) 
+	 .result(function(e, item) {  
+	 
+	 $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_621338820565625'+'&sr_pcode='+$(this).val(),     
+		function(jsonx2){      
+		if (jsonx2!=null){     
+			if (jsonx2.count>0){
+				Ext.ux.Toast.msg("", "条形码已存在！");
+				return;
+			}
+		} 
+	});
+	 
+	 var o = $(this).parent().parent().parent();  
+	 if (item!=null){  
+	 o.find('#column7').val(item.column6);  
+	 o.find('#column15').val(item.column12);  
+	 o.find('#column18').val(item.column16);  
+	 o.find('#column19').val(item.column17);  
+	 o.find('#column20').val(item.column18);  
+	 o.find('#column21').val(item.column19);  
+	 o.find('#column4').val(item.column20);  
+	 } else {  
+	 o.find('#column7').val('');  
+	 o.find('#column15').val('');  
+	 o.find('#column18').val('');  
+	 o.find('#column19').val('');  
+	 o.find('#column20').val('');  
+	 o.find('#column21').val('');  
+	 o.find('#column4').val('');  
+	 }   
+}); $(this).unbind("focus");  });
 
 /**
-首饰销退 客户初始化事件
+首饰退库销退 客户初始化事件
 BUSSFORM.BUSSFORM.ZHUBAOSHOUSHI.SINGLE PRODUCT MANAGEMENT.SSXS.SSXT.DY_621338820565627 */
 $('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column12').autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETVIPINFO2',  {
   multiple: false,  
@@ -70,7 +117,7 @@ $('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column12').autocomplete('htt
 	 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column13').val(jsonx2.column3);    
 	 	} else {     
 	 	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column13').val('');    
-	 	}   
+	 	}
  	});    
  	$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column16').val(item.column27);     
  	} else {   

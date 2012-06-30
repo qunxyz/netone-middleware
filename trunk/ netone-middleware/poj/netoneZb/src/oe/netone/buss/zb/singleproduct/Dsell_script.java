@@ -17,7 +17,7 @@ public class Dsell_script extends OeScript{
 	 * @return
 	 */
 	public String todo1(){
-		String sql="select sub.*,father.column14 bigtype from DY_271334208897441 sub,DY_271334208897439 father   where father.STATUSINFO='01' and sub.fatherlsh=father.lsh and sub.column4 like '$(q)%'";
+		String sql="select sub.*,father.column14 bigtype from DY_271334208897441 sub,DY_271334208897439 father   where father.STATUSINFO='01' and sub.STATUSINFO='01' and sub.fatherlsh=father.lsh and sub.column4 like '$(q)%'";
 
 		Connection con =db.con("DATASOURCE.DATASOURCE.DYFORM");
 		List list=db.queryData(con, sql);
@@ -28,7 +28,6 @@ public class Dsell_script extends OeScript{
 			try{
 			String jsonStr = net.sf.json.JSONObject.fromObject(list.get(i))
 					.toString();
-			System.out.println("testSize2:"+jsonStr);
 			jsonBuffer.append(split);
 			jsonBuffer.append(jsonStr);
 			split = ",";
@@ -46,7 +45,7 @@ public class Dsell_script extends OeScript{
 	 * @return
 	 */
 	public String todo2(){
-		String sql="select sub.*,fa.column9 fzx from DY_661338441749388 sub,DY_661338441749389 fa where fa.STATUSINFO='01' and sub.fatherlsh=fa.lsh and sub.column3 like '$(q)%'";
+		String sql="select sub.*,fa.column9 fzx from DY_661338441749388 sub,DY_661338441749389 fa where fa.STATUSINFO='01' and sub.STATUSINFO='01' and sub.fatherlsh=fa.lsh and sub.column3 like '$(q)%'";
 
 		Connection con =db.con("DATASOURCE.DATASOURCE.DYFORM");
 		List list=db.queryData(con, sql);

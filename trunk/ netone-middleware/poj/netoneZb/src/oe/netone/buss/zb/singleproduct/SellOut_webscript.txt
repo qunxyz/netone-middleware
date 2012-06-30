@@ -160,6 +160,17 @@ $("table#1dde2f9fa81711e19b54fb13b166e993_").find('#column3').live('focus',funct
 
 })
 .result(function(e, item) {
+
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_371337952339238'+'&sr_pcode='+$(this).val(),     
+	function(jsonx2){      
+	if (jsonx2!=null){     
+		if (jsonx2.count>0){
+			Ext.ux.Toast.msg("", "条形码已存在！");
+			return;
+		}
+	} 
+});
+
  var o = $(this).parent().parent().parent();
  if (item!=null){
 	o.find('#column4').val(item.column4);
@@ -236,6 +247,16 @@ $("table#52e86c33a84c11e19b54fb13b166e993_").find('#column3').live('focus',funct
 
 })
 .result(function(e, item) {
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_371337952339240'+'&sr_pcode='+$(this).val(),     
+	function(jsonx2){      
+	if (jsonx2!=null){     
+		if (jsonx2.count>0){
+			Ext.ux.Toast.msg("", "条形码已存在！");
+			return;
+		}
+	} 
+});
+
  var o = $(this).parent().parent().parent();
  if (item!=null){
 

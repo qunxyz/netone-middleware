@@ -50,6 +50,7 @@ import com.jl.common.resource.Resource;
 import com.jl.common.resource.ResourceNode;
 import com.jl.common.security3a.Client3A;
 import com.jl.common.security3a.SecurityEntry;
+import com.jl.common.workflow.DbTools;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfActivePass;
 import com.jl.common.workflow.TWfParticipant;
@@ -3456,6 +3457,111 @@ public class FrameActionExt extends AbstractAction {
 		} finally {
 			if (os != null)
 				os.close();
+		}
+	}
+	
+	public void test(){
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(" select");
+		sb.append(" zcr.fxsno fxsno,zcr.fxsname fxsname, ");
+		sb.append(" ifnull(sum(zcr.zcje),0) zcje, ");
+		sb.append(" ifnull(sum(zcr.zrje),0) zrje, ");
+
+		sb.append(" (ifnull(sum(zcr.zcje),0)-ifnull(sum(zcr.zrje),0)) yue, ");
+		sb.append(" ifnull(sum(zcr.zcbnlj),0) zcbnlj, ");
+		sb.append(" ifnull(sum(zcr.bnzrjelj),0) bnzrjelj ");
+
+		sb.append(" from(  ");
+		sb.append(" SELECT  ");
+		sb.append(" ifnull(t.column12,'') fxsno, ");
+		sb.append(" ifnull(fxs.column3,'')  fxsname, ");
+		sb.append(" ifnull(sum(t1.column5),0) zcje, ");
+		sb.append(" 0 zrje, ");
+		sb.append(" 0 zcbnlj, ");
+		sb.append(" 0 bnzrjelj ");
+		sb.append(" FROM dyform.DY_661338441749389 t   ");
+		sb.append(" LEFT JOIN dyform.DY_661338441749388 t1 ON t.LSH = t1.FATHERLSH ");
+		sb.append(" LEFT JOIN dyform.DY_61336130537483 fxs ON t.column12 = fxs.column4 ");
+
+		sb.append(" WHERE t.STATUSINFO='01' and( t1.STATUSINFO='01' or t1.STATUSINFO = '03') ");
+		sb.append(" group by fxsno ");
+
+		sb.append(" union all ");
+
+		sb.append(" SELECT  ");
+		sb.append(" ifnull(tt.column8,'') fxsno, ");
+		sb.append(" ifnull(tfxs.column3,'')  fxsname, ");
+		sb.append(" 0 zcje, ");
+		sb.append(" ifnull(sum(tt1.column11),0) zrje, ");
+		sb.append(" 0 zcbnlj, ");
+		sb.append(" 0 bnzrjelj ");
+		sb.append(" FROM dyform.DY_371337952339241 tt   ");
+		sb.append(" LEFT JOIN dyform.DY_371337952339238 tt1 ON tt.LSH = tt1.FATHERLSH ");
+		sb.append(" LEFT JOIN dyform.DY_61336130537483 tfxs ON tt.column8 = tfxs.column4 ");
+
+		sb.append(" WHERE tt.STATUSINFO='01' and tt1.STATUSINFO='01' ");
+		sb.append(" group by fxsno ");
+
+		sb.append(" union all ");
+
+		sb.append(" SELECT  ");
+		sb.append(" ifnull(t.column12,'') fxsno, ");
+		sb.append(" ifnull(fxs.column3,'')  fxsname, ");
+		sb.append(" 0 zcje, ");
+		sb.append(" 0 zrje, ");
+		sb.append(" ifnull(sum(t1.column5),0) bnlj, ");
+		sb.append(" 0 bnzrjelj ");
+		sb.append(" FROM dyform.DY_661338441749389 t   ");
+		sb.append(" LEFT JOIN dyform.DY_661338441749388 t1 ON t.LSH = t1.FATHERLSH ");
+		sb.append(" LEFT JOIN dyform.DY_61336130537483 fxs ON t.column12 = fxs.column4 ");
+
+		sb.append(" WHERE t.STATUSINFO='01' and( t1.STATUSINFO='01' or t1.STATUSINFO = '03') ");
+		sb.append(" and year(t.column5)= year(now()) ");
+		sb.append(" group by fxsno ");
+
+		sb.append(" union all ");
+
+		sb.append(" SELECT  ");
+		sb.append(" ifnull(tt.column8,'') fxsno, ");
+		sb.append(" ifnull(tfxs.column3,'')  fxsname, ");
+		sb.append(" 0 zcje, ");
+		sb.append(" 0 zrje, ");
+		sb.append(" 0 zcbnlj, ");
+		sb.append(" ifnull(sum(tt1.column11),0) bnzrjelj ");
+		sb.append(" FROM dyform.DY_371337952339241 tt   ");
+		sb.append(" LEFT JOIN dyform.DY_371337952339238 tt1 ON tt.LSH = tt1.FATHERLSH ");
+		sb.append(" LEFT JOIN dyform.DY_61336130537483 tfxs ON tt.column8 = tfxs.column4 ");
+
+		sb.append(" WHERE tt.STATUSINFO='01' and tt1.STATUSINFO='01' ");
+		sb.append(" and year(tt.column4) = year(now()) ");
+		sb.append(" group by fxsno ");
+
+
+		sb.append(" ) zcr ");
+		sb.append(" group by zcr.fxsno ");
+
+		
+		/**
+		fxsno 分销商编码 
+		fxsname 分销商名称
+		zcje 支出金额
+		zrje 支入金额
+		yue 余额
+		zcbnlj 本年支出金额累计
+		bnzrjelj 本年支入金额累计
+		**/
+		List list = DbTools.queryData(sb.toString());
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			object.get("fxsno");//分销商编码 
+			object.get("fxsname");//分销商名称
+			object.get("zcje");//支出金额
+			object.get("zrje");//支入金额
+			object.get("yue");//余额
+			object.get("zcbnlj");//本年支出金额累计
+			object.get("bnzrjelj");//本年支入金额累计
 		}
 	}
 

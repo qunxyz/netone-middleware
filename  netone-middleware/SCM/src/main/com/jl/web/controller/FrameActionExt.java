@@ -117,7 +117,7 @@ public class FrameActionExt extends AbstractAction {
 
 		// 普通查询
 		DyFormColumn[] simpleQuerydyform = null;
-		List<DyFormColumn> listx = DyEntry.iv().queryColumnX(formcode, "0");
+		List<DyFormColumn> listx = DyEntry.iv().queryColumnQ(formcode);
 		simpleQuerydyform = (DyFormColumn[]) listx
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
@@ -194,7 +194,7 @@ public class FrameActionExt extends AbstractAction {
 
 		// 普通查询
 		DyFormColumn[] simpleQuerydyform = null;
-		List<DyFormColumn> listx = DyEntry.iv().queryColumnX(formcode, "0");
+		List<DyFormColumn> listx = DyEntry.iv().queryColumnQ(formcode);
 		simpleQuerydyform = (DyFormColumn[]) listx
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
@@ -286,7 +286,7 @@ public class FrameActionExt extends AbstractAction {
 
 		// 普通查询
 		DyFormColumn[] simpleQuerydyform = null;
-		List<DyFormColumn> listx = DyEntry.iv().queryColumnX(formcode, "0");
+		List<DyFormColumn> listx = DyEntry.iv().queryColumnQ(formcode);
 		simpleQuerydyform = (DyFormColumn[]) listx
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";
@@ -386,7 +386,7 @@ public class FrameActionExt extends AbstractAction {
 
 		// 普通查询
 		DyFormColumn[] simpleQuerydyform = null;
-		List<DyFormColumn> listx = DyEntry.iv().queryColumnX(formcode, "0");
+		List<DyFormColumn> listx = DyEntry.iv().queryColumnQ(formcode);
 		simpleQuerydyform = (DyFormColumn[]) listx
 				.toArray(new DyFormColumn[listx.size()]);
 		String lsh = "";

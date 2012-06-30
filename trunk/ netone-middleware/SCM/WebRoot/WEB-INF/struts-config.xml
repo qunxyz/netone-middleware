@@ -26,6 +26,12 @@
 			
 		</action>	
 		
+		
+		<action path="/report"
+			type="com.jl.web.controller.ReportAction" parameter="method">
+			
+		</action>	
+		
 		<!--
 		<action path="/frame"
 			type="com.jl.web.controller.FrameAction" parameter="method">

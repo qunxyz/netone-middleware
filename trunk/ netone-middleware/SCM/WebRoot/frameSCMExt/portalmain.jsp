@@ -191,7 +191,12 @@
 			  		html+="</div>";
 				}
 			  });
-			  $('#messager').html(html);
+			  if (html!=''){
+			  	$('#messager').html(html);
+			  } else {
+			  	$('#messager').html('无消息提醒!');
+			  }
+			  
 			});		
 			  		
 			$("#messager").dialog('open');

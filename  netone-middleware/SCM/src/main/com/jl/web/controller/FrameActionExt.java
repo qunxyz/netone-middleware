@@ -3207,7 +3207,7 @@ public class FrameActionExt extends AbstractAction {
 		// 报表管理器
 		ReportManager rm = new ReportManager();
 		// 获得原始数据表格
-		Table t = new Table(14, 9);
+		Table t = new Table(14, 7);
 
 		// 首饰销售
 		DyFormData dydata0 = new DyFormData();
@@ -3217,6 +3217,7 @@ public class FrameActionExt extends AbstractAction {
 		List listx0 = DyEntry.iv().queryData(dydata0, 0, 1, "");
 		dydata0 = (DyFormData) listx0.get(0);
 		String clientId = dydata0.getColumn8();// 分销商
+		String code = dydata0.getColumn3();//单号
 
 		// 分销商信息
 		DyFormData dydata1 = new DyFormData();
@@ -3247,8 +3248,6 @@ public class FrameActionExt extends AbstractAction {
 			tr.addCell(new TableCell());
 			tr.addCell(new TableCell());
 			tr.addCell(new TableCell());
-			tr.addCell(new TableCell());
-			tr.addCell(new TableCell());
 			tr.addCell(tc);
 			tr.addCell(tc2);
 
@@ -3258,12 +3257,10 @@ public class FrameActionExt extends AbstractAction {
 		TableRow tr = new TableRow();
 
 		TableCell tc = new TableCell("" + address, Rectangle.ALIGN_CENTER);
-		tc.setColSpan(4);
+		tc.setColSpan(3);
 		tr.addCell(tc);
 		TableCell tc2 = new TableCell();
 		tc2.setIsHidden(true);
-		tr.addCell(tc2);
-
 		tr.addCell(tc2);
 		tr.addCell(tc2);
 
@@ -3271,7 +3268,6 @@ public class FrameActionExt extends AbstractAction {
 		tcx.setColSpan(2);
 		tr.addCell(tcx);
 		tr.addCell(tc2);
-		tr.addCell(new TableCell());
 
 		TableCell tcx0 = new TableCell(com.jl.common.TimeUtil
 				.getYear(new java.util.Date())
@@ -3294,13 +3290,11 @@ public class FrameActionExt extends AbstractAction {
 		tr00_.addCell(tc2);
 
 		TableCell tc01_ = new TableCell("");
-		tc01_.setColSpan(4);
+		tc01_.setColSpan(3);
 		tr00_.addCell(tc01_);
 		tr00_.addCell(tc2);
 		tr00_.addCell(tc2);
-		tr00_.addCell(tc2);
 
-		tr00_.addCell(new TableCell());
 		TableCell tc02_ = new TableCell("");
 		tc02_.setColSpan(2);
 		tr00_.addCell(tc02_);
@@ -3322,13 +3316,11 @@ public class FrameActionExt extends AbstractAction {
 			tr00.addCell(tc2);
 
 			TableCell tc01 = new TableCell(object.getColumn4() + " 1件");
-			tc01.setColSpan(4);
+			tc01.setColSpan(3);
 			tr00.addCell(tc01);
 			tr00.addCell(tc2);
 			tr00.addCell(tc2);
-			tr00.addCell(tc2);
 
-			tr00.addCell(new TableCell());
 			TableCell tc02 = new TableCell(object.getColumn15());
 			tc02.setColSpan(2);
 			tr00.addCell(tc02);
@@ -3350,13 +3342,11 @@ public class FrameActionExt extends AbstractAction {
 		tr000_.addCell(tc2);
 
 		TableCell tc001_ = new TableCell("");
-		tc001_.setColSpan(4);
+		tc001_.setColSpan(3);
 		tr000_.addCell(tc001_);
 		tr000_.addCell(tc2);
 		tr000_.addCell(tc2);
-		tr000_.addCell(tc2);
 
-		tr000_.addCell(new TableCell());
 		TableCell tc002_ = new TableCell(""
 				+ com.jl.common.MathHelper.round(sum, 2));
 		tc002_.setColSpan(2);
@@ -3375,6 +3365,10 @@ public class FrameActionExt extends AbstractAction {
 		report.setBody(body);
 
 		// 输出文件
+		response.setHeader("Content-Disposition",
+				"attachment; filename="
+						+ new String(("首饰销售单"+code).getBytes("GBK"),
+								"ISO8859-1") + ".xls");
 		response.setContentType("application/vnd.ms-excel");
 		OutputStream os = response.getOutputStream();
 		try {
@@ -3402,13 +3396,13 @@ public class FrameActionExt extends AbstractAction {
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);
 					style.setWrapText(false);
-					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 					this.setStyle(Report.DATA_TYPE, style);
 
 					style = workbook.createCellStyle();
 					style.setFont(fontNormal);
 					style.setFont(fontBig);
-					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 					style.setBorderBottom((short) 0);
 					style.setBorderLeft((short) 0);
 					style.setBorderRight((short) 0);
@@ -3418,7 +3412,7 @@ public class FrameActionExt extends AbstractAction {
 
 					style = workbook.createCellStyle();
 					style.setFont(fontNormal);
-					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 					style.setBorderBottom((short) 0);
 					style.setBorderLeft((short) 0);
 					style.setBorderRight((short) 0);
@@ -3433,7 +3427,7 @@ public class FrameActionExt extends AbstractAction {
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);
 					style.setWrapText(false);
-					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 					this.setStyle(MY_DATA_STYLE1, style);
 
 					style = workbook.createCellStyle();
@@ -3443,13 +3437,13 @@ public class FrameActionExt extends AbstractAction {
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);
 					style.setWrapText(false);
-					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 					this.setStyle(MY_DATA_STYLE2, style);
 
 					style = workbook.createCellStyle();
 					style.setFont(fontNormal);
 					style.setBorderBottom((short) 0);
-					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 					style.setBorderLeft((short) 0);
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);

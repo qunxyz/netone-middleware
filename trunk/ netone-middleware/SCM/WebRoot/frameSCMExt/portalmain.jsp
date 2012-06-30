@@ -131,33 +131,69 @@
 				$.unblockUI();
 			}
 			
-			
-			
 			//提醒
 			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTTIPS&sr_participant=<rs:logininfo />", 
 			 function(jsonx){
 			  var html = '';
 			  $.each(jsonx, function(ii,itemx){
 			  	if (itemx!=null){
-			  		html+="<div><a target='_blank' href='http://42.120.40.204:83/scm/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.ZHUBAO2.SSXS&lsh="+itemx.column4+"'>"+itemx.column5+"</a></div>";
+			  		html+="<div id='"+itemx.column5+"'>";
+			  		
+			  		html+="<a target='_blank' href='http://42.120.40.204:83/scm/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.ZHUBAO2.SSXS&lsh="+itemx.column4+"'>"+itemx.column5+"</a>";
+			  		
+			  		html+="&nbsp;&nbsp;&nbsp;&nbsp;";
+			  		
+			  		html+="<input type='button' onclick=\"UPDATEPRODUCTTIPS('"+itemx.column5+"');\" value='取消提醒' />";
+			  		
+			  		html+="</div>";
 				}
 			  });
 			  if (html!=''){
 			  		$('#messager').html(html);
 				    $("#messager").dialog({ 
-				    	title:'提醒(5秒后自动关闭窗口，点击【查看提醒】再次打开 )'
+				    	title:'提醒'
 					    ,position:  ['right','bottom']
 					    ,closeText: 'hide'
 					    ,focus: function(event, ui) {
 					    }
 				     });
-				     setTimeout(function(){$("#messager").dialog('close');},5000); 
+				     //setTimeout(function(){$("#messager").dialog('close');},5000); 
 			  }
 			});
 			
 		})
 		
+		//取消提醒
+		function UPDATEPRODUCTTIPS(pcode){
+			$.getJSON('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.UPDATEPRODUCTTIPS&sr_participant=<rs:logininfo />&q='+pcode, 
+			 function(jsonx){
+			 	if ($('div#'+pcode)) {$('div#'+pcode).remove();}
+			 	alert(jsonx.tips);
+			 });
+			 
+		}
+		
 		function showmessager(){
+		
+			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTTIPS&sr_participant=<rs:logininfo />", 
+			 function(jsonx){
+			  var html = '';
+			  $.each(jsonx, function(ii,itemx){
+			  	if (itemx!=null){
+			  		html+="<div id='"+itemx.column5+"'>";
+			  		
+			  		html+="<a target='_blank' href='http://42.120.40.204:83/scm/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.ZHUBAO2.SSXS&lsh="+itemx.column4+"'>"+itemx.column5+"</a>";
+			  		
+			  		html+="&nbsp;&nbsp;&nbsp;&nbsp;";
+			  		
+			  		html+="<input type='button' onclick=\"UPDATEPRODUCTTIPS('"+itemx.column5+"');\" value='取消提醒' />";
+			  		
+			  		html+="</div>";
+				}
+			  });
+			  $('#messager').html(html);
+			});		
+			  		
 			$("#messager").dialog('open');
 		}
 		</script>

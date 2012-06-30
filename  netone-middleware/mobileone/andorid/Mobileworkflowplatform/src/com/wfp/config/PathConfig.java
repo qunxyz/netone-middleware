@@ -87,7 +87,7 @@ public class PathConfig {
 	public static String sourcesDir = "/netoneWebSerivce/phconfigservice?naturalname=";
 	
 	//网页免登录前缀地址
-	public static String freeLoginPrefix = "http://42.120.40.204:8080/Security3A/login?username=";
+	public static String freeLoginPrefix = "http://112.5.5.114:8080/Security3A/login?username=";
 	
 	
 	//一级频道图片服务端地址

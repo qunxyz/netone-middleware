@@ -23,9 +23,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-import com.wfp.util.ConnectionServiceThread;
+import com.wfp.util.ConnectionServiceThread2;
 import com.wfp.util.FunctionUtil;
-import com.wfp.util.HelpHandler;
+import com.wfp.util.HelpHandler2;
 
 public class NodeSelectionActivity extends Activity {
 	
@@ -114,11 +114,11 @@ public class NodeSelectionActivity extends Activity {
 				R.string.pleasewait), true, true);
 
 		// 获取到服务端流程名称数据，并装载数据
-		HelpHandler helpHandler = new HelpHandler(pDialog, this);
+		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog, this);
 		// 启动请求服务端线程，封装数据给handler
-		ConnectionServiceThread ConnServiceThread = new ConnectionServiceThread(
-				this, 29, helpHandler, nodeUrl);
-		ConnServiceThread.start();
+		ConnectionServiceThread2 ConnServiceThread2 = new ConnectionServiceThread2(
+				this, 29, helpHandler2, nodeUrl);
+		ConnServiceThread2.start();
 		
 		//意见列表加载
 		ArrayAdapter suggestionAdapter = new ArrayAdapter(this,
@@ -151,11 +151,11 @@ public class NodeSelectionActivity extends Activity {
 
 
 				// 获取到服务端流程名称数据，并装载数据
-				HelpHandler helpHandler = new HelpHandler(null, NodeSelectionActivity.this);
+				HelpHandler2 helpHandler2 = new HelpHandler2(null, NodeSelectionActivity.this);
 				// 启动请求服务端线程，封装数据给handler
-				ConnectionServiceThread ConnServiceThread = new ConnectionServiceThread(
-						NodeSelectionActivity.this, 30, helpHandler, saveSuggestionUrl+";"+suggestion);
-				ConnServiceThread.start();
+				ConnectionServiceThread2 ConnServiceThread2 = new ConnectionServiceThread2(
+						NodeSelectionActivity.this, 30, helpHandler2, saveSuggestionUrl+";"+suggestion);
+				ConnServiceThread2.start();
 				
 				Intent intent = new Intent(NodeSelectionActivity.this, ChoosePersonActivity.class);
 				intent.putExtra("suggestion", suggestion);

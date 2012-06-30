@@ -1,6 +1,5 @@
 package com.wfp.activity;
 
-import java.lang.Thread.State;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -16,14 +15,11 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -32,8 +28,10 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.wfp.util.ConnectionServiceThread;
+import com.wfp.util.ConnectionServiceThread2;
 import com.wfp.util.FunctionUtil;
 import com.wfp.util.HelpHandler;
+import com.wfp.util.HelpHandler2;
 
 public class LoginActivity extends Activity {
 	
@@ -120,11 +118,11 @@ public class LoginActivity extends Activity {
 		            pDialog.setMessage(getResources().getString(R.string.nowLogin));
 		            pDialog.show();
 		    		//获取到服务端流程名称数据，并装载数据
-		    		HelpHandler helpHandler = new HelpHandler(pDialog,
+		    		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 		    				LoginActivity.this);
 		    		//启动请求服务端线程，封装数据给handler
-		    		ConnectionServiceThread connServiceThread = new ConnectionServiceThread(LoginActivity.this, 19, helpHandler, userInfo);
-		    		connServiceThread.start();
+		    		ConnectionServiceThread2 connServiceThread2 = new ConnectionServiceThread2(LoginActivity.this, 3, helpHandler2, userInfo);
+		    		connServiceThread2.start();
 				}else{	//IMEI码登录
 					
 					//显示等待dialog
@@ -132,11 +130,11 @@ public class LoginActivity extends Activity {
 		            pDialog.setMessage(getResources().getString(R.string.nowLogin));
 		            pDialog.show();
 		    		//获取到服务端流程名称数据，并装载数据
-		    		HelpHandler helpHandler = new HelpHandler(pDialog,
+		    		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 		    				LoginActivity.this);
 		    		//启动请求服务端线程，封装数据给handler
-		    		ConnectionServiceThread connServiceThread = new ConnectionServiceThread(LoginActivity.this, 19, helpHandler, "IMEI");
-		    		connServiceThread.start();
+		    		ConnectionServiceThread2 connServiceThread2 = new ConnectionServiceThread2(LoginActivity.this, 3, helpHandler2, "IMEI");
+		    		connServiceThread2.start();
 				}
 			}
 		});
@@ -226,7 +224,7 @@ public class LoginActivity extends Activity {
         //使用SharedPreferences存储
         SharedPreferences serviceInfo = getSharedPreferences(SERVICE_INFO,0);
         Editor editor = serviceInfo.edit();
-        editor.putString("serviceip", "http://42.120.40.204:84");
+        editor.putString("serviceip", "http://112.5.5.114:84");
         editor.commit();
     
     }

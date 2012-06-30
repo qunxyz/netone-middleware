@@ -32,9 +32,9 @@ import android.widget.TabHost.OnTabChangeListener;
 
 import com.wfp.config.PathConfig;
 import com.wfp.customcontrols.WebImageListAdapter;
-import com.wfp.util.ConnectionServiceThread;
+import com.wfp.util.ConnectionServiceThread2;
 import com.wfp.util.FunctionUtil;
-import com.wfp.util.HelpHandler;
+import com.wfp.util.HelpHandler2;
 
 public class OrdersUploadImgActivity extends TabActivity {
 
@@ -55,7 +55,7 @@ public class OrdersUploadImgActivity extends TabActivity {
 	private static int CHECK_FILE = 1;		//与sdcard目录界面的切换表标记
 	private int fileSize;
 	private int downLoadFileSize;
-	private ConnectionServiceThread connServiceThread;
+	private ConnectionServiceThread2 connServiceThread2;
 	public String imgRootPath;	//文件夹SD卡路径
 	private String tabid = "unupload";	//	tab标签id
 	private String uploadFileUrl;	//上传附件服务端url
@@ -110,11 +110,11 @@ public class OrdersUploadImgActivity extends TabActivity {
 		            pDialog.setMessage(getResources().getString(R.string.getPicture));
 		            pDialog.show();
 		    		//获取到服务端流程名称数据，并装载数据
-		    		HelpHandler helpHandler = new HelpHandler(pDialog,
+		    		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 		    				OrdersUploadImgActivity.this);
 		    		//启动请求服务端线程，封装数据给handler
-		    		connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 24, helpHandler, PathConfig.uploadFilesInfoUrlStr+";"+formlsh);
-		    		connServiceThread.start();
+		    		connServiceThread2 = new ConnectionServiceThread2(OrdersUploadImgActivity.this, 24, helpHandler2, PathConfig.uploadFilesInfoUrlStr+";"+formlsh);
+		    		connServiceThread2.start();
 				}
 			}
 		});
@@ -195,25 +195,16 @@ public class OrdersUploadImgActivity extends TabActivity {
 					deleteAllFilesDialog.show();
 
 		    		//获取到服务端流程名称数据，并装载数据
-		    		HelpHandler helpHandler = new HelpHandler(null,
+		    		HelpHandler2 helpHandler2 = new HelpHandler2(null,
 		    				OrdersUploadImgActivity.this);
 		    		//启动请求服务端线程，封装数据给handler
-		    		connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 18, helpHandler, imgRootPath);
-		    		connServiceThread.start();
+		    		connServiceThread2 = new ConnectionServiceThread2(OrdersUploadImgActivity.this, 18, helpHandler2, imgRootPath);
+		    		connServiceThread2.start();
 				}else if(menuItemName.equals(getResources().getString(R.string.systemsetting))){
 					Log.i("menu_syssetting", "menu_syssetting");
 					menuDialog.dismiss();
-			    	//下载服务端图片
-			    	//显示等待dialog
-			        ProgressDialog pDialog = new ProgressDialog(OrdersUploadImgActivity.this);
-			        pDialog.setMessage(getResources().getString(R.string.initSyatemData));
-			        pDialog.show();
-					//获取到服务端流程名称数据，并装载数据
-					HelpHandler helpHandler = new HelpHandler(pDialog,
-							OrdersUploadImgActivity.this);
-					//启动请求服务端线程，封装数据给handler
-					ConnectionServiceThread connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 28, helpHandler, "");
-					connServiceThread.start();
+					Intent intent = new Intent(OrdersUploadImgActivity.this, SystemSettingActivity.class);
+			    	startActivity(intent);
 				}else if(menuItemName.equals(getResources().getString(R.string.exit))){
 					Log.i("menu_exit", "menu_exit");
 					finish();
@@ -227,11 +218,11 @@ public class OrdersUploadImgActivity extends TabActivity {
             pDialog.setMessage(getResources().getString(R.string.getPicture));
             pDialog.show();
     		//获取到服务端流程名称数据，并装载数据
-    		HelpHandler helpHandler = new HelpHandler(pDialog,
+    		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
     				this);
     		//启动请求服务端线程，封装数据给handler
-    		connServiceThread = new ConnectionServiceThread(this, 18, helpHandler, imgRootPath);
-    		connServiceThread.start();
+    		connServiceThread2 = new ConnectionServiceThread2(this, 18, helpHandler2, imgRootPath);
+    		connServiceThread2.start();
 
     		unuploadGridView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -291,17 +282,17 @@ public class OrdersUploadImgActivity extends TabActivity {
 										        titalByte.setText("/" + file.length() + getResources().getString(R.string.bytes));
 										        
 												//获取到服务端流程名称数据，并装载数据
-												HelpHandler helpHandler = new HelpHandler(uploadpbDialog,
+												HelpHandler2 helpHandler2 = new HelpHandler2(uploadpbDialog,
 														OrdersUploadImgActivity.this);
 	//											//启动请求服务端线程，封装数据给handler
-										        connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 17, helpHandler, uploadFileUrl, file);
-												connServiceThread.start();
+										        connServiceThread2 = new ConnectionServiceThread2(OrdersUploadImgActivity.this, 17, helpHandler2, uploadFileUrl, file);
+												connServiceThread2.start();
 												uploadpbDialog.setOnDismissListener(new OnDismissListener() {
 													
 													@Override
 													public void onDismiss(DialogInterface dialog) {
 														// TODO Auto-generated method stub
-														connServiceThread.cancelUploadFile();
+														connServiceThread2.cancelUploadFile();
 													}
 												});
 												
@@ -317,11 +308,11 @@ public class OrdersUploadImgActivity extends TabActivity {
 //									            pDialog.setMessage(getResources().getString(R.string.getPicture));
 //									            pDialog.show();
 									    		//获取到服务端流程名称数据，并装载数据
-									    		HelpHandler helpHandler = new HelpHandler(null,
+									    		HelpHandler2 helpHandler2 = new HelpHandler2(null,
 									    				OrdersUploadImgActivity.this);
 									    		//启动请求服务端线程，封装数据给handler
-									    		connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 18, helpHandler, imgRootPath);
-									    		connServiceThread.start();
+									    		connServiceThread2 = new ConnectionServiceThread2(OrdersUploadImgActivity.this, 18, helpHandler2, imgRootPath);
+									    		connServiceThread2.start();
 											}
 	
 										}
@@ -365,11 +356,11 @@ public class OrdersUploadImgActivity extends TabActivity {
 								            pDialog.setMessage(getResources().getString(R.string.loadfile));
 								            pDialog.show();
 								    		//获取到服务端流程名称数据，并装载数据
-								    		HelpHandler helpHandler = new HelpHandler(pDialog,
+								    		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 								    				OrdersUploadImgActivity.this);
 								    		//启动请求服务端线程，封装数据给handler
-								    		connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 25, helpHandler, PathConfig.downLoadFileAddressUrlStr+";"+unid);
-								    		connServiceThread.start();
+								    		connServiceThread2 = new ConnectionServiceThread2(OrdersUploadImgActivity.this, 25, helpHandler2, PathConfig.downLoadFileAddressUrlStr+";"+unid);
+								    		connServiceThread2.start();
 										//删除附件
 										}else if(item == 1){
 											//显示等待dialog
@@ -377,22 +368,22 @@ public class OrdersUploadImgActivity extends TabActivity {
 								            pDialog.setMessage(getResources().getString(R.string.loadfile));
 								            pDialog.show();
 								    		//获取到服务端流程名称数据，并装载数据
-								    		HelpHandler helpHandler = new HelpHandler(pDialog,
+								    		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 								    				OrdersUploadImgActivity.this);
 								    		//启动请求服务端线程，封装数据给handler
-								    		connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 26, helpHandler, PathConfig.deleteFileUrlStr+";"+unid);
-								    		connServiceThread.start();
+								    		connServiceThread2 = new ConnectionServiceThread2(OrdersUploadImgActivity.this, 26, helpHandler2, PathConfig.deleteFileUrlStr+";"+unid);
+								    		connServiceThread2.start();
 								    		
 								    		//显示等待dialog
 								            ProgressDialog pDialog2 = new ProgressDialog(OrdersUploadImgActivity.this);
 								            pDialog.setMessage(getResources().getString(R.string.getPicture));
 								            pDialog.show();
 								    		//获取到服务端流程名称数据，并装载数据
-								    		HelpHandler helpHandler2 = new HelpHandler(pDialog2,
+								    		HelpHandler2 helpHandler22 = new HelpHandler2(pDialog2,
 								    				OrdersUploadImgActivity.this);
 								    		//启动请求服务端线程，封装数据给handler
-								    		connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 24, helpHandler2, PathConfig.uploadFilesInfoUrlStr+";"+formlsh);
-								    		connServiceThread.start();
+								    		connServiceThread2 = new ConnectionServiceThread2(OrdersUploadImgActivity.this, 24, helpHandler22, PathConfig.uploadFilesInfoUrlStr+";"+formlsh);
+								    		connServiceThread2.start();
 										}
 									}
 						});
@@ -403,11 +394,11 @@ public class OrdersUploadImgActivity extends TabActivity {
 //			            pDialog.setMessage(getResources().getString(R.string.loadfile));
 //			            pDialog.show();
 //			    		//获取到服务端流程名称数据，并装载数据
-//			    		HelpHandler helpHandler = new HelpHandler(pDialog,
+//			    		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 //			    				OrdersUploadImgActivity.this);
 //			    		//启动请求服务端线程，封装数据给handler
-//			    		connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 25, helpHandler, PathConfig.downLoadFileAddressUrlStr+";"+unid);
-//			    		connServiceThread.start();
+//			    		connServiceThread2 = new ConnectionServiceThread2(OrdersUploadImgActivity.this, 25, helpHandler2, PathConfig.downLoadFileAddressUrlStr+";"+unid);
+//			    		connServiceThread2.start();
 //					}
 				}
 			});
@@ -479,11 +470,11 @@ public class OrdersUploadImgActivity extends TabActivity {
 	            pDialog.setMessage(getResources().getString(R.string.getPicture));
 	            pDialog.show();
 	    		//获取到服务端流程名称数据，并装载数据
-	    		HelpHandler helpHandler = new HelpHandler(pDialog,
+	    		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog,
 	    				this);
 	    		//启动请求服务端线程，封装数据给handler
-	    		connServiceThread = new ConnectionServiceThread(this, 18, helpHandler, imgRootPath);
-	    		connServiceThread.start();
+	    		connServiceThread2 = new ConnectionServiceThread2(this, 18, helpHandler2, imgRootPath);
+	    		connServiceThread2.start();
 			}
 		}
 	}
@@ -524,17 +515,17 @@ public class OrdersUploadImgActivity extends TabActivity {
 			        titalByte.setText("/" + files[i].length() + getResources().getString(R.string.bytes));
 			        
 					//获取到服务端流程名称数据，并装载数据
-					HelpHandler helpHandler = new HelpHandler(uploadpbDialog,
+					HelpHandler2 helpHandler2 = new HelpHandler2(uploadpbDialog,
 							OrdersUploadImgActivity.this);
 	//				//启动请求服务端线程，封装数据给handler
-			        connServiceThread = new ConnectionServiceThread(OrdersUploadImgActivity.this, 17, helpHandler, uploadFileUrl, files[i]);
-					connServiceThread.start();
+			        connServiceThread2 = new ConnectionServiceThread2(OrdersUploadImgActivity.this, 17, helpHandler2, uploadFileUrl, files[i]);
+					connServiceThread2.start();
 					uploadpbDialog.setOnDismissListener(new OnDismissListener() {
 						
 						@Override
 						public void onDismiss(DialogInterface dialog) {
 							// TODO Auto-generated method stub
-							connServiceThread.cancelUploadFile();
+							connServiceThread2.cancelUploadFile();
 						}
 					});
 				}

@@ -1,6 +1,5 @@
 package com.wfp.activity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -13,21 +12,18 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.wfp.util.ConnectionServiceThread;
-import com.wfp.util.FunctionUtil;
-import com.wfp.util.HelpHandler;
+import com.wfp.util.ConnectionServiceThread2;
+import com.wfp.util.HelpHandler2;
 
 public class ChoosePersonActivity extends Activity {
 	
@@ -76,11 +72,11 @@ public class ChoosePersonActivity extends Activity {
 				R.string.pleasewait), true, true);
 
 		// 获取到服务端流程名称数据，并装载数据
-		HelpHandler helpHandler = new HelpHandler(pDialog, this);
+		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog, this);
 		// 启动请求服务端线程，封装数据给handler
-		ConnectionServiceThread ConnServiceThread = new ConnectionServiceThread(
-				this, 31, helpHandler, commiterUrl+";"+actid);
-		ConnServiceThread.start();
+		ConnectionServiceThread2 ConnServiceThread2 = new ConnectionServiceThread2(
+				this, 31, helpHandler2, commiterUrl+";"+actid);
+		ConnServiceThread2.start();
         
 		//意见列表加载
 		ArrayAdapter deadlineAdapter = new ArrayAdapter(this,
@@ -122,11 +118,11 @@ public class ChoosePersonActivity extends Activity {
 						R.string.pleasewait), true, true);
 		
 				// 获取到服务端流程名称数据，并装载数据
-				HelpHandler helpHandler = new HelpHandler(pDialog, ChoosePersonActivity.this);
+				HelpHandler2 helpHandler2 = new HelpHandler2(pDialog, ChoosePersonActivity.this);
 				// 启动请求服务端线程，封装数据给handler
-				ConnectionServiceThread ConnServiceThread = new ConnectionServiceThread(
-						ChoosePersonActivity.this, 32, helpHandler, submitProcessUrl+";"+actid+";"+clientId);
-				ConnServiceThread.start();
+				ConnectionServiceThread2 ConnServiceThread2 = new ConnectionServiceThread2(
+						ChoosePersonActivity.this, 2, helpHandler2, submitProcessUrl+";"+actid+";"+clientId);
+				ConnServiceThread2.start();
 				
 				
 			}

@@ -12,13 +12,9 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,8 +31,10 @@ import android.widget.Toast;
 
 import com.wfp.config.PathConfig;
 import com.wfp.util.ConnectionServiceThread;
+import com.wfp.util.ConnectionServiceThread2;
 import com.wfp.util.FunctionUtil;
 import com.wfp.util.HelpHandler;
+import com.wfp.util.HelpHandler2;
 
 public class DynamicFormActivity extends Activity {
 
@@ -70,8 +68,8 @@ public class DynamicFormActivity extends Activity {
     private String uploadFileUrl;
     private String loadFormUrl;
     private String addFormUrl;
-    private ConnectionServiceThread formConnServiceThread;		//表单请求数据线程
-    private HelpHandler helpHandler;							//表单操作handler
+    private ConnectionServiceThread2 formConnServiceThread;		//表单请求数据线程
+    private HelpHandler2 helpHandler2;							//表单操作handler
     private String userid;	//账号
     private String lsh;		//表单流水号
     private boolean isapprove = false;	//是否审核通过
@@ -105,6 +103,9 @@ public class DynamicFormActivity extends Activity {
 		examine = intent.getBooleanExtra("examineflag", false);
 		SharedPreferences userInfo = getSharedPreferences(SHARED_USERINFO,0);
 		userid = userInfo.getString("userId", "adminx");
+		boolean isagency = intent.getBooleanExtra("isagency", false);
+		
+		
 		// 获取功能url
 		formListUrl = "";
 		editFormUrl = "";
@@ -174,13 +175,20 @@ public class DynamicFormActivity extends Activity {
 			exitFormBt.setText(R.string.back);
 			//标题设置和审核按钮显示
 			if(examine){
+				//是否未待办工单，显示审核功能按钮
+				if(isagency){
+					isapprove_layout.setVisibility(View.VISIBLE);
+					editFormBt.setVisibility(View.VISIBLE);
+					editFormBt.setText(R.string.downStep);
+				}
 				formTitle.setText(R.string.examine);
-				isapprove_layout.setVisibility(View.VISIBLE);
-				editFormBt.setText(R.string.downStep);
-			}else
+				
+			}else{
 				formTitle.setText(R.string.editForm);
-			//显示编辑按钮
-			editFormBt.setVisibility(View.VISIBLE);
+				//显示编辑按钮
+				editFormBt.setVisibility(View.VISIBLE);
+			}
+
 			//传入线程参数设置
 			paramsBuffer = new StringBuffer();
 			paramsBuffer.append(loadFormUrl);
@@ -223,10 +231,10 @@ public class DynamicFormActivity extends Activity {
 				R.string.pleasewait), true, true);
 
 		// 获取到服务端流程名称数据，并装载数据
-		helpHandler = new HelpHandler(pDialog, this);
+		helpHandler2 = new HelpHandler2(pDialog, this);
 		// 启动请求服务端线程，封装数据给handler
-		formConnServiceThread = new ConnectionServiceThread(
-				this, 20, helpHandler, paramsBuffer.toString());
+		formConnServiceThread = new ConnectionServiceThread2(
+				this, 20, helpHandler2, paramsBuffer.toString());
 		formConnServiceThread.start();
 		
 		//配置表单功能
@@ -347,16 +355,13 @@ public class DynamicFormActivity extends Activity {
 					Button bt = (Button)v;
 					String url = deleteFormUrl + "&lsh=" + lsh;
 
-					//显示等待dialog
-		            ProgressDialog pDialog = new ProgressDialog(DynamicFormActivity.this);
-		            pDialog.setMessage(getResources().getString(R.string.isDeleteFormData));
-		            pDialog.show();
+
 		    		//获取到服务端流程名称数据，并装载数据
-		    		HelpHandler helpHandler = new HelpHandler(pDialog,
+		    		HelpHandler2 helpHandler2 = new HelpHandler2(null,
 		    				DynamicFormActivity.this);
 		    		//启动请求服务端线程，封装数据给handler
-		    		ConnectionServiceThread connServiceThread = new ConnectionServiceThread(DynamicFormActivity.this, 21, helpHandler, url);
-		    		connServiceThread.start();
+		    		ConnectionServiceThread2 connServiceThread2 = new ConnectionServiceThread2(DynamicFormActivity.this, 21, helpHandler2, url);
+		    		connServiceThread2.start();
 				}
 				finish();
 			}
@@ -378,7 +383,7 @@ public class DynamicFormActivity extends Activity {
 	 * 动态表单提交数据
 	 */
 	private void submitDynamicFormData(String formOp){
-		ArrayList formDataList = helpHandler.getFormData();
+		ArrayList formDataList = helpHandler2.getFormData();
 		HashMap formFieldMap = (HashMap) formDataList.get(0);
 		HashMap muskMap = (HashMap) formDataList.get(1);
 		for (Iterator iterator = muskMap.keySet().iterator(); iterator
@@ -435,11 +440,11 @@ public class DynamicFormActivity extends Activity {
 				R.string.pleasewait), true, true);
 
 		// 获取到服务端流程名称数据，并装载数据
-		HelpHandler helpHandler = new HelpHandler(pDialog, DynamicFormActivity.this);
+		HelpHandler2 helpHandler2 = new HelpHandler2(pDialog, DynamicFormActivity.this);
 		// 启动请求服务端线程，封装数据给handler
-		ConnectionServiceThread ConnServiceThread = new ConnectionServiceThread(
-				DynamicFormActivity.this, 23, helpHandler, urlBuffer.toString());
-		ConnServiceThread.start();
+		ConnectionServiceThread2 ConnServiceThread2 = new ConnectionServiceThread2(
+				DynamicFormActivity.this, 23, helpHandler2, urlBuffer.toString());
+		ConnServiceThread2.start();
 	}
 	
     @Override

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@drawable/darkgray"
-        android:dividerHeight="1dip"/>
+        android:dividerHeight="1dip"
+        android:cacheColorHint="@drawable/transparent_background"/>
 
 </LinearLayout>

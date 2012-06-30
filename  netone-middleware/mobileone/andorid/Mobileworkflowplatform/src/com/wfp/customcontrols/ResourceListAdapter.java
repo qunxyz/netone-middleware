@@ -2,8 +2,6 @@ package com.wfp.customcontrols;
 
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,13 +13,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,8 +33,10 @@ import com.wfp.activity.UploadHistoryActivity;
 import com.wfp.activity.WorkOrdersActivity;
 import com.wfp.config.PathConfig;
 import com.wfp.util.ConnectionServiceThread;
+import com.wfp.util.ConnectionServiceThread2;
 import com.wfp.util.FunctionUtil;
 import com.wfp.util.HelpHandler;
+import com.wfp.util.HelpHandler2;
 
 public class ResourceListAdapter extends BaseAdapter {
 
@@ -324,11 +319,11 @@ public class ResourceListAdapter extends BaseAdapter {
 											R.string.pleasewait), true, true);
 
 									// 获取到服务端流程名称数据，并装载数据
-									HelpHandler helpHandler = new HelpHandler(pDialog, (Activity) context);
+									HelpHandler2 helpHandler2 = new HelpHandler2(pDialog, (Activity) context);
 									// 启动请求服务端线程，封装数据给handler
-									ConnectionServiceThread connServiceThread = new ConnectionServiceThread(
-											(Activity) context, 22, helpHandler, uploadInfo.toString());
-									connServiceThread.start();
+									ConnectionServiceThread2 connServiceThread2 = new ConnectionServiceThread2(
+											(Activity) context, 22, helpHandler2, uploadInfo.toString());
+									connServiceThread2.start();
 									
 
 								}

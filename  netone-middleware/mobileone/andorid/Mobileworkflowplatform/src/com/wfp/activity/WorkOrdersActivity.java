@@ -75,6 +75,7 @@ public class WorkOrdersActivity extends Activity {
     private String filedUrl;		//已办且归档服务url
     private static String SHARED_USERINFO = "userinfo";		//账户信息key
     private static String SERVICE_INFO = "SERVICEINFO";		//服务端信息key
+    private static int ORDER_TYPE = 9;
 	
     /** Called when the activity is first created. */
     @Override
@@ -141,6 +142,7 @@ public class WorkOrdersActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Log.i("agencyOrdersBt", "agencyOrdersBt");
+				ORDER_TYPE = 9;
 				//显示等待dialog
 				pDialog = ProgressDialog.show(
 						WorkOrdersActivity.this, 
@@ -164,6 +166,7 @@ public class WorkOrdersActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Log.i("haveBeenOrdersBt", "haveBeenOrdersBt");
+				ORDER_TYPE = 10;
 				//显示等待dialog
 				pDialog = ProgressDialog.show(
 						WorkOrdersActivity.this, 
@@ -187,6 +190,7 @@ public class WorkOrdersActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Log.i("hasGoneThroughOrdersBt", "hasGoneThroughOrdersBt");
+				ORDER_TYPE = 11;
 				//显示等待dialog
 				pDialog = ProgressDialog.show(
 						WorkOrdersActivity.this, 
@@ -210,6 +214,7 @@ public class WorkOrdersActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Log.i("allOrders", "allOrders");
+				ORDER_TYPE = 12;
 				//显示等待dialog
 				pDialog = ProgressDialog.show(
 						WorkOrdersActivity.this, 
@@ -269,6 +274,10 @@ public class WorkOrdersActivity extends Activity {
 									break;
 								}
 							}
+							if(ORDER_TYPE == 9)
+								intent.putExtra("isagency", true);
+							else
+								intent.putExtra("isagency", false);
 							intent.putExtra("editFormUrl", editFormUrl);
 							intent.putExtra("funcJsonStr", funcJsonStr);
 							intent.putExtra("formflag", "edit");

@@ -91,8 +91,18 @@ public class ExcelPrinter implements Printer {
 
 		wb.setSheetName(0, "Report");
 
-		sheet.setDefaultColumnWidth(css.getDefaultColumnWidth());
+		// don modify 增加设置各列宽度
+		int[] widths = css.getWidths();
+		if (widths != null) {
 
+			for (int i = 0; i < widths.length; i++) {
+				sheet.setColumnWidth((short) i, (short) (250 * widths[i]));
+			}
+
+		}
+		// end
+
+		sheet.setDefaultColumnWidth(css.getDefaultColumnWidth());
 		int currRow = 0;
 
 		if (r.getHeaderTable() != null) {
@@ -147,6 +157,7 @@ public class ExcelPrinter implements Printer {
 	 * HSSFCellUtil源码说明,cell.setStyle(...)有重用style的功能。
 	 * 验证是否wb.createFont()就能引起问题，（verified）如果是则想办法直接new
 	 * HSSFFont实例（创建同一个包下的类，工厂方法）
+	 * 
 	 * @param wb
 	 * @param s
 	 * @return
@@ -211,8 +222,7 @@ public class ExcelPrinter implements Printer {
 				wb, css);
 
 		cell.setCellStyle(style);
-
-		cell.setEncoding(HSSFCell.ENCODING_UTF_16); // 设置cell编码解决中文高位字节截断
+		// cell.setEncoding(HSSFCell.ENCODING_UTF_16); // 设置cell编码解决中文高位字节截断
 		// 设置单元格的值
 		// 处理交叉表表头的表头
 		if (Report.CROSS_HEAD_HEAD_TYPE.equals(tableCell.getCssClass())) {

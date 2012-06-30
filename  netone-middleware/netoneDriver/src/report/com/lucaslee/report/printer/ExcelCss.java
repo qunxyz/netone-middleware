@@ -23,7 +23,7 @@ public abstract class ExcelCss {
 	public ExcelCss() {
 		super();
 	}
-	
+
 	/**
 	 * 空白样式表。
 	 */
@@ -45,13 +45,20 @@ public abstract class ExcelCss {
 	 */
 	private short defaultColumnWidth = 10;
 
+	/**
+	 * 各列宽度设置
+	 */
+	private int[] widths;
+
 	public HSSFCellStyle getStyle(String cssName) {
 		return map.get(cssName);
 	}
 
 	/**
 	 * 设置样式。
-	 * @param cssName 样式名称。预定义的名称为Report.XXX_Type等。
+	 * 
+	 * @param cssName
+	 *            样式名称。预定义的名称为Report.XXX_Type等。
 	 * @param style
 	 */
 	public void setStyle(String cssName, HSSFCellStyle style) {
@@ -97,6 +104,14 @@ public abstract class ExcelCss {
 	 */
 	public void setDefaultStyle(HSSFCellStyle defaultStyle) {
 		this.defaultStyle = defaultStyle;
+	}
+
+	public int[] getWidths() {
+		return widths;
+	}
+
+	public void setWidths(int[] widths) {
+		this.widths = widths;
 	}
 
 }

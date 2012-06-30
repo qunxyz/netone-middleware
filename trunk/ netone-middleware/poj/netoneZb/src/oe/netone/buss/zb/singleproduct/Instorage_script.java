@@ -5,6 +5,7 @@ package oe.netone.buss.zb.singleproduct;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import oescript.parent.OeScript;
 
@@ -16,6 +17,24 @@ import oescript.parent.OeScript;
  * @history
  */
 public class Instorage_script extends OeScript {
+
+	/**
+	 * 检查条形码是否重复
+	 * 
+	 * @return
+	 */
+	public String CHECKPRODUCTCODEISREPEAT() {
+		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+		List list = db
+				.queryData(
+						con,
+						"select ifnull(count(*),0) as countx from $(sr_table) where fatherlsh!='$(sr_lsh)' and column3='$(sr_pcode)' ");
+		net.sf.json.JSONObject json = new net.sf.json.JSONObject();
+		Map map = (Map) list.get(0);
+		Integer countx = (Integer) map.get("countx");
+		json.put("count", countx);
+		return "" + json.toString() + "";
+	}
 
 	/**
 	 * 入库 采购单数据脚本<BR>

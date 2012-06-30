@@ -839,6 +839,9 @@ public final class DyFormComp {
 	public static String getCheckboxs(String id, String value, String style,
 			String classname, boolean readonly, String selectedvalue,
 			String extvalue) {
+		if(selectedvalue==null){
+			selectedvalue="";
+		}
 		String[] values = selectedvalue.split(",");
 		StringBuffer valuestr = new StringBuffer();
 		String split = "";
@@ -890,6 +893,13 @@ public final class DyFormComp {
 
 		for (int i = 0; i < v.length; i++) {
 			String[] x = v[i].split("-");
+			if(x.length==1){
+				String tmp=x[0];
+				x=new String[]{tmp,tmp};
+			}
+			if(x.length==0){
+				x=new String[]{"#","#"};
+			}
 			String sele = "";
 
 			if (values != null) {

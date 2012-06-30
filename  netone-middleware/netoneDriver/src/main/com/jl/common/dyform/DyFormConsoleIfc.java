@@ -184,7 +184,7 @@ public interface DyFormConsoleIfc {
 			throws Exception;
 
 	/**
-	 * 查询字段装载
+	 * 查询字段装载(用于列表展示字段)
 	 * 
 	 * @param 简单查询model=0，高级查询model=1，字段列表model=2，字段列表汇总model=3
 	 * @param formcode
@@ -192,4 +192,14 @@ public interface DyFormConsoleIfc {
 	 * @throws RemoteException
 	 */
 	List<DyFormColumn> queryColumnX(String formcode, String model) throws Exception;
+	
+	/**
+	 * 查询字段装载(用于查询展示字段)
+	 * 
+	 * @param 简单查询model=0，高级查询model=1，字段列表model=2，字段列表汇总model=3
+	 * @param formcode
+	 * @return
+	 * @throws RemoteException
+	 */
+	List<DyFormColumn> queryColumnQ(String formcode) throws Exception;
 }

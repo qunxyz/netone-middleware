@@ -29,3 +29,15 @@ parse: function(data) {
 	$('table#1fa1fbb0846811e18d60d978b354ef4a_').find("#column12").val('');  
 	} 
 });
+
+
+条形码 数据改变事件
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_271334208897441'+'&sr_pcode='+$(this).val(),     
+	function(jsonx2){      
+	if (jsonx2!=null){     
+		if (jsonx2.count>0){
+			Ext.ux.Toast.msg("", "条形码已存在！");
+			return;
+		}
+	} 
+});

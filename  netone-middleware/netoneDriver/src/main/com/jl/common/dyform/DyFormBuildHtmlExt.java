@@ -1598,7 +1598,7 @@ public final class DyFormBuildHtmlExt {
 	}
 
 	/**
-	 * 生成字段列表
+	 * 生成字段列表 
 	 * 
 	 * @param dyform
 	 * @param userinfo
@@ -1717,9 +1717,9 @@ public final class DyFormBuildHtmlExt {
 						+ hiddenlsh + html_) + _N;
 		return html_2;
 	}
-
+	
 	/**
-	 * 生成普通查询
+	 * 生成字段列表 
 	 * 
 	 * @param dyform
 	 * @param userinfo
@@ -1740,8 +1740,8 @@ public final class DyFormBuildHtmlExt {
 		DyFormColumn[] _formx = new DyFormColumn[0];
 
 		try {
-			List<DyFormColumn> list = DyEntry.iv().queryColumnX(
-					dyform.getFormcode(), "0");
+			List<DyFormColumn> list = DyEntry.iv().queryColumnQ(
+					dyform.getFormcode());
 			_formx = (DyFormColumn[]) list
 					.toArray(new DyFormColumn[list.size()]);
 		} catch (Exception e) {

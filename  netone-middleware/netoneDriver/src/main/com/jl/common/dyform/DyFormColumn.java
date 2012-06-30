@@ -12,9 +12,9 @@ public final class DyFormColumn extends TCsColumn {
 
 	boolean hidden;
 
-	double xoffset;
+	double xoffset=0;
 
-	double yoffset;
+	double yoffset=0;
 
 	/** 宽度百分比 */
 	double wpercent;

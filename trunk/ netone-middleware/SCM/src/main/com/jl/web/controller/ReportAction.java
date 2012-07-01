@@ -1,6 +1,5 @@
 package com.jl.web.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -20,6 +19,7 @@ import com.jl.common.TimeUtil;
 import com.jl.common.report.GroupReport;
 import com.jl.common.report.ReportExt;
 import com.jl.common.workflow.DbTools;
+import com.lucaslee.report.model.Rectangle;
 import com.lucaslee.report.model.Report;
 import com.lucaslee.report.model.Table;
 import com.lucaslee.report.model.TableCell;
@@ -138,6 +138,9 @@ public class ReportAction extends AbstractAction {
 		sb
 				.append(" WHERE t.STATUSINFO='01' and( t1.STATUSINFO='01' or t1.STATUSINFO = '03') ");
 		sb.append(" and year(t.column8)= year(now()) ");
+		if (StringUtils.isNotEmpty(clientId)) {
+			sb.append(" and t.column12='" + clientId.trim() + "' ");
+		}
 		sb.append(" group by fxsno ");
 
 		sb.append(" union all ");
@@ -157,10 +160,15 @@ public class ReportAction extends AbstractAction {
 
 		sb.append(" WHERE tt.STATUSINFO='01' and tt1.STATUSINFO='01' ");
 		sb.append(" and year(tt.column4) = year(now()) ");
+		if (StringUtils.isNotEmpty(clientId)) {
+			sb.append(" and tt.column8='" + clientId.trim() + "' ");
+		}
 		sb.append(" group by fxsno ");
 
 		sb.append(" ) zcr ");
 		sb.append(" group by zcr.fxsno ");
+
+		System.out.println("SQL:" + sb.toString());
 
 		// 获得原始数据表格
 		Table t = new Table();
@@ -195,6 +203,7 @@ public class ReportAction extends AbstractAction {
 		 * bnzrjelj 本年支入金额累计
 		 */
 		List list = DbTools.queryData(sb.toString());
+		double[] tmpdata = new double[1];
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
 			String fxsno = object.get("fxsno").toString();// 分销商编码
@@ -215,7 +224,8 @@ public class ReportAction extends AbstractAction {
 			tr.addCell(new TableCell(getFinanceDirection(Double
 					.valueOf(getBeforeValue))));
 			tr.addCell(new TableCell(""
-					+ MathHelper.moneyFormat(getBeforeValue)));
+					+ MathHelper.moneyFormat(convertPlus(Double
+							.valueOf(getBeforeValue)))));
 
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zcje)));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zrje)));
@@ -228,10 +238,32 @@ public class ReportAction extends AbstractAction {
 					- Double.valueOf(zrje);
 
 			tr.addCell(new TableCell(getFinanceDirection(ban)));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(ban)));
+			tr.addCell(new TableCell(""
+					+ MathHelper.moneyFormat(convertPlus(ban))));
 
 			t.addRow(tr);
+
+			// 合计
+			tmpdata[0] += Double.valueOf(ban);
 		}
+
+		// 扩展
+		List<TableCell> totalTrData = new ArrayList<TableCell>();
+		totalTrData.add(new TableCell(""));// 
+		totalTrData.add(new TableCell(""));// 
+		totalTrData.add(new TableCell(""));// 
+		totalTrData.add(new TableCell(""));// 
+		totalTrData.add(new TableCell(""));// 
+
+		totalTrData.add(new TableCell(""));// 
+		totalTrData.add(new TableCell(""));// 
+		totalTrData.add(new TableCell(""));// 
+		totalTrData.add(new TableCell("" + getFinanceDirection(tmpdata[0])));// 
+		totalTrData.add(new TableCell("" + MathHelper.moneyFormat(tmpdata[0])));// 
+		totalTrData.set(0, new TableCell("合计"));
+		TableRow tr = reportExt.getOneTableRow(totalTrData);
+		tr.setType(Report.GROUP_TOTAL_TYPE);
+		t.addRow(tr);
 
 		Report report = reportExt.setComplexColHeader(t, headerSet1,
 				headerSet2, true);
@@ -259,10 +291,11 @@ public class ReportAction extends AbstractAction {
 		sb.append(" ifnull(fxs.column3,'') fxsname, ");
 		sb.append(" ifnull(sum(t1.column5),0) zcjebf, ");
 		sb.append(" 0 zrjebf ");
-		sb.append(" FROM DY_661338441749389 t  ");
-		sb.append(" LEFT JOIN DY_661338441749388 t1 ON t.LSH = t1.FATHERLSH ");
+		sb.append(" FROM dyform.DY_661338441749389 t  ");
 		sb
-				.append(" LEFT JOIN DY_61336130537483 fxs ON t.column12 = fxs.column4 ");
+				.append(" LEFT JOIN dyform.DY_661338441749388 t1 ON t.LSH = t1.FATHERLSH ");
+		sb
+				.append(" LEFT JOIN dyform.DY_61336130537483 fxs ON t.column12 = fxs.column4 ");
 
 		sb
 				.append(" WHERE t.STATUSINFO='01' and( t1.STATUSINFO='01' or t1.STATUSINFO = '03') ");
@@ -280,11 +313,11 @@ public class ReportAction extends AbstractAction {
 		sb.append(" ifnull(tfxs.column3,'') fxsname, ");
 		sb.append(" 0 zcjebf, ");
 		sb.append(" ifnull(sum(tt1.column11),0) zrjebf ");
-		sb.append(" FROM DY_371337952339241 tt  ");
+		sb.append(" FROM dyform.DY_371337952339241 tt  ");
 		sb
-				.append(" LEFT JOIN DY_371337952339238 tt1 ON tt.LSH = tt1.FATHERLSH ");
+				.append(" LEFT JOIN dyform.DY_371337952339238 tt1 ON tt.LSH = tt1.FATHERLSH ");
 		sb
-				.append(" LEFT JOIN DY_61336130537483 tfxs ON tt.column8 = tfxs.column4 ");
+				.append(" LEFT JOIN dyform.DY_61336130537483 tfxs ON tt.column8 = tfxs.column4 ");
 
 		sb.append(" WHERE tt.STATUSINFO='01' and tt1.STATUSINFO='01' ");
 		sb.append(" and tt.column4 <'" + beginDate + " 00:00:00' ");
@@ -314,6 +347,13 @@ public class ReportAction extends AbstractAction {
 			return "负";
 		}
 		return "";
+	}
+
+	public static double convertPlus(Double value) {
+		if (value < 0) {
+			return -1 * value;
+		}
+		return value;
 	}
 
 }

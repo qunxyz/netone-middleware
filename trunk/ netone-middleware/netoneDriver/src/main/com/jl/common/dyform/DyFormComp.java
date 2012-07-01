@@ -281,13 +281,13 @@ public final class DyFormComp {
 		script.append("function " + WdatePickerFunc + "(t){");
 		script.append("if (t==1){");
 		script
-				.append("		WdatePicker({isShowClear:false,dateFmt:\"yyyy-MM-dd HH:mm:ss\"});");
+				.append("		WdatePicker({isShowClear:true,dateFmt:\"yyyy-MM-dd HH:mm:ss\"});");
 		script.append("	} else if(t==2){");
 		script
-				.append("		WdatePicker({isShowClear:false,dateFmt:\"yyyy-MM-dd\"});");
+				.append("		WdatePicker({isShowClear:true,dateFmt:\"yyyy-MM-dd\"});");
 		script.append("	} else if(t=3){");
 		script
-				.append("		WdatePicker({isShowClear:false,dateFmt:\"HH:mm:ss\"});");
+				.append("		WdatePicker({isShowClear:true,dateFmt:\"HH:mm:ss\"});");
 		script.append("	}");
 		script.append("}");
 

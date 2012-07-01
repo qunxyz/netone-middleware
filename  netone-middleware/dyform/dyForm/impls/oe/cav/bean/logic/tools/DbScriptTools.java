@@ -78,13 +78,18 @@ public class DbScriptTools {
 		 */
 		Connection con =null;
 		if(StringUtils.isNotEmpty(tableOld)){
+			try{
 			con = SQLTools.getConn(ds);
 			tableName=tableOld;
 			String sql="drop view "+tableOld;
 			DbTools.execute(con, sql);
+				}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		con = SQLTools.getConn(ds);
 		// character set gbk Ìí¼Ó×Ö¶Î±àÂëÒÔGBK±£´æ
+		
 		String createScript = "create View "
 				+ tableName
 				+ " as ("+sqlinfo+")";

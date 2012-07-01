@@ -38,6 +38,9 @@
 					<value>com.jl.service.FrameService.delete*.*</value>
 					<value>com.jl.service.FrameService.assignEnd*.*</value>
 					
+					<value>com.jl.service.FrameService.saveConfirmStatus*.*</value>
+					<value>com.jl.service.FrameService.saveUnConfirmStatus*.*</value>
+					
 					<!-- 督办业务 -->
 					<value>com.jl.service.CensorShipService.delete*.*</value>
 					<value>com.jl.service.CensorShipService.save*.*</value>

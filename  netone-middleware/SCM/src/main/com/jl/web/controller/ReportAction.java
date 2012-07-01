@@ -19,6 +19,7 @@ import com.jl.common.TimeUtil;
 import com.jl.common.report.GroupReport;
 import com.jl.common.report.ReportExt;
 import com.jl.common.workflow.DbTools;
+import com.lucaslee.report.model.Rectangle;
 import com.lucaslee.report.model.Report;
 import com.lucaslee.report.model.Table;
 import com.lucaslee.report.model.TableCell;
@@ -227,24 +228,30 @@ public class ReportAction extends AbstractAction {
 			String getBeforeValue = getBeforeValue(fxsno, beginDate);
 
 			tr.addCell(new TableCell(getFinanceDirection(Double
-					.valueOf(getBeforeValue))));
+					.valueOf(getBeforeValue)), Rectangle.ALIGN_CENTER));
 			tr.addCell(new TableCell(""
 					+ MathHelper.moneyFormat(convertPlus(Double
-							.valueOf(getBeforeValue)))));
+							.valueOf(getBeforeValue))), Rectangle.ALIGN_RIGHT));
 
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zcje)));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zrje)));
+			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zcje),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zrje),
+					Rectangle.ALIGN_RIGHT));
 
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zcbnlj)));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(bnzrjelj)));
+			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zcbnlj),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell("" + MathHelper.moneyFormat(bnzrjelj),
+					Rectangle.ALIGN_RIGHT));
 
 			Double ban = new Double("0");
 			ban = Double.valueOf(getBeforeValue) + Double.valueOf(zcje)
 					- Double.valueOf(zrje);
 
-			tr.addCell(new TableCell(getFinanceDirection(ban)));
+			tr.addCell(new TableCell(getFinanceDirection(ban),
+					Rectangle.ALIGN_CENTER));
 			tr.addCell(new TableCell(""
-					+ MathHelper.moneyFormat(convertPlus(ban))));
+					+ MathHelper.moneyFormat(convertPlus(ban)),
+					Rectangle.ALIGN_RIGHT));
 
 			t.addRow(tr);
 
@@ -263,9 +270,11 @@ public class ReportAction extends AbstractAction {
 		totalTrData.add(new TableCell(""));// 
 		totalTrData.add(new TableCell(""));// 
 		totalTrData.add(new TableCell(""));// 
-		totalTrData.add(new TableCell("" + getFinanceDirection(tmpdata[0])));// 
-		totalTrData.add(new TableCell("" + MathHelper.moneyFormat(tmpdata[0])));// 
-		totalTrData.set(0, new TableCell("合计"));
+		totalTrData.add(new TableCell("" + getFinanceDirection(tmpdata[0]),
+				Rectangle.ALIGN_CENTER));// 
+		totalTrData.add(new TableCell("" + MathHelper.moneyFormat(tmpdata[0]),
+				Rectangle.ALIGN_RIGHT));// 
+		totalTrData.set(0, new TableCell("合计", Rectangle.ALIGN_CENTER));
 		TableRow tr = reportExt.getOneTableRow(totalTrData);
 		tr.setType(Report.GROUP_TOTAL_TYPE);
 		t.addRow(tr);

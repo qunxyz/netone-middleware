@@ -713,7 +713,7 @@ public class BusActionImpl extends BaseAction {
 			if (columnInfo == null) {
 				continue;
 			}
-			System.out.println(columnInfo[0] + "," + columnInfo[1]);
+			//System.out.println(columnInfo[0] + "," + columnInfo[1]);
 			for (int k = 0; k < key.length; k++) {
 				if (columnInfo[0].equalsIgnoreCase(key[k])) {
 					havekey = true;
@@ -771,7 +771,7 @@ public class BusActionImpl extends BaseAction {
 			if (columnInfo == null) {
 				continue;
 			}
-			System.out.println(columnInfo[0] + "," + columnInfo[1]);
+			//System.out.println(columnInfo[0] + "," + columnInfo[1]);
 			havekey = true;
 			String controlKey = "col" + i;
 			Control control = ae.getControl(controlKey);

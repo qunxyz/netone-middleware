@@ -484,12 +484,12 @@ html.VIE7 .form_fieldinput {
 											</div>
 											<div class="form_fieldinput" style="width: 344px;"
 												align="left">
-												<input type="text" id="beginDate"
+												<input type="text" id="beginDate" value="${beginTime}"
 													name="beginDate" style="width: 137.5px" class="Wdate"
 													onFocus="$WdatePicker(2);this.blur();" unselectable="off"
 													onFocus="this.select()" />
 												至
-												<input type="text" id="endDate" name="endDate"
+												<input type="text" id="endDate" name="endDate" value="${endTime}"
 													style="width: 137.5px" class="Wdate"
 													onFocus="$WdatePicker(2);this.blur();" unselectable="off"
 													onFocus="this.select()" />

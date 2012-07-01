@@ -280,11 +280,14 @@ public final class DyFormComp {
 		StringBuffer script = new StringBuffer();
 		script.append("function " + WdatePickerFunc + "(t){");
 		script.append("if (t==1){");
-		script.append("		WdatePicker({dateFmt:\"yyyy-MM-dd HH:mm:ss\"});");
+		script
+				.append("		WdatePicker({isShowClear:false,dateFmt:\"yyyy-MM-dd HH:mm:ss\"});");
 		script.append("	} else if(t==2){");
-		script.append("		WdatePicker({dateFmt:\"yyyy-MM-dd\"});");
+		script
+				.append("		WdatePicker({isShowClear:false,dateFmt:\"yyyy-MM-dd\"});");
 		script.append("	} else if(t=3){");
-		script.append("		WdatePicker({dateFmt:\"HH:mm:ss\"});");
+		script
+				.append("		WdatePicker({isShowClear:false,dateFmt:\"HH:mm:ss\"});");
 		script.append("	}");
 		script.append("}");
 
@@ -484,7 +487,7 @@ public final class DyFormComp {
 				+ DyFormBuildHtml.uuid(), "", style, classname, readonly,
 				extvalue);
 	}
-	
+
 	/**
 	 * 获取单一radio
 	 * 
@@ -503,8 +506,8 @@ public final class DyFormComp {
 		} else {
 			checkstr = " ";
 		}
-		return getComp("<input type=\"radio\" ", checkstr + " />", id, "", style, classname, readonly,
-				extvalue);
+		return getComp("<input type=\"radio\" ", checkstr + " />", id, "",
+				style, classname, readonly, extvalue);
 	}
 
 	/**
@@ -839,8 +842,8 @@ public final class DyFormComp {
 	public static String getCheckboxs(String id, String value, String style,
 			String classname, boolean readonly, String selectedvalue,
 			String extvalue) {
-		if(selectedvalue==null){
-			selectedvalue="";
+		if (selectedvalue == null) {
+			selectedvalue = "";
 		}
 		String[] values = selectedvalue.split(",");
 		StringBuffer valuestr = new StringBuffer();
@@ -893,12 +896,12 @@ public final class DyFormComp {
 
 		for (int i = 0; i < v.length; i++) {
 			String[] x = v[i].split("-");
-			if(x.length==1){
-				String tmp=x[0];
-				x=new String[]{tmp,tmp};
+			if (x.length == 1) {
+				String tmp = x[0];
+				x = new String[] { tmp, tmp };
 			}
-			if(x.length==0){
-				x=new String[]{"#","#"};
+			if (x.length == 0) {
+				x = new String[] { "#", "#" };
 			}
 			String sele = "";
 
@@ -1503,8 +1506,8 @@ public final class DyFormComp {
 		js.append("var $" + id + " = new Ext.grid.EditorGridPanel({ \n");
 
 		js.append("autoHeight:true, \n");
-//		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")+ "'}\n");
-		
+		// js.append("viewConfig:{formcode:'" + id.replace("Grid", "")+ "'}\n");
+
 		js.append("viewConfig:{formcode:'" + id.replace("Grid", "")
 				+ "',forceFit:false,autoHeight:true,autoScroll:true,\n");
 		js.append("layout : function() { \n");

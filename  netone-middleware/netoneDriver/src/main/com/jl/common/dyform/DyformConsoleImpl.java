@@ -841,7 +841,6 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		return newColumn;
 	}
 
-	@Override
 	public List<DyFormColumn> queryColumnQ(String formcode)
 			throws Exception {
 		// TODO Auto-generated method stub

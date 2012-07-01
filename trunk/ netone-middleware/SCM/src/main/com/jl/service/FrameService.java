@@ -75,7 +75,7 @@ public interface FrameService {
 	 */
 	public String load(String workcode, String naturalname, DyForm dyform,
 			String lsh, boolean isedit, Map subformmode, String userinfo,
-			String parameter,User user,boolean isprint) throws Exception;
+			String parameter, User user, boolean isprint) throws Exception;
 
 	/**
 	 * 
@@ -204,4 +204,27 @@ public interface FrameService {
 	 */
 	public String dyformDealDetail(HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
+
+	/**
+	 * 确认状态
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String saveConfirmStatus(HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
+
+	/**
+	 * 反确认状态
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String saveUnConfirmStatus(HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
+
 }

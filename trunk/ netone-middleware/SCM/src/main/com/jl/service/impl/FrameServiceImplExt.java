@@ -1304,4 +1304,74 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		return (int) dayNumber;
 	}
 
+	public String saveConfirmStatus(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		JSONObject json = new JSONObject();
+		String naturalname = request.getParameter("naturalname");
+		String lsh = request.getParameter("lsh");
+		AppObj app = AppEntry.iv().loadApp(naturalname);
+		String formcode = app.getDyformCode_();
+
+		DyFormData data = new DyFormData();
+		data.setLsh(lsh);
+		data.setStatusinfo("01");
+		data.setFatherlsh("1");
+		data.setFormcode(formcode);
+		User user = getOnlineUser(request);
+
+		int count = DyEntry.iv().queryDataNum(data, " or statusinfo = '02' ");
+		if (count > 0) {
+			json.put("tip", "已审核状态,不能进行其他操作!");
+			json.put("error", "yes");
+		} else {
+			// data.setParticipant(user.getUserCode() + "[" +
+			// user.getUserName()
+			// + "]");
+			boolean succ = DyEntry.iv().modifyData(formcode, data);
+			if (succ) {
+				json.put("tip", "确认成功!");
+			} else {
+				json.put("tip", "确认失败!");
+				json.put("error", "yes");
+			}
+		}
+		return json.toString();
+	}
+
+	public String saveUnConfirmStatus(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		JSONObject json = new JSONObject();
+
+		String naturalname = request.getParameter("naturalname");
+		String lsh = request.getParameter("lsh");
+		AppObj app = AppEntry.iv().loadApp(naturalname);
+		String formcode = app.getDyformCode_();
+
+		DyFormData data = new DyFormData();
+		data.setLsh(lsh);
+		data.setStatusinfo("02");
+		data.setFatherlsh("1");
+		data.setFormcode(formcode);
+		User user = getOnlineUser(request);
+
+		int count = DyEntry.iv().queryDataNum(data, " or statusinfo = '01' ");
+		if (count > 0) {
+			json.put("tip", "已审核状态,不能进行其他操作!");
+			json.put("error", "yes");
+		} else {
+			// data.setParticipant(user.getUserCode() + "[" +
+			// user.getUserName()
+			// + "]");
+
+			boolean succ = DyEntry.iv().modifyData(formcode, data);
+			if (succ) {
+				json.put("tip", "反确认成功!");
+			} else {
+				json.put("tip", "反确认失败!");
+				json.put("error", "yes");
+			}
+		}
+		return json.toString();
+	}
+
 }

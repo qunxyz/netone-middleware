@@ -498,7 +498,7 @@ public class ColumnDaoImpl implements ColumnDao {
 	}
 
 	public List queryObjectsUrl(String url) {
-		System.out.println(url);
+
 		List returnList = new ArrayList();
 		if (url == null || url.equals("")) {
 			return returnList;

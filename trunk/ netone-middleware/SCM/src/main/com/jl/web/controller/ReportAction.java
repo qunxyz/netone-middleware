@@ -209,7 +209,7 @@ public class ReportAction extends AbstractAction {
 		 * bnzrjelj 本年支入金额累计
 		 */
 		List list = DbTools.queryData(sb.toString());
-		double[] tmpdata = new double[1];
+		double[] tmpdata = new double[6];
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
 			String fxsno = object.get("fxsno").toString();// 分销商编码
@@ -256,7 +256,12 @@ public class ReportAction extends AbstractAction {
 			t.addRow(tr);
 
 			// 合计
-			tmpdata[0] += Double.valueOf(ban);
+			tmpdata[0] += Double.valueOf(getBeforeValue);
+			tmpdata[1] += Double.valueOf(zcje);
+			tmpdata[2] += Double.valueOf(zrje);
+			tmpdata[3] += Double.valueOf(zcbnlj);
+			tmpdata[4] += Double.valueOf(bnzrjelj);
+			tmpdata[5] += Double.valueOf(ban);
 		}
 
 		// 扩展
@@ -264,17 +269,21 @@ public class ReportAction extends AbstractAction {
 		totalTrData.add(new TableCell(""));// 
 		totalTrData.add(new TableCell(""));// 
 		totalTrData.add(new TableCell(""));// 
-		totalTrData.add(new TableCell(""));// 
-		totalTrData.add(new TableCell(""));// 
-
-		totalTrData.add(new TableCell(""));// 
-		totalTrData.add(new TableCell(""));// 
-		totalTrData.add(new TableCell(""));// 
-		totalTrData.add(new TableCell("" + getFinanceDirection(tmpdata[0]),
-				Rectangle.ALIGN_CENTER));// 
 		totalTrData.add(new TableCell("" + MathHelper.moneyFormat(tmpdata[0]),
 				Rectangle.ALIGN_RIGHT));// 
-		totalTrData.set(0, new TableCell("合计", Rectangle.ALIGN_CENTER));
+		totalTrData.add(new TableCell("" + MathHelper.moneyFormat(tmpdata[1]),
+				Rectangle.ALIGN_RIGHT));// 
+
+		totalTrData.add(new TableCell("" + MathHelper.moneyFormat(tmpdata[2]),
+				Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + MathHelper.moneyFormat(tmpdata[3]),
+				Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + MathHelper.moneyFormat(tmpdata[4]),
+				Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell(""));// 
+		totalTrData.add(new TableCell("" + MathHelper.moneyFormat(tmpdata[5]),
+				Rectangle.ALIGN_RIGHT));// 
+		totalTrData.set(0, new TableCell("合计"));
 		TableRow tr = reportExt.getOneTableRow(totalTrData);
 		tr.setType(Report.GROUP_TOTAL_TYPE);
 		t.addRow(tr);

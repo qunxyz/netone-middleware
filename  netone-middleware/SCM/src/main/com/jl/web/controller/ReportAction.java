@@ -19,7 +19,6 @@ import com.jl.common.TimeUtil;
 import com.jl.common.report.GroupReport;
 import com.jl.common.report.ReportExt;
 import com.jl.common.workflow.DbTools;
-import com.lucaslee.report.model.Rectangle;
 import com.lucaslee.report.model.Report;
 import com.lucaslee.report.model.Table;
 import com.lucaslee.report.model.TableCell;
@@ -29,6 +28,12 @@ public class ReportAction extends AbstractAction {
 	public ActionForward querymain(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		request.setAttribute("endTime", TimeUtil.formatDate(new Date(),
+				"yyyy-MM-dd"));
+		request.setAttribute("beginTime", TimeUtil.formatDate(new Date(),
+				"yyyy-MM")
+				+ "-01");
+
 		// 分销商信息
 		StringBuffer sb = new StringBuffer();
 		sb.append("select * from dyform.DY_61336130537483  where column19='1'");

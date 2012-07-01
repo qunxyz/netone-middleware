@@ -1971,12 +1971,11 @@ public class FrameActionExt extends AbstractAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		request.setAttribute("ErrorJson", "Yes");// Json出错提示
+		FrameService ins = (FrameService) WebApplicationContextUtils
+		.getRequiredWebApplicationContext(servlet.getServletContext())
+		.getBean("frameService");
 		JSONObject json = new JSONObject();
 		try {
-			FrameService ins = (FrameService) WebApplicationContextUtils
-					.getRequiredWebApplicationContext(
-							servlet.getServletContext())
-					.getBean("frameService");
 			String jsonstr = ins.saveConfirmStatus(request, response);
 			json = json.fromObject(jsonstr);
 		} catch (Exception e) {
@@ -1993,12 +1992,11 @@ public class FrameActionExt extends AbstractAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		request.setAttribute("ErrorJson", "Yes");// Json出错提示
+		FrameService ins = (FrameService) WebApplicationContextUtils
+		.getRequiredWebApplicationContext(servlet.getServletContext())
+		.getBean("frameService");
 		JSONObject json = new JSONObject();
 		try {
-			FrameService ins = (FrameService) WebApplicationContextUtils
-					.getRequiredWebApplicationContext(
-							servlet.getServletContext())
-					.getBean("frameService");
 			String jsonstr = ins.saveUnConfirmStatus(request, response);
 			json = json.fromObject(jsonstr);
 		} catch (Exception e) {

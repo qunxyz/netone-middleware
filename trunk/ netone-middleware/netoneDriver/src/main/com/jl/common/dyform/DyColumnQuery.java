@@ -148,6 +148,7 @@ public class DyColumnQuery {
 			} else {
 				DyFormColumn columnnew = new DyFormColumn();
 				BeanUtils.copyProperties(columnnew, object);
+				
 				listremove.add(columnnew);
 				columnKey.put(object.getColumnid().toUpperCase(), columnnew);
 			}
@@ -192,6 +193,7 @@ public class DyColumnQuery {
 								}
 							}
 							columnx.setExtendattribute(fullObj.getExtinfo());
+							columnx.setColumname(fullObj.getColumnname());
 							listx.add(columnx);
 						} else {
 							// 查询字段来自其他表单
@@ -215,6 +217,7 @@ public class DyColumnQuery {
 								columnnew.setYoffset(Double.parseDouble(fullObj
 										.getYoffset()));
 							}
+							columnnew.setColumname(fullObj.getColumnname());
 							columnnew.setExtendattribute(fullObj.getExtinfo());
 							
 							listx.add(columnnew);
@@ -227,7 +230,23 @@ public class DyColumnQuery {
 		//没有配置查询字段默认全部字段查询，这种模式下需要处理掉字段里的 extendattribute属性，因为查询模式用认为 里面存放的是查询条件
 		// 而默认的extendattribute中是 表单的位置信息
 		for (Iterator iterator = listremove.iterator(); iterator.hasNext();) {
-			TCsColumn csColumn = (TCsColumn) iterator.next();
+			DyFormColumn csColumn = (DyFormColumn) iterator.next();
+			// 如果没有设计布局，那么表单的布局
+			String ext = csColumn.getExtendattribute();
+			// 设置XY坐标
+			String xyoffset = StringUtils.substringBetween(
+					ext, DymaticFormCheck._CHECK_OFFSET,
+					DymaticFormCheck._FINAL_CHECK);
+			if (StringUtils.isNotEmpty(xyoffset)) {
+				String xy[] = StringUtils.split(xyoffset,
+						"-");
+				if (xy.length == 2) {
+					csColumn.setYoffset(Double
+							.parseDouble(xy[0]));
+					csColumn.setXoffset(Double
+							.parseDouble(xy[1]));
+				}
+			}
 			csColumn.setExtendattribute("");
 		}
 		return listremove;

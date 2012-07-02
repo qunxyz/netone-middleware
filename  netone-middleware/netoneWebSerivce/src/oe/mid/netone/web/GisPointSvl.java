@@ -3,6 +3,7 @@ package oe.mid.netone.web;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -61,14 +62,11 @@ public class GisPointSvl extends HttpServlet {
 		  String xoffset=request.getParameter("xoffset");
 		  String yoffset=request.getParameter("yoffset");
 		  String roffset=request.getParameter("roffset");
+		  String userid=request.getParameter("userid");
 		  double xoff=Double.parseDouble(xoffset);
 		  double yoff=Double.parseDouble(yoffset);
 		  double roff=Double.parseDouble(roffset);
-		  double xoffTop=xoff+roff;
-		  double xoffBut=xoff-roff;
-		  double yoffTop=yoff+roff;
-		  double yoffBut=yoff-roff;
-		  String xoffCond="column3>"+xoffBut+" and column3<"+xoffTop+" and column4>"+yoffBut+" and column4<"+yoffTop;
+		  List findPoint=new ArrayList();
 		  List list=new ArrayList();
 		  try {
 			String formcode= AppEntry.iv().loadApp(appname).getDyformCode_();
@@ -85,16 +83,34 @@ public class GisPointSvl extends HttpServlet {
 			String naturalname=((UmsProtectedobject)formlist.get(0)).getNaturalname();
 			String tablename=StringUtils.substringAfterLast(naturalname, ".");
 			
-			String sql="select lsh,column5 from dyform."+tablename+" where "+xoffCond;
-			System.out.println(sql);
+			String sql="select lsh,column5,column3,column4 from dyform."+tablename+ " where userid like '"+userid+"[%'";
+			//String sql="select lsh,column5,column3,column4 from dyform."+tablename;
+
 			list=DbTools.queryData(sql);
+			
+			System.out.println(xoffset+","+yoffset+","+roffset);
+			
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				Map object = (Map) iterator.next();
+				String oxsr=(String)object.get("column4");
+				String oysr=(String)object.get("column3");
+				if(StringUtils.isEmpty(oxsr))oxsr="0.0";
+				if(StringUtils.isEmpty(oysr))oysr="0.0";
+				double ox=Double.parseDouble(oxsr);
+				double oy=Double.parseDouble(oysr);
+				double oz=GetDistance(xoff,yoff,ox,oy);
+				System.out.println("-----"+oxsr+","+oysr+","+oz);
+				if(oz<roff){//说明在指定半径内
+					findPoint.add(object);
+				}
+			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print(JSONArray.fromObject(list).toString());
+		response.getWriter().print(JSONArray.fromObject(findPoint).toString());
 	}
 
 	/**
@@ -110,6 +126,38 @@ public class GisPointSvl extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request,response);
+	}
+	
+	
+	private static double EARTH_RADIUS = 6378.137;
+	private static double rad(double d) {
+		return d * Math.PI/ 180.0;
+	}
+	
+	/*
+	 * 将两地点的经纬度值换算成两点间距离
+	 * @param lat1 位置1的经度
+	 * @param lng1 位置1的纬度
+	 * @param lat2 位置2的经度
+	 * @param lng2 位置2的纬度
+	 * @return s 两点间距离
+	 */
+	private static double GetDistance(double lat1, double lng1, double lat2, double lng2)
+	{
+		double radLat1 = rad(lat1);
+		double radLat2 = rad(lat2);
+		double a = radLat1 - radLat2;
+		double b = rad(lng1) - rad(lng2);
+		double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+				Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+		s = s * EARTH_RADIUS;
+		s = Math.round(s * 10000) / 10;
+		return s;
+	}
+	
+	public static void main(String[] args) {
+		double rs=GetDistance(26.081308,119.2685816,26.0805727,119.26907953333334);
+		System.out.println(rs);
 	}
 
 	/**

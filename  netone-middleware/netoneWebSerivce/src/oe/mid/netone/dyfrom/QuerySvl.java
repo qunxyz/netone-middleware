@@ -23,6 +23,7 @@ import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.jl.common.app.AppEntry;
 import com.jl.common.app.impl2.AnalysisAppFirst;
 import com.jl.common.app.impl2.AppFirst;
 import com.jl.common.dyform.DyEntry;
@@ -65,7 +66,7 @@ public class QuerySvl extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		String formcode = null;
+
 		String appname = request.getParameter("appname");
 		String parentId = request.getParameter("parentId");
 		String ext = request.getParameter("ext");
@@ -74,12 +75,13 @@ public class QuerySvl extends HttpServlet {
 		if (StringUtils.isEmpty(parentId)) {
 			parentId = "1";
 		}
-		UmsProtecte up = new UmsProtecte();
-		UmsProtectedobject upobj = up.loadUmsProtecteNaturalname(appname);
-		if (StringUtils.isNotEmpty(upobj.getExtendattribute())) {
-			AnalysisAppFirst appFirst = new AnalysisAppFirst();
-			AppFirst app = appFirst.readXML(upobj.getExtendattribute());
-			formcode = app.getFormcode();
+
+		String formcode=null;
+		try {
+			formcode = AppEntry.iv().loadApp(appname).getDyformCode_();
+		} catch (Exception e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
 
 		DyFormData dydata = new DyFormData();
@@ -114,6 +116,7 @@ public class QuerySvl extends HttpServlet {
 			}
 		}
 		try {
+			
 			int index = DyEntry.iv().queryDataNum(dydata, "");
 			list = DyEntry.iv().queryData(dydata, 0, index, ext);
 			List listmame = dys.queryObjects(busForm);

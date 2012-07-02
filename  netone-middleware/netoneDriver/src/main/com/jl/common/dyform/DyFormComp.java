@@ -586,6 +586,19 @@ public final class DyFormComp {
 				"renderer:function todo(value, cellmeta, record, rowIndex, columnIndex, store){",
 				"}", jshtml.toString());
 	}
+	
+	public static String getJsFileHref(String columnid, String valuelist,String title) {
+
+		StringBuffer jshtml = new StringBuffer();
+		jshtml.append("var pre = store.getAt(rowIndex).get('" + columnid
+				+ "') ;");
+		jshtml.append("var url = '<a target=\"_blank\" href=\""+valuelist+"'+pre+'\" >"+title+"</a> ';");
+		jshtml.append("return url;");
+
+		return getTag(
+				"renderer:function todo(value, cellmeta, record, rowIndex, columnIndex, store){",
+				"}", jshtml.toString());
+	}
 
 	/**
 	 * 获取radio组KV选定的值

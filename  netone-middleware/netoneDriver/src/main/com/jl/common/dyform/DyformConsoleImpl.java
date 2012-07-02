@@ -415,6 +415,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyAnalysisXml dayx = new DyAnalysisXml();
 			dayx.script(formcode, bussid, "SelectRead");
 		}
+		dealWithImgFile(data,formcode);
 		return data;
 	}
 
@@ -428,7 +429,38 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyAnalysisXml dayx = new DyAnalysisXml();
 			dayx.script(formcode, bussid, "SelectUpdate");
 		}
+		dealWithImgFile(data,formcode);
 		return data;
+	}
+	
+	private void dealWithImgFile(DyFormData data,String formcode)throws Exception{
+		//针对附件字段的特别处理，附件字段需要写入表单的lsh，用来展示附件链接使用
+		List list=this.fetchColumnListForDesign(formcode);
+		String appfileColumnid="";
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			TCsColumn object = (TCsColumn) iterator.next();
+			if(object.getViewtype().equals("15")){
+				appfileColumnid=object.getColumnid(); 
+			}
+		}
+		BeanUtils.setProperty(data, appfileColumnid, data.getLsh());
+	}
+	
+	private void dealWithImgFile(List<DyFormData> data,String formcode)throws Exception{
+		//针对附件字段的特别处理，附件字段需要写入表单的lsh，用来展示附件链接使用
+		List list=this.fetchColumnListForDesign(formcode);
+		String appfileColumnid="";
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			TCsColumn object = (TCsColumn) iterator.next();
+			if(object.getViewtype().equals("15")){
+				appfileColumnid=object.getColumnid(); 
+			}
+		}
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			DyFormData object = (DyFormData) iterator.next();
+			BeanUtils.setProperty(object, appfileColumnid, object.getLsh());
+		}
+		
 	}
 
 	public DyForm loadForm(String formid) throws Exception {
@@ -850,7 +882,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			DyFormColumn object = (DyFormColumn) iterator.next();
 			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
-
+			object.setReadonly(false);
 			dealWithKvDict(object, rs);
 			this.dealwithTree(object, rs);
 			newColumn.add(object);

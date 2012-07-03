@@ -12,6 +12,10 @@
 		<jsp:include page="/WEB-INF/jsp/common/metaExt.jsp"></jsp:include>
 		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-min.jsp"></jsp:include>
 		
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jqgrid/i18n/grid.locale-cn.js"></script>
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jqgrid/jquery.jqGrid.src.js"></script>
+		<link rel="stylesheet" href="<%=path%>/script/jquery-plugin/jqgrid/css/ui.jqgrid.css" type="text/css" media="screen" />
+		
 		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-ui-tab.jsp" />
 		<jsp:include page="/WEB-INF/jsp/common/metaJQueryTable.jsp" />
 		<script language="javascript" type="text/javascript"

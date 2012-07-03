@@ -32,7 +32,6 @@ import com.jl.common.app.AppEntry;
 import com.jl.common.app.AppObj;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
-import com.jl.common.dyform.DyFormBuildHtml;
 import com.jl.common.dyform.DyFormBuildHtmlExt;
 import com.jl.common.dyform.DyFormColumn;
 import com.jl.common.dyform.DyFormComp;
@@ -240,6 +239,286 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 	}
 
 	private String load_(DyForm dyform, boolean isedit, Map subformmode,
+			String userinfo, String workcode, String naturalname, String lsh,
+			String parameter, User user) throws Exception {
+		StringBuffer html = new StringBuffer();
+
+		StringBuffer htmlSouth = new StringBuffer();
+		StringBuffer htmlCenter = new StringBuffer();
+		StringBuffer htmlCenterInnerEast = new StringBuffer();
+
+		List<Map> listmaps = new ArrayList<Map>();
+
+		DyForm[] subdyforms = dyform.getSubform_();
+
+		Boolean ishidden = false;// 是否隐藏
+		if (subformmode != null && subformmode.containsKey("MAINFORM")) {
+			String submode = (String) subformmode.get("MAINFORM");
+			if ("0".equals(submode)) {// 编辑
+				isedit = true;
+				ishidden = false;
+			} else if ("1".equals(submode)) {// 只读
+				isedit = false;
+				ishidden = false;
+			} else if ("2".equals(submode)) {// 隐藏
+				ishidden = true;
+			} else {
+				ishidden = false;
+			}
+		}
+
+		String ids = "frame" + DyFormBuildHtmlExt.uuid();
+		if (!ishidden) {
+			listmaps.add(getJsMap(DyFormBuildHtmlExt.buildMainForm(dyform,
+					isedit, userinfo, naturalname, lsh, false, false,
+					parameter, user), ids, DyFormComp.getExtPanel(ids, null,
+					null, ids, "", ""), "center"));
+		} else {
+			listmaps.add(getJsMap("<div style='display:none'>"
+					+ DyFormBuildHtmlExt.buildMainForm(dyform, isedit,
+							userinfo, naturalname, lsh, false, false,
+							parameter, user) + "</div>", ids, DyFormComp
+					.getExtPanel(ids, null, null, ids, "", ""), "center"));
+		}
+
+		boolean isCenterInnerEast = false;
+		if (subdyforms != null && subdyforms.length > 0) {
+			Boolean issubedit = true;// 是否可编辑
+			Boolean issubhidden = false;// 是否隐藏
+
+			List<String> formname = new ArrayList<String>();
+			List<Map> formlist = new ArrayList<Map>();
+
+			for (int i = 0; i < subdyforms.length; i++) {
+				DyForm subdyform = subdyforms[i];
+				if (subformmode == null) {
+					issubedit = true;
+				} else if (subformmode.containsKey(-1)) {
+					String submode = (String) subformmode.get(-1);
+					if ("0".equals(submode)) {// 编辑
+						issubedit = true;
+						issubhidden = false;
+					} else if ("1".equals(submode)) {// 只读
+						issubedit = false;
+						issubhidden = false;
+					} else if ("2".equals(submode)) {// 隐藏
+						issubhidden = true;
+					} else {
+						issubedit = true;
+						issubhidden = false;
+					}
+				} else {
+					String submode = (String) subformmode.get(i);
+					if ("0".equals(submode)) {// 编辑
+						issubedit = true;
+						issubhidden = false;
+					} else if ("1".equals(submode)) {// 只读
+						issubedit = false;
+						issubhidden = false;
+					} else if ("2".equals(submode)) {// 隐藏
+						issubhidden = true;
+					} else {
+						issubedit = true;
+						issubhidden = false;
+					}
+				}
+
+				if (issubedit == null)
+					issubedit = true;
+
+				// 特殊处理
+				if (isedit == false)
+					issubedit = false;
+
+				String submode = subdyform.getSubmode();
+				if ("2".equals(submode)) {// 2:链接展示-多条子表单记录(需要保存主表单)
+					ids = "frame" + DyFormBuildHtmlExt.uuid();
+					listmaps.add(getJsMap(DyFormBuildHtmlExt.buildLinkForm(
+							subdyform, lsh, issubedit, userinfo, submode,
+							workcode, naturalname, parameter, user), ids,
+							DyFormComp
+									.getExtPanel(ids, null, null, ids, "", ""),
+							"center"));
+				} else if ("3".equals(submode)) {// 3:链接展示-单子表单记录(需要保存主表单、且系统控制只能一条)
+					ids = "frame" + DyFormBuildHtmlExt.uuid();
+					listmaps.add(getJsMap(DyFormBuildHtmlExt.buildLinkForm(
+							subdyform, lsh, issubedit, userinfo, submode,
+							workcode, naturalname, parameter, user), ids,
+							DyFormComp
+									.getExtPanel(ids, null, null, ids, "", ""),
+							"center"));
+				} else if ("4".equals(submode)) {// 4:集成展示-单子表单记录(系统控制只能一条)
+					ids = "frame" + DyFormBuildHtmlExt.uuid();
+					listmaps.add(getJsMap(DyFormBuildHtmlExt.buildForm(
+							subdyform, issubedit, userinfo, naturalname, lsh,
+							true, true, parameter, user), ids, DyFormComp
+							.getExtPanel(ids, subdyform.getFormname(), null,
+									ids, "", ""), "center"));
+				} else if ("5".equals(submode)) {// 5:集成展示-单子表单记录(系统控制只能一条)
+					// 不显示标题
+					ids = "frame" + DyFormBuildHtmlExt.uuid();
+					listmaps.add(getJsMap(DyFormBuildHtmlExt.buildForm(
+							subdyform, issubedit, userinfo, naturalname, lsh,
+							true, false, parameter, user), ids, DyFormComp
+							.getExtPanel(ids, null, null, ids, "", ""),
+							"center"));
+				} else if ("1".equals(submode)) {// 1:集成展示-多条子表单记录（默认模式）
+					ids = subdyform.getFormcode();
+
+					Map subformmap = DyFormBuildHtmlExt.buildSubForm_(
+							subdyform, lsh, isedit, userinfo, parameter, user);
+					listmaps.add(getJsMap(subformmap.get("html").toString(),
+							ids, DyFormComp.getExtPanel(ids, null, "", ids, "",
+									subformmap.get("js").toString()
+											+ ",autoScroll:true"), "center"));
+
+				} else if ("6".equals(submode)) {// 6:集成展示-主表单右边表单
+					ids = "frame" + DyFormBuildHtmlExt.uuid();
+					listmaps.add(getJsMap(DyFormBuildHtmlExt.buildFormMode6(
+							subdyform, isedit, userinfo, naturalname, lsh,
+							true, false, parameter, user), ids, DyFormComp
+							.getExtPanel(ids, "", null, ids, "", ""), "east"));
+				} else if ("7".equals(submode)) {// 7:集成展示-多条子表单记录(选项卡模式)
+					ids = subdyform.getFormcode();
+					Map subformmap = DyFormBuildHtmlExt.buildSubForm_(
+							subdyform, lsh, isedit, userinfo, parameter, user);
+					formname.add(subdyform.getFormname() + "("
+							+ subformmap.get("count") + ")");
+					formlist.add(getJsMap(subformmap.get("html").toString(),
+							ids, DyFormComp.getExtPanel(ids, null, null, ids,
+									"", subformmap.get("js").toString()
+											+ ",autoScroll:true"), "mode7"));
+
+				} else if ("8".equals(submode)) {// 8:集成展示-单条子表单记录(选项卡模式)
+					ids = "frame" + DyFormBuildHtmlExt.uuid();
+
+					formname.add(subdyform.getFormname());
+					formlist.add(getJsMap(DyFormBuildHtmlExt.buildForm(
+							subdyform, issubedit, userinfo, naturalname, lsh,
+							true, true, parameter, user), ids, "", "mode8"));
+				} else {
+					// not do
+				}
+			}
+			// 最终输出7,8 选项卡模式
+			if (formlist.size() > 0) {
+				ids = "frame" + DyFormBuildHtmlExt.uuid();
+				listmaps.add(getJsMap(DyFormComp.getExtTabs_(ids, formname,
+						formlist), ids, DyFormComp.getExtPanel(ids, null, "$"
+						+ ids, null, "", ""), "center"));
+			}
+		}
+
+		// // 附件
+		// ids = "frame" + DyFormBuildHtmlExt.uuid();
+		// StringBuffer fileframe = new StringBuffer();
+		// fileframe.append("<iframe id='fileMainFrame' name='fileMainFrame' ");
+		// fileframe.append(" src='/scm/file.do?method=onMainView&d_unid=" + lsh
+		// + "' ");
+		// fileframe.append(" scrolling='auto' frameborder='0' ");
+		// fileframe.append(" style='width:900px;'> ");
+		// fileframe.append("</iframe>");
+		//
+		// listmaps.add(getJsMap(fileframe.toString(), ids, DyFormComp
+		// .getExtPanel(ids, null, null, ids, "", ""), "center"));
+		// //end 附件
+
+		// 表单重新布局排版
+		StringBuffer layoutcenter = new StringBuffer();
+		StringBuffer layouteast = new StringBuffer();
+		StringBuffer layoutwest = new StringBuffer();
+		StringBuffer layoutsouth = new StringBuffer();
+		StringBuffer layoutnorth = new StringBuffer();
+
+		for (Iterator iterator = listmaps.iterator(); iterator.hasNext();) {
+			Map map = (Map) iterator.next();
+			String form = (String) map.get("form");
+			String id = (String) map.get("id");
+			String extjs = (String) map.get("extjs");
+			String mode = (String) map.get("mode");
+
+			html.append(form + extjs);
+			if ("center".equals(mode)) {
+				layoutcenter.append("$" + id + ",");
+			} else if ("east".equals(mode)) {
+				layouteast.append("$" + id + ",");
+			} else if ("west".equals(mode)) {
+				layoutwest.append("$" + id + ",");
+			} else if ("south".equals(mode)) {
+				layoutsouth.append("$" + id + ",");
+			} else if ("north".equals(mode)) {
+				// layoutnorth.append(id + ",");
+			}
+
+		}
+
+		String center = DyFormComp.getExtPanelAttr("center", "center", "panel",
+				StringUtils.substringBeforeLast(layoutcenter.toString(), ","),
+				"", "");
+		String east = DyFormComp
+				.getExtPanelAttr(
+						"east",
+						"east",
+						"panel",
+						StringUtils.substringBeforeLast(layouteast.toString(),
+								","),
+						"",
+						"title:\"操作选项\",split:true,width:200,collapsible: true,frame:true,titleCollapse:true,animCollapse:true,collapseFirst:true");
+		String west = DyFormComp.getExtPanelAttr("west", "west", "panel",
+				StringUtils.substringBeforeLast(layoutwest.toString(), ","),
+				"", "");
+		String south = DyFormComp.getExtPanelAttr("south", "south", "panel",
+				StringUtils.substringBeforeLast(layoutsouth.toString(), ","),
+				null, "");
+		// String north = layoutnorth.toString().substring(0,
+		// layoutnorth.length() - 1);
+
+		StringBuffer btnStr = new StringBuffer();
+
+		// 按钮控制
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(dyform.getFormcode());
+		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+		List formlist = rs.fetchResource(upo, map);
+		if (formlist.size() != 1) {
+			throw new RuntimeException("存在表单异常定义");
+		}
+		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
+				.getNaturalname();
+		if (SecurityEntry.iv().permission(user.getUserCode(),
+				naturalname_dyform + ".MODI")) {
+			btnStr
+					.append("{text:' 保 存 ',id:'ext_b_add',iconCls:'addIcon',handler:function(){ _save();}},");
+		}
+		if (SecurityEntry.iv().permission(user.getUserCode(),
+				naturalname_dyform + ".ADD")) {
+			btnStr
+					.append("{text:' 继续添加 ',id:'ext_b_add_continue',iconCls:'addIcon',handler:function(){ _continueAdd();}},");
+		}
+		if (SecurityEntry.iv().permission(user.getUserCode(),
+				naturalname_dyform + ".DELE")) {
+			btnStr
+					.append("{text:' 删 除 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},");
+		}
+		btnStr
+				.append("{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},");
+		btnStr
+				.append("{text:' 关 闭 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}");
+
+		String north = DyFormComp.getExtPanelAttr("north", "north", "toolbar",
+				btnStr.toString(), null, "");
+		String viewport = DyFormComp.getExtBorderViewport(center, east, west,
+				south, north);
+		// System.out.println("--------");
+		// System.out.println(html.toString() + viewport);
+		// System.out.println("--------");
+		return html.toString() + viewport;
+	}
+
+	private String loadExt_(DyForm dyform, boolean isedit, Map subformmode,
 			String userinfo, String workcode, String naturalname, String lsh,
 			String parameter, User user) throws Exception {
 		StringBuffer html = new StringBuffer();

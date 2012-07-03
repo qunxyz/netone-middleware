@@ -514,7 +514,7 @@ html.VIE7 .form_fieldinput {
 													</option>
 													<c:forEach items="${list}" var="list">
 													<option value="${list.column4}" >
-														${list.column5}
+														${list.column3}
 													</option>
 													</c:forEach>
 												</select>

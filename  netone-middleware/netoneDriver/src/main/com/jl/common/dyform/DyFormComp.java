@@ -586,13 +586,15 @@ public final class DyFormComp {
 				"renderer:function todo(value, cellmeta, record, rowIndex, columnIndex, store){",
 				"}", jshtml.toString());
 	}
-	
-	public static String getJsFileHref(String columnid, String valuelist,String title) {
+
+	public static String getJsFileHref(String columnid, String valuelist,
+			String title) {
 
 		StringBuffer jshtml = new StringBuffer();
 		jshtml.append("var pre = store.getAt(rowIndex).get('" + columnid
 				+ "') ;");
-		jshtml.append("var url = '<a target=\"_blank\" href=\""+valuelist+"'+pre+'\" >"+title+"</a> ';");
+		jshtml.append("var url = '<a target=\"_blank\" href=\"" + valuelist
+				+ "'+pre+'\" >" + title + "</a> ';");
 		jshtml.append("return url;");
 
 		return getTag(
@@ -1701,7 +1703,7 @@ public final class DyFormComp {
 				+ getTag("<script type=\"text/javascript\">", "</script>\n",
 						tabshtml.toString());
 	}
-	
+
 	/**
 	 * 获取Ext选项卡
 	 * 
@@ -2328,28 +2330,25 @@ public final class DyFormComp {
 			String onclickAddFunctionname) {
 		StringBuffer script = new StringBuffer();
 
-		// script.append("var gr =
-		// jQuery('#"+tableid+"').jqGrid('getGridParam','selrow'); \n");
-		// script.append("if( gr != null ) $('#'+gr).remove(); \n");
-		// script.append("else alert('请选择行删除!'); \n");
+		script.append("var gr =jQuery('#" + tableid
+				+ "').jqGrid('getGridParam','selrow'); \n");
+		script.append("if( gr == null ) {alert('请选择行删除!');return;} \n");
 
-		script.append("$('#" + tableid + "').find('tr').each(function(){");
-		script.append("	if ($(this).attr('id')!=''){");
-		script.append("	var trid = $(this).attr('id');");
+		script.append("var arr=new Array();\n");
+		script.append("	var selectedRowIds = $('#" + tableid
+				+ "').jqGrid('getGridParam','selarrrow');");
+		script.append("		for(var xx = 0;xx < selectedRowIds.length;xx++) {");
+		script.append("		arr.push(selectedRowIds[xx]);");
+		script.append("		} \n");
 
-		script.append(" if($('#'+trid).find('input:checkbox').attr('checked') == 'checked'){\n");
-		script.append("			$('#'+trid).remove();");
-		script.append("	}");
-		
-		
-		script.append("	}");
-		script.append("});");
+		script.append("$.each(arr, function(index,callback){");
+		script.append("	$('#" + tableid
+				+ "').jqGrid('delRowData', arr[index]);");
+		script.append(" }); \n");
 
 		// 若无记录 添加新记录
 		script.append("if ($('#" + tableid + " tr').size()==1){");
 		script.append(onclickAddFunctionname + "();");
-		
-		
 		script.append("}");
 
 		return script.toString();

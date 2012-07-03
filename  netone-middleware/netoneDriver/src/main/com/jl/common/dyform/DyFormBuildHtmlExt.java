@@ -152,8 +152,7 @@ public final class DyFormBuildHtmlExt {
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			return null;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
-			return DyFormComp.getHref("管理", "管理", value, "",
-					"_blank");
+			return DyFormComp.getHref("管理", "管理", value, "", "_blank");
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
@@ -284,8 +283,7 @@ public final class DyFormBuildHtmlExt {
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			return null;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
-			return DyFormComp.getHref("管理", "管理", value, "",
-					"_blank");
+			return DyFormComp.getHref("管理", "管理", value, "", "_blank");
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
@@ -525,8 +523,7 @@ public final class DyFormBuildHtmlExt {
 				return DyFormComp.getJsFileHref(value, "", "管理");
 			}
 			value = htmEncode(value);
-			return DyFormComp.getHref("管理", "管理", value, "",
-					"_blank");
+			return DyFormComp.getHref("管理", "管理", value, "", "_blank");
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			if ("ext".equals(type)) {
 				return null;
@@ -894,7 +891,7 @@ public final class DyFormBuildHtmlExt {
 
 		return datas.toString();
 	}
-	
+
 	protected static String buildNullDatas(DyFormData data,
 			DyFormColumn[] _formx, Map<String, DyFormColumn> columnmap,
 			Map<String, DyFormColumn> columnmapx, boolean isedit,
@@ -925,7 +922,8 @@ public final class DyFormBuildHtmlExt {
 							.getColumnid(), "" + value, "width:98%;", "",
 							column.isReadonly(), column.getValuelist(), "",
 							userinfo, parameter, column.getDefaultValue());
-					datas.append(split + "'&nbsp;"+column.getColumname()+"':'" + comp + "'");
+					datas.append(split + "'&nbsp;" + column.getColumname()
+							+ "':'" + comp + "'");
 					split = ",";
 
 				}
@@ -2041,8 +2039,9 @@ public final class DyFormBuildHtmlExt {
 		String onclickAddFunctionname = "$ADD_" + uuid();
 		String onclickRemoveFunctionname = "$REMOVE_" + uuid();
 
-		String datas_config= buildNullDatas(new DyFormData(), _formx, columnmap, columnmapx, isedit, userinfo, parameter);
-		
+		String datas_config = buildNullDatas(new DyFormData(), _formx,
+				columnmap, columnmapx, isedit, userinfo, parameter);
+
 		String addrowscript = "onclick='" + onclickAddFunctionname + "();'";
 		String removerowscript = "onclick='" + onclickRemoveFunctionname
 				+ "();'";
@@ -2065,8 +2064,9 @@ public final class DyFormBuildHtmlExt {
 				+ "').html();nulltr=nulltr.replace('_TR_UUID_',makeUUID());nulltr=nulltr.replace('_BTN_UUID',makeUUID());";
 		btnstr.append("<script> $('body').append('<div id=\"htmlcache"
 				+ htmlcacheid + "\" style=\"display:none;\"></div>');function "
-				+ onclickAddFunctionname + "(){var datas_config = " + datas_config
-				+ ";$('#"+formcode+"').jqGrid('addRowData',makeUUID(), datas_config);}");
+				+ onclickAddFunctionname + "(){var datas_config = "
+				+ datas_config + ";$('#" + formcode
+				+ "').jqGrid('addRowData',makeUUID(), datas_config);}");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");
 		btnstr.append(DyFormComp.deleteRow_(formcode, onclickAddFunctionname));
 		btnstr.append("}");
@@ -2074,10 +2074,11 @@ public final class DyFormBuildHtmlExt {
 
 		String TableExtProperties_ = " style=\"width:900px;word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
 
-		String html_ = "<div style='width:900px;'>"+DyFormComp.getTable(formcode, "<thead>"
-				+ theadhtml.toString() + "</thead>" + "<tbody>"
-				+ html.toString() + "</tbody>", dyform.getStyleinfo_(), "", 0,
-				TableExtProperties_)+"</div>";
+		String html_ = "<div style='width:900px;'>"
+				+ DyFormComp.getTable(formcode, "<thead>"
+						+ theadhtml.toString() + "</thead>" + "<tbody>"
+						+ html.toString() + "</tbody>", dyform.getStyleinfo_(),
+						"", 0, TableExtProperties_) + "</div>";
 		String html_btn = "";
 		if (isedit) {
 			String btnstr_ = DyFormComp.getTr("", DyFormComp.getTd("", btnstr
@@ -2096,7 +2097,7 @@ public final class DyFormBuildHtmlExt {
 
 		htmlall.append(eventListenScripts.toString()
 		// + "<div style=\"overflow-x:scroll; overflow-y:hidden;
-		// width:900px;\">"
+				// width:900px;\">"
 				+ html_ + html_btn
 		// + "</div>"
 				);
@@ -2152,7 +2153,13 @@ public final class DyFormBuildHtmlExt {
 		// tablejs.append(" 'sDom':\"<'dataTables_length'>frtip\" \n");
 		// tablejs.append(" }); \n");
 
-		tablejs.append("tableToGrid('table#" + formcode + "');$('table#" + formcode + "').setGridWidth(900); \n");
+		tablejs.append("tableToGrid('table#" + formcode + "');$('table#"
+				+ formcode + "').setGridWidth(900); \n");
+
+		tablejs
+				.append("jQuery('table#"
+						+ formcode
+						+ "').jqGrid('gridResize',{minWidth:350,maxWidth:2000,minHeight:80, maxHeight:1000});");
 
 		Map mapx = new HashMap();
 		mapx.put("html", DyFormComp

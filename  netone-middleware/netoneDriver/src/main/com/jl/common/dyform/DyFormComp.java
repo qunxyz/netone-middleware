@@ -1659,6 +1659,56 @@ public final class DyFormComp {
 	 * @param formlist
 	 * @return
 	 */
+	public static String getExtTabs_(String uid, List<String> formname,
+			List<Map> formlist) {
+		StringBuffer tabshtml = new StringBuffer();
+		StringBuffer html = new StringBuffer();
+		if (formlist.size() > 0) {
+
+			String split = "";
+			StringBuffer items = new StringBuffer();
+			for (int i = 0; i < formlist.size(); i++) {
+				Map map = (Map) formlist.get(i);
+				String form = (String) map.get("form");
+				String id = (String) map.get("id");
+				String extjs = (String) map.get("extjs");
+				String mode = (String) map.get("mode");
+				html.append(form + extjs);
+
+				// if ("mode7".equals(mode)) {
+				items
+						.append(split
+								+ "{listeners:{show:function(tab){  } },autoHeight:true,contentEl:\""
+								+ "" + id + "_form" + "\", title:'"
+								+ formname.get(i) + "'}");
+
+				// items.append(split + "{autoHeight:true,html:'"+i+"', title:'"
+				// + formname.get(i) + "'}");
+
+				split = ",";
+				// } else if ("mode8".equals(mode)) {
+				// items.append(split + "{autoHeight:true,contentEl:'" + "$"
+				// + id + "', title:'" + formname.get(i) + "'}");
+				// split = ",";
+				// }
+			}
+			if (items.length() > 0) {
+				tabshtml.append(getExtTreepanel(uid, items.toString()));
+			}
+		}
+		return html.toString()
+				+ "\n"
+				+ getTag("<script type=\"text/javascript\">", "</script>\n",
+						tabshtml.toString());
+	}
+	
+	/**
+	 * 获取Ext选项卡
+	 * 
+	 * @param formname
+	 * @param formlist
+	 * @return
+	 */
 	public static String getExtTabs(String uid, List<String> formname,
 			List<Map> formlist) {
 		StringBuffer tabshtml = new StringBuffer();
@@ -1937,6 +1987,20 @@ public final class DyFormComp {
 			script = StringUtils.replace(script, "$(currform)",
 					"$(this).parent().parent()");
 
+		}
+
+		return getTag("<script type=\"text/javascript\">$(function() {",
+				"});</script>\n", script);
+	}
+
+	/**
+	 * 
+	 * @param script
+	 * @return
+	 */
+	public static String getJqueryFunctionScript_(String script) {
+		if (StringUtils.isEmpty(script)) {
+			return "";
 		}
 
 		return getTag("<script type=\"text/javascript\">$(function() {",
@@ -2255,6 +2319,37 @@ public final class DyFormComp {
 		// 若无记录 添加新记录
 		script.append("if ($('#" + tableid + " tr').size()==2){");
 		script.append(onclickAddFunctionname + "();");
+		script.append("}");
+
+		return script.toString();
+	}
+
+	public static String deleteRow_(String tableid,
+			String onclickAddFunctionname) {
+		StringBuffer script = new StringBuffer();
+
+		// script.append("var gr =
+		// jQuery('#"+tableid+"').jqGrid('getGridParam','selrow'); \n");
+		// script.append("if( gr != null ) $('#'+gr).remove(); \n");
+		// script.append("else alert('请选择行删除!'); \n");
+
+		script.append("$('#" + tableid + "').find('tr').each(function(){");
+		script.append("	if ($(this).attr('id')!=''){");
+		script.append("	var trid = $(this).attr('id');");
+
+		script.append(" if($('#'+trid).find('input:checkbox').attr('checked') == 'checked'){\n");
+		script.append("			$('#'+trid).remove();");
+		script.append("	}");
+		
+		
+		script.append("	}");
+		script.append("});");
+
+		// 若无记录 添加新记录
+		script.append("if ($('#" + tableid + " tr').size()==1){");
+		script.append(onclickAddFunctionname + "();");
+		
+		
 		script.append("}");
 
 		return script.toString();

@@ -152,20 +152,21 @@ public final class DyFormBuildHtmlExt {
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			return null;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
-			return DyFormComp.getHref("管理", "管理", projectname+"/file.do?method=onMainView&d_unid="+value, "", "_blank");
+			return DyFormComp.getHref("管理", "管理", value, "",
+					"_blank");
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[11][0] + "&naturalname="
+					single_select + "&type=" + arr[14][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[15][0].equals(htmltype)) {// 18:多选资源
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[12][0] + "&naturalname="
+					multi_select + "&type=" + arr[15][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[16][0].equals(htmltype)) {// 20:PORTAL项
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[13][0] + "&naturalname="
+					single_select + "&type=" + arr[16][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[17][0].equals(htmltype)) {// 21:多彩文档
 			value = htmEncode2(value);
@@ -173,11 +174,11 @@ public final class DyFormBuildHtmlExt {
 					readonly, "");
 		} else if (arr[18][0].equals(htmltype)) {// 22:组织人员单选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[15][0] + "&naturalname="
+					single_select + "&type=" + arr[18][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[19][0].equals(htmltype)) {// 23:组织人员多选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[16][0] + "&naturalname="
+					multi_select + "&type=" + arr[19][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[20][0].equals(htmltype)) {// 24:当前人员
 			String userinfo_ = "";
@@ -205,11 +206,11 @@ public final class DyFormBuildHtmlExt {
 					readonly, selectedvalue, extvalue);
 		} else if (arr[23][0].equals(htmltype)) {// 27:组织机构单选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[20][0] + "&naturalname="
+					single_select + "&type=" + arr[23][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[24][0].equals(htmltype)) {// 28:组织机构多选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[21][0] + "&naturalname="
+					multi_select + "&type=" + arr[24][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[25][0].equals(htmltype)) {// 29:URL
 			return DyFormComp.getIframe(id, value, style, classname, readonly,
@@ -283,20 +284,21 @@ public final class DyFormBuildHtmlExt {
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			return null;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
-			return DyFormComp.getHref("管理", "管理", projectname+"/file.do?method=onMainView&d_unid="+value, "", "_blank");
+			return DyFormComp.getHref("管理", "管理", value, "",
+					"_blank");
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[11][0] + "&naturalname="
+					single_select + "&type=" + arr[14][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[15][0].equals(htmltype)) {// 18:多选资源
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[12][0] + "&naturalname="
+					multi_select + "&type=" + arr[15][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[16][0].equals(htmltype)) {// 20:PORTAL项
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[13][0] + "&naturalname="
+					single_select + "&type=" + arr[16][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[17][0].equals(htmltype)) {// 21:多彩文档
 			value = htmEncode2(value);
@@ -304,11 +306,11 @@ public final class DyFormBuildHtmlExt {
 					.getText(id, value, style, classname, readonly, "");
 		} else if (arr[18][0].equals(htmltype)) {// 22:组织人员单选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[15][0] + "&naturalname="
+					single_select + "&type=" + arr[18][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[19][0].equals(htmltype)) {// 23:组织人员多选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[16][0] + "&naturalname="
+					multi_select + "&type=" + arr[19][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[20][0].equals(htmltype)) {// 24:当前人员
 			String userinfo_ = "";
@@ -333,11 +335,11 @@ public final class DyFormBuildHtmlExt {
 					readonly, selectedvalue, extvalue);
 		} else if (arr[23][0].equals(htmltype)) {// 27:组织机构单选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[20][0] + "&naturalname="
+					single_select + "&type=" + arr[23][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[24][0].equals(htmltype)) {// 28:组织机构多选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[21][0] + "&naturalname="
+					multi_select + "&type=" + arr[24][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[25][0].equals(htmltype)) {// 29:URL
 			return DyFormComp.getText(id, value, style, classname, readonly,
@@ -520,11 +522,11 @@ public final class DyFormBuildHtmlExt {
 			return value;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
 			if ("ext".equals(type)) {
-				return DyFormComp.getJsFileHref(value,projectname+ "/file.do?method=onMainView&d_unid=","管理");
+				return DyFormComp.getJsFileHref(value, "", "管理");
 			}
 			value = htmEncode(value);
-			return DyFormComp.getHref("管理", "管理", projectname
-					+ "/file.do?method=onMainView&d_unid="+value, "", "_blank");
+			return DyFormComp.getHref("管理", "管理", value, "",
+					"_blank");
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			if ("ext".equals(type)) {
 				return null;
@@ -761,7 +763,7 @@ public final class DyFormBuildHtmlExt {
 							""));
 				} else {
 					boolean isSelect_ = checkSelect_(column.getViewtype());
-					String style = "width:95%;";
+					String style = "width:98%;";
 					if (isSelect_) {
 						style = "width:80%;";
 					}
@@ -830,7 +832,7 @@ public final class DyFormBuildHtmlExt {
 					// if (isSelect_) {
 					// style = "width:80%;";
 					// }
-					String style = "width:99%;";
+					String style = "width:98%;";
 					// if (column.getWidth() <= 0) {
 					// style = "width:100px;";
 					// }
@@ -879,7 +881,7 @@ public final class DyFormBuildHtmlExt {
 				} else {
 
 					String comp = routeAppointComp(column.getViewtype(), column
-							.getColumnid(), "" + value, "width:99%;", "",
+							.getColumnid(), "" + value, "width:98%;", "",
 							column.isReadonly(), column.getValuelist(), "",
 							userinfo, parameter, column.getDefaultValue());
 					datas.append(split + "'" + comp + "'");
@@ -889,6 +891,47 @@ public final class DyFormBuildHtmlExt {
 			}
 		}
 		datas.append("]");
+
+		return datas.toString();
+	}
+	
+	protected static String buildNullDatas(DyFormData data,
+			DyFormColumn[] _formx, Map<String, DyFormColumn> columnmap,
+			Map<String, DyFormColumn> columnmapx, boolean isedit,
+			String userinfo, String parameter) throws Exception {
+		data = data == null ? new DyFormData() : data;
+		StringBuffer datas = new StringBuffer();
+		datas.append("{");
+		String split = "";
+		for (int i = 0; i < _formx.length; i++) {
+			String _col = _formx[i].getColumnid();
+			if (_formx[i].isHidden() == false) {
+
+				String value = BeanUtils.getProperty(data, _col);
+				value = value == null ? "" : value;
+				value = "null".equals(value) ? "" : value;
+				DyFormColumn column = columnmapx.get(_col);
+				Double wpercent = column.getWpercent();
+
+				if (isedit == false) {
+					datas.append(split
+							+ "'"
+							+ routeAppointValue(column.getViewtype(), ""
+									+ value + "'", column.getValuelist()));
+					split = ",";
+				} else {
+
+					String comp = routeAppointComp(column.getViewtype(), column
+							.getColumnid(), "" + value, "width:98%;", "",
+							column.isReadonly(), column.getValuelist(), "",
+							userinfo, parameter, column.getDefaultValue());
+					datas.append(split + "'&nbsp;"+column.getColumname()+"':'" + comp + "'");
+					split = ",";
+
+				}
+			}
+		}
+		datas.append("}");
 
 		return datas.toString();
 	}
@@ -942,7 +985,7 @@ public final class DyFormBuildHtmlExt {
 			if (_formx[i].isHidden() == false) {
 
 				String comp = routeAppointComp(_qc1.getViewtype(), _qc1
-						.getColumnid(), "", "width:99%;", "",
+						.getColumnid(), "", "width:98%;", "",
 						_qc1.isReadonly(), _qc1.getValuelist(), "", userinfo,
 						parameter, _qc1.getDefaultValue());
 				datas.append(split + "'" + _col + "':" + "'" + comp + "'");
@@ -981,7 +1024,7 @@ public final class DyFormBuildHtmlExt {
 									+ value + "", column.getValuelist())
 							+ "';}";
 				} else {
-					String style = "width:99%;";
+					String style = "width:98%;";
 
 					String comp = routeAppointComp(column.getViewtype(), column
 							.getColumnid(), "" + value, style, "", column
@@ -1346,8 +1389,8 @@ public final class DyFormBuildHtmlExt {
 					+ columnname
 					+ ((column.isMusk_() && isMusk_) == true ? "<span style=\"color:red\">*</span>"
 							: "") + "</div>" + _N;
-			_width = "99%;";
-			_width_input = "99%;";
+			_width = "98%;";
+			_width_input = "98%;";
 		} else {
 			html_ += "<div class=\""
 					+ FORM_FIELD_CAPTION
@@ -1599,7 +1642,7 @@ public final class DyFormBuildHtmlExt {
 	}
 
 	/**
-	 * 生成字段列表 
+	 * 生成字段列表
 	 * 
 	 * @param dyform
 	 * @param userinfo
@@ -1718,9 +1761,9 @@ public final class DyFormBuildHtmlExt {
 						+ hiddenlsh + html_) + _N;
 		return html_2;
 	}
-	
+
 	/**
-	 * 生成字段列表 
+	 * 生成字段列表
 	 * 
 	 * @param dyform
 	 * @param userinfo
@@ -1903,6 +1946,224 @@ public final class DyFormBuildHtmlExt {
 		return html.toString();
 	}
 
+	public static Map buildSubForm_(DyForm subdyform, String fatherlsh,
+			boolean isedit, String userinfo, String parameter, User user)
+			throws Exception {
+		StringBuffer htmlall = new StringBuffer();
+		StringBuffer eventListenScripts = new StringBuffer();// 事件监听脚本
+		StringBuffer html = new StringBuffer();
+		StringBuffer theadhtml = new StringBuffer();
+		DyForm dyform = subdyform;
+		String formcode = dyform.getFormcode();
+
+		// 展示表单字段-针对表单中的相关字段
+		DyFormColumn _formx[] = dyform.getAllColumn_();
+		Arrays.sort(_formx, getFormComparator());// 排序
+		Map<String, DyFormColumn> columnmapx = getDyFormColumnById(_formx);// 映射
+
+		StringBuffer td = new StringBuffer();
+		Map<String, DyFormColumn> columnmap = new HashMap<String, DyFormColumn>();
+		int colspan = 1;
+
+		if (isedit == true) {
+			td.append(DyFormComp.getTh(formcode + DyFormComp._CHECK_NAME,
+					DyFormComp
+							.getCheckbox(formcode + "_btn", "", "", "", false),
+					"width:1%;" + TableTdStyle2, "", ""));// 全选/清除按钮
+		}
+
+		htmlall.append(DyFormComp.getClickEventScript("$(\"#" + formcode
+				+ "_btn\")", DyFormComp.getSelectOrUnselectAll(formcode)));
+
+		for (int i = 0; i < _formx.length; i++) {
+			DyFormColumn _qc1 = _formx[i];
+			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
+			String columnid = _qc1.getColumnid();
+			// 字段名（中文）
+			String columnname = _qc1.getColumname();
+
+			// 是否隐蔽
+			boolean hidden = _qc1.isHidden();
+
+			if (hidden == false) {
+				columnmap.put(columnid, _qc1);
+				String musktip = _qc1.isMusk_() == true ? "<span style=\"color:red\">*</span>"
+						: "";
+
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
+					td.append(DyFormComp.getTh("", "&nbsp;" + columnname
+							+ musktip, TableTdStyle2, TABLE_TD_HEADER, ""));
+					++colspan;
+				}
+				eventListenScripts
+						.append(DyFormComp.getLiveEventScript("$('table#"
+								+ formcode + "').find('#" + columnid + "')",
+								_qc1.getInitScript(), _qc1.getFocusScript(),
+								_qc1.getLoseFocusScript(), _qc1
+										.getOnchangeScript()));// 添加事件监听
+
+			}
+		}
+
+		// html.append(DyFormComp.getTr("", DyFormComp.getTd("", "&nbsp;"
+		// + dyform.getFormname(), TableTdStyle2, TABLE_TD_TITLE,
+		// "align=\"left\" colspan=\"" + colspan + "\""), "",
+		// TABLE_TR_TITLE, "align=\"left\""));// 标题
+		theadhtml.append(DyFormComp.getTr("", td.toString(), "",
+				TABLE_TR_HEADER, ""));// 表头
+
+		// 数据
+		DyFormData dydata = new DyFormData();
+		dydata.setFormcode(formcode);
+		dydata.setFatherlsh(fatherlsh);
+		List list = new ArrayList();
+		// if (StringUtils.isNotEmpty(fatherlsh)) {
+		list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
+		// }
+
+		if (list.size() > 0) {// 有记录
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				DyFormData data = (DyFormData) iterator.next();
+				html.append(buildTr(uuid(), formcode, false, data, _formx,
+						columnmap, columnmapx, isedit, userinfo, parameter));
+			}
+		} else {// 无记录
+			for (int i = 0; i < 7; i++) {
+				html.append(buildTr(uuid(), formcode, false, null, _formx,
+						columnmap, columnmapx, isedit, userinfo, parameter));
+			}
+
+		}
+
+		String nulltr = buildTr(uuid() + "_TR_UUID_", formcode, false, null,
+				_formx, columnmap, columnmapx, isedit, userinfo, parameter);
+		String onclickAddFunctionname = "$ADD_" + uuid();
+		String onclickRemoveFunctionname = "$REMOVE_" + uuid();
+
+		String datas_config= buildNullDatas(new DyFormData(), _formx, columnmap, columnmapx, isedit, userinfo, parameter);
+		
+		String addrowscript = "onclick='" + onclickAddFunctionname + "();'";
+		String removerowscript = "onclick='" + onclickRemoveFunctionname
+				+ "();'";
+
+		StringBuffer btnstr = new StringBuffer();
+		btnstr.append(DyFormComp.getButton("", "新增行", "", "btn", false,
+				addrowscript)
+				+ _N);
+		btnstr.append(DyFormComp.getButton("", "删除行", "", "btn", false,
+				removerowscript)
+				+ _N);
+		nulltr = nulltr.replaceAll("\"", "\'");
+		String htmlcacheid = uuid();
+		String xhtml = "$('#htmlcache"
+				+ htmlcacheid
+				+ "').html(\""
+				+ nulltr
+				+ "\");var nulltr=$('#htmlcache"
+				+ htmlcacheid
+				+ "').html();nulltr=nulltr.replace('_TR_UUID_',makeUUID());nulltr=nulltr.replace('_BTN_UUID',makeUUID());";
+		btnstr.append("<script> $('body').append('<div id=\"htmlcache"
+				+ htmlcacheid + "\" style=\"display:none;\"></div>');function "
+				+ onclickAddFunctionname + "(){var datas_config = " + datas_config
+				+ ";$('#"+formcode+"').jqGrid('addRowData',makeUUID(), datas_config);}");
+		btnstr.append("function " + onclickRemoveFunctionname + "(){");
+		btnstr.append(DyFormComp.deleteRow_(formcode, onclickAddFunctionname));
+		btnstr.append("}");
+		btnstr.append("</script>");
+
+		String TableExtProperties_ = " style=\"width:900px;word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
+
+		String html_ = "<div style='width:900px;'>"+DyFormComp.getTable(formcode, "<thead>"
+				+ theadhtml.toString() + "</thead>" + "<tbody>"
+				+ html.toString() + "</tbody>", dyform.getStyleinfo_(), "", 0,
+				TableExtProperties_)+"</div>";
+		String html_btn = "";
+		if (isedit) {
+			String btnstr_ = DyFormComp.getTr("", DyFormComp.getTd("", btnstr
+					.toString(), TableTdStyle2, TABLE_TD_TITLE,
+					"align=\"left\" colspan=\"" + colspan + "\""), "",
+					TABLE_TR_TITLE, "align=\"left\"");// 按钮菜单
+
+			String btnstr_null = DyFormComp.getTr("", DyFormComp.getTd("",
+					"&nbsp;", "", "", "align=\"left\" colspan=\"" + colspan
+							+ "\""), "", "", "align=\"left\"");// null
+
+			html_btn = DyFormComp.getTable(formcode + "btn", btnstr_
+					+ btnstr_null, dyform.getStyleinfo_(), "", 0,
+					TableExtProperties);
+		}
+
+		htmlall.append(eventListenScripts.toString()
+		// + "<div style=\"overflow-x:scroll; overflow-y:hidden;
+		// width:900px;\">"
+				+ html_ + html_btn
+		// + "</div>"
+				);
+
+		StringBuffer tablejs = new StringBuffer();
+
+		// tablejs.append("$('table#"+formcode+"').ingrid({ \n");
+		// tablejs.append(" height: 350, \n");
+		// tablejs.append(" resizableCols: true, \n");
+		// tablejs.append(" paging: false, \n");
+		// tablejs.append(" sorting: false \n");
+		// tablejs.append("}); \n");
+
+		// tablejs.append("$('table#"+formcode+"').chromatable({ \n");
+		// tablejs.append(" width: '100%', \n");
+		// tablejs.append(" scrolling: 'yes' \n");
+		// tablejs.append("}); \n");
+
+		// tablejs.append("$('table#"+formcode+"').dataTable({ \n");
+		// tablejs.append(" 'sScrollY': '500px', \n");
+		// tablejs.append(" 'sScrollX': '100%', \n");
+		// tablejs.append(" 'sScrollXInner': '150%', \n");
+		// tablejs.append(" 'bScrollCollapse': true, \n");
+		// tablejs.append(" 'bPaginate': false, \n");
+		// tablejs.append(" 'bSort': false, \n");
+		//		
+		//		
+		// tablejs.append(" 'bLengthChange': false, \n");
+		// tablejs.append(" 'bFilter': false, \n");
+		// tablejs.append(" 'bInfo': false, \n");
+		// tablejs.append(" 'bAutoWidth': false, \n");
+
+		// tablejs.append(" 'bJQueryUI': true, \n");
+
+		// tablejs.append(" 'oLanguage': { \n");
+		// tablejs.append(" 'sProcessing': '加载中...', \n");
+		// tablejs.append(" /*'sLengthMenu': ' 显示_MENU_条记录',*/ \n");
+		// tablejs.append(" 'sZeroRecords': '没有找到记录!', \n");
+		// tablejs.append(" 'sInfo': '从_START_至_END_条记录 共_TOTAL_条记录', \n");
+		// tablejs.append(" 'sInfoEmpty': '从0条至0条记录 共0条记录', \n");
+		// tablejs.append(" 'sInfoFiltered': '(从_MAX_条记录过滤)', \n");
+		// tablejs.append(" 'sInfoPostFix': '', \n");
+		// tablejs.append(" 'sSearch': '查找:', \n");
+		// tablejs.append(" 'sUrl': '', \n");
+		// tablejs.append(" 'oPaginate': { \n");
+		// tablejs.append(" 'sFirst': '首页', \n");
+		// tablejs.append(" 'sPrevious': '上一页', \n");
+		// tablejs.append(" 'sNext': '下一页', \n");
+		// tablejs.append(" 'sLast': '末页' \n");
+		// tablejs.append(" } \n");
+		// tablejs.append(" }, \n");
+		// tablejs.append(" /*'sPaginationType': 'full_numbers',*/ \n");
+		// tablejs.append(" 'sDom':\"<'dataTables_length'>frtip\" \n");
+		// tablejs.append(" }); \n");
+
+		tablejs.append("tableToGrid('table#" + formcode + "');$('table#" + formcode + "').setGridWidth(900); \n");
+
+		Map mapx = new HashMap();
+		mapx.put("html", DyFormComp
+				.getJqueryFunctionScript_(tablejs.toString())
+				+ htmlall.toString());
+		mapx.put("count", list.size());
+		mapx.put("js", "");
+
+		return mapx;
+	}
+
 	public static String buildSubForm(DyForm subdyform, String fatherlsh,
 			boolean isedit, String userinfo, String parameter, User user)
 			throws Exception {
@@ -2011,7 +2272,7 @@ public final class DyFormBuildHtmlExt {
 				+ _N);
 		String xhtml = "var nulltr='"
 				+ nulltr
-				+ "';nulltr=nulltr.replace('$TR_UUID$',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
+				+ "';nulltr=nulltr.replace('$TR_UUID$',makeUUID());nulltr=nulltr.replace('_BTN_UUID',makeUUID());";
 		btnstr.append("<script> function " + onclickAddFunctionname + "(){"
 				+ xhtml + " $('#" + formcode + "').append(nulltr);} ");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");
@@ -2495,7 +2756,7 @@ public final class DyFormBuildHtmlExt {
 				String ext = "renderer:function operateRend( value , cellmeta , record , rowIndex , columnIndex , store ){ return '"
 						+ routeAppointComp(_qc1.getViewtype(), _qc1
 								.getColumnid(), "" + _qc1.getValuelist(),
-								"width:99%", "", _qc1.isReadonly(), _qc1
+								"width:98%", "", _qc1.isReadonly(), _qc1
 										.getValuelist(), "", "", "", _qc1
 										.getDefaultValue()) + "';}";
 				ext = null;

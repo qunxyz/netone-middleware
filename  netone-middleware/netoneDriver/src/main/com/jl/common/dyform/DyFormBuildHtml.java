@@ -145,15 +145,15 @@ public final class DyFormBuildHtml {
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[11][0] + "&naturalname="
+					single_select + "&type=" + arr[14][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[15][0].equals(htmltype)) {// 18:多选资源
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[12][0] + "&naturalname="
+					multi_select + "&type=" + arr[15][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[16][0].equals(htmltype)) {// 20:PORTAL项
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[13][0] + "&naturalname="
+					single_select + "&type=" + arr[16][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[17][0].equals(htmltype)) {// 21:多彩文档
 			value = htmEncode2(value);
@@ -161,11 +161,11 @@ public final class DyFormBuildHtml {
 					readonly, "");
 		} else if (arr[18][0].equals(htmltype)) {// 22:组织人员单选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[15][0] + "&naturalname="
+					single_select + "&type=" + arr[18][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[19][0].equals(htmltype)) {// 23:组织人员多选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[16][0] + "&naturalname="
+					multi_select + "&type=" + arr[19][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[20][0].equals(htmltype)) {// 24:当前人员
 			String userinfo_ = "";
@@ -193,11 +193,11 @@ public final class DyFormBuildHtml {
 					readonly, selectedvalue, extvalue);
 		} else if (arr[23][0].equals(htmltype)) {// 27:组织机构单选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[20][0] + "&naturalname="
+					single_select + "&type=" + arr[23][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[24][0].equals(htmltype)) {// 28:组织机构多选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[21][0] + "&naturalname="
+					multi_select + "&type=" + arr[24][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[25][0].equals(htmltype)) {// 29:URL
 			return DyFormComp.getIframe(id, value, style, classname, readonly,
@@ -276,15 +276,15 @@ public final class DyFormBuildHtml {
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[11][0] + "&naturalname="
+					single_select + "&type=" + arr[14][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[15][0].equals(htmltype)) {// 18:多选资源
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[12][0] + "&naturalname="
+					multi_select + "&type=" + arr[15][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[16][0].equals(htmltype)) {// 20:PORTAL项
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[13][0] + "&naturalname="
+					single_select + "&type=" + arr[16][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[17][0].equals(htmltype)) {// 21:多彩文档
 			value = htmEncode2(value);
@@ -292,11 +292,11 @@ public final class DyFormBuildHtml {
 					.getText(id, value, style, classname, readonly, "");
 		} else if (arr[18][0].equals(htmltype)) {// 22:组织人员单选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[15][0] + "&naturalname="
+					single_select + "&type=" + arr[18][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[19][0].equals(htmltype)) {// 23:组织人员多选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[16][0] + "&naturalname="
+					multi_select + "&type=" + arr[19][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[20][0].equals(htmltype)) {// 24:当前人员
 			String userinfo_ = "";
@@ -321,11 +321,11 @@ public final class DyFormBuildHtml {
 					readonly, selectedvalue, extvalue);
 		} else if (arr[23][0].equals(htmltype)) {// 27:组织机构单选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					single_select + "&type=" + arr[20][0] + "&naturalname="
+					single_select + "&type=" + arr[23][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[24][0].equals(htmltype)) {// 28:组织机构多选
 			return DyFormComp.getSelect_(id, value, style, classname, readonly,
-					multi_select + "&type=" + arr[21][0] + "&naturalname="
+					multi_select + "&type=" + arr[24][0] + "&naturalname="
 							+ selectedvalue, extvalue);
 		} else if (arr[25][0].equals(htmltype)) {// 29:URL
 			return DyFormComp.getText(id, value, style, classname, readonly,

@@ -21,6 +21,7 @@
 -->
 <script type="text/javascript" src="<%=jqueryUITabScriptPluginPath%>/jquery-ui/ui/minified/ui.core.min.js"></script>
 <script type="text/javascript" src="<%=jqueryUITabScriptPluginPath%>/jquery-ui/ui/minified/ui.tabs.min.js"></script>
+<script type="text/javascript" src="<%=jqueryUITabScriptPluginPath%>/jquery-ui/ui/minified/ui.resizable.min.js"></script>
 
 <style type="text/css">
 	/*demo page css*/

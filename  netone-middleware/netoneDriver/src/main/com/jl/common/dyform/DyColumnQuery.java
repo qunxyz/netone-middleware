@@ -125,6 +125,7 @@ public class DyColumnQuery {
 		UmsProtectedobject upo = new UmsProtectedobject();
 		upo.setExtendattribute(formcode);
 		upo.setParentdir(parentid);
+		System.out.println("---------"+formcode+","+parentid);
 		ResourceRmi rs = null;
 		try {
 			rs = (ResourceRmi) RmiEntry.iv("resource");
@@ -153,7 +154,7 @@ public class DyColumnQuery {
 				columnKey.put(object.getColumnid().toUpperCase(), columnnew);
 			}
 		}
-
+ 
 		UmsProtectedobject upjs = (UmsProtectedobject) listDate.get(0);
 		if (StringUtils.isNotEmpty(upjs.getActionurl())&&isExists(upjs.getActionurl(), "config")) {
 

@@ -84,6 +84,9 @@ public class GisPointSvl extends HttpServlet {
 			String tablename=StringUtils.substringAfterLast(naturalname, ".");
 			
 			String sql="select lsh,column5,column3,column4 from dyform."+tablename+ " where userid like '"+userid+"[%'";
+			if(StringUtils.isEmpty(userid)){
+				sql="select lsh,column5,column3,column4 from dyform."+tablename ;
+			}
 			//String sql="select lsh,column5,column3,column4 from dyform."+tablename;
 
 			list=DbTools.queryData(sql);
@@ -100,7 +103,7 @@ public class GisPointSvl extends HttpServlet {
 				double oy=Double.parseDouble(oysr);
 				double oz=GetDistance(xoff,yoff,ox,oy);
 				System.out.println("-----"+oxsr+","+oysr+","+oz);
-				if(oz<roff){//说明在指定半径内
+				if(oz<=roff){//说明在指定半径内
 					findPoint.add(object);
 				}
 			}

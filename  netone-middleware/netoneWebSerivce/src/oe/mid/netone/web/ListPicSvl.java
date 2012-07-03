@@ -1,33 +1,26 @@
 package oe.mid.netone.web;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.rmi.NotBoundException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-
+import oe.env.client.EnvService;
 import oe.rmi.client.RmiEntry;
-import oe.security3a.client.rmi.ResourceRmi;
 
 import com.jl.common.workflow.DbTools;
 
-/**
- * 获取所有用户
- * @author robanco
- *
- */
-public class AllUserSvl extends HttpServlet {
+public class ListPicSvl extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public AllUserSvl() {
+	public ListPicSvl() {
 		super();
 	}
 
@@ -43,20 +36,33 @@ public class AllUserSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		String id=request.getParameter("id");
+		String sql="select unid from iss.t_file where d_unid='"+id+"'";
+		List list=DbTools.queryData(sql);
+		EnvService env = null;
+		String value =null;
 		try {
-			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
-			String naturalname=request.getParameter("naturalname");
-			String systemid=rs.loadResourceByNatural(naturalname).getId();
-			String sql="select usercode,name from netone.t_cs_user where systemid='"+systemid+"'";
-			List user=DbTools.queryData(sql);
-			response.setContentType("text/html;charset=utf-8");
-			response.getWriter().print(JSONArray.fromObject(user).toString());
-		} catch (NotBoundException e) {
+			env = (EnvService) RmiEntry.iv("envinfo");
+			value = env.fetchEnvValue("WEBSER_APPFRAMEX");
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
+		StringBuffer but=new StringBuffer("<html><body>");
 		
+		but.append("<a href='"+value+"/file.do?method=onMainView&d_unid="+id+"' target='_blank'>[图片管理]</a><br>");
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map type = (Map) iterator.next();
+			String unid=(String)type.get("unid");
+			String url=value+"/file.do?method=onDownLoadFile&isOnLine=0&unid="+unid;
+			but.append("<img src='"+url+"'/><br>");
+		}
+		but.append("</body></html>");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().print(but.toString());
+
 	}
 
 	/**
@@ -71,21 +77,7 @@ public class AllUserSvl extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out
-				.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
-		out.println("<HTML>");
-		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
-		out.println("  <BODY>");
-		out.print("    This is ");
-		out.print(this.getClass());
-		out.println(", using the POST method");
-		out.println("  </BODY>");
-		out.println("</HTML>");
-		out.flush();
-		out.close();
+		doGet(request,response);
 	}
 
 }

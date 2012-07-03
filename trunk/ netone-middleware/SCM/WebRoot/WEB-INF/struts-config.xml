@@ -29,7 +29,9 @@
 		
 		<action path="/report"
 			type="com.jl.web.controller.ReportAction" parameter="method">
-			
+		</action>	
+		<action path="/reportx"
+			type="com.jl.web.controller.ReportXAction" parameter="method">
 		</action>	
 		
 		<!--

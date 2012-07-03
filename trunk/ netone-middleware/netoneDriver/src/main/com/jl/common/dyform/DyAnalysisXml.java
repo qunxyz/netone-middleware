@@ -101,8 +101,7 @@ public class DyAnalysisXml {
 						script = dealWithScrpit(script, "participant", obj2);
 						Object obj3 = BeanUtils.getProperty(bus, "fatherlsh");
 						script = dealWithScrpit(script, "fatherlsh", obj3);
-						Object obj4 = BeanUtils.getProperty(bus, "formcode");
-						script = dealWithScrpit(script, "formcode", obj4);
+						script = dealWithScrpit(script, "formcode", formid);
 						for (int i = 1; i <= 50; i++) {
 							Object obj5 = BeanUtils.getProperty(bus, "column" + i);
 							script = dealWithScrpit(script, "column" + i, obj5);

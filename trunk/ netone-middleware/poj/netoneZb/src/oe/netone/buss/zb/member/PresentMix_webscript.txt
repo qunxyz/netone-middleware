@@ -34,7 +34,7 @@ $("table#ad3651be97d211e19d04e1f804e88ddd_").find('#column3').live('focus',funct
 
 })
 .result(function(e, item) {
- var o = $(this).parent().parent().parent();
+ var o = $(this).parent().parent();
  if (item!=null){
  	o.find('#column4').val(item.column4);
 	o.find('#column6').val(item.column6);

@@ -5,7 +5,12 @@ multiple: false,   dataType: "json",   autoFill: true,   mustMatch: true,   matc
 function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column4,        result: 
 row.column4}   }); },  formatItem: function(item) { return  item.column4+' '+item.column7; },  formatResult: function(item) { 
 return item.column4; }   }).result(function(e, item) {
-$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_661338441749388'+'&sr_pcode='+$(this).val(),     
+
+
+ var oo =  $(this).parent().parent();
+ if (item!=null){ 
+ 
+ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_661338441749388'+'&sr_pcode='+$(this).val(),     
 	function(jsonx2){      
 	if (jsonx2!=null){     
 		if (jsonx2.count>0){
@@ -14,9 +19,7 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&
 		}
 	} 
 });
-
- var oo =  $(this).parent().parent().parent();
- if (item!=null){ 
+ 
  oo.find('#column4').val(item.column7);    
  oo.find('#column5').val(item.column34);    
  oo.find('#column8').val(item.column15);    
@@ -56,6 +59,9 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&
  $("table#0b1fcad0ad4f11e1bbb551abdbadc425_").find('#column3').live('focus',function(){     
    $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.FXTH',  { multiple: false,    dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse:  function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column3,        result:  row.column3}   }); },  formatItem: function(item) { return  item.column3+' '+item.column4; },  formatResult: function(item) {  return item.column3; }   }).result(function(e, item) {
    
+   var oo =  $(this).parent().parent();   
+   if (item!=null){ 
+   
    $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_661338441749392'+'&sr_pcode='+$(this).val(),     
 		function(jsonx2){
 		if (jsonx2!=null){     
@@ -66,8 +72,6 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&
 		} 
 	});
    
-   var oo =  $(this).parent().parent().parent();   
-   if (item!=null){ 
    /*Ïú¼Û*/
    oo.find ('#column5').val(item.column5);    
    oo.find('#column6').val(item.column6);    

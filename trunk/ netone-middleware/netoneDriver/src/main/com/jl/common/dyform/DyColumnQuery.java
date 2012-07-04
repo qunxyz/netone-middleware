@@ -2,6 +2,7 @@ package com.jl.common.dyform;
 
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -71,6 +73,9 @@ public class DyColumnQuery {
 		}
 		listmame = listremove;
 		UmsProtectedobject upjs = (UmsProtectedobject) listDate.get(0);
+		if(listDate.size()==0){
+			return listmame;
+		}
 		if (upjs.getActionurl().equals("") || upjs.getActionurl() == ""
 				|| upjs.getActionurl() == null) {
 			listx = listmame;
@@ -80,6 +85,9 @@ public class DyColumnQuery {
 			if (fal) {
 				listxml = readXML(model, upjs.getActionurl());
 				if (listxml.size() > 0) {
+					Map keyx=new HashMap();
+					List index=new ArrayList();
+					
 					for (Iterator iterator = listmame.iterator(); iterator
 							.hasNext();) {
 						TCsColumn object = (TCsColumn) iterator.next();
@@ -88,10 +96,23 @@ public class DyColumnQuery {
 							FullObj fullObj = (FullObj) iteratorxml.next();
 							if (object.getColumnid().equals(
 									fullObj.getColumnid())) {
-								listx.add(object);
+								if(fullObj.getColumnorder()!=null){
+								keyx.put(fullObj.getColumnorder(), object);
+								index.add(fullObj.getColumnorder());
+								}
 							}
 						}
 					}
+				
+						String []indexz=(String[])index.toArray(new String[0]);
+						if(indexz!=null){
+						Arrays.sort(indexz);
+						for (int i = 0; i < indexz.length; i++) {
+							listx.add((TCsColumn)keyx.get(indexz[i]));
+						}
+						}
+
+
 				} else {
 					listx = listmame;
 				}
@@ -125,7 +146,7 @@ public class DyColumnQuery {
 		UmsProtectedobject upo = new UmsProtectedobject();
 		upo.setExtendattribute(formcode);
 		upo.setParentdir(parentid);
-		System.out.println("---------"+formcode+","+parentid);
+		//System.out.println("---------"+formcode+","+parentid);
 		ResourceRmi rs = null;
 		try {
 			rs = (ResourceRmi) RmiEntry.iv("resource");

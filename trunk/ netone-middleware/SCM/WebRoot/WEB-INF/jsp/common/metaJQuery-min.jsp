@@ -22,4 +22,11 @@ function makeUUID() {
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 }
 </script>
-	
+
+<!-- multiselect -->
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jquery-multiselect/i18n/jquery.multiselect.filter.zh-cn.js"></script>
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jquery-multiselect/i18n/jquery.multiselect.zh-cn.js"></script>
+<link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/jquery-multiselect/jquery.multiselect.css" rel="stylesheet" />
+<link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/jquery-multiselect/jquery.multiselect.filter.css" rel="stylesheet" />
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jquery-multiselect/jquery.multiselect.min.js"></script>
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jquery-multiselect/jquery.multiselect.filter.min.js"></script>

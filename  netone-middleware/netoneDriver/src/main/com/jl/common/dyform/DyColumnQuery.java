@@ -17,7 +17,6 @@ import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -85,9 +84,11 @@ public class DyColumnQuery {
 			if (fal) {
 				listxml = readXML(model, upjs.getActionurl());
 				if (listxml.size() > 0) {
+					//存放有排序索引的字段
 					Map keyx=new HashMap();
 					List index=new ArrayList();
-					
+					//如果没有排序信息那么统一放这里
+					List noOrderData=new ArrayList();
 					for (Iterator iterator = listmame.iterator(); iterator
 							.hasNext();) {
 						TCsColumn object = (TCsColumn) iterator.next();
@@ -96,9 +97,12 @@ public class DyColumnQuery {
 							FullObj fullObj = (FullObj) iteratorxml.next();
 							if (object.getColumnid().equals(
 									fullObj.getColumnid())) {
-								if(fullObj.getColumnorder()!=null){
-								keyx.put(fullObj.getColumnorder(), object);
-								index.add(fullObj.getColumnorder());
+								String orderinfo=fullObj.getColumnorder();
+								if(orderinfo!=null&&!"0".equals(orderinfo)){
+									keyx.put(orderinfo, object);
+									index.add(orderinfo);
+								}else{
+									noOrderData.add(object);
 								}
 							}
 						}
@@ -106,12 +110,12 @@ public class DyColumnQuery {
 				
 						String []indexz=(String[])index.toArray(new String[0]);
 						if(indexz!=null){
-						Arrays.sort(indexz);
-						for (int i = 0; i < indexz.length; i++) {
-							listx.add((TCsColumn)keyx.get(indexz[i]));
+							Arrays.sort(indexz);
+							for (int i = 0; i < indexz.length; i++) {
+								listx.add((TCsColumn)keyx.get(indexz[i]));
+							}
 						}
-						}
-
+						listx.addAll(noOrderData);
 
 				} else {
 					listx = listmame;

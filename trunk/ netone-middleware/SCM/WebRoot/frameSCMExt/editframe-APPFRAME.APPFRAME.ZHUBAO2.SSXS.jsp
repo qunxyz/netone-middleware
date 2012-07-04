@@ -218,10 +218,17 @@
 						if ($(this).attr('id')!='${formcode}')
 						{
 						  var formcode = $(this).attr('id');
-						  $(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
-						  //集成展示 子表单
-						  //if ($(this).attr("class")=='x-grid3-cell-inner')
-						  $(this).each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
+						  if (formcode!=''){
+						  
+						  	$(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
+						  	//集成展示 子表单
+							var ids = jQuery("table#"+formcode).jqGrid('getDataIDs');   
+						    for(var i=0;i < ids.length;i++){   
+						        var cl = ids[i];   
+						        $(this).each(function(){jsonStr=$todo($('#'+cl),formcode,jsonStr);});
+						    }
+						  
+						  }
 						  
 						}//end if
 					});

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import oe.cav.bean.logic.bus.TCsBus;
+import oe.cav.bean.logic.column.TCsColumn;
 import oe.midware.dyform.service.DyFormService;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -102,9 +103,15 @@ public class DyAnalysisXml {
 						Object obj3 = BeanUtils.getProperty(bus, "fatherlsh");
 						script = dealWithScrpit(script, "fatherlsh", obj3);
 						script = dealWithScrpit(script, "formcode", formid);
-						for (int i = 1; i <= 50; i++) {
-							Object obj5 = BeanUtils.getProperty(bus, "column" + i);
-							script = dealWithScrpit(script, "column" + i, obj5);
+						List list=dy.fetchColumnList(bus.getFormcode());
+						for (Iterator iterator = list.iterator(); iterator
+								.hasNext();) {
+							TCsColumn object = (TCsColumn) iterator.next();
+							String idx=object.getColumnid().toLowerCase();
+							Object obj5 = BeanUtils.getProperty(bus,idx );
+							if(obj5!=null){
+								script = dealWithScrpit(script,idx, obj5);
+							}	
 						}
 					}
 				}else{
@@ -119,7 +126,59 @@ public class DyAnalysisXml {
 		}
 		return "";
 	}
+	// 脚本的使用
+	public Object scriptPre(String formid, TCsBus bus,String mode)
+			throws Exception {
+		String mxlstr = null;
+		DyAnalysisXml dyxml = new DyAnalysisXml();
+		String xml = dyxml.XmlDate(formid);
+		boolean falconfig = dyxml.isExists(xml, "config");
+		if (falconfig) {
+			Document doc = null;
+			try {
+				doc = DocumentHelper.parseText(xml);
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				System.out.println("xml解析错误");
+				e.printStackTrace();
+			}
+			Element rootElt = doc.getRootElement();
+			Iterator iter = rootElt.elementIterator("config");
+			while (iter.hasNext()) {
+				Element configEle = (Element) iter.next();
+				mxlstr = configEle.asXML();
+			}
+			if (!mxlstr.equals("") || mxlstr != null) {
+				String script = dyxml.readXML(mxlstr, mode);
 
+					DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
+
+					script = dealWithScrpit(script, "lsh", bus.getLsh());
+					Object obj = BeanUtils.getProperty(bus, "statusinfo");
+					script = dealWithScrpit(script, "statusinfo", obj);					
+					Object obj2 = BeanUtils.getProperty(bus, "participant");
+					script = dealWithScrpit(script, "participant", obj2);
+					Object obj3 = BeanUtils.getProperty(bus, "fatherlsh");
+					script = dealWithScrpit(script, "fatherlsh", obj3);
+					script = dealWithScrpit(script, "formcode", formid);
+					List list=dy.fetchColumnList(bus.getFormcode());
+					for (Iterator iterator = list.iterator(); iterator
+							.hasNext();) {
+						TCsColumn object = (TCsColumn) iterator.next();
+						String idx=object.getColumnid().toLowerCase();
+						Object obj5 = BeanUtils.getProperty(bus,idx);
+						if(obj5!=null){
+							script = dealWithScrpit(script, idx, obj5);
+						}	
+					}
+
+               if(StringUtils.isNotEmpty(script)){
+            	   return ScriptTools.todo(script);
+               }
+			}
+		}
+		return "";
+	}
 	private String dealWithScrpit(String script, String column, Object value) {
 		if (StringUtils.isEmpty(script))
 			return "";

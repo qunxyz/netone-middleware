@@ -15,17 +15,11 @@ public class ScriptTools {
 		try {
 			WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
 			return console.exeScript(elogicExpress);
-		} catch (MalformedURLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+			throw new RuntimeException(e.getMessage());
+		} 
 	}
 	
 	static public Object todo(String elogicExpress,Object [] obj) {

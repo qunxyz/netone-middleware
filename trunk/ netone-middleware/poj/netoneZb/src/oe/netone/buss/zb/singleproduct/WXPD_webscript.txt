@@ -1,0 +1,57 @@
+/***
+分销盘点 BUSSFORM.BUSSFORM.ZBSS.WXPD.DY_491341112536743 
+分销商编码 数据改变事件
+**/
+$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETWXPDINFO&sr_clientid="+encodeURI($(this).val()), 
+ function(jsonx){
+	if (jsonx!=null){
+		var sum = 0;
+		$.each(jsonx, function(i,item){  
+			sum++;
+	 	});
+	 	if (sum>0){
+	 		var grid = Ext.getCmp('67dc8249c32b11e1bd917bc26f59e2c4_Grid');
+	 		var record = grid.store.getAt(0);
+	 		grid.store.removeAll();
+	 		$.each(jsonx, function(i,item){
+	 		
+	 		var c24 ='<input id=\"column24\" type=\"hidden\" onfocus=\"this.select()\" unselectable=\"off\" name=\"column24\">';
+			c24+='<input id=\"column24_radio'+i+'\" type=\"radio\" onclick=\"javascript: var o=$(this).siblings(\"#column24\"); var v=o.val(); if ($(this).attr(\"checked\") == true) { o.val(1); }\" onfocus=\"this.select()\" unselectable=\"off\" name=\"column24_radio'+i+'\" value=\"1\">真';
+			c24+='<input id=\"column24_radio'+i+'\" type=\"radio\" onclick=\"javascript: var o=$(this).siblings(\"#column24\"); var v=o.val(); if ($(this).attr(\"checked\") == true) { o.val(0); }\" onfocus=\"this.select()\" unselectable=\"off\" name=\"column24_radio'+i+'\" value=\"0\">假';
+			record.data.column24=c24;	
+	 		grid.store.add(record);
+	 		
+	 		});
+	 		
+	 		adddataxxxxx(jsonx);
+	 		
+	 	}  
+	} else {
+	}
+}); 
+
+
+function adddataxxxxx(jsonx){
+	var jjj =0;
+	$('#67dc8249c32b11e1bd917bc26f59e2c4_Grid').find('tr').each(function(){
+		if (jjj>0){
+		$(this).find('#column3').val(jsonx[jjj-1].column4);/**	条码	**/
+		$(this).find('#column7').val(jsonx[jjj-1].column52);/**	成色	**/
+		$(this).find('#column8').val(jsonx[jjj-1].column7);/**	主石名	**/
+		$(this).find('#column9').val(jsonx[jjj-1].column49);/**	首饰类别	**/
+		$(this).find('#column10').val(jsonx[jjj-1].column11);/**	款号	**/
+		$(this).find('#column11').val(jsonx[jjj-1].column12);/**	证书号	**/
+		$(this).find('#column12').val(jsonx[jjj-1].column13);/**	原编号	**/
+		$(this).find('#column13').val(jsonx[jjj-1].column17);/**	含配金重	**/
+		$(this).find('#column14').val(jsonx[jjj-1].column16);/**	总重	**/
+		$(this).find('#column15').val(jsonx[jjj-1].column24);/**	手寸		**/
+		$(this).find('#column16').val(jsonx[jjj-1].column37);/**	主石重	**/
+		$(this).find('#column17').val(jsonx[jjj-1].column38);/**	主石粒数	**/
+		$(this).find('#column18').val(jsonx[jjj-1].column65);/**	辅石1名称	**/
+		$(this).find('#column21').val(jsonx[jjj-1].fxprice);/**	售价		**/	
+		$(this).find('#column22').val(jsonx[jjj-1].note);/**	产品备注	**/	
+		
+		}
+		jjj=jjj+1;
+	});
+}

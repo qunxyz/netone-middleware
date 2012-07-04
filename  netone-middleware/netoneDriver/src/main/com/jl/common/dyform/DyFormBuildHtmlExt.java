@@ -2036,8 +2036,8 @@ public final class DyFormBuildHtmlExt {
 
 		String nulltr = buildTr(uuid() + "_TR_UUID_", formcode, false, null,
 				_formx, columnmap, columnmapx, isedit, userinfo, parameter);
-		String onclickAddFunctionname = "$ADD_" + uuid();
-		String onclickRemoveFunctionname = "$REMOVE_" + uuid();
+		String onclickAddFunctionname = "$ADD_" + formcode;
+		String onclickRemoveFunctionname = "$REMOVE_" + formcode;
 
 		String datas_config = buildNullDatas(new DyFormData(), _formx,
 				columnmap, columnmapx, isedit, userinfo, parameter);

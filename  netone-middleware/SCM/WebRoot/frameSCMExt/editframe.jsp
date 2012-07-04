@@ -150,8 +150,11 @@
 			var column61,column62,column63,column64,column65,column66,column67,column68,column69,column70;
 			var column71,column72,column73,column74,column75,column76,column77,column78,column79,column80;
 		 	
+		 	var column81,column82,column83,column84,column85,column86,column87,column88,column89,column90;
+		 	var column91,column92,column93,column94,column95,column96,column97,column98,column99,column100;
+		 	
 		 	var len = 0;
-			for(var i=1;i<=80;i++){
+			for(var i=1;i<=100;i++){
 				var _o = thisObj.find('#column'+i);
 				if (_o){
 					var $val_ =  _o.val();
@@ -183,11 +186,16 @@
 				column61 : column61,column62 : column62,column63 : column63,column64 : column64,column65 : column65,
 				column66 : column66,column67 : column67,column68 : column68,column69 : column69,column70 : column70,
 				column71 : column71,column72 : column72,column73 : column73,column74 : column74,column75 : column75,
-				column76 : column76,column77 : column77,column78 : column78,column79 : column79,column80 : column80
+				column76 : column76,column77 : column77,column78 : column78,column79 : column79,column80 : column80,
+				column81 : column81,column82 : column82,column83 : column83,column84 : column84,column85 : column85,
+				column86 : column86,column87 : column87,column88 : column88,column89 : column89,column90 : column90,
+				column91 : column91,column92 : column92,column93 : column93,column94 : column94,column95 : column95,
+				column96 : column96,column97 : column97,column98 : column98,column99 : column99,column100 : column100
+				
 				
 			};
 			var json___ = Ext.util.JSON.encode(w);
-			if (json___.indexOf('column')>0 && len!=80){
+			if (json___.indexOf('column')>0 && len!=100){
 				jsonStr += deliter + json___;
 			    deliter = ',';
 			}

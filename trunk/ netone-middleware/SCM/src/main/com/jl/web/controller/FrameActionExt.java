@@ -1617,9 +1617,9 @@ public class FrameActionExt extends AbstractAction {
 					"1");
 			json = JSONObject.fromObject(jsonx);
 		} catch (Exception e) {
-			json.put("tip", "保存信息失败!");
+			json.put("tip", "保存信息失败!" + e.getMessage());
 			json.put("error", "yes");
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		} finally {
 			super.writeJsonStr(response, json.toString());
 		}
@@ -1643,9 +1643,9 @@ public class FrameActionExt extends AbstractAction {
 			jsonx = ins.delete(request, formcode, lsh);
 			json = JSONObject.fromObject(jsonx);
 		} catch (Exception e) {
-			json.put("tip", "作废失败!");
+			json.put("tip", "作废失败!" + e.getMessage());
 			json.put("error", "yes");
-			log.error("出错", e);
+			log.error(e.getMessage(), e);
 		} finally {
 			super.writeJsonStr(response, json.toString());
 		}
@@ -1677,9 +1677,9 @@ public class FrameActionExt extends AbstractAction {
 				}
 			}
 		} catch (Exception e) {
-			json.put("tip", "作废失败!");
+			json.put("tip", "作废失败!" + e.getMessage());
 			json.put("error", "yes");
-			log.error("出错", e);
+			log.error(e.getMessage(), e);
 		} finally {
 			super.writeJsonStr(response, json.toString());
 		}
@@ -1987,8 +1987,8 @@ public class FrameActionExt extends AbstractAction {
 			throws Exception {
 		request.setAttribute("ErrorJson", "Yes");// Json出错提示
 		FrameService ins = (FrameService) WebApplicationContextUtils
-		.getRequiredWebApplicationContext(servlet.getServletContext())
-		.getBean("frameService");
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("frameService");
 		JSONObject json = new JSONObject();
 		try {
 			String jsonstr = ins.saveConfirmStatus(request, response);
@@ -2008,8 +2008,8 @@ public class FrameActionExt extends AbstractAction {
 			throws Exception {
 		request.setAttribute("ErrorJson", "Yes");// Json出错提示
 		FrameService ins = (FrameService) WebApplicationContextUtils
-		.getRequiredWebApplicationContext(servlet.getServletContext())
-		.getBean("frameService");
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("frameService");
 		JSONObject json = new JSONObject();
 		try {
 			String jsonstr = ins.saveUnConfirmStatus(request, response);

@@ -56,21 +56,21 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		busx.setStatusinfo("00");
 		busx.setTimex((new Timestamp(System.currentTimeMillis()).toString()));
 		busx.setFormcode(formid);
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		dayx.scriptPre(formid, busx, "PNewSave");		
 		String lsh = dy.addData(formid, busx);
-		System.out.println("lsh:" + lsh);
-		if (StringUtils.isNotEmpty(lsh)) {
-			DyAnalysisXml dayx = new DyAnalysisXml();
-			dayx.script(formid, lsh, "NewSave");
-		}
+		System.out.println("new data coming:" + lsh);
+		dayx.script(formid, lsh, "NewSave");
 		return lsh;
 	}
 
 	public boolean deleteData(String formid, String id) throws Exception {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 		DyAnalysisXml dayx = new DyAnalysisXml();
+		dayx.script(formid, id, "PDelete");
+		boolean rs=dy.deleteData(formid, id);
 		dayx.script(formid, id, "Delete");
-
-		return  dy.deleteData(formid, id);
+		return rs;
 
 	}
 
@@ -139,7 +139,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
 		StringBuffer but = new StringBuffer();
-		System.out.println(htmltype);
+		//System.out.println(htmltype);
 		if ("11".equals(htmltype)) {
 			String valuelist = columnnew.getValuelist();
 			//来自资源树某层目录的值
@@ -255,7 +255,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
 		StringBuffer but = new StringBuffer();
-		System.out.println(htmltype);
+		//System.out.println(htmltype);
 		if ("17".equals(htmltype)||"18".equals(htmltype)||"22".equals(htmltype)||"23".equals(htmltype)||"27".equals(htmltype)||"28".equals(htmltype)) {
 			String valuelist = columnnew.getValuelist();
 			//来自资源树某层目录的值
@@ -443,7 +443,19 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				appfileColumnid=object.getColumnid(); 
 			}
 		}
-		BeanUtils.setProperty(data, appfileColumnid, data.getLsh());
+		EnvService env = null;
+		String value =null;
+		try {
+			env = (EnvService) RmiEntry.iv("envinfo");
+			value = env.fetchEnvValue("WEBSER_WebSerivce");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String urlhead=value+"ListPicSvl?id="+data.getLsh();
+		BeanUtils.setProperty(data, appfileColumnid, urlhead);
 	}
 	
 	private void dealWithImgFile(List<DyFormData> data,String formcode)throws Exception{
@@ -456,9 +468,20 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				appfileColumnid=object.getColumnid(); 
 			}
 		}
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+		EnvService env = null;
+		String value =null;
+		try {
+			env = (EnvService) RmiEntry.iv("envinfo");
+			value = env.fetchEnvValue("WEBSER_WebSerivce");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
 			DyFormData object = (DyFormData) iterator.next();
-			BeanUtils.setProperty(object, appfileColumnid, object.getLsh());
+			String urlhead=value+"ListPicSvl?id="+object.getLsh();
+			BeanUtils.setProperty(object, appfileColumnid, urlhead);
 		}
 		
 	}
@@ -552,18 +575,17 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		bus.setFormcode(formid);
 		TCsBus bux = new TCsBus();
 		BeanUtils.copyProperties(bux, bus);
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		dayx.script(formid, lsh, "PUpdateSave"); //正常保存
 		boolean rs = dy.modifyData(bux);
 		if (rs) {
 			if(bux.getStatusinfo()==null){
-				DyAnalysisXml dayx = new DyAnalysisXml();
 				dayx.script(formid, lsh, "UpdateSave"); //正常保存
 			}
 			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("02")){
-				DyAnalysisXml dayx = new DyAnalysisXml();
 				dayx.script(formid, lsh, "Onaffirm");//反确认
 			}
 			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("01")){
-				DyAnalysisXml dayx = new DyAnalysisXml();
 				dayx.script(formid, lsh, "Yesaffirm");//确认
 			}
 		}
@@ -612,7 +634,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			BeanUtils.copyProperties(data, object);
 			listnew.add(data);
 		}
-		
+		this.dealWithImgFile(listnew, formcode);
 	
 		return listnew;
 	}
@@ -735,7 +757,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 			for (Iterator iterator = subResource.iterator(); iterator.hasNext();) {
 				UmsProtectedobject object = (UmsProtectedobject) iterator.next();
-				System.out.println("-------------:"+object.getNaturalname());
+				//System.out.println("-------------:"+object.getNaturalname());
 				mapPermissionkey.put(object.getNaturalname(), "");
 			}
 			
@@ -748,7 +770,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyFormColumn object = columnList[i];
 			String naturalname = preNaturalname + "."
 					+ object.getColumncode().toUpperCase();
-			System.out.println("-------------x:"+naturalname);
+			//System.out.println("-------------x:"+naturalname);
 			if(!mapPermissionkey.containsKey(naturalname)){
 				continue;
 			}
@@ -857,7 +879,6 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			throws Exception {
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
-		dyfcQuery.QueryColumn(formcode, model);
 		List list= dyfcQuery.QueryColumn(formcode, model);
 		List newColumn=new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {

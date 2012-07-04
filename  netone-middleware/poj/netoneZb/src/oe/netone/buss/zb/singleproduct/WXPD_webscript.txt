@@ -10,17 +10,11 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIP
 			sum++;
 	 	});
 	 	if (sum>0){
-	 		var grid = Ext.getCmp('67dc8249c32b11e1bd917bc26f59e2c4_Grid');
-	 		var record = grid.store.getAt(0);
-	 		grid.store.removeAll();
+	 		jQuery("table#67dc8249c32b11e1bd917bc26f59e2c4_").jqGrid("clearGridData");
+	 		
 	 		$.each(jsonx, function(i,item){
-	 		
-	 		var c24 ='<input id=\"column24\" type=\"hidden\" onfocus=\"this.select()\" unselectable=\"off\" name=\"column24\">';
-			c24+='<input id=\"column24_radio'+i+'\" type=\"radio\" onclick=\"javascript: var o=$(this).siblings(\"#column24\"); var v=o.val(); if ($(this).attr(\"checked\") == true) { o.val(1); }\" onfocus=\"this.select()\" unselectable=\"off\" name=\"column24_radio'+i+'\" value=\"1\">真';
-			c24+='<input id=\"column24_radio'+i+'\" type=\"radio\" onclick=\"javascript: var o=$(this).siblings(\"#column24\"); var v=o.val(); if ($(this).attr(\"checked\") == true) { o.val(0); }\" onfocus=\"this.select()\" unselectable=\"off\" name=\"column24_radio'+i+'\" value=\"0\">假';
-			record.data.column24=c24;	
-	 		grid.store.add(record);
-	 		
+	 			/** 执行添加 **/
+				eval('$ADD_67dc8249c32b11e1bd917bc26f59e2c4_();');	 		
 	 		});
 	 		
 	 		adddataxxxxx(jsonx);
@@ -33,7 +27,7 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIP
 
 function adddataxxxxx(jsonx){
 	var jjj =0;
-	$('#67dc8249c32b11e1bd917bc26f59e2c4_Grid').find('tr').each(function(){
+	$('#67dc8249c32b11e1bd917bc26f59e2c4_').find('tr').each(function(){
 		if (jjj>0){
 		$(this).find('#column3').val(jsonx[jjj-1].column4);/**	条码	**/
 		$(this).find('#column7').val(jsonx[jjj-1].column52);/**	成色	**/

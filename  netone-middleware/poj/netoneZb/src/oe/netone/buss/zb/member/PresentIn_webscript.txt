@@ -32,7 +32,7 @@ $("table#562a350e975011e19d04e1f804e88ddd_").find('#column3').live('focus',funct
 
 })
 .result(function(e, item) {
- var o = $(this).parent().parent().parent();
+ var o = $(this).parent().parent();
  if (item!=null){
 
 	o.find('#column7').val(item.column7);
@@ -50,7 +50,7 @@ $(this).unbind("focus");
 
 
 /***数量  进货单价 数据改变事件***/
-var parentobj = $(this).parent().parent().parent();
+var parentobj = $(this).parent().parent();
 var vo1=parentobj.find('#column5');
 var vo2=parentobj.find('#column8');
 var vo3=parentobj.find('#column9');

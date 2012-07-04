@@ -41,3 +41,9 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&SOASCRIPT.SOASCRIPT.
 		}
 	} 
 });
+
+### 石号 初始化事件  关联裸石信息
+
+$("table#a01f21d4846a11e18d60d978b354ef4a_").find('#column80').live('focus',function(){    
+	$(this).multiselect({multiple:true}).multiselectfilter();
+});

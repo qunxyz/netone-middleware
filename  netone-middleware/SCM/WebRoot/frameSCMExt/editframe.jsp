@@ -18,7 +18,6 @@
 		
 		
 		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-ui-tab.jsp" />
-		<jsp:include page="/WEB-INF/jsp/common/metaJQueryTable.jsp" />
 		<script src="<%=path%>/script/jquery-plugin/json2.js" type="text/javascript"></script>
 		<script language="javascript" type="text/javascript"
 			src="<%=path%>/My97DatePicker/WdatePicker.js" charset="gb2312"></script>

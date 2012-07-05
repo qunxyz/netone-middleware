@@ -12,16 +12,15 @@
 		<jsp:include page="/WEB-INF/jsp/common/metaExt.jsp"></jsp:include>
 		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-min.jsp"></jsp:include>
 		
-		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jqgrid/i18n/grid.locale-cn.js"></script>
-		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jqgrid/jquery.jqGrid.src.js"></script>
-		<link rel="stylesheet" href="<%=path%>/script/jquery-plugin/jqgrid/css/ui.jqgrid.css" type="text/css" media="screen" />
-		
-		
-		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-ui-tab.jsp" />
 		<script src="<%=path%>/script/jquery-plugin/json2.js" type="text/javascript"></script>
 		<script language="javascript" type="text/javascript"
 			src="<%=path%>/My97DatePicker/WdatePicker.js" charset="gb2312"></script>
 		<script type="text/javascript" src="<%=path%>/tiny_mce/jquery.tinymce.js"></script>	
+		
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jqgrid/i18n/grid.locale-cn.js"></script>
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jqgrid/jquery.jqGrid.src.js"></script>
+		<link rel="stylesheet" href="<%=path%>/script/jquery-plugin/jqgrid/css/ui.jqgrid.css" type="text/css" media="screen" />
+		
 		
 		<!-- 样式文件 -->	
 		${linkcss}

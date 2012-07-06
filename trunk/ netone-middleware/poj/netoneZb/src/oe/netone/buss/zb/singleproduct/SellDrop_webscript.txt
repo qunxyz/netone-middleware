@@ -42,7 +42,7 @@ divcae6d5c095f411e19d04e1f804e88ddd_.appendTo('body');
 首饰退库销退 
 **/
 $("table#c7b6024aae5611e1a1d4a9c1a0b05fbc_").find('#column3').live('focus',function(){    
-	$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTBYINDENT', {  
+	$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTBYINDENT'+'&sr_clientid='+$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column8').val(), {  
 	multiple: false,  
 	dataType: "json",  
 	autoFill: true,  
@@ -51,9 +51,9 @@ $("table#c7b6024aae5611e1a1d4a9c1a0b05fbc_").find('#column3').live('focus',funct
 	scrollHeight: 220,  
 	width:300,  
 	parse: function(data) {   return $.map(data, function(row) {    
-	return {     data: row,     value: row.column3,     result: row.column3    }   }); 
-	 },formatItem: function(item) {   return  item.column3+' '+item.column4;  },  
-	 formatResult: function(item) {   return item.column3;  }  }) 
+	return {     data: row,     value: row.code,     result: row.code    }   }); 
+	 },formatItem: function(item) {   return  item.code+' '+item.cpmc;  },  
+	 formatResult: function(item) {   return item.code;  }  }) 
 	 .result(function(e, item) {  
 	 
 	 var o = $(this).parent().parent();  
@@ -69,21 +69,46 @@ $("table#c7b6024aae5611e1a1d4a9c1a0b05fbc_").find('#column3').live('focus',funct
 		} 
 	});
 	 
-	 o.find('#column7').val(item.column6);  
-	 o.find('#column15').val(item.column12);  
-	 o.find('#column18').val(item.column16);  
-	 o.find('#column19').val(item.column17);  
-	 o.find('#column20').val(item.column18);  
-	 o.find('#column21').val(item.column19);  
-	 o.find('#column4').val(item.column20);  
+	 /**
+	 column20  产品名称  入库 column7 cpmc
+	 column9  主石单价   入库 column40 zsdj
+	 column18  款号    入库   column11 kh
+	 column19  证书号  入库   column12 zsh
+	 column8 加工费 入库 column59 jgf 
+	 
+	 column17  产品大类  销售 column19 cpdl
+	 column11  原标价  销售   column11 ybj
+	 column12  实售价  销售   column15 ssj
+	 column6  金价  销售     column7 jj
+	 column22 工费方式 销售 column8  gffs
+	 column16  柜组 销售 column18 gz
+	
+	 **/
+	 o.find('#column20').val(item.cpmc);
+	 o.find('#column9').val(item.zsdj); 
+	 o.find('#column18').val(item.kh); 
+	 o.find('#column19').val(item.zsh); 
+	 o.find('#column8').val(item.jgf);
+	 
+	 o.find('#column17').val(item.cpdl); 
+	 o.find('#column11').val(item.ybj); 
+	 o.find('#column12').val(item.ssj);
+	 o.find('#column6').val(item.jj); 
+	 o.find('#column22').val(item.gffs);
+	 o.find('#column16').val(item.gz);
 	 } else {  
-	 o.find('#column7').val('');  
-	 o.find('#column15').val('');  
-	 o.find('#column18').val('');  
-	 o.find('#column19').val('');  
-	 o.find('#column20').val('');  
-	 o.find('#column21').val('');  
-	 o.find('#column4').val('');  
+	 o.find('#column20').val('');
+	 o.find('#column9').val(''); 
+	 o.find('#column18').val(''); 
+	 o.find('#column19').val('');
+	 o.find('#column8').val('');
+	 
+	 o.find('#column17').val(''); 
+	 o.find('#column11').val(''); 
+	 o.find('#column12').val('');
+	 o.find('#column6').val(''); 
+	 o.find('#column22').val('');
+	 o.find('#column16').val('');
 	 }   
 }); $(this).unbind("focus");  });
 

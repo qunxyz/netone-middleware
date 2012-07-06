@@ -2,9 +2,9 @@
 $("table#84bbd11aad4711e1bbb551abdbadc425_").find('#column3').live('focus',function(){ 
 $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.DPRK',  {     
 multiple: false,   dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse: 
-function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column4,        result: 
-row.column4}   }); },  formatItem: function(item) { return  item.column4+' '+item.column7; },  formatResult: function(item) { 
-return item.column4; }   }).result(function(e, item) {
+function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.code,        result: 
+row.code}   }); },  formatItem: function(item) { return  item.code+' '+item.cpmc; },  formatResult: function(item) { 
+return item.code; }   }).result(function(e, item) {
 
 
  var oo =  $(this).parent().parent();
@@ -19,21 +19,41 @@ return item.column4; }   }).result(function(e, item) {
 		}
 	} 
 });
+
+/**
+column4  产品名称 入库 column7 cpmc
+column5  售价  入库 column34 sj
+column8  款号 入库   column11 kh
+column9  证书号 入库   column12 zsh
+column10  原编号 入库   column13 ybh
+column11  总重(g)   入库 column16  zz
+column12  金重(g)   入库 column17 jz
+column13  手寸        入库 column24 sc
+column14  主石(ct/p) 入库 column37 zs
+column15  形状        入库 column58 xz
+column16  颜色        入库 column55 ys
+column17  净度       入库 column56 jd
+column23  切工 入库 column57 qg
+
+column22  系统大类  入库主表 column14 cpdl
+
+ins.column7 cpmc,ins.column34 sj,ins.column11 kh,ins.column12 zsh,ins.column13 ybh,ins.column16  zz,ins.column17 jz,ins.column24 sc,ins.column37 zs,ins.column58 xz,ins.column55 ys,ins.column56 jd,ins.column57 qg,ins_main.column14 cpdl
+**/
  
- oo.find('#column4').val(item.column7);    
- oo.find('#column5').val(item.column34);    
- oo.find('#column8').val(item.column15);    
- oo.find('#column9').val(item.column12);  
- oo.find('#column10').val(item.column13);    
- oo.find('#column11').val(item.column16);    
- oo.find('#column12').val(item.column17);    
- oo.find('#column13').val(item.column24);  
- oo.find('#column14').val(item.column36);    
- oo.find('#column15').val(item.column58);    
- oo.find('#column16').val(item.column55);    
- oo.find('#column17').val(item.column56);   
- oo.find('#column19').val(item.bigtype);  
- oo.find('#column23').val(item.column57);
+ oo.find('#column4').val(item.cpmc);    
+ oo.find('#column5').val(item.sj);    
+ oo.find('#column8').val(item.kh);    
+ oo.find('#column9').val(item.zsh);
+ oo.find('#column10').val(item.ybh);    
+ oo.find('#column11').val(item.zz);    
+ oo.find('#column12').val(item.jz);    
+ oo.find('#column13').val(item.sc);  
+ oo.find('#column14').val(item.zs);    
+ oo.find('#column15').val(item.xz);    
+ oo.find('#column16').val(item.ys);    
+ oo.find('#column17').val(item.jd);   
+ oo.find('#column23').val(item.qg);
+ oo.find('#column22').val(item.cpdl);
  }else{
  oo.find('#column4').val('');    
  oo.find('#column5').val('');    
@@ -47,8 +67,8 @@ return item.column4; }   }).result(function(e, item) {
  oo.find('#column15').val('');    
  oo.find('#column16').val('');    
  oo.find('#column17').val('');   
- oo.find('#column19').val('');  
  oo.find('#column23').val(''); 
+  oo.find('#column22').val(''); 
  }
  
  
@@ -91,6 +111,7 @@ return item.column4; }   }).result(function(e, item) {
    oo.find('#column21').val(item.column22);    
    oo.find('#column22').val(item.column4); 
    oo.find('#column23').val(item.fzx);
+   oo.find('#column24').val(item.column4);
    } else {
    oo.find ('#column5').val('');    
    oo.find('#column6').val('');    
@@ -110,7 +131,8 @@ return item.column4; }   }).result(function(e, item) {
    oo.find('#column21').val('');    
    oo.find('#column22').val(''); 
    oo.find('#column23').val(''); 
+   oo.find('#column24').val('');
    }
    
     });  
- $(this).unbind("focus");    }); 
+ $(this).unbind("focus");    });

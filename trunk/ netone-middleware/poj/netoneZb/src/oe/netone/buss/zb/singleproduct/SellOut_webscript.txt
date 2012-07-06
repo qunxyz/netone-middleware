@@ -19,7 +19,7 @@ setInterval(function(){
 
 var column3 = $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3');
 var $sum = 0;
-$('#1dde2f9fa81711e19b54fb13b166e993_Grid').find('#column15').each(function(){
+$('#1dde2f9fa81711e19b54fb13b166e993_').find('#column15').each(function(){
 	if ($(this).val()=='') return;
 	var v = parseFloat($(this).val());
 	if(isNaN(v)){
@@ -36,7 +36,7 @@ setInterval(function(){
 
 var column4 = $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column4');
  var $sum = 0;
-$('#52e86c33a84c11e19b54fb13b166e993_Grid').find('#column9').each(function(){
+$('#52e86c33a84c11e19b54fb13b166e993_').find('#column9').each(function(){
 	if ($(this).val()=='') return;
 	var v = parseFloat($(this).val());
 	if(isNaN(v)){
@@ -138,7 +138,7 @@ $.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIP
 **/
 $("table#1dde2f9fa81711e19b54fb13b166e993_").find('#column3').live('focus',function(){ 
 
- $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTBYFXJH', {
+ $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTBYFXJH'+'&sr_clientid='+$('table#8a606025a84f11e19b54fb13b166e993_').find('#column8').val(), {
 	multiple: false,
 	dataType: "json",
 	autoFill: true,
@@ -150,16 +150,16 @@ $("table#1dde2f9fa81711e19b54fb13b166e993_").find('#column3').live('focus',funct
 		return $.map(data, function(row) {
 			return {
 				data: row,
-				value: row.column3,
-				result: row.column3
+				value: row.column4,
+				result: row.column4
 			}
 		});
 	},
 	formatItem: function(item) {
-		return  item.column3+' '+item.column4;
+		return  item.column4+' '+item.column7;
 	},
 	formatResult: function(item) {
-		return item.column3;
+		return item.column4;
 	}
 
 })
@@ -177,12 +177,16 @@ $("table#1dde2f9fa81711e19b54fb13b166e993_").find('#column3').live('focus',funct
 			}
 		} 
 	});
- 
-	o.find('#column4').val(item.column4);
-	o.find('#column11').val(item.column5);
-	o.find('#column19').val(item.column22);
-	o.find('#column20').val(item.column8);
-	o.find('#column21').val(item.column9);
+    /** 产品名称  */
+	o.find('#column4').val(item.column7);
+	/**售价  */
+	o.find('#column11').val(item.sellprice);
+	/*** 产品大类 */
+	o.find('#column19').val(item.bigcate);
+	/**款号 */
+	o.find('#column20').val(item.column11);
+	/** 证书号 */
+	o.find('#column21').val(item.column12);
 	
 	/***折扣信息**/
 	$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSPECIALOFFERSINFOBYLEVEL&q="+$('table#8a606025a84f11e19b54fb13b166e993_').find('#column17').val(), 

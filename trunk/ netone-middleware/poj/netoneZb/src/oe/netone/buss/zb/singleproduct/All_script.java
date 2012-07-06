@@ -207,13 +207,14 @@ public class All_script extends OeScript {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public String GETPRODUCTBYFXJH() {
 		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
-
+		
 		List list = db
 				.queryData(
 						con,
-						"select t.* from DY_661338441749388 t left join DY_661338441749389 t2 on t2.lsh=t.fatherlsh where t2.STATUSINFO='01' and t.STATUSINFO='01' and t.column3 like '%$(q)%' ");
+						"select ins.*,ins_main.column14 as bigcate,sub.column5 as sellprice from DY_661338441749388 sub left join DY_271334208897441 ins on ins.column4=sub.column3 left join DY_271334208897439 ins_main on ins_main.lsh=ins.fatherlsh left join DY_661338441749389 father on father.lsh=sub.fatherlsh where father.STATUSINFO='01' and sub.STATUSINFO='01' and sub.column3 like '%$(q)%' and father.column12='$(sr_clientid)' ");
 		java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
 		String split = "";
 		if (list.size() > 0) {
@@ -304,17 +305,18 @@ public class All_script extends OeScript {
 	}
 
 	/**
-	 * 获取销售产品信息 SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTBYINDENT
+	 * 获取销售产品信息 SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTBYINDENT 首饰退库销退使用
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public String GETPRODUCTBYINDENT() {
 		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
 
 		List list = db
 				.queryData(
 						con,
-						"select t2.* from DY_371337952339241 t left join DY_371337952339238  t2 on t.lsh=t2.fatherlsh where t.STATUSINFO='01' and t2.STATUSINFO='01' and t2.column3 like '%$(q)%' ");
+						"select ins.column59 jgf,ins.column4 code,ins.column7 cpmc,ins.column40 zsdj,ins.column11 kh,ins.column12 zsh,sub.column19 cpdl,sub.column11 ybj,sub.column15 ssj,sub.column7 jj,sub.column8  gffs,sub.column18 gz from DY_371337952339241 father left join DY_371337952339238  sub on father.lsh=sub.fatherlsh left join DY_271334208897441 ins on ins.column4=sub.column3  where father.STATUSINFO='01' and sub.STATUSINFO='01' and sub.column3 like '%$(q)%' and father.column8='$(sr_clientid)' ");
 		java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
 		String split = "";
 		if (list.size() > 0) {
@@ -630,4 +632,60 @@ public class All_script extends OeScript {
 		return "[" + jsonBuffer.toString() + "]";
 	}
 
+	/**
+	 * 分销入库获取单品条码脚本 对应的资源目录： SOASCRIPT.SOASCRIPT.ZB.FXGL.DPRK
+	 * 
+	 * @return
+	 */
+	@Deprecated
+	public String DPRK() {
+		String sql = "select sub.column4 code,sub.column7 cpmc,sub.column34 sj,sub.column11 kh,sub.column12 zsh,sub.column13 ybh,sub.column16  zz,sub.column17 jz,sub.column24 sc,sub.column37 zs,sub.column58 xz,sub.column55 ys,sub.column56 jd,sub.column57 qg,father.column14 cpdl from DY_271334208897441 sub left join DY_271334208897439 father on  sub.fatherlsh=father.lsh     where father.STATUSINFO='01' and sub.STATUSINFO='01'  and sub.column4 like '%$(q)%'";
+
+		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+		List list = db.queryData(con, sql);
+
+		java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
+		String split = "";
+		for (int i = 0; i < list.size(); i++) {
+			try {
+				String jsonStr = net.sf.json.JSONObject.fromObject(list.get(i))
+						.toString();
+				jsonBuffer.append(split);
+				jsonBuffer.append(jsonStr);
+				split = ",";
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		db.close(con);
+		return "[" + jsonBuffer.toString() + "]";
+	}
+
+	/**
+	 * 分销退货获取单品条码脚本 对应的资源目录： SOASCRIPT.SOASCRIPT.ZB.FXGL.FXTH
+	 * 
+	 * @return
+	 */
+	@Deprecated
+	public String FXTH() {
+		String sql = "select sub.*,fa.column9 fzx from DY_661338441749388 sub,DY_661338441749389 fa where fa.STATUSINFO='01' and sub.STATUSINFO='01' and sub.fatherlsh=fa.lsh and sub.column3 like '$(q)%'";
+
+		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+		List list = db.queryData(con, sql);
+		java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
+		String split = "";
+		for (int i = 0; i < list.size(); i++) {
+			try {
+				String jsonStr = net.sf.json.JSONObject.fromObject(list.get(i))
+						.toString();
+				jsonBuffer.append(split);
+				jsonBuffer.append(jsonStr);
+				split = ",";
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		db.close(con);
+		return "[" + jsonBuffer.toString() + "]";
+	}
 }

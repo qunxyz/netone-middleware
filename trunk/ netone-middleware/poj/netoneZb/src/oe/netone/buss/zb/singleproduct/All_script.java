@@ -207,10 +207,9 @@ public class All_script extends OeScript {
 	 * 
 	 * @return
 	 */
-	@Deprecated
 	public String GETPRODUCTBYFXJH() {
 		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
-		
+
 		List list = db
 				.queryData(
 						con,
@@ -309,7 +308,6 @@ public class All_script extends OeScript {
 	 * 
 	 * @return
 	 */
-	@Deprecated
 	public String GETPRODUCTBYINDENT() {
 		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
 
@@ -637,7 +635,6 @@ public class All_script extends OeScript {
 	 * 
 	 * @return
 	 */
-	@Deprecated
 	public String DPRK() {
 		String sql = "select sub.column4 code,sub.column7 cpmc,sub.column34 sj,sub.column11 kh,sub.column12 zsh,sub.column13 ybh,sub.column16  zz,sub.column17 jz,sub.column24 sc,sub.column37 zs,sub.column58 xz,sub.column55 ys,sub.column56 jd,sub.column57 qg,father.column14 cpdl from DY_271334208897441 sub left join DY_271334208897439 father on  sub.fatherlsh=father.lsh     where father.STATUSINFO='01' and sub.STATUSINFO='01'  and sub.column4 like '%$(q)%'";
 
@@ -666,7 +663,6 @@ public class All_script extends OeScript {
 	 * 
 	 * @return
 	 */
-	@Deprecated
 	public String FXTH() {
 		String sql = "select sub.*,fa.column9 fzx from DY_661338441749388 sub,DY_661338441749389 fa where fa.STATUSINFO='01' and sub.STATUSINFO='01' and sub.fatherlsh=fa.lsh and sub.column3 like '$(q)%'";
 
@@ -683,6 +679,33 @@ public class All_script extends OeScript {
 				split = ",";
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+		}
+		db.close(con);
+		return "[" + jsonBuffer.toString() + "]";
+	}
+
+	/**
+	 * 根据当前用户查找分销商信息 SOASCRIPT.SOASCRIPT.ZB.GETFCLIENTBYUSER
+	 * 
+	 * @return
+	 */
+	public String GETFCLIENTBYUSER() {
+		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+
+		List list = db
+				.queryData(
+						con,
+						"SELECT column4 AS fclientcode,column3 AS fclientname FROM DY_61336130537483 WHERE column21 LIKE '%$(sr_participant)[%' ");
+		java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
+		String split = "";
+		if (list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				String jsonStr = net.sf.json.JSONObject.fromObject(list.get(i))
+						.toString();
+				jsonBuffer.append(split);
+				jsonBuffer.append(jsonStr);
+				split = ",";
 			}
 		}
 		db.close(con);

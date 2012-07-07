@@ -102,7 +102,7 @@ public class DownloadSvl extends HttpServlet {
 		try {
 
 			String extName = null;
-			if ("二进制流[BINARY]".equals(upo.getObjecttype())) {
+			if ("二进制流[BINARY]".equals(upo.getObjecttype())|| StringUtils.isNotEmpty(upo.getDescription())) {
 				extName = "." + upo.getDescription();
 			} else {
 				extName = StringUtils.substringAfterLast(upo.getObjecttype(),

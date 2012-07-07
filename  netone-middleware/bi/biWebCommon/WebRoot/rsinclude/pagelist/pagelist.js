@@ -15,7 +15,12 @@ function uploadfile(){
 	var pagename = document.all.pagename.value;
 	var active = document.all.active.value;
 	var objecttype=document.all.objecttype.value;
-	form1.action="PagelistUploadSvl?task=uploadfile&filename="+filename+"&naturalname="+naturalname+"&extendattribute="+extendattribute+"&dirid="+dirid+"&appid="+appid+"&pagename="+pagename+"&active="+active+"&objecttype="+objecttype;
+	var name=document.all.name.value;
+	if(objecttype==''){
+		alert('请选择功能');
+		return;
+	}
+	form1.action="PagelistUploadSvl?task=uploadfile&filename="+filename+"&naturalname="+naturalname+"&extendattribute="+extendattribute+"&dirid="+dirid+"&appid="+appid+"&pagename="+pagename+"&active="+active+"&objecttype="+objecttype+"&name="+name;
 	form1.submit();
 }
 //自动填写上传文件信息
@@ -23,7 +28,6 @@ function autofile(){
 	var filename = document.all.files.value;
 	filename = filename.substring(filename.lastIndexOf('\\')+1,filename.length);
 	document.all.filename.value = filename;
-	document.all.naturalname.value = filename;
 }
 //全选
 function allcheck(){

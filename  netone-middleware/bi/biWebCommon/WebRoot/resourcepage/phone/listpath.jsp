@@ -14,7 +14,7 @@
 	<head>
 		<base href="<%=basePath%>">
 
-		<title>手机配置管理</title>
+		<title>手机应用框架</title>
 
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -125,7 +125,8 @@
 							<!-- ${pathreal} -->
 						</td>
 						<td colspan='1'>
-						
+							<a href='javascript:newInclusion();'><font color='blue'>新建目录</font>
+							</a> &nbsp;&nbsp;
 						</td>
 					</tr>
 					<tr>
@@ -170,10 +171,8 @@
 					<tr>
 						<td colspan='9' align='right' nowrap>
 							&nbsp;&nbsp;
-							<input type="button" value="新建层次" onclick="newds1()" class="butt">
-							&nbsp;&nbsp;
-
-							<input type="button" value="新建程序" onclick="newds()" class="butt">
+	
+							<input type="button" value="新建" onclick="newElementBinary()" class="butt">
 							&nbsp;&nbsp;
 							<input type="button" value="修改" onclick="edit();"
 								class="butt">
@@ -217,6 +216,9 @@
 							<td>
 								<input type="checkbox" name="chkid" value="${list.id}">
 							</td>
+
+							
+							
 							<td align='left' nowrap>
 								<c:if test="${list.inclusion == '1'}">
 									<a href="javascript:inclusionlink('${list.id}','${list.ou}');"><img
@@ -225,7 +227,7 @@
 									<a href="javascript:view('${list.id}');">${list.name}</a>
 								</c:if>
 								<c:if test="${list.inclusion != '1'}">
-									${list.name}
+									<a href="javascript:view('${list.id}');">${list.name}</a>
 
 								</c:if>
 							</td>
@@ -234,7 +236,12 @@
 							</td>
 
 							<td nowrap>
-								${list.objecttype}
+								<c:if test="${list.objecttype=='1'}">流程应用</c:if>
+								<c:if test="${list.objecttype=='2'}">内容频道</c:if>
+								<c:if test="${list.objecttype=='3'}">表单应用</c:if>
+								<c:if test="${list.objecttype=='4'}">统一查询</c:if>
+								<c:if test="${list.objecttype=='5'}">定位管理</c:if>
+								<c:if test="${list.objecttype=='6'}">消息应用</c:if> 
 							</td>
 							<td nowrap>
 								${list.created}
@@ -248,11 +255,6 @@
 								</c:if>
 							</td>
 							<td nowrap>
-							       
-									<a  
-										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>/servlet/DelFile?naturalname=${list.naturalname}','_parent');"
-										target="_blank"><font color='red'>[删除]</font></a>	
-		
 
 							</td>
 

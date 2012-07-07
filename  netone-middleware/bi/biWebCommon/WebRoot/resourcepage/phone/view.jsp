@@ -10,34 +10,18 @@
 <html>
 	<head>
 		<base href="<%=basePath%>">
-		<title>手机功能修改</title>
+		<title>显示</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
 		<meta http-equiv="expires" content="0">
 		<link rel="stylesheet" type="text/css" href="rsinclude/css/css.css">
 		<script type="text/javascript" src="rsinclude/pagelist/pagelist.js"></script>
-		<script type="text/javascript">
-		//打开树选择页面
-		function searchtree() {
-			window.open("SelectSvl?appname=MAPP.MAPP&pagename="+document.all.pagename.value,'_blank',' top=100, left=100, toolbar=no,height=400, width=550');
-		}
-		
-		function sselected(text,value){
-		   	document.getElementById("objecttype").value=text+"["+value+"]";
-		}
-		</script>
 	</head>
 	<body style="font-size: 12px;margin: 22px">
-		<c:if test="${ModifySuccess == 'y'}">
+		<c:if test="${viewSuccess == 'noPermission'}">
 			<script type="text/javascript">
-				alert("修改成功！")
-				opener.search();
+				alert("没有查看权限！")
 				window.close();
-			</script>
-		</c:if>
-		<c:if test="${ModifySuccess == 'n'}">
-			<script type="text/javascript">
-				alert("修改失败！")
 			</script>
 		</c:if>
 		<div style="width: 100%;height: 100%">
@@ -77,8 +61,7 @@
 					</tr>
 					<tr>
 						<td width="15%">
-							<a href="javascript:searchtree();"><font color='blue'>选择功能</font>
-							</a>
+							功能类型
 						</td>
 						<td width='300'>
 							<input type="text" name="objecttype" value="${upo.objecttype}"
@@ -99,7 +82,7 @@
 							扩展属性
 						</td>
 						<td>
-							<textarea rows="20" cols="60" name="extendattribute">${upo.extendattribute}</textarea>
+							<textarea rows="8" cols="60" name="extendattribute">${upo.extendattribute}</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -110,8 +93,9 @@
 							<textarea rows="2" cols="60" name="description">${upo.description}</textarea>
 						</td>
 					</tr>
-					<tr>						<td colspan='2'>
-		
+					<tr>
+
+						<td colspan='2'>
 
 							<img src="DownloadSvl?fileid=${upo.id}"/>
 
@@ -119,11 +103,7 @@
 					</tr>
 				</table>
 				<br>
-				<div align="center">
-					<input type="submit" name="btnnew" value="修 改" class="butt">
-					<input type="button" name="btncancel" value="取 消"
-						onclick="javascript:window.close();" class="butt">
-				</div>
+
 			</form>
 		</div>
 	</body>

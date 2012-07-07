@@ -21,6 +21,10 @@
 		function searchtree() {
 			window.open("SelectSvl?appname=BUSSENV.BUSSENV.MOBILEAPP&pagename="+document.all.pagename.value);
 		}
+		
+		function sselected(text,value){
+		   	document.getElementById("objecttype").value=text+"["+value+"]";
+		}
 		</script>
 	</head>
 	<body style="font-size: 12px;margin: 22px">
@@ -73,15 +77,21 @@
 					</tr>
 					<tr>
 						<td width="15%">
-							<a href="javascript:searchtree();"><font color='blue'>选择分类</font>
-							</a>
+							选择分类
 						</td>
 						<td width='300'>
-							<input type="text" name="objecttype" value="${upo.objecttype}"
-								class="textinput_td" readonly="readonly">
+
+							<select name='objecttype' id='objecttype'>
+								<option value='1' <c:if test="${upo.objecttype=='1'}">selected</c:if>>流程应用</option>
+								<option value='2' <c:if test="${upo.objecttype=='2'}">selected</c:if>>内容频道</option>
+								<option value='3' <c:if test="${upo.objecttype=='3'}">selected</c:if>>表单应用</option>
+								<option value='4' <c:if test="${upo.objecttype=='4'}">selected</c:if>>统一查询</option>
+								<option value='5' <c:if test="${upo.objecttype=='5'}">selected</c:if>>定位管理</option>
+								<option value='6' <c:if test="${upo.objecttype=='6'}">selected</c:if>>消息应用</option>
+							</select>
 						</td>
 					</tr>
-					<tr>
+					<tr sytle='display:none'>
 						<td width="15%">
 							引用
 						</td>
@@ -95,7 +105,7 @@
 							扩展属性
 						</td>
 						<td>
-							<textarea rows="20" cols="100" name="extendattribute">${upo.extendattribute}</textarea>
+							<textarea rows="20" cols="80" name="extendattribute">${upo.extendattribute}</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -103,7 +113,7 @@
 							描述
 						</td>
 						<td>
-							<textarea rows="4" cols="100" name="description">${upo.description}</textarea>
+							<textarea rows="2" cols="80" name="description">${upo.description}</textarea>
 						</td>
 					</tr>
 				</table>

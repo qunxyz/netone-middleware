@@ -76,15 +76,20 @@
 					</tr>
 					<tr>					
 						<td  width="15%">
-							<a href="javascript:searchtree();"><font color='blue'>选择分类</font>
-							</a>
+							选择分类
 						</td>
 						<td width='300'>
-							<input type="text" name="objecttype" value=""
-								class="textinput_td" readonly="readonly">
+							<select name='objecttype' id='objecttype'>
+								<option value='1'>流程应用</option>
+								<option value='2'>内容频道</option>
+								<option value='3'>表单应用</option>
+								<option value='4'>统一查询</option>
+								<option value='5'>定位管理</option>
+								<option value='6'>消息应用</option>
+							</select>
 						</td>
 					</tr>
-					<tr>
+					<tr style='display:none'>
 						<td width="15%">
 							引用
 						</td>
@@ -94,10 +99,10 @@
 					</tr>
 					<tr>
 						<td width="15%">
-							SOA脚本
+							配置
 						</td>
 						<td>
-							<textarea rows="20" cols="100" name="extendattribute"></textarea>
+							<textarea rows="20" cols="80" name="extendattribute"></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -105,7 +110,7 @@
 							描述
 						</td>
 						<td>
-							<textarea rows="4" cols="100" name="description"></textarea>
+							<textarea rows="2" cols="80" name="description"></textarea>
 						</td>
 					</tr>
 				</table>

@@ -87,7 +87,7 @@ public class UploadSvl extends HttpServlet {
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
-		Security sec = new Security(request);
+
 
 		// 入口参数
 		String pagename = request.getParameter("pagename");
@@ -102,14 +102,8 @@ public class UploadSvl extends HttpServlet {
 		String active = request.getParameter("active");// 其他
 		String objecttype = WebStr.iso8859ToGBK(request
 				.getParameter("objecttype"));// 其他
+		String name=request.getParameter("name");
 
-		boolean b = false;
-		UmsProtectedobject parentUpo = null;
-		if (StringUtils.isNotEmpty(dirid)) {
-			parentUpo = rsrmi.loadResourceById(dirid);
-			b = sec.check(parentUpo.getNaturalname(), LogUtil._ADD);
-			
-		}
 
 		if (StringUtils.isNotEmpty(pagename)) {
 			request.setAttribute("pagename", pagename);
@@ -117,26 +111,30 @@ public class UploadSvl extends HttpServlet {
 		// 进入上传页面
 		if ("addfile".equals(task)) {
 
-			if (b) {
 				request.setAttribute("dirid", dirid);
 				request.setAttribute("appid", appid);
-			} else {
-				request.setAttribute("result", "n");
-				request.setAttribute("errorinfo", "无权创建");
-			}
+
 
 			// 执行上传操作
 		} else if ("uploadfile".equals(task)) {
 			request.setAttribute("dirid", dirid);
 			request.setAttribute("appid", appid);
 			// 添加上传记录
-			if (b) {
+				
 				String format = StringUtils.substringAfterLast(filename, ".");
 				filename = StringUtils.substringBeforeLast(filename, ".");
-				naturalname = StringUtils.substringBeforeLast(naturalname, ".");
+				if(StringUtils.contains(naturalname, ".")){
+					naturalname = StringUtils.substringBeforeLast(naturalname, ".");
+				}
+				
 				UmsProtectedobject upo = new UmsProtectedobject();
 				upo.setNaturalname(naturalname);
-				upo.setName(filename);
+				if(StringUtils.isEmpty(name)){
+					upo.setName(filename);
+				}else{
+					upo.setName(name);
+				}
+				
 				upo.setExtendattribute(extendattribute);
 				upo.setParentdir(request.getParameter("dirid"));
 				upo.setInclusion(ProtectedObjectReference._OBJ_INCLUSTION_NO);
@@ -195,13 +193,9 @@ public class UploadSvl extends HttpServlet {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					sec.log(parentUpo.getNaturalname() + "."
-							+ upo.getNaturalname(), LogUtil._ADD, LogUtil._ADD_SUCCESS);
+
 				}
-			} else {
-				request.setAttribute("result", "n");
-				request.setAttribute("errorinfo", "无权创建");
-			}
+
 
 		}
 

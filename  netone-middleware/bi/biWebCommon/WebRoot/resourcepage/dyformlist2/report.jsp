@@ -7,8 +7,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-
-
 		<title>业务报表</title>
 	</head>
 	<body>
@@ -34,37 +32,37 @@
 
 				<tr>
 					<td>
-						${data.column3}
+						${data.column3}&nbsp;
 					</td>
 					<td>
-						${data.column4}
+						${data.column4}&nbsp;
 					</td>
 					<td>
-						${data.column5}
+						${data.column5}&nbsp;
 					</td>
 					<td>
-						${data.column6}
+						${data.column6}&nbsp;
 					</td>
 					<td>
-						${data.column7}
+						${data.column7}&nbsp;
 					</td>
 					<td>
-						${data.column8}
+						${data.column8}&nbsp;
 					</td>
 					<td>
-						${data.column9}
+						${data.column9}&nbsp;
 					</td>
 					<td>
-						${data.column10}
+						${data.column10}&nbsp;
 					</td>
 					<td>
-						${data.column11}
+						${data.column11}&nbsp;
 					</td>
 					<td>
-						${data.column12}
+						${data.column12}&nbsp;
 					</td>
 					<td>
-						${data.column13}
+						${data.column13}&nbsp;
 					</td>
 				</tr>
 

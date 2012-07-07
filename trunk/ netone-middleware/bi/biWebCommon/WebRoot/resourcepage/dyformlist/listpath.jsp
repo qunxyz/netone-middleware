@@ -248,7 +248,7 @@
 									if(type=='removesecurity')
 									window.open('/biWeb/servlet/DySecuritySvl?rsid='+value+'&remove=yes','_blank');
 									if(type=='forminfox')
-									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>UpdateDoForm.html?naturalname=${upo.naturalname}&active='+active+'&formid='+formcode,'_blank');
+									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>UpdateDoForm.html?naturalname=${upo.naturalname}&formid='+formcode,'_blank');
 							        if(type=='copy')
 									window.open('/dyForm/DyFormCopySvl?pagepath=${upo.naturalname}&formcode='+formcode,'_blank');
 									if(type=='istake')

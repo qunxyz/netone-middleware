@@ -81,7 +81,7 @@
 						</td>
 						<td>
 
-							<textarea rows="10" cols="100" name="actionurl">${upo.actionurl}</textarea>
+							<textarea rows="15" cols="80" name="actionurl">${upo.actionurl}</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -89,7 +89,7 @@
 							¿©’π Ù–‘
 						</td>
 						<td>
-							<textarea rows="1" cols="60" name="extendattribute">${upo.extendattribute}</textarea>
+							<textarea rows="1" cols="80" name="extendattribute">${upo.extendattribute}</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -97,7 +97,7 @@
 							√Ë ˆ
 						</td>
 						<td>
-							<textarea rows="4" cols="60" name="description">${upo.description}</textarea>
+							<textarea rows="2" cols="80" name="description">${upo.description}</textarea>
 						</td>
 					</tr>
 				</table>

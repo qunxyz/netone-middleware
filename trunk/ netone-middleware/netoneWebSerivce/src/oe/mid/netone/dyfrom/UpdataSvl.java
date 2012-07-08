@@ -2,11 +2,15 @@ package oe.mid.netone.dyfrom;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import oe.cav.bean.logic.column.TCsColumn;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -73,24 +77,19 @@ public class UpdataSvl extends HttpServlet {
 		dydata.setFatherlsh(parentId);
 		dydata.setParticipant(userid);
 		dydata.setLsh(lsh);
-		for (int i = 3; i < 50; i++) {
-			String columnId = "column" + i;
-			String value = request.getParameter(columnId);
-			if (StringUtils.isNotEmpty(value)) {
-				try {
-					BeanUtils.setProperty(dydata, columnId, value);
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-		}
 
 		try {
+			List listz = DyEntry.iv().fetchColumnList(formcode);
+			for (Iterator iterator = listz.iterator(); iterator.hasNext();) {
+				TCsColumn object = (TCsColumn) iterator.next();
+				String columnId=object.getColumnid().toLowerCase();
+				if(columnId.startsWith("column")){
+					String value = request.getParameter(columnId);
+					if (StringUtils.isNotEmpty(value)) {
+						BeanUtils.setProperty(dydata, columnId, value);
+					}
+				}
+			}
 			fal = DyEntry.iv().modifyData(formcode, dydata);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

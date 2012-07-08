@@ -39,7 +39,7 @@ public class ConfigurationAction extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("tuf_8");
+		request.setCharacterEncoding("utf_8");
 		String value=null;
 		String appname=request.getParameter("appname");
 		 UmsProtecte uProtecte=new UmsProtecte();

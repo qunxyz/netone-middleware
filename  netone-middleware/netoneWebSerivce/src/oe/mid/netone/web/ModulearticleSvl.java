@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import com.jl.common.workflow.DbTools;
+import com.jl.common.workflow.DbTools2;
 
 public class ModulearticleSvl extends HttpServlet {
 
@@ -66,7 +67,7 @@ public class ModulearticleSvl extends HttpServlet {
 			sqlStr = "select title,url from cms_phpcms.v9_news where catid="
 					+ catid + "  AND STATUS=99";
 		}
-		List list = DbTools.queryData(sqlStr);
+		List list = DbTools2.queryData(sqlStr);
 
 		String json = JSONArray.fromObject(list).toString();
 

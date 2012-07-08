@@ -23,7 +23,11 @@ import com.jl.common.netone.RMI_SER;
 import com.jl.common.netone.RMI_SER_obj;
 import com.jl.common.workflow.DbTools;
 import com.jl.common.workflow.WfEntry;
-
+/**
+ * ´ý°ìÈÎÎñ
+ * @author robanco
+ *
+ */
 public class MyframeSvl extends HttpServlet {
 
 	/**

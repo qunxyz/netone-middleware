@@ -12,6 +12,11 @@ import net.sf.json.JSONArray;
 
 import com.jl.common.workflow.DbTools;
 
+/**
+ * 本日理货管理
+ * @author robanco
+ *
+ */
 public class LhTodaySvl extends HttpServlet {
 
 	/**

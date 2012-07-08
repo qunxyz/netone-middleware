@@ -15,6 +15,11 @@ import oe.rmi.client.RmiEntry;
 
 import com.jl.common.workflow.DbTools;
 
+/**
+ * 展示图片（提供网页链接服务非手机解析）
+ * @author robanco
+ *
+ */
 public class ListPicSvl extends HttpServlet {
 
 	/**

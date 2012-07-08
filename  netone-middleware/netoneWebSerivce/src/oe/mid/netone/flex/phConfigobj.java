@@ -13,11 +13,11 @@ public final class phConfigobj {
 	/** 资源名称 */
 	private String resourcename;
 	/** 资源类型 */
-	private String types;
+	private String types="1";
 	/**文件与文件夹的区别**/
 	private String distinguish;
  
-	private String extendattribute;
+	private String extendattribute="";
 	private String imagename;
 
  

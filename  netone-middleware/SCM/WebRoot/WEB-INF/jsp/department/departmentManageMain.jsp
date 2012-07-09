@@ -7,7 +7,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<jsp:include page="../common/metaExt.jsp"></jsp:include>
-		<jsp:include page="../common/metaJQuery-min.jsp"></jsp:include>
+		<script src="<%=path%>/script/jquery-1.3.2.min.js" type="text/javascript"></script>
         <jsp:include page="../common/metaJQuery-ui-dialog.jsp"/>
 		<script type="text/javascript" src="<%=path%>/theme/ext/extend/gridToExcel.js"></script>
 		<script language="javascript" type="text/javascript"

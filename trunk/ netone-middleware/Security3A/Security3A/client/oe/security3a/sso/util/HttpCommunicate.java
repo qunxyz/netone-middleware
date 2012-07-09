@@ -2,6 +2,8 @@ package oe.security3a.sso.util ;
 
 import java.net.URL ;
 import java.io.* ;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log ;
 import org.apache.commons.logging.LogFactory ;
 import java.net.URLConnection ;
@@ -40,7 +42,8 @@ public class HttpCommunicate {
         URL url = new URL( urlstr ) ;
         try
         {
-            URLConnection urlconn = url.openConnection() ;
+        	URLConnection urlconn = url.openConnection() ;
+            
             InputStream is = urlconn.getInputStream() ;
             BufferedReader r = new BufferedReader( new InputStreamReader( is ) ) ;
             String line ;
@@ -55,7 +58,21 @@ public class HttpCommunicate {
         catch ( IOException ex )
         {
             log.error( "建立http连接失败！url:" + urlstr ) ;
-            throw ex ;
+            //有些应用在本地无法访问外网地址
+            String urlx=StringUtils.substringBetween(urlstr, "://", ":");
+            urlstr=StringUtils.replace(urlstr, urlx, "127.0.0.1");
+            url = new URL( urlstr ) ;
+        	URLConnection urlconn = url.openConnection() ;
+            InputStream is = urlconn.getInputStream() ;
+            BufferedReader r = new BufferedReader( new InputStreamReader( is ) ) ;
+            String line ;
+            StringBuffer sb = new StringBuffer() ;
+            while ( ( line = r.readLine() ) != null )
+            {
+                sb.append( line ) ;
+            }
+            r.close();
+            return sb.toString();
         }
     }
 

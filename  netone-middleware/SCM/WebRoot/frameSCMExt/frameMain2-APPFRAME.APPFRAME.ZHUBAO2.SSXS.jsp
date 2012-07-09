@@ -785,9 +785,9 @@ function $colconfig(){
 
 $(function(){
 	<rs:noPermission action="7" resource="${naturalname_dyform}.LIST">
-	alert('无操作权限，请联系管理员！');
-	window.opener=null;
-	window.close();
+	//alert('无操作权限，请联系管理员！');
+	//window.opener=null;
+	//window.close();
 	</rs:noPermission>
 
  	if(!$.browser.msie){ //not IE

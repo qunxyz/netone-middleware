@@ -546,7 +546,7 @@ html.VIE7 .form_fieldinput {
 											excel
 										</option>
 										<option value="html" selected="selected">
-											html
+											网页
 										</option>
 										<option value="pdf">
 											pdf

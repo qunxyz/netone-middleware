@@ -12,6 +12,18 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<jsp:include page="/WEB-INF/jsp/common/metaExt.jsp"></jsp:include>
 		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-min.jsp"></jsp:include>
+
+		<link rel="stylesheet" href="<%=path%>/script/jquery-plugin/jquery-ui/themes/redmond/jquery-ui-1.7.3.custom.css" type="text/css" />
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-ui/ui/jquery-ui-1.7.3.custom.js"></script>
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-ui/ui/jquery.ui.widget.js"></script>
+		
+		<!-- multiselect -->
+		<link type="text/css" href="<%=path%>/script/jquery-plugin/jquery-multiselect/jquery.multiselect.css" rel="stylesheet" />
+		<link type="text/css" href="<%=path%>/script/jquery-plugin/jquery-multiselect/jquery.multiselect.filter.css" rel="stylesheet" />
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/jquery.multiselect.min.js"></script>
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/jquery.multiselect.filter.min.js"></script>
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/i18n/jquery.multiselect.filter.zh-cn.js"></script>
+		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/i18n/jquery.multiselect.zh-cn.js"></script>
 		
 		<script src="<%=path%>/script/jquery-plugin/json2.js" type="text/javascript"></script>
 		<script language="javascript" type="text/javascript"

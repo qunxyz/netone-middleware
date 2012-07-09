@@ -103,7 +103,9 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		// START 前置脚本
 		DyAnalysisXml dayx = new DyAnalysisXml();
 		if (isnew) {
-			dayx.scriptPre(formcode, new TCsBus(), "PNewSave");
+			TCsBus bux = new TCsBus();
+			BeanUtils.copyProperties(bux, form);
+			dayx.scriptPre(formcode, bux, "PNewSave");
 		} else {
 			dayx.script(formcode, id, "PUpdateSave"); // 正常保存
 		}

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=GBK"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.oesee.com/netone/resource"  prefix="resource"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%
 	String path = request.getContextPath();
@@ -74,18 +75,19 @@
 							<input type="text" name="name" value="" class="textinput_td" />
 						</td>
 					</tr>
-					<tr>					
+					
+					<tr <c:if test="${inclusion=='1'}">style='display:none'</c:if>>					
 						<td  width="15%">
 							选择分类
 						</td>
 						<td width='300'>
 							<select name='objecttype' id='objecttype'>
-								<option value='1'>流程应用</option>
-								<option value='2'>内容频道</option>
-								<option value='3'>表单应用</option>
-								<option value='4'>统一查询</option>
-								<option value='5'>定位管理</option>
-								<option value='6'>消息应用</option>
+							   <c:set var="condition" value="and naturalname like 'BUSSENV.BUSSENV.MOBILEAPP.%' order by extendattribute"></c:set>						
+							   <resource:fetchResource dataname="listz" condition="${condition}"></resource:fetchResource>
+							   <c:forEach items="${listz}" var="upoz">
+									<option value='${upoz.extendattribute}'>${upoz.name}[${upoz.extendattribute}]</option>
+							   </c:forEach>
+
 							</select>
 						</td>
 					</tr>
@@ -97,7 +99,7 @@
 							<input type="text" name="actionurl" value="" class="textinput_td" />
 						</td>
 					</tr>
-					<tr>
+					<tr <c:if test="${inclusion=='1'}">style='display:none'</c:if>>
 						<td width="15%">
 							配置
 						</td>

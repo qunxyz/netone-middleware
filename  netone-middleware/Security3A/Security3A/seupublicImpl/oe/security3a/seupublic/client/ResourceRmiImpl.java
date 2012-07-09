@@ -177,7 +177,7 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 		UmsProtectedobject poj = new UmsProtectedobject();
 		poj.setParentdir(parentid);
 		// poj.setDiris("1");
-		String defaultCondition = " order by aggregation desc";
+		String defaultCondition = " order by aggregation";
 		return pos.fetchDao().queryObjects(poj, null, defaultCondition);
 	}
 

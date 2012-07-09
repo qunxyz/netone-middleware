@@ -104,7 +104,7 @@ public class SsoUtil {
 		String tokenTimeOut = SecurityConfig.getInstance()
 				.getSSOServerProperty("tokenTimeout");
 		int limit = Integer.parseInt(tokenTimeOut);
-		int limittime = limit * 60;
+		int limittime = limit * 60*60;
 		String cookieName = SsoUtil.getSsoToken_key(req);
 		Cookie cookie = new Cookie(cookieName, token);
 		if (limittime != 0) {

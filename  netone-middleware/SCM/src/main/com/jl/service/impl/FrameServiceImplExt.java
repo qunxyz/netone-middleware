@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import oe.cav.bean.logic.bus.TCsBus;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -30,6 +31,7 @@ import org.apache.log4j.Logger;
 import com.jl.common.JSONUtil2;
 import com.jl.common.app.AppEntry;
 import com.jl.common.app.AppObj;
+import com.jl.common.dyform.DyAnalysisXml;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormBuildHtmlExt;
@@ -78,6 +80,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		JSONObject json = new JSONObject();
 		String id = form.getLsh();
 		form.setFatherlsh(fatherlsh);
+		boolean isnew = false;
 		if (StringUtils.isNotEmpty(id)) {// 根据Id 来判断是 否是修改还是插入
 			boolean success = DyEntry.iv().modifyData(formcode, form);
 			if (!success) {
@@ -86,6 +89,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 				return json.toString();
 			}
 		} else {
+			isnew = true;
 			form.setParticipant(StringUtils.substringBetween(participant, "[",
 					"]"));
 			id = DyEntry.iv().addData(formcode, form);
@@ -95,6 +99,15 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 				return json.toString();
 			}
 		}
+
+		// START 前置脚本
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		if (isnew) {
+			dayx.scriptPre(formcode, new TCsBus(), "PNewSave");
+		} else {
+			dayx.script(formcode, id, "PUpdateSave"); // 正常保存
+		}
+		// END 前置脚本
 
 		// 子表单操作
 		if (subform != null && !"[]".equals(subform)) {
@@ -133,6 +146,16 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 			}
 
 		}
+
+		// START 后置脚本
+		// System.out.println("new data coming:" + lsh);
+		if (isnew) {
+			dayx.script(formcode, id, "NewSave");
+		} else {
+			dayx.script(formcode, id, "UpdateSave"); // 正常保存
+		}
+		// END 后置脚本
+
 		// long end = new Date().getTime();
 		// System.out.println("保存花费时间：" + (double) (end - start) / 1000 + "秒");
 		json.put("tip", "保存成功");
@@ -146,6 +169,12 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 	public String delete(HttpServletRequest request, String formcode, String lsh)
 			throws Exception {
 		JSONObject json = new JSONObject();
+
+		// START 前置脚本
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		dayx.script(formcode, lsh, "PDelete");
+		// END 前置脚本
+
 		if (StringUtils.isEmpty(lsh)) {
 			json.put("tip", "该单未保存,无须删除!");
 		} else {
@@ -171,12 +200,25 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 			// WebCache.removeCache($DYFORM + formcode + lsh + "true");
 			// WebCache.removeCache($DYFORM + formcode + lsh + "false");
 		}
+
+		// START 后置脚本
+		if (json.containsKey("error")) {
+			dayx.script(formcode, lsh, "Delete");
+		}
+		// END 后置脚本
+
 		return json.toString();
 	}
 
 	public String deleteByLogic(HttpServletRequest request, String formcode,
 			String lsh) throws Exception {
 		JSONObject json = new JSONObject();
+
+		// START 前置脚本
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		dayx.script(formcode, lsh, "PDelete");
+		// END 前置脚本
+
 		if (StringUtils.isEmpty(lsh)) {
 			json.put("tip", "该单未保存,无须归档!");
 		} else {
@@ -208,6 +250,13 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 			// WebCache.removeCache($DYFORM + formcode + lsh + "true");
 			// WebCache.removeCache($DYFORM + formcode + lsh + "false");
 		}
+
+		// START 后置脚本
+		if (json.containsKey("error")) {
+			dayx.script(formcode, lsh, "Delete");
+		}
+		// END 后置脚本
+
 		return json.toString();
 	}
 
@@ -1614,6 +1663,14 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 				json.put("error", "yes");
 			}
 		}
+
+		// START 脚本事件
+		if (json.containsKey("error")) {
+			DyAnalysisXml dayx = new DyAnalysisXml();
+			dayx.script(formcode, lsh, "Yesaffirm");// 确认
+		}
+		// END 脚本事件
+
 		return json.toString();
 	}
 
@@ -1650,6 +1707,14 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 				json.put("error", "yes");
 			}
 		}
+
+		// START 脚本事件
+		if (json.containsKey("error")) {
+			DyAnalysisXml dayx = new DyAnalysisXml();
+			dayx.script(formcode, lsh, "Onaffirm");// 反确认
+		}
+		// END 脚本事件
+
 		return json.toString();
 	}
 

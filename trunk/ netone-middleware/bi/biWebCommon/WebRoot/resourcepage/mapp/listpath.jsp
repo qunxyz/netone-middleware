@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=GBK"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
+<%@ taglib uri="http://www.oesee.com/netone/resource"  prefix="resource"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%
 	String path = request.getContextPath();
@@ -183,6 +184,9 @@
 						</td>
 					</tr>
 				</table>
+				
+							   <c:set var="condition" value="and naturalname like 'BUSSENV.BUSSENV.MOBILEAPP.%'"></c:set>						
+							   <resource:fetchResource dataname="listz" condition="${condition}"></resource:fetchResource>
 				<HR>
 				<table id="hang_table" width="96%" border="0" align="center"
 					cellpadding="0" cellspacing="1">
@@ -233,12 +237,10 @@
 							</td>
 
 							<td nowrap>
-								<c:if test="${list.objecttype=='1'}">流程应用</c:if>
-								<c:if test="${list.objecttype=='2'}">内容频道</c:if>
-								<c:if test="${list.objecttype=='3'}">表单应用</c:if>
-								<c:if test="${list.objecttype=='4'}">统一查询</c:if>
-								<c:if test="${list.objecttype=='5'}">定位管理</c:if>
-								<c:if test="${list.objecttype=='6'}">消息应用</c:if> 
+								
+								   <c:forEach items="${listz}" var="upoz">
+		 								<c:if test="${list.objecttype==upoz.extendattribute}">${upoz.name}[upoz.extendattribute}]</c:if>
+   									</c:forEach>
 							</td>
 							<td nowrap>
 								${list.created}
@@ -253,10 +255,7 @@
 							</td>
 							<td nowrap>
 							       
-									<a  
-										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>/servlet/DelFile?naturalname=${list.naturalname}','_parent');"
-										target="_blank"><font color='red'>[删除]</font></a>	
-		
+	
 
 							</td>
 

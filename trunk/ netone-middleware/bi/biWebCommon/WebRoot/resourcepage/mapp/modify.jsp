@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=GBK"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.oesee.com/netone/resource"  prefix="resource"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%
 	String path = request.getContextPath();
@@ -82,16 +83,15 @@
 						<td width='300'>
 
 							<select name='objecttype' id='objecttype'>
-								<option value='1' <c:if test="${upo.objecttype=='1'}">selected</c:if>>流程应用</option>
-								<option value='2' <c:if test="${upo.objecttype=='2'}">selected</c:if>>内容频道</option>
-								<option value='3' <c:if test="${upo.objecttype=='3'}">selected</c:if>>表单应用</option>
-								<option value='4' <c:if test="${upo.objecttype=='4'}">selected</c:if>>统一查询</option>
-								<option value='5' <c:if test="${upo.objecttype=='5'}">selected</c:if>>定位管理</option>
-								<option value='6' <c:if test="${upo.objecttype=='6'}">selected</c:if>>消息应用</option>
+							   <c:set var="condition" value="and naturalname like 'BUSSENV.BUSSENV.MOBILEAPP.%' order by extendattribute"></c:set>						
+							   <resource:fetchResource dataname="listz" condition="${condition}"></resource:fetchResource>
+							   <c:forEach items="${listz}" var="upoz">
+									<option value='${upoz.extendattribute}' <c:if test="${upo.objecttype==upoz.objecttype}">selected</c:if>>${upoz.name}[${upoz.extendattribute}]</option>
+							   </c:forEach>
 							</select>
 						</td>
 					</tr>
-					<tr sytle='display:none'>
+					<tr style='display:none'>
 						<td width="15%">
 							引用
 						</td>
@@ -100,9 +100,9 @@
 								class="textinput_td" />
 						</td>
 					</tr>
-					<tr>
+					<tr <c:if test="${inclusion=='1'}">style='display:none'</c:if>>
 						<td width="15%">
-							扩展属性
+							配置
 						</td>
 						<td>
 							<textarea rows="20" cols="80" name="extendattribute">${upo.extendattribute}</textarea>

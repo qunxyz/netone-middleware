@@ -56,20 +56,20 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		busx.setStatusinfo("00");
 		busx.setTimex((new Timestamp(System.currentTimeMillis()).toString()));
 		busx.setFormcode(formid);
-		DyAnalysisXml dayx = new DyAnalysisXml();
-		dayx.scriptPre(formid, busx, "PNewSave");		
+//		DyAnalysisXml dayx = new DyAnalysisXml();
+//		dayx.scriptPre(formid, busx, "PNewSave");		
 		String lsh = dy.addData(formid, busx);
-		System.out.println("new data coming:" + lsh);
-		dayx.script(formid, lsh, "NewSave");
+//		System.out.println("new data coming:" + lsh);
+//		dayx.script(formid, lsh, "NewSave");
 		return lsh;
 	}
 
 	public boolean deleteData(String formid, String id) throws Exception {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 		DyAnalysisXml dayx = new DyAnalysisXml();
-		dayx.script(formid, id, "PDelete");
+//		dayx.script(formid, id, "PDelete");
 		boolean rs=dy.deleteData(formid, id);
-		dayx.script(formid, id, "Delete");
+//		dayx.script(formid, id, "Delete");
 		return rs;
 
 	}
@@ -575,19 +575,19 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		bus.setFormcode(formid);
 		TCsBus bux = new TCsBus();
 		BeanUtils.copyProperties(bux, bus);
-		DyAnalysisXml dayx = new DyAnalysisXml();
-		dayx.script(formid, lsh, "PUpdateSave"); //正常保存
+//		DyAnalysisXml dayx = new DyAnalysisXml();
+//		dayx.script(formid, lsh, "PUpdateSave"); //正常保存
 		boolean rs = dy.modifyData(bux);
 		if (rs) {
-			if(bux.getStatusinfo()==null){
-				dayx.script(formid, lsh, "UpdateSave"); //正常保存
-			}
-			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("02")){
-				dayx.script(formid, lsh, "Onaffirm");//反确认
-			}
-			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("01")){
-				dayx.script(formid, lsh, "Yesaffirm");//确认
-			}
+//			if(bux.getStatusinfo()==null){
+//				dayx.script(formid, lsh, "UpdateSave"); //正常保存
+//			}
+//			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("02")){
+//				dayx.script(formid, lsh, "Onaffirm");//反确认
+//			}
+//			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("01")){
+//				dayx.script(formid, lsh, "Yesaffirm");//确认
+//			}
 		}
 		return rs;
 	}

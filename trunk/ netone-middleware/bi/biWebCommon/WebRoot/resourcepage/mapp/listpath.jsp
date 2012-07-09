@@ -237,7 +237,6 @@
 							</td>
 
 							<td nowrap>
-								
 								   <c:forEach items="${listz}" var="upoz">
 		 								<c:if test="${list.objecttype==upoz.extendattribute}">${upoz.name}[upoz.extendattribute}]</c:if>
    									</c:forEach>

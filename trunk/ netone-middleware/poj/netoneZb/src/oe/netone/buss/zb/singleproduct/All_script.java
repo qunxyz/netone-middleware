@@ -636,7 +636,7 @@ public class All_script extends OeScript {
 	 * @return
 	 */
 	public String DPRK() {
-		String sql = "select sub.column4 code,sub.column7 cpmc,sub.column34 sj,sub.column11 kh,sub.column12 zsh,sub.column13 ybh,sub.column16  zz,sub.column17 jz,sub.column24 sc,sub.column37 zs,sub.column58 xz,sub.column55 ys,sub.column56 jd,sub.column57 qg,father.column14 cpdl from DY_271334208897441 sub left join DY_271334208897439 father on  sub.fatherlsh=father.lsh     where father.STATUSINFO='01' and sub.STATUSINFO='01'  and sub.column4 like '%$(q)%'";
+		String sql = "select sub.column4 code,sub.column7 cpmc,sub.column34 sj,sub.column11 kh,sub.column12 zsh,sub.column13 ybh,sub.column16  zz,sub.column17 jz,sub.column24 sc,sub.column37 zs,sub.column58 xz,sub.column55 ys,sub.column56 jd,sub.column57 qg,father.column14 cpdl from DY_271334208897441 sub left join DY_271334208897439 father on  sub.fatherlsh=father.lsh     where father.STATUSINFO='01' and sub.STATUSINFO='01'  and sub.column4 like '%$(q)%'  and father.column15='$(sr_clientid)' ";
 
 		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
 		List list = db.queryData(con, sql);
@@ -664,7 +664,7 @@ public class All_script extends OeScript {
 	 * @return
 	 */
 	public String FXTH() {
-		String sql = "select sub.*,fa.column9 fzx from DY_661338441749388 sub,DY_661338441749389 fa where fa.STATUSINFO='01' and sub.STATUSINFO='01' and sub.fatherlsh=fa.lsh and sub.column3 like '$(q)%'";
+		String sql = "select sub.*,fa.column9 fzx from DY_661338441749388 sub,DY_661338441749389 fa where fa.STATUSINFO='01' and sub.STATUSINFO='01' and sub.fatherlsh=fa.lsh and sub.column3 like '$(q)%' and fa.column12='$(sr_clientid)' ";
 
 		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
 		List list = db.queryData(con, sql);

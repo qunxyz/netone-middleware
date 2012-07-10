@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-
 import com.jl.entity.ReportEntity;
 import com.lucaslee.report.ReportException;
 import com.lucaslee.report.ReportManager;
@@ -379,6 +378,13 @@ public class ReportExt {
 		return tr;
 	}
 
+	public void setTitleHeader(Report report, String headerTitle,
+			String[] dateTitle, String[] extendContent) throws ReportException {
+		this
+				.setTitleHeader(report, headerTitle, dateTitle, extendContent,
+						true);
+	}
+
 	/**
 	 * 设置报表报表头
 	 * 
@@ -389,7 +395,8 @@ public class ReportExt {
 	 * @throws Exception
 	 */
 	public void setTitleHeader(Report report, String headerTitle,
-			String[] dateTitle, String[] extendContent) throws ReportException {
+			String[] dateTitle, String[] extendContent, boolean isdefault)
+			throws ReportException {
 		// *****************设置报表头*********************
 		Table headerTable = new Table();
 		// 设置表格的宽度比例(百分比)
@@ -449,18 +456,18 @@ public class ReportExt {
 				tr = new TableRow(colCount);
 				headerTable.addRow(tr);
 				tc = tr.getCell(0);
-				tc.setContent("日期范围:" + dateTitle[0]);
+				tc.setContent(isdefault ? "日期范围:" : "" + dateTitle[0]);
 				tc.setAlign(Rectangle.ALIGN_LEFT);
 				tc.setCssClass(Report.DATA_TYPE);
 				tc = tr.getCell(colCount - 1);
-				tc.setContent("查询日期:" + dateTitle[1]);
+				tc.setContent(isdefault ? "查询日期:" : "" + dateTitle[1]);
 				tc.setCssClass(Report.DATA_TYPE);
 				tc.setAlign(Rectangle.ALIGN_RIGHT);
 			} else {
 				tr = new TableRow(colCount);
 				headerTable.addRow(tr);
 				tc = tr.getCell(0);
-				tc.setContent("日期范围:" + dateTitle[0]);
+				tc.setContent(isdefault ? "日期范围:" : "" + dateTitle[0]);
 				tc.setAlign(Rectangle.ALIGN_LEFT);
 				tc.setCssClass(Report.DATA_TYPE);
 				tc.setColSpan(2);
@@ -468,7 +475,7 @@ public class ReportExt {
 				tc.setIsHidden(true);
 				tc = tr.getCell(colCount - 2);
 				tc.setColSpan(2);
-				tc.setContent("查询日期:" + dateTitle[1]);
+				tc.setContent(isdefault ? "查询日期:" : "" + dateTitle[1]);
 				tc.setCssClass(Report.DATA_TYPE);
 				tc.setAlign(Rectangle.ALIGN_RIGHT);
 				tc = tr.getCell(colCount - 1);

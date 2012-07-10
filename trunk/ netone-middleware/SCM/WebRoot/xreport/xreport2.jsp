@@ -542,10 +542,10 @@ html.VIE7 .form_fieldinput {
 								<td>
 									报表输出格式:
 									<select id="format" name="format">
-										<option value="excel">
+										<option value="excel" selected="selected">
 											excel
 										</option>
-										<option value="html" selected="selected">
+										<option value="html">
 											网页
 										</option>
 										<option value="pdf">

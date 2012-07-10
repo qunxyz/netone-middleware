@@ -1,6 +1,6 @@
 //分销入库条码处理脚本 
 $("table#84bbd11aad4711e1bbb551abdbadc425_").find('#column3').live('focus',function(){ 
-$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.DPRK',  {     
+$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.DPRK'+'&sr_clientid='+$('table#668ca03cad4b11e1bbb551abdbadc425_').find('#column12').val(),  {     
 multiple: false,   dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse: 
 function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.code,        result: 
 row.code}   }); },  formatItem: function(item) { return  item.code+' '+item.cpmc; },  formatResult: function(item) { 
@@ -77,7 +77,7 @@ ins.column7 cpmc,ins.column34 sj,ins.column11 kh,ins.column12 zsh,ins.column13 y
  
  //分销退货条码处理脚本
  $("table#0b1fcad0ad4f11e1bbb551abdbadc425_").find('#column3').live('focus',function(){     
-   $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.FXTH',  { multiple: false,    dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse:  function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column3,        result:  row.column3}   }); },  formatItem: function(item) { return  item.column3+' '+item.column4; },  formatResult: function(item) {  return item.column3; }   }).result(function(e, item) {
+   $(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXGL.FXTH'+'&sr_clientid='+$('table#ecdd7202ad5011e1bbb551abdbadc425_').find('#column8').val(),  { multiple: false,    dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse:  function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column3,        result:  row.column3}   }); },  formatItem: function(item) { return  item.column3+' '+item.column4; },  formatResult: function(item) {  return item.column3; }   }).result(function(e, item) {
    
    var oo =  $(this).parent().parent();   
    if (item!=null){ 

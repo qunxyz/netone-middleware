@@ -105,9 +105,9 @@ public class ReportX2Action extends AbstractAction {
 			sb.append(" IFNULL(t.column3,'') ttno, ");
 		}
 
-		sb.append(" COUNT(t1.column3) sl, ");
+		sb.append(" IFNULL(COUNT(t1.column3),0) sl, ");
 		sb
-				.append(" SUM(IFNULL(t1.column12,0)) zz,SUM(IFNULL(t1.column13,0)) jz, ");
+				.append(" IFNULL(SUM(IFNULL(t1.column12,0)),0) zz,IFNULL(SUM(IFNULL(t1.column13,0)),0) jz, ");
 		sb.append(" IFNULL(t1.column15,'/') zs,IFNULL(t1.column20,'/') fs, ");
 		sb.append(" IFNULL(t1.column5,0) sj, ");
 		sb.append(" IFNULL(t.column10,'') note, ");
@@ -204,17 +204,15 @@ public class ReportX2Action extends AbstractAction {
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
 
-			String pm = object.get("pm").toString();
-			String fxsname = object.get("fxsname").toString();
-			String ttno = object.get("ttno").toString();
-			String sl = object.get("sl").toString();
-			String zz = object.get("zz").toString();
-			String jz = object.get("jz").toString();
-			String zs = object.get("zs").toString();
-			String fs = object.get("fs").toString();
-			String sj = object.get("sj").toString();
-			String note = object.get("note").toString();
-			String fxsno = object.get("fxsno").toString();
+			String pm = (String) object.get("pm");
+			String fxsname = (String) object.get("fxsname");
+			String ttno = (String) object.get("ttno");
+			String sl = (String) object.get("sl").toString();
+			String zz = (String) object.get("zz");
+			String jz = (String) object.get("jz");
+			String zs = (String) object.get("zs");
+			String fs = (String) object.get("fs");
+			String sj = (String) object.get("sj");
 
 			TableRow tr = new TableRow();
 			if ("Ð¡Æ·Ãû".equals(repselect9)) {
@@ -234,9 +232,6 @@ public class ReportX2Action extends AbstractAction {
 			tr.addCell(new TableCell(zs));
 			tr.addCell(new TableCell(fs));
 			tr.addCell(new TableCell(sj));
-
-			tr.addCell(new TableCell(note));
-			tr.addCell(new TableCell(fxsno));
 
 			t.addRow(tr);
 		}

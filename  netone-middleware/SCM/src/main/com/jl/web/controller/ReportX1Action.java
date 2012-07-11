@@ -102,7 +102,7 @@ public class ReportX1Action extends AbstractAction {
 		sb.append(" IFNULL(fxs.column3,'') fxsname, ");
 
 		/** 按柜组 展示字段 */
-		sb.append(" IFNULL(t.column9,'') gz, ");
+		sb.append(" IFNULL(gz.column4,'') gzname, ");
 
 		/** 按单号 展示字段 */
 		sb.append(" IFNULL(t.column3,'') jhno, ");
@@ -110,10 +110,8 @@ public class ReportX1Action extends AbstractAction {
 		sb.append(" IFNULL(COUNT(t1.column3),0) sl, ");
 		sb
 				.append(" SUM(IFNULL(t1.column11,0)) zz,SUM(IFNULL(t1.column12,0)) jz, ");
-		sb.append(" IFNULL(t1.column14,'') zs,IFNULL(t1.column19,'') fs, ");
-		sb
-				.append(" SUM(IFNULL(t1.column5,0)) sj, IFNULL(t.column10,'') note, ");
-		sb.append(" IFNULL(t.column12,'') fxsno ");
+		sb.append(" IFNULL(t1.column14,'/') zs,IFNULL(t1.column19,'/') fs, ");
+		sb.append(" SUM(IFNULL(t1.column5,0)) sj ");
 		sb.append(" FROM dyform.DY_661338441749389 t ");
 		sb
 				.append(" LEFT JOIN dyform.DY_661338441749388 t1 ON t.LSH = t1.FATHERLSH ");
@@ -123,6 +121,9 @@ public class ReportX1Action extends AbstractAction {
 				.append(" LEFT JOIN dyform.DY_271334208897441 rkmx ON  rkmx.column4 = t1.column3 ");
 		sb
 				.append(" LEFT JOIN dyform.DY_271334208897439 rkd ON rkd.LSH = rkmx.FATHERLSH ");
+		sb
+				.append(" LEFT JOIN dyform.DY_61336130537510 gz ON gz.column7 = t.column9 ");
+
 		sb.append(" WHERE t.STATUSINFO='01' ");
 		if (StringUtils.isNotEmpty(repstrcompare1_START)) {
 			sb.append(" AND t1.column3 >= '" + repstrcompare1_START.trim()
@@ -204,28 +205,25 @@ public class ReportX1Action extends AbstractAction {
 		headerSet1.add(new TableCell("总重"));
 		headerSet1.add(new TableCell("金重"));
 		headerSet1.add(new TableCell("主石(ct/p)"));
+		headerSet1.add(new TableCell("副石"));
 		headerSet1.add(new TableCell("售价"));
 
 		ReportExt reportExt = new ReportExt();
 
-		/**
-		 * fxsno 分销商编码 fxsname 分销商名称 zcje 支出金额 zrje 支入金额 yue 余额 zcbnlj 本年支出金额累计
-		 * bnzrjelj 本年支入金额累计
-		 */
 		List list = DbTools.queryData(sb.toString());
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
 
 			String pm = object.get("pm").toString();
 			String fxsname = object.get("fxsname").toString();
-			String gz = object.get("gz").toString();
+			String gzname = object.get("gzname").toString();
 			String jhno = object.get("jhno").toString();
 			String sl = object.get("sl").toString();
 			String jz = object.get("jz").toString();
+			String zz = object.get("zz").toString();
 			String zs = object.get("zs").toString();
 			String fs = object.get("fs").toString();
-			String note = object.get("note").toString();
-			String fxsno = object.get("fxsno").toString();
+			String sj = object.get("sj").toString();
 
 			TableRow tr = new TableRow();
 			if ("小品名".equals(repselect9)) {
@@ -233,20 +231,17 @@ public class ReportX1Action extends AbstractAction {
 			} else if ("分销商".equals(repselect9)) {
 				tr.addCell(new TableCell(fxsname));
 			} else if ("按柜组".equals(repselect9)) {
-				tr.addCell(new TableCell(gz));
+				tr.addCell(new TableCell(gzname));
 			} else if ("按单号".equals(repselect9)) {
 				tr.addCell(new TableCell(jhno));
 			}
 
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(sl),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(jz),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(zs));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(fs),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(note));
-			tr.addCell(new TableCell(fxsno));
+			tr.addCell(new TableCell("" + sl, Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell("" + zz));
+			tr.addCell(new TableCell("" + jz));
+			tr.addCell(new TableCell("" + zs));
+			tr.addCell(new TableCell("" + fs));
+			tr.addCell(new TableCell("" + sj));
 
 			t.addRow(tr);
 		}

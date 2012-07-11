@@ -26,6 +26,10 @@
 			
 		</action>	
 		
+		<action path="/xreporthg"
+			type="com.jl.web.controller.XReportHGAction" parameter="method">
+		</action>	
+		
 		<action path="/frame"
 			type="com.jl.web.controller.FrameAction" parameter="method">
 			<forward contextRelative="true" name="portalView"

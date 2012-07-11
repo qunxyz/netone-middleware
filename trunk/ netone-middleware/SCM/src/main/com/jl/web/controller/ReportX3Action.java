@@ -207,15 +207,13 @@ public class ReportX3Action extends AbstractAction {
 
 			String pm = object.get("pm").toString();
 			String fxsname = object.get("fxsname").toString();
-			String ttno = object.get("ttno").toString();
-			String sl = object.get("sl").toString();
-			String zz = object.get("zz").toString();
-			String jz = object.get("jz").toString();
-			String zs = object.get("zs").toString();
-			String fs = object.get("fs").toString();
-			String sj = object.get("sj").toString();
-			String note = object.get("note").toString();
-			String fxsno = object.get("fxsno").toString();
+			String ttno = (String) object.get("ttno");
+			String sl = (String) object.get("sl").toString();
+			String zz = (String) object.get("zz").toString();
+			String jz = (String) object.get("jz").toString();
+			String zs = (String) object.get("zs").toString();
+			String fs = (String) object.get("fs").toString();
+			String sj = (String) object.get("sj");
 
 			TableRow tr = new TableRow();
 			if ("ะกฦทร๛".equals(repselect9)) {
@@ -235,9 +233,6 @@ public class ReportX3Action extends AbstractAction {
 			tr.addCell(new TableCell(zs));
 			tr.addCell(new TableCell(fs));
 			tr.addCell(new TableCell(sj));
-
-			tr.addCell(new TableCell(note));
-			tr.addCell(new TableCell(fxsno));
 
 			t.addRow(tr);
 		}

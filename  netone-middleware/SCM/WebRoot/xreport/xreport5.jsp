@@ -204,10 +204,10 @@ html.VIE7 nobr {
 
 /** 公单标题表格TD */
 .table_td_title {
-	FILTER: progid :       DXImageTransform .       Microsoft .   
+	FILTER: progid :         DXImageTransform .         Microsoft .    
 		  
-		Gradient(GradientType =           0, StartColorStr =           #D9ECF9,
-		EndColorStr =       #62BBE8);
+		 Gradient(GradientType =             0, StartColorStr =            
+		#D9ECF9, EndColorStr =         #62BBE8);
 	background: -webkit-gradient(linear, left top, left bottom, from(#D9ECF9),
 		to(#62BBE8) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #D9ECF9, #62BBE8);
@@ -228,10 +228,10 @@ html.VIE7 nobr {
 
 /** 公单字段表格TD */
 .table_td_header {
-	FILTER: progid :       DXImageTransform .       Microsoft .   
+	FILTER: progid :         DXImageTransform .         Microsoft .    
 		  
-		Gradient(GradientType =           0, StartColorStr =           #FEF9FF,
-		EndColorStr =       #DBDCDE);
+		 Gradient(GradientType =             0, StartColorStr =            
+		#FEF9FF, EndColorStr =         #DBDCDE);
 	background: -webkit-gradient(linear, left top, left bottom, from(#FEF9FF),
 		to(#DBDCDE) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #FEF9FF, #DBDCDE);
@@ -329,10 +329,10 @@ html.VIE7 .form_fieldcontent {
 }
 
 .form_fieldcaption2 {
-	FILTER: progid :       DXImageTransform .       Microsoft .   
+	FILTER: progid :         DXImageTransform .         Microsoft .    
 		  
-		Gradient(GradientType =           0, StartColorStr =           #D9ECF9,
-		EndColorStr =       #62BBE8);
+		 Gradient(GradientType =             0, StartColorStr =            
+		#D9ECF9, EndColorStr =         #62BBE8);
 	background: -webkit-gradient(linear, left top, left bottom, from(#D9ECF9),
 		to(#62BBE8) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #D9ECF9, #62BBE8);
@@ -479,6 +479,41 @@ html.VIE7 .form_fieldinput {
 							<table id="xreport" name="xreport" class="table_form" width="392"
 								bgcolor="white" cellspacing="0" cellpadding="0" align="center"
 								border="0" unselectable="off" onFocus="this.select()">
+								<tr class="form_tr" unselectable="off" onFocus="this.select()">
+									<td class="form_td" unselectable="off" onFocus="this.select()"
+										nowrap="nowrap">
+										<div class="form_fieldcontent" style="width: 392px">
+											<div class="form_fieldcaption" align="left" title="统计条件"
+												style="width: 60px;">
+												统计条件:
+											</div>
+											<div class="form_fieldinput" style="width: 332px;"
+												align="left">
+												<input type="hidden" id="repselect8_OPE"
+													name="repselect8_OPE" value="=" unselectable="off"
+													onFocus="this.select()" />
+												<input type="hidden" id="repselect8_hidden"
+													name="repselect8_hidden" unselectable="off"
+													onFocus="this.select()" />
+												<select id="repselect8" name="repselect8"
+													style="width: 295.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
+													<option value="小品名">
+														小品名
+													</option>
+													<option value="分销商">
+														分销商
+													</option>
+													<option value="按单号">
+														按单号
+													</option>
+												</select>
+											</div>
+										</div>
+									</td>
+								</tr>
 								<tr class="form_tr" unselectable="off" onFocus="this.select()">
 									<td class="form_td" unselectable="off" onFocus="this.select()"
 										nowrap="nowrap">
@@ -766,41 +801,6 @@ html.VIE7 .form_fieldinput {
 												<input type="text" id="repstrdim4" name="repstrdim4"
 													style="width: 123.0px" unselectable="off"
 													onFocus="this.select()" />
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr class="form_tr" unselectable="off" onFocus="this.select()">
-									<td class="form_td" unselectable="off" onFocus="this.select()"
-										nowrap="nowrap">
-										<div class="form_fieldcontent" style="width: 392px">
-											<div class="form_fieldcaption" align="left" title="统计条件"
-												style="width: 60px;">
-												统计条件:
-											</div>
-											<div class="form_fieldinput" style="width: 332px;"
-												align="left">
-												<input type="hidden" id="repselect8_OPE"
-													name="repselect8_OPE" value="=" unselectable="off"
-													onFocus="this.select()" />
-												<input type="hidden" id="repselect8_hidden"
-													name="repselect8_hidden" unselectable="off"
-													onFocus="this.select()" />
-												<select id="repselect8" name="repselect8"
-													style="width: 295.0px">
-													<option value="" selected="selected">
-														请选择
-													</option>
-													<option value="小品名">
-														小品名
-													</option>
-													<option value="分销商">
-														分销商
-													</option>
-													<option value="按单号">
-														按单号
-													</option>
-												</select>
 											</div>
 										</div>
 									</td>

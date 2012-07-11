@@ -204,7 +204,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		}
 
 		// START 后置脚本
-		if (json.containsKey("error")) {
+		if (!json.containsKey("error")) {
 			dayx.script(formcode, lsh, "Delete");
 		}
 		// END 后置脚本
@@ -254,7 +254,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		}
 
 		// START 后置脚本
-		if (json.containsKey("error")) {
+		if (!json.containsKey("error")) {
 			dayx.script(formcode, lsh, "Delete");
 		}
 		// END 后置脚本
@@ -1667,7 +1667,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		}
 
 		// START 脚本事件
-		if (json.containsKey("error")) {
+		if (!json.containsKey("error")) {
 			DyAnalysisXml dayx = new DyAnalysisXml();
 			dayx.script(formcode, lsh, "Yesaffirm");// 确认
 		}
@@ -1711,7 +1711,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		}
 
 		// START 脚本事件
-		if (json.containsKey("error")) {
+		if (!json.containsKey("error")) {
 			DyAnalysisXml dayx = new DyAnalysisXml();
 			dayx.script(formcode, lsh, "Onaffirm");// 反确认
 		}

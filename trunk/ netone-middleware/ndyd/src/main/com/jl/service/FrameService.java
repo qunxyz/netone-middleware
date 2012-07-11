@@ -204,4 +204,26 @@ public interface FrameService {
 	 */
 	public String dyformDealDetail(HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
+
+	/**
+	 * 确认状态
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String saveConfirmStatus(HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
+
+	/**
+	 * 反确认状态
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String saveUnConfirmStatus(HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
 }

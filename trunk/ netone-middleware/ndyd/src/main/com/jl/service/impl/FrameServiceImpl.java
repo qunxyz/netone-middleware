@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import oe.cav.bean.logic.bus.TCsBus;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
 import oe.serialize.dao.PageInfo;
 
@@ -27,6 +28,7 @@ import org.apache.log4j.Logger;
 import com.jl.common.JSONUtil2;
 import com.jl.common.app.AppEntry;
 import com.jl.common.app.AppObj;
+import com.jl.common.dyform.DyAnalysisXml;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormBuildHtml;
@@ -74,6 +76,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		JSONObject json = new JSONObject();
 		String id = form.getLsh();
 		form.setFatherlsh(fatherlsh);
+		boolean isnew = false;
 		if (StringUtils.isNotEmpty(id)) {// 根据Id 来判断是 否是修改还是插入
 			boolean success = DyEntry.iv().modifyData(formcode, form);
 			if (!success) {
@@ -82,6 +85,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 				return json.toString();
 			}
 		} else {
+			isnew = true;
 			form.setParticipant(StringUtils.substringBetween(participant, "[",
 					"]"));
 			id = DyEntry.iv().addData(formcode, form);
@@ -91,6 +95,17 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 				return json.toString();
 			}
 		}
+
+		// START 前置脚本
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		if (isnew) {
+			TCsBus bux = new TCsBus();
+			BeanUtils.copyProperties(bux, form);
+			dayx.scriptPre(formcode, bux, "PNewSave");
+		} else {
+			dayx.script(formcode, id, "PUpdateSave"); // 正常保存
+		}
+		// END 前置脚本
 
 		// 子表单操作
 		if (subform != null && !"[]".equals(subform)) {
@@ -127,6 +142,16 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			if (result.size() > 0)
 				DyEntry.iv().addAll(result);
 		}
+
+		// START 后置脚本
+		// System.out.println("new data coming:" + lsh);
+		if (isnew) {
+			dayx.script(formcode, id, "NewSave");
+		} else {
+			dayx.script(formcode, id, "UpdateSave"); // 正常保存
+		}
+		// END 后置脚本
+
 		// long end = new Date().getTime();
 		// System.out.println("保存花费时间：" + (double) (end - start) / 1000 + "秒");
 		json.put("tip", "保存成功");
@@ -140,6 +165,12 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 	public String delete(HttpServletRequest request, String formcode, String lsh)
 			throws Exception {
 		JSONObject json = new JSONObject();
+
+		// START 前置脚本
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		dayx.script(formcode, lsh, "PDelete");
+		// END 前置脚本
+
 		if (StringUtils.isEmpty(lsh)) {
 			json.put("tip", "该单未保存,无须作废!");
 		} else {
@@ -165,12 +196,25 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			// WebCache.removeCache($DYFORM + formcode + lsh + "true");
 			// WebCache.removeCache($DYFORM + formcode + lsh + "false");
 		}
+
+		// START 后置脚本
+		if (!json.containsKey("error")) {
+			dayx.script(formcode, lsh, "Delete");
+		}
+		// END 后置脚本
+
 		return json.toString();
 	}
 
 	public String deleteByLogic(HttpServletRequest request, String formcode,
 			String lsh) throws Exception {
 		JSONObject json = new JSONObject();
+
+		// START 前置脚本
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		dayx.script(formcode, lsh, "PDelete");
+		// END 前置脚本
+
 		if (StringUtils.isEmpty(lsh)) {
 			json.put("tip", "该单未保存,无须归档!");
 		} else {
@@ -202,6 +246,13 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			// WebCache.removeCache($DYFORM + formcode + lsh + "true");
 			// WebCache.removeCache($DYFORM + formcode + lsh + "false");
 		}
+
+		// START 后置脚本
+		if (!json.containsKey("error")) {
+			dayx.script(formcode, lsh, "Delete");
+		}
+		// END 后置脚本
+
 		return json.toString();
 	}
 
@@ -1071,6 +1122,92 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			e.printStackTrace();
 		}
 		return (int) dayNumber;
+	}
+
+	public String saveConfirmStatus(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		JSONObject json = new JSONObject();
+		String naturalname = request.getParameter("naturalname");
+		String lsh = request.getParameter("lsh");
+		AppObj app = AppEntry.iv().loadApp(naturalname);
+		String formcode = app.getDyformCode_();
+
+		DyFormData data = new DyFormData();
+		data.setLsh(lsh);
+		data.setStatusinfo("01");
+		data.setFatherlsh("1");
+		data.setFormcode(formcode);
+		User user = getOnlineUser(request);
+
+		int count = DyEntry.iv().queryDataNum(data, " or statusinfo = '02' ");
+		if (count > 0) {
+			json.put("tip", "已审核状态,不能进行其他操作!");
+			json.put("error", "yes");
+		} else {
+			// data.setParticipant(user.getUserCode() + "[" +
+			// user.getUserName()
+			// + "]");
+			boolean succ = DyEntry.iv().modifyData(formcode, data);
+			if (succ) {
+				json.put("tip", "确认成功!");
+			} else {
+				json.put("tip", "确认失败!");
+				json.put("error", "yes");
+			}
+		}
+
+		// START 脚本事件
+		if (!json.containsKey("error")) {
+			DyAnalysisXml dayx = new DyAnalysisXml();
+			dayx.script(formcode, lsh, "Yesaffirm");// 确认
+		}
+		// END 脚本事件
+
+		return json.toString();
+	}
+
+	public String saveUnConfirmStatus(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		JSONObject json = new JSONObject();
+
+		String naturalname = request.getParameter("naturalname");
+		String lsh = request.getParameter("lsh");
+		AppObj app = AppEntry.iv().loadApp(naturalname);
+		String formcode = app.getDyformCode_();
+
+		DyFormData data = new DyFormData();
+		data.setLsh(lsh);
+		data.setStatusinfo("02");
+		data.setFatherlsh("1");
+		data.setFormcode(formcode);
+		User user = getOnlineUser(request);
+
+		int count = DyEntry.iv().queryDataNum(data, " or statusinfo = '01' ");
+		if (count > 0) {
+			json.put("tip", "已审核状态,不能进行其他操作!");
+			json.put("error", "yes");
+		} else {
+			// data.setParticipant(user.getUserCode() + "[" +
+			// user.getUserName()
+			// + "]");
+
+			boolean succ = DyEntry.iv().modifyData(formcode, data);
+			if (succ) {
+				json.put("tip", "反确认成功!");
+			} else {
+				json.put("tip", "反确认失败!");
+				json.put("error", "yes");
+			}
+		}
+
+		// START 脚本事件
+		if (!json.containsKey("error")) {
+			DyAnalysisXml dayx = new DyAnalysisXml();
+			dayx.script(formcode, lsh, "Onaffirm");// 反确认
+		}
+		// END 脚本事件
+
+		return json.toString();
 	}
 
 }

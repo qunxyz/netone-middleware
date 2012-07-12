@@ -10,6 +10,13 @@ body {
 	width: 100%;
 }
 
+#app-header-bg {
+	background: url(images/header_.gif) repeat-x;
+	background-color:#6E2A0A;
+	height: 66px;
+	width: 100%;
+}
+
 #header-left {
 	background: url(images/header.gif);
 	width: 674px;

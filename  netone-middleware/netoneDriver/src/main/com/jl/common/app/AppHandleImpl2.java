@@ -67,7 +67,7 @@ public class AppHandleImpl2 implements AppHandleIfc {
 
 		WorkflowProcess wf = WfEntry.iv().loadProcess(app.getWorkflowCode_());
 		Activity act = wf.getActivity(actid);
-
+ 
 		AppSecond object = AnalysisAppSecond.readXML(upo.getExtendattribute());
 
 		return loadCfgActiveCore(act, commiter, object, runtimeid);

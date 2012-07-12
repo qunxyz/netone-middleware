@@ -18,25 +18,27 @@ import oescript.parent.OeScript;
 public class DyFomDemo1 extends OeScript {
 
 	public static void main(String[] args) throws RemoteException {
+		
+		query("BUSSFORM.BUSSFORM.YMEMBER.DY_641339060451888");
 
-		String formNaturalname = "BUSSFORM.BUSSFORM.PMS.DY_571239285556990";
-		// 应用动态表单
-		usedata(formNaturalname);
-		// 应用动态表单带事务
-		// useDatax(formNaturalname);
-		// 修改表单
-		// modify(formNaturalname);
-		// 查询
-		// query(formNaturalname);
-		// 删除数据
-		// delete(formNaturalname);
-		
-		
-		System.out.println("flag!-------------------------------------");
-		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
-		String a1=dateformat.format(new java.util.Date());
-		dy.set("$(lsh)"+":"+"$(formcode)","column18" , a1);
-		dy.set("$(lsh)"+":"+"$(formcode)","column21" , "$(participant)");
+//		String formNaturalname = "BUSSFORM.BUSSFORM.PMS.DY_571239285556990";
+//		// 应用动态表单
+//		usedata(formNaturalname);
+//		// 应用动态表单带事务
+//		// useDatax(formNaturalname);
+//		// 修改表单
+//		// modify(formNaturalname);
+//		// 查询
+//		// query(formNaturalname);
+//		// 删除数据
+//		// delete(formNaturalname);
+//		
+//		
+//		System.out.println("flag!-------------------------------------");
+//		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+//		String a1=dateformat.format(new java.util.Date());
+//		dy.set("$(lsh)"+":"+"$(formcode)","column18" , a1);
+//		dy.set("$(lsh)"+":"+"$(formcode)","column21" , "$(participant)");
 	}
 
 	/**
@@ -94,10 +96,10 @@ public class DyFomDemo1 extends OeScript {
 		// 创建查询对象（也可以为空）
 		TCsBus bus = new TCsBus();
 		// 设置条件,参考Dy定义描述 column3为名字字段，类型为字符型
-		bus.setColumn3("mike");
+		//bus.setColumn3("mike");
 		// 将查询的结果保存list对像当中
 		List list = dy.queryData(dyformnaturalname, bus, 0, 20,
-				" and column4>10");// 参考Dy定义描述 column4为名字年龄字段，类型为数字
+				" and 1=1");// 参考Dy定义描述 column4为名字年龄字段，类型为数字
 		// 通过循环遍历将结果打印在控制台
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsBus object = (TCsBus) iterator.next();

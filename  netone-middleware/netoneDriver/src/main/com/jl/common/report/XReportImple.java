@@ -74,11 +74,9 @@ public class XReportImple implements XReportIfc {
 		Map<String, String> map2Ope = qd.getColumn2Ope();
 		String selectReportId = qd.getSelectReportId();
 		StringBuffer condition = new StringBuffer();
+		List valuerqrf=maprqrf.get(selectReportId);
 
-		for (Iterator rqrf = maprqrf.keySet().iterator(); rqrf.hasNext();) {
-			Object rqrfkey = rqrf.next();
-			List valuerqrf = maprqrf.get(rqrfkey);
-			for (int i = 0; i < valuerqrf.size(); i++) {
+		for (int i = 0; i < valuerqrf.size(); i++) {
 
 				ReportQueryRef rqf = (ReportQueryRef) valuerqrf.get(i);
 				String col1 = rqf.getRefColumnid();
@@ -88,7 +86,6 @@ public class XReportImple implements XReportIfc {
 
 				// condition = StringUtils.replace(condition, "[" + col2 + "]",
 				// col1);
-			}
 		}
 
 		try {

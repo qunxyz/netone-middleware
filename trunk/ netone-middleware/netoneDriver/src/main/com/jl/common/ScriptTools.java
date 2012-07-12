@@ -26,7 +26,7 @@ public class ScriptTools {
 
 		try {
 			WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
-			return console.exeScript(elogicExpress);
+			return console.exeScript(elogicExpress,obj);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

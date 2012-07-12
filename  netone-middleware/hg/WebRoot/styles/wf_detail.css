@@ -1,0 +1,69 @@
+BODY {
+	TEXT-ALIGN: center; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT-SIZE: 12px; PADDING-TOP: 0px
+}
+.bgblue {
+	WIDTH: 1003px; BACKGROUND: #e7f5fd; MARGIN-LEFT: auto; MARGIN-RIGHT: auto
+}
+.tablestyle {
+	BORDER-BOTTOM: #c5e4fe 3px inset; BORDER-LEFT: #c5e4fe 3px outset; BORDER-COLLAPSE: collapse; FONT-SIZE: 12px; BORDER-TOP: #c5e4fe 3px outset; BORDER-RIGHT: #c5e4fe 3px inset
+}
+.tablestyle TR {
+	HEIGHT: 35px
+}
+.tablestyle TR TD {
+	BORDER-BOTTOM: 1px solid; PADDING-LEFT: 5px
+}
+.tablestyle TR TD A {
+	COLOR: green
+}
+.commonborder {
+	BORDER-LEFT: #58b4f0 1px solid; PADDING-BOTTOM: 10px; BACKGROUND-COLOR: white; PADDING-LEFT: 10px; WIDTH: 986px; PADDING-RIGHT: 10px; BORDER-RIGHT: #58b4f0 1px solid; PADDING-TOP: 10px
+}
+.toolbar {
+	BACKGROUND: url(back.gif) repeat-x 0px 0px; HEIGHT: 35px; PADDING-TOP: 5px
+}
+.fieldcaption {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 120px; BACKGROUND-ATTACHMENT: fixed; PADDING-RIGHT: 0px; BORDER-COLLAPSE: collapse; BACKGROUND-REPEAT: repeat-x; FONT: 12px "宋体"; BACKGROUND-POSITION: center top; FLOAT: left; HEIGHT: 22px; COLOR: #001a9b; OVERFLOW: hidden; PADDING-TOP: 4px
+}
+.fieldcaption1 {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 120px; BACKGROUND-ATTACHMENT: fixed; PADDING-RIGHT: 0px; BORDER-COLLAPSE: collapse; BACKGROUND-REPEAT: repeat-x; FONT: 12px "宋体"; BACKGROUND-POSITION: center top; FLOAT: left; HEIGHT: 22px; COLOR: #001a9b; OVERFLOW: hidden; PADDING-TOP: 2px
+}
+.whitebtn1 {
+	TEXT-ALIGN: center; WIDTH: 130px; FONT: bold 14px "宋体"; BACKGROUND: url(index_2222.gif) no-repeat 0px 0px; HEIGHT: 41px; COLOR: #001a9b
+}
+.bluefont {
+	FONT: 12px "宋体"; COLOR: #001a9b
+}
+.bluefont A {
+	FONT: 12px "宋体"; COLOR: #001a9b
+}
+.forbtn1 {
+	TEXT-ALIGN: center; WIDTH: 130px; FONT: 12px "宋体"; BACKGROUND: url(index_2424.gif) no-repeat 0px 0px; HEIGHT: 41px; COLOR: #000
+}
+.redfont {
+	FONT: bold 14px "宋体"; COLOR: #f00
+}
+.fujian {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; BACKGROUND-ATTACHMENT: fixed; PADDING-RIGHT: 0px; BACKGROUND-REPEAT: repeat-x; BACKGROUND-POSITION: center top; FLOAT: left; HEIGHT: 31px; COLOR: #006699; FONT-SIZE: 9pt; OVERFLOW: hidden; FONT-WEIGHT: bold; PADDING-TOP: 4px
+}
+.yijianw {
+	BORDER-BOTTOM: #c5e4fe 3px inset; BORDER-LEFT: #c5e4fe 3px outset; BORDER-COLLAPSE: collapse; BORDER-TOP: #c5e4fe 3px outset; BORDER-RIGHT: #c5e4fe 3px inset
+}
+.tableyijian {
+	BORDER-BOTTOM: #c5e4fe 1px solid; BORDER-LEFT: #c5e4fe 1px solid; BORDER-TOP: #c5e4fe 1px solid; BORDER-RIGHT: #c5e4fe 1px solid
+}
+.tableyijian TR {
+	LINE-HEIGHT: 25px
+}
+.tableyijian TR TD {
+	BORDER-BOTTOM: 1px solid; PADDING-LEFT: 2px; BORDER-RIGHT: 1px solid
+}
+.tablelog TR {
+	LINE-HEIGHT: 25px
+}
+.tablelog TR TD {
+	BORDER-BOTTOM: #c5e4fe 1px solid; PADDING-LEFT: 2px; BORDER-RIGHT: #c5e4fe 1px solid
+}
+.readinfo {
+	BORDER-BOTTOM: #cccccc 1px solid; BORDER-LEFT: 0px; COLOR: #999999; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}

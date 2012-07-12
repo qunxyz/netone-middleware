@@ -1,0 +1,66 @@
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />   
+<style media="screen" type="text/css">   
+<!--   
+* {   
+    font-size:12px;   
+}  
+/* 控制显示与隐藏css类 */  
+.normaltab {   
+    background-repeat: no-repeat;   
+    color:#1F3A87;
+}   
+.hovertab {      
+    background-repeat: no-repeat;   
+    color:#1F3A87;
+}   
+.dis {   
+    display:block; 
+	  
+}   
+.undis {   
+    display:none;   
+}   
+-->   
+</style>   
+<script type="text/javascript" language="javascript">    
+function g(o){return document.getElementById(o);}   
+function HoverLi(n){   
+//如果有N个标签,就将i<=N;   
+for(var i=1;i<=2;i++){g('tb_'+i).className='normaltab';g('tbc_0'+i).className='undis';}g('tbc_0'+n).className='dis';g('tb_'+n).className='hovertab';   
+}     
+</script>   
+<div style="margin-bottom:5xp">
+      <span id="tb_1" class="hovertab" onclick="x:HoverLi(1);">内容调查</span>&nbsp;
+      <span id="tb_2" class="normaltab" onclick="i:HoverLi(2);">最新调查</span> 
+</div>
+<div class="dis" id="tbc_01">
+	您对我们网站以下方面是否满意？<br>
+	<div style="margin-left:15px;line-height:20px;">
+	内容&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="" type="checkbox" value="" /> 是
+        <input type="checkbox" name="checkbox" id="checkbox" />
+        <label for="checkbox"></label>
+        否<br>
+        界面&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="" type="checkbox" value="" />
+        是
+        <input type="checkbox" name="checkbox" id="checkbox" />
+        <label for="checkbox"></label>
+        否
+        <br>
+        更新速度&nbsp;<input name="" type="checkbox" value="" />
+        是
+        <input type="checkbox" name="checkbox" id="checkbox" />
+        <label for="checkbox"></label>
+        否
+        <br>
+        <input type="submit" name="button" id="button" value="提交" style="margin:0 0 0 150px;"/>
+        </div>
+</div>
+    
+<div class="undis" id="tbc_02">
+<p>中国移动集团福建省宁德分公司中国移动集团&nbsp;&nbsp;&nbsp;&nbsp;张三</p>
+
+ </div>
+ 
+ </div>
+
+

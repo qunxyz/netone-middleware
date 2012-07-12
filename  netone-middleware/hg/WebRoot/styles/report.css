@@ -1,0 +1,29 @@
+/** 报表样式 */
+body {
+	padding-top: 0px;
+	margin: 0px;
+}
+table {
+	width: 100%;
+	vertical-align: middle;
+	line-height: 20px;
+	border-collapse: collapse;
+	border: 1px;
+	border-color: #000000;
+}
+th {
+	font-size: 12px;
+	border-collapse: collapse;
+}
+td {
+	border: 1px;
+	font-size: 12px;
+	border-collapse: collapse;
+	border-spacing: 2px;
+}
+.title {
+	vertical-align: middle;
+	font-weight: bold;
+	font-size: 20px;
+	border: 0px;
+}

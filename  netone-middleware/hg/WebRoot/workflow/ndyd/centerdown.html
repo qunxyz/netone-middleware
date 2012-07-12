@@ -1,0 +1,91 @@
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<style>
+*{
+	font-size:12px;
+	padding:0;
+	margin:0 auto;
+	font-family:"arial","微软雅黑","宋体";
+}
+img {
+	border:0;
+}
+ol,ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+li{
+	display:block;
+	line-height:27px;
+	border-bottom:1px dashed #ddd;
+}
+</style> 
+<script type="text/javascript">
+var siteUrl = "//";
+
+function showside(area,id,className) {
+var tabArea=document.getElementById(area);
+
+var contents=tabArea.childNodes;
+for(i=0; i<contents.length; i++) {
+if(contents[i].className==className){contents[i].style.display='none';}
+}
+document.getElementById(id).style.display='';
+
+var tabs=document.getElementById(area+'tabs').getElementsByTagName('a');
+for(i=0; i<tabs.length; i++) { tabs[i].className=''; }
+document.getElementById(id+'tab').className='ontab';
+document.getElementById(id+'tab').blur();
+}
+</script>
+
+<div id="content" class="content" style="margin-left:15px">
+
+<div id="contenttabs" class="main" style="margin-top:5px;margin-bottom:5px">
+<a id="uctab" href="javascript:;" title="最多订阅" onclick="showside('content', 'uc', 'testmsg')" class="ontab">最多订阅</a>
+<a id="dztab" href="javascript:;" title="最多点击" onclick="showside('content', 'dz', 'testmsg')">最多点击</a>
+<a id="uchtab" href="javascript:;" title="最多评价" onclick="showside('content', 'uch', 'testmsg')">最多评价</a>
+</div>
+<div id="uc" class="testmsg" style="">
+<ul>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+</ul>
+</div>
+<div id="dz" class="testmsg" style="display:none;">
+<ul>
+<li>中国移动集团福建省宁德分公司中国移动集团</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+</ul>
+</div>
+<div id="uch" class="testmsg" style="display:none;">
+<ul>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+<li>中国移动集团福建省宁德分公司中国移动集团福建省宁德分公司</li>
+</ul>
+</div>
+</div>
+
+

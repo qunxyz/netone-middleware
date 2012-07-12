@@ -1,0 +1,108 @@
+body { 
+    margin: 10px;
+    padding: 0; 
+    font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 100%;
+    background-color: #fff;
+}
+
+#wrapper {
+    width: 500px;
+    margin: 0 auto;
+}
+
+#intro {
+    padding-bottom: 10px;
+}
+
+h2 {
+    margin: 0;
+    margin-bottom: 14px;
+    padding: 0;
+}
+
+#slider {
+    width: 620px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.scroll {
+  
+    width: 500px;
+    overflow: auto;
+    overflow-x: hidden;
+    position: relative;
+    clear: left;
+    background: #FFFFFF url(images/content_pane-gradient.gif) repeat-x scroll left bottom;
+	border:2px 2px solid #DFC68E;
+}
+
+.scrollContainer div.panel {
+    padding: 20px;
+    height: 210px;
+    width: 580px;
+	font-size:12px;
+	line-height:18px;
+}
+
+#shade {
+    background: #EDEDEC url(images/shade.jpg) no-repeat 0 0;
+    height: 50px;
+}
+.navigation{ height:18px;}
+ul.navigation {
+    list-style: none;
+    margin: 0;
+    padding:0;
+    padding-bottom: 9px;
+	
+}
+
+ul.navigation li {
+    display: inline;
+	 margin:0;
+    padding:0;
+    
+}
+
+ul.navigation a {
+    padding: 10px;
+    color: #613611;
+    text-decoration: none;
+	line-height:22px;
+	font-size:14px;
+	font-weight:bold;
+}
+
+ul.navigation a:hover {
+    background-color: #DFC68E;
+}
+
+ul.navigation a.selected {
+	color:#613611;
+    background-color: #DFC68E;
+	border:1px 1px solid #613611;
+}
+
+ul.navigation a:focus {
+    outline: none;
+}
+
+.scrollButtons {
+    position: absolute;
+    top: 150px;
+    cursor: pointer;
+}
+
+.scrollButtons.left {
+    left: -20px;
+}
+
+.scrollButtons.right {
+    right: -20px;
+}
+
+.hide {
+    display: none;
+}

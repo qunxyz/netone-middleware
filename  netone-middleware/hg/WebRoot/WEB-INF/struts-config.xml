@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans />
+	<global-exceptions />
+	<global-forwards />
+
+	<action-mappings>
+			<action path="/xreport"
+			type="com.jl.web.controller.XReportAction" parameter="method">
+			<forward contextRelative="true" name="onMainView"
+				path="/xreport/xreport.jsp">
+			</forward>
+			
+			<!-- 多选 -->
+			<forward contextRelative="true" name="onMultiSelectResource"
+				path="/xreport/resourceMultiSelect.jsp">
+			</forward>
+			<!-- 单选 -->
+			<forward contextRelative="true" name="onSingleSelectResource"
+				path="/xreport/resourceSingleSelect.jsp">
+			</forward>
+			
+		</action>	
+		
+		<action path="/xreporthg"
+			type="com.jl.web.controller.XReportHGAction" parameter="method">
+		</action>	
+		
+		<action path="/frame"
+			type="com.jl.web.controller.FrameAction" parameter="method">
+			<forward contextRelative="true" name="portalView"
+				path="/frame/portalmain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onMainView"
+				path="/frame/frameMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditViewMain"
+				path="/frame/editframeMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditView"
+				path="/frame/editframe.jsp">
+			</forward>
+			<forward contextRelative="true" name="onPreviewMain"
+				path="/frame/previewframe.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowView"
+				path="/frame/showProcess.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowEndView"
+				path="/frame/showEndProcess.jsp">
+			</forward>
+			<forward contextRelative="true" name="onAuditView"
+				path="/frame/frameAudit.jsp">
+			</forward>
+			
+			<forward contextRelative="true" name="onQuery"
+				path="/frame/lookframe.jsp">
+			</forward>
+			<forward contextRelative="true" name="onAutorouteView"
+				path="/frame/autoroute.html">
+			</forward>
+			<forward contextRelative="true" name="onMainViewExt"
+				path="/frame/frameMainExt.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditFrameExt"
+				path="/frame/editframeExt.jsp">
+			</forward>
+			
+			
+			<forward contextRelative="true" name="onMultiSelectResource"
+				path="/frame/resourceMultiSelect.jsp">
+			</forward>
+			<forward contextRelative="true" name="onSingleSelectResource"
+				path="/frame/resourceSingleSelect.jsp">
+			</forward>
+			
+		</action>
+
+		<!--
+		<action path="/frame"
+			type="com.jl.web.controller.FrameAction2" parameter="method">
+			<forward contextRelative="true" name="portalView"
+				path="/frameSCM/portalmain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onMainView"
+				path="/frameSCM/frameMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onMainView2"
+				path="/frameSCM/frameMain2.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditViewMain"
+				path="/frameSCM/editframeMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditView"
+				path="/frameSCM/editframe.jsp">
+			</forward>
+			<forward contextRelative="true" name="onPreviewMain"
+				path="/frameSCM/previewframe.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowView"
+				path="/frameSCM/showProcess.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowEndView"
+				path="/frameSCM/showEndProcess.jsp">
+			</forward>
+			<forward contextRelative="true" name="onAuditView"
+				path="/frameSCM/frameAudit.jsp">
+			</forward>
+			
+			<forward contextRelative="true" name="onQuery"
+				path="/frameSCM/lookframe.jsp">
+			</forward>
+			<forward contextRelative="true" name="onAutorouteView"
+				path="/frameSCM/autoroute.html">
+			</forward>
+			<forward contextRelative="true" name="onMainViewExt"
+				path="/frameSCM/frameMainExt.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditFrameExt"
+				path="/frameSCM/editframeExt.jsp">
+			</forward>
+			
+			
+			<forward contextRelative="true" name="onMultiSelectResource"
+				path="/frameSCM/resourceMultiSelect.jsp">
+			</forward>
+			<forward contextRelative="true" name="onSingleSelectResource"
+				path="/frameSCM/resourceSingleSelect.jsp">
+			</forward>
+			
+		</action>
+		 -->
+	
+		<!-- file -->
+		<action path="/file" parameter="method"
+			type="com.jl.web.controller.FileAction">
+			<forward  name="onMainView"
+				path="/WEB-INF/jsp/upload.jsp">
+			</forward>
+			<forward  name="onContractMgr"
+				path="/WEB-INF/jsp/contractUpload.jsp">
+			</forward>
+			<forward  name="onPublicMainView"
+				path="/WEB-INF/jsp/uploadpublic.jsp">
+			</forward>
+			<forward  name="onFrameFileMainView"
+				path="/WEB-INF/jsp/uploadframe.jsp">
+			</forward>
+		</action>
+	
+	
+		<!-- 跳转到主页 并加载权限控制 -->
+		<action path="/main"
+			type="com.jl.web.controller.IndexAction">
+			<forward  name="onMainView"
+				path="/WEB-INF/jsp/main2.jsp">
+			</forward>
+			<forward  name="onErrorView"
+				path="/WEB-INF/jsp/error.jsp">
+			</forward>
+			<forward  name="onExtMainView"
+				path="/WEB-INF/jsp/main3.jsp">
+			</forward>
+		</action>
+		
+		<!-- -->
+		<action path="/log"  parameter="method"
+			type="com.jl.web.controller.LogAction">
+			<forward  name="onMainView" contextRelative="true"
+				path="/WEB-INF/jsp/log.jsp">
+			</forward>
+			<forward  name="onMainView2" contextRelative="true"
+				path="/WEB-INF/jsp/elog.jsp">
+			</forward>
+		</action>
+		 
+		<action path="/main1" forward="/WEB-INF/jsp/main2.jsp"/>
+		
+		<!-- WorkList管理 -->
+		<action path="/workList"
+			type="com.jl.web.controller.WorkListAction"
+			parameter="method">
+			<forward contextRelative="true" name="onMainView"
+				path="/WEB-INF/jsp/common/worklist.jsp">
+			</forward>
+			
+			<!--  -->
+			<forward contextRelative="true" name="phpListDetailMain"
+				path="/phpListDetail.jsp">
+			</forward>
+			
+			<!-- 新的待办任务 使用后台物理分页 -->
+			<forward contextRelative="true" name="onMainView2"
+				path="/WEB-INF/jsp/common/worklist2.jsp">
+			</forward>
+			
+			<forward contextRelative="true" name="onShowLeftMainView"
+				path="/workflow/ndyd/left.jsp">
+			</forward>
+			<forward contextRelative="true" name="moreWorklist" 
+				path="/WEB-INF/jsp/common/moreWorklist.jsp">
+			</forward>
+		</action>
+		
+		<action path="/map" parameter="method"
+			type="com.jl.web.controller.MapAction">
+			<!-- 地图 -->
+			<forward name="onQMap" contextRelative="true"
+				path="/WEB-INF/jsp/map.jsp">
+			</forward>
+			<forward name="onQMapCoordinatesModify" contextRelative="true"
+				path="/coordinateSet.jsp">
+			</forward>
+		</action>
+		
+	</action-mappings>
+</struts-config>

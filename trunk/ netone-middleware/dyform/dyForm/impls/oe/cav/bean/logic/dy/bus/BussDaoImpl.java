@@ -548,42 +548,121 @@ public class BussDaoImpl implements BussDao {
 		try {
 			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 			CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
-			List okTeam = new ArrayList();
-			List sub = rs.subResourceByNaturalname("SYSTEAM.SYSTEAM");
-			for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
-				UmsProtectedobject object = (UmsProtectedobject) iterator
-						.next();
-				String name = object.getNaturalname();
-				boolean ok = cupm.checkUserPermission("0000", participant,
-						name, "3");
-				if (ok) {
-					okTeam.add(name);
-				}
+			
+			//需要所有的群组
+			boolean alluserTeam = cupm.checkUserPermission("0000", participant,
+					"SYSTEAM.SYSTEAM", "3");	
+			// 需要所有的部门
+			boolean alluserDept=cupm.checkUserPermission("0000", participant,
+					"DEPT.DEPT", "3");	
+			if(alluserTeam||alluserDept||participant.equals("adminx")){
+				//如果授权SYSTEM.SYSTEAM给某个用户，那么意味着这个用户可以看所有用户的数据
+				obj.setParticipant(null);
+			}else{
+				StringBuffer but = new StringBuffer("'" + participant + "'");
+				//根据群组授权
+				fetchTeamUser(but,rs,cupm,participant);
+				//根据部门授权
+				fetchDeptUser(but,rs,cupm,participant);
+				// 根据所有所属的部门进行动态授权
+				fetchDynamticDeptUser(but,rs,cupm,participant);
+				obj.setParticipant(but.toString());
+				
 			}
-			StringBuffer but = new StringBuffer("'" + participant + "'");
-
-			for (Iterator iterator = okTeam.iterator(); iterator.hasNext();) {
-				String object = (String) iterator.next();
-				Clerk c1 = new Clerk();
-				c1.setProvince("%" + object + "@%");
-				Map map = new HashMap();
-				map.put("major", "like");
-				//后期queryObjectsClerk方法中加入cache来缓存 读取用户的性能
-				List list = rs.queryObjectsClerk("0000", c1, map, 0, 1000);
-				for (Iterator iterator2 = list.iterator(); iterator2.hasNext();) {
-					Clerk object2 = (Clerk) iterator2.next();
-					but.append(",'" + object2.getDescription() + "'");
-				}
-			}
-
-			obj.setParticipant(but.toString());
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	private void fetchTeamUser(StringBuffer but,ResourceRmi rs,CupmRmi cupm,String participant)throws Exception{
+		List okTeam = new ArrayList();
+		List sub = rs.subResourceByNaturalname("SYSTEAM.SYSTEAM");
+		for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
+			UmsProtectedobject object = (UmsProtectedobject) iterator
+					.next();
+			String name = object.getNaturalname();
+			boolean ok = cupm.checkUserPermission("0000", participant,
+					name, "3");
+			if (ok) {
+				okTeam.add(name);
+			}
+		}
+		
 
+		for (Iterator iterator = okTeam.iterator(); iterator.hasNext();) {
+			String object = (String) iterator.next();
+			Clerk c1 = new Clerk();
+			c1.setProvince("%" + object + "@%");
+			Map map = new HashMap();
+			map.put("major", "like");
+			//后期queryObjectsClerk方法中加入cache来缓存 读取用户的性能
+			List list = rs.queryObjectsClerk("0000", c1, map, 0, 1000);
+			for (Iterator iterator2 = list.iterator(); iterator2.hasNext();) {
+				Clerk object2 = (Clerk) iterator2.next();
+				but.append(",'" + object2.getDescription() + "'");
+			}
+		}
+	}
+	
+	private void fetchDeptUser(StringBuffer but,ResourceRmi rs,CupmRmi cupm,String participant)throws Exception{
+		List okTeam = new ArrayList();
+		List sub = rs.subResourceByNaturalname("DEPT.DEPT");
+		StringBuffer tmpdept=new StringBuffer();
+		for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
+			UmsProtectedobject object = (UmsProtectedobject) iterator
+					.next();
+			String name = object.getNaturalname();
+			boolean ok = cupm.checkUserPermission("0000", participant,
+					name, "3");
+			if (ok) {
+				tmpdept.append(",'"+object.getId()+"'");
+			}
+		}
+		if(tmpdept.length()>0){
+			String deptinfo=tmpdept.substring(1);
+			Clerk c1 = new Clerk();
+			c1.setDeptment("("+deptinfo+")");
+			Map map = new HashMap();
+			map.put("systemid", "in");
+			List list = rs.queryObjectsClerk("0000", c1, map, 0,3000);
+			for (Iterator iterator2 = list.iterator(); iterator2.hasNext();) {
+				Clerk object2 = (Clerk) iterator2.next();
+				but.append(",'" + object2.getDescription() + "'");
+			}
+		}
+
+	}
+
+	private void fetchDynamticDeptUser(StringBuffer but,ResourceRmi rs,CupmRmi cupm,String participant)throws Exception{
+		String deptid=rs.loadClerk("0000", participant).getDeptment();
+		boolean rs1=cupm.checkUserPermission("0000", participant, "BUSSENV.BUSSENV.SECURITY.ROLE.FLOWDEPT", "3");
+		boolean rs2=cupm.checkUserPermission("0000", participant, "BUSSENV.BUSSENV.SECURITY.ROLE.FLOWDEPT", "7");
+
+			Clerk c1 = new Clerk();
+			Map map = new HashMap();
+			if(rs1&&!rs2){// 有权限看自己所在部门的所有人员数据
+				c1.setDeptment(deptid);
+			}else if(rs2){
+				String name=rs.loadResourceById(deptid).getNaturalname();
+				List listx=rs.subResourceByNaturalname(name);
+				StringBuffer butx=new StringBuffer();
+				for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
+					UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+					butx.append(",'"+object.getId()+"'");
+				}
+				map.put("systemid", "in");
+				c1.setDeptment("("+butx.substring(1)+")");
+			}	
+
+			List list = rs.queryObjectsClerk("0000", c1, map, 0,3000);
+			for (Iterator iterator2 = list.iterator(); iterator2.hasNext();) {
+				Clerk object2 = (Clerk) iterator2.next();
+				but.append(",'" + object2.getDescription() + "'");
+			}
+
+	}
 	public List queryObjects(TCsBus obj, int from, int to, String conditionPre) {
 		if (conditionPre == null) {
 			conditionPre = "";

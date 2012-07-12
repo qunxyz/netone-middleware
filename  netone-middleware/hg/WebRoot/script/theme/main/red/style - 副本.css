@@ -1,20 +1,16 @@
 body {
 	FONT-SIZE: 12px;
-	font-family: "ËÎÌå";
+	font-family: "ï¿½ï¿½ï¿½ï¿½";
 }
 
-/**-- Í·²¿ --*/
+/**-- Í·ï¿½ï¿½ --*/
 #app-header {
-	background: -moz-linear-gradient(top, #D9ECF9, #F2F5F7);/* for firefox 3.6+ */
+	background: -moz-linear-gradient(top, #cc2225, #6b1111);/* for firefox 3.6+ */
 	background: url(images/nd_top_bg.gif) repeat-x;
 	height: 35px;
 	width: 100%;
 }
-#app-header-bg{
-        background: url(images/header_.gif) repeat-x;
-	height: 66px;
-	width: 100%;
-}
+
 #header-left {
 	background: url(images/header.gif);
 	width: 600px;
@@ -46,7 +42,7 @@ body {
 	color:#810081;
 	font-weight:normal;
 }
-/**-- ×ó²àµ¼º½ --*/
+/**-- ï¿½ï¿½àµ¼ï¿½ï¿½ --*/
 /**--jquery-*/
 .accordion .accordion-header{
 	background-image: url(images/LTitle.gif);
@@ -69,7 +65,7 @@ body {
 	background-repeat: repeat-x;
 	background-position: left bottom;
 }
-/*³¬Á´½ÓµÄÑùÊ½*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½Ê½*/
 span A:link{
 	FONT-SIZE:12px;
 	COLOR:#6e6e6e;
@@ -86,8 +82,8 @@ span A:hover{
 	text-decoration: none;
 }
 
-/***------------------------------------- Ö÷ÌåÑùÊ½  ÄÚ²¿  -------------------------------------- */
-/*---¿ÉÒÆ¶¯ ±¨±í²éÑ¯ÑùÊ½ ----start----*/
+/***------------------------------------- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½  ï¿½Ú²ï¿½  -------------------------------------- */
+/*---ï¿½ï¿½ï¿½Æ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½Ê½ ----start----*/
 #wrapper {
     width: 500px;
     margin: 0 auto;
@@ -171,14 +167,14 @@ ul.navigation a:focus {
     outline: none;
 }
 
-/*---¿ÉÒÆ¶¯ ±¨±í²éÑ¯ÑùÊ½----end----*/
-/**-²éÑ¯Ò³Ãæ-*/
+/*---ï¿½ï¿½ï¿½Æ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½Ê½----end----*/
+/**-ï¿½ï¿½Ñ¯Ò³ï¿½ï¿½-*/
 .divQuery{
 	margin:auto;
 	background-color: #fff;
 	height: 150px;
 }
-/*--ËùÓÐ±à¼­Ò³Ãæ¼°³ö¡¢Èë¿â²éÑ¯¡¢³öÈë¿â£¨Êµ¼Ê¡¢ÕËÃæ£©»ã×Ü ---start---*/
+/*--ï¿½ï¿½ï¿½Ð±à¼­Ò³ï¿½æ¼°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â£¨Êµï¿½Ê¡ï¿½ï¿½ï¿½ï¿½æ£©ï¿½ï¿½ï¿½ï¿½ ---start---*/
 
 table.main {
 	/*border: 3px solid #86B4E5;
@@ -200,10 +196,10 @@ td.label_ {
 	font-style: normal;
 	border: 0;
 }
-/** tdµ¼ÈëÎÄ¼þ±êÌâµÈ £¨¡°ÇëÑ¡ÔñÒªµ¼ÈëÊý¾ÝÎÄ¼þ¡±£©*/
+/** tdï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½*/
 td.labeltitle {
 	font-size: 14px;
-	font-family: "ËÎÌå";
+	font-family: "ï¿½ï¿½ï¿½ï¿½";
 	color: #000066;
 	text-align: left;
 	padding-left: 10px;
@@ -221,14 +217,14 @@ td.labeltitle_td{
 	background-color: #fff;
 	border: 1px solid #86B4E5;
 }
-/** tdÖÐµÄ²éÑ¯°´Å¥ */
+/** tdï¿½ÐµÄ²ï¿½Ñ¯ï¿½ï¿½Å¥ */
 td.labelbtn {
 	text-align: right;
 	border: 1px solid #86B4E5;
 }
-/*--ËùÓÐ±à¼­Ò³Ãæ¼°³ö¡¢Èë¿â²éÑ¯¡¢³öÈë¿â£¨Êµ¼Ê¡¢ÕËÃæ£©»ã×Ü ---end---*/
+/*--ï¿½ï¿½ï¿½Ð±à¼­Ò³ï¿½æ¼°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â£¨Êµï¿½Ê¡ï¿½ï¿½ï¿½ï¿½æ£©ï¿½ï¿½ï¿½ï¿½ ---end---*/
 
-/*----²úÏú¼Æ»®¡¢¶©µ¥\ÅäËÍ -----strat -----*/
+/*----ï¿½ï¿½ï¿½ï¿½Æ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ -----strat -----*/
 table.mainPI{
  border:0;
  border-color: #86B4E5;
@@ -251,7 +247,7 @@ td.labelPI{
 	border-bottom-color: #3167B1;
 	border-bottom: 1px solid
 }
-/*----²úÏú¼Æ»®¡¢¶©µ¥\ÅäËÍ -----end -----*/
+/*----ï¿½ï¿½ï¿½ï¿½Æ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ -----end -----*/
 
 /*- workList------start--*/
 .titleList{
@@ -325,7 +321,7 @@ a.none:visited{
 	font-size: 14px;
 	text-decoration: underline;
 }
-/** ²úÆ·Ñ¡ÔñÒ³ÃæÖÐ£¬ÌáÊ¾ÊäÈë²úÆ·±àÂë¡¢»òÃû×Ö½øÐÐ²éÑ¯ */
+/** ï¿½ï¿½Æ·Ñ¡ï¿½ï¿½Ò³ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ë¡¢ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½Ð²ï¿½Ñ¯ */
 .titleInfo{
 	width: 150px;
 	font:12px/14px arial;
@@ -333,7 +329,7 @@ a.none:visited{
 }
 
 
-/** ÄþµÂÒÆ¶¯ ¼¯ÍÅÖÕ¶Ë*/
+/** ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ¶ï¿½*/
 #top_nd-header {
 	background: url(images/first_top.gif) ;
 	background-repeat: no-repeat;
@@ -739,7 +735,7 @@ td.label_nd_1_2 {
 	color: #387DC3;
 	font-size: 20px;
 	font-weight:bold;
-	font-family: Verdana,Tahoma,Arial,Geogia,ËÎÌå,Sans-serif;
+	font-family: Verdana,Tahoma,Arial,Geogia,ï¿½ï¿½ï¿½ï¿½,Sans-serif;
 
 }
 #noticeBox{
@@ -752,7 +748,7 @@ td.label_nd_1_2 {
 	padding-left:10px;
 }
 
-/** ÁÐ±í²Ëµ¥ ÑùÊ½ ÆðÊ¼ */
+/** ï¿½Ð±ï¿½Ëµï¿½ ï¿½ï¿½Ê½ ï¿½ï¿½Ê¼ */
 #vertmenu {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 14px;
@@ -799,4 +795,4 @@ td.label_nd_1_2 {
 	border: 1px solid #98C0F4;
 }
 **/
-/**ÁÐ±í²Ëµ¥ ÑùÊ½ ½áÊø*/
+/**ï¿½Ð±ï¿½Ëµï¿½ ï¿½ï¿½Ê½ ï¿½ï¿½ï¿½ï¿½*/

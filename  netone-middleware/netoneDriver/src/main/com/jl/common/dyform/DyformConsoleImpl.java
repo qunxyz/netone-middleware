@@ -31,6 +31,7 @@ import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.jl.common.resource.Resource;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfConsoleIfc;
 
@@ -95,8 +96,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyFormColumn columnnew = new DyFormColumn();
 			BeanUtils.copyProperties(columnnew, object);
 			this.loadColumnx(columnnew);
-			this.dealWithKvDict(columnnew, rs);
-			this.dealwithTree(columnnew, rs);
+			this.dealWithDefaultValue(columnnew, rs);
 			newColumn.add(columnnew);
 		}
 
@@ -133,14 +133,15 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		return newColumn;
 	}
 	
-	private void dealWithKvDict(DyFormColumn columnnew, ResourceRmi rs) {
+	private void dealWithDefaultValue(DyFormColumn columnnew, ResourceRmi rs) {
 		// 扩展处理 k-v 列表，支持字典应用
 		String htmltype = columnnew.getViewtype();
 
-		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
-		StringBuffer but = new StringBuffer();
+
 		//System.out.println(htmltype);
 		if ("11".equals(htmltype)) {
+			//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
+			StringBuffer but = new StringBuffer();
 			String valuelist = columnnew.getValuelist();
 			//来自资源树某层目录的值
 			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
@@ -180,42 +181,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				}
 			}
 			//来自SOA脚本
-			rsinfo = StringUtils.substringBetween(valuelist, "[SOA:", "]");
-			if (StringUtils.isNotEmpty(rsinfo)) {
-				String naturalname[]=rsinfo.split(",");
-				UmsProtectedobject upo=null;
-				try {
-					upo = rs.loadResourceByNatural(naturalname[0]);
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				EnvService env = null;
-				try {
-
-					env = (EnvService) RmiEntry.iv("envinfo");
-					String value = env.fetchEnvValue("WEBSER_APPFRAME");
-					value=value+"Soasvl?naturalname="+naturalname[0]+(naturalname.length==2?naturalname[1]:"");
-
-							//System.out.println("sync user to php:"+url);
-							// 通讯协议
-							URL rul = new URL(value);
-							// 获得数据流
-							URLConnection urlc = rul.openConnection();
-							InputStream input = urlc.getInputStream();
-							// 进行数据交换
-
-							int read = 0;
-							while ((read = input.read()) != -1) {
-								but.append((char) read);
-							}
-
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
+			dealWithSoa(valuelist,rs,but);
 			
 			//来自其他表单字段
 			rsinfo = StringUtils.substringBetween(valuelist, "[DYFORM:", "]");
@@ -243,20 +209,11 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					e.printStackTrace();
 				}
 			}
-		}
-		
-		if (but.length() > 0) {
-			columnnew.setValuelist(but.toString());
-		}
-	}
-	
-	private void dealwithTree(DyFormColumn columnnew, ResourceRmi rs){
-		String htmltype = columnnew.getViewtype();
-
-		//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
-		StringBuffer but = new StringBuffer();
-		//System.out.println(htmltype);
-		if ("17".equals(htmltype)||"18".equals(htmltype)||"22".equals(htmltype)||"23".equals(htmltype)||"27".equals(htmltype)||"28".equals(htmltype)) {
+			if (but.length() > 0) {
+				columnnew.setValuelist(but.toString());
+			}
+		}else if ("17".equals(htmltype)||"18".equals(htmltype)||"22".equals(htmltype)||"23".equals(htmltype)||"27".equals(htmltype)||"28".equals(htmltype)) {
+			//处理树
 			String valuelist = columnnew.getValuelist();
 			//来自资源树某层目录的值
 			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
@@ -266,8 +223,61 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				//在树中只取一个naturalname其他不用
 				columnnew.setValuelist(name+"["+treex[0]+"]");
 			}
+		}else{
+			String valuelist = columnnew.getValuelist();
+			StringBuffer but=new StringBuffer();
+			dealWithSoa(valuelist,rs,but);
+			if (but.length() > 0) {
+				columnnew.setDefaultValue(but.toString());
+			}else{
+				columnnew.setDefaultValue(columnnew.getValuelist());
+			}
 		}
+		
+
 	}
+	
+	
+	private void dealWithSoa(String valuelist,ResourceRmi rs,StringBuffer but){
+		String rsinfo = StringUtils.substringBetween(valuelist, "[SOA:", "]");
+		if (StringUtils.isNotEmpty(rsinfo)) {
+			String naturalname[]=rsinfo.split(",");
+			UmsProtectedobject upo=null;
+			try {
+				upo = rs.loadResourceByNatural(naturalname[0]);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			EnvService env = null;
+			try {
+
+				env = (EnvService) RmiEntry.iv("envinfo");
+				String value = env.fetchEnvValue("WEBSER_APPFRAME");
+				value=value+"Soasvl?naturalname="+naturalname[0]+(naturalname.length==2?naturalname[1]:"");
+
+						//System.out.println("sync user to php:"+url);
+						// 通讯协议
+						URL rul = new URL(value);
+						// 获得数据流
+						URLConnection urlc = rul.openConnection();
+						InputStream input = urlc.getInputStream();
+						// 进行数据交换
+
+						int read = 0;
+						while ((read = input.read()) != -1) {
+							but.append((char) read);
+						}
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+
 
 	private void loadColumnx(DyFormColumn columnnew) throws Exception {
 
@@ -408,7 +418,11 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	public DyFormData loadData(String formcode, String bussid) throws Exception {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
-		TCsBus bus = dy.loadData(bussid, formcode);
+		TCsBus bus =new TCsBus();
+		if(StringUtils.isNotEmpty(bussid)){
+			 bus = dy.loadData(bussid, formcode);
+		}
+		bus.setFormcode(formcode);
 		DyFormData data = new DyFormData();
 		BeanUtils.copyProperties(data, bus);
 		if (data != null && !"".equals(data.getLsh())) {
@@ -605,12 +619,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}
 		
 		String formcode = bus.getFormcode();
-		
 		String subcondtion=subCondition(formcode,bux);
-		
 		List list = dy.queryData(bux, form, to, subcondtion+condition);
-		
-		
+				
 		DyAnalysisXml dayx = new DyAnalysisXml();
 		
 		if (list == null || list.size() == 0) {
@@ -651,7 +662,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	
 	private String subCondition(String formcode,TCsBus bus)throws Exception{
 		//处理扩展条件
-		List listx=this.queryColumnQ(formcode);
+		List listx=this.queryColumnQ(formcode,bus.getLsh());
 		StringBuffer butCon=new StringBuffer();
 		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
 			DyFormColumn objx = (DyFormColumn) iterator.next();
@@ -875,7 +886,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}
 	}
 
-	public List<DyFormColumn> queryColumnX(String formcode, String model)
+	public List<DyFormColumn> queryColumnX(String formcode, String model,String lsh)
 			throws Exception {
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
@@ -887,14 +898,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyFormColumn columnnew = new DyFormColumn();
 			BeanUtils.copyProperties(columnnew, object);
 			loadColumnx(columnnew);
-			dealWithKvDict(columnnew, rs);
-			this.dealwithTree(columnnew, rs);
+			dealWithDefaultValue(columnnew, rs);
+			
 			newColumn.add(columnnew);
 		}
 		return newColumn;
 	}
 
-	public List<DyFormColumn> queryColumnQ(String formcode)
+	public List<DyFormColumn> queryColumnQ(String formcode,String lsh )
 			throws Exception {
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
@@ -904,8 +915,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyFormColumn object = (DyFormColumn) iterator.next();
 			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 			object.setReadonly(false);
-			dealWithKvDict(object, rs);
-			this.dealwithTree(object, rs);
+			dealWithDefaultValue(object, rs);
 			newColumn.add(object);
 		}
 		return newColumn;

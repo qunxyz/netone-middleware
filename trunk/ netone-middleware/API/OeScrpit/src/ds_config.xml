@@ -10,13 +10,13 @@
 			<value>com.mysql.jdbc.Driver</value>
 		</property>
 		<property name="url">
-			<value>jdbc:mysql://localhost:3306/netone</value>
+			<value>jdbc:mysql://42.120.40.204:3306/netone</value>
 		</property>
 		<property name="username">
 			<value>root</value>
 		</property>
 		<property name="password">
-			<value>123</value>
+			<value>xanadu625</value>
 		</property>
 		<property name="maxActive">
 			<value>10</value>

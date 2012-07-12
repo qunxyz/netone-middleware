@@ -1662,7 +1662,7 @@ public final class DyFormBuildHtmlExt {
 
 		try {
 			List<DyFormColumn> list = DyEntry.iv().queryColumnX(
-					dyform.getFormcode(), "2");
+					dyform.getFormcode(), "2",lsh);
 			_formx = (DyFormColumn[]) list
 					.toArray(new DyFormColumn[list.size()]);
 		} catch (Exception e) {
@@ -1783,7 +1783,7 @@ public final class DyFormBuildHtmlExt {
 
 		try {
 			List<DyFormColumn> list = DyEntry.iv().queryColumnQ(
-					dyform.getFormcode());
+					dyform.getFormcode(),lsh);
 			_formx = (DyFormColumn[]) list
 					.toArray(new DyFormColumn[list.size()]);
 		} catch (Exception e) {

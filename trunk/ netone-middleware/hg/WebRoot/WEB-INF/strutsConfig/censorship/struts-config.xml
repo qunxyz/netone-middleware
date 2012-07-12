@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<data-sources />
+	<form-beans></form-beans>
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action path="/censorship"
+			type="com.jl.web.controller.censorship.CensorShipAction" parameter="method">
+			<forward contextRelative="true" name="onMainView2"
+				path="/WEB-INF/jsp/censorship/censorshipMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onMainView"
+				path="/WEB-INF/jsp/censorship/worklist.jsp">
+			</forward>
+			
+			<forward contextRelative="true" name="onEditX"
+				path="/WEB-INF/jsp/censorship/editX.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditXmain"
+				path="/WEB-INF/jsp/censorship/editXMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowView"
+				path="/WEB-INF/jsp/censorship/showProcess.jsp">
+			</forward>
+			<forward contextRelative="true" name="onShowView2A3"
+				path="/WEB-INF/jsp/censorship/showProcess2A3.jsp">
+			</forward>
+			
+			<!-- edit -->
+			<forward contextRelative="true" name="onEditCensorShip"
+				path="/WEB-INF/jsp/censorship/editCensorship.jsp">
+			</forward>
+			<forward contextRelative="true" name="onLoadLog"
+				path="/WEB-INF/jsp/censorship/censorshiplog.jsp">
+			</forward>
+			
+			<!--  -->
+			<forward contextRelative="true" name="onEditCensorShipX"
+				path="/WEB-INF/jsp/censorship/editCensorshipX.jsp">
+			</forward>
+			
+			<!--  -->
+			<forward contextRelative="true" name="onEditCensorShip_new_1"
+				path="/WEB-INF/jsp/censorship/editCensorShip_new_1.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditCensorShip_new_2"
+				path="/WEB-INF/jsp/censorship/editCensorShip_new_2.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditCensorShip_audit_1"
+				path="/WEB-INF/jsp/censorship/editCensorShip_audit_1.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditCensorShip_audit_2"
+				path="/WEB-INF/jsp/censorship/editCensorShip_audit_2.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditCensorShip_audit_2D5"
+				path="/WEB-INF/jsp/censorship/editCensorShip_audit_2.5.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditCensorShip_audit_3"
+				path="/WEB-INF/jsp/censorship/editCensorShip_audit_3.jsp">
+			</forward>
+			
+			
+			<forward contextRelative="true" name="onAuditView"
+				path="/WEB-INF/jsp/censorship/groupTerminalAudit.jsp">
+			</forward>
+			
+		</action>
+		
+		
+	</action-mappings>
+</struts-config>

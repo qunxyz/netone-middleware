@@ -196,6 +196,26 @@ public class TCsBus implements Serializable {
 	private String column78;
 	private String column79;
 	private String column80;
+	private String column81;
+	private String column82;
+	private String column83;
+	private String column84;
+	private String column85;
+	private String column86;
+	private String column87;
+	private String column88;
+	private String column89;
+	private String column90;
+	private String column91;
+	private String column92;
+	private String column93;
+	private String column94;
+	private String column95;
+	private String column96;
+	private String column97;
+	private String column98;
+	private String column99;
+	private String column100;
 	/** nullable persistent field */
 	// [queryinfo]clumnid,opesymbol#clumnid,opesymbol
 	private String extendattribute;
@@ -1014,6 +1034,166 @@ public class TCsBus implements Serializable {
 
 	public void setColumn80(String column80) {
 		this.column80 = column80;
+	}
+
+	public String getColumn81() {
+		return column81;
+	}
+
+	public void setColumn81(String column81) {
+		this.column81 = column81;
+	}
+
+	public String getColumn82() {
+		return column82;
+	}
+
+	public void setColumn82(String column82) {
+		this.column82 = column82;
+	}
+
+	public String getColumn83() {
+		return column83;
+	}
+
+	public void setColumn83(String column83) {
+		this.column83 = column83;
+	}
+
+	public String getColumn84() {
+		return column84;
+	}
+
+	public void setColumn84(String column84) {
+		this.column84 = column84;
+	}
+
+	public String getColumn85() {
+		return column85;
+	}
+
+	public void setColumn85(String column85) {
+		this.column85 = column85;
+	}
+
+	public String getColumn86() {
+		return column86;
+	}
+
+	public void setColumn86(String column86) {
+		this.column86 = column86;
+	}
+
+	public String getColumn87() {
+		return column87;
+	}
+
+	public void setColumn87(String column87) {
+		this.column87 = column87;
+	}
+
+	public String getColumn88() {
+		return column88;
+	}
+
+	public void setColumn88(String column88) {
+		this.column88 = column88;
+	}
+
+	public String getColumn89() {
+		return column89;
+	}
+
+	public void setColumn89(String column89) {
+		this.column89 = column89;
+	}
+
+	public String getColumn90() {
+		return column90;
+	}
+
+	public void setColumn90(String column90) {
+		this.column90 = column90;
+	}
+
+	public String getColumn91() {
+		return column91;
+	}
+
+	public void setColumn91(String column91) {
+		this.column91 = column91;
+	}
+
+	public String getColumn92() {
+		return column92;
+	}
+
+	public void setColumn92(String column92) {
+		this.column92 = column92;
+	}
+
+	public String getColumn93() {
+		return column93;
+	}
+
+	public void setColumn93(String column93) {
+		this.column93 = column93;
+	}
+
+	public String getColumn94() {
+		return column94;
+	}
+
+	public void setColumn94(String column94) {
+		this.column94 = column94;
+	}
+
+	public String getColumn95() {
+		return column95;
+	}
+
+	public void setColumn95(String column95) {
+		this.column95 = column95;
+	}
+
+	public String getColumn96() {
+		return column96;
+	}
+
+	public void setColumn96(String column96) {
+		this.column96 = column96;
+	}
+
+	public String getColumn97() {
+		return column97;
+	}
+
+	public void setColumn97(String column97) {
+		this.column97 = column97;
+	}
+
+	public String getColumn98() {
+		return column98;
+	}
+
+	public void setColumn98(String column98) {
+		this.column98 = column98;
+	}
+
+	public String getColumn99() {
+		return column99;
+	}
+
+	public void setColumn99(String column99) {
+		this.column99 = column99;
+	}
+
+	public String getColumn100() {
+		return column100;
+	}
+
+	public void setColumn100(String column100) {
+		this.column100 = column100;
 	}
 
 }

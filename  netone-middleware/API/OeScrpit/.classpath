@@ -38,9 +38,14 @@
 	<classpathentry kind="lib" path="springmodules-validator-0.1.jar"/>
 	<classpathentry kind="lib" path="mysql-connector-java-3.1.13-bin.jar"/>
 	<classpathentry kind="lib" path="MessageService.jar"/>
-	<classpathentry kind="lib" path="OecSpeciPage.jar"/>
+	<classpathentry kind="lib" path="OecSpeciPage.jar" sourcepath="/WebSpecification"/>
 	<classpathentry kind="lib" path="mail.jar"/>
 	<classpathentry kind="lib" path="acegi-security-0.8.2.jar"/>
 	<classpathentry kind="lib" path="activation.jar"/>
+	<classpathentry kind="lib" path="netoneDriver.jar"/>
+	<classpathentry kind="lib" path="WebFrame.jar"/>
+	<classpathentry kind="lib" path="WfRmiClient.jar"/>
+	<classpathentry kind="lib" path="ezmorph-1.0.4.jar"/>
+	<classpathentry kind="lib" path="json-lib-2.2.1-jdk15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="RmiServer_3A/|RmiServer_3A/CVS/|BK/RmiServer_3A/|BK/|RmiSecurity/|RmiWf/|RmiWf/conf/|RmiWf/lib/|RmiWf/sample/|app/xxxx/conf/|app/xxxx/lib/|app/xxxx/|app/|RESOURCE/" kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
+	<classpathentry kind="lib" path="commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="acegi-security-0.8.2.jar"/>
+	<classpathentry kind="lib" path="spring.jar"/>
+	<classpathentry kind="lib" path="spring-mock.jar"/>
+	<classpathentry kind="lib" path="springmodules-validator-0.1.jar"/>
+	<classpathentry kind="lib" path="sample1Client.jar"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

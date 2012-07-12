@@ -191,7 +191,7 @@ public interface DyFormConsoleIfc {
 	 * @return
 	 * @throws RemoteException
 	 */
-	List<DyFormColumn> queryColumnX(String formcode, String model,String lsh) throws Exception;
+	List<DyFormColumn> queryColumnX(String formcode, String model) throws Exception;
 	
 	/**
 	 * 查询字段装载(用于查询展示字段)
@@ -201,5 +201,5 @@ public interface DyFormConsoleIfc {
 	 * @return
 	 * @throws RemoteException
 	 */
-	List<DyFormColumn> queryColumnQ(String formcode,String lsh) throws Exception;
+	List<DyFormColumn> queryColumnQ(String formcode) throws Exception;
 }

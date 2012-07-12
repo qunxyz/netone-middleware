@@ -662,7 +662,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	
 	private String subCondition(String formcode,TCsBus bus)throws Exception{
 		//处理扩展条件
-		List listx=this.queryColumnQ(formcode,bus.getLsh());
+		List listx=this.queryColumnQ(formcode);
 		StringBuffer butCon=new StringBuffer();
 		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
 			DyFormColumn objx = (DyFormColumn) iterator.next();
@@ -886,7 +886,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}
 	}
 
-	public List<DyFormColumn> queryColumnX(String formcode, String model,String lsh)
+	public List<DyFormColumn> queryColumnX(String formcode, String model)
 			throws Exception {
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
@@ -905,7 +905,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		return newColumn;
 	}
 
-	public List<DyFormColumn> queryColumnQ(String formcode,String lsh )
+	public List<DyFormColumn> queryColumnQ(String formcode )
 			throws Exception {
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();

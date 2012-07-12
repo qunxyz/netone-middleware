@@ -50,4 +50,47 @@ public class DataBaseDemo extends OeScript {
 		System.out.println(db.getl(list, 0, "cou"));
 		db.close(con);
 	}
+	
+
+	/**
+	 * 原始的JDBC
+	 */
+	public static void test_demo3() {
+		// 获得数据库连接
+		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+
+		
+		
+		// 将结果保存list对像
+		List data=new ArrayList();
+		data.add("JPP07c678240bdd11e0be621bd8d1e853ad");
+		data.add("2012-12-12 00:00:00.000");
+		db.execute_p(con,"insert into netone.message(guid,roomGuid,sendDate)values(22,?,?)",data);
+
+		
+		db.close(con);
+	}
+
+	/**
+	 * 基于数据源的naturalname
+	 */
+	public static void test_demo4() {
+		Connection con = db.con("DATASOURCE.DATASOURCE.HGDB");
+		List list = new ArrayList();
+
+		list.add(1);
+		list.add(java.util.UUID.randomUUID().toString());
+		list.add(7155);
+		list.add(1);
+		list.add(1);
+		list.add("111");
+
+		db
+				.execute_p(
+						con,
+						"insert into t_item (FItemClassID,FNumber,FParentID,FDetail,FLevel,FName) values (?,?,?,?,?,?)",
+						list);
+
+		db.close(con);
+	}
 }

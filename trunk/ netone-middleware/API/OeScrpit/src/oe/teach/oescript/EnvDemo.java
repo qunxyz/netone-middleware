@@ -20,7 +20,6 @@ public class EnvDemo extends OeScript {
 		//String value1 = env.value("curl");
 		//将获得的值打印到控制台 
 		//System.out.println(value1);
-
 		// 从指定的位置URL 获得 环境 变量 curl
 		String value2 = env.value("rmi://192.168.2.4:2888/envinfo", "curl");
 		//将获得的值打印到控制台 

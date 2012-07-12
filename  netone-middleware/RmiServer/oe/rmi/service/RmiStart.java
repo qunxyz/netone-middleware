@@ -31,19 +31,21 @@ public class RmiStart {
 
 	private Log log = LogFactory.getLog(RmiStart.class);
 
-	private void start(int port, String host) {
+	private void start(int port, String host,String dataport) {
 
 		try {
 			// String port = messages.getString("spiport");
 			System.setProperty("java.rmi.server.hostname", host);
 			Registry registry = LocateRegistry.createRegistry(port);
-			
+			if(dataport!=null&&!dataport.equals("")){
 			try {
+
 				RMISocketFactory.setSocketFactory(new SMRMISocket());
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} 
+			}
 			Enumeration enr = messages.getKeys();
 			// Enumeration enr = messages.getKeys();
 			while (enr.hasMoreElements()) {
@@ -91,6 +93,11 @@ public class RmiStart {
 
 		String ip = messages1.getString("ipconfig");
 		String portinfo = messages1.getString("rmiport");
+		String dataport=null;
+		if(messages1.containsKey("dataport")){
+			dataport=messages1.getString("dataport");
+		}
+		
 		if (portinfo == null || portinfo.equals("")) {
 			portinfo = "2888";
 		}
@@ -108,7 +115,7 @@ public class RmiStart {
 		System.out.println();
 		log.info("Start port:" + port + " host:" + ip);
 		System.out.println();
-		start(port, ip);
+		start(port, ip,dataport);
 	}
 
 	public static void main(String[] args) {

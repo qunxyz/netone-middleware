@@ -20,6 +20,8 @@ sb1.column48 sb1column48,
 fa1.column14 fa1column14,
 sb1.column52 sb1column52,
 sb1.column27 sb1column27,
-sb.column6 sbcolumn6 
+sb.column6 sbcolumn6,
+sb.timex timex,
+'' belongx
 from DY_661338441749388 sb,DY_661338441749389 fa,DY_271334208897441 sb1,DY_271334208897439 fa1 
 where sb.fatherlsh=fa.lsh and sb.column3=sb1.column4 and fa1.lsh=sb1.fatherlsh 

@@ -636,8 +636,13 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 		}
 		//处理列表预处理事件
-		list=dayx.script2(formcode, list);
-		
+		List listx=dayx.script2(formcode, list);
+		if(listx!=null&&listx.size()>0){
+			list=listx;
+		}
+		if(list==null){
+			list=new ArrayList();
+		}
 		List listnew = new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsBus object = (TCsBus) iterator.next();

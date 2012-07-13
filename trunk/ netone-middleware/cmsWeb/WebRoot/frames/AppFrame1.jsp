@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -130,7 +131,8 @@
 									<font size='2'>&lt;&lt; 显示左侧菜单 </font> 
 								</a>
 							</div> 
-							<div style="float: right;margin-right:20px;"><a href="javascript:opendialog();" >[新建]</a> <a href="<portal:envget envkey='WEBSER_APPFRAME'/>/workList.do?method=onMainView2&mode=1&height=460&listtype=01&sortfield=&sort=&psize=20&appname=APPFRAME.APPFRAME.NDYD" target="proletright">[所有待办]</a> <a href="<portal:envget envkey='WEBSER_APPFRAME'/>/workList.do?method=onMainView2&mode=1&height=460&listtype=02&sortfield=&sort=&psize=20&appname=APPFRAME.APPFRAME.NDYD" target="proletright">[所有已办]</a></div>
+							<div style="float: right;margin-right:20px;"><font color='red'><rs:logininfo /> </font><font color='blue'><a
+									href='<rs:loginout/>'>【注销】</a> </font><a href="javascript:opendialog();" >[新建]</a> <a href="<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=moreWorklist&query=1&mode=1&height=430&listtype=01&sortfield=&sort=&psize=20&appname=" target="proletright">[所有待办]</a> <a href="<portal:envget envkey="WEBSER_APPFRAME"/>workList.do?method=moreWorklist&mode=1&height=430&listtype=02&sortfield=&sort=&psize=20&appname=" target="proletright">[所有已办]</a> <a href="<portal:envget envkey="WEBSER_APPFRAME"/>workList.do?method=moreWorklist&mode=1&height=430&listtype=03&sortfield=&sort=&psize=20&appname=" target="proletright">[所有归档]</a></div>
 							<div id="dialogx" style="height:220px;width:500px;display: none;">
 							<iframe name="mydialog" id="mydialog" 
 							src="<portal:envget envkey='WEBSER_CMSWEB'/>/PagelistpathRightSvl?pagename=appframelistx&appname=APPFRAME" scrolling="no"
@@ -139,7 +141,7 @@
 						</div>
 						<div id="mynewcontent" style="margin-top: 6px; border:1px solid #99BBE8;display:none"></div>
 						<iframe align="top" id="proletright" name="proletright" style="margin-top:4px;"
-							src="<portal:envget envkey='WEBSER_APPFRAME'/>/workList.do?method=onMainView2&mode=1&height=460&listtype=01&sortfield=&sort=&psize=20&appname=APPFRAME.APPFRAME.NDYD" scrolling="no"
+							src="<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=moreWorklist&query=1&mode=1&height=430&listtype=01&sortfield=&sort=&psize=20&appname=" scrolling="no"
 							resize="no" height="100%" width="960" frameborder='0'></iframe>
 					</div>
 					</td>

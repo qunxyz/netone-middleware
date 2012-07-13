@@ -199,6 +199,7 @@ public class DyAnalysisXml {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			System.out.println("xml½âÎö´íÎó");
+			e.printStackTrace();
 		}
 		Element rootElt = doc.getRootElement();
 		Iterator iter = rootElt.elementIterator(fatherNode);
@@ -266,6 +267,7 @@ public class DyAnalysisXml {
 			i = log.elementIterator();
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			return false;
 		}
 		while (i.hasNext()) {

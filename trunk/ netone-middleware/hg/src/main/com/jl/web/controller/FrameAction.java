@@ -313,6 +313,17 @@ public class FrameAction extends AbstractAction {
 		if ("look".equals(query)) {// 查看
 			isedit = false;
 		}
+		
+		// 检查确认状态 确认状态无法编辑
+		if (StringUtils.isNotEmpty(lsh)) {
+			AppObj app = AppEntry.iv().loadApp(naturalname);
+			String formcode = app.getDyformCode_();
+			DyFormData dydata = DyEntry.iv().loadData(formcode, lsh);
+			if ("01".equals(dydata.getStatusinfo())) {
+				isedit = false;
+			}
+		}
+		
 		Map<String, Boolean> map = new HashMap<String, Boolean>();
 		map.put("isedit", isedit);
 		map.put("ispermission", ispermission);

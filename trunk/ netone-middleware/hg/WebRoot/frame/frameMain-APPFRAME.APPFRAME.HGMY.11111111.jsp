@@ -34,6 +34,14 @@ function $$print(lsh){
 		var url = "<c:url value='/xreporthg.do?method=report1' />"+"&lsh="+lsh;
 		if (lsh!='') window.open(url);
 	}
+	
+function $$hx(lsh){
+	if (!confirm('确认要核销?')){return;};
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.UPDATECXSTATUS"+'&sr_lsh='+lsh, 
+			 function(jsonx){
+			  Ext.ux.Toast.msg("", jsonx.tip);
+	});
+}
 
 var selectObjVar = null;//全局变量 存放需要选择资源返回值的对象
 function $select(o,url){
@@ -77,6 +85,7 @@ function $select(o,url){
 							var value = "";
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$query('"+lsh+"','"+runtimeid+"','true'); >查看</a>&nbsp;";
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$$print('"+lsh+"'); >打印</a>&nbsp;";
+							value += "&nbsp;<a href='javascript:void(0)' onclick=$$hx('"+lsh+"'); >核销</a>&nbsp;";
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$edit('"+lsh+"','"+runtimeid+"'); >编辑</a>&nbsp;";
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$delete('"+lsh+"'); >作废</a>&nbsp;";return value;
 							}

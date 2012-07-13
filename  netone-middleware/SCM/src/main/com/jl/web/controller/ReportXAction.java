@@ -36,10 +36,7 @@ public class ReportXAction extends AbstractAction {
 				+ "-01");
 
 		// 分销商信息
-		StringBuffer sb = new StringBuffer();
-		sb.append("select * from dyform.DY_61336130537483  where column19='1'");
-		List list = DbTools.queryData(sb.toString());
-		request.setAttribute("list", list);
+		request.setAttribute("list", ReportBaseData.getFClientInfo());
 
 		String forward = "/xreport/xreport3.jsp";
 		ActionForward af = new ActionForward(forward);

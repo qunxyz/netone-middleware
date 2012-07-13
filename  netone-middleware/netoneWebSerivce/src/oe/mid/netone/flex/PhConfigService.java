@@ -97,8 +97,11 @@ public class PhConfigService extends HttpServlet {
 			phobj.setNaturalname(object.getNaturalname());
 			
 			phobj.setResourcename(object.getName());
-			phobj.setImagename(object.getId());
-			if ("0".equals(object.getInclusion())) {
+			phobj.setImagename(object.getId()+"."+object.getDescription());
+			if("1".equals(object.getInclusion())){
+				phobj.setImagename("dir.png");
+				phobj.setTypes(object.getObjecttype());
+			}else	if ("0".equals(object.getInclusion())) {
 				//如果是应用程序时的处理
 				String mobileAppName=object.getObjecttype();
 				if (StringUtils
@@ -114,6 +117,9 @@ public class PhConfigService extends HttpServlet {
 					String paramX[]=StringUtils.split(param,";");
 					for (int i = 0; i < paramX.length; i++) {
 						String []paramKV=paramX[i].split(":");
+						if(paramKV.length!=2){
+							continue;
+						}
 						String paramKey="$("+paramKV[0]+")";
 						appconfig=StringUtils.replace(appconfig, paramKey, paramKV[1]);
 					}

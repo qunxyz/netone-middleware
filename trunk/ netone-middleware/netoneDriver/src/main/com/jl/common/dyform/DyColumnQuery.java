@@ -192,6 +192,9 @@ public class DyColumnQuery {
 							// 查询字段是本表单
 							DyFormColumn columnx = (DyFormColumn) columnKey
 									.get(fullObj.getColumnid().toUpperCase());
+							if(columnx==null){
+								continue;
+							}
 							if (StringUtils.isNotEmpty(fullObj.getXoffset())
 									&& StringUtils.isNotEmpty(fullObj
 											.getYoffset())) {

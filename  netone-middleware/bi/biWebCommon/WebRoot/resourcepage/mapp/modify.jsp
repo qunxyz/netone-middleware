@@ -86,7 +86,7 @@
 							   <c:set var="condition" value="and naturalname like 'BUSSENV.BUSSENV.MOBILEAPP.%' order by extendattribute"></c:set>						
 							   <resource:fetchResource dataname="listz" condition="${condition}"></resource:fetchResource>
 							   <c:forEach items="${listz}" var="upoz">
-									<option value='${upoz.extendattribute}' <c:if test="${upo.objecttype==upoz.objecttype}">selected</c:if>>${upoz.name}[${upoz.extendattribute}]</option>
+									<option value='${upoz.extendattribute}' <c:if test="${upo.objecttype==upoz.extendattribute}">selected</c:if>>${upoz.name}[${upoz.extendattribute}]</option>
 							   </c:forEach>
 							</select>
 						</td>

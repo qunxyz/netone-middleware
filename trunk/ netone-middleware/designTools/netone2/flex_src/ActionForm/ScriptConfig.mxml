@@ -2,6 +2,10 @@
 <mx:Canvas  fontSize="18" xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()"   width="100%" height="100%" creationComplete="initApp();">
      <mx:Script>
      	<![CDATA[
+     		import BI.EvTijiao;
+     		import BI.EvTjFs;
+     		import mx.core.IFlexDisplayObject;
+     		import mx.managers.PopUpManager;
      		import mx.controls.TextArea;
      		import mx.core.UIComponent;
      		import mx.controls.TextInput;
@@ -23,426 +27,176 @@
   	    public var arrcomp:Array=new Array;
 		public function init():void{
 		 vs=this.parent as ViewStack;
+		 GlobalManager.getInstance().addEventListener("xuanzheSoA",xuanzheSoA);
 	     textpath="路径： "+DyData.Urlname+" 第"+DyData.sum+"步，共"+DyData.sum+"步";
 		} 
 		//组件加载完成的方法
 		public function  initApp():void{
 			if(!DyData.modletype){
 				var xml:XML=vivid.updatexml;
-				if(xml.config.NewSave.@model=="1"){
-				    	check.selected=true;
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.text=xml.config.NewSave;
-                        text.id="check";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas0.addChild(text);
-				}
-				if(xml.config.UpdateSave.@model=="1"){
-				        check0.selected=true;
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.text=xml.config.UpdateSave;
-                        text.id="check0";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas2.addChild(text);
-				}
-				if(xml.config.Delete.@model=="1"){
-				        check1.selected=true;
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.text=xml.config.Delete;
-                        text.id="check1";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas3.addChild(text);
-				}
-				if(xml.config.SelectRead.@model=="1"){
-					    check2.selected=true;
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.text=xml.config.SelectRead;
-                        text.id="check2";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas4.addChild(text);
-				}
-				if(xml.config.SelectUpdate.@model=="1"){
-					    check3.selected=true;
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.text=xml.config.SelectUpdate;
-                        text.id="check3";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas5.addChild(text);
-				}if(xml.config.InitCreate.@model=="1"){
-				        check4.selected=true;
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.text=xml.config.InitCreate;
-                        text.id="check4";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas6.addChild(text);
-				}
-				if(xml.config.Yesaffirm.@model=="1"){
-				        check5.selected=true;
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.text=xml.config.Yesaffirm;
-                        text.id="check5";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas7.addChild(text);
-				}if(xml.config.Onaffirm.@model=="1"){
-				        check6.selected=true;
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.text=xml.config.Onaffirm;
-                        text.id="check6";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas8.addChild(text);
-				}if(xml.config.OnList.@model=="1"){
-				        check7.selected=true;
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.text=xml.config.OnList;
-                        text.id="check7";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas9.addChild(text);
-				}
-			}else{
-				        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas0.addChild(text);
-			 
-				        var text0:TextArea=new TextArea();
-                        text0.x=0;
-                        text0.y=0;
-                        text0.id="check0";
-                        text0.percentHeight=100;
-                        text0.percentWidth=100;
-                        arrcomp.push(text0);
-                        canvas2.addChild(text0);
-
-				        var text1:TextArea=new TextArea();
-                        text1.x=0;
-                        text1.y=0;
-                        text1.id="check1";
-                        text1.percentHeight=100;
-                        text1.percentWidth=100;
-                        arrcomp.push(text1);
-                        canvas3.addChild(text1);
-		 
-				        var text2:TextArea=new TextArea();
-                        text2.x=0;
-                        text2.y=0;
-                        text2.id="check2";
-                        text2.percentHeight=100;
-                        text2.percentWidth=100;
-                        arrcomp.push(text2);
-                        canvas4.addChild(text2);
-
-				        var text3:TextArea=new TextArea();
-                        text3.x=0;
-                        text3.y=0;
-                        text3.id="check3";
-                        text3.percentHeight=100;
-                        text3.percentWidth=100;
-                        arrcomp.push(text3);
-                        canvas5.addChild(text3);
-                        
-                        var text4:TextArea=new TextArea();
-                        text4.x=0;
-                        text4.y=0;
-                        text4.id="check4";
-                        text4.percentHeight=100;
-                        text4.percentWidth=100;
-                        arrcomp.push(text4);
-                        canvas6.addChild(text4);
-                        
-                        var text5:TextArea=new TextArea();
-                        text5.x=0;
-                        text5.y=0;
-                        text5.id="check5";
-                        text5.percentHeight=100;
-                        text5.percentWidth=100;
-                        arrcomp.push(text5);
-                        canvas7.addChild(text5);
-                        
-                        var text6:TextArea=new TextArea();
-                        text6.x=0;
-                        text6.y=0;
-                        text6.id="check6";
-                        text6.percentHeight=100;
-                        text6.percentWidth=100;
-                        arrcomp.push(text6);
-                        canvas8.addChild(text6);
-                        
-                        var text7:TextArea=new TextArea();
-                        text7.x=0;
-                        text7.y=0;
-                        text7.id="check7";
-                        text7.percentHeight=100;
-                        text7.percentWidth=100;
-                        arrcomp.push(text7);
-                        canvas9.addChild(text7);
+			    canvas0.text=xml.config.NewSave;
+			    canvas2.text=xml.config.UpdateSave;
+			    canvas3.text=xml.config.Delete;
+			    canvas4.text=xml.config.SelectRead;
+			    canvas5.text=xml.config.SelectUpdate;
+			    canvas6.text=xml.config.InitCreate;
+			    canvas7.text=xml.config.Yesaffirm;
+			    canvas8.text=xml.config.Onaffirm;
+			    canvas9.text=xml.config.OnList;
+			    canvas10.text=xml.config.PNewSave;
+			    canvas11.text=xml.config.PUpdateSave;
+			    canvas12.text=xml.config.PDelete;
 			}
 		}
-		//加载填写脚本的事件
-		public function changeQuery(event:Event):void{
-		switch( event.target.name)
-				{
-                    case "check":
-                        if(check.selected==true){
-                        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas0.addChild(text);
-                        }else{
-                        canvas0.removeAllChildren();
-                        for(var i:int=0;i<arrcomp.length;i++){
-                        	if(UIComponent(arrcomp[i]).id=="check"){
-                                 arrcomp.splice(i,1);
-                             }
-                        }
-                        }
-					break;
-					case "check0":
-					  if(check0.selected==true){
-                        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check0";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas2.addChild(text);
-                        }else{
-                        canvas2.removeAllChildren();
-                         for(var i:int=0;i<arrcomp.length;i++){
-                        	if(UIComponent(arrcomp[i]).id=="check0"){
-                                 arrcomp.splice(i,1);
-                             }
-                        }
-                        }
-					break;
-					case "check1":
-					  if(check1.selected==true){
-                        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check1";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas3.addChild(text);
-                        }else{
-                        canvas3.removeAllChildren();
-                         for(var i:int=0;i<arrcomp.length;i++){
-                        	if(UIComponent(arrcomp[i]).id=="check1"){
-                                 arrcomp.splice(i,1);
-                             }
-                        }
-                        }
-					
-					break;
-					case "check2":
-					   if(check2.selected==true){
-                        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check2";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas4.addChild(text);
-                        }else{
-                        canvas4.removeAllChildren();
-	                        for(var i:int=0;i<arrcomp.length;i++){
-	                        	if(UIComponent(arrcomp[i]).id=="check2"){
-	                                 arrcomp.splice(i,1);
-	                             }
-	                        }
-                        }
-					break;
-					case "check3":
-					  if(check3.selected==true){
-                        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check3";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas5.addChild(text);
-                        }else{
-                        canvas5.removeAllChildren();
-                         for(var i:int=0;i<arrcomp.length;i++){
-	                        	if(UIComponent(arrcomp[i]).id=="check3"){
-	                                 arrcomp.splice(i,1);
-	                             }
-	                      }
-                        }
-					break;
-					case "check4":
-					  if(check4.selected==true){
-                        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check4";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas6.addChild(text);
-                        }else{
-                        canvas6.removeAllChildren();
-                         for(var i:int=0;i<arrcomp.length;i++){
-	                        	if(UIComponent(arrcomp[i]).id=="check4"){
-	                                 arrcomp.splice(i,1);
-	                             }
-	                      }
-                        }
-                   case "check5":
-					  if(check5.selected==true){
-                        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check5";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas7.addChild(text);
-                        }else{
-                        canvas7.removeAllChildren();
-                         for(var i:int=0;i<arrcomp.length;i++){
-	                        	if(UIComponent(arrcomp[i]).id=="check5"){
-	                                 arrcomp.splice(i,1);
-	                             }
-	                      }
-                        }
-                  case "check6":
-					  if(check6.selected==true){
-                        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check6";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas8.addChild(text);
-                        }else{
-                        canvas8.removeAllChildren();
-                         for(var i:int=0;i<arrcomp.length;i++){
-	                        	if(UIComponent(arrcomp[i]).id=="check6"){
-	                                 arrcomp.splice(i,1);
-	                             }
-	                      }
-                        }
-					break;
-			  case "check7":
-					  if(check7.selected==true){
-                        var text:TextArea=new TextArea();
-                        text.x=0;
-                        text.y=0;
-                        text.id="check7";
-                        text.percentHeight=100;
-                        text.percentWidth=100;
-                        arrcomp.push(text);
-                        canvas9.addChild(text);
-                        }else{
-                        canvas9.removeAllChildren();
-                         for(var i:int=0;i<arrcomp.length;i++){
-	                        	if(UIComponent(arrcomp[i]).id=="check7"){
-	                                 arrcomp.splice(i,1);
-	                             }
-	                      }
-                        }
-					break;
-				}
+		//SOA选择的
+		private function xuanzheSoA(event:EvTijiao):void
+		{
+		    switch(DyData.buttton)
+		     {
+		     	  case "button1":
+		     	      canvas0.text=event.Formcode();
+		     	      break;
+		     	  case "button2":
+		     	     canvas2.text=event.Formcode();
+		     	  break;
+		     	  case "button3":
+		     	   canvas3.text=event.Formcode();
+		     	  break;
+		     	  case "button4":
+		     	   canvas4.text=event.Formcode();
+		     	  break;
+		     	  case "button5":
+		     	  canvas5.text=event.Formcode();
+		     	  break;
+		     	  case "button6":
+		     	   canvas6.text=event.Formcode();
+		     	  break;
+		     	  case "button7":
+		     	   canvas7.text=event.Formcode();
+		     	  break;
+		     	  case "button8":
+		     	    canvas8.text=event.Formcode();
+		     	  break;
+		     	  case "button9":
+		     	    canvas9.text=event.Formcode();
+		     	  break;
+		     	  case "button10":
+		     	   canvas10.text=event.Formcode();
+		     	  break;
+		     	  case "button11":
+		     	   canvas11.text=event.Formcode();
+		     	  break;
+		     	  case "button12":
+		     	   canvas12.text=event.Formcode();
+		     	  break;
+		     }
+		}
+		//点击选择
+		public function OnClick(event:MouseEvent):void{
+		     switch(event.target.name)
+		     {
+		     	  case "button1":
+		     	      DyData.buttton="button1";
+		     	      break;
+		     	  case "button2":
+		     	   DyData.buttton="button2";
+		     	  break;
+		     	  case "button3":
+		     	   DyData.buttton="button3";
+		     	  break;
+		     	  case "button4":
+		     	   DyData.buttton="button4";
+		     	  break;
+		     	  case "button5":
+		     	   DyData.buttton="button5";
+		     	  break;
+		     	  case "button6":
+		     	   DyData.buttton="button6";
+		     	  break;
+		     	  case "button7":
+		     	   DyData.buttton="button7";
+		     	  break;
+		     	  case "button8":
+		     	   DyData.buttton="button8";
+		     	  break;
+		     	  case "button9":
+		     	   DyData.buttton="button9";
+		     	  break;
+		     	  case "button10":
+		     	   DyData.buttton="button10";
+		     	  break;
+		     	  case "button11":
+		     	   DyData.buttton="button11";
+		     	  break;
+		     	  case "button12":
+		     	   DyData.buttton="button12";
+		     	  break;
+		     }
+		     var selectsoa:SelectSOA=new SelectSOA();
+		     PopUpManager.addPopUp(selectsoa,this,true);
+		     PopUpManager.centerPopUp(selectsoa as IFlexDisplayObject);
 		}
 		public function xmllist():XML{
-			for(var i:int=0;i<arrcomp.length;i++){
+
 				var xml:XML=new XML;
-			if(UIComponent(arrcomp[i]).id=="check"){
-			xml=<NewSave>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</NewSave>;
+		
+			xml=<NewSave>{a1+canvas0.text+a2+a3}</NewSave>;
 			xml.@model="1";
 			DyData.configxml.appendChild(xml);
-			}
-			if(UIComponent(arrcomp[i]).id=="check0"){
-			xml=<UpdateSave>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</UpdateSave>;
+			
+			
+			xml=<UpdateSave>{a1+canvas2.text+a2+a3}</UpdateSave>;
 			xml.@model="1";
 			DyData.configxml.appendChild(xml);
-			}
-			if(UIComponent(arrcomp[i]).id=="check1"){
-			xml=<Delete>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</Delete>;
+			
+			
+			xml=<Delete>{a1+canvas3.text+a2+a3}</Delete>;
 			xml.@model="1";
 			DyData.configxml.appendChild(xml);
-			}
-			if(UIComponent(arrcomp[i]).id=="check2"){
-			xml=<SelectRead>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</SelectRead>;
+			
+			
+			xml=<SelectRead>{a1+canvas4.text+a2+a3}</SelectRead>;
 			xml.@model="1";
 			DyData.configxml.appendChild(xml);
-			}
-			if(UIComponent(arrcomp[i]).id=="check3"){
-			xml=<SelectUpdate>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</SelectUpdate>;
+			
+			
+			xml=<SelectUpdate>{a1+canvas5.text+a2+a3}</SelectUpdate>;
 			xml.@model="1";
 			DyData.configxml.appendChild(xml);
-			}
-			if(UIComponent(arrcomp[i]).id=="check4"){
-			xml=<InitCreate>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</InitCreate>;
-			xml.@model="1";
-			DyData.configxml.appendChild(xml);
-			}
-		    if(UIComponent(arrcomp[i]).id=="check5"){
-			xml=<Yesaffirm>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</Yesaffirm>;
-			xml.@model="1";
-			DyData.configxml.appendChild(xml);
-			}
 			 
-			if(UIComponent(arrcomp[i]).id=="check6"){
-			xml=<Onaffirm>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</Onaffirm>;
+			
+			xml=<InitCreate>{a1+canvas6.text+a2+a3}</InitCreate>;
 			xml.@model="1";
 			DyData.configxml.appendChild(xml);
-			}
-			if(UIComponent(arrcomp[i]).id=="check7"){
-			xml=<OnList>{a1+UIComponent(arrcomp[i])["text"]+a2+a3}</OnList>;
+			
+		    
+			xml=<Yesaffirm>{a1+canvas7.text+a2+a3}</Yesaffirm>;
 			xml.@model="1";
 			DyData.configxml.appendChild(xml);
-			}
-			} 			 	
+		
+			 
+			
+			xml=<Onaffirm>{a1+canvas8.text+a2+a3}</Onaffirm>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			
+			
+			xml=<OnList>{a1+canvas9.text+a2+a3}</OnList>;
+			xml.@model="1";
+			DyData.configxml.appendChild(xml);
+			
+			 xml=<PNewSave>{a1+canvas10.text+a2+a3}</PNewSave>;
+			 xml.@model="1";
+			 DyData.configxml.appendChild(xml);
+			 
+			  xml=<PUpdateSave>{a1+canvas11.text+a2+a3}</PUpdateSave>;
+			 xml.@model="1";
+			 DyData.configxml.appendChild(xml);
+			 
+			  xml=<PDelete>{a1+canvas12.text+a2+a3}</PDelete>;
+			 xml.@model="1";
+			 DyData.configxml.appendChild(xml);
+						 	
      		return DyData.configxml;
 		}
 		  //上一步的方法
@@ -482,34 +236,58 @@
 		<mx:Label x="100" y="148" text="帮助提示:配置表单在使用的时候需要的事件，然后单击“下一步”。" color="#53585C" fontSize="18"/>
 	</mx:Canvas>
  	<mx:Canvas id="canvas1" width="894" height="903"  x="106" y="197" fontSize="18">
-	 	<mx:CheckBox id="check"  name="check" selected="true" x="0" y="93"  label="新建保存" change="changeQuery(event)"/>
-	 	<mx:CheckBox id="check4"  name="check4" selected="true" x="0" y="0"  label="子数据预处理" change="changeQuery(event)"/>
-	
-		<mx:CheckBox id="check0" name="check0"  selected="true" x="0" y="193" label="修改保存" change="changeQuery(event)"/>
-		<mx:CheckBox id="check1" name="check1"  selected="true" x="0" y="296" label="删除" change="changeQuery(event)"/>
- 	 	<mx:CheckBox id="check2" name="check2" selected="true" x="0" y="396" label="展示只读" change="changeQuery(event)"/>
- 	 	<mx:CheckBox id="check3" name="check3"  selected="true" x="0" y="498" label="展示修改" change="changeQuery(event)"/>
- 	 	<mx:CheckBox id="check5" name="check5"  selected="true" x="0" y="602" label="确认" change="changeQuery(event)"/>
- 	 	<mx:CheckBox id="check6" name="check6"  selected="true" x="0" y="696" label="反确认" change="changeQuery(event)"/> 	 
- 	 	<mx:CheckBox id="check7" name="check7"  selected="true" x="0" y="796" label="列表预处理" change="changeQuery(event)"/>
- 	 	<mx:Canvas id="canvas8" width="863" height="57"  x="0" y="736" fontSize="18">
- 	 	</mx:Canvas>
- 	 	<mx:Canvas id="canvas0" width="863" height="57"  x="0" y="124" fontSize="18">
- 	 	</mx:Canvas>
- 	 	 <mx:Canvas id="canvas2" width="863" height="57"  x="0" y="231" fontSize="18">
- 	    </mx:Canvas>
- 	 	 <mx:Canvas id="canvas3" width="863" height="57"  x="0" y="327" fontSize="18">
- 	 	 </mx:Canvas>
- 	 	 <mx:Canvas id="canvas4" width="863" height="57"  x="0" y="434" fontSize="18">
- 	 	 </mx:Canvas> 	
- 	 	 <mx:Canvas id="canvas5" width="863" height="57"  x="0" y="537" fontSize="18">
- 	 	 </mx:Canvas>
- 	 	 <mx:Canvas id="canvas6" width="863" height="57"  x="0" y="31" fontSize="18">
-	 	</mx:Canvas>
- 	 	  <mx:Canvas id="canvas7" width="863" height="57"  x="0" y="635" fontSize="18">
- 	 	 </mx:Canvas>
- 	 	  <mx:Canvas id="canvas9" width="863" height="57"  x="0" y="836" fontSize="18">
- 	 	  </mx:Canvas>
+	 	<mx:Label id="check"  name="check"   x="0" y="53"  text="新建保存：" />
+		<mx:Label id="check0" name="check0"  x="0" y="93" text="修改保存：" />
+		<mx:Label id="check1" name="check1"  x="0" y="142" text="删除："/>
+ 	 	<mx:Label id="check2" name="check2"  x="0" y="187" text="展示只读：" />
+ 	 	<mx:Label id="check3" name="check3"  x="0" y="240" text="展示修改：" />
+ 	 	<mx:Label id="check4"  name="check4"  x="0" y="14"  text="子数据预处理："/>
+ 	 	<mx:Label id="check5" name="check5"  x="0" y="292" text="确认："/>
+ 	 	<mx:Label id="check6" name="check6"  x="0" y="345" text="反确认：" /> 	 
+ 	 	<mx:Label id="check7" name="check7"  x="0" y="402" text="列表预处理："/>
+   		<mx:Label id="check8" name="check8"  x="0" y="443" text="创建前："/>
+   		<mx:Label id="check9" name="check9"  x="0" y="489" text="修改前："/>
+   		<mx:Label id="check10" name="check10"  x="0" y="532" text="删除前："/>
+   		
+   
+ 	 	<mx:TextArea id="canvas0" width="405" height="31"  x="141" y="53" fontSize="18">
+ 	 	</mx:TextArea>
+ 	 	 <mx:TextArea id="canvas2" width="405" height="31"  x="141" y="93" fontSize="18">
+ 	    </mx:TextArea>
+ 	 	 <mx:TextArea id="canvas3" width="405" height="31"  x="141" y="142" fontSize="18">
+ 	 	 </mx:TextArea>
+ 	 	 <mx:TextArea id="canvas4" width="405" height="31"  x="141" y="187" fontSize="18">
+ 	 	 </mx:TextArea> 	
+ 	 	 <mx:TextArea id="canvas5" width="405" height="31"  x="141" y="240" fontSize="18">
+ 	 	 </mx:TextArea>
+ 	 	 <mx:TextArea id="canvas6" width="405" height="31"  x="141" y="14" fontSize="18">
+	 	</mx:TextArea>
+ 	 	  <mx:TextArea id="canvas7" width="405" height="31"  x="141" y="292" fontSize="18">
+ 	 	 </mx:TextArea>
+ 	 	 <mx:TextArea id="canvas8" width="405" height="31"  x="141" y="345" fontSize="18">
+ 	     </mx:TextArea>
+ 	 	  <mx:TextArea id="canvas9" width="405" height="31"  x="141" y="402" fontSize="18">
+ 	 	  </mx:TextArea>
+ 	 	  <mx:TextArea id="canvas10" width="405" height="31"  x="141" y="443" fontSize="18">
+ 	 	  </mx:TextArea>
+ 	 	   <mx:TextArea id="canvas11" width="405" height="31"  x="141" y="489" fontSize="18">
+ 	 	  </mx:TextArea>
+ 	 	   <mx:TextArea id="canvas12" width="405" height="31"  x="141" y="532" fontSize="18">
+ 	 	  </mx:TextArea>
+ 	 	   <mx:Button x="596" y="53" name="button1" label="选择"  click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="93" name="button2" label="选择"  click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="142" name="button3" label="选择" click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="187" name="button4" label="选择" click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="240" name="button5" label="选择" click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="14"  name="button6" label="选择" click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="292" name="button7" label="选择" click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="345" name="button8" label="选择" click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="402" name="button9" label="选择" click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="443" name="button10" label="选择" click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="489" name="button11" label="选择" click="OnClick(event)"/>
+ 	 	   <mx:Button x="596" y="532" name="button12" label="选择" click="OnClick(event)"/>
+ 	 	  
+ 	 	  
 	</mx:Canvas>
  	<mx:Canvas x="0" y="{canvas1.height+canvas1.y+70}" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
  	</mx:Canvas>

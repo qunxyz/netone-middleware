@@ -13,6 +13,9 @@
 		public var vs:ViewStack;
 		[Bindable]
   	    public var textpath:String="";
+  	    public var a1:String="<![CDATA[";
+        public var a2:String="]]";
+		public var a3:String=">";
 		public function init():void{
 		 vs=this.parent as ViewStack;
 	     textpath="路径： "+DyData.Urlname+" 第5步，共"+DyData.sum+"步";
@@ -33,8 +36,8 @@
 			    }
 			  }
 		 if(xml.config.TDataGridType.@type=="1"){
-		  check.selected=true;
-		  	     var dgr:DGRewrite=new DGRewrite();
+		        check.selected=true;
+		  	    var dgr:DGRewrite=new DGRewrite();
 				dgr.percentHeight=100;
 				dgr.percentWidth=100;
 				dgr.y=0;
@@ -100,9 +103,12 @@
   	     xmlt.@type="1";
   	      for(var i:int=0;i<vivid.bfcf.length;i++){
   	    	if(vivid.bfcf[i].using){
-  	    	  var xmltset:XML=<TDataGrid></TDataGrid>;
+  	    	  var xmltset:XML=<TDataGrid>{a1+vivid.bfcf[i].query+a2+a3}</TDataGrid>;
   	    	  xmltset.@name=vivid.bfcf[i].cname;
   	   		  xmltset.@id=vivid.bfcf[i].cid;
+  	   		  xmltset.@ref=vivid.bfcf[i].formcode;
+  	   		  xmltset.@xoffset=vivid.bfcf[i].X;
+  	   		  xmltset.@yoffset=vivid.bfcf[i].Y;
   	   		  xmlt.appendChild(xmltset);
   	   		}
   	    }
@@ -136,11 +142,7 @@
   	    	 var xmlD:XML=<DDataGrid></DDataGrid>;
   	    	  xmlD.@name=vivid.configarr[K].cname;
   	   		  xmlD.@id=vivid.configarr[K].cid;
-  	   		  if(vivid.configarr[K].order=="降序"){
-  	   		  xmlD.@order="0";
-  	   		  }else if(vivid.configarr[K].order=="升序"){
-  	   		  xmlD.@order="1";
-  	   		  }
+  	   		  xmlD.@order=vivid.configarr[K].order;
   	   		  Dxml.appendChild(xmlD);
 	  	   		}
 		  	 }

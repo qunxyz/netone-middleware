@@ -33,5 +33,9 @@ package ActionForm{
      public static var modelname:String="";
      [Bindable]//是否已确认
      public static var active:String="0";
+     [Bindable]//弹出是不是那个界面
+     public static var buttton:String;
+     [Bindable]//查询列表上的
+     public static var queryID:String;
   }
 }

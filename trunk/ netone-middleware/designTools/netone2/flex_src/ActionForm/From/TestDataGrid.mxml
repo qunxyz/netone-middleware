@@ -29,12 +29,16 @@
 			  	for(var j:int=0;j<xmllist.length();j++){
 			       if(vivid.bfcf[i].cid==xmllist[j].@id){
 			         vivid.bfcf[i].using=true;
+			         vivid.bfcf[i].formcode=xmllist[j].@ref;
+			         vivid.bfcf[i].X=xmllist[j].@xoffset
+			         vivid.bfcf[i].Y=xmllist[j].@yoffset;
+			         vivid.bfcf[i].query=xmllist[j];
 			       }
 			    }
 			  }
 		 if(xml.config.TDataGridType.@type=="1"){
-		  check.selected=true;
-		  	     var dgr:DGRewrite=new DGRewrite();
+		        check.selected=true;
+		  	     var dgr:Queryform=new Queryform();
 				dgr.percentHeight=100;
 				dgr.percentWidth=100;
 				dgr.y=0;
@@ -45,7 +49,7 @@
 		  check.selected=false;
 		  }
 		  }else{
-	        var dgr:DGRewrite=new DGRewrite();
+	        var dgr:Queryform=new Queryform();
 			dgr.percentHeight=100;
 			dgr.percentWidth=100;
 			dgr.y=0;
@@ -67,7 +71,7 @@
 			  }
 		 }
 	    if(check.selected==true){
-		var dgr:DGRewrite=new DGRewrite();
+		var dgr:Queryform=new Queryform();
 		dgr.percentHeight=100;
 		dgr.percentWidth=100;
 		dgr.y=0;

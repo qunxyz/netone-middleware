@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"   initialize="init()" width="100%"  height="100%">
+  <mx:Script>
+  	<![CDATA[
+  		import mx.controls.TextInput;
+  		import mx.events.DataGridEventReason;
+  		import mx.events.DataGridEvent;
+  		import ActionForm.DyData;
+  		import mx.core.IFlexDisplayObject;
+  		import mx.managers.PopUpManager;
+  		import BI.EvTijiao;
+  		import ActionForm.From.com.hitb.util.GlobalManager;
+  		import mx.collections.ArrayCollection;
+  		import ActionForm.vivid;
+  		[Bindable]
+  		public var arr:ArrayCollection=new ArrayCollection();
+  		public function init():void
+  		{
+  		 GlobalManager.getInstance().addEventListener("xuanzhebiaodan",xuanzhebiaodan);
+  		}
+  		public  function clickEvent(id:String):void{
+  		   DyData.queryID=id;
+           var selectform:Selectform=new Selectform();
+           PopUpManager.addPopUp(selectform,this.parent.parent,true);
+           PopUpManager.centerPopUp(selectform as IFlexDisplayObject);
+		}
+		public function xuanzhebiaodan(event:EvTijiao):void
+		{
+		  for(var i:int=0;i<arr.length;i++)
+		  {
+		    if(arr[i].cid==DyData.queryID)
+		    {
+		     arr[i].formcode=event.Formcode();
+		    }
+		  }
+		  itfdata.dataProvider=arr;
+		}
+		 //验证的操作方法
+		  private function validateItem(event:DataGridEvent):void{   
+		   //如果没有更新数据则直接返回
+		     if (event.reason == DataGridEventReason.CANCELLED){
+		       return;
+		      } 
+		       var pattern:RegExp=/([a-z][A-Z][0-9])+/;
+		      var input:TextInput = TextInput(itfdata.itemEditorInstance);  
+		      var newData:String= TextInput(event.currentTarget.itemEditorInstance).text;
+		      //如果商品查询的输入则验证非空
+		      if(event.dataField == "X" && newData.length<=0){
+		       event.preventDefault();
+		          input.errorString="不能为空！";
+		      }
+
+		      //如果是数量则验证必须为数字
+		      if(event.dataField == "X" && isNaN(Number(newData))){
+		         event.preventDefault();
+		          input.errorString="数字必须为数字！";
+		          return;
+		      }
+		      
+		      if(event.dataField == "Y" && newData.length<=0){
+		       event.preventDefault();
+		          input.errorString="不能为空！";
+		      }
+		      //如果是数量则验证必须为数字
+		      if(event.dataField == "Y" && isNaN(Number(newData))){
+		         event.preventDefault();
+		          input.errorString="数字必须为数字！";
+		          return;
+		      }
+		      if(event.dataField == "query" && newData.length<=0){
+		       event.preventDefault();
+		          input.errorString="不能为空！";
+		      }
+		      //如果是数量则验证必须为数字
+		      if(event.dataField == "query" && pattern.test(newData)){
+		          event.preventDefault();
+		          input.errorString="数字必须为数字！";
+		          return;
+		      }
+		  
+		  }
+  	]]>
+  </mx:Script>
+	<mx:DataGrid id="itfdata" width="100%" height="100%" color="#5B5C62" itemEditEnd="validateItem(event)"   dataProvider="{arr}"
+						editable="true" enabled="true" fontFamily="细明体" fontSize="15"  x="0" y="0">
+			<mx:columns>
+				<mx:DataGridColumn dataField="cid" editable="true" resizable="false" headerText="字段名"/>   
+				<mx:DataGridColumn dataField="cname" editable="true" resizable="false" headerText="中文名"/> 
+				<mx:DataGridColumn dataField="X" editable="true" resizable="false" headerText="X坐标"/> 
+				<mx:DataGridColumn dataField="Y" editable="true" resizable="false" headerText="Y坐标"/> 
+				<mx:DataGridColumn dataField="formcode" editable="false" resizable="false" width="200" headerText="已选字段"/>
+				<mx:DataGridColumn dataField="query" editable="true" resizable="false" width="200" headerText="查询条件"/>
+				<mx:DataGridColumn editable="false" resizable="false" headerText="字段选择">
+				 <mx:itemRenderer>
+                	<mx:Component> 
+					<mx:LinkButton label="配置" color="blue"  click="{outerDocument.clickEvent(data.cid)}"/>
+					</mx:Component>
+				 </mx:itemRenderer> 
+			   </mx:DataGridColumn>
+			   <mx:DataGridColumn dataField="using" editable="false" headerText="启用状态"
+								   resizable="false">
+					<mx:itemRenderer>
+						<mx:Component>
+							<mx:HBox horizontalAlign="center">  
+								<mx:CheckBox click="data.using=!data.using" selected="{data.using}"/>
+							</mx:HBox>			
+						</mx:Component>  
+					</mx:itemRenderer>
+				</mx:DataGridColumn>  
+			</mx:columns>
+		</mx:DataGrid>
+</mx:Canvas>

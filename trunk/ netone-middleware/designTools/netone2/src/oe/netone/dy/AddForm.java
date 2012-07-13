@@ -1,4 +1,5 @@
-package  oe.netone.dy;
+package oe.netone.dy;
+
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -17,39 +18,35 @@ import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
-public class AddForm{
+public class AddForm {
 
-	public void AddColumn(String name,String subinfo,String  form,String tion) throws MalformedURLException, NotBoundException, RemoteException {
-  
-	
-	
-	DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+	public void AddColumn(String name, String subinfo, String form, String tion)
+			throws MalformedURLException, NotBoundException, RemoteException {
+        if(1==1)throw new RuntimeException("11");
+		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
 
-	DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
-	// �����?ͷ
+		DyFormService dysc = (DyFormService) RmiEntry.iv("dyhandle");
 
-  TCsForm busForm = new TCsForm();
-	 busForm.setFormname(name);
-	 busForm.setStyleinfo(subinfo);
-	 busForm.setSubform(form);
-	 busForm.setDescription(tion);
+		TCsForm busForm = new TCsForm();
+		busForm.setFormname(name);
+		busForm.setStyleinfo(subinfo);
+		busForm.setSubform(form);
+		busForm.setDescription(tion);
 
-     String[] info;
-	try {
-		info = dys.create(busForm, "BUSSFORM.BUSSFORM");
-		 ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
-		 String rsname = "BUSSFORM.BUSSFORM." + info[0];
-		 UmsProtectedobject upo = rsrmi.loadResourceByNatural(rsname);
-		 upo.setDescription(busForm.getExtendattribute());
-		 upo.setReference(busForm.getDescription());
-		 rsrmi.updateResource(upo);
-	     System.out.print(upo);
-	} catch (RemoteException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-
-	
+		String[] info;
+		try {
+			info = dys.create(busForm, "BUSSFORM.BUSSFORM");
+			ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
+			String rsname = "BUSSFORM.BUSSFORM." + info[0];
+			UmsProtectedobject upo = rsrmi.loadResourceByNatural(rsname);
+			upo.setDescription(busForm.getExtendattribute());
+			upo.setReference(busForm.getDescription());
+			rsrmi.updateResource(upo);
+			System.out.print(upo);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
-	}
+}

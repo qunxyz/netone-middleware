@@ -30,6 +30,14 @@ public interface DyFormConsoleIfc {
 	String _EVENT_LOSEFOCUS = "losefocus_event";
 	String _TYPE_XYOFFSET = "xyoffset";
 	String _TYPE_SQLTYPE = "sqltype";
+	
+	/**
+	 * 针对表单编辑，如果在流程环节中，提交给其他人员，那么表单创建者需要控制权限
+	 * @param bussid
+	 * @param participant
+	 * @return
+	 */
+	boolean whenFlowPageEdit(String bussid,String participant)throws Exception;
 
 	/**
 	 * 装载表单

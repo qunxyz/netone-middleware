@@ -60,8 +60,7 @@ public class Querybranchlisting extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String appname = request.getParameter("appname");
-		List list = null;
-		List list1 = new ArrayList();
+		List list = new ArrayList();
 		RMI_SER rmi = new RMI_SER();
 		RMI_SER_obj rmiobj = rmi.RMI_SER();
 		UmsProtecte up = new UmsProtecte();
@@ -73,13 +72,13 @@ public class Querybranchlisting extends HttpServlet {
 			bus.setFormcode(app.getFormcode());
 			bus.setFatherlsh("1");
 			try {
-				list = DyEntry.iv().queryData(bus, 0,
-						DyEntry.iv().queryDataNum(bus, ""),
+				list = DyEntry.iv().queryData(bus, 0,1000,
 						" ORDER BY Timex desc ");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			List list1=new ArrayList();
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				DyFormData dydata = (DyFormData) iterator.next();
 				Map map = new HashMap();

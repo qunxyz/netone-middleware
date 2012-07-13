@@ -57,10 +57,14 @@ public class Allimage extends HttpServlet {
 			EnvService env  = (EnvService) RmiEntry.iv("envinfo");
 
 			UmsProtectedobject upo=rs.loadResourceByNatural(appname);
-			List sub=rs.subResource(upo.getId());
+			List sub=rs.subResourceByNaturalname(appname);
 			
 			for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
 				UmsProtectedobject type = (UmsProtectedobject) iterator.next();
+				if("1".equals(type.getInclusion())){
+					//Ŀ¼û��ͼƬ
+					continue;
+				}
 				Map map=new HashMap();
 				String value = env.fetchEnvValue("WEBSER_BIWEB");
 				String url=value+"DownloadSvl?fileid="+type.getId();

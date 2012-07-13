@@ -78,6 +78,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	}
 
 	public List<DyFormColumn> fetchColumnList(String formid) throws Exception {
+		if(WebCache.containCache("fetchColumnList"+formid)){
+			return (List)WebCache.getCache("fetchColumnList"+formid);
+		}
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 		List listcolumn = dy.fetchColumnList(formid);
 		
@@ -101,15 +104,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			this.dealWithDefaultValue(columnnew, rs);
 			newColumn.add(columnnew);
 		}
-
-		// DyFormColumn columnnew = new DyFormColumn();
-		// columnnew.setColumnid("extendattribute");
-		// columnnew.setColumname("¿©’π–≈œ¢");
-		// columnnew.setViewtype("13");
-		// columnnew.setHidden(true);
-		// columnnew.setMusk_(true);
-		// newColumn.add(columnnew);
-		
+		WebCache.setCache("fetchColumnList"+formid, newColumn, null);
 		return newColumn;
 	}
 	
@@ -895,6 +890,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	public List<DyFormColumn> queryColumnX(String formcode, String model)
 			throws Exception {
+		if(WebCache.containCache("queryColumnX"+formcode+model)){
+			return (List)WebCache.getCache("queryColumnX"+formcode+model);
+		}
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
 		List list= dyfcQuery.QueryColumn(formcode, model);
@@ -909,11 +907,16 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			
 			newColumn.add(columnnew);
 		}
+		WebCache.setCache("queryColumnX"+formcode+model, newColumn, null);
 		return newColumn;
 	}
 
 	public List<DyFormColumn> queryColumnQ(String formcode )
 			throws Exception {
+		
+		if(WebCache.containCache("queryColumnQ"+formcode)){
+			return (List)WebCache.getCache("queryColumnQ"+formcode);
+		}
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
 		List list= dyfcQuery.QueryColumnQ(formcode);
@@ -925,8 +928,10 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			dealWithDefaultValue(object, rs);
 			newColumn.add(object);
 		}
+		WebCache.setCache("queryColumnQ"+formcode, newColumn, null);
 		return newColumn;
 	}
+
 
 	@Override
 	public boolean whenFlowPageEdit(String bussid, String participant)throws Exception {

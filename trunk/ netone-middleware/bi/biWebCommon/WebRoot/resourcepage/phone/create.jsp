@@ -85,12 +85,14 @@
 					</tr>
 					<tr>
 						<td width="15%">
-							<a href="javascript:searchtree();"><font color='blue'>选择分类</font>
-							</a>
+							选择分类
+							
 						</td>
 						<td width='300'>
-							<input type="text" name="objecttype" value=""
-								class="textinput_td" readonly="readonly">
+							<select  name="objecttype" id="objecttype">
+								<option value='1'>网格</option>
+								<option value='0'>列表</option>
+							</select>
 						</td>
 					</tr>
 					<tr>

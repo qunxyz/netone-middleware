@@ -236,12 +236,9 @@
 							</td>
 
 							<td nowrap>
-								<c:if test="${list.objecttype=='1'}">流程应用</c:if>
-								<c:if test="${list.objecttype=='2'}">内容频道</c:if>
-								<c:if test="${list.objecttype=='3'}">表单应用</c:if>
-								<c:if test="${list.objecttype=='4'}">统一查询</c:if>
-								<c:if test="${list.objecttype=='5'}">定位管理</c:if>
-								<c:if test="${list.objecttype=='6'}">消息应用</c:if> 
+								<c:if test="${list.objecttype=='1'}">网格</c:if>
+								<c:if test="${list.objecttype=='0'}">列表</c:if>
+
 							</td>
 							<td nowrap>
 								${list.created}

@@ -75,6 +75,7 @@
 								class="textinput_td" />
 						</td>
 					</tr>
+					<c:if test="${upo.inclusion==0}">
 					<tr>
 						<td width="15%">
 							<a href="javascript:searchtree();"><font color='blue'>选择功能</font>
@@ -85,9 +86,25 @@
 								class="textinput_td" readonly="readonly">
 						</td>
 					</tr>
-					<tr style='display:none'>
+					</c:if>
+					
+					<c:if test="${upo.inclusion==1}">
+					<tr>
 						<td width="15%">
-							引用
+							<a href="javascript:searchtree();"><font color='blue'>选择功能</font>
+							</a>
+						</td>
+						<td width='300'> 
+							<select  name="objecttype" id="objecttype">
+								<option value='1' <c:if test="${upo.objecttype=='1'}">selected</c:if>>网格</option>
+								<option value='0' <c:if test="${upo.objecttype=='0'}">selected</c:if>>列表</option>
+							</select>
+						</td>
+					</tr>					
+					</c:if>
+					<tr>
+						<td width="15%">
+							参数
 						</td>
 						<td>
 							<input type="text" name="actionurl" value="${upo.actionurl}"

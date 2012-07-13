@@ -96,7 +96,15 @@
 								class="textinput_td" readonly="readonly">
 						</td>
 					</tr>
-
+					<tr>
+						<td width="15%">
+							参数
+						</td>
+						<td>
+							<input type="text" name="actionurl" value="${upo.actionurl}"
+								class="textinput_td" />
+						</td>
+					</tr>
 				<tr  style='display:none'>
 					<td width="15%">
 						扩展属性

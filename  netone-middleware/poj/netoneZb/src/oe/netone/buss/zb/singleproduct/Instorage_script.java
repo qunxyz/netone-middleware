@@ -18,50 +18,6 @@ import oescript.parent.OeScript;
  */
 public class Instorage_script extends OeScript {
 
-	/**
-	 * 检查条形码是否重复
-	 * 
-	 * @return
-	 */
-	public String CHECKPRODUCTCODEISREPEAT() {
-		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
-		List list = db
-				.queryData(
-						con,
-						"select ifnull(count(*),0) as countx from $(sr_table) where fatherlsh!='$(sr_lsh)' and $(sr_pcodecol)='$(sr_pcode)' ");
-		net.sf.json.JSONObject json = new net.sf.json.JSONObject();
-		Map map = (Map) list.get(0);
-		json.put("count", map.get("countx").toString());
-		return "" + json.toString() + "";
-	}
-
-	/**
-	 * 入库 采购单数据脚本<BR>
-	 * 根据采购单号取得采购信息
-	 * 
-	 * @return
-	 */
-	public String GETPAYMENTINFO() {
-		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
-		String condition = "";
-		String q = "$(q)";
-		q = q.trim();
-		condition = " and column3 like '%" + q + "%'";
-		List list = db.queryData(con,
-				"select * from DY_661338441749384 where 1=1 " + condition);
-		java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
-		String split = "";
-		for (int i = 0; i < list.size(); i++) {
-			String jsonStr = net.sf.json.JSONObject.fromObject(list.get(i))
-					.toString();
-			jsonBuffer.append(split);
-			jsonBuffer.append(jsonStr);
-			split = ",";
-		}
-		db.close(con);
-		return "[" + jsonBuffer.toString() + "]";
-	}
-
 	public void INFO() {
 		// SCM工程
 		// com.jl.web.controller.FrameActionExt.java

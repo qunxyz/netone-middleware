@@ -58,6 +58,10 @@
 								onclick="javascript:_save();" />
 							<input id="nextBtn_1" type="button" value=" 下一步 " class="btn"
 								onclick="javascript:_auditNext_1();" />
+                            <c:if test="${param.hx=='1'}">
+							<input id="hxBtn_1" type="button" value=" 核 销 " class="btn"
+								onclick="javascript:$$hx('${param.lsh}');" />	
+							</c:if>								
 							<input id="cannelBtn_1" type="button" value=" 取 消 " class="btn"
 								onclick="javascript:window.close();" />
 						</div>
@@ -89,6 +93,10 @@
 						<input id="saveBtn_2" type="button" value=" 保 存 " class="btn"
 									onclick="javascript:_save();" />		
 						</c:if>
+						<c:if test="${param.hx=='1'}">
+							<input id="hxBtn_1" type="button" value=" 核 销 " class="btn"
+								onclick="javascript:$$hx('${param.lsh}');" />	
+						</c:if>	
 						<input id="nextBtn_3" type="button" value=" 下一步 " class="btn"
 							onclick="javascript:onAuditNext(0);" />
 							
@@ -359,4 +367,13 @@
 		var url = "<c:url value='/xreporthg.do?method=report1' />"+"&lsh="+lsh;
 		if (lsh!='') window.open(url);
 	}	
+	
+	function $$hx(lsh){
+	if (!confirm('确认要核销?')){return;};
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.UPDATECXSTATUS"+'&sr_lsh='+lsh, 
+			 function(jsonx){
+			  alert(jsonx.tip);
+			  window.close();
+	});
+	}
 </script>

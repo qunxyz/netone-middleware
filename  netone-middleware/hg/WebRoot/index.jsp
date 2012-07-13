@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-	<jsp:forward page="frame.do?method=portalView&naturalurl=FRAMEPG.FRAMEPG"></jsp:forward>
+	<jsp:forward page="frame.do?method=portalView&naturalurl=FRAMEPG.FRAMEPG.OTHER.A CENTURY AIR PORT BUSINESS"></jsp:forward>
     <!-- 
     <jsp:forward page="main.do"></jsp:forward>
      -->

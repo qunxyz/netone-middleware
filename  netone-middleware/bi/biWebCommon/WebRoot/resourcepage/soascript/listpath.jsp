@@ -247,7 +247,9 @@
 								</c:if>
 							</td>
 							<td nowrap>
-							       
+									<a  
+										href="javascript:window.open('<portal:envget envkey="WEBSER_APPFRAME"/>/Soasvl?naturalname=${list.naturalname}','_parent');"
+										target="_blank"><font color='red'>[²âÊÔ]</font></a>								       
 									<a  
 										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>/servlet/DelFile?naturalname=${list.naturalname}','_parent');"
 										target="_blank"><font color='red'>[É¾³ý]</font></a>	

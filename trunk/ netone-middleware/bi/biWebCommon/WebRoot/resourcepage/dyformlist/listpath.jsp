@@ -384,8 +384,11 @@
 										target="_blank"><font color='red'>[导出EXCEL]</font></a>
 										
 									<a
-										href="javascript:window.open('<portal:envget envkey="WEBSER_BIWEB"/>/PagelistRightSvl?pagename=dyformlist&appname=${list.naturalname}','_parent');"
-										target="_top">[功能配置]</a>
+										href="<portal:envget envkey="WEBSER_BIWEB"/>/PagelistRightSvl?pagename=dyformlist&appname=${list.naturalname}'"
+										target="_blank">[功能配置]</a>
+										<a
+										href="resourcepage/dyformlist/RemoveCache.jsp?formcode=${list.extendattribute}"
+										target="_blank">[清缓存]</a>
 										<!--  
 									<a
 										href="javascript:window.open('<%=path%>/SynSummary.do?task=Synbefore&chkid=${list.id}','_parent');"

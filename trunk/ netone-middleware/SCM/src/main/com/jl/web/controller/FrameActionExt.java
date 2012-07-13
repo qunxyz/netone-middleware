@@ -799,12 +799,13 @@ public class FrameActionExt extends AbstractAction {
 			isedit = false;
 		}
 
-		// 检查确认状态 珠宝业务
+		// 检查确认\反确认状态 珠宝业务
 		if (StringUtils.isNotEmpty(lsh)) {
 			AppObj app = AppEntry.iv().loadApp(naturalname);
 			String formcode = app.getDyformCode_();
 			DyFormData dydata = DyEntry.iv().loadData(formcode, lsh);
-			if ("01".equals(dydata.getStatusinfo())) {
+			if ("01".equals(dydata.getStatusinfo())
+					|| "02".equals(dydata.getStatusinfo())) {
 				isedit = false;
 			}
 		}

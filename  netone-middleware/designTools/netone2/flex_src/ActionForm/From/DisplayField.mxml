@@ -30,6 +30,7 @@
 			  	for(var j:int=0;j<xmllist.length();j++){
 			       if(vivid.configarr[i].cid==xmllist[j].@id){
 			         vivid.configarr[i].using=true;
+			          vivid.configarr[i].order=xmllist[j].@order;
 			       }
 			    }
 			  }

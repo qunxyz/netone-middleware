@@ -954,8 +954,8 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
  			/*  Columid="column"+dex;	
 			 dex++;	  */						
 		   property=Extendattribute+property;
-		   vivid.configarr.addItem({cname:Columname,cid:Columid,using:false,order:"降序"});
-		   vivid.bfcf.addItem({cname:Columname,cid:Columid,using:false});
+		   vivid.configarr.addItem({cname:Columname,cid:Columid,using:false,order:i+1});
+		   vivid.bfcf.addItem({cname:Columname,cid:Columid,X:UIComponent(vivid.AddCount[i])["row"],Y:UIComponent(vivid.AddCount[i])["cross"],formcode:"",query:"",using:false});
 		   vivid.dncf.addItem({cname:Columname,cid:Columid,using:false});
 		   vivid.tongji.addItem({cname:Columname,cid:Columid,using:false});
 		   UIComponent(vivid.AddCount[i])["_ID"]=Columid;
@@ -1069,6 +1069,7 @@ xmlns:component="ActionForm.From.com.hitb.component.*" fontSize="12" fontFamily=
 				       }
 				       create(cs);
 			       }
+			       GlobalManager.getInstance().dispatchEvent(new Event("shujujiazaiwangcheng"));
 	}
 	//根据列来计算x y坐标
 	public function corXY(xoffset:int,yoffset:int,w:int,h:int):Array{

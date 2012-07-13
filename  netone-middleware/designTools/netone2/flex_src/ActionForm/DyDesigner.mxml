@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()"  xmlns:ns1="ActionForm.*"  
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" creationComplete="ccp()"  xmlns:ns1="ActionForm.*"  
       xmlns:ns2="PolymerizationShow.*" fontSize="12"  width="100%" height="300" >
   <mx:Script>
   	<![CDATA[
@@ -27,7 +27,26 @@
   	    public function init():void{ //初始化的方法	           
 	             vs=this.parent as ViewStack;
                  textpath="路径： "+DyData.Urlname+" 第4步，共"+DyData.sum+"步"; 
+                 GlobalManager.getInstance().addEventListener("shujujiazaiwangcheng",shujujiazaiwangcheng);
   	    }
+  	    public function ccp():void
+  	    {
+  	    	if(!DyData.modletype)
+  	    	{
+  	    	  Down.visible=false;
+  	    	  Down1.visible=false;
+  	    	}else{
+  	    		  Down.visible=true;
+  	    	  Down1.visible=true;
+  	    	
+  	    	}
+  	    }
+  	    private function shujujiazaiwangcheng(event:Event):void
+  	    {
+  	          Down.visible=true;
+  	    	  Down1.visible=true;
+  	    }
+  	    
   	      //上一步的方法
           public function UPNode(evetn:MouseEvent):void{
           	var o:Object=this.parent.getChildByName("DySubForms1");
@@ -60,6 +79,6 @@
  	<mx:Canvas x="0" y="{canvas1.height+canvas1.y+80}" width="100%" height="30" fontSize="15" borderColor="#30AAFF" themeColor="#37B1FF" backgroundColor="#4376A5">		 
  	</mx:Canvas>
  	<mx:Button x="{this.width-400}" label="上一步" click="UPNode(event)" y="{canvas1.height+canvas1.y+40}" height="28" width="97" fontSize="12"  />
- 	<mx:Button x="{this.width-300}" label="下一步" click="DownNode(event)" y="{canvas1.height+canvas1.y+40}" height="28" width="97" fontSize="12"  />
+ 	<mx:Button  id="Down1" x="{this.width-300}" label="下一步" click="DownNode(event)" y="{canvas1.height+canvas1.y+40}" height="28" width="97" fontSize="12"  />
  	<mx:Button x="{this.width-200}" y="{canvas1.height+canvas1.y+40}" label="取消" click="Cancel()" enabled="true" height="28" width="97" fontSize="12" />
 </mx:Canvas>

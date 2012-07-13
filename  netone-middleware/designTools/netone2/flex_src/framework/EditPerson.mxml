@@ -45,7 +45,7 @@
 		    </mx:Canvas>
 		     <mx:Canvas height="34" y="228" width="613" x="-4">
 		          <mx:Label text="转办 控制  :" x="5" y="5"/>
-		          <mx:CheckBox id="fobidzb"  label="禁止转办" x="110" width="145"  height="24" y="7"/>
+		          <mx:CheckBox id="fobidzb"  label="允许转办" x="110" width="145"  height="24" y="7"/>
 		    </mx:Canvas>
 		    <mx:Canvas id="bianjikongzi" x="99" y="462" width="600" height="349">
 		    </mx:Canvas>

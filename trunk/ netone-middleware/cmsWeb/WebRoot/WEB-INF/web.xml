@@ -30,7 +30,7 @@
 		<init-param>
 			<param-name>AbortUrls</param-name>
 			<param-value>
-				/servlet/DivInnerHtmlPortalSvl,/frames.do,/frames/AppFrame.jsp,/frames/AppFrame1.jsp,/frames/AppFrame2.jsp,/floatdiv/portal.jsp,/CopyPortalSvl,/portal.do,/DownloadSvl,/DownloadSvl2,/AutoStyleSvl,/RmiBeanTestSvl,/RmiBeanViewSvl,/flowpage/login.jsp,/SSOLoginSvl,/logoutsvl,/ListDyColumnSvl
+				/servlet/DivInnerHtmlPortalSvl,/frames.do,/frames/AppFrame.jsp,/frames/AppFrame2.jsp,/floatdiv/portal.jsp,/CopyPortalSvl,/portal.do,/DownloadSvl,/DownloadSvl2,/AutoStyleSvl,/RmiBeanTestSvl,/RmiBeanViewSvl,/flowpage/login.jsp,/SSOLoginSvl,/logoutsvl,/ListDyColumnSvl
 			</param-value>
 		</init-param>
 	</filter>

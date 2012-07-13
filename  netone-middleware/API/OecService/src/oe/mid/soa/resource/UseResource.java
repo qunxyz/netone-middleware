@@ -23,11 +23,12 @@ public class UseResource {
 		ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
 		UmsProtectedobject upo=rsrmi.loadResourceByNatural("BUSSFORM.BUSSFORM");
 		List list=rsrmi.subResource(upo.getId());
+		System.out.println(list.size());
 		
-		
-		upo.setName("fdsfsd");
-		upo.setNaturalname("");
-		rsrmi.addResource(upo, "");
+//		
+//		upo.setName("fdsfsd");
+//		upo.setNaturalname("");
+//		rsrmi.addResource(upo, "");
 		
 		
 		//	

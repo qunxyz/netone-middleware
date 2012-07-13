@@ -3,25 +3,53 @@ package oe.mid.soa.dy;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 import oe.cav.bean.logic.bus.TCsBus;
+import oe.midware.dyform.service.DyFormDesignService;
 import oe.midware.dyform.service.DyFormService;
 import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
+import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 public class Test {
 
 	public static void main(String[] args) throws Exception {
+		
+		TCsBus bus=new TCsBus();
+		bus.setColumn10("1213");
+		BeanUtils.setProperty(bus, "column10", "");
+		System.out.println(bus.getColumn10());
 
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
+//		
+//		
+//		
+//		String formcode="";
+//		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+//		UmsProtectedobject upo = new UmsProtectedobject();
+//		upo.setExtendattribute(formcode);
+//		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
+//		Map map = new HashMap();
+//		map.put("naturalname", "like");
+//		List formlist = rs.fetchResource(upo, map);
+//		if(formlist.size()!=1){
+//			throw new RuntimeException("存在表单异常定义");
+//		}
+//		String naturalname=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+//	
+//		
+//		TCsBus bus=new TCsBus();
+//		bus.setFormcode("f047597a250711debe4aa1770d20661e_");
+//		bus.setFatherlsh("1");
+//		int list=dy.queryData(bus, " and participant='' order by timex desc");
 		
-
-		TCsBus bus=new TCsBus();
-		bus.setFormcode("f047597a250711debe4aa1770d20661e_");
-		bus.setFatherlsh("1");
-		int list=dy.queryData(bus, " and participant='' order by timex desc");
-		
-		System.out.println(list);
+//		System.out.println(list);
 //		TCsBus bus=new TCsBus();
 //		bus.setBelongx("DEPT.DEPT");
 //		bus.setCreated((new Timestamp(System.currentTimeMillis()).toString()));
@@ -39,7 +67,11 @@ public class Test {
 //		
 //		System.out.println(num);
 		
-//		List list = dy.fetchColumnList("23f307f0bd6111dd9c573f3e864d2bf2_");
+		List list = dy.fetchColumnList("1dff9941bda111e1b7984be393252048_");
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Object object = (Object) iterator.next();
+			
+		}
 //		
 //
 //		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -120,5 +152,10 @@ public class Test {
 //			System.out.println(object.getColumn3());
 //		}
 
+	}
+	
+	public void todo() throws MalformedURLException, RemoteException, NotBoundException{
+//		DyFormDesignService dys = (DyFormDesignService) RmiEntry.iv("dydesign");
+//		dys.loadColumn("915390d5bda211e1b7984be393252048_", key)
 	}
 }

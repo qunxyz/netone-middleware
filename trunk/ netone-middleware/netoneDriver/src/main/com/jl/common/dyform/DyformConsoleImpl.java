@@ -21,6 +21,7 @@ import oe.cav.bean.logic.column.TCsColumn;
 import oe.cav.bean.logic.form.TCsForm;
 import oe.cav.web.data.dyform.utils.DymaticFormCheck;
 import oe.env.client.EnvService;
+import oe.frame.web.WebCache;
 import oe.midware.dyform.service.DyFormService;
 import oe.midware.workflow.service.WorkflowView;
 import oe.rmi.client.RmiEntry;
@@ -34,6 +35,7 @@ import org.apache.commons.lang.StringUtils;
 import com.jl.common.resource.Resource;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfConsoleIfc;
+import com.jl.common.workflow.WfEntry;
 
 public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
@@ -924,6 +926,24 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			newColumn.add(object);
 		}
 		return newColumn;
+	}
+
+	@Override
+	public boolean whenFlowPageEdit(String bussid, String participant)throws Exception {
+		String runtimeid=WfEntry.iv().getSession("bussid");
+		if(StringUtils.isEmpty(runtimeid)){
+			return true;// 说明无流程
+		}
+		if(StringUtils.contains(participant, "[")){
+			participant=StringUtils.substringBetween(participant, "[","]");
+		}
+		List list=WfEntry.iv().useCoreView().coreSqlview("select workcode from t_wf_participant where usercode='"+participant+"' and STATUSNOW='01' and workcode in( select workcode from t_wf_worklist where RUNTIMEID='"+runtimeid+"')");
+		
+		if(list!=null&&list.size()>0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
+import oe.frame.web.util.WebTip;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
@@ -103,6 +104,10 @@ public class ProletAction extends Action {
 					request.setAttribute("res", "res");
 				} else {
 					request.setAttribute("url", p.getActionurl());
+				}
+				if(naturalname.endsWith(".NEW")){
+					response.getWriter().write("<script>window.open('"+p.getActionurl()+"','_blank');</script>");
+					return null;
 				}
 				return mapping.findForward("portalbody");
 

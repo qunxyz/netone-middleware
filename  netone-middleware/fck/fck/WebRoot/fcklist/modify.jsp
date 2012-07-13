@@ -104,12 +104,12 @@
 							持久化
 						</td>
 					</tr>
-					<tr style="display: none">
+					<tr>
 						<td width="15%">
-							内容
+							关联资源
 						</td>
 						<td>
-						<input type="text" name="description" value=" ${upo.description}">
+						<input type="text" name="description" value="${upo.description}">
 						</td>
 					</tr>
 				</table>

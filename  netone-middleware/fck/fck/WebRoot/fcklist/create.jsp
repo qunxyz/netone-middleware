@@ -123,9 +123,9 @@
 					    </div>
 						</td>
 					</tr>
-					<tr style="display: none">
+					<tr>
 						<td width="15%">
-							描述
+							关联资源
 						</td>
 						<td>
 						<input type="text" name="description">

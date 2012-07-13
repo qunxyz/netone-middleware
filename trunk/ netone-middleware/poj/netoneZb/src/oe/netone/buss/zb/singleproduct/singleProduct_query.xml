@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?><dyform>
+  <config>
+    <TDataGridType type="1">
+      <TDataGrid name="单号从" id="column3" xoffset='1' yoffset='1' ref='1fa1fbb0846811e18d60d978b354ef4a_.column3'>
+      	 <![CDATA[and column3>='$(value)']]>
+      </TDataGrid>
+      <TDataGrid name="单号到" id="column20" xoffset='2' yoffset='1' ref='1fa1fbb0846811e18d60d978b354ef4a_.column3'>
+       	 <![CDATA[and column3<='$(value)']]>
+      </TDataGrid>
+       <TDataGrid name="条码从" id="column21" xoffset='1' yoffset='2' ref='a01f21d4846a11e18d60d978b354ef4a_.column4'>
+      	  <![CDATA[and lsh in(select fatherlsh from DY_271334208897441 where column4>='$(value)')]]>
+      </TDataGrid>
+      <TDataGrid name="条码到" id="column22" xoffset='2' yoffset='2' ref='a01f21d4846a11e18d60d978b354ef4a_.column4'>
+       	  <![CDATA[and lsh in(select fatherlsh from DY_271334208897441 where column4<='$(value)')]]>
+      </TDataGrid>   
+      <TDataGrid name="日期从" id="column23" xoffset='1' yoffset='3' ref='1fa1fbb0846811e18d60d978b354ef4a_.column9'>
+      	 <![CDATA[and column9>='$(value)']]>
+      </TDataGrid>
+      <TDataGrid name="日期到" id="column24" xoffset='2' yoffset='3' ref='1fa1fbb0846811e18d60d978b354ef4a_.column9'>
+       	 <![CDATA[and column9<='$(value)']]>
+      </TDataGrid>  
+      
+      <TDataGrid name="大类" id="column14" xoffset='1' yoffset='4' ref=''/>
+      <TDataGrid name="品牌" id="column17" xoffset='2' yoffset='4' ref='a01f21d4846a11e18d60d978b354ef4a_.column50'>
+             <![CDATA[and lsh in(select fatherlsh from DY_271334208897441 where column50='$(value)')]]>
+      </TDataGrid>
+      <TDataGrid name="供应商" id="column8" xoffset='3' yoffset='4' ref=''/>     
+      <TDataGrid name="分销商" id="column15" xoffset='1' yoffset='5' ref=''/>
+      <TDataGrid name="品名" id="column19" xoffset='2' yoffset='5' ref='a01f21d4846a11e18d60d978b354ef4a_.column7'>
+       <![CDATA[and lsh in(select fatherlsh from DY_271334208897441 where column7='$(value)')]]>
+      </TDataGrid>
+ 
+      <TDataGrid name="制单人" id="column5" xoffset='3' yoffset='5' ref='1fa1fbb0846811e18d60d978b354ef4a_.column5'>
+        	<![CDATA[and column5 like '%$(value)%')]]>
+      </TDataGrid>
+	  <TDataGrid name="审核人" id="column16" xoffset='1' yoffset='6' ref='1fa1fbb0846811e18d60d978b354ef4a_.column16'>
+	         <![CDATA[and column16 like '%$(value)%')]]>
+      </TDataGrid>
+	  <TDataGrid name="备注" id="column25" xoffset='2' yoffset='6' ref='1fa1fbb0846811e18d60d978b354ef4a_.column13'>
+        	 <![CDATA[and column13 like '%$(value)%')]]>
+      </TDataGrid>
+     
+    </TDataGridType>
+    <ADataGridType type="1">
+      <ADataGrid name="单号" id="column3"/>
+      <ADataGrid name="大类" id="column14"/>
+      <ADataGrid name="制单人" id="column5"/>
+      <ADataGrid name="制单时间" id="column6"/>
+      <ADataGrid name="打印状态" id="column7"/>
+      <ADataGrid name="供应商" id="column8"/>
+      <ADataGrid name="日期" id="column9"/>
+      <ADataGrid name="分销点" id="column15"/>
+      <ADataGrid name="采购单" id="column11"/>
+      <ADataGrid name="采购员" id="column12"/>
+      <ADataGrid name="入库备注" id="column13"/>
+      <ADataGrid name="审核人" id="column16"/>
+      <ADataGrid name="审核日期" id="column17"/>
+    </ADataGridType>
+    <DDataGridType type="1">
+      <DDataGrid name="单号" id="column3" order="0"/>
+      <DDataGrid name="制单人" id="column5" order="0"/>
+      <DDataGrid name="制单时间" id="column6" order="0"/>
+      <DDataGrid name="打印状态" id="column7" order="0"/>
+      <DDataGrid name="供应商" id="column8" order="0"/>
+      <DDataGrid name="日期" id="column9" order="0"/>
+      <DDataGrid name="采购单" id="column11" order="0"/>
+      <DDataGrid name="采购员" id="column12" order="0"/>
+      <DDataGrid name="入库备注" id="column13" order="0"/>
+      <DDataGrid name="审核人" id="column16" order="0"/>
+      <DDataGrid name="审核日期" id="column17" order="0"/>
+    </DDataGridType>
+    <TJDataGridType type="1"/>
+    <NewSave model="1"><![CDATA[dy.set("$(lsh)"+":"+"$(formcode)","column5" , "$(participant)");
+SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String a1=dateformat.format(new java.util.Date());
+		dy.set("$(lsh)"+":"+"$(formcode)","column6" , a1);]]></NewSave>
+    <UpdateSave model="1"><![CDATA[]]></UpdateSave>
+    <Delete model="1"><![CDATA[]]></Delete>
+    <SelectRead model="1"><![CDATA[]]></SelectRead>
+    <SelectUpdate model="1"><![CDATA[]]></SelectUpdate>
+    <InitCreate model="1"><![CDATA[]]></InitCreate>
+    <Yesaffirm model="1"><![CDATA[dy.set("$(lsh)"+":"+"$(formcode)","column16" , "$(participant)");
+SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String a1=dateformat.format(new java.util.Date());
+		dy.set("$(lsh)"+":"+"$(formcode)","column17" , a1);
+
+Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");		
+String sql = "update DY_271334208897441 set STATUSINFO='01' where fatherlsh='$(lsh)'";		
+db.execute(con, sql);
+db.close(con);]]></Yesaffirm>
+    <Onaffirm model="1"><![CDATA[dy.set("$(lsh)"+":"+"$(formcode)","column16" , "$(participant)");
+SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String a1=dateformat.format(new java.util.Date());
+		dy.set("$(lsh)"+":"+"$(formcode)","column17" , a1);]]></Onaffirm>
+    <OnList model="1"><![CDATA[]]></OnList>
+  </config>
+</dyform>

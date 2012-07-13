@@ -12,7 +12,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 			
-	UmsProtectedobject upo = (UmsProtectedobject)request.getAttribute("upo");
+	   UmsProtectedobject upo = (UmsProtectedobject)request.getAttribute("upo");
 			String split = "<div style=\"page-break-after: always\"><span style=\"display: none\">&nbsp;</span></div>";
 			
 		String[] p = upo.getExtendattribute().split(split);

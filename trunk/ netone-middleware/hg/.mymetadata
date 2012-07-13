@@ -3,7 +3,7 @@
   type="WEB"
   name="hg"
   id="myeclipse.1248234850343"
-  context-root="/hg"
+  context-root="/ndyd"
   j2ee-spec="1.4"
   archive="hg.war">
   <attributes>

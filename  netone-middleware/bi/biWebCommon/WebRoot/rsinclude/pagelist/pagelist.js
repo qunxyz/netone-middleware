@@ -16,11 +16,17 @@ function uploadfile(){
 	var active = document.all.active.value;
 	var objecttype=document.all.objecttype.value;
 	var name=document.all.name.value;
+	var actionurl=document.all.actionurl.value;
 	if(objecttype==''){
 		alert('请选择功能');
 		return;
 	}
-	form1.action="PagelistUploadSvl?task=uploadfile&filename="+filename+"&naturalname="+naturalname+"&extendattribute="+extendattribute+"&dirid="+dirid+"&appid="+appid+"&pagename="+pagename+"&active="+active+"&objecttype="+objecttype+"&name="+name;
+	var descriptionx=filename.split(".");
+	if(descriptionx[1]!='png'){
+		alert('图片必须是.png后缀');
+		return;
+	}
+	form1.action="PagelistUploadSvl?task=uploadfile&filename="+filename+"&naturalname="+naturalname+"&extendattribute="+extendattribute+"&dirid="+dirid+"&appid="+appid+"&pagename="+pagename+"&active="+active+"&objecttype="+objecttype+"&name="+name+"&actionurl="+actionurl;
 	form1.submit();
 }
 //自动填写上传文件信息

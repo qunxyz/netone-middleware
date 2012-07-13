@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/DyFormClient.jar" sourcepath="D:/project/netOne/dyForm/impls"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/DyFormClient.jar" sourcepath="/dyform"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/oecEnvClient.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/MessageClient.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/WfRmiClient.jar" sourcepath="/wfweb"/>

@@ -299,8 +299,8 @@ public class FrameAction extends AbstractAction {
 			isedit = true;
 		}
 
+		User user = getOnlineUser(request);
 		if (StringUtils.isEmpty(lsh)) {// 新建
-			User user = getOnlineUser(request);
 			// boolean permission = SecurityEntry.iv().permission(1
 			// user.getUserCode(), naturalname);
 			boolean permission = AppEntry.iv().canCreate(naturalname,
@@ -313,7 +313,7 @@ public class FrameAction extends AbstractAction {
 		if ("look".equals(query)) {// 查看
 			isedit = false;
 		}
-		
+
 		// 检查确认状态 确认状态无法编辑
 		if (StringUtils.isNotEmpty(lsh)) {
 			AppObj app = AppEntry.iv().loadApp(naturalname);
@@ -322,8 +322,11 @@ public class FrameAction extends AbstractAction {
 			if ("01".equals(dydata.getStatusinfo())) {
 				isedit = false;
 			}
+
+			// 传递当前用户 和 表单lsh ，系统会返回真假，表明能否编辑
+			isedit = DyEntry.iv().whenFlowPageEdit(lsh, user.getUserCode());
 		}
-		
+
 		Map<String, Boolean> map = new HashMap<String, Boolean>();
 		map.put("isedit", isedit);
 		map.put("ispermission", ispermission);
@@ -358,7 +361,8 @@ public class FrameAction extends AbstractAction {
 			forward = "/frame/editframe-" + naturalname + ".jsp";
 		}
 		String isadd = request.getParameter("isadd");
-		if (StringUtils.isNotEmpty(app.getDescription()) && !"1".equals(isadd) && StringUtils.isEmpty(lsh)) {
+		if (StringUtils.isNotEmpty(app.getDescription()) && !"1".equals(isadd)
+				&& StringUtils.isEmpty(lsh)) {
 			forward = forward = "/frame/frameExtPage.jsp";
 			request.setAttribute("urltext", app.getDescription());
 		}

@@ -45,6 +45,10 @@
 		<action path="/reportx3"
 			type="com.jl.web.controller.ReportX3Action" parameter="method">
 		</action>
+		<!-- 总库库存统计表 -->
+		<action path="/reportx7"
+			type="com.jl.web.controller.ReportX7Action" parameter="method">
+		</action>
 		
 		<!--
 		<action path="/frame"

@@ -35,150 +35,6 @@
 		}		
 		</script>
 		<![endif]-->
-		<script type="text/javascript">
-		function GetRandomNum(Min,Max){  
-	        var Range = Max - Min;  
-	        var Rand = Math.random();  
-	        return(Min + Math.round(Rand * Range));  
-		}
-		var welcomePic = new Array();//欢迎图片数据
-		var picRoot = '<%=path%>/images/welcome/';
-		
-		welcomePic[0] = picRoot+'zy01.jpg';
-		welcomePic[1] = picRoot+'zy02.jpg';
-		welcomePic[2] = picRoot+'zy03.jpg';
-		
-		if($.browser.msie){//IE
-		    var height = 0;
-		    var width = 0;
-			if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
-			    height = document.documentElement.clientHeight;
-			    width = document.documentElement.clientWidth;
-			} else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
-			    height = document.body.clientHeight;
-			    width = document.body.clientWidth;
-		    }
-			var leftW = width/2-50;   
-			var top = height/2;
-			
-			var _html = "<div id='___loading' style='position:absolute;left:0;width:100%;height:"+height+"px;top:0;background:#E0ECFF;opacity:0.8;filter:alpha(opacity=80);'><div style='position:absolute;  cursor1:wait;left:"+leftW+"px;top:"+top+"px;width:auto;height:16px;padding:12px 5px 10px 30px;border:2px solid #ccc;color:#000;'>正在加载，请稍候...</div></div>";   
-			    
-			window.onload = function(){
-			 	var _mask = document.getElementById('___loading');   
-	    		_mask.parentNode.removeChild(_mask);   
-			}
-			document.write(_html);  
-		}
-    	$(function(){
-     	   ${hiddenBar}
-    	    /**
-    	    var w=600,h=400;
-    	    var welcomeLogo = '<div><div align=\"right\"><a href=\"#\" class=\"close\" title=\"关闭\"></a></div><img src=\"'+welcomePic[GetRandomNum(0,welcomePic.length-1)]+'\" />'
-    	    welcomeLogo += '<div>正在加载界面...</div></div>'
-    		$.blockUI({
-    		message: welcomeLogo,
-    		overlayCSS:{backgroundColor: '#fff'},
-    		css:{
-	    		top:($(window).height()-h)/2+'px',
-	    		left:($(window).width()-w)/2+'px',
-	    		width:w+'px',
-	    		border: 'none', 
-	    		background: 'none' 
-    		}
-    		});
-    		$('.blockOverlay').attr('title','单击关闭').click($.unblockUI);   //遮罩层属性的设置以及当鼠标单击遮罩层可以关闭弹出层  
-    		$('.close').click($.unblockUI);
-    		**/
-    		
-     	   if(!$.browser.msie){ //not IE
-     	    // 在FF/Linux下启用遮罩层透明
-     	    $.blockUI.defaults.applyPlatformOpacityRules = false;
-    	    $.blockUI({message: '<div style=\"padding:12px 5px 10px 30px;height:16px\">正在加载，请稍候...</div>',css:{border:'2px solid #ccc'},overlayCSS:{backgroundColor: '#E0ECFF',opacity:.8}});		   	
-     	   }
-    		    		    		
-   	   	    var mainTheme=getCookie('mainTheme');
-	   	    var appTheme=getCookie('appTheme');
-	   	    if(mainTheme==null || mainTheme==''){
-			     mainTheme='black';
-			    //mainTheme='blue';
-		     }
-		     if(appTheme==null || appTheme==''){
-			     appTheme='red';
-			     //appTheme='blue';
-		      } 
-			AppStyleUtils.swapStyleSheet('mainTheme', '<%=path%>/script/theme/jtheme/'+ mainTheme+'/style.css');
-			AppStyleUtils.swapStyleSheet('appTheme', '<%=path%>/script/theme/main/'+appTheme+'/style.css');
-    		
-	    	$('#theme').combobox({
-			    'onSelect':function(record){
-			    	var theme = record.value.split('|');
-				    var a = new Date();
-					a.setDate(a.getDate() + 300);
-					var url = "<%=path%>";
-					var extTheme = theme[0];
-					var appTheme = theme[1];
-					var mainTheme = theme[2];
-					setCookie("extTheme", extTheme, a, url);
-					setCookie("appTheme", appTheme, a, url);
-					setCookie("mainTheme", mainTheme, a, url);
-					AppStyleUtils.swapStyleSheet('mainTheme', '<%=path%>/script/theme/jtheme/'+ mainTheme+'/style.css');
-					AppStyleUtils.swapStyleSheet('appTheme', '<%=path%>/script/theme/main/'+appTheme+'/style.css');
-					var o = document.getElementById("contentFrame");
-					if(o.contentWindow.AppStyleUtils) o.contentWindow.AppStyleUtils.swapStyleSheet('extTheme', '<%=path%>/script/ext/resources/css/'+ extTheme);
-			    }
-			});
-			if(!$.browser.msie){ //not IE
-				$.unblockUI();
-			}
-
-			//提醒
-			var countx = 0;
-			$('#countx').html('('+countx+')');
-			$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
-			 function(jsonx){
-			  var html = '';
-			  countx = 0;
-			  $.each(jsonx, function(ii,itemx){
-			  	if (itemx!=null){
-			  		html+=itemx.url;
-			  		countx++;
-				}
-			  });
-			  if (html!=''){
-			  		$('#countx').html('('+countx+')');
-			  		$('#messager').html(html);
-				    $("#messager").dialog({ 
-				    	title:'提醒'
-					    ,position:  ['right','bottom']
-					    ,closeText: 'hide'
-					    ,focus: function(event, ui) {
-					    }
-				     });
-				     setTimeout(function(){$("#messager").dialog('close');},5000); 
-			  }
-			});
-			
-		})
-		
-		function showmessager(){
-		$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
-			 function(jsonx){
-			  var html = '';
-			  countx = 0;
-			  $.each(jsonx, function(ii,itemx){
-			  	if (itemx!=null){
-			  		countx++;
-			  		html+=itemx.url;
-				}
-			  });
-			  if (html!=''){
-			  		$('#countx').html('('+countx+')');
-			  		$('#messager').html(html);
-			  		$("#messager").dialog('open');
-			  }
-			});
-		}
-		</script>
 	</head>
 	<body class="easyui-layout">
 		<div id="messager"></div>
@@ -256,4 +112,151 @@
 	    }
 	    return false;
 	}
+
+
+function GetRandomNum(Min,Max){  
+       var Range = Max - Min;  
+       var Rand = Math.random();  
+       return(Min + Math.round(Rand * Range));  
+}
+var welcomePic = new Array();//欢迎图片数据
+var picRoot = '<%=path%>/images/welcome/';
+
+welcomePic[0] = picRoot+'zy01.jpg';
+welcomePic[1] = picRoot+'zy02.jpg';
+welcomePic[2] = picRoot+'zy03.jpg';
+
+if($.browser.msie){//IE
+    var height = 0;
+    var width = 0;
+	if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+	    height = document.documentElement.clientHeight;
+	    width = document.documentElement.clientWidth;
+	} else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+	    height = document.body.clientHeight;
+	    width = document.body.clientWidth;
+    }
+	var leftW = width/2-50;   
+	var top = height/2;
+	
+	var _html = "<div id='___loading' style='position:absolute;left:0;width:100%;height:"+height+"px;top:0;background:#E0ECFF;opacity:0.8;filter:alpha(opacity=80);'><div style='position:absolute;  cursor1:wait;left:"+leftW+"px;top:"+top+"px;width:auto;height:16px;padding:12px 5px 10px 30px;border:2px solid #ccc;color:#000;'>正在加载，请稍候...</div></div>";   
+	    
+	window.onload = function(){
+	 	var _mask = document.getElementById('___loading');   
+   		_mask.parentNode.removeChild(_mask);   
+	}
+	document.write(_html);  
+}
+  	$(function(){
+   	   ${hiddenBar}
+  	    /**
+  	    var w=600,h=400;
+  	    var welcomeLogo = '<div><div align=\"right\"><a href=\"#\" class=\"close\" title=\"关闭\"></a></div><img src=\"'+welcomePic[GetRandomNum(0,welcomePic.length-1)]+'\" />'
+  	    welcomeLogo += '<div>正在加载界面...</div></div>'
+  		$.blockUI({
+  		message: welcomeLogo,
+  		overlayCSS:{backgroundColor: '#fff'},
+  		css:{
+   		top:($(window).height()-h)/2+'px',
+   		left:($(window).width()-w)/2+'px',
+   		width:w+'px',
+   		border: 'none', 
+   		background: 'none' 
+  		}
+  		});
+  		$('.blockOverlay').attr('title','单击关闭').click($.unblockUI);   //遮罩层属性的设置以及当鼠标单击遮罩层可以关闭弹出层  
+  		$('.close').click($.unblockUI);
+  		**/
+  		
+   	   if(!$.browser.msie){ //not IE
+   	    // 在FF/Linux下启用遮罩层透明
+   	    $.blockUI.defaults.applyPlatformOpacityRules = false;
+  	    $.blockUI({message: '<div style=\"padding:12px 5px 10px 30px;height:16px\">正在加载，请稍候...</div>',css:{border:'2px solid #ccc'},overlayCSS:{backgroundColor: '#E0ECFF',opacity:.8}});		   	
+   	   }
+  		    		    		
+ 	   	    var mainTheme=getCookie('mainTheme');
+  	    var appTheme=getCookie('appTheme');
+  	    if(mainTheme==null || mainTheme==''){
+	     mainTheme='black';
+	    //mainTheme='blue';
+     }
+     if(appTheme==null || appTheme==''){
+	     appTheme='red';
+	     //appTheme='blue';
+      } 
+	AppStyleUtils.swapStyleSheet('mainTheme', '<%=path%>/script/theme/jtheme/'+ mainTheme+'/style.css');
+	AppStyleUtils.swapStyleSheet('appTheme', '<%=path%>/script/theme/main/'+appTheme+'/style.css');
+  		
+   	$('#theme').combobox({
+	    'onSelect':function(record){
+	    	var theme = record.value.split('|');
+		    var a = new Date();
+			a.setDate(a.getDate() + 300);
+			var url = "<%=path%>";
+			var extTheme = theme[0];
+			var appTheme = theme[1];
+			var mainTheme = theme[2];
+			setCookie("extTheme", extTheme, a, url);
+			setCookie("appTheme", appTheme, a, url);
+			setCookie("mainTheme", mainTheme, a, url);
+			AppStyleUtils.swapStyleSheet('mainTheme', '<%=path%>/script/theme/jtheme/'+ mainTheme+'/style.css');
+			AppStyleUtils.swapStyleSheet('appTheme', '<%=path%>/script/theme/main/'+appTheme+'/style.css');
+			var o = document.getElementById("contentFrame");
+			if(o.contentWindow.AppStyleUtils) o.contentWindow.AppStyleUtils.swapStyleSheet('extTheme', '<%=path%>/script/ext/resources/css/'+ extTheme);
+	    }
+	});
+	if(!$.browser.msie){ //not IE
+		$.unblockUI();
+	}
+
+	//提醒
+	var countx = 0;
+	$('#countx').html('('+countx+')');
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
+	 function(jsonx){
+	  var html = '';
+	  countx = 0;
+	  $.each(jsonx, function(ii,itemx){
+	  	if (itemx!=null){
+	  		html+=itemx.url;
+	  		countx++;
+		}
+	  });
+	  if (html!=''){
+	  		$('#countx').html('('+countx+')');
+	  		$('#messager').html(html);
+		    $("#messager").dialog({ 
+		    	title:'提醒'
+			    ,position:  ['right','bottom']
+			    ,closeText: 'hide'
+			    ,focus: function(event, ui) {
+			    }
+		     });
+		     setTimeout(function(){$("#messager").dialog('close');},5000); 
+	  }
+	});
+	
+})
+
+function showmessager(){
+	var countx = 0;
+	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
+	 function(jsonx){
+	  var html = '';
+	  countx = 0;
+	  $.each(jsonx, function(ii,itemx){
+	  	if (itemx!=null){
+	  		countx++;
+	  		html+=itemx.url;
+		}
+	  });
+	  if (html!=''){
+	  		if ($('#countx')) $('#countx').html('('+countx+')');
+	  		if ($("#messager")){
+	  			$('#messager').html(html);
+	  			$("#messager").dialog('open');
+	  		}
+	  }
+	});
+}
 </script>

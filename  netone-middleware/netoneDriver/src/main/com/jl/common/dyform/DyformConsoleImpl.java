@@ -222,12 +222,15 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 		}else{
 			String valuelist = columnnew.getValuelist();
+			if(StringUtils.isNotEmpty(valuelist)){
+				valuelist=valuelist.trim();
+			}
 			StringBuffer but=new StringBuffer();
 			dealWithSoa(valuelist,rs,but);
 			if (but.length() > 0) {
 				columnnew.setDefaultValue(but.toString());
 			}else{
-				columnnew.setDefaultValue(columnnew.getValuelist());
+				columnnew.setDefaultValue(valuelist);
 			}
 		}
 		

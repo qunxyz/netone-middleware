@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>	
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
 <%

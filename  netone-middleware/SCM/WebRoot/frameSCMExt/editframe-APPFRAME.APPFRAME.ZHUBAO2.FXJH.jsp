@@ -1,6 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>	
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>		
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
 <%
@@ -24,7 +24,6 @@
 		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/jquery.multiselect.filter.min.js"></script>
 		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/i18n/jquery.multiselect.filter.zh-cn.js"></script>
 		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/i18n/jquery.multiselect.zh-cn.js"></script>
-
 		
 		<script src="<%=path%>/script/jquery-plugin/json2.js" type="text/javascript"></script>
 		<script language="javascript" type="text/javascript"
@@ -161,7 +160,8 @@
 			var column51,column52,column53,column54,column55,column56,column57,column58,column59,column60;
 			var column61,column62,column63,column64,column65,column66,column67,column68,column69,column70;
 			var column71,column72,column73,column74,column75,column76,column77,column78,column79,column80;
-			var column81,column82,column83,column84,column85,column86,column87,column88,column89,column90;
+		 	
+		 	var column81,column82,column83,column84,column85,column86,column87,column88,column89,column90;
 		 	var column91,column92,column93,column94,column95,column96,column97,column98,column99,column100;
 		 	
 		 	var len = 0;
@@ -202,6 +202,7 @@
 				column86 : column86,column87 : column87,column88 : column88,column89 : column89,column90 : column90,
 				column91 : column91,column92 : column92,column93 : column93,column94 : column94,column95 : column95,
 				column96 : column96,column97 : column97,column98 : column98,column99 : column99,column100 : column100
+				
 				
 			};
 			var json___ = Ext.util.JSON.encode(w);
@@ -447,7 +448,7 @@
 		}
 		
 		function _print(){
-			var url = "<c:url value='/frame.do?method=print' />"+"&naturalname=${param.naturalname}&lsh="+document.getElementById('lsh').value;
+			var url = "<c:url value='/frame.do?method=onPrintViewMain' />"+"&naturalname=${param.naturalname}&lsh="+document.getElementById('lsh').value;
 			window.open(url);
 		}
 		
@@ -635,27 +636,22 @@
 		    	window.moveTo(0, 0);           //把window放在左上脚
 		    	window.resizeTo(myw, myh);     //把当前窗体的长宽跳转为myw和myh
 		    }
-			
-			
-			//店长角色
-			<rs:permission action="7" resource="BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE1,BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE3">
-			if ('${param.lsh}'==''){
-			
-				$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETFCLIENTBYUSER&sr_participant=<rs:logininfo />", 
+		    
+		    if ('${param.lsh}'==''){//选中当前用户所在分销商
+		    
+		    	$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETFCLIENTBYUSER&sr_participant=<rs:logininfo />", 
 				 function(jsonx){
 				  if(jsonx!=null){
 				  	var obj=$('table#8a606025a84f11e19b54fb13b166e993_').find('#column8');
 				  	obj.empty();
 				  	$.each(jsonx, function(ii,itemx){
 				  		//分销商
-				  		obj.append('<option value=\"'+itemx.fclientcode+'\">'+itemx.fclientname+'</option>');
+				  		$('table#668ca03cad4b11e1bbb551abdbadc425_').find('#column12').val(itemx.fclientcode);
 				  	});
 				  }
 				});
-				//售货员
-				$('table#8a606025a84f11e19b54fb13b166e993_').find('#column10').val('<rs:logininfo />');
-			}//end if
-			</rs:permission>
+		    
+			}
 			
 		});
 		

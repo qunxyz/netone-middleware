@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,12 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import oe.frame.web.util.WebStr;
 import oe.frame.web.util.WebTip;
+import oe.midware.workflow.service.WorkflowConsole;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.ProtectedObjectReference;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
-import oe.security3a.sso.Security;
-import oe.security3a.sso.util.LogUtil;
+import oe.security3a.sso.onlineuser.DefaultOnlineUserMgr;
+import oe.security3a.sso.onlineuser.OnlineUser;
+import oe.security3a.sso.onlineuser.OnlineUserMgr;
 
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
@@ -98,12 +101,19 @@ public class UploadSvl extends HttpServlet {
 		String filename = WebStr.iso8859ToGBK(request.getParameter("filename"));// filename
 		String naturalname = WebStr.iso8859ToGBK(request
 				.getParameter("naturalname"));// naturalname
+		if(StringUtils.isEmpty(naturalname)){
+			naturalname=UUID.randomUUID().toString().replaceAll("-", "");
+			//filename=naturalname;
+		}
+		
 		String extendattribute = request.getParameter("extendattribute");// 其他
 		String active = request.getParameter("active");// 其他
 		String objecttype = WebStr.iso8859ToGBK(request
 				.getParameter("objecttype"));// 其他
 		String name=request.getParameter("name");
-
+		name=WebStr.iso8859ToGBK(name);
+		
+		String actionurl=request.getParameter("actionurl");
 
 		if (StringUtils.isNotEmpty(pagename)) {
 			request.setAttribute("pagename", pagename);
@@ -134,7 +144,7 @@ public class UploadSvl extends HttpServlet {
 				}else{
 					upo.setName(name);
 				}
-				
+				upo.setActionurl(actionurl);
 				upo.setExtendattribute(extendattribute);
 				upo.setParentdir(request.getParameter("dirid"));
 				upo.setInclusion(ProtectedObjectReference._OBJ_INCLUSTION_NO);
@@ -192,6 +202,24 @@ public class UploadSvl extends HttpServlet {
 						e.printStackTrace();
 					} catch (Exception e) {
 						e.printStackTrace();
+					}
+					
+					String appScript=request.getParameter("appScript");
+					if(StringUtils.isNotEmpty(appScript)){
+					try {
+						String script=rsrmi.loadResourceByNatural(appScript).getExtendattribute();
+						OnlineUserMgr olmgr = new DefaultOnlineUserMgr();
+						OnlineUser oluser = olmgr.getOnlineUser(request);
+						String loginuser = oluser.getLoginname();
+						script=StringUtils.replace(script, "$(participant)", loginuser);
+						dir=StringUtils.replace(dir,"\\","/");
+						WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+						Object []obj={dir};
+						console.exeScript(script,obj);
+					} catch (NotBoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					}
 
 				}

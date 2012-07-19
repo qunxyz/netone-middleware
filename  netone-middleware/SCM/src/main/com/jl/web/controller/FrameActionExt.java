@@ -116,6 +116,17 @@ public class FrameActionExt extends AbstractAction {
 				.getNaturalname();
 		request.setAttribute("naturalname_dyform", naturalname_dyform);
 
+		// EXCEL 导出
+		String excelObjName = naturalname_dyform + ".EXCEL";
+		UmsProtectedobject uponext = new UmsProtectedobject();
+		uponext.setNaturalname(excelObjName);
+		List listg = rs.queryObjectProtectedObj(uponext, null, 0, 1, "");
+		if (listg != null && listg.size() == 1) {
+			String actionurl = ((UmsProtectedobject) listg.get(0))
+					.getActionurl();
+			request.setAttribute("excel_actionurl", actionurl);
+		}
+
 		// 普通查询
 		DyFormColumn[] simpleQuerydyform = null;
 		List<DyFormColumn> listx = DyEntry.iv().queryColumnQ(formcode);
@@ -184,6 +195,17 @@ public class FrameActionExt extends AbstractAction {
 		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
 				.getNaturalname();
 		request.setAttribute("naturalname_dyform", naturalname_dyform);
+
+		// EXCEL 导出
+		String excelObjName = naturalname_dyform + ".EXCEL";
+		UmsProtectedobject uponext = new UmsProtectedobject();
+		uponext.setNaturalname(excelObjName);
+		List listg = rs.queryObjectProtectedObj(uponext, null, 0, 1, "");
+		if (listg != null && listg.size() == 1) {
+			String actionurl = ((UmsProtectedobject) listg.get(0))
+					.getActionurl();
+			request.setAttribute("excel_actionurl", actionurl);
+		}
 
 		// 子表单0
 		DyForm subdyform = dyform.getSubform_()[0];
@@ -265,6 +287,17 @@ public class FrameActionExt extends AbstractAction {
 		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
 				.getNaturalname();
 		request.setAttribute("naturalname_dyform", naturalname_dyform);
+
+		// EXCEL 导出
+		String excelObjName = naturalname_dyform + ".EXCEL";
+		UmsProtectedobject uponext = new UmsProtectedobject();
+		uponext.setNaturalname(excelObjName);
+		List listg = rs.queryObjectProtectedObj(uponext, null, 0, 1, "");
+		if (listg != null && listg.size() == 1) {
+			String actionurl = ((UmsProtectedobject) listg.get(0))
+					.getActionurl();
+			request.setAttribute("excel_actionurl", actionurl);
+		}
 
 		// 汇总或明细
 		String extmode = request.getParameter("extmode");
@@ -357,6 +390,17 @@ public class FrameActionExt extends AbstractAction {
 		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
 				.getNaturalname();
 		request.setAttribute("naturalname_dyform", naturalname_dyform);
+
+		// EXCEL 导出
+		String excelObjName = naturalname_dyform + ".EXCEL";
+		UmsProtectedobject uponext = new UmsProtectedobject();
+		uponext.setNaturalname(excelObjName);
+		List listg = rs.queryObjectProtectedObj(uponext, null, 0, 1, "");
+		if (listg != null && listg.size() == 1) {
+			String actionurl = ((UmsProtectedobject) listg.get(0))
+					.getActionurl();
+			request.setAttribute("excel_actionurl", actionurl);
+		}
 
 		// 汇总或明细
 		String extmode = request.getParameter("extmode");

@@ -42,7 +42,8 @@ public class ExcelInsertSvl extends HttpServlet {
 			UmsProtectedobject upo=rs.loadResourceByNatural(request.getParameter("name"));
 			EnvService env=(EnvService)RmiEntry.iv("envinfo");
 			String envx=env.fetchEnvValue("WEBSER_BIWEB");
-			String pageurl=envx+"/PagelistUploadSvl?task=addfile&dirid="+upo.getId()+"&appid=2&pagename=excel";
+			String appscript=request.getParameter("appScript");
+			String pageurl=envx+"/PagelistUploadSvl?task=addfile&dirid="+upo.getId()+"&appid=2&pagename=excel&appScript="+appscript;
 			
 			request.getRequestDispatcher(pageurl).forward(request, response);
 		} catch (NotBoundException e) {

@@ -84,6 +84,7 @@ public class Dyinfo extends HttpServlet {
 		}
 		List listx = null;
 		try {
+			dydata.setParticipant(null);//表示要查询所有数据，不要鉴权
 			int index = DyEntry.iv().queryDataNum(dydata, "");
 			listx = DyEntry.iv().queryData(dydata, 0, index, ext);
 		} catch (Exception e) {

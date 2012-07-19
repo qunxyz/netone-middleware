@@ -220,7 +220,10 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				//在树中只取一个naturalname其他不用
 				columnnew.setValuelist(name+"["+treex[0]+"]");
 			}
-		}else{
+		}else if("30".equals(htmltype)||"31".equals(htmltype)||"32".equals(htmltype)){
+			columnnew.setDefaultValue("");
+		}
+		else {
 			String valuelist = columnnew.getValuelist();
 			if(StringUtils.isNotEmpty(valuelist)){
 				valuelist=valuelist.trim();
@@ -461,15 +464,19 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		String value =null;
 		try {
 			env = (EnvService) RmiEntry.iv("envinfo");
-			value = env.fetchEnvValue("WEBSER_WebSerivce");
+			value = env.fetchEnvValue("WEBSER_APPFRAMEX");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		String urlhead=value+"ListPicSvl?id="+data.getLsh();
-		BeanUtils.setProperty(data, appfileColumnid, urlhead);
+		if(StringUtils.isNotEmpty(data.getLsh())){
+			String urlhead=value+"ListPicSvl?id="+data.getLsh();
+			BeanUtils.setProperty(data, appfileColumnid, urlhead);
+		}else{
+			BeanUtils.setProperty(data, appfileColumnid, "");
+		}
+
 	}
 	
 	private void dealWithImgFile(List<DyFormData> data,String formcode)throws Exception{
@@ -486,7 +493,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		String value =null;
 		try {
 			env = (EnvService) RmiEntry.iv("envinfo");
-			value = env.fetchEnvValue("WEBSER_WebSerivce");
+			value = env.fetchEnvValue("WEBSER_APPFRAMEX");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -494,8 +501,12 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}
 		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
 			DyFormData object = (DyFormData) iterator.next();
-			String urlhead=value+"ListPicSvl?id="+object.getLsh();
-			BeanUtils.setProperty(object, appfileColumnid, urlhead);
+			if(StringUtils.isNotEmpty(object.getLsh())){
+				String urlhead=value+"ListPicSvl?id="+object.getLsh();
+				BeanUtils.setProperty(object, appfileColumnid, urlhead);
+			}else{
+				BeanUtils.setProperty(object, appfileColumnid, "");
+			}
 		}
 		
 	}

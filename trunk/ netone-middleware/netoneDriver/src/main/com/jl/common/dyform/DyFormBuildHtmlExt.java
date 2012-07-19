@@ -152,7 +152,9 @@ public final class DyFormBuildHtmlExt {
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			return null;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
-			return DyFormComp.getHref("管理", "管理", value, "", "_blank");
+			if(StringUtils.isNotEmpty(value)){
+				return DyFormComp.getHref("管理", "管理", value, "", "_blank");
+			}return "";
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
@@ -283,7 +285,9 @@ public final class DyFormBuildHtmlExt {
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			return null;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
+			if(StringUtils.isNotEmpty(value)){
 			return DyFormComp.getHref("管理", "管理", value, "", "_blank");
+			}return "";
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
@@ -520,7 +524,11 @@ public final class DyFormBuildHtmlExt {
 			return value;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
 			if ("ext".equals(type)) {
-				return DyFormComp.getJsFileHref(value, "", "管理");
+				if(StringUtils.isNotEmpty(value)){
+					return DyFormComp.getJsFileHref(value, "", "管理");
+				}else{
+					return "";
+				}
 			}
 			value = htmEncode(value);
 			return DyFormComp.getHref("管理", "管理", value, "", "_blank");

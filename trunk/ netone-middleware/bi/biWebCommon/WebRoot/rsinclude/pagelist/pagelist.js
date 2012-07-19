@@ -29,6 +29,29 @@ function uploadfile(){
 	form1.action="PagelistUploadSvl?task=uploadfile&filename="+filename+"&naturalname="+naturalname+"&extendattribute="+extendattribute+"&dirid="+dirid+"&appid="+appid+"&pagename="+pagename+"&active="+active+"&objecttype="+objecttype+"&name="+name+"&actionurl="+actionurl;
 	form1.submit();
 }
+
+function uploadExcel(){
+	if(form1.filename.value==""){
+		alert("文件名不能为空");
+		form1.filename.focus();
+		return;
+	}
+	var filename = document.all.filename.value;
+	var naturalname = "";
+	var extendattribute = "";
+	var dirid = document.all.dirid.value;
+	var appid = document.all.appid.value;
+	var pagename = document.all.pagename.value;
+	var active = document.all.active.value;
+	var objecttype=document.all.objecttype.value;
+	var name=document.all.name.value;
+	var actionurl=document.all.actionurl.value;
+	var appScript=document.all.appScript.value;
+	var description=document.all.description.value;
+
+	form1.action="PagelistUploadSvl?task=uploadfile&appScript="+appScript+"&filename="+filename+"&naturalname="+naturalname+"&extendattribute="+extendattribute+"&dirid="+dirid+"&appid="+appid+"&pagename="+pagename+"&active="+active+"&objecttype="+objecttype+"&name="+name;
+	form1.submit();
+}
 //自动填写上传文件信息
 function autofile(){
 	var filename = document.all.files.value;

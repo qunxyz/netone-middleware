@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<DocVarBeans>
+  <DocVarBean id="loops1" type="loops" isreadonly="false" ismanager="false">
+    <ChildVars>
+      <ChildVar id="starttime" type="var" isreadonly="false" ismanager="false"/>
+      <ChildVar id="endtime" type="var" isreadonly="false" ismanager="false"/>
+      <ChildVar id="processid" type="var" isreadonly="false" ismanager="false"/>
+      <ChildVar id="runtimeid" type="var" isreadonly="false" ismanager="false"/>
+    </ChildVars>
+  </DocVarBean>
+  <DocVarBean id="kind" type="vars" isreadonly="false" ismanager="false"/>
+</DocVarBeans>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<digester-rules>
+	<pattern value="DocVarBeans/DocVarBean">
+		<object-create-rule classname="oe.frame.bus.res.doc.common.XmlObj" />
+		<set-properties-rule />
+		<set-next-rule methodname="add" paramtype="java.lang.Object" />
+		<bean-property-setter-rule pattern="id" />
+		<bean-property-setter-rule pattern="value" />
+		<bean-property-setter-rule pattern="type" />
+		<bean-property-setter-rule pattern="htmltype" />
+		<bean-property-setter-rule pattern="isreadonly" />
+		<bean-property-setter-rule pattern="ismanager" />
+		<bean-property-setter-rule pattern="checkmode" />
+		<pattern value="ChildVars/ChildVar">
+			<object-create-rule classname="oe.frame.bus.res.doc.common.XmlObj" />
+			<set-next-rule methodname="addChildVars" paramtype="oe.frame.bus.res.doc.common.XmlObj" />
+			<set-properties-rule />
+			<bean-property-setter-rule pattern="id" />
+			<bean-property-setter-rule pattern="value" />
+			<bean-property-setter-rule pattern="type" />
+			<bean-property-setter-rule pattern="htmltype" />
+			<bean-property-setter-rule pattern="isreadonly" />
+			<bean-property-setter-rule pattern="ismanager" />
+			<bean-property-setter-rule pattern="checkmode" />
+		</pattern>
+	</pattern>
+
+</digester-rules>

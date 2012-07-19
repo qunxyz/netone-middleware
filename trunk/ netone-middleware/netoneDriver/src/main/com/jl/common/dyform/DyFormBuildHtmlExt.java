@@ -2027,10 +2027,10 @@ public final class DyFormBuildHtmlExt {
 						columnmap, columnmapx, isedit, userinfo, parameter));
 			}
 		} else {// 无记录
-			for (int i = 0; i < 7; i++) {
-				html.append(buildTr(uuid(), formcode, false, null, _formx,
-						columnmap, columnmapx, isedit, userinfo, parameter));
-			}
+		// for (int i = 0; i < 7; i++) {
+			html.append(buildTr(uuid(), formcode, false, null, _formx,
+					columnmap, columnmapx, isedit, userinfo, parameter));
+			// }
 
 		}
 
@@ -2399,12 +2399,12 @@ public final class DyFormBuildHtmlExt {
 			}
 		} else {// 无记录
 			String split = "";
-			for (int i = 0; i < 7; i++) {
-				datas.append(split
-						+ buildExtDatas(null, _formx, columnmap, columnmapx,
-								isedit, userinfo, parameter));
-				split = ",";
-			}
+			// for (int i = 0; i < 7; i++) {
+			datas.append(split
+					+ buildExtDatas(null, _formx, columnmap, columnmapx,
+							isedit, userinfo, parameter));
+			split = ",";
+			// }
 		}
 		if (issummary) {// 汇总行
 			datas.append(","

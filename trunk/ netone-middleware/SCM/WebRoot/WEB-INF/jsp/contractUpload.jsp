@@ -338,8 +338,8 @@ td.label_file_td {
 			filepath.outerHTML=filepath.outerHTML  //请空文件选择内容
 			return ;
 		}
-		
-		var d_unid = 'contract';
+		             
+		var d_unidxxx = '${param.d_unid}';
 		var filename = encodeURI(encodeURI(document.getElementById("filename").value));
 		var f_type = encodeURI(encodeURI(getSelectedText("f_type")));
 		

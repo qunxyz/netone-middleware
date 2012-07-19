@@ -328,10 +328,10 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColo
 			return ;
 		}
 		
-		var d_unid = null;
-		if (parent.$('#unid')){
-			d_unid = parent.$('#unid').val();
-		}
+		var d_unid = '${param.d_unid}';;
+		//if (parent.$('#unid')){
+		//	d_unid = parent.$('#unid').val();
+		//}
 		var filename = encodeURI(encodeURI(document.getElementById("filename").value));
 		var f_type = encodeURI(encodeURI(getSelectedText("f_type")));
 		

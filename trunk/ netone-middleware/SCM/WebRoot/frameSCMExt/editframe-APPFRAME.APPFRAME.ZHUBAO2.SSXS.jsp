@@ -639,6 +639,7 @@
 			
 			//店长角色
 			<rs:permission action="7" resource="BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE1,BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE3">
+			</rs:permission>
 			if ('${param.lsh}'==''){
 			
 				$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETFCLIENTBYUSER&sr_participant=<rs:logininfo />", 
@@ -655,7 +656,7 @@
 				//售货员
 				$('table#8a606025a84f11e19b54fb13b166e993_').find('#column10').val('<rs:logininfo />');
 			}//end if
-			</rs:permission>
+			
 			
 		});
 		

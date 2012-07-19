@@ -638,6 +638,7 @@
 		    }
 		    
 		    <rs:permission action="7" resource="BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE1,BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE3">
+			</rs:permission>
 			if ('${param.lsh}'==''){
 			
 				$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETFCLIENTBYUSER&sr_participant=<rs:logininfo />", 
@@ -655,7 +656,7 @@
 				$('table#0a3090beae5a11e1a1d4a9c1a0b05fbc_').find('#column10').val('<rs:logininfo />');
 			
 			}//end if
-			</rs:permission>
+			
 			
 		});
 		

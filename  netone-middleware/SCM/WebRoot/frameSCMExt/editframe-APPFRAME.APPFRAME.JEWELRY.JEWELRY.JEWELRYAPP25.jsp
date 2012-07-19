@@ -641,11 +641,12 @@
 		    	$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETFCLIENTBYUSER&sr_participant=<rs:logininfo />", 
 				 function(jsonx){
 				  if(jsonx!=null){
-				  	var obj=$('table#8a606025a84f11e19b54fb13b166e993_').find('#column8');
+				  	var obj=$('table#1fa1fbb0846811e18d60d978b354ef4a_').find('#column15');
 				  	obj.empty();
 				  	$.each(jsonx, function(ii,itemx){
 				  		//分销商
-				  		$('table#1fa1fbb0846811e18d60d978b354ef4a_').find('#column15').val(itemx.fclientcode);
+				  		obj.append('<option value=\"'+itemx.fclientcode+'\">'+itemx.fclientname+'</option>');
+				  		//$('table#1fa1fbb0846811e18d60d978b354ef4a_').find('#column15').val(itemx.fclientcode);
 				  	});
 				  }
 				});

@@ -467,6 +467,16 @@ function $select(o,url){
 						        }
 						}
 						
+						<c:if test="${!empty excel_actionurl}">
+						,{
+						  text:'数据导入',
+						  iconCls:"configIcon",
+						  handler: function (){
+								window.open('${excel_actionurl}');
+						  }
+						}
+						</c:if>
+						
 						,{
 						  text:'列配置',
 						  iconCls:"configIcon",

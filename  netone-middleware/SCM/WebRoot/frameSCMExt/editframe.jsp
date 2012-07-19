@@ -1,8 +1,8 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>	
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>
 <%
 	String path = request.getContextPath();
 %>
@@ -44,6 +44,8 @@
 		Auto-growing textareas; technique ripped from Facebook
 		(Textarea need set style "overflow:hidden" under IE)
 		*/
+		
+		var onuser='<rs:logininfo />';
 		$(function() {
 		function times(string, number) {
 		  for (var i = 0, r = ''; i < number; i ++) r += string;

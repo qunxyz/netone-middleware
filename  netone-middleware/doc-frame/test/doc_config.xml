@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- excel数据导出	-->
+	<bean id="excelHandler"
+		class="oe.midware.doc.excel.ExcelHandlerImp" />
+
+	<!-- pdf数据导出-->
+	<bean id="pdfHandler" class="oe.midware.doc.pdf.PdfHandlerImp" />
+
+	<!-- txt数据导出-->
+	<bean id="txtHandler" class="oe.midware.doc.txt.TxtHandlerImpl">
+		<property name="colSplit">
+			<value>,</value>
+		</property>
+		<property name="lineSplit">
+			<value>;</value>
+		</property>
+	</bean>
+	<!-- html数据导出-->
+	<bean id="xmlHandler" class="oe.midware.doc.common.XmlHandlerImp">
+		<property name="xmlColumnInfo">
+			<list>
+				<value>id</value>
+				<value>value</value>
+				<value>type</value>
+				<value>htmltype</value>
+				<value>isreadonly</value>
+				<value>ismanager</value>
+				<value>checkmode</value>
+				<value>extendattribute</value>
+			</list>
+		</property>
+		<property name="fileRootInfo">
+			<ref local="fileRootInfo" />
+		</property>
+	</bean>
+	<bean id="htmlHandler" class="oe.midware.doc.word.HtmlHandlerImp">
+		<property name="xmlHandler">
+			<ref local="xmlHandler" />
+		</property>
+	</bean>
+	<bean id="wordHandler" class="oe.midware.doc.word.WordHandlerImp">
+		<property name="htmlHandler">
+			<ref local="htmlHandler" />
+		</property>
+	</bean>
+	<bean id="fileRootInfo"
+		class="oe.frame.bus.res.doc.common.FileRootInfo">
+		<property name="xmlpath">
+			<value>SAMPLE/DOC/xml/</value>
+		</property>
+		<property name="docwebtemplatepath">
+			<value>SAMPLE/DOC/</value>
+		</property>
+		<property name="docpath">
+			<value></value>
+		</property>
+		<property name="xpdlpath">
+			<value></value>
+		</property>
+		<property name="commonPath">
+			<value></value>
+		</property>
+	</bean>
+</beans>

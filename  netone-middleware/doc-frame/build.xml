@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="Newland3A" default="default" basedir=".">
+
+
+	<property name="class.dir" value="${basedir}/bin" />
+
+	<property name="dist.dir" value="${basedir}/RESOURCXE" />
+	
+
+	<target name="rmi_stub">
+		<jar destfile="${dist.dir}/docEngine.jar">
+			<fileset dir="${class.dir}">
+				<include name="oe/**" />
+				<exclude name="*.properties" />
+				<exclude name="*.xml" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="default" depends="rmi_stub">
+	</target>
+
+
+
+</project>

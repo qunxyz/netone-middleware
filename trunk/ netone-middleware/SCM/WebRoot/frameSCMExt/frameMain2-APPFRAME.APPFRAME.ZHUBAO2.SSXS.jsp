@@ -751,7 +751,7 @@ function $delete(){
 function $instorageWindow(){
 $('#instorageform').css('display','block');
 var _querywindow = new Ext.Window({  
-            title:"普通查询",  
+            title:"新增入库",  
             width:420,
             height:220, 
             layout:"form",  

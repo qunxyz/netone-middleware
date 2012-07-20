@@ -641,6 +641,12 @@
 			
 		});
 		
+		
+		function _import(url){
+		    var lsh = document.getElementById('lsh').value;
+			if (lsh!='') window.open(url+'&parentid='+lsh);
+			else {alert('请先执行保存操作，再导入！');}
+		}
 		</script>
 		<title>${htmltitleinfo}</title>
 	</head>

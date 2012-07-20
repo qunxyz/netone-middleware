@@ -539,6 +539,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		}
 		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
 				.getNaturalname();
+
 		if (SecurityEntry.iv().permission(user.getUserCode(),
 				naturalname_dyform + ".MODI")) {
 			btnStr
@@ -556,6 +557,22 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		}
 		btnStr
 				.append("{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},");
+
+		// start 导入EXCEL
+		String excelObjName = naturalname_dyform + ".EXCEL";
+		UmsProtectedobject uponext = new UmsProtectedobject();
+		uponext.setNaturalname(excelObjName);
+		List listg = rs.queryObjectProtectedObj(uponext, null, 0, 1, "");
+		if (listg != null && listg.size() == 1) {
+			String actionurl = ((UmsProtectedobject) listg.get(0))
+					.getActionurl();
+			if (StringUtils.isNotEmpty(actionurl))
+				btnStr
+						.append("{text:' EXCEL导入明细 ',id:'ext_b_import',iconCls:'download',handler: function(){_import('"
+								+ actionurl + "');}},");
+		}
+		// end 导入EXCEL
+
 		btnStr
 				.append("{text:' 关 闭 ',id:'ext_b_cancel',iconCls:'exitIcon',handler: function(){window.close();}}");
 

@@ -337,7 +337,7 @@ function $select(o,url){
 						  text:'数据导入',
 						  iconCls:"configIcon",
 						  handler: function (){
-								window.open('${excel_actionurl}');
+								$importExcel();
 						  }
 						}
 						</c:if>
@@ -486,6 +486,16 @@ function $print(){
     var lsh = selectionSet[0].get('lsh');
 	var url = "<c:url value='/frame.do?method=onPrintViewMain' />"+"&naturalname=${param.naturalname}&lsh="+lsh;
 	if (lsh!='') window.open(url);
+}
+
+function $importExcel(){
+	var selectionSet = Ext.getCmp('PlanGrid').getSelectionModel().getSelections();
+    if (selectionSet == undefined || selectionSet.length > 1 || selectionSet.length <= 0) {
+        Ext.MessageBox.alert('提示', '请选择一条记录进行操作!');
+        return;
+    }
+    var lsh = selectionSet[0].get('lsh');
+	if (lsh!='') window.open('${excel_actionurl}&parentid='+lsh);
 }
 
 function $printexcel(){

@@ -47,9 +47,10 @@ function uploadExcel(){
 	var name=document.all.name.value;
 	var actionurl=document.all.actionurl.value;
 	var appScript=document.all.appScript.value;
+	var parentidX=document.all.parentidX.value;
 	var description=document.all.description.value;
 
-	form1.action="PagelistUploadSvl?task=uploadfile&appScript="+appScript+"&filename="+filename+"&naturalname="+naturalname+"&extendattribute="+extendattribute+"&dirid="+dirid+"&appid="+appid+"&pagename="+pagename+"&active="+active+"&objecttype="+objecttype+"&name="+name;
+	form1.action="PagelistUploadSvl?task=uploadfile&appScript="+appScript+"&filename="+filename+"&naturalname="+naturalname+"&extendattribute="+extendattribute+"&dirid="+dirid+"&appid="+appid+"&pagename="+pagename+"&active="+active+"&objecttype="+objecttype+"&name="+name+"&parentidX="+parentidX;
 	form1.submit();
 }
 //自动填写上传文件信息

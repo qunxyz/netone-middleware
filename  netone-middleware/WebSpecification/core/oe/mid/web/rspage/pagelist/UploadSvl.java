@@ -211,7 +211,9 @@ public class UploadSvl extends HttpServlet {
 						OnlineUserMgr olmgr = new DefaultOnlineUserMgr();
 						OnlineUser oluser = olmgr.getOnlineUser(request);
 						String loginuser = oluser.getLoginname();
+						String parentidX=request.getParameter("parentidX");
 						script=StringUtils.replace(script, "$(participant)", loginuser);
+						script=StringUtils.replace(script, "$(parentid)", parentidX);
 						dir=StringUtils.replace(dir,"\\","/");
 						WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
 						Object []obj={dir};

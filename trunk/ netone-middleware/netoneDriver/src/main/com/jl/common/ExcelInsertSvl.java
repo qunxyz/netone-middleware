@@ -45,7 +45,7 @@ public class ExcelInsertSvl extends HttpServlet {
 			String envx=env.fetchEnvValue("WEBSER_BIWEB");
 			String appscript=request.getParameter("appScript");
 			String parentid=request.getParameter("parentid");
-			String pageurl=envx+"/PagelistUploadSvl?task=addfile&dirid="+upo.getId()+"&appid=2&pagename=excel&appScript="+appscript;
+			String pageurl=envx+"/PagelistUploadSvl?task=addfile&dirid="+upo.getId()+"&appid=2&pagename=excel&appScript="+appscript+"&parentidX="+parentid;
 			
 			WebTip.htmlInfoOri("<script>location.href='"+pageurl+"';</script>", response);
 		

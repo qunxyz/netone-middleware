@@ -37,6 +37,9 @@ public class AnalysisAppSecond {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			if(str==null){
+				str="";
+			}
 			   InputSource is = new InputSource();   
 			   is.setCharacterStream(new StringReader(str));   
 

@@ -48,6 +48,7 @@
 			enctype="multipart/form-data">
 			<input type="hidden" name="pagename" value="${pagename}" />
 			<input type="hidden" name="appScript" value="${param.appScript}" />
+			<input type="hidden" name="parentidX" value="${param.parentidX}" />
 			<input type="hidden" name="dirid" value="${dirid}">
 			<input type="hidden" name="appid" value="${appid}">
 			<input type="hidden" name="filename" value="${filename}">

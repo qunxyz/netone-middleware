@@ -213,7 +213,7 @@ public class All_script extends OeScript {
 		List list = db
 				.queryData(
 						con,
-						"select ins.*,ins_main.column14 as bigcate,sub.column5 as sellprice from DY_661338441749388 sub left join DY_271334208897441 ins on ins.column4=sub.column3 left join DY_271334208897439 ins_main on ins_main.lsh=ins.fatherlsh left join DY_661338441749389 father on father.lsh=sub.fatherlsh where father.STATUSINFO='01' and sub.STATUSINFO='01' and sub.column3 like '%$(q)%' and father.column12='$(sr_clientid)' ");
+						"select ins.*,ins_main.column14 as bigcate,sub.column5 as sellprice from DY_661338441749388 sub left join DY_271334208897441 ins on ins.column4=sub.column3 left join DY_271334208897439 ins_main on ins_main.lsh=ins.fatherlsh left join DY_661338441749389 father on father.lsh=sub.fatherlsh where father.STATUSINFO='01' and sub.STATUSINFO='01' and sub.column3 like '%$(q)%' and father.column12='$(sr_clientid)' and ins.LSH is not null ");
 		java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
 		String split = "";
 		if (list.size() > 0) {

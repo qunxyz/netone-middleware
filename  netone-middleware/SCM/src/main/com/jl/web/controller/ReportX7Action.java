@@ -44,7 +44,7 @@ public class ReportX7Action extends AbstractAction {
 
 		// 分销商信息
 		request.setAttribute("list_GClient", ReportBaseData.getGClientInfo());
-		request.setAttribute("list_ChangPingDaLei", ReportBaseData.geChangPingDaLeiInfo());
+		request.setAttribute("list_ChangPingDaLei", ReportBaseData.getChangPingDaLeiInfo());
 		request.setAttribute("list_ChengSe", ReportBaseData.getChengSeXingXiInfo());
 		request.setAttribute("list_BaoShi", ReportBaseData.getBaoShiMingChengInfo());
 		request.setAttribute("list_PingMing", ReportBaseData.getChangPingMingChengInfo());

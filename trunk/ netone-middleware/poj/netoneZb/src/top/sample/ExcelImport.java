@@ -1,14 +1,15 @@
 package top.sample;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
-
+import oe.frame.bus.res.doc.ExcelHandler;
 import oe.frame.bus.res.doc.common.obj.MultiDimData;
-import oe.midware.workflow.engine.rule2.func.STools;
+import oe.midware.doc.excel.ExcelHandlerImp;
+
+import org.apache.commons.lang.StringUtils;
 
 
 public class ExcelImport {
@@ -29,9 +30,9 @@ public class ExcelImport {
 			//导子表单
 		}
 		
-		STools st=new STools();
+		ExcelHandler excel = new ExcelHandlerImp();
 		InputStream input = new FileInputStream((String)_param[0]);
-		Map mapx=st.excel.readExcelAllSheet(input);
+		Map mapx=excel.readExcelAllSheet(input);
 		for (Iterator iterator = mapx.keySet().iterator(); iterator.hasNext();) {
 			String key = (String) iterator.next();
 			MultiDimData kpp=(MultiDimData)mapx.get(key);

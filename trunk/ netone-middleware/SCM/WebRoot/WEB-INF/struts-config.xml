@@ -49,6 +49,37 @@
 		<action path="/reportx7"
 			type="com.jl.web.controller.ReportX7Action" parameter="method">
 		</action>
+		<!-- 分销库存统计表 -->
+		<action path="/reportx8"
+			type="com.jl.web.controller.ReportX8Action" parameter="method">
+		</action>
+		<!-- 首饰退库统计表 -->
+		<action path="/reportx12"
+			type="com.jl.web.controller.ReportX12 Action" parameter="method">
+		</action>
+		<!-- 分销进货明细表 -->
+		<action path="/reportx14 "
+			type="com.jl.web.controller.ReportX14 Action" parameter="method">
+		</action>
+		<!-- 首饰销售统计表 -->
+		<action path="/reportx9 "
+			type="com.jl.web.controller.ReportX9 Action" parameter="method">
+		</action>
+		<action path="/reportx11 "
+			type="com.jl.web.controller.ReportX11 Action" parameter="method">
+		</action>	
+		<!-- 总库库存明细表 -->
+		<action path="/reportx13 "
+			type="com.jl.web.controller.ReportX13 Action" parameter="method">
+		</action>
+		<!-- 分销库存明细表 -->
+		<action path="/reportx15 "
+			type="com.jl.web.controller.ReportX15 Action" parameter="method">
+		</action>		
+		
+		
+		
+		
 		
 		<!--
 		<action path="/frame"

@@ -566,6 +566,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		if (listg != null && listg.size() == 1) {
 			String actionurl = ((UmsProtectedobject) listg.get(0))
 					.getActionurl();
+			System.out.println("actionurl excel导入明细:" + actionurl);
 			if (StringUtils.isNotEmpty(actionurl))
 				btnStr
 						.append("{text:' EXCEL导入明细 ',id:'ext_b_import',iconCls:'download',handler: function(){_import('"

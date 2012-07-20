@@ -767,7 +767,7 @@ var _querywindow = new Ext.Window({
             layout:"form",  
             allowDomMove: false,
             closeAction: 'hide',
-            autoScroll:true,
+            autoScroll:false,
             resizable :false,
             buttonAlign:'center',
             //modal:true,

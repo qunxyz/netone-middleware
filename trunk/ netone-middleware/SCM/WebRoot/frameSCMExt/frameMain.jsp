@@ -489,13 +489,7 @@ function $print(){
 }
 
 function $importExcel(){
-	var selectionSet = Ext.getCmp('PlanGrid').getSelectionModel().getSelections();
-    if (selectionSet == undefined || selectionSet.length > 1 || selectionSet.length <= 0) {
-        Ext.MessageBox.alert('提示', '请选择一条记录进行操作!');
-        return;
-    }
-    var lsh = selectionSet[0].get('lsh');
-	if (lsh!='') window.open('${excel_actionurl}&parentid='+lsh);
+	window.open('${excel_actionurl}&parentid=1');
 }
 
 function $printexcel(){

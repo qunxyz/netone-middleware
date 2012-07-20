@@ -761,25 +761,26 @@ function $delete(){
 function $instorageWindow(){
 $('#instorageform').css('display','block');
 var _querywindow = new Ext.Window({  
-            title:"普通查询",  
+            title:"新增入库",  
             width:420,
-            height:200, 
+            height:180, 
             layout:"form",  
             allowDomMove: false,
             closeAction: 'hide',
-            autoScroll:true,
+            autoScroll:false,
             resizable :false,
             buttonAlign:'center',
             //modal:true,
             items:[
             new Ext.form.FieldSet({
                 title:'请选择系统大类',
-	        	width:420,height:100,
+	        	width:420,height:180,
 		        contentEl:'instorageform'
 		       }) 
-            ,{
-			html:"<font color='red'>  注:红色【素金类】默认按金价销售，其他类默认以标签价销售。</font>"
-            }],
+            //,{
+			//html:"<font color='red'>  注:红色【素金类】默认按金价销售，其他类默认以标签价销售。</font>"
+            //}
+            ],
             buttons:[  
                 {  
                     text:" 确 认 ",  

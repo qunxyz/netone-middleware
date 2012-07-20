@@ -40,6 +40,7 @@
 		<!-- 时间控件脚本 -->
 		${datecompFunc}
 		<script>
+		var onuser='<rs:logininfo />';
 		/*
 		Auto-growing textareas; technique ripped from Facebook
 		(Textarea need set style "overflow:hidden" under IE)

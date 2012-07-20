@@ -231,16 +231,7 @@
 					</c:forEach>
 				</table>
 				<br>
-				<div align="left">
 
-					&nbsp;
-					<input type="button" name="btnup" value="  ÉÏ   ÒÆ  " onclick="up();"
-						class="butt">
-					&nbsp;
-					<input type="button" name="btndown" value="  ÏÂ   ÒÆ  "
-						onclick="down();" class="butt">
-
-				</div>
 			</form>
 		</div>
 		<c:if test="${ModifySuccess == 'n'}">

@@ -384,7 +384,7 @@
 										target="_blank"><font color='red'>[导出EXCEL]</font></a>
 										
 									<a
-										href="<portal:envget envkey="WEBSER_BIWEB"/>/PagelistRightSvl?pagename=dyformlist&appname=${list.naturalname}'"
+										href="<portal:envget envkey="WEBSER_BIWEB"/>/PagelistRightSvl?pagename=dyformlist&appname=${list.naturalname}"
 										target="_blank">[功能配置]</a>
 										<a
 										href="resourcepage/dyformlist/RemoveCache.jsp?formcode=${list.extendattribute}"

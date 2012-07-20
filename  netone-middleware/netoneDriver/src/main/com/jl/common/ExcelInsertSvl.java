@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import oe.env.client.EnvService;
+import oe.frame.web.util.WebTip;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
@@ -43,14 +44,15 @@ public class ExcelInsertSvl extends HttpServlet {
 			EnvService env=(EnvService)RmiEntry.iv("envinfo");
 			String envx=env.fetchEnvValue("WEBSER_BIWEB");
 			String appscript=request.getParameter("appScript");
+			String parentid=request.getParameter("parentid");
 			String pageurl=envx+"/PagelistUploadSvl?task=addfile&dirid="+upo.getId()+"&appid=2&pagename=excel&appScript="+appscript;
 			
-			request.getRequestDispatcher(pageurl).forward(request, response);
+			WebTip.htmlInfoOri("<script>location.href='"+pageurl+"';</script>", response);
+		
 		} catch (NotBoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 	/**

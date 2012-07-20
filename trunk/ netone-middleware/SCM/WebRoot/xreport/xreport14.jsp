@@ -204,13 +204,30 @@ html.VIE7 nobr {
 
 /** 公单标题表格TD */
 .table_td_title {
-	FILTER: progid :             DXImageTransform .             Microsoft .
+	FILTER: progid :                                        
+		DXImageTransform .   
+		     
+		                 
+		             Microsoft .              
 		     
 		  
 		 
 		
-		Gradient(GradientType =                 0, StartColorStr =              
-		  #D9ECF9, EndColorStr =             #62BBE8);
+		   
+		
+		
+		
+		
+		    
+		
+		Gradient(GradientType =                                             0,
+		StartColorStr =       
+		
+		    
+		              
+		                #D9ECF9, EndColorStr = 
+		                                 
+		     #62BBE8);
 	background: -webkit-gradient(linear, left top, left bottom, from(#D9ECF9),
 		to(#62BBE8) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #D9ECF9, #62BBE8);
@@ -231,13 +248,30 @@ html.VIE7 nobr {
 
 /** 公单字段表格TD */
 .table_td_header {
-	FILTER: progid :             DXImageTransform .             Microsoft .
+	FILTER: progid :                                        
+		DXImageTransform .   
+		     
+		                 
+		             Microsoft .              
 		     
 		  
 		 
 		
-		Gradient(GradientType =                 0, StartColorStr =              
-		  #FEF9FF, EndColorStr =             #DBDCDE);
+		   
+		
+		
+		
+		
+		    
+		
+		Gradient(GradientType =                                             0,
+		StartColorStr =       
+		
+		    
+		              
+		                #FEF9FF, EndColorStr = 
+		                                 
+		     #DBDCDE);
 	background: -webkit-gradient(linear, left top, left bottom, from(#FEF9FF),
 		to(#DBDCDE) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #FEF9FF, #DBDCDE);
@@ -335,13 +369,30 @@ html.VIE7 .form_fieldcontent {
 }
 
 .form_fieldcaption2 {
-	FILTER: progid :             DXImageTransform .             Microsoft .
+	FILTER: progid :                                        
+		DXImageTransform .   
+		     
+		                 
+		             Microsoft .              
 		     
 		  
 		 
 		
-		Gradient(GradientType =                 0, StartColorStr =              
-		  #D9ECF9, EndColorStr =             #62BBE8);
+		   
+		
+		
+		
+		
+		    
+		
+		Gradient(GradientType =                                             0,
+		StartColorStr =       
+		
+		    
+		              
+		                #D9ECF9, EndColorStr = 
+		                                 
+		     #62BBE8);
 	background: -webkit-gradient(linear, left top, left bottom, from(#D9ECF9),
 		to(#62BBE8) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #D9ECF9, #62BBE8);
@@ -430,7 +481,7 @@ html.VIE7 .form_fieldinput {
 		    
 		    var formatstr = "&format="+$('#format').val();
 		    var form1 = document.getElementById('_xreport_form');
-			form1.action="<c:url value='/reportx7.do?method=query' />"+formatstr;
+			form1.action="<c:url value='/reportx8.do?method=query' />"+formatstr;
 			form1.target="_blank";
 			form1.method="POST";
 			form1.submit();
@@ -483,7 +534,7 @@ html.VIE7 .form_fieldinput {
 					<div id="tabs-1">
 						<form id="_xreport_form">
 							<input type="hidden" id="naturalname" name="naturalname"
-								value="REPORTQ.REPORTQ.CXZD.ZKKCTJB" unselectable="off"
+								value="REPORTQ.REPORTQ.CXZD.FXJHMXB" unselectable="off"
 								onFocus="this.select()" />
 							<table id="xreport" name="xreport" class="table_form" width="392"
 								bgcolor="white" cellspacing="0" cellpadding="0" align="center"
@@ -506,29 +557,14 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect1" name="repselect1"
 													style="width: 295.0px">
-													<option value="小品名">
-														小品名
+													<option value="" selected="selected">
+														请选择
 													</option>
-													<option value="系列名称">
-														系列名称
+													<option value="发货明细1">
+														发货明细1
 													</option>
-													<option value="按款号">
-														按款号
-													</option>
-													<option value="原编号">
-														原编号
-													</option>
-													<option value="按手寸">
-														按手寸
-													</option>
-													<option value="按大类">
-														按大类
-													</option>
-													<option value="自定大类">
-														自定大类
-													</option>
-													<option value="供应商">
-														供应商
+													<option value="发货明细2">
+														发货明细2
 													</option>
 												</select>
 											</div>
@@ -545,6 +581,34 @@ html.VIE7 .form_fieldinput {
 											</div>
 											<div class="form_fieldinput" style="width: 344px;"
 												align="left">
+												<input type="hidden" id="repstrcompare1"
+													name="repstrcompare1" unselectable="off"
+													onFocus="this.select()" />
+												<input type="hidden" id="repstrcompare1_OPE"
+													name="repstrcompare1_OPE" value="=" unselectable="off"
+													onFocus="this.select()" />
+												<script type="text/javascript">$(function() {if ($('#repstrcompare1_START')) $('#repstrcompare1_START').blur(function(){if ($('#repstrcompare1')) $('#repstrcompare1').val($('#repstrcompare1_START').val()+'$_$'+$('#repstrcompare1_END').val())});if ($('#repstrcompare1_END')) $('#repstrcompare1_END').blur(function(){if ($('#repstrcompare1')) $('#repstrcompare1').val($('#repstrcompare1_START').val()+'$_$'+$('#repstrcompare1_END').val())});});</script>
+												<input type="text" id="repstrcompare1_START"
+													name="repstrcompare1_START" style="width: 143.5px"
+													unselectable="off" onFocus="this.select()" />
+												至
+												<input type="text" id="repstrcompare1_END"
+													name="repstrcompare1_END" style="width: 143.5px"
+													unselectable="off" onFocus="this.select()" />
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr class="form_tr" unselectable="off" onFocus="this.select()">
+									<td class="form_td" unselectable="off" onFocus="this.select()"
+										nowrap="nowrap">
+										<div class="form_fieldcontent" style="width: 392px">
+											<div class="form_fieldcaption" align="left" title="进货单号"
+												style="width: 60px;">
+												进货单号:
+											</div>
+											<div class="form_fieldinput" style="width: 332px;"
+												align="left">
 												<input type="hidden" id="repstrcompare2"
 													name="repstrcompare2" unselectable="off"
 													onFocus="this.select()" />
@@ -553,11 +617,11 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<script type="text/javascript">$(function() {if ($('#repstrcompare2_START')) $('#repstrcompare2_START').blur(function(){if ($('#repstrcompare2')) $('#repstrcompare2').val($('#repstrcompare2_START').val()+'$_$'+$('#repstrcompare2_END').val())});if ($('#repstrcompare2_END')) $('#repstrcompare2_END').blur(function(){if ($('#repstrcompare2')) $('#repstrcompare2').val($('#repstrcompare2_START').val()+'$_$'+$('#repstrcompare2_END').val())});});</script>
 												<input type="text" id="repstrcompare2_START"
-													name="repstrcompare2_START" style="width: 143.5px"
+													name="repstrcompare2_START" style="width: 137.5px"
 													unselectable="off" onFocus="this.select()" />
 												至
 												<input type="text" id="repstrcompare2_END"
-													name="repstrcompare2_END" style="width: 143.5px"
+													name="repstrcompare2_END" style="width: 137.5px"
 													unselectable="off" onFocus="this.select()" />
 											</div>
 										</div>
@@ -567,37 +631,9 @@ html.VIE7 .form_fieldinput {
 									<td class="form_td" unselectable="off" onFocus="this.select()"
 										nowrap="nowrap">
 										<div class="form_fieldcontent" style="width: 392px">
-											<div class="form_fieldcaption" align="left" title="入库单号"
+											<div class="form_fieldcaption" align="left" title="进货日期"
 												style="width: 60px;">
-												入库单号:
-											</div>
-											<div class="form_fieldinput" style="width: 332px;"
-												align="left">
-												<input type="hidden" id="repstrcompare3"
-													name="repstrcompare3" unselectable="off"
-													onFocus="this.select()" />
-												<input type="hidden" id="repstrcompare3_OPE"
-													name="repstrcompare3_OPE" value="=" unselectable="off"
-													onFocus="this.select()" />
-												<script type="text/javascript">$(function() {if ($('#repstrcompare3_START')) $('#repstrcompare3_START').blur(function(){if ($('#repstrcompare3')) $('#repstrcompare3').val($('#repstrcompare3_START').val()+'$_$'+$('#repstrcompare3_END').val())});if ($('#repstrcompare3_END')) $('#repstrcompare3_END').blur(function(){if ($('#repstrcompare3')) $('#repstrcompare3').val($('#repstrcompare3_START').val()+'$_$'+$('#repstrcompare3_END').val())});});</script>
-												<input type="text" id="repstrcompare3_START"
-													name="repstrcompare3_START" style="width: 137.5px"
-													unselectable="off" onFocus="this.select()" />
-												至
-												<input type="text" id="repstrcompare3_END"
-													name="repstrcompare3_END" style="width: 137.5px"
-													unselectable="off" onFocus="this.select()" />
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr class="form_tr" unselectable="off" onFocus="this.select()">
-									<td class="form_td" unselectable="off" onFocus="this.select()"
-										nowrap="nowrap">
-										<div class="form_fieldcontent" style="width: 392px">
-											<div class="form_fieldcaption" align="left" title="入库日期"
-												style="width: 60px;">
-												入库日期:
+												进货日期:
 											</div>
 											<div class="form_fieldinput" style="width: 332px;"
 												align="left">
@@ -623,9 +659,9 @@ html.VIE7 .form_fieldinput {
 									<td class="form_td" unselectable="off" onFocus="this.select()"
 										nowrap="nowrap">
 										<div class="form_fieldcontent" style="width: 392px">
-											<div class="form_fieldcaption" align="left" title="供应商"
+											<div class="form_fieldcaption" align="left" title="分销商"
 												style="width: 48px;">
-												供应商:
+												分销商:
 											</div>
 											<div class="form_fieldinput" style="width: 344px;"
 												align="left">
@@ -637,10 +673,10 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect2" name="repselect2"
 													style="width: 307.0px">
-													<c:forEach var="list" items="${list_GClient}">
-													<option value="${list.column4}">
-														${list.column3}
-													</option>
+													<c:forEach var="list" items="${list_FClient}">
+														<option value="${list.column4}">
+															${list.column3}
+														</option>
 													</c:forEach>
 												</select>
 											</div>
@@ -651,11 +687,11 @@ html.VIE7 .form_fieldinput {
 									<td class="form_td" unselectable="off" onFocus="this.select()"
 										nowrap="nowrap">
 										<div class="form_fieldcontent" style="width: 392px">
-											<div class="form_fieldcaption" align="left" title="加盟品牌"
-												style="width: 60px;">
-												加盟品牌:
+											<div class="form_fieldcaption" align="left" title="供应商"
+												style="width: 48px;">
+												供应商:
 											</div>
-											<div class="form_fieldinput" style="width: 332px;"
+											<div class="form_fieldinput" style="width: 344px;"
 												align="left">
 												<input type="hidden" id="repselect3_OPE"
 													name="repselect3_OPE" value="=" unselectable="off"
@@ -664,11 +700,39 @@ html.VIE7 .form_fieldinput {
 													name="repselect3_hidden" unselectable="off"
 													onFocus="this.select()" />
 												<select id="repselect3" name="repselect3"
+													style="width: 307.0px">
+													<c:forEach var="list" items="${list_GClient}">
+														<option value="${list.column4}">
+															${list.column3}
+														</option>
+													</c:forEach>
+												</select>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr class="form_tr" unselectable="off" onFocus="this.select()">
+									<td class="form_td" unselectable="off" onFocus="this.select()"
+										nowrap="nowrap">
+										<div class="form_fieldcontent" style="width: 392px">
+											<div class="form_fieldcaption" align="left" title="经营品牌"
+												style="width: 60px;">
+												经营品牌:
+											</div>
+											<div class="form_fieldinput" style="width: 332px;"
+												align="left">
+												<input type="hidden" id="repselect4_OPE"
+													name="repselect4_OPE" value="=" unselectable="off"
+													onFocus="this.select()" />
+												<input type="hidden" id="repselect4_hidden"
+													name="repselect4_hidden" unselectable="off"
+													onFocus="this.select()" />
+												<select id="repselect4" name="repselect4"
 													style="width: 295.0px">
 													<c:forEach var="list" items="${list_JingYingPingPai}">
-													<option value="${list.column8}">
-														${list.column3}
-													</option>
+														<option value="${list.column8}">
+															${list.column3}
+														</option>
 													</c:forEach>
 												</select>
 											</div>
@@ -685,29 +749,6 @@ html.VIE7 .form_fieldinput {
 											</div>
 											<div class="form_fieldinput" style="width: 136px;"
 												align="left">
-												<input type="hidden" id="repselect4_OPE"
-													name="repselect4_OPE" value="=" unselectable="off"
-													onFocus="this.select()" />
-												<input type="hidden" id="repselect4_hidden"
-													name="repselect4_hidden" unselectable="off"
-													onFocus="this.select()" />
-												<select id="repselect4" name="repselect4"
-													style="width: 99.0px">
-													<c:forEach var="list" items="${list_ChangPingDaLei}">
-													<option value="${list.column8}">
-														${list.column3}
-													</option>
-													</c:forEach>
-												</select>
-											</div>
-										</div>
-										<div class="form_fieldcontent" style="width: 196px">
-											<div class="form_fieldcaption" align="left" title="成色"
-												style="width: 36px;">
-												成色:
-											</div>
-											<div class="form_fieldinput" style="width: 160px;"
-												align="left">
 												<input type="hidden" id="repselect5_OPE"
 													name="repselect5_OPE" value="=" unselectable="off"
 													onFocus="this.select()" />
@@ -715,11 +756,34 @@ html.VIE7 .form_fieldinput {
 													name="repselect5_hidden" unselectable="off"
 													onFocus="this.select()" />
 												<select id="repselect5" name="repselect5"
-													style="width: 123.0px">
-													<c:forEach var="list" items="${list_ChengSe}">
-													<option value="${list.column9}">
-														${list.column3}
-													</option>
+													style="width: 99.0px">
+													<c:forEach var="list" items="${list_ChangPingDaLei}">
+														<option value="${list.column8}">
+															${list.column3}
+														</option>
+													</c:forEach>
+												</select>
+											</div>
+										</div>
+										<div class="form_fieldcontent" style="width: 196px">
+											<div class="form_fieldcaption" align="left" title="自定大类"
+												style="width: 60px;">
+												自定大类:
+											</div>
+											<div class="form_fieldinput" style="width: 136px;"
+												align="left">
+												<input type="hidden" id="repselect6_OPE"
+													name="repselect6_OPE" value="=" unselectable="off"
+													onFocus="this.select()" />
+												<input type="hidden" id="repselect6_hidden"
+													name="repselect6_hidden" unselectable="off"
+													onFocus="this.select()" />
+												<select id="repselect6" name="repselect6"
+													style="width: 99.0px">
+													<c:forEach var="list" items="${list_ZiDingDaLei}">
+														<option value="${list.column8}">
+															${list.column3}
+														</option>
 													</c:forEach>
 												</select>
 											</div>
@@ -730,32 +794,9 @@ html.VIE7 .form_fieldinput {
 									<td class="form_td" unselectable="off" onFocus="this.select()"
 										nowrap="nowrap">
 										<div class="form_fieldcontent" style="width: 196px">
-											<div class="form_fieldcaption" align="left" title="宝石"
+											<div class="form_fieldcaption" align="left" title="成色"
 												style="width: 36px;">
-												宝石:
-											</div>
-											<div class="form_fieldinput" style="width: 160px;"
-												align="left">
-												<input type="hidden" id="repselect6_OPE"
-													name="repselect6_OPE" value="=" unselectable="off"
-													onFocus="this.select()" />
-												<input type="hidden" id="repselect6_hidden"
-													name="repselect6_hidden" unselectable="off"
-													onFocus="this.select()" />
-												<select id="repselect6" name="repselect6"
-													style="width: 123.0px">
-													<c:forEach var="list" items="${list_PingMing}">
-													<option value="${list.column9}">
-														${list.column3}
-													</option>
-													</c:forEach>
-												</select>
-											</div>
-										</div>
-										<div class="form_fieldcontent" style="width: 196px">
-											<div class="form_fieldcaption" align="left" title="品名"
-												style="width: 36px;">
-												品名:
+												成色:
 											</div>
 											<div class="form_fieldinput" style="width: 160px;"
 												align="left">
@@ -767,12 +808,103 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect7" name="repselect7"
 													style="width: 123.0px">
-													<c:forEach var="list" items="${list_BaoShi}">
-													<option value="${list.column10}">
-														${list.column3}
-													</option>
+													<c:forEach var="list" items="${list_ChengSe}">
+														<option value="${list.column9}">
+															${list.column3}
+														</option>
 													</c:forEach>
 												</select>
+											</div>
+										</div>
+										<div class="form_fieldcontent" style="width: 196px">
+											<div class="form_fieldcaption" align="left" title="宝石"
+												style="width: 36px;">
+												宝石:
+											</div>
+											<div class="form_fieldinput" style="width: 160px;"
+												align="left">
+												<input type="hidden" id="repselect8_OPE"
+													name="repselect8_OPE" value="=" unselectable="off"
+													onFocus="this.select()" />
+												<input type="hidden" id="repselect8_hidden"
+													name="repselect8_hidden" unselectable="off"
+													onFocus="this.select()" />
+												<select id="repselect8" name="repselect8"
+													style="width: 123.0px">
+													<c:forEach var="list" items="${list_BaoShi}">
+														<option value="${list.column10}">
+															${list.column3}
+														</option>
+													</c:forEach>
+												</select>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr class="form_tr" unselectable="off" onFocus="this.select()">
+									<td class="form_td" unselectable="off" onFocus="this.select()"
+										nowrap="nowrap">
+										<div class="form_fieldcontent" style="width: 196px">
+											<div class="form_fieldcaption" align="left" title="品名"
+												style="width: 36px;">
+												品名:
+											</div>
+											<div class="form_fieldinput" style="width: 160px;"
+												align="left">
+												<input type="hidden" id="repselect9_OPE"
+													name="repselect9_OPE" value="=" unselectable="off"
+													onFocus="this.select()" />
+												<input type="hidden" id="repselect9_hidden"
+													name="repselect9_hidden" unselectable="off"
+													onFocus="this.select()" />
+												<select id="repselect9" name="repselect9"
+													style="width: 123.0px">
+													<c:forEach var="list" items="${list_PingMing}">
+														<option value="${list.column9}">
+															${list.column3}
+														</option>
+													</c:forEach>
+												</select>
+											</div>
+										</div>
+										<div class="form_fieldcontent" style="width: 196px">
+											<div class="form_fieldcaption" align="left" title="进货方式"
+												style="width: 60px;">
+												进货方式:
+											</div>
+											<div class="form_fieldinput" style="width: 136px;"
+												align="left">
+												<input type="hidden" id="repselect10_OPE"
+													name="repselect10_OPE" value="=" unselectable="off"
+													onFocus="this.select()" />
+												<input type="hidden" id="repselect10_hidden"
+													name="repselect10_hidden" unselectable="off"
+													onFocus="this.select()" />
+												<select id="repselect10" name="repselect10"
+													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
+												</select>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr class="form_tr" unselectable="off" onFocus="this.select()">
+									<td class="form_td" unselectable="off" onFocus="this.select()"
+										nowrap="nowrap">
+										<div class="form_fieldcontent" style="width: 392px">
+											<div class="form_fieldcaption" align="left" title="备注"
+												style="width: 36px;">
+												备注:
+											</div>
+											<div class="form_fieldinput" style="width: 356px;"
+												align="left">
+												<input type="hidden" id="repstr3_OPE" name="repstr3_OPE"
+													value="=" unselectable="off" onFocus="this.select()" />
+												<input type="text" id="repstr3" name="repstr3"
+													style="width: 319.0px" unselectable="off"
+													onFocus="this.select()" />
 											</div>
 										</div>
 									</td>
@@ -795,17 +927,17 @@ html.VIE7 .form_fieldinput {
 										onchange=javascript:$(
 										'#_REPORTID').val('REPORTDS.REPORTDS.FXGL.FXTTMXB'); unselectable="off"
 										onFocus="this.select()" checked="checked" />
-									&nbsp;总库库存统计表
+									&nbsp;分销进货明细表
 								</td>
 							</tr>
 							<tr>
 								<td>
 									报表输出格式:
 									<select id="format" name="format">
-										<option value="excel">
+										<option value="excel" selected="selected">
 											excel
 										</option>
-										<option value="html" selected="selected">
+										<option value="html">
 											网页
 										</option>
 										<option value="pdf">
@@ -822,6 +954,7 @@ html.VIE7 .form_fieldinput {
 							<input type="button" value="查询" onclick="query();" class="btn">
 						</div>
 					</div>
+
 
 
 				</div>

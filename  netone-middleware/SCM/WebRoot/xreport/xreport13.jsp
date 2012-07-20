@@ -204,13 +204,15 @@ html.VIE7 nobr {
 
 /** 公单标题表格TD */
 .table_td_title {
-	FILTER: progid :             DXImageTransform .             Microsoft .
+	FILTER: progid :                 DXImageTransform .               
+		 Microsoft .  
 		     
 		  
 		 
 		
-		Gradient(GradientType =                 0, StartColorStr =              
-		  #D9ECF9, EndColorStr =             #62BBE8);
+		  Gradient(GradientType =                     0, StartColorStr = 
+		              
+		    #D9ECF9, EndColorStr =                 #62BBE8);
 	background: -webkit-gradient(linear, left top, left bottom, from(#D9ECF9),
 		to(#62BBE8) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #D9ECF9, #62BBE8);
@@ -231,13 +233,15 @@ html.VIE7 nobr {
 
 /** 公单字段表格TD */
 .table_td_header {
-	FILTER: progid :             DXImageTransform .             Microsoft .
+	FILTER: progid :                 DXImageTransform .               
+		 Microsoft .  
 		     
 		  
 		 
 		
-		Gradient(GradientType =                 0, StartColorStr =              
-		  #FEF9FF, EndColorStr =             #DBDCDE);
+		  Gradient(GradientType =                     0, StartColorStr = 
+		              
+		    #FEF9FF, EndColorStr =                 #DBDCDE);
 	background: -webkit-gradient(linear, left top, left bottom, from(#FEF9FF),
 		to(#DBDCDE) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #FEF9FF, #DBDCDE);
@@ -335,13 +339,15 @@ html.VIE7 .form_fieldcontent {
 }
 
 .form_fieldcaption2 {
-	FILTER: progid :             DXImageTransform .             Microsoft .
+	FILTER: progid :                 DXImageTransform .               
+		 Microsoft .  
 		     
 		  
 		 
 		
-		Gradient(GradientType =                 0, StartColorStr =              
-		  #D9ECF9, EndColorStr =             #62BBE8);
+		  Gradient(GradientType =                     0, StartColorStr = 
+		              
+		    #D9ECF9, EndColorStr =                 #62BBE8);
 	background: -webkit-gradient(linear, left top, left bottom, from(#D9ECF9),
 		to(#62BBE8) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #D9ECF9, #62BBE8);
@@ -430,7 +436,7 @@ html.VIE7 .form_fieldinput {
 		    
 		    var formatstr = "&format="+$('#format').val();
 		    var form1 = document.getElementById('_xreport_form');
-			form1.action="<c:url value='/reportx7.do?method=query' />"+formatstr;
+			form1.action="<c:url value='/reportx13.do?method=query' />"+formatstr;
 			form1.target="_blank";
 			form1.method="POST";
 			form1.submit();
@@ -483,7 +489,7 @@ html.VIE7 .form_fieldinput {
 					<div id="tabs-1">
 						<form id="_xreport_form">
 							<input type="hidden" id="naturalname" name="naturalname"
-								value="REPORTQ.REPORTQ.CXZD.ZKKCTJB" unselectable="off"
+								value="REPORTQ.REPORTQ.CXZD.ZKKCMXB" unselectable="off"
 								onFocus="this.select()" />
 							<table id="xreport" name="xreport" class="table_form" width="392"
 								bgcolor="white" cellspacing="0" cellpadding="0" align="center"
@@ -506,29 +512,17 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect1" name="repselect1"
 													style="width: 295.0px">
-													<option value="小品名">
-														小品名
+													<option value="" selected="selected">
+														请选择
 													</option>
-													<option value="系列名称">
-														系列名称
+													<option value="总库明细">
+														总库明细
 													</option>
-													<option value="按款号">
-														按款号
+													<option value="任意排序">
+														任意排序
 													</option>
-													<option value="原编号">
-														原编号
-													</option>
-													<option value="按手寸">
-														按手寸
-													</option>
-													<option value="按大类">
-														按大类
-													</option>
-													<option value="自定大类">
-														自定大类
-													</option>
-													<option value="供应商">
-														供应商
+													<option value="总库图片">
+														总库图片
 													</option>
 												</select>
 											</div>
@@ -545,19 +539,19 @@ html.VIE7 .form_fieldinput {
 											</div>
 											<div class="form_fieldinput" style="width: 344px;"
 												align="left">
-												<input type="hidden" id="repstrcompare2"
-													name="repstrcompare2" unselectable="off"
+												<input type="hidden" id="repstrcompare1"
+													name="repstrcompare1" unselectable="off"
 													onFocus="this.select()" />
-												<input type="hidden" id="repstrcompare2_OPE"
-													name="repstrcompare2_OPE" value="=" unselectable="off"
+												<input type="hidden" id="repstrcompare1_OPE"
+													name="repstrcompare1_OPE" value="=" unselectable="off"
 													onFocus="this.select()" />
-												<script type="text/javascript">$(function() {if ($('#repstrcompare2_START')) $('#repstrcompare2_START').blur(function(){if ($('#repstrcompare2')) $('#repstrcompare2').val($('#repstrcompare2_START').val()+'$_$'+$('#repstrcompare2_END').val())});if ($('#repstrcompare2_END')) $('#repstrcompare2_END').blur(function(){if ($('#repstrcompare2')) $('#repstrcompare2').val($('#repstrcompare2_START').val()+'$_$'+$('#repstrcompare2_END').val())});});</script>
-												<input type="text" id="repstrcompare2_START"
-													name="repstrcompare2_START" style="width: 143.5px"
+												<script type="text/javascript">$(function() {if ($('#repstrcompare1_START')) $('#repstrcompare1_START').blur(function(){if ($('#repstrcompare1')) $('#repstrcompare1').val($('#repstrcompare1_START').val()+'$_$'+$('#repstrcompare1_END').val())});if ($('#repstrcompare1_END')) $('#repstrcompare1_END').blur(function(){if ($('#repstrcompare1')) $('#repstrcompare1').val($('#repstrcompare1_START').val()+'$_$'+$('#repstrcompare1_END').val())});});</script>
+												<input type="text" id="repstrcompare1_START"
+													name="repstrcompare1_START" style="width: 143.5px"
 													unselectable="off" onFocus="this.select()" />
 												至
-												<input type="text" id="repstrcompare2_END"
-													name="repstrcompare2_END" style="width: 143.5px"
+												<input type="text" id="repstrcompare1_END"
+													name="repstrcompare1_END" style="width: 143.5px"
 													unselectable="off" onFocus="this.select()" />
 											</div>
 										</div>
@@ -573,19 +567,20 @@ html.VIE7 .form_fieldinput {
 											</div>
 											<div class="form_fieldinput" style="width: 332px;"
 												align="left">
-												<input type="hidden" id="repstrcompare3"
-													name="repstrcompare3" unselectable="off"
+												<input type="hidden" id="repstrcompare2"
+													name="repstrcompare2" unselectable="off"
 													onFocus="this.select()" />
-												<input type="hidden" id="repstrcompare3_OPE"
-													name="repstrcompare3_OPE" value="=" unselectable="off"
+												<input type="hidden" id="repstrcompare2_OPE"
+													name="repstrcompare2_OPE" value="=" unselectable="off"
 													onFocus="this.select()" />
-												<script type="text/javascript">$(function() {if ($('#repstrcompare3_START')) $('#repstrcompare3_START').blur(function(){if ($('#repstrcompare3')) $('#repstrcompare3').val($('#repstrcompare3_START').val()+'$_$'+$('#repstrcompare3_END').val())});if ($('#repstrcompare3_END')) $('#repstrcompare3_END').blur(function(){if ($('#repstrcompare3')) $('#repstrcompare3').val($('#repstrcompare3_START').val()+'$_$'+$('#repstrcompare3_END').val())});});</script>
-												<input type="text" id="repstrcompare3_START"
-													name="repstrcompare3_START" style="width: 137.5px"
+												<script type="text/javascript">$(function() {if ($('#repstrcompare2_START')) $('#repstrcompare2_START').blur(function(){if ($('#repstrcompare2')) $('#repstrcompare2').val($('#repstrcompare2_START').val()+'$_$'+$('#repstrcompare2_END').val())});if ($('#repstrcompare2_END')) $('#repstrcompare2_END').blur(function(){if ($('#repstrcompare2')) $('#repstrcompare2').val($('#repstrcompare2_START').val()+'$_$'+$('#repstrcompare2_END').val())});});</script>
+
+												<input type="text" id="repstrcompare2_START"
+													name="repstrcompare2_START" style="width: 137.5px"
 													unselectable="off" onFocus="this.select()" />
 												至
-												<input type="text" id="repstrcompare3_END"
-													name="repstrcompare3_END" style="width: 137.5px"
+												<input type="text" id="repstrcompare2_END"
+													name="repstrcompare2_END" style="width: 137.5px"
 													unselectable="off" onFocus="this.select()" />
 											</div>
 										</div>
@@ -665,11 +660,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect3" name="repselect3"
 													style="width: 295.0px">
-													<c:forEach var="list" items="${list_JingYingPingPai}">
-													<option value="${list.column8}">
-														${list.column3}
+													<option value="" selected="selected">
+														请选择
 													</option>
-													</c:forEach>
 												</select>
 											</div>
 										</div>
@@ -744,8 +737,8 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect6" name="repselect6"
 													style="width: 123.0px">
-													<c:forEach var="list" items="${list_PingMing}">
-													<option value="${list.column9}">
+													<c:forEach var="list" items="${list_BaoShi}">
+													<option value="${list.column10}">
 														${list.column3}
 													</option>
 													</c:forEach>
@@ -767,8 +760,8 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect7" name="repselect7"
 													style="width: 123.0px">
-													<c:forEach var="list" items="${list_BaoShi}">
-													<option value="${list.column10}">
+													<c:forEach var="list" items="${list_PingMing}">
+													<option value="${list.column9}">
 														${list.column3}
 													</option>
 													</c:forEach>
@@ -781,6 +774,7 @@ html.VIE7 .form_fieldinput {
 							<input type="hidden" id="_REPORTID" name="_REPORTID"
 								unselectable="off" onFocus="this.select()" />
 						</form>
+
 						<div align='center'>
 							<BR>
 							<input type="button" value="查询" onclick="query();" class="btn">
@@ -789,23 +783,22 @@ html.VIE7 .form_fieldinput {
 					<div id="tabs-2">
 
 						<table border="0" align="center">
+
 							<tr>
 								<td>
 									<input type="radio" id="_REPORTIDKEY" name="_REPORTIDKEY"
 										onchange=javascript:$(
 										'#_REPORTID').val('REPORTDS.REPORTDS.FXGL.FXTTMXB'); unselectable="off"
 										onFocus="this.select()" checked="checked" />
-									&nbsp;总库库存统计表
+									&nbsp;总库库存明细表
 								</td>
 							</tr>
-							<tr>
-								<td>
 									报表输出格式:
 									<select id="format" name="format">
-										<option value="excel">
+										<option value="excel" selected="selected">
 											excel
 										</option>
-										<option value="html" selected="selected">
+										<option value="html">
 											网页
 										</option>
 										<option value="pdf">
@@ -814,6 +807,7 @@ html.VIE7 .form_fieldinput {
 									</select>
 								</td>
 							</tr>
+
 						</table>
 
 
@@ -822,6 +816,8 @@ html.VIE7 .form_fieldinput {
 							<input type="button" value="查询" onclick="query();" class="btn">
 						</div>
 					</div>
+
+
 
 
 				</div>

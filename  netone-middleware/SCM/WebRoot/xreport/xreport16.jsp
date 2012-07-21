@@ -875,6 +875,67 @@ html.VIE7 .form_fieldinput {
 										</div>
 									</td>
 								</tr>
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								<tr class="form_tr" unselectable="off" onFocus="this.select()">
+									<td class="form_td" unselectable="off" onFocus="this.select()"
+										nowrap="nowrap">
+										<div class="form_fieldcontent" style="width: 196px">
+											<div class="form_fieldcaption" align="left" title="款号"
+												style="width: 60px;">
+												款号:
+											</div>
+											<div class="form_fieldinput" style="width: 356px;"
+												align="left">
+												<input type="hidden" id="repselect11" name="repselect11"
+													value="" unselectable="off" onFocus="this.select()" />
+												<input type="text" id="repstr3" name="repstr3"
+													style="width: 319.0px" unselectable="off"
+													onFocus="this.select()" />
+											</div>
+										</div>
+										<div class="form_fieldcontent" style="width: 196px">
+											<div class="form_fieldcaption" align="left" title="货号"
+												style="width: 36px;">
+												货号:
+											</div>
+											<div class="form_fieldinput" style="width: 356px;"
+												align="left">
+												<input type="hidden" id="repselect12" name="repselect12"
+													value="" unselectable="off" onFocus="this.select()" />
+												<input type="text" id="repstr3" name="repstr3"
+													style="width: 319.0px" unselectable="off"
+													onFocus="this.select()" />
+											</div>
+										</div>
+									</td>
+								</tr>
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
 							</table>
 							<input type="hidden" id="_REPORTID" name="_REPORTID"
 								unselectable="off" onFocus="this.select()" />

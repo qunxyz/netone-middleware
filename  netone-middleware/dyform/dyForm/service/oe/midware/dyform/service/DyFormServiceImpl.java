@@ -28,7 +28,7 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 	static String []headArr={""};
 	static{
 		try{
-		rb=ResourceBundle.getBundle("config");
+		rb=ResourceBundle.getBundle("dy");
 		String head=rb.getString("cachehead");
 		headArr=StringUtils.split(head,",");
 		}catch(Exception e){

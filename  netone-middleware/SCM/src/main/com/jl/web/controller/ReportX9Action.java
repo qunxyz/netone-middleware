@@ -129,17 +129,17 @@ public class ReportX9Action extends AbstractAction {
 		sb.append("IFNULL(rkmx.column37,'/') zs,IFNULL(rkmx.column66,'/') fs, ");
 		sb.append("IFNULL(SUM(t1.column11),0) sj,IFNULL(SUM(t1.column12),0) zkr, ");
 		sb.append("IFNULL(SUM(t1.column15),0) ssj ");
-		sb.append("FROM DY_371337952339241 t ");
-		sb.append("LEFT JOIN DY_371337952339238 t1 ON t.LSH = t1.FATHERLSH ");
-		sb.append("LEFT JOIN DY_61336130537483 fxs ON t.column8 = fxs.column4 ");
-		sb.append("LEFT JOIN DY_271334208897441 rkmx ON rkmx.column4 = t1.column3 ");
-		sb.append("LEFT JOIN DY_271334208897439 rkd ON rkmx.FATHERLSH=rkd.LSH ");
-		sb.append("LEFT JOIN DY_381336140843574 xl ON xl.column9 = rkmx.column51 ");
-		sb.append("LEFT JOIN DY_61336130537507 cs ON rkmx.column52 = cs.column9 ");
-		sb.append("LEFT JOIN DY_521339922112143 xtdl ON t1.column19 = xtdl.column8 ");
-		sb.append("LEFT JOIN DY_381336140843575 zdy ON zdy.column8 = rkmx.column48 ");
-		sb.append("LEFT JOIN DY_61336130537510 gz ON gz.column7 = t1.column18 ");
-		sb.append("LEFT JOIN DY_381336140843571 xsr ON xsr.column3 = t.column10 ");
+		sb.append("FROM dyform.DY_371337952339241 t ");
+		sb.append("LEFT JOIN dyform.DY_371337952339238 t1 ON t.LSH = t1.FATHERLSH ");
+		sb.append("LEFT JOIN dyform.DY_61336130537483 fxs ON t.column8 = fxs.column4 ");
+		sb.append("LEFT JOIN dyform.DY_271334208897441 rkmx ON rkmx.column4 = t1.column3 ");
+		sb.append("LEFT JOIN dyform.DY_271334208897439 rkd ON rkmx.FATHERLSH=rkd.LSH ");
+		sb.append("LEFT JOIN dyform.DY_381336140843574 xl ON xl.column9 = rkmx.column51 ");
+		sb.append("LEFT JOIN dyform.DY_61336130537507 cs ON rkmx.column52 = cs.column9 ");
+		sb.append("LEFT JOIN dyform.DY_521339922112143 xtdl ON t1.column19 = xtdl.column8 ");
+		sb.append("LEFT JOIN dyform.DY_381336140843575 zdy ON zdy.column8 = rkmx.column48 ");
+		sb.append("LEFT JOIN dyform.DY_61336130537510 gz ON gz.column7 = t1.column18 ");
+		sb.append("LEFT JOIN dyform.DY_381336140843571 xsr ON xsr.column3 = t.column10 ");
 		sb.append("WHERE t.STATUSINFO = '01' AND t1.STATUSINFO = '01'  ");
 		if(StringUtils.isNotEmpty(repstrcompare1_START))
 		    sb.append(" AND t.column3= '" + repstrcompare1_START + "' ");

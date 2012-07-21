@@ -3,6 +3,7 @@ package oe.midware.doc.excel;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -98,9 +100,13 @@ public class ExcelUtil {
 			for (short j = 0; j < rowCount; j++) {
 				HSSFCell cell=rowColumn.getCell(j);
 				HSSFCell cellx=rowValue.getCell(j);
-				if(cell!=null&&cellx!=null){
+				if(cell!=null){
 					String columnid = cell.getStringCellValue();
-					int columnTypeInt = cellx.getCellType();
+					int columnTypeInt =1;
+					if(cellx!=null){
+						columnTypeInt=cellx.getCellType();
+					}
+					 
 					String columnType = HSSFCell.CELL_TYPE_NUMERIC == columnTypeInt ? "number"
 							: "string";
 					XmlObj xmlobj = new XmlObj();
@@ -272,12 +278,9 @@ public class ExcelUtil {
 		String realValue = "";
 		if (cell != null) {
 			int celltype = cell.getCellType();
-
+			System.out.print(celltype+",");
 			if (HSSFCell.CELL_TYPE_BOOLEAN == celltype) {
 				boolean value = cell.getBooleanCellValue();
-				realValue = String.valueOf(value);
-			} else if (HSSFCell.CELL_TYPE_NUMERIC == celltype) {
-				double value = cell.getNumericCellValue();
 				realValue = String.valueOf(value);
 			} else if (type.equals("date")) {
 				try {
@@ -286,10 +289,27 @@ public class ExcelUtil {
 				} catch (Exception e) {
 					realValue = cell.getStringCellValue();
 				}
+			} else if (HSSFCell.CELL_TYPE_NUMERIC == celltype) {			
+				double value = cell.getNumericCellValue();
+				if(HSSFDateUtil.isCellDateFormatted(cell)){
+					 Date date = HSSFDateUtil.getJavaDate(value);
+					 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					 realValue=format.format(date);
+				}else{
+					realValue = String.valueOf(value);
+					if(realValue.equals("41004.0")){
+						 Date date = HSSFDateUtil.getJavaDate(value);
+						 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+						 realValue=format.format(date);
+					}
+				}
+				
 			} else {
 				realValue = cell.getStringCellValue();
 			}
+			
 		}
+		System.out.println(realValue);
 		objx.put(name, realValue);
 
 		// switch (ExcelUtil.checkType(type)) {

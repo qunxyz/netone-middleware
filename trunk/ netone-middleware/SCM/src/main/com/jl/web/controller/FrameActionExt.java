@@ -1044,6 +1044,7 @@ public class FrameActionExt extends AbstractAction {
 
 						if ("dl001".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column86".equals(colid)
 									|| "column36".equals(colid)
 									|| "column84".equals(colid)
 									|| "column48".equals(colid)
@@ -1052,6 +1053,10 @@ public class FrameActionExt extends AbstractAction {
 									|| "column49".equals(colid)
 									|| "column51".equals(colid)
 									|| "column50".equals(colid)
+									|| "column55".equals(colid)
+									|| "column56".equals(colid)
+									|| "column58".equals(colid)
+									|| "column57".equals(colid)
 									|| "column11".equals(colid)
 									|| "column12".equals(colid)
 									|| "column13".equals(colid)
@@ -1172,6 +1177,7 @@ public class FrameActionExt extends AbstractAction {
 									|| "column40".equals(colid)
 									|| "column55".equals(colid)
 									|| "column56".equals(colid)
+									|| "column58".equals(colid)
 									|| "column57".equals(colid)
 									|| "column46".equals(colid)
 									|| "column64".equals(colid)

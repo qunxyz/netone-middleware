@@ -54,6 +54,8 @@ public class ConditionBuilder {
 				try {
 					String value = (String) BeanUtils.getProperty(obj, element
 							.getColumncode().toLowerCase());
+					log.debug(value+","+element
+							.getColumncode().toLowerCase());
 					if (value != null && !value.equals("")) {
 						String htmltype = element.getHtmltype();
 						String checktype = element.getChecktype();
@@ -66,14 +68,13 @@ public class ConditionBuilder {
 								|| element.getColumncode().equals("HIT")) {
 							// 要忽律这个条件
 							continue;
-						} else {
-							if (ColumnExtendInfo._CHECK_TYPE_NUMBER
+						}
+                       if (ColumnExtendInfo._CHECK_TYPE_NUMBER
 									.equals(checktype)) {
 								conditionInfo
 										.append(" and " + element.getColumnid()
 												+ " = " + value);
-							} else {
-								if (ColumnExtendInfo._HTML_TYPE_DATE
+						}else if (ColumnExtendInfo._HTML_TYPE_DATE
 										.equals(htmltype)
 										|| ColumnExtendInfo._HTML_TYPE_DATETIME
 												.equals(htmltype)
@@ -81,24 +82,16 @@ public class ConditionBuilder {
 												.equals(htmltype)) {
 									// 时间也当作字符串来处理
 									value = "'" + value + "%'";
-								} else {
-									if(!element.getColumnid().equalsIgnoreCase("participant")){		
-										value = "'" + value + "%'";		
-									}
-								}
-								if(element.getColumnid().equalsIgnoreCase("participant")){
-									conditionInfo.append(" and "
-											+ element.getColumnid() + " in( "
-											+ value+")");
-								}else{
+						} else if(element.getColumnid().equalsIgnoreCase("participant")){
+							conditionInfo.append(" and "
+									+ element.getColumnid() + " in( "
+									+ value+")");
+						}else {		
+									value = "'" + value + "%'";		
 									conditionInfo.append(" and "
 											+ element.getColumnid() + " like "
 											+ value);
-								}
-
-							}
 						}
-
 					}
 				} catch (IllegalAccessException e) {
 					// TODO Auto-generated catch block

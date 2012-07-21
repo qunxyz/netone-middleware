@@ -175,17 +175,17 @@ public class ReportX15Action extends AbstractAction {
 			String fxsname = (String)object.get("fxsname");
 			String zdydlname = (String)object.get("zdydlname");
 			String gzname = (String)object.get("gzname");
-			String sl = (String)object.get("ys");
-			String zz = (String)object.get("zz");
-			String jz = (String)object.get("zz");
+			String sl = object.get("ys")==null?"0":object.get("ys").toString();
+			String zz = object.get("zz")==null?"0":object.get("zz").toString();
+			String jz = object.get("zz")==null?"0":object.get("jz").toString();
 			String xtdlname = (String)object.get("xtdlname");
 			String zs = (String)object.get("zs");
-			String sj = (String)object.get("sj");
-			String fs = (String)object.get("fs");
-			String cg = (String)object.get("cg");
-			String zsh = (String)object.get("zsh");
-			String ys = (String)object.get("ys");
-			String jd = (String)object.get("jd");
+			String sj = object.get("sj")==null?"0":object.get("sj").toString();
+			String fs = (String)object.get("fs").toString();
+			String cg = (String)object.get("cg").toString();
+			String zsh = (String)object.get("zsh").toString();
+			String ys = (String)object.get("ys").toString();
+			String jd = (String)object.get("jd").toString();
 			
 			TableRow tr = new TableRow();
 			if ("·Ö¿âÃ÷Ï¸".equals(repselect1)) {

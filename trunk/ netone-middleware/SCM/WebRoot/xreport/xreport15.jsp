@@ -716,6 +716,7 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect5" name="repselect5"
 													style="width: 99.0px">
+													<c:forEach var="list" items="${list_FenXiaoGuiZu}">
 													<option value="${list.column7}">
 														${list.column4}
 													</option>

@@ -38,7 +38,7 @@ public class ReportBaseData {
 	public static List getGClientInfo() {
 		StringBuffer sb = new StringBuffer();
 		sb
-				.append("select * from dyform.DY_941335942247762  where column19='1'");
+				.append("select * from dyform.DY_941335942247762 where column19='1'");
 		List list = DbTools.queryData(sb.toString());
 		return list;
 	}

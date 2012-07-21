@@ -52,7 +52,6 @@ public class ReportX8Action extends AbstractAction {
 		request.setAttribute("list_FenXiaoGuiZu", ReportBaseData.getFenXiaoGuiZuInfo());
 		request.setAttribute("list_ZiDingDaLei", ReportBaseData.getZiDingDaLeiInfo());
 		request.setAttribute("list_JingYingPingPai", ReportBaseData.getJingYingPingPaiInfo());
-		
 		String forward = "/xreport/xreport8.jsp";
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -224,22 +223,22 @@ public class ReportX8Action extends AbstractAction {
 		List list = DbTools.queryData(sb.toString());
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
-			String pm = object.get("pm").toString();
-			String xlname = object.get("xlname").toString();
-			String kh = object.get("kh").toString();
-			String ybh = object.get("ybh").toString();
-			String sc = object.get("sc").toString();
-			String fxsname = object.get("fxsname").toString();
-			String zdydlname = object.get("zdydlname").toString();
-			String gzname = object.get("gzname").toString();
-			String sl = object.get("sl").toString();
-			String zz = object.get("zz").toString();
-			String jz = object.get("jz").toString();
-			String xtdlname = object.get("xtdlname").toString();
-			String zs = object.get("zs").toString();
-			String sj = object.get("sj").toString();
-			String fs = object.get("fs").toString();
-			String jhcb = object.get("jhcb").toString();
+			String pm = (String)object.get("pm");
+			String xlname = (String)object.get("xlname");
+			String kh = (String)object.get("kh");
+			String ybh = (String)object.get("ybh");
+			String sc = (String)object.get("sc");
+			String fxsname = (String)object.get("fxsname");
+			String zdydlname = (String)object.get("zdydlname");
+			String gzname = (String)object.get("gzname");
+			String sl = object.get("sl")==null?"0":object.get("sl").toString();
+			String zz = object.get("zz")==null?"0":object.get("zz").toString();
+			String jz = object.get("jz")==null?"0":object.get("jz").toString();
+			String xtdlname = (String)object.get("xtdlname");
+			String zs = (String)object.get("zs").toString();
+			String sj = object.get("sj")==null?"0":object.get("sj").toString();
+			String fs = (String)object.get("fs").toString();
+			String jhcb = object.get("jhcb")==null?"0":object.get("jhcb").toString();
 
 			TableRow tr = new TableRow();
 			if ("Ð¡Æ·Ãû".equals(repselect1)) {

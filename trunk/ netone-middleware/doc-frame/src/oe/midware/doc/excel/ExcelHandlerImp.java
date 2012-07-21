@@ -252,6 +252,9 @@ public class ExcelHandlerImp implements ExcelHandler {
 				List rList = new ArrayList();
 				for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) {
 					HSSFRow row = sheet.getRow(i);
+					if(row==null){
+						continue;
+					}
 					Map beaxn = new HashMap();
 					// 给bean对象中的成员变量赋值
 					short k = 0;

@@ -120,7 +120,7 @@ public class DocDemo {
 	
 	private static void excelReadX() throws Exception {
 		
-		File file = new File("D:/NETONE_V6.0_SERVER/WEBSER/webapps/biWeb/RS/4028f89e389e822301389ebe6a710019.xls");
+		File file = new File("D:/bbbx.xls");
 		InputStream input = new FileInputStream(file);
 
 		ExcelHandler excelHandler = new ExcelHandlerImp();

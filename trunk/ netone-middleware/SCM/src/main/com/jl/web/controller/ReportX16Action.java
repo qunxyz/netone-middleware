@@ -91,6 +91,7 @@ public class ReportX16Action extends AbstractAction {
 		sb.append("IFNULL(t.column3,'') fhno,IFNULL(t.column8,'-') fhdate,IFNULL(fxs.column3,'') fxsname, ");
 		sb.append("IFNULL(t1.column3,'') txm,IFNULL(t1.column4,'') pm,IFNULL(t1.column8,'') kh, ");
 		sb.append("IFNULL(t1.column9,'') zsh,IFNULL(t1.column13,'') sc, ");
+		sb.append("IFNULL(t1.column26,'') hh,IFNULL(t1.column25,'') zhushihao, ");
 		sb.append("IFNULL(t1.column12,0) jz,IFNULL(t1.column11,0) zz, ");
 		sb.append("IFNULL(t1.column14,'/') zs,IFNULL(t1.column19,'/') fs, ");
 		sb.append("IFNULL(sys.column4,'') ys,IFNULL(sjd.column4,'') jd,IFNULL(scg.column4,'') cg, ");
@@ -150,12 +151,15 @@ public class ReportX16Action extends AbstractAction {
 		} else if ("分库图片".equals(repselect1)) {
 			headerSet1.add(new TableCell("分库图片"));
 		}
+		headerSet1.add(new TableCell("条码号"));
 		headerSet1.add(new TableCell("品名"));
+		headerSet1.add(new TableCell("货号"));
 		headerSet1.add(new TableCell("款号"));
 		headerSet1.add(new TableCell("证书号"));
 		headerSet1.add(new TableCell("手寸"));
 		headerSet1.add(new TableCell("金重"));
 		headerSet1.add(new TableCell("总重"));
+		headerSet1.add(new TableCell("主石号"));
 		headerSet1.add(new TableCell("主石(ct/p)"));
 		headerSet1.add(new TableCell("副石(ct/p)"));
 		headerSet1.add(new TableCell("颜色"));
@@ -175,12 +179,14 @@ public class ReportX16Action extends AbstractAction {
 			String jz = object.get("zz")==null?"0":object.get("jz").toString();	
 			String zs = (String)object.get("zs");
 			String sj = object.get("sj")==null?"0":object.get("sj").toString();
-			String fs = (String)object.get("fs").toString();
-			String cg = (String)object.get("cg").toString();
-			String zsh = (String)object.get("zsh").toString();
-			String ys = (String)object.get("ys").toString();
-			String jd = (String)object.get("jd").toString();
-			
+			String fs = (String)object.get("fs");
+			String cg = (String)object.get("cg");
+			String zsh = (String)object.get("zsh");
+			String ys = (String)object.get("ys");
+			String jd = (String)object.get("jd");
+			String txm = (String)object.get("txm");	
+			String zhushihao = (String)object.get("zhushihao");
+			String hh = (String)object.get("hh");
 			TableRow tr = new TableRow();
 			if ("分库明细".equals(repselect1)) {
 				tr.addCell(new TableCell("分库明细"));
@@ -190,7 +196,9 @@ public class ReportX16Action extends AbstractAction {
 				tr.addCell(new TableCell("分库图片"));
 			
 			}
+			tr.addCell(new TableCell(txm));
 			tr.addCell(new TableCell(pm));
+			tr.addCell(new TableCell(hh));
 			tr.addCell(new TableCell(kh));
 			tr.addCell(new TableCell(zsh));
 			tr.addCell(new TableCell(sc));
@@ -198,6 +206,7 @@ public class ReportX16Action extends AbstractAction {
 					Rectangle.ALIGN_RIGHT));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zz),
 					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(zhushihao));
 			tr.addCell(new TableCell(zs));
 			tr.addCell(new TableCell(fs));
 			tr.addCell(new TableCell(ys));
@@ -205,7 +214,6 @@ public class ReportX16Action extends AbstractAction {
 			tr.addCell(new TableCell(cg));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(sj),
 					Rectangle.ALIGN_RIGHT));
-		
 			t.addRow(tr);
 		}
 

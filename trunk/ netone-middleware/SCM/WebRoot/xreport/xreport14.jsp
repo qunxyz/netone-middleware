@@ -959,7 +959,6 @@ html.VIE7 .form_fieldinput {
 
 				</div>
 			</div>
-			</div>
 
 			<!-- E CENTER -->
 

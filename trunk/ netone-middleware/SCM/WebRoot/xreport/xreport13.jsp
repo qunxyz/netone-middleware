@@ -793,6 +793,8 @@ html.VIE7 .form_fieldinput {
 									&nbsp;总库库存明细表
 								</td>
 							</tr>
+							<tr>
+								<td>
 									报表输出格式:
 									<select id="format" name="format">
 										<option value="excel" selected="selected">
@@ -821,7 +823,6 @@ html.VIE7 .form_fieldinput {
 
 
 				</div>
-			</div>
 			</div>
 
 			<!-- E CENTER -->

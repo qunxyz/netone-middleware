@@ -170,15 +170,9 @@ public class ReportX16Action extends AbstractAction {
 			Map object = (Map) iterator.next();
 			String pm = (String)object.get("pm");
 			String kh = (String)object.get("kh");
-			String ybh = (String)object.get("ybh");
-			String sc = (String)object.get("sc");
-			String fxsname = (String)object.get("fxsname");
-			String zdydlname = (String)object.get("zdydlname");
-			String gzname = (String)object.get("gzname");
-			String sl = object.get("ys")==null?"0":object.get("ys").toString();
+			String sc = (String)object.get("sc");		
 			String zz = object.get("zz")==null?"0":object.get("zz").toString();
-			String jz = object.get("zz")==null?"0":object.get("jz").toString();
-			String xtdlname = (String)object.get("xtdlname");
+			String jz = object.get("zz")==null?"0":object.get("jz").toString();	
 			String zs = (String)object.get("zs");
 			String sj = object.get("sj")==null?"0":object.get("sj").toString();
 			String fs = (String)object.get("fs").toString();
@@ -197,10 +191,8 @@ public class ReportX16Action extends AbstractAction {
 			
 			}
 			tr.addCell(new TableCell(pm));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(kh),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zsh),
-					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(kh));
+			tr.addCell(new TableCell(zsh));
 			tr.addCell(new TableCell(sc));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(jz),
 					Rectangle.ALIGN_RIGHT));

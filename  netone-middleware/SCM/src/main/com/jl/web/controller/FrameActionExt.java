@@ -1044,6 +1044,8 @@ public class FrameActionExt extends AbstractAction {
 
 						if ("dl001".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column36".equals(colid)
+									|| "column84".equals(colid)
 									|| "column48".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
@@ -1078,6 +1080,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl002".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1108,6 +1111,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl003".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1148,6 +1152,9 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl004".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column86".equals(colid)   
+									|| "column87".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1189,6 +1196,7 @@ public class FrameActionExt extends AbstractAction {
 						if ("dl005".equals(ext)) {
 
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1215,6 +1223,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl006".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1248,6 +1257,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl007".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1279,6 +1289,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl008".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1310,6 +1321,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl009".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1341,6 +1353,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl010".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1372,6 +1385,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl011".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1412,6 +1426,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl012".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1452,6 +1467,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl013".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1492,6 +1508,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl014".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -1518,6 +1535,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl015".equals(ext)) {
 							if ("column4".equals(colid)
+									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)

@@ -84,6 +84,8 @@ public class ReportX16Action extends AbstractAction {
 		String repselect8 = request.getParameter("repselect8");
 		String repselect9 = request.getParameter("repselect9");
 		String repselect10 = request.getParameter("repselect10");
+		String repselect11 = request.getParameter("repselect11");
+		String repselect12 = request.getParameter("repselect12");
 		StringBuffer sb = new StringBuffer();
 
 		/** 分销库存明细表 */
@@ -118,23 +120,27 @@ public class ReportX16Action extends AbstractAction {
 		if(StringUtils.isNotEmpty(reptimes1_END))
 			sb.append(" AND t.column8 <= '" + reptimes1_END + "' ");
 		if(StringUtils.isNotEmpty(repselect2))
-		sb.append("AND t.column12 = '" + repselect2 + "' ");
+			sb.append("AND t.column12 = '" + repselect2 + "' ");
 		if(StringUtils.isNotEmpty(repselect3))
-		sb.append("AND rkd.column8 = '" + repselect3 + "' ");
+			sb.append("AND rkd.column8 = '" + repselect3 + "' ");
 		if(StringUtils.isNotEmpty(repselect4))
-		sb.append("AND rkmx.column50 = '" + repselect4 + "' ");
+			sb.append("AND rkmx.column50 = '" + repselect4 + "' ");
 		if(StringUtils.isNotEmpty(repselect5))
-		sb.append("AND t1.column9 = '" + repselect5 + "' ");  
+			sb.append("AND t1.column9 = '" + repselect5 + "' ");  
 		if(StringUtils.isNotEmpty(repselect6))
-		sb.append("AND rkmx.column48='" + repselect6 + "' ");
+			sb.append("AND rkmx.column48='" + repselect6 + "' ");
 		if(StringUtils.isNotEmpty(repselect7))
-		sb.append("AND t1.column22 = '" + repselect7 + "' "); 
+			sb.append("AND t1.column22 = '" + repselect7 + "' "); 
 		if(StringUtils.isNotEmpty(repselect8))
-		sb.append("AND rkmx.column52 = '" + repselect8 + "' ");
+			sb.append("AND rkmx.column52 = '" + repselect8 + "' ");
 		if(StringUtils.isNotEmpty(repselect9))
-		sb.append("AND rkmx.column81 = '" + repselect9 + "' "); 
+			sb.append("AND rkmx.column81 = '" + repselect9 + "' "); 
 		if(StringUtils.isNotEmpty(repselect10))
-		sb.append("AND t1.column4 LIKE '%" + repselect10 + "%' ");
+			sb.append("AND t1.column4 LIKE '%" + repselect10 + "%' ");
+		if(StringUtils.isNotEmpty(repselect11))
+			sb.append("AND t1.column8 LIKE '%" + repselect11 + "%' ");
+		if(StringUtils.isNotEmpty(repselect12))
+			sb.append("AND t1.column26 LIKE '%" + repselect12 + "%' ");
 		sb.append("ORDER BY fhno,fhdate");
 		
 		// 获得原始数据表格
@@ -151,6 +157,7 @@ public class ReportX16Action extends AbstractAction {
 		} else if ("分库图片".equals(repselect1)) {
 			headerSet1.add(new TableCell("分库图片"));
 		}
+		headerSet1.add(new TableCell("分销商"));
 		headerSet1.add(new TableCell("条码号"));
 		headerSet1.add(new TableCell("品名"));
 		headerSet1.add(new TableCell("货号"));
@@ -187,6 +194,7 @@ public class ReportX16Action extends AbstractAction {
 			String txm = (String)object.get("txm");	
 			String zhushihao = (String)object.get("zhushihao");
 			String hh = (String)object.get("hh");
+			String fxsname = (String)object.get("fxsname");
 			TableRow tr = new TableRow();
 			if ("分库明细".equals(repselect1)) {
 				tr.addCell(new TableCell("分库明细"));
@@ -196,6 +204,7 @@ public class ReportX16Action extends AbstractAction {
 				tr.addCell(new TableCell("分库图片"));
 			
 			}
+			tr.addCell(new TableCell(fxsname));
 			tr.addCell(new TableCell(txm));
 			tr.addCell(new TableCell(pm));
 			tr.addCell(new TableCell(hh));

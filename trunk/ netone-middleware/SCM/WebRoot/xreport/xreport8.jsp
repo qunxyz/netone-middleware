@@ -512,9 +512,6 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect1" name="repselect1"
 													style="width: 295.0px">
-													<option value="" selected="selected">
-														请选择
-													</option>
 													<option value="小品名">
 														小品名
 													</option>

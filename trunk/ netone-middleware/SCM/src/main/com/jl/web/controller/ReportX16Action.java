@@ -26,13 +26,13 @@ import com.lucaslee.report.model.TableCell;
 import com.lucaslee.report.model.TableRow;
 
 /**
- * 首饰销退统计表
+ * 分销库存明细表
  * 
  * @author Don(cai.you.dun)
  * @version 1.0.0 2012-7-10 上午10:58:41
  * @history
  */
-public class ReportX15Action extends AbstractAction {
+public class ReportX16Action extends AbstractAction {
 	public ActionForward querymain(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -53,7 +53,7 @@ public class ReportX15Action extends AbstractAction {
 		request.setAttribute("list_ZiDingDaLei", ReportBaseData.getZiDingDaLeiInfo());
 		request.setAttribute("list_JingYingPingPai", ReportBaseData.getJingYingPingPaiInfo());
 		
-		String forward = "/xreport/xreport15.jsp";
+		String forward = "/xreport/xreport16.jsp";
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
 		// true不使用转向,默认是false代表转向

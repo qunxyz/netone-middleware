@@ -875,16 +875,6 @@ html.VIE7 .form_fieldinput {
 										</div>
 									</td>
 								</tr>
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
 								<tr class="form_tr" unselectable="off" onFocus="this.select()">
 									<td class="form_td" unselectable="off" onFocus="this.select()"
 										nowrap="nowrap">
@@ -895,10 +885,10 @@ html.VIE7 .form_fieldinput {
 											</div>
 											<div class="form_fieldinput" style="width: 356px;"
 												align="left">
-												<input type="hidden" id="repselect11" name="repselect11"
+												<input type="hidden" id="repselect11_hidden" name="repselect11_hidden"
 													value="" unselectable="off" onFocus="this.select()" />
-												<input type="text" id="repstr3" name="repstr3"
-													style="width: 319.0px" unselectable="off"
+												<input type="text" id="repselect11" name="repselect11"
+													style="width: 123.0px" unselectable="off"
 													onFocus="this.select()" />
 											</div>
 										</div>
@@ -909,33 +899,15 @@ html.VIE7 .form_fieldinput {
 											</div>
 											<div class="form_fieldinput" style="width: 356px;"
 												align="left">
-												<input type="hidden" id="repselect12" name="repselect12"
+												<input type="hidden" id="repselect12_hidden" name="repselect12_hidden"
 													value="" unselectable="off" onFocus="this.select()" />
-												<input type="text" id="repstr3" name="repstr3"
-													style="width: 319.0px" unselectable="off"
+												<input type="text" id="repselect12" name="repselect12"
+													style="width: 123.0px" unselectable="off"
 													onFocus="this.select()" />
 											</div>
 										</div>
 									</td>
-								</tr>
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
+								</tr>		
 							</table>
 							<input type="hidden" id="_REPORTID" name="_REPORTID"
 								unselectable="off" onFocus="this.select()" />

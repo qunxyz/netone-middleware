@@ -649,6 +649,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect2" name="repselect2"
 													style="width: 307.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_FClient}">
 													<option value="${list.column4}">
 														${list.column3}
@@ -677,6 +680,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect3" name="repselect3"
 													style="width: 307.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_GClient}">
 													<option value="${list.column4}">
 														${list.column3}
@@ -705,6 +711,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect4" name="repselect4"
 													style="width: 295.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_JingYingPingPai}">
 													<option value="${list.column8}">
 														${list.column3}
@@ -733,6 +742,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect5" name="repselect5"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_FenXiaoGuiZu}">
 													<option value="${list.column7}">
 														${list.column4}
@@ -756,6 +768,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect6" name="repselect6"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_ZiDingDaLei}">
 													<option value="${list.column8}">
 														${list.column3}
@@ -784,6 +799,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect7" name="repselect7"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_ChangPingDaLei}">
 													<option value="${list.column8}">
 														${list.column3}
@@ -807,6 +825,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect8" name="repselect8"
 													style="width: 123.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_ChengSe}">
 													<option value="${list.column9}">
 														${list.column3}
@@ -835,6 +856,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect9" name="repselect9"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_BaoShi}">
 													<option value="${list.column10}">
 														${list.column3}
@@ -858,6 +882,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect10" name="repselect10"
 													style="width: 123.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_PingMing}">
 													<option value="${list.column9}">
 														${list.column3}

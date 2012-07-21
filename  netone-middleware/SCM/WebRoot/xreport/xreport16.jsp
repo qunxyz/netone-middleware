@@ -878,12 +878,12 @@ html.VIE7 .form_fieldinput {
 								<tr class="form_tr" unselectable="off" onFocus="this.select()">
 									<td class="form_td" unselectable="off" onFocus="this.select()"
 										nowrap="nowrap">
-										<div class="form_fieldcontent" style="width: 196px" align="left">
+										<div class="form_fieldcontent" style="width: 196px">
 											<div class="form_fieldcaption" align="left" title="款号"
-												style="width: 60px;">
+												style="width: 36px;">
 												款号:
 											</div>
-											<div class="form_fieldinput" style="width: 356px;"
+											<div class="form_fieldinput" style="width: 160px;"
 												align="left">
 												<input type="hidden" id="repselect11_hidden" name="repselect11_hidden"
 													value="" unselectable="off" onFocus="this.select()" />
@@ -892,12 +892,12 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 											</div>
 										</div>
-										<div class="form_fieldcontent" style="width: 196px" align="left">
+										<div class="form_fieldcontent" style="width: 196px">
 											<div class="form_fieldcaption" align="left" title="货号"
 												style="width: 36px;">
 												货号:
 											</div>
-											<div class="form_fieldinput" style="width: 356px;"
+											<div class="form_fieldinput" style="width: 160px;"
 												align="left">
 												<input type="hidden" id="repselect12_hidden" name="repselect12_hidden"
 													value="" unselectable="off" onFocus="this.select()" />

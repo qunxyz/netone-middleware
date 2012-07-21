@@ -608,8 +608,8 @@ public class BussDaoImpl implements BussDao {
 	
 	private void fetchDeptUser(StringBuffer but,ResourceRmi rs,CupmRmi cupm,String participant)throws Exception{
 		List okTeam = new ArrayList();
-		List sub = rs.subResourceByNaturalname("DEPT.DEPT");
-		StringBuffer tmpdept=new StringBuffer();
+		List sub = rs.subResourceByNaturalname("DEPT");
+		List dept=new ArrayList();
 		for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
 			UmsProtectedobject object = (UmsProtectedobject) iterator
 					.next();
@@ -617,20 +617,23 @@ public class BussDaoImpl implements BussDao {
 			boolean ok = cupm.checkUserPermission("0000", participant,
 					name, "3");
 			if (ok) {
-				tmpdept.append(",'"+object.getId()+"'");
+				dept.add(object.getId());
 			}
 		}
-		if(tmpdept.length()>0){
-			String deptinfo=tmpdept.substring(1);
-			Clerk c1 = new Clerk();
-			c1.setDeptment("("+deptinfo+")");
-			Map map = new HashMap();
-			map.put("systemid", "in");
-			List list = rs.queryObjectsClerk("0000", c1, map, 0,3000);
-			for (Iterator iterator2 = list.iterator(); iterator2.hasNext();) {
-				Clerk object2 = (Clerk) iterator2.next();
-				but.append(",'" + object2.getDescription() + "'");
+		if(dept.size()>0){
+			for (Iterator iterator = dept.iterator(); iterator.hasNext();) {
+				String  object = (String ) iterator.next();
+				Clerk c1 = new Clerk();
+				c1.setDeptment(object);
+				List list = rs.queryObjectsClerk("0000", c1, null, 0,1000);
+				for (Iterator iterator2 = list.iterator(); iterator2.hasNext();) {
+					Clerk object2 = (Clerk) iterator2.next();
+					but.append(",'" + object2.getDescription() + "'");
+				}
 			}
+
+
+
 		}
 
 	}
@@ -640,28 +643,33 @@ public class BussDaoImpl implements BussDao {
 		boolean rs1=cupm.checkUserPermission("0000", participant, "BUSSENV.BUSSENV.SECURITY.ROLE.FLOWDEPT", "3");
 		boolean rs2=cupm.checkUserPermission("0000", participant, "BUSSENV.BUSSENV.SECURITY.ROLE.FLOWDEPT", "7");
 
-			Clerk c1 = new Clerk();
-			Map map = new HashMap();
-			if(rs1&&!rs2){// 有权限看自己所在部门的所有人员数据
-				c1.setDeptment(deptid);
-			}else if(rs2){
+
+			List dept=new ArrayList();
+			if(rs1){// 有权限看自己所在部门的所有人员数据
+				dept.add(deptid);
+			}
+			if(rs2){
 				String name=rs.loadResourceById(deptid).getNaturalname();
 				List listx=rs.subResourceByNaturalname(name);
-				StringBuffer butx=new StringBuffer();
+				
 				for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
 					UmsProtectedobject object = (UmsProtectedobject) iterator.next();
-					butx.append(",'"+object.getId()+"'");
+					dept.add(object.getId());
+					
 				}
-				map.put("systemid", "in");
-				c1.setDeptment("("+butx.substring(1)+")");
 			}	
-
-			List list = rs.queryObjectsClerk("0000", c1, map, 0,3000);
-			for (Iterator iterator2 = list.iterator(); iterator2.hasNext();) {
-				Clerk object2 = (Clerk) iterator2.next();
-				but.append(",'" + object2.getDescription() + "'");
+			if(dept.size()>0){
+				for (Iterator iterator = dept.iterator(); iterator.hasNext();) {
+					String object = (String) iterator.next();
+					Clerk c1 = new Clerk();
+					c1.setDeptment(object);
+					List list = rs.queryObjectsClerk("0000", c1, null, 0,1000);
+					for (Iterator iterator2 = list.iterator(); iterator2.hasNext();) {
+						Clerk object2 = (Clerk) iterator2.next();
+						but.append(",'" + object2.getDescription() + "'");
+					}
+				}
 			}
-
 	}
 	public List queryObjects(TCsBus obj, int from, int to, String conditionPre) {
 		if (conditionPre == null) {
@@ -680,6 +688,7 @@ public class BussDaoImpl implements BussDao {
 		
 		//处理表单数据管理逻辑
 		permission(obj);
+		log.debug(obj.getParticipant());
 
 		// 查询语句生成
 		String finalSQL = BussDaoReference._SELECT

@@ -73,8 +73,8 @@
 			type="com.jl.web.controller.ReportX13Action" parameter="method">
 		</action>
 		<!-- 分销库存明细表 -->
-		<action path="/reportx15"
-			type="com.jl.web.controller.ReportX15Action" parameter="method">
+		<action path="/reportx16"
+			type="com.jl.web.controller.ReportX16Action" parameter="method">
 		</action>		
 		
 		

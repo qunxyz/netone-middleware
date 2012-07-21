@@ -88,15 +88,15 @@ public class ReportX13Action extends AbstractAction {
 		sb.append("IFNULL(t2.column31,0) jhcb,IFNULL(t2.column71,0) zscb,IFNULL(t2.column32,0) rksccb, ");
 		sb.append("IFNULL(t2.column33,0) bl,IFNULL(t2.column34,0) rksj,IFNULL(t.column13,'') rkbz ");
 
-		sb.append("FROM DY_271334208897439 t ");
-		sb.append("LEFT JOIN DY_271334208897441 t2 ON t2.FATHERLSH=t.LSH ");
-		sb.append("LEFT JOIN DY_941335942247762 t3 ON t3.column4= t.column8 ");
-		sb.append("LEFT JOIN DY_521339922112143 t4 ON t4.column8 = t.column14 ");
-		sb.append("LEFT JOIN DY_381336140843575 t5 ON t5.column8 = t2.column48 ");
-		sb.append("	LEFT JOIN DY_191339776365900 sxz ON sxz.column5 = t2.column58 ");
-		sb.append("LEFT JOIN DY_191339776365900 sys ON sys.column5 = t2.column55 ");
-		sb.append("	LEFT JOIN DY_191339776365900 sjd ON sjd.column5 = t2.column56 ");
-		sb.append("LEFT JOIN DY_191339776365900 scg ON scg.column5 = t2.column57 ");
+		sb.append("FROM dyform.DY_271334208897439 t ");
+		sb.append("LEFT JOIN dyform.DY_271334208897441 t2 ON t2.FATHERLSH=t.LSH ");
+		sb.append("LEFT JOIN dyform.DY_941335942247762 t3 ON t3.column4= t.column8 ");
+		sb.append("LEFT JOIN dyform.DY_521339922112143 t4 ON t4.column8 = t.column14 ");
+		sb.append("LEFT JOIN dyform.DY_381336140843575 t5 ON t5.column8 = t2.column48 ");
+		sb.append("	LEFT JOIN dyform.DY_191339776365900 sxz ON sxz.column5 = t2.column58 ");
+		sb.append("LEFT JOIN dyform.DY_191339776365900 sys ON sys.column5 = t2.column55 ");
+		sb.append("	LEFT JOIN dyform.DY_191339776365900 sjd ON sjd.column5 = t2.column56 ");
+		sb.append("LEFT JOIN dyform.DY_191339776365900 scg ON scg.column5 = t2.column57 ");
 		sb.append("WHERE (t.STATUSINFO = '01' AND  t2.STATUSINFO = '01') ");
 		if(StringUtils.isNotEmpty(repstrcompare1_START))
 		    sb.append(" AND t2.column4= '" + repstrcompare1_START + "' ");

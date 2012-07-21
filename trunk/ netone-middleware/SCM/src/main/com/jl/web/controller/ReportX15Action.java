@@ -53,7 +53,7 @@ public class ReportX15Action extends AbstractAction {
 		request.setAttribute("list_ZiDingDaLei", ReportBaseData.getZiDingDaLeiInfo());
 		request.setAttribute("list_JingYingPingPai", ReportBaseData.getJingYingPingPaiInfo());
 		
-		String forward = "/xreport/xreport8.jsp";
+		String forward = "/xreport/xreport15.jsp";
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
 		// true不使用转向,默认是false代表转向

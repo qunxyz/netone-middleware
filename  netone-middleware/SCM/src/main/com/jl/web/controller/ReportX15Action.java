@@ -134,7 +134,7 @@ public class ReportX15Action extends AbstractAction {
 		sb.append("AND rkmx.column81 = '" + repselect9 + "' "); 
 		if(StringUtils.isNotEmpty(repselect10))
 		sb.append("AND t1.column4 LIKE '%" + repselect10 + "%' ");
-		sb.append("ORDER BY fhno,fhdate ");
+		sb.append("ORDER BY fhno,fhdate");
 		
 		// 获得原始数据表格
 		Table t = new Table();
@@ -164,7 +164,7 @@ public class ReportX15Action extends AbstractAction {
 		headerSet1.add(new TableCell("售价"));
 
 		ReportExt reportExt = new ReportExt();
-
+		System.out.println(sb);
 		List list = DbTools.queryData(sb.toString());
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();

@@ -469,7 +469,7 @@ html.VIE7 .form_fieldinput {
 		    
 		    var formatstr = "&format="+$('#format').val();
 		    var form1 = document.getElementById('_xreport_form');
-			form1.action="<c:url value='/reportx8.do?method=query' />"+formatstr;
+			form1.action="<c:url value='/reportx12.do?method=query' />"+formatstr;
 			form1.target="_blank";
 			form1.method="POST";
 			form1.submit();

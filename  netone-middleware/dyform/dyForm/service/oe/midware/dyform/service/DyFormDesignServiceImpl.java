@@ -3,9 +3,9 @@ package oe.midware.dyform.service;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
+import java.util.ResourceBundle;
 
 import oe.cav.bean.logic.column.ColumnDao;
 import oe.cav.bean.logic.column.TCsColumn;
@@ -18,8 +18,12 @@ import oe.cav.bean.logic.tools.DyObjToXMLImpl;
 import oe.cav.bean.logic.tools.XmlPools;
 import oe.frame.web.WebCache;
 
+import org.apache.commons.lang.StringUtils;
+
 public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 		DyFormDesignService {
+	
+
 
 	public DyFormDesignServiceImpl() throws RemoteException {
 		super();
@@ -188,6 +192,10 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 	public TCsColumn loadColumn(String formcode, Serializable key) {
 
 		TCsColumn columnx = columnDao.loadObject(formcode, key);
+		if(columnx==null){
+			System.err.println("Òì³£¿Õ×Ö¶Î:"+formcode+","+key);
+			return new TCsColumn();
+		}
 		String ext = columnx.getExtendattribute();
 		ext = StringUtils.replace(ext, "%X@", "#");
 		columnx.setExtendattribute(ext);

@@ -1,6 +1,7 @@
 package oe.teach.oescript;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,5 +93,31 @@ public class DataBaseDemo extends OeScript {
 						list);
 
 		db.close(con);
+	}
+	/**
+	 * 带事务控制的数据库脚本应用
+	 */
+	public static void test_demo5(){
+		Connection con =db.con("DATASOURCE.DATASOURCE.HGDB");
+		
+		try {
+			con.setAutoCommit(false);
+			db.execute(con, "sql1");
+			db.execute(con, "sql2");
+			Connection conq =db.con("DATASOURCE.DATASOURCE.HGDB");
+			db.queryData(conq, "sqlx");// 注意查询会自动关闭con，只用用一个下次用再开
+			db.execute(con, "sql3");
+			con.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

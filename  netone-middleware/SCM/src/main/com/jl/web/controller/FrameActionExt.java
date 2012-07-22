@@ -67,8 +67,6 @@ import com.lucaslee.report.model.TableCell;
 import com.lucaslee.report.model.TableRow;
 import com.lucaslee.report.printer.ExcelCss;
 import com.lucaslee.report.printer.ExcelPrinter;
-import com.lucaslee.report.printer.HTMLCss;
-import com.lucaslee.report.printer.HTMLPrinter;
 
 public class FrameActionExt extends AbstractAction {
 
@@ -1232,7 +1230,6 @@ public class FrameActionExt extends AbstractAction {
 						if ("dl006".equals(ext)) {
 							if ("column4".equals(colid)
 									|| "column84".equals(colid)
-									|| "column88".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)
@@ -3366,34 +3363,22 @@ public class FrameActionExt extends AbstractAction {
 			DyFormData object = (DyFormData) listx.get(j);
 
 			TableRow tr00 = new TableRow();
-			
-			TableCell tc10 = new TableCell(object.getColumn23());
-			tc10.setColSpan(1);
-			tr00.addCell(tc10);
 
-			TableCell tc00 = new TableCell(object.getColumn4());
-			tc00.setColSpan(1);
+			TableCell tc00 = new TableCell(object.getColumn3());
+			tc00.setColSpan(2);
 			tr00.addCell(tc00);
+			tr00.addCell(tc2);
 
-			TableCell tc01 = new TableCell(object.getColumn26());
-			tc01.setColSpan(1);
+			TableCell tc01 = new TableCell(object.getColumn4() + " 1件");
+			tc01.setColSpan(3);
 			tr00.addCell(tc01);
+			tr00.addCell(tc2);
+			tr00.addCell(tc2);
 
-			TableCell tc02 = new TableCell(object.getColumn24());
-			tc02.setColSpan(1);
+			TableCell tc02 = new TableCell(object.getColumn15());
+			tc02.setColSpan(2);
 			tr00.addCell(tc02);
-			
-			TableCell tc03 = new TableCell(object.getColumn25());
-			tc03.setColSpan(1);
-			tr00.addCell(tc03);
-			
-			TableCell tc04 = new TableCell(object.getColumn11());
-			tc04.setColSpan(1);
-			tr00.addCell(tc04);
-			
-			TableCell tc05 = new TableCell(object.getColumn15());
-			tc05.setColSpan(1);
-			tr00.addCell(tc05);
+			tr00.addCell(tc2);
 
 			if (object.getColumn15() != null) {
 				sum += Double.valueOf(object.getColumn15());
@@ -3520,20 +3505,7 @@ public class FrameActionExt extends AbstractAction {
 
 				}
 			};
-			//new ExcelPrinter().print(report, css, os, true);
-			
-			
-			// ***************设置HTML报表的样式表******************
-			HTMLCss htmlcss = new HTMLCss();
-			htmlcss.setGroupTotal("BACKGROUND-COLOR: #d8e4f1; font: bold 12pt 宋体;");
-			htmlcss.setHead("BACKGROUND-COLOR: #ffdead; font: bold 12pt 宋体;");
-			htmlcss.setTotal("BACKGROUND-COLOR: #d8e4f1; font: bold 12pt 宋体;");
-			htmlcss.setTitle("font: bold 18pt 宋体;");
-			htmlcss.setData("font: 12pt");
-			// ***************end 设置HTML报表的样式表******************
-			// 执行HTML格式报表的输出
-			new HTMLPrinter().print(report, htmlcss, os);
-			
+			new ExcelPrinter().print(report, css, os, true);
 		} finally {
 			if (os != null)
 				os.close();

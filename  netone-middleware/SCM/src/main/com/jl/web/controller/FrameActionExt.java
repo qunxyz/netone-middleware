@@ -3363,22 +3363,34 @@ public class FrameActionExt extends AbstractAction {
 			DyFormData object = (DyFormData) listx.get(j);
 
 			TableRow tr00 = new TableRow();
+			
+			TableCell tc10 = new TableCell(object.getColumn23());
+			tc10.setColSpan(1);
+			tr00.addCell(tc10);
 
-			TableCell tc00 = new TableCell(object.getColumn3());
-			tc00.setColSpan(2);
+			TableCell tc00 = new TableCell(object.getColumn4());
+			tc00.setColSpan(1);
 			tr00.addCell(tc00);
-			tr00.addCell(tc2);
 
-			TableCell tc01 = new TableCell(object.getColumn4() + " 1¼þ");
-			tc01.setColSpan(3);
+			TableCell tc01 = new TableCell(object.getColumn26());
+			tc01.setColSpan(1);
 			tr00.addCell(tc01);
-			tr00.addCell(tc2);
-			tr00.addCell(tc2);
 
-			TableCell tc02 = new TableCell(object.getColumn15());
-			tc02.setColSpan(2);
+			TableCell tc02 = new TableCell(object.getColumn24());
+			tc02.setColSpan(1);
 			tr00.addCell(tc02);
-			tr00.addCell(tc2);
+			
+			TableCell tc03 = new TableCell(object.getColumn25());
+			tc03.setColSpan(1);
+			tr00.addCell(tc03);
+			
+			TableCell tc04 = new TableCell(object.getColumn11());
+			tc04.setColSpan(1);
+			tr00.addCell(tc04);
+			
+			TableCell tc05 = new TableCell(object.getColumn15());
+			tc05.setColSpan(1);
+			tr00.addCell(tc05);
 
 			if (object.getColumn15() != null) {
 				sum += Double.valueOf(object.getColumn15());

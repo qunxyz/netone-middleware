@@ -67,6 +67,8 @@ import com.lucaslee.report.model.TableCell;
 import com.lucaslee.report.model.TableRow;
 import com.lucaslee.report.printer.ExcelCss;
 import com.lucaslee.report.printer.ExcelPrinter;
+import com.lucaslee.report.printer.HTMLCss;
+import com.lucaslee.report.printer.HTMLPrinter;
 
 public class FrameActionExt extends AbstractAction {
 
@@ -3518,7 +3520,20 @@ public class FrameActionExt extends AbstractAction {
 
 				}
 			};
-			new ExcelPrinter().print(report, css, os, true);
+			//new ExcelPrinter().print(report, css, os, true);
+			
+			
+			// ***************设置HTML报表的样式表******************
+			HTMLCss htmlcss = new HTMLCss();
+			htmlcss.setGroupTotal("BACKGROUND-COLOR: #d8e4f1; font: bold 12pt 宋体;");
+			htmlcss.setHead("BACKGROUND-COLOR: #ffdead; font: bold 12pt 宋体;");
+			htmlcss.setTotal("BACKGROUND-COLOR: #d8e4f1; font: bold 12pt 宋体;");
+			htmlcss.setTitle("font: bold 18pt 宋体;");
+			htmlcss.setData("font: 12pt");
+			// ***************end 设置HTML报表的样式表******************
+			// 执行HTML格式报表的输出
+			new HTMLPrinter().print(report, htmlcss, os);
+			
 		} finally {
 			if (os != null)
 				os.close();

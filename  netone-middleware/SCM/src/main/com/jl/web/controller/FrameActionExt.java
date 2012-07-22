@@ -1230,6 +1230,7 @@ public class FrameActionExt extends AbstractAction {
 						if ("dl006".equals(ext)) {
 							if ("column4".equals(colid)
 									|| "column84".equals(colid)
+									|| "column88".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
 									|| "column49".equals(colid)

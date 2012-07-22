@@ -134,7 +134,7 @@ public class ReportBaseData {
 	 */
 	public static List getShouHuoYuanInfo() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("select * from dyform.DY_381336140843571 where column21 = '1'");
+		sb.append("select * from dyform.DY_381336140843571 where column21 = '1' and column5='h002'");
 		List list = DbTools.queryData(sb.toString());
 		return list;
 	}

@@ -512,8 +512,8 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect4" name="repselect4"
 													style="width: 295.0px">
-													<option value="" selected="selected">
-														请选择
+													<option value="货号统计">
+														货号统计
 													</option>
 													<option value="小品名">
 														小品名
@@ -665,6 +665,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect1" name="repselect1"
 													style="width: 307.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_FClient}">
 														<option value="${list.column4}">
 															${list.column3}
@@ -693,6 +696,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect2" name="repselect2"
 													style="width: 307.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_GClient}">
 														<option value="${list.column4}">
 															${list.column3}
@@ -721,6 +727,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect3" name="repselect3"
 													style="width: 295.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_JingYingPingPai}">
 														<option value="${list.column8}">
 															${list.column3}
@@ -787,6 +796,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect5" name="repselect5"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_XiaoShouShuXing}">
 														<option value="${list.column3}">
 															${list.column3}
@@ -810,6 +822,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect6" name="repselect6"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_ZiDingDaLei}">
 														<option value="${list.column8}">
 															${list.column3}
@@ -838,6 +853,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect7" name="repselect7"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_ChangPingDaLei}">
 														<option value="${list.column8}">
 															${list.column3}
@@ -861,6 +879,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect8" name="repselect8"
 													style="width: 123.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_ChengSe}">
 														<option value="${list.column9}">
 															${list.column3}
@@ -889,6 +910,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect9" name="repselect9"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_PingMing}">
 														<option value="${list.column9}">
 															${list.column3}
@@ -912,6 +936,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect10" name="repselect10"
 													style="width: 123.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_BaoShi}">
 														<option value="${list.column10}">
 															${list.column3}
@@ -940,6 +967,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect11" name="repselect11"
 													style="width: 111.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_ShouHuoYuan}">
 														<option value="${list.column3}">
 															${list.column4}
@@ -963,6 +993,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect12" name="repselect12"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_DianMianJingLi}">
 														<option value="${list.column3}">
 															${list.column4}
@@ -991,6 +1024,9 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect13" name="repselect13"
 													style="width: 99.0px">
+													<option value="" selected="selected">
+														请选择
+													</option>
 													<c:forEach var="list" items="${list_ShouYinBanZu}">
 														<option value="${list.column8}">
 															${list.column3}
@@ -1014,45 +1050,15 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<select id="repselect14" name="repselect14"
 													style="width: 99.0px">
-													<c:forEach var="list" items="${list_XiaoShouGuiZu}">
+													<option selected>
+														请选择
+													</option>
+													<c:forEach var="list" items="${list_FenXiaoGuiZu}">
 														<option value="${list.column7}">
 															${list.column4}
 														</option>
 													</c:forEach>
 												</select>
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr class="form_tr" unselectable="off" onFocus="this.select()">
-									<td class="form_td" unselectable="off" onFocus="this.select()"
-										nowrap="nowrap">
-										<div class="form_fieldcontent" style="width: 196px">
-											<div class="form_fieldcaption" align="left" title="审核人"
-												style="width: 48px;">
-												审核人:
-											</div>
-											<div class="form_fieldinput" style="width: 148px;"
-												align="left">
-												<input type="hidden" id="repstr6_OPE" name="repstr6_OPE"
-													value="=" unselectable="off" onFocus="this.select()" />
-												<input type="text" id="repstr6" name="repstr6"
-													style="width: 111.0px" unselectable="off"
-													onFocus="this.select()" />
-											</div>
-										</div>
-										<div class="form_fieldcontent" style="width: 196px">
-											<div class="form_fieldcaption" align="left" title="备注"
-												style="width: 36px;">
-												备注:
-											</div>
-											<div class="form_fieldinput" style="width: 160px;"
-												align="left">
-												<input type="hidden" id="repstr7_OPE" name="repstr7_OPE"
-													value="=" unselectable="off" onFocus="this.select()" />
-												<input type="text" id="repstr7" name="repstr7"
-													style="width: 123.0px" unselectable="off"
-													onFocus="this.select()" />
 											</div>
 										</div>
 									</td>

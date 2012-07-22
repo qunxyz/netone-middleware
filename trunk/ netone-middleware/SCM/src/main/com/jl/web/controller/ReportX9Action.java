@@ -56,6 +56,8 @@ public class ReportX9Action extends AbstractAction {
 		request.setAttribute("list_DianMianJingLi", ReportBaseData.getDianMianJingLiInfo());
 		request.setAttribute("list_ShouYinBanZu", ReportBaseData.getShouYinBanZuInfo());
 		request.setAttribute("list_XiaoShouShuXing", ReportBaseData.getXiaoShouShuXingInfo());
+		request.setAttribute("list_FenXiaoGuiZu", ReportBaseData.getFenXiaoGuiZuInfo());
+		
 		
 		String forward = "/xreport/xreport9.jsp";
 		ActionForward af = new ActionForward(forward);
@@ -93,8 +95,6 @@ public class ReportX9Action extends AbstractAction {
 		String repselect12 = request.getParameter("repselect12");
 		String repselect13 = request.getParameter("repselect13");
 		String repselect14 = request.getParameter("repselect14");
-		String repstr6 = request.getParameter("repstr6");
-		String repstr7 = request.getParameter("repstr7");
 		StringBuffer sb = new StringBuffer();
 
 		/** 首饰销售统计表(扣除销退) */
@@ -123,11 +123,13 @@ public class ReportX9Action extends AbstractAction {
 		sb.append("IFNULL(gz.column4,'') gz, ");
 		/* 单号统计 */
 		sb.append("IFNULL(t.column3,'') xsno, ");
+		/* 货号统计 */
+		sb.append("IFNULL(t1.column23,'') hh, ");
 
 		sb.append("IFNULL(COUNT(t1.column3),0) sl, ");
 		sb.append("IFNULL(SUM(rkmx.column16),0) zz,IFNULL(SUM(rkmx.column17),0) jz, ");
 		sb.append("IFNULL(rkmx.column37,'/') zs,IFNULL(rkmx.column66,'/') fs, ");
-		sb.append("IFNULL(SUM(t1.column11),0) sj,IFNULL(SUM(t1.column12),0) zkr, ");
+		sb.append("IFNULL(SUM(t1.column11),0) sj, ");
 		sb.append("IFNULL(SUM(t1.column15),0) ssj ");
 		sb.append("FROM dyform.DY_371337952339241 t ");
 		sb.append("LEFT JOIN dyform.DY_371337952339238 t1 ON t.LSH = t1.FATHERLSH ");
@@ -141,74 +143,67 @@ public class ReportX9Action extends AbstractAction {
 		sb.append("LEFT JOIN dyform.DY_61336130537510 gz ON gz.column7 = t1.column18 ");
 		sb.append("LEFT JOIN dyform.DY_381336140843571 xsr ON xsr.column3 = t.column10 ");
 		sb.append("WHERE t.STATUSINFO = '01' AND t1.STATUSINFO = '01'  ");
+		System.out.println(StringUtils.isNotEmpty(repstrcompare1_START));
 		if(StringUtils.isNotEmpty(repstrcompare1_START))
 		    sb.append(" AND t.column3= '" + repstrcompare1_START + "' ");
+		System.out.println(StringUtils.isNotEmpty(repstrcompare2_END));
 		if(StringUtils.isNotEmpty(repstrcompare2_END))
 		    sb.append(" AND t.column3= '" + repstrcompare1_END + "' "); 
-		if(StringUtils.isNotEmpty(repstrcompare1_START))
+		System.out.println(StringUtils.isNotEmpty(repstrcompare1_START));
+		if(StringUtils.isNotEmpty(repstrcompare2_START))
 		    sb.append(" AND t.column3= '" + repstrcompare2_START + "' ");
+		System.out.println(StringUtils.isNotEmpty(repstrcompare2_END));
 		if(StringUtils.isNotEmpty(repstrcompare2_END))
-		    sb.append(" AND t.column3= '" + repstrcompare2_END + "' "); 
+		    sb.append(" AND t.column3= '" + repstrcompare2_END + "' ");
+		System.out.println(StringUtils.isNotEmpty(reptimes1_START));
 		if(StringUtils.isNotEmpty(reptimes1_START))
 		    sb.append("AND t1.column4 >= '" + reptimes1_START + "' ");
+		System.out.println(StringUtils.isNotEmpty(reptimes1_END));
 		if(StringUtils.isNotEmpty(reptimes1_END))
 		    sb.append(" AND t1.column4 <= '" + reptimes1_END + "' ");
+		System.out.println(StringUtils.isNotEmpty(repselect1));
 		if(StringUtils.isNotEmpty(repselect1))
 			sb.append(" AND t.column8= '" + repselect1 + "' ");
-		
-		sb.append("AND rkd.column8 = '" + repselect2 + "' ");
-		sb.append("AND rkmx.column50 = '" + repselect3 + "' ");
-		sb.append("AND t.column12 LIKE '%" + repstr3 + "%' ");
-		sb.append("AND t.column13 LIKE '%" + repstr4 + "%' ");
-		sb.append("AND t1.column17 = '" + repselect5 + "' ");
-		sb.append("AND rkmx.column48 = '" + repselect6 + "' ");
-		sb.append("AND t1.column19 = '" + repselect7 + "' ");
-		sb.append("AND rkmx.column52 = '" + repselect8 + "' ");
-		sb.append("AND rkmx.column81 = '" + repselect9 + "' ");
-		sb.append("AND t1.column4 LIKE '%" + repselect10 + "%' ");
-		sb.append("AND t.column10 = '" + repselect11 + "' ");
-		sb.append("AND t.column11 = '" + repselect12 + "' ");
-		sb.append("AND t.column9 = '" + repselect13 + "' ");
-		sb.append("AND t1.column18 = '%" + repselect14 + "%' ");
-		sb.append("AND t.column19 LIKE '%" + repstr6 + "%' ");
-		sb.append("AND t.column16 LIKE '%" + repstr7 + "%' ");
 
 		/* 品名 */
-		if("品名".equals(repselect1))
-		sb.append("GROUP BY t1.column4 ");
+		if("品名".equals(repselect4))
+			sb.append("GROUP BY t1.column4 ");
 		/* 系列名称 */
-		if("系列名称".equals(repselect1))
-		sb.append("GROUP BY rkmx.column51 ");
+		if("系列名称".equals(repselect4))
+			sb.append("GROUP BY rkmx.column51 ");
 		/* 按成色 */
-		if("按成色".equals(repselect1))
-		sb.append("GROUP BY rkmx.column52 ");
+		if("按成色".equals(repselect4))
+			sb.append("GROUP BY rkmx.column52 ");
 		/* 按款号 */
-		if("按款号".equals(repselect1))
-		sb.append("GROUP BY rkmx.column11 ");
+		if("按款号".equals(repselect4))
+			sb.append("GROUP BY rkmx.column11 ");
 		/* 原编号 */
-		if("原编号".equals(repselect1))
-		sb.append("GROUP BY rkmx.column13 ");
+		if("原编号".equals(repselect4))
+			sb.append("GROUP BY rkmx.column13 ");
 		/* 按手寸 */
-		if("按手寸".equals(repselect1))
-		sb.append("GROUP BY rkmx.column24 ");
+		if("按手寸".equals(repselect4))
+			sb.append("GROUP BY rkmx.column24 ");
 		/* 售货员 */
-		if("售货员".equals(repselect1))
-		sb.append("GROUP BY t.column10 ");
+		if("售货员".equals(repselect4))
+			sb.append("GROUP BY t.column10 ");
 		/* 按大类 */
-		if("按大类".equals(repselect1))
-		sb.append("GROUP BY t1.column19 ");
+		if("按大类".equals(repselect4))
+			sb.append("GROUP BY t1.column19 ");
 		/* 自定大类 */
-		if("自定大类".equals(repselect1))
-		sb.append("GROUP BY rkmx.column48 ");
+		if("自定大类".equals(repselect4))
+			sb.append("GROUP BY rkmx.column48 ");
 		/* 分销商 */
-		if("分销商".equals(repselect1))
-		sb.append("GROUP BY t1.column8 ");
+		if("分销商".equals(repselect4))
+			sb.append("GROUP BY t1.column8 ");
 		/* 按柜组 */
-		if("按柜组".equals(repselect1))
-		sb.append("GROUP BY t1.column18 ");
+		if("按柜组".equals(repselect4))
+			sb.append("GROUP BY t1.column18 ");
 		/* 单号统计 */
-		if("单号统计".equals(repselect1))
-		sb.append("GROUP BY t.column3 ");
+		if("单号统计".equals(repselect4))
+			sb.append("GROUP BY t.column3 ");
+		/* 货号统计 */
+		if("货号统计".equals(repselect4))
+			sb.append("GROUP BY t1.column23 ");
 		
 		
 		
@@ -220,101 +215,100 @@ public class ReportX9Action extends AbstractAction {
 
 		List<TableCell> headerSet1 = new ArrayList();
 
-		if ("小品名".equals(repselect1)) {
+		if ("小品名".equals(repselect4)) {
 			headerSet1.add(new TableCell("品名"));
-		} else if ("系列名称".equals(repselect1)) {
+		} else if ("系列名称".equals(repselect4)) {
 			headerSet1.add(new TableCell("系列名称"));
-		} else if ("按款号".equals(repselect1)) {
+		} else if ("按款号".equals(repselect4)) {
 			headerSet1.add(new TableCell("按款号"));
-		} else if ("原编号".equals(repselect1)) {
+		} else if ("原编号".equals(repselect4)) {
 			headerSet1.add(new TableCell("原编号"));
-		} else if ("按手寸".equals(repselect1)) {
+		} else if ("按手寸".equals(repselect4)) {
 			headerSet1.add(new TableCell("按手寸"));
-		} else if ("按大类".equals(repselect1)) {
+		} else if ("按大类".equals(repselect4)) {
 			headerSet1.add(new TableCell("按大类"));
-		} else if ("按柜组".equals(repselect1)) {
+		} else if ("按柜组".equals(repselect4)) {
 			headerSet1.add(new TableCell("按柜组"));
-		} else if ("自定大类".equals(repselect1)) {
+		} else if ("自定大类".equals(repselect4)) {
 			headerSet1.add(new TableCell("自定大类"));
-		} else if ("分销商".equals(repselect1)) {
-			headerSet1.add(new TableCell("分销商"));}
-		  else if ("按成色".equals(repselect1)) {
-					headerSet1.add(new TableCell("按成色"));
-			}
-		  else if ("售货员".equals(repselect1)) {
-					headerSet1.add(new TableCell("售货员"));
-			}	
-		  else if ("销售提成".equals(repselect1)) {
-					headerSet1.add(new TableCell("销售提成"));
-			}
-		  else if ("石料统计".equals(repselect1)) {
-					headerSet1.add(new TableCell("石料统计"));
-			}
-		  else if ("单号统计".equals(repselect1)) {
-					headerSet1.add(new TableCell("单号统计"));
+		} else if ("分销商".equals(repselect4)) {
+			headerSet1.add(new TableCell("分销商"));
+		} else if ("按成色".equals(repselect4)) {
+			headerSet1.add(new TableCell("按成色"));
+		} else if ("售货员".equals(repselect4)) {
+			headerSet1.add(new TableCell("售货员"));
+		} else if ("销售提成".equals(repselect4)) {
+			headerSet1.add(new TableCell("销售提成"));
+		} else if ("石料统计".equals(repselect4)) {
+			headerSet1.add(new TableCell("石料统计"));
+		} else if ("单号统计".equals(repselect4)) {
+			headerSet1.add(new TableCell("单号统计"));
+		} else if ("货号统计".equals(repselect4)) {
+			headerSet1.add(new TableCell("货号统计"));
 		}
 		headerSet1.add(new TableCell("数量"));
-		headerSet1.add(new TableCell("金重"));
 		headerSet1.add(new TableCell("总重"));
+		headerSet1.add(new TableCell("金重"));
 		headerSet1.add(new TableCell("主石(ct/p)"));
 		headerSet1.add(new TableCell("副石(ct/p)"));
 		headerSet1.add(new TableCell("售价"));
+		headerSet1.add(new TableCell("实售价"));
 		headerSet1.add(new TableCell("进货成本"));
-
 		ReportExt reportExt = new ReportExt();
-
+System.out.println(sb.toString());
 		List list = DbTools.queryData(sb.toString());
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
-			String pm = object.get("pm").toString();
-			String xlname = object.get("xlname").toString();
-			String kh = object.get("kh").toString();
-			String ybh = object.get("ybh").toString();
-			String sc = object.get("sc").toString();
-			String fxsname = object.get("fxsname").toString();
-			String zdydlname = object.get("zdydlname").toString();
-			String gzname = object.get("gzname").toString();
-			String sl = object.get("sl").toString();
-			String zz = object.get("zz").toString();
-			String jz = object.get("jz").toString();
-			String xtdlname = object.get("xtdlname").toString();
-			String zs = object.get("zs").toString();
-			String sj = object.get("sj").toString();
-			String fs = object.get("fs").toString();
-			String jhcb = object.get("jhcb").toString();
-			String cs = object.get("cs").toString();
-			String shy = object.get("shy").toString();
-			String xsno = object.get("xsno").toString();
-			String zkr = object.get("zkr").toString();
-			String ssg = object.get("ssg").toString();
+			String pm = (String)object.get("pm");
+			String xlname = (String)object.get("xlname");
+			String kh = (String)object.get("kh");
+			String ybh = (String)object.get("ybh");
+			String sc = (String)object.get("sc");
+			String fxsname = (String)object.get("fxsname");
+			String zdydlname = (String)object.get("zdydlname");
+			String gzname = (String)object.get("gzname");
+			String sl = object.get("sl")==null?"0":object.get("sl").toString();
+			String zz = object.get("zz")==null?"0":object.get("zz").toString();
+			String jz = object.get("jz")==null?"0":object.get("jz").toString();
+			String xtdlname = (String)object.get("xtdlname");
+			String zs = (String)object.get("zs");
+			String sj = object.get("sj")==null?"0":object.get("sj").toString();
+			String fs = (String)object.get("fs");
+			String jhcb = object.get("jhcb")==null?"0":object.get("jhcb").toString();
+			String cs = (String)object.get("cs");
+			String shy = (String)object.get("shy");
+			String xsno = (String)object.get("xsno");
+			String ssj = object.get("ssj")==null?"0":object.get("ssj").toString();
+			String hh = (String)object.get("hh");
 			
 			TableRow tr = new TableRow();
-			if ("小品名".equals(repselect1)) {
+			if ("小品名".equals(repselect4)) {
 				tr.addCell(new TableCell(pm));
-			} else if ("系列名称".equals(repselect1)) {
+			} else if ("系列名称".equals(repselect4)) {
 				tr.addCell(new TableCell(xlname));
-			} else if ("原编号".equals(repselect1)) {
+			} else if ("原编号".equals(repselect4)) {
 				tr.addCell(new TableCell(ybh));
-			}else if ("按款号".equals(repselect1)) {
+			} else if ("按款号".equals(repselect4)) {
 				tr.addCell(new TableCell(kh));
-			} else if ("按手寸".equals(repselect1)) {
+			} else if ("按手寸".equals(repselect4)) {
 				tr.addCell(new TableCell(sc));
-			} else if ("按大类".equals(repselect1)) {
+			} else if ("按大类".equals(repselect4)) {
 				tr.addCell(new TableCell(xtdlname));
-			} else if ("自定大类".equals(repselect1)) {
+			} else if ("自定大类".equals(repselect4)) {
 				tr.addCell(new TableCell(zdydlname));
-			}else if ("按柜组".equals(repselect1)) {
+			} else if ("按柜组".equals(repselect4)) {
 				tr.addCell(new TableCell(gzname));
-			} else if ("分销商".equals(repselect1)) {
+			} else if ("分销商".equals(repselect4)) {
 				tr.addCell(new TableCell(fxsname));
-			}else if ("按成色".equals(repselect1)) {
+			} else if ("按成色".equals(repselect4)) {
 				tr.addCell(new TableCell(cs));
-			}else if ("售货员".equals(repselect1)) {
+			} else if ("售货员".equals(repselect4)) {
 				tr.addCell(new TableCell(shy));
-			}else if ("单号统计".equals(repselect1)) {
+			} else if ("单号统计".equals(repselect4)) {
 				tr.addCell(new TableCell(xsno));
+			} else if ("货号统计".equals(repselect4)) {
+				tr.addCell(new TableCell(hh));
 			}
-		    tr.addCell(new TableCell(pm));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(sl),
 					Rectangle.ALIGN_RIGHT));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zz),
@@ -325,9 +319,9 @@ public class ReportX9Action extends AbstractAction {
 			tr.addCell(new TableCell(fs));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(sj),
 					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(zkr),
+			tr.addCell(new TableCell("" + MathHelper.moneyFormat(ssj),
 					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(ssg),
+			tr.addCell(new TableCell("" + MathHelper.moneyFormat(jhcb),
 					Rectangle.ALIGN_RIGHT));
 			t.addRow(tr);
 		}

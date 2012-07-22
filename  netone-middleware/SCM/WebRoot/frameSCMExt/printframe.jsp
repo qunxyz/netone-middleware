@@ -14,6 +14,9 @@
 		${linkcss}
 		<!-- 时间控件脚本 -->
 		${datecompFunc}
+		<style type="text/css">
+		table{float:left;}
+		</style>
 		<title>${htmltitleinfo}</title>
 	</head>
 	<body>

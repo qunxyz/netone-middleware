@@ -1157,7 +1157,7 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl004".equals(ext)) {
 							if ("column4".equals(colid)
-									|| "column86".equals(colid)   
+									|| "column86".equals(colid)
 									|| "column87".equals(colid)
 									|| "column84".equals(colid)
 									|| "column52".equals(colid)
@@ -3275,9 +3275,13 @@ public class FrameActionExt extends AbstractAction {
 		dydata1.setFatherlsh("1");
 		dydata1.setColumn4(clientId);
 		List listx1 = DyEntry.iv().queryData(dydata1, 0, 1, "");
-		dydata1 = (DyFormData) listx1.get(0);
-		String address = dydata1.getColumn7();// 联系地址
-		String tel = dydata1.getColumn11();// 联系电话
+		String address = "";
+		String tel = "";
+		if (listx1.size() > 0) {
+			dydata1 = (DyFormData) listx1.get(0);
+			address = dydata1.getColumn7();// 联系地址
+			tel = dydata1.getColumn11();// 联系电话
+		}
 
 		// 首饰销售明细数据
 		DyFormData dydata = new DyFormData();

@@ -417,7 +417,7 @@ public final class DyFormComp {
 		}
 		return getHiddenInput(id + "_hidden", value)
 				+ getComp("<select ", ">" + valuestr + "</select>", id, "",
-						style, classname, (readonly == true) ? 1 : 0, extvalue);
+						style, classname, readonly, extvalue);
 	}
 
 	/**
@@ -959,8 +959,7 @@ public final class DyFormComp {
 		String hiddens = getHiddenInput(id, value);
 		return hiddens
 				+ getComp("<div ", " align=\"left\">" + valuestr + "</div>",
-						"", "", style, classname, (readonly == true) ? 1 : 0,
-						"");
+						"", "", style, classname, readonly, "");
 	}
 
 	/**

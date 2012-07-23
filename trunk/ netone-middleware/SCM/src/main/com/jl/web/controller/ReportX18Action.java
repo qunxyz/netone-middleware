@@ -173,7 +173,7 @@ public class ReportX18Action extends AbstractAction {
 		sb_1.append("SELECT * from dyform.DY_371337952339240 where fatherlsh= '");
 		sb_1.append(lsh);
 		sb_1.append("'");
-		List list_1 = DbTools.queryData(sb.toString());
+		List list_1 = DbTools.queryData(sb_1.toString());
 		TableRow tr_1 = new TableRow();
 		tr_1.addCell(new TableCell("条码号"));
 		tr_1.addCell(new TableCell("产品名称"));
@@ -262,7 +262,7 @@ public class ReportX18Action extends AbstractAction {
 		sb_2.append("SELECT * from dyform.DY_371337952339239 where fatherlsh= '");
 		sb_2.append(lsh);
 		sb_2.append("'");
-		List list_2 = DbTools.queryData(sb.toString());
+		List list_2 = DbTools.queryData(sb_2.toString());
 		TableRow tr_2 = new TableRow();
 		tr_2.addCell(new TableCell("回收类型"));
 		tr_2.addCell(new TableCell("旧料编号"));

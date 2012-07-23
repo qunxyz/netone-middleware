@@ -162,4 +162,16 @@ public class ReportBaseData {
 		List list = DbTools.queryData(sb.toString());
 		return list;
 	}
+	
+	/**
+	 * ¸¶¿î·½Ê½
+	 * 
+	 * @return
+	 */
+	public static List getFuKuanFangShiInfo() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("select * from dyform.DY_191339776365898 where column5='K05'");
+		List list = DbTools.queryData(sb.toString());
+		return list;
+	}
 }

@@ -79,6 +79,10 @@
 		<!-- 首饰销售明细表 -->
 		<action path="/reportx17"
 			type="com.jl.web.controller.ReportX17Action" parameter="method">
+		</action>	
+		<!-- 销退回收保存 -->
+		<action path="/reportx18"
+			type="com.jl.web.controller.ReportX18Action" parameter="method">
 		</action>		
 		
 		

@@ -111,7 +111,6 @@ public class ReportX17Action extends AbstractAction {
 		String repstrdim6 = request.getParameter("repstrdim6");
 		//货号
 		String repstrdim7 = request.getParameter("repstrdim7");
-		System.out.println("1111111111111_"+repstrdim7);
 		StringBuffer sb = new StringBuffer();
 
 		/** 首饰销售明细表 */		
@@ -236,7 +235,6 @@ public class ReportX17Action extends AbstractAction {
 		headerSet1.add(new TableCell("销售小备注"));
 		headerSet1.add(new TableCell("产品备注"));
 		ReportExt reportExt = new ReportExt();
-		System.out.println("11111111111111111111111111111111111111111111111_"+sb.toString());
 		List list = DbTools.queryData(sb.toString());
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();

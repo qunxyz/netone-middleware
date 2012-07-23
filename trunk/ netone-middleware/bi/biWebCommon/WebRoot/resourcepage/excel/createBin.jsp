@@ -46,12 +46,12 @@
 		</c:if>
 		<form action="" method="post" name="form1"
 			enctype="multipart/form-data">
-			<input type="hidden" name="pagename" value="${pagename}" />
-			<input type="hidden" name="appScript" value="${param.appScript}" />
-			<input type="hidden" name="parentidX" value="${param.parentidX}" />
-			<input type="hidden" name="dirid" value="${dirid}">
-			<input type="hidden" name="appid" value="${appid}">
-			<input type="hidden" name="filename" value="${filename}">
+			<input type="hidden" name="pagename" id="pagename" value="${pagename}" />
+			<input type="hidden" name="appScript" id="appScript" value="${param.appScript}" />
+			<input type="hidden" name="parentidX" id="parentidX" value="${param.parentidX}" />
+			<input type="hidden" name="dirid" id="dirid" value="${dirid}">
+			<input type="hidden" name="appid" id="appid" value="${appid}">
+			<input type="hidden" name="filename" id="filename" value="${filename}">
 			<table width="96%" border="1" align="center" cellpadding="0"
 				cellspacing="0" id="lie_table">
 				<tr style='display:none'>
@@ -59,7 +59,7 @@
 						有&nbsp;&nbsp;&nbsp;&nbsp;效
 					</td>
 					<td>
-						<input type="checkbox" name="active" value="1" checked />
+						<input type="checkbox" name="active" id="active" value="1" checked />
 					</td>
 				</tr>
 				<tr>
@@ -67,7 +67,7 @@
 						Excel导入
 					</td>
 					<td width="80%">
-						<input type="file" onchange="autofile();" name="files">
+						<input type="file" onchange="autofile();" name="files" id="files">
 					</td>
 				</tr>
 				<tr  style='display:none'>
@@ -75,7 +75,7 @@
 						名&nbsp;&nbsp;&nbsp;&nbsp;称
 					</td>
 					<td>
-						<input type="text" name="naturalname" value=""
+						<input type="text" name="naturalname" id="naturalname" value=""
 							class="textinput_td">
 					</td>
 				</tr>
@@ -84,7 +84,7 @@
 						中文名称
 					</td>
 					<td>
-						<input type="text" name="name" value="" class="textinput_td">
+						<input type="text" name="name" id="name" value="" class="textinput_td">
 					</td>
 				</tr>
 
@@ -94,7 +94,7 @@
 							</a>
 						</td>
 						<td width='300'>
-							<input type="text" name="objecttype" value=""
+							<input type="text" name="objecttype"  id="objecttype" value=""
 								class="textinput_td" readonly="readonly">
 						</td>
 					</tr>
@@ -103,7 +103,7 @@
 							参数
 						</td>
 						<td>
-							<input type="text" name="actionurl" value="${upo.actionurl}"
+							<input type="text" name="actionurl" id="actionurl" value="${upo.actionurl}"
 								class="textinput_td" />
 						</td>
 					</tr>
@@ -112,7 +112,7 @@
 						扩展属性
 					</td>
 					<td>
-						<textarea rows="8" cols="60" name="extendattribute"></textarea>
+						<textarea rows="8" cols="60" name="extendattribute" id="extendattribute"></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -120,13 +120,13 @@
 						描述
 					</td>
 					<td>
-						<textarea rows="2" cols="60" name="description"></textarea>
+						<textarea rows="2" cols="60" name="description" id="description"></textarea>
 					</td>
 				</tr>
 			</table>
 			<br>
 			<div align="center">
-				<input type="button" value="添加" onclick="uploadExcel();" class="butt">
+				<input type="button" value="添加" onclick="uploadExcel()" class="butt">
 				&nbsp;
 				<input type="button" value="取消" onclick="javascript:window.close();"
 					class="butt">

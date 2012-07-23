@@ -49,7 +49,6 @@ public class ReportX9Action extends AbstractAction {
 		request.setAttribute("list_ChengSe", ReportBaseData.getChengSeXingXiInfo());
 		request.setAttribute("list_BaoShi", ReportBaseData.getBaoShiMingChengInfo());
 		request.setAttribute("list_PingMing", ReportBaseData.getChangPingMingChengInfo());
-		request.setAttribute("list_FenXiaoGuiZu", ReportBaseData.getFenXiaoGuiZuInfo());
 		request.setAttribute("list_ZiDingDaLei", ReportBaseData.getZiDingDaLeiInfo());
 		request.setAttribute("list_JingYingPingPai", ReportBaseData.getJingYingPingPaiInfo());
 		request.setAttribute("list_ShouHuoYuan", ReportBaseData.getShouHuoYuanInfo());
@@ -143,25 +142,18 @@ public class ReportX9Action extends AbstractAction {
 		sb.append("LEFT JOIN dyform.DY_61336130537510 gz ON gz.column7 = t1.column18 ");
 		sb.append("LEFT JOIN dyform.DY_381336140843571 xsr ON xsr.column3 = t.column10 ");
 		sb.append("WHERE t.STATUSINFO = '01' AND t1.STATUSINFO = '01'  ");
-		System.out.println(StringUtils.isNotEmpty(repstrcompare1_START));
 		if(StringUtils.isNotEmpty(repstrcompare1_START))
 		    sb.append(" AND t.column3= '" + repstrcompare1_START + "' ");
-		System.out.println(StringUtils.isNotEmpty(repstrcompare2_END));
 		if(StringUtils.isNotEmpty(repstrcompare2_END))
 		    sb.append(" AND t.column3= '" + repstrcompare1_END + "' "); 
-		System.out.println(StringUtils.isNotEmpty(repstrcompare1_START));
 		if(StringUtils.isNotEmpty(repstrcompare2_START))
 		    sb.append(" AND t.column3= '" + repstrcompare2_START + "' ");
-		System.out.println(StringUtils.isNotEmpty(repstrcompare2_END));
 		if(StringUtils.isNotEmpty(repstrcompare2_END))
 		    sb.append(" AND t.column3= '" + repstrcompare2_END + "' ");
-		System.out.println(StringUtils.isNotEmpty(reptimes1_START));
 		if(StringUtils.isNotEmpty(reptimes1_START))
 		    sb.append("AND t1.column4 >= '" + reptimes1_START + "' ");
-		System.out.println(StringUtils.isNotEmpty(reptimes1_END));
 		if(StringUtils.isNotEmpty(reptimes1_END))
 		    sb.append(" AND t1.column4 <= '" + reptimes1_END + "' ");
-		System.out.println(StringUtils.isNotEmpty(repselect1));
 		if(StringUtils.isNotEmpty(repselect1))
 			sb.append(" AND t.column8= '" + repselect1 + "' ");
 

@@ -366,6 +366,10 @@ public final class AppHandleImpl implements AppHandleIfc {
 		} else {
 			actx.setParticipant(upo.getExtendattribute());
 		}
+		
+		//追加人员工作量
+		String addWorkItemParticipant=countWorkItem(upo.getExtendattribute());
+		actx.setParticipant(addWorkItemParticipant);
 		// 无论是选部门、角色、组还是流程角色最终都表现为人的选择
 		actx.setParticipantmode(_PARTICIPANT_MODE_HUMAN);
 		if (this._PARTICIPANT_MODE_CREATER.equals(objtype)) {
@@ -439,6 +443,26 @@ public final class AppHandleImpl implements AppHandleIfc {
 		actx.setFobitzb(fobitzb);
 
 		return actx;
+	}
+	
+	private String countWorkItem(String particiapntArr){
+		if(StringUtils.isEmpty(particiapntArr)){
+			return particiapntArr;
+		}
+		String []datax=StringUtils.split(particiapntArr,",");
+		try{
+		for (int i = 0; i < datax.length; i++) {
+			String info=StringUtils.substringBetween(datax[i],"[","]");
+			List list=WfEntry.iv().useCoreView().coreSqlview("select count(*) cou from netone.t_wf_participant where usercode='"+info+"' and statusnow='01'");
+			String data= ((Map)list.get(0)).get("cou").toString();
+			if(!data.equals("0")){
+				particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "("+data+")["+info+"]");
+			}
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return particiapntArr;
 	}
 
 	public boolean canCreate(String natrualname, String userid)

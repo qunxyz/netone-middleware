@@ -3256,7 +3256,7 @@ public class FrameActionExt extends AbstractAction {
 			throws Exception {
 		String lsh = request.getParameter("lsh");
 		Double sum = new Double("0");
-		File file = new File("d:/SXXS.html");
+		File file = new File("E:/SXXS.html");
 		InputStream input = new FileInputStream(file);
 		byte []bytearr=new byte[input.available()];
 		input.read(bytearr);

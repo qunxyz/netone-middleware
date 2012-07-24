@@ -311,6 +311,11 @@
 				            		document.getElementById('unid').value=result.lsh;
 				            		//document.getElementById('fileMainFrame').contentWindow.updateFile(result.lsh);
 								**/
+									//打印销售单
+									$.getJSON('http://42.120.40.204:83/scm/reportx18.do?method=query&lsh='+result.lsh, 
+									 function(jsonx){
+									});
+									
 					            }
 				            	
 				            	var paramlsh = result.lsh;

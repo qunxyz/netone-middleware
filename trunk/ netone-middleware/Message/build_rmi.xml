@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<project name="Newland3A" default="default" basedir=".">
+	
+	<property name="src.dir" value="${basedir}/DbImpl" />
+	<property name="mail.dir" value="${basedir}/mailImpl" />
+	<property name="class.dir" value="${basedir}/WebRoot/WEB-INF/classes" />
+	
+    <target name="rmi_stub">
+    	<rmic base="${class.dir}" sourcebase="${src.dir}" >
+			<include name="oe/rmi/message/MessageImplRemote.class"/>
+		</rmic>
+    	<rmic base="${class.dir}" sourcebase="${mail.dir}" >
+			<include name="oe/rmi/message/mail/SendMailImpl.class"/>
+		</rmic>
+    </target>
+	<target name="default" depends="rmi_stub"></target>
+</project>
+
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+<hibernate-mapping>
+<class name="oe.rmi.message.UmsBussformworklist" table="UMS_BUSSFORMWORKLIST">
+<id column="WORKID" name="workid" type="java.lang.String">
+<generator class="uuid.hex"/>
+</id>
+<property column="CREATED" length="7" name="created" type="java.util.Date"/>
+<property column="PARTICIPANT" length="100" name="participant" type="java.lang.String"/>
+<property column="EXTATTR1" length="1000" name="extattr1" type="java.lang.String"/>
+<property column="EXTATTR2" length="1000" name="extattr2" type="java.lang.String"/>
+<property column="EXTATTR3" length="1000" name="extattr3" type="java.lang.String"/>
+<property column="EXTATTR4" length="1000" name="extattr4" type="java.lang.String"/>
+<property column="STATUSINFO" length="100" name="statusinfo" type="java.lang.String"/>
+<property column="SENDER" length="100" name="sender" type="java.lang.String"/>
+</class>
+</hibernate-mapping>

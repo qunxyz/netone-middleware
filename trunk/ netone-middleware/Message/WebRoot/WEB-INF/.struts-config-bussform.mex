@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowViewLayout Version="1.2">
+  <StrutsActivity path="/bussMessage.do" location="374,580" dimension="316,88" />
+  <StrutsActivity path="/SendMessage.do" location="50,150" dimension="328,88" />
+  <StrutsActivity path="/MsgSend.do" location="0,862" dimension="305,88" />
+  <StrutsActivity path="/mail.do" location="1250,450" dimension="232,84" />
+  <StrutsActivity path="/returnsendmessage.jsp" location="650,150" dimension="172,48" />
+  <StrutsActivity path="/lookmessage.jsp" location="950,150" dimension="136,48" />
+  <StrutsActivity path="/replymessage.jsp" location="950,350" dimension="142,48" />
+  <StrutsActivity path="/message.jsp" location="485,431" dimension="93,49" />
+  <StrutsActivity path="/sendmessage.jsp" location="950,250" dimension="116,49" />
+  <StrutsActivity path="/msgsend.jsp" location="106,713" dimension="93,49" />
+  <StrutsActivity path="/bussform/sendmessage.jsp" location="1250,650" dimension="190,48" />
+  <StrutsActivity path="/../../human/humanselect3.jsp" location="50,550" dimension="214,48" />
+  <StrutsActivity path="/reMessage.jsp" location="113,431" dimension="103,49" />
+  <StrutsActivity path="/link1.jsp" location="650,250" dimension="72,49" />
+  <StrutsActivity path="link1.jsp" location="950,50" dimension="68,49" />
+  <StrutsActivity path="/bussinfo.jsp" location="655,0" dimension="91,49" />
+  <StrutsActivity path="/bussindex.jsp" location="841,619" dimension="99,49" />
+  <StrutsActivity path="/pendingmore.jsp" location="93,337" dimension="113,49" />
+  <StrutsActivity path="/pendingindex.jsp" location="92,0" dimension="115,49" />
+  <StrutsActivity path="/bussform/link1.jsp" location="650,350" dimension="120,49" />
+  <StrutsActivity path="/human/humanselect3.jsp" location="650,450" dimension="178,48" />
+  <StrutsActivity path="..//human/humanselect3.jsp" location="350,750" dimension="196,48" />
+  <StrutsActivity path="../human/humanselect3.jsp" location="650,750" dimension="190,48" />
+  <StrutsActivity path="../../human/humanselect3.jsp" location="950,750" dimension="208,48" />
+  <StrutsActivity path="human/humanselect3.jsp" location="650,850" dimension="172,48" />
+  <StrutsActivity path="../human/humanselect.jsp" location="950,850" dimension="184,48" />
+  <StrutsActivity path="/essageShort.jsp" location="1250,750" dimension="111,49" />
+  <StrutsActivity path="/messageShort.jsp" />
+  <StrutsTransition id="/bussMessage.do,returnsendmessage,/returnsendmessage.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="532,624" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bussMessage.do,replymessage,/replymessage.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="532,624" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bussform/sendmessage.jsp,null,/mail.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1345,650" />
+      <AbsolutePoint location="1345,534" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/msgsend.jsp,null,/MsgSend.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="152,762" />
+      <AbsolutePoint location="152,862" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/SendMessage.do,sendmessage,/sendmessage.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/message.jsp,null,/bussMessage.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="531,480" />
+      <AbsolutePoint location="531,580" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bussMessage.do,lookmessage,/lookmessage.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="532,624" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/sendmessage.jsp,null,/SendMessage.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="0,0" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bussMessage.do,shortmeg,/messageShort.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="532,624" />
+      <AbsolutePoint location="0,0" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/bussMessage.do,returnsendmessage,/essageShort.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="531,668" />
+      <AbsolutePoint location="531,728" />
+      <AbsolutePoint location="1305,728" />
+      <AbsolutePoint location="1305,750" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+</FlowViewLayout>
+

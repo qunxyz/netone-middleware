@@ -1,0 +1,4 @@
+JMS的消息接收在MassageHandleJMS中，不论在何种情况下，需执行init()方法后方可接收消息（即onMessage()方法生效）
+
+若在已打开connection的情况下，再次打开，系统不会提示出错，而是重新再生成一个connection，
+当发送一条消息时，onMessage()将接收到两条，以此类推

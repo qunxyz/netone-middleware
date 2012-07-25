@@ -1,5 +1,6 @@
 package com.jl.common.workflow;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import oe.midware.workflow.xpdl.model.activity.Activity;
@@ -11,7 +12,7 @@ import oe.midware.workflow.xpdl.model.activity.Activity;
  *         mail:15860836998@139.com
  * 
  */
-public class TWfActive {
+public class TWfActive implements Serializable {
 
 	String name;
 

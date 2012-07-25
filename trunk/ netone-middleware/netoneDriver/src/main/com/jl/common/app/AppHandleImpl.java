@@ -1,10 +1,12 @@
 package com.jl.common.app;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import oe.frame.web.WebCache;
 import oe.midware.workflow.xpdl.model.activity.Activity;
 import oe.midware.workflow.xpdl.model.data.DataField;
 import oe.midware.workflow.xpdl.model.workflow.WorkflowProcess;
@@ -297,6 +299,11 @@ public final class AppHandleImpl implements AppHandleIfc {
 
 	public TWfActive loadCfgActive(String naturalname, String actid,
 			String commiter, String runtimeid) throws Exception {
+		String key=runtimeid+actid+commiter+naturalname;
+		if(WebCache.containCache(key)){
+			return (TWfActive)WebCache.getCache(key);
+		}
+		
 		ResourceRmi rmi = (ResourceRmi) RmiEntry.iv("resource");
 		// 支持新的表单定制模式
 		UmsProtectedobject upox = rmi.loadResourceByNatural(naturalname);
@@ -318,7 +325,12 @@ public final class AppHandleImpl implements AppHandleIfc {
 		WorkflowProcess wf = WfEntry.iv().loadProcess(app.getWorkflowCode_());
 		Activity act = wf.getActivity(actid);
 
-		return loadCfgActiveCore(act, commiter, upo, runtimeid);
+		TWfActive actx= loadCfgActiveCore(act, commiter, upo, runtimeid);
+		long time=System.currentTimeMillis() + 1800000L;
+		Date dateinfo = new Date(time);
+		WebCache.setCache(key, actx,dateinfo );
+		return actx;
+		
 	}
 
 	private TWfActive loadCfgActiveCore(Activity act, String commiter,
@@ -366,9 +378,8 @@ public final class AppHandleImpl implements AppHandleIfc {
 		} else {
 			actx.setParticipant(upo.getExtendattribute());
 		}
-		
 		//追加人员工作量
-		String addWorkItemParticipant=countWorkItem(upo.getExtendattribute());
+		String addWorkItemParticipant=countWorkItem(actx.getParticipant());
 		actx.setParticipant(addWorkItemParticipant);
 		// 无论是选部门、角色、组还是流程角色最终都表现为人的选择
 		actx.setParticipantmode(_PARTICIPANT_MODE_HUMAN);
@@ -450,18 +461,20 @@ public final class AppHandleImpl implements AppHandleIfc {
 			return particiapntArr;
 		}
 		String []datax=StringUtils.split(particiapntArr,",");
-		try{
 		for (int i = 0; i < datax.length; i++) {
 			String info=StringUtils.substringBetween(datax[i],"[","]");
+		try{
 			List list=WfEntry.iv().useCoreView().coreSqlview("select count(*) cou from netone.t_wf_participant where usercode='"+info+"' and statusnow='01'");
 			String data= ((Map)list.get(0)).get("cou").toString();
-			if(!data.equals("0")){
-				particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "("+data+")["+info+"]");
-			}
-		}
+			String deptname=SecurityEntry.iv().loadUser(info).getDeptname();
+
+			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(部门:"+deptname+"|工作量:"+data+")["+info+"]");
+	
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		}
+
 		return particiapntArr;
 	}
 

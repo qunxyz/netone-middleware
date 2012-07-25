@@ -88,6 +88,9 @@ public final class Security3AImpl implements Security3AIfc {
 
 		user.setMobile(clerk.getPhoneNO());
 		user.setEmail(clerk.getEmail());
+		user.setDeptid(upo.getNaturalname());
+		user.setDeptname(upo.getName());
+		
 		return user;
 	}
 

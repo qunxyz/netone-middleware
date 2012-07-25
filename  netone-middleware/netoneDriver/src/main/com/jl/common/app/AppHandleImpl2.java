@@ -1,11 +1,13 @@
 package com.jl.common.app;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import oe.frame.web.WebCache;
 import oe.midware.workflow.xpdl.model.activity.Activity;
 import oe.midware.workflow.xpdl.model.data.DataField;
 import oe.midware.workflow.xpdl.model.workflow.WorkflowProcess;
@@ -59,6 +61,11 @@ public class AppHandleImpl2 implements AppHandleIfc {
 
 	public TWfActive loadCfgActive(String naturalname, String actid,
 			String commiter, String runtimeid) throws Exception {
+		String key=runtimeid+actid+commiter+naturalname;
+		if(WebCache.containCache(key)){
+			return (TWfActive)WebCache.getCache(key);
+		}
+		
 		ResourceRmi rmi = (ResourceRmi) RmiEntry.iv("resource");
 		String naturalnamex = naturalname + "." + actid;
 		UmsProtectedobject upo = rmi.loadResourceByNatural(naturalnamex);
@@ -70,7 +77,11 @@ public class AppHandleImpl2 implements AppHandleIfc {
  
 		AppSecond object = AnalysisAppSecond.readXML(upo.getExtendattribute());
 
-		return loadCfgActiveCore(act, commiter, object, runtimeid);
+		TWfActive actx= loadCfgActiveCore(act, commiter, object, runtimeid);
+		long time=System.currentTimeMillis() + 1800000L;
+		Date dateinfo = new Date(time);
+		WebCache.setCache(key, actx,dateinfo );
+		return actx;
 	}
 
 	public List wf2dyformBindCfg(String naturalname) throws Exception {
@@ -169,6 +180,29 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		return list;
 	}
 
+	private String countWorkItem(String particiapntArr){
+		if(StringUtils.isEmpty(particiapntArr)){
+			return particiapntArr;
+		}
+		String []datax=StringUtils.split(particiapntArr,",");
+		
+		for (int i = 0; i < datax.length; i++) {
+			String info=StringUtils.substringBetween(datax[i],"[","]");
+		try{
+			List list=WfEntry.iv().useCoreView().coreSqlview("select count(*) cou from netone.t_wf_participant where usercode='"+info+"' and statusnow='01'");
+			String data= ((Map)list.get(0)).get("cou").toString();
+			String deptname=SecurityEntry.iv().loadUser(info).getDeptname();
+
+			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(部门："+deptname+"|工作量:"+data+")["+info+"]");
+	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+
+		return particiapntArr;
+	}
+	
 	private TWfActive loadCfgActiveCore(Activity act, String commiter,
 			AppSecond as, String runtimeid) throws Exception {
 		TWfActive actx = new TWfActive();
@@ -207,6 +241,11 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		} else {
 			actx.setParticipant(extinfo);
 		}
+
+		//追加人员工作量
+		String addWorkItemParticipant=countWorkItem(actx.getParticipant());
+		actx.setParticipant(addWorkItemParticipant);
+		
 		// 无论是选部门、角色、组还是流程角色最终都表现为人的选择
 		actx.setParticipantmode(_PARTICIPANT_MODE_HUMAN);
 		if (this._PARTICIPANT_MODE_CREATER.equals(objtype)) {

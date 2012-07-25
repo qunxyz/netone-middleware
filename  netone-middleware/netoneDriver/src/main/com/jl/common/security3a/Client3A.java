@@ -21,6 +21,25 @@ public final class Client3A {
 
 	String mobile;
 	String email;
+	
+	String deptid;
+	String deptname;
+
+	public String getDeptid() {
+		return deptid;
+	}
+
+	public void setDeptid(String deptid) {
+		this.deptid = deptid;
+	}
+
+	public String getDeptname() {
+		return deptname;
+	}
+
+	public void setDeptname(String deptname) {
+		this.deptname = deptname;
+	}
 
 	public String getName() {
 		return name;

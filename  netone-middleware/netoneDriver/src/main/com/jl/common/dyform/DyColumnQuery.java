@@ -184,9 +184,8 @@ public class DyColumnQuery {
 		if (StringUtils.isNotEmpty(upjs.getActionurl())&&isExists(upjs.getActionurl(), "config")) {
 
 				listxml = readXML("0", upjs.getActionurl());
-				if (listxml.size() > 0) {
-					for (Iterator iteratorxml = listxml.iterator(); iteratorxml
-							.hasNext();) {
+				if (listxml!=null) {
+					for (Iterator iteratorxml = listxml.iterator(); iteratorxml.hasNext();) {
 						FullObj fullObj = (FullObj) iteratorxml.next();
 						if (StringUtils.isEmpty(fullObj.getRef())) {
 							// 查询字段是本表单

@@ -3309,18 +3309,18 @@ public class FrameActionExt extends AbstractAction {
 				object = (DyFormData) listx.get(i);
 			String loopEach=loop;
 			loopEach=StringUtils.replace(loopEach, "$(loop.PM)", object.getColumn4()==null?"":object.getColumn4());
-			loopEach=StringUtils.replace(loopEach, "$(loop.JZ)", object.getColumn26()==null?"":object.getColumn26());
-			loopEach=StringUtils.replace(loopEach, "$(loop.SZ)", object.getColumn24()==null?"":object.getColumn24());
-			loopEach=StringUtils.replace(loopEach, "$(loop.JJZ)", object.getColumn25()==null?"":object.getColumn25());
-			loopEach=StringUtils.replace(loopEach, "$(loop.SJ)", object.getColumn11()==null?"":object.getColumn11());
-			loopEach=StringUtils.replace(loopEach, "$(loop.SSJ)", object.getColumn15()==null?"":object.getColumn15());
+			loopEach=StringUtils.replace(loopEach, "$(loop.JZ)", object.getColumn26()==null?"":(object.getColumn26().toString()+"(克)"));
+			loopEach=StringUtils.replace(loopEach, "$(loop.SZ)", object.getColumn24()==null?"":(object.getColumn24().toString()+"(ct)"));
+			loopEach=StringUtils.replace(loopEach, "$(loop.JJZ)", object.getColumn25()==null?"":(object.getColumn25().toString()+"(克)"));
+			loopEach=StringUtils.replace(loopEach, "$(loop.SJ)", object.getColumn11()==null?"":(object.getColumn11().toString()+"(元)"));
+			loopEach=StringUtils.replace(loopEach, "$(loop.SSJ)", object.getColumn15()==null?"":(object.getColumn15().toString()+"(元)"));
 			loopEach=StringUtils.replace(loopEach, "$(loop.HH)", object.getColumn23()==null?"":object.getColumn23());
 			but.append(loopEach);
 			if (object.getColumn15() != null) {
 				sum += Double.valueOf(object.getColumn15());
 			}
 		}
-		info= StringUtils.replace(info, "$(sum)", sum.toString());
+		info= StringUtils.replace(info, "$(sum)", sum.toString()+"(元)");
 		info= StringUtils.replace(info, "$(shy)", shy);
 		info=StringUtils.replace(info, "$(loop-)"+loop+"$(-loop)", but.toString());
 		OutputStream os = response.getOutputStream();

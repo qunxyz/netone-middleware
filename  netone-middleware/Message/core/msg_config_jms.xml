@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "spring-beans.dtd">
+<beans>
+	<!-- jms 消息 -->
+	<bean id="msgRemotejms"
+		class="oe.rmi.message.jms.MessageHandleJMS">
+		<property name="manageJMS">
+			<ref local="manageJMS" />
+		</property>
+	</bean>
+	<bean id="manageJMS" class="oe.rmi.message.jms.ManageJMS">
+		<property name="url">
+			<value>tcp://localhost:61616</value>
+		</property>
+	</bean>
+	<!-- jms 消息end -->
+</beans>

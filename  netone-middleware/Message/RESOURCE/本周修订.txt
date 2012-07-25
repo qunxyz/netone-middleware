@@ -1,0 +1,10 @@
+1: 整理原先的 列表管理, 包括:人员选择 和附件添加  --OK
+2: 测试新的安全 newlandClient.jar包的应用情况  --OK
+3: 整理添加入 Portal的 应用设计中去 --OK
+4: 需要实现一个通过RMI获得 人员信息,可以实现选择应用  --OK
+5: 消息阅读　支持　查看，回复和　转发　--OK
+6: 消息支持邮件 应用
+
+消息中支持表单应用,流程查看和流程监控
+工作流往表单中发的消息格式:
+dy[formcode:lsh]wf[processid:runtimeid:runtimeNatrualanme:workcode:activeNaturalname]

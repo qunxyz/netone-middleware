@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowViewLayout Version="1.2">
+  <StrutsActivity path="/human/humanselect3.jsp" location="650,50" dimension="153,49" />
+  <StrutsActivity path="/sendmessage.jsp" location="950,50" dimension="116,49" />
+  <StrutsActivity path="/selfmodify/index.jsp" location="650,950" dimension="130,49" />
+  <StrutsActivity path="/bussindex.jsp" location="650,650" dimension="99,49" />
+  <StrutsActivity path="/bussinfo.jsp" location="950,650" dimension="91,49" />
+  <StrutsActivity path="/message.jsp" location="650,750" dimension="93,49" />
+  <StrutsActivity path="/reMessage.jsp" location="950,750" dimension="103,49" />
+  <StrutsActivity path="/pendingmore.jsp" location="50,850" dimension="113,49" />
+  <StrutsActivity path="/pendingindex.jsp" location="350,850" dimension="115,49" />
+  <StrutsActivity path="/msgsend.jsp" location="650,850" dimension="93,49" />
+  <StrutsActivity path="" location="950,250" dimension="29,49" />
+  <StrutsTransition id="/human/humanselect3.jsp,null,/DepartmentSelect.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="650,74" />
+      <AbsolutePoint location="407,74" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/sendmessage.jsp,null,/DepartmentSelect.do,2" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="1008,99" />
+      <AbsolutePoint location="1008,114" />
+      <AbsolutePoint location="407,114" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/DepartmentSelect.do,userselect3,/human/humanselect3.jsp,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="407,84" />
+      <AbsolutePoint location="650,84" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+  <StrutsTransition id="/DepartmentSelect.do,userselect3,,1" routingType="0">
+    <AutomaticBendpoints>
+      <AbsolutePoint location="228,138" />
+      <AbsolutePoint location="228,274" />
+      <AbsolutePoint location="950,274" />
+    </AutomaticBendpoints>
+  </StrutsTransition>
+</FlowViewLayout>
+

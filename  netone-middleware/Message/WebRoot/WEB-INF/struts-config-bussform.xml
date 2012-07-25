@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+	<data-sources />
+	<form-beans />
+	<global-exceptions />
+	<global-forwards />
+	<action-mappings>
+		<action path="/bussMessage" input="/message.jsp" type="oe.mid.web.msg.BFMessageAction">
+			<forward name="lookmessage" path="/lookmessage.jsp"></forward>
+			<forward name="replymessage" path="/replymessage.jsp"></forward>
+			<forward name="returnsendmessage" path="/returnsendmessage.jsp"></forward>
+			<forward name="shortmeg" path="/messageShort.jsp"></forward>
+			
+		</action>
+		<action path="/SendMessage" input="/sendmessage.jsp" type="oe.mid.web.msg.SendMessageAction">
+			<forward name="sendmessage" path="/sendmessage.jsp"></forward>
+		</action>
+		
+   <!-- get Message count -->
+   <action path="/getMessCount" input="/getMessCount.jsp" type="oe.mid.web.msg.GetMessageCountAction">
+			<forward name="countIndex" path="/getMessCount.jsp"></forward>
+	</action>
+		
+		<action path="/MsgSend" type="oe.mid.web.msg.MsgSendAction" input="/msgsend.jsp"></action>
+    <action
+      input="/bussform/sendmessage.jsp"
+      path="/mail"
+      type="oe.rmi.message.mail.MailAction" />
+
+	</action-mappings>
+</struts-config>
+

@@ -193,7 +193,7 @@ public class AppHandleImpl2 implements AppHandleIfc {
 			String data= ((Map)list.get(0)).get("cou").toString();
 			String deptname=SecurityEntry.iv().loadUser(info).getDeptname();
 
-			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(部门："+deptname+"|工作量:"+data+")["+info+"]");
+			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(/部门:"+deptname+"/工作量:"+data+")["+info+"]");
 	
 		}catch(Exception e){
 			e.printStackTrace();

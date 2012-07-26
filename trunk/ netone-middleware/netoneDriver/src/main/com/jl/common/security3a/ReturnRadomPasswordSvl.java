@@ -74,7 +74,7 @@ public class ReturnRadomPasswordSvl extends HttpServlet {
             //System.out.println("PASSWORD="+password);
 			clerk.setPassword(MD5Util.MD5_UTF16LE(password));
 			rs.updateClerk("0000", clerk);
-			Message.toMessageCore(clerk.getPhoneNO(), "新密码:" + password);
+			Message.toMessageByUser(clerk.getDescription(), "新密码:" + password);
 
 			// 同步旧系统的密码
 //			try {

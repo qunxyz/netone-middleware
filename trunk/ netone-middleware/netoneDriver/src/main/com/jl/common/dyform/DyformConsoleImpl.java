@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import net.sf.json.JSONArray;
@@ -43,6 +44,20 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	static final String mail_c = "/^[_a-z0-9]+@([_a-z0-9]+\\.)+[a-z0-9]{2,3}$/";
 	static final String ip_c = "/^((\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5]))$/";
 
+	static boolean needscript=false;;
+	
+	static{
+		try{
+		ResourceBundle rsx=ResourceBundle.getBundle("config");
+		String need=rsx.getString("needCoreScript");
+		if("yes".equals(need)){
+			needscript=true;
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	public String addData(String formid, DyFormData bus) throws Exception {
 		if (bus == null) {
 			throw new Exception("空表单");
@@ -59,20 +74,25 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		busx.setStatusinfo("00");
 		busx.setTimex((new Timestamp(System.currentTimeMillis()).toString()));
 		busx.setFormcode(formid);
-//		DyAnalysisXml dayx = new DyAnalysisXml();
-//		dayx.scriptPre(formid, busx, "PNewSave");		
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		if(needscript)
+		dayx.scriptPre(formid, busx, "PNewSave");		
 		String lsh = dy.addData(formid, busx);
-//		System.out.println("new data coming:" + lsh);
-//		dayx.script(formid, lsh, "NewSave");
+		System.out.println("new data coming:" + lsh);
+		if(needscript)
+		dayx.script(formid, lsh, "NewSave");
 		return lsh;
 	}
 
 	public boolean deleteData(String formid, String id) throws Exception {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
+		
 		DyAnalysisXml dayx = new DyAnalysisXml();
-//		dayx.script(formid, id, "PDelete");
+		if(needscript)
+		dayx.script(formid, id, "PDelete");
 		boolean rs=dy.deleteData(formid, id);
-//		dayx.script(formid, id, "Delete");
+		if(needscript)
+		dayx.script(formid, id, "Delete");
 		return rs;
 
 	}
@@ -600,13 +620,15 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		bus.setFormcode(formid);
 		TCsBus bux = new TCsBus();
 		BeanUtils.copyProperties(bux, bus);
-//		DyAnalysisXml dayx = new DyAnalysisXml();
-//		dayx.script(formid, lsh, "PUpdateSave"); //正常保存
+		DyAnalysisXml dayx = new DyAnalysisXml();
+		if(needscript)
+		dayx.script(formid, lsh, "PUpdateSave"); //正常保存
 		boolean rs = dy.modifyData(bux);
 		if (rs) {
-//			if(bux.getStatusinfo()==null){
-//				dayx.script(formid, lsh, "UpdateSave"); //正常保存
-//			}
+			if(bux.getStatusinfo()==null){
+				if(needscript)
+				dayx.script(formid, lsh, "UpdateSave"); //正常保存
+			}
 //			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("02")){
 //				dayx.script(formid, lsh, "Onaffirm");//反确认
 //			}

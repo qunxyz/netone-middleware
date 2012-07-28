@@ -1,0 +1,64 @@
+//二级联动通用脚本
+//初始化事件
+/**参数列表
+  *par1:$(json_url),例:http://42.120.40.204:83/scm/dyinfo? lsh=&model=0&ext=&formcode=69ebdb6b95f011e191e44dc1824bccae_&fatherlsh=1
+  *par2:$(column1),联动数据关联条件,例:column8
+  *par3:$(column2),被联动下拉框key,例:column7
+  *par4:$(column3),被联动下拉框text,例:column4
+  *
+  *
+  *
+  *
+  *
+  *
+  */
+var divcae6d5c095f411e19d04e1f804e88ddd_=$('<select style=\"display:none\"></select>'); 
+divcae6d5c095f411e19d04e1f804e88ddd_.attr ('id','divcae6d5c095f411e19d04e1f804e88ddd_'); 
+divcae6d5c095f411e19d04e1f804e88ddd_.appendTo('body'); 
+$.getJSON("$(json_url)",   function(json){  
+	$.each(json, function(i,item){   
+		$('#divcae6d5c095f411e19d04e1f804e88ddd_').append("<option id="+item.$(column1)+" value="+item.$(column2)+">"+item.$(column3)+"</option>"); 
+	});  
+});
+		
+//数据改变事件
+/**参数列表
+  *par1:$(formcode),例:cae6d5c095f411e19d04e1f804e88ddd_
+  *par2:$(column1),被联动下拉框id,例:column11
+  *
+  *
+  *
+  *
+  *
+  *
+  *
+  *
+  */
+var thisval = $(this).val();   
+if (thisval!=''){      
+	$('table#$(formcode)').find('#$(column1)').empty();
+	$('#divcae6d5c095f411e19d04e1f804e88ddd_   option').each(function(index, domEle){  
+		if (thisval==$(domEle).attr('id')){    
+			$('table#$(formcode)').find('#$(column1)').append("<option value="+  $(domEle).val()+">"+$(domEle).text()+"</option>");
+		}  
+	});
+}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

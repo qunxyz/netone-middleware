@@ -1,0 +1,37 @@
+//验证主键唯一性
+//保存前
+/**参数列表
+  *par1:$(tableName),DY_661338441749389
+  *par2:$(par1),主键字段id,例:column3
+  *par3:$(par2),主键id新值,例:$(column3)
+  *
+  *
+  *
+  *
+  *
+  *
+  *
+  */
+		String sql = "select "+$(par1)+" from "+$(tableName)+" where "+$(par1)+"='"+$(par2)+"'"; 
+		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+		List list = db.queryData(con, sql);
+		if(list.size()>0){
+			throw new Exception("ID不可重复!!!");
+//修改前
+/**参数列表
+  *par1:$(tableName),DY_661338441749389
+  *par2:$(par1),主键字段id,例:column3
+  *par3:$(par2),主键id新值,例:$(column3)
+  *par4:$(par3),当前记录流水号,例:column4
+  *
+  *
+  *
+  *
+  *
+  *
+  */
+		String sql = "select "+$(par1)+" from "+$(tableName)+" where "+$(par1)+"='"+$(par2)+"' and lsh != '$(par3)'"; 
+		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+		List list = db.queryData(con, sql);
+		if(list.size()>0){
+			throw new Exception("ID不可重复!!!");

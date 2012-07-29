@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<ParameterDefine>
+  <Parameter levelColumn="BELONGX" timeColumn="TIMEX" ds="" table="DYV_891339942737789" NAME="入库明细表" uuid="a38be984b91611e1aab0490940543abe_" dataSrc="DY" usable="true" period="1h" other="[subform]#[listinfo]1,2,3,4,5,6,7,8#[orderinfo]1#[butinfo],backIc:1:回退 ,dispIc:1:显示 ,queIc:1:查询 ,expIc:1:导出 ,createIc:1:创建 ,modifyIc:1:修改 ,deleteIc:1:删除 ,sublistIc:1:子表单列表 #[viewbutinfo],viewmanIc:1:视图管理 ,viewbut1Ic:1:进入明细 ,viewbut2Ic:1:返回上一级 #[styleinfo]null">
+    <SQLINFO><![CDATA[SELECT  '' TIMEX,'' BELONGX,t.column3 rkNO,t.column6 rkDate,t.column8 gys,t3.column3 gysName,t2.column4 txm,t2.column7 pm,
+t2.column11 kh,t2.column12 zsh,t2.column16 zz,t2.column17 jz,t2.column24 sc,t2.column37 zs,
+t2.column66 fs,t2.column55 color,t2.column56 jd,t2.column57 qg,t2.column31 jhcb,'' zscb,t2.column32 rksccb,
+t2.column33 bl,t2.column34 rksj,
+t.column14 cpdl,t4.column3 cpdlName,t2.column52 clcs,t.column5 zdr,t.column13 rkbz
+FROM DY_271334208897439 t
+LEFT JOIN DY_271334208897441 t2 ON t2.FATHERLSH=t.LSH
+LEFT JOIN DY_941335942247762 t3 ON t3.column4= t.column8
+LEFT JOIN DY_521339922112143 t4 ON t4.column8 = t.column14]]></SQLINFO>
+    <FieldMapping NAME="时间" uuid="timex" virtual="" viewtype="04" attributeName="timex" fieldName="TIMEX" attributeType="date" unit="" usable="true" period="1h" other="[htmltype]datetime#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="字段" uuid="belongx" viewtype="17" attributeName="belongx" fieldName="BELONGX" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]tree#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="入库单号" uuid="rkNO" virtual="" viewtype="" attributeName="rkNO" fieldName="RKNO" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="入库日期" uuid="rkDate" virtual="" viewtype="" attributeName="rkDate" fieldName="RKDATE" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="供应商编码" uuid="gys" virtual="" viewtype="" attributeName="gys" fieldName="GYS" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="供应商" uuid="gysName" virtual="" viewtype="" attributeName="gysName" fieldName="GYSNAME" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="条形码" uuid="txm" virtual="" viewtype="" attributeName="txm" fieldName="TXM" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="品名" uuid="pm" virtual="" viewtype="" attributeName="pm" fieldName="PM" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="款号" uuid="kh" virtual="" viewtype="" attributeName="kh" fieldName="KH" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="证书号" uuid="zsh" virtual="" viewtype="" attributeName="zsh" fieldName="ZSH" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="总重" uuid="zz" virtual="" viewtype="" attributeName="zz" fieldName="ZZ" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="金重" uuid="jz" virtual="" viewtype="" attributeName="jz" fieldName="JZ" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="手寸" uuid="sc" virtual="" viewtype="" attributeName="sc" fieldName="SC" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="主石(ct/p/g)" uuid="zs" virtual="" viewtype="" attributeName="zs" fieldName="ZS" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="副石(ct/p/g)" uuid="fs" virtual="" viewtype="" attributeName="fs" fieldName="FS" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="颜色" uuid="color" virtual="" viewtype="" attributeName="color" fieldName="COLOR" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="净度" uuid="jd" virtual="" viewtype="" attributeName="jd" fieldName="JD" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="车工" uuid="qg" virtual="" viewtype="" attributeName="qg" fieldName="QG" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="进货成本" uuid="jhcb" virtual="" viewtype="" attributeName="jhcb" fieldName="JHCB" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="真实成本" uuid="zscb" virtual="" viewtype="" attributeName="zscb" fieldName="ZSCB" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]char#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="入库市场成本" uuid="rksccb" virtual="" viewtype="" attributeName="rksccb" fieldName="RKSCCB" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="倍率" uuid="bl" virtual="" viewtype="" attributeName="bl" fieldName="BL" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="入库售价" uuid="rksj" virtual="" viewtype="" attributeName="rksj" fieldName="RKSJ" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="产品大类编码" uuid="cpdl" virtual="" viewtype="" attributeName="cpdl" fieldName="CPDL" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="产品大类" uuid="cpdlName" virtual="" viewtype="" attributeName="cpdlName" fieldName="CPDLNAME" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="材料成色" uuid="clcs" virtual="" viewtype="" attributeName="clcs" fieldName="CLCS" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="制单人" uuid="zdr" virtual="" viewtype="" attributeName="zdr" fieldName="ZDR" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="入库备注" uuid="rkbz" virtual="" viewtype="" attributeName="rkbz" fieldName="RKBZ" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+  </Parameter>
+</ParameterDefine>

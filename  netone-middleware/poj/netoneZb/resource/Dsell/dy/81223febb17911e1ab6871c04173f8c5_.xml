@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<ParameterDefine>
+  <Parameter levelColumn="BELONGX" timeColumn="TIMEX" ds="" table="DYV_961339166234717" NAME="测试" uuid="81223febb17911e1ab6871c04173f8c5_" dataSrc="DY" usable="true" period="1h" other="[subform]#[listinfo]1,2,3,4,5,6,7,8#[orderinfo]1#[butinfo],backIc:1:回退 ,dispIc:1:显示 ,queIc:1:查询 ,expIc:1:导出 ,createIc:1:创建 ,modifyIc:1:修改 ,deleteIc:1:删除 ,sublistIc:1:子表单列表 #[viewbutinfo],viewmanIc:1:视图管理 ,viewbut1Ic:1:进入明细 ,viewbut2Ic:1:返回上一级 #[styleinfo]null">
+    <SQLINFO><![CDATA[select BELONGX BELONGX,TIMEX TIMEX,column3 column3,column4 column4,column5 column5,column6 column6 from DY_941335942247762 where 1=1]]></SQLINFO>
+    <FieldMapping NAME="A" uuid="belongx" viewtype="17" attributeName="belongx" fieldName="BELONGX" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]tree#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="A" uuid="timex" virtual="" viewtype="04" attributeName="timex" fieldName="TIMEX" attributeType="date" unit="" usable="true" period="1h" other="[htmltype]datetime#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="A" uuid="column3" virtual="" viewtype="" attributeName="column3" fieldName="COLUMN3" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="A" uuid="column4" virtual="" viewtype="" attributeName="column4" fieldName="COLUMN4" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="A" uuid="column5" virtual="" viewtype="" attributeName="column5" fieldName="COLUMN5" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="A" uuid="column6" virtual="" viewtype="" attributeName="column6" fieldName="COLUMN6" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+  </Parameter>
+</ParameterDefine>

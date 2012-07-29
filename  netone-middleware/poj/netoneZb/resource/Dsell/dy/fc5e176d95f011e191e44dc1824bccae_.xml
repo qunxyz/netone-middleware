@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<ParameterDefine>
+  <Parameter levelColumn="BELONGX" timeColumn="TIMEX" ds="" table="DY_61336130537511" NAME="销售明细属性" uuid="fc5e176d95f011e191e44dc1824bccae_" dataSrc="DY" level="区域[BUSSENV.BUSSENV.DYSER.BUSSLEVEL.AREA]" usable="true" period="1h" other="[subform]#[listinfo]1,2,3,4,5,6,7,8#[orderinfo]1#[butinfo],backIc:1:回退 ,dispIc:1:显示 ,queIc:1:查询 ,expIc:1:导出 ,createIc:1:创建 ,modifyIc:1:修改 ,deleteIc:1:删除 ,sublistIc:1:子表单列表 #[viewbutinfo],viewmanIc:1:视图管理 ,viewbut1Ic:1:进入明细 ,viewbut2Ic:1:返回上一级 #[styleinfo]默认样式[CSSFILE.CSSFILE.DEFAULT]">
+    <SQLINFO><![CDATA[*]]></SQLINFO>
+    <FieldMapping NAME="LSH" uuid="LSH" virtual="" viewtype="" attributeName="LSH" fieldName="LSH" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="FORMCODE" uuid="FORMCODE" virtual="" viewtype="" attributeName="FORMCODE" fieldName="FORMCODE" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="PARTICIPANT" uuid="PARTICIPANT" virtual="" viewtype="" attributeName="PARTICIPANT" fieldName="PARTICIPANT" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="CREATED" uuid="CREATED" virtual="" viewtype="" attributeName="CREATED" fieldName="CREATED" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="FATHERLSH" uuid="FATHERLSH" virtual="" viewtype="" attributeName="FATHERLSH" fieldName="FATHERLSH" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="STATUSINFO" uuid="STATUSINFO" virtual="" viewtype="" attributeName="STATUSINFO" fieldName="STATUSINFO" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]char#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="EXTENDATTRIBUTE" uuid="EXTENDATTRIBUTE" virtual="" viewtype="" attributeName="EXTENDATTRIBUTE" fieldName="EXTENDATTRIBUTE" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="HIT" uuid="HIT" virtual="" viewtype="" attributeName="HIT" fieldName="HIT" attributeType="number" unit="" usable="false" period="1h" other="[htmltype]#[checktype]number#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="区域" uuid="belongx" virtual="区域[AREA]" viewtype="17" attributeName="belongx" fieldName="BELONGX" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]tree#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="日期" uuid="timex" virtual="" viewtype="04" attributeName="timex" fieldName="TIMEX" attributeType="date" unit="" usable="true" period="1h" other="[htmltype]datetime#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="销售明细属性" uuid="column3" viewtype="00" attributeName="column3" fieldName="column3" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]text#[checktype]#[musk]1#[opemode]0#[extend]offset$:2-1$!size$:100$!width$:250$!"/>
+    <FieldMapping NAME="默认属性" uuid="column4" viewtype="31" attributeName="column4" fieldName="column4" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]text#[checktype]#[musk]0#[opemode]0#[extend]offset$:2-2$!size$:1$!width$:250$!"/>
+    <FieldMapping NAME="最后修改人" uuid="column5" viewtype="24" attributeName="column5" fieldName="column5" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]text#[checktype]#[musk]1#[opemode]1#[extend]offset$:2-3$!size$:100$!width$:250$!"/>
+    <FieldMapping NAME="最后修改时间" uuid="column6" viewtype="04" attributeName="column6" fieldName="column6" attributeType="date" unit="" usable="true" period="1h" other="[htmltype]datetime#[checktype]#[musk]1#[opemode]1#[extend]offset$:4-1$!size$:30$!width$:250$!"/>
+  </Parameter>
+</ParameterDefine>

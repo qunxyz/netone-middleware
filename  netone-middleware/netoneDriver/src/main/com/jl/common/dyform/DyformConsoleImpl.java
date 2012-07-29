@@ -315,12 +315,13 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 		String ext = columnnew.getExtendattribute();
 		if (ext != null && !ext.equals("")) {
-
+			DyAnalysisXml ds=new DyAnalysisXml();
 			// 设置获得焦点事件
 			String focusScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_FOCUSSCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
-			columnnew.setFocusScript(focusScript);
+			columnnew.setFocusScript(ds.dealWithResourceScript(focusScript,"WEBSOASCRIPT"));
+			
 			// 设置失去焦点事件
 			String loseFocusScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_LOSEFOCUSSCRIPT,
@@ -347,7 +348,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				loseFocusScript = "if($(this).val()!=''){ if(!$(this).val().match("
 						+ check_req + ")){alert('无效格式');}}" + loseFocusScript;
 			}
-			columnnew.setLoseFocusScript(loseFocusScript);
+			columnnew.setLoseFocusScript(ds.dealWithResourceScript(loseFocusScript,"WEBSOASCRIPT"));
 
 			// 是否是一组字段
 			String groupScript = StringUtils.substringBetween(ext,
@@ -361,13 +362,13 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			String initScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_INITSCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
-			columnnew.setInitScript(initScript);
+			columnnew.setInitScript(ds.dealWithResourceScript(initScript,"WEBSOASCRIPT"));
 
 			// 设置改变事件
 			String onchange = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_ONCHANGESCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
-			columnnew.setOnchangeScript(onchange);
+			columnnew.setOnchangeScript(ds.dealWithResourceScript(onchange,"WEBSOASCRIPT"));
 
 			// 设置校验脚本
 			String reqExpressionularX = StringUtils.substringBetween(ext,
@@ -383,9 +384,12 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			} else {
 				columnnew.setRegExpression(reqExpressionular);
 			}
-
+			if(columnnew.getColumname().endsWith("$#")){
 			// 是否隐蔽
-			columnnew.setHidden(false);
+				columnnew.setHidden(true);
+			}else{
+				columnnew.setHidden(false);
+			}
 			// 是否必填
 			columnnew.setMusk_("1".equals(columnnew.getMusk()));
 			// 是否只读
@@ -426,6 +430,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			columnnew.setReadonly("1".equals(columnnew.getOpemode()));
 		}
 	}
+	
+
 
 	public DyFormColumn loadColumn(String formid, String columnid)
 			throws Exception {

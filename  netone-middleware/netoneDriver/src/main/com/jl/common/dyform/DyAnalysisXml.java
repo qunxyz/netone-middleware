@@ -85,7 +85,8 @@ public class DyAnalysisXml {
 			}
 			if (!mxlstr.equals("") || mxlstr != null) {
 				String script = dyxml.readXML(mxlstr, fatherNode);
-
+				script=dealWithResourceScript(script,"SOASCRIPT");		
+				
 				if (StringUtils.isNotEmpty(lsh)) {
 					DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 					TCsBus bus =null;
@@ -126,6 +127,25 @@ public class DyAnalysisXml {
 		}
 		return "";
 	}
+		
+		
+		public String dealWithResourceScript(String script,String rsHead) throws  Exception{
+			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+			if(script!=null&&script.trim().startsWith(rsHead)){
+				String scriptContect=StringUtils.substringBefore(script, "?");
+				String ext=rs.loadResourceByNatural(scriptContect).getExtendattribute();
+				String scriptAft=StringUtils.substringAfter(script, "?");
+				String []info=scriptAft.split("&");
+				for (int i = 0; i < info.length; i++) {
+					String []param=info[i].split("=");
+					String key="$("+param[0]+")";
+					scriptContect=StringUtils.replace(scriptContect, key, param[1]);
+				}
+				return scriptContect;
+			}else{
+				return script;
+			}
+		}
 	// 脚本的使用
 	public Object scriptPre(String formid, TCsBus bus,String mode)
 			throws Exception {

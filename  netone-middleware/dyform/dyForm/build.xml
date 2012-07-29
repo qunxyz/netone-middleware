@@ -12,7 +12,11 @@
 			<fileset dir="${class.dir}">
 				<include name="**" />
 				<exclude name="*.xml" />
-				<exclude name="*.properties" />
+				<include name="dy.properties" />
+				<exclude name="applicationweb.properties" />
+				<exclude name="busscontext.properties" />
+				<exclude name="resource.properties" />
+				<exclude name="resourceweb.properties" />
 				<exclude name="oe/cav/web" />
 			</fileset>
 		</jar>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Report>
+<Record id="dyrecord" ishead="dyrecord"  focdstr="DYVIEW.DYVIEW.ZBSS.FXGL.DYV_551340155137939" sqlstr=" select  * from  DYV_551340155137939"  itemwidth="1170" itemheight="28"  rows="1" cols="13" CSS="-NULL-">
+	<sql><![CDATA[ select  * from  DYV_551340155137939]]></sql>
+	<tr tableid="dyrecord" rowid="0" height="28"/>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="0" rowspan="1" colspan="1">
+ 		<Columns id="colums1" text="条码" columns="CODEX" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="1" rowspan="1" colspan="1">
+ 		<Columns id="colums3" text="品名" columns="PRODUCTNAME" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="2" rowspan="1" colspan="1">
+ 		<Columns id="colums6" text="款号" columns="PRODUCTNO" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="3" rowspan="1" colspan="1">
+ 		<Columns id="colums10" text="证书号" columns="CARDNO" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="4" rowspan="1" colspan="1">
+ 		<Columns id="colums15" text="手寸" columns="HANDLENGTH" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="5" rowspan="1" colspan="1">
+ 		<Columns id="colums21" text="总重" columns="TOTALWEIGHT" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="6" rowspan="1" colspan="1">
+ 		<Columns id="colums28" text="金重" columns="KINGWEIGHT" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="7" rowspan="1" colspan="1">
+ 		<Columns id="colums36" text="主石(cp/t)" columns="SBCOLUMN14" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="8" rowspan="1" colspan="1">
+ 		<Columns id="colums45" text="副石(cp/t)" columns="SBCOLUMN19" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="9" rowspan="1" colspan="1">
+ 		<Columns id="colums55" text="颜色" columns="SBCOLUMN16" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="10" rowspan="1" colspan="1">
+ 		<Columns id="colums66" text="净度" columns="SBCOLUMN17" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="11" rowspan="1" colspan="1">
+ 		<Columns id="colums78" text="切工" columns="SBCOLUMN23" statistyp="-NuLL-" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="dyrecord" width="90" height="28" row="0" col="12" rowspan="1" colspan="1">
+ 		<Columns id="colums91" text="售价" columns="SBCOLUMN5" statistyp="ToSum" stringtyp="-NuLL-" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+</Record>
+<Table id="tablewei" ishead="wei" itemwidth="1170" itemheight="56"  rows="2" cols="13" CSS="-NULL-">
+	<sql><![CDATA[-NULL-]]></sql>
+	<tr tableid="tablewei" rowid="0" height="28"/>
+	<td tableid="tablewei" width="90" height="28" row="0" col="0" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="1" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="2" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="3" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="4" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="5" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="6" rowspan="1" colspan="1"></td>
+ 	<td tableid="tablewei" width="90" height="28" row="0" col="7" rowspan="1" colspan="1"></td>
+ 	<td tableid="tablewei" width="90" height="28" row="0" col="8" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="9" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="10" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="11" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="12" rowspan="1" colspan="1">
+ 	</td>
+	<tr tableid="tablewei" rowid="1" height="28"/>
+	<td tableid="tablewei" width="90" height="28" row="1" col="0" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="1" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="2" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="3" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="4" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="5" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="6" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="7" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="8" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="9" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="10" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="11" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="12" rowspan="1" colspan="1">
+ 	</td>
+</Table>
+<Interface columns="CODEX" displayname="条码" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="PRODUCTNAME" displayname="品名" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="FCOLUMN12" displayname="分销商" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="FA1COLUMN8" displayname="供应商" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="SB1COLUMN50" displayname="经营品牌" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="SB1COLUMN48" displayname="产品大类" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="FA1COLUMN14" displayname="自定义大类" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="SB1COLUMN52" displayname="成色" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="SB1COLUMN27" displayname="进货方式" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="SBCOLUMN6" displayname="备注" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="TIMEX" displayname="时间" stringtype="时间" remark="未设置" using="true" />
+</Report>

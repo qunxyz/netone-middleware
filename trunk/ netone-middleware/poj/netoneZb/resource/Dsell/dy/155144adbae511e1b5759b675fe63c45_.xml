@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<ParameterDefine>
+  <Parameter levelColumn="BELONGX" timeColumn="TIMEX" ds="" table="DYV_551340155137939" NAME="分销入库明细" uuid="155144adbae511e1b5759b675fe63c45_" dataSrc="DY" usable="true" period="1h" other="[subform]#[listinfo]1,2,3,4,5,6,7,8#[orderinfo]1#[butinfo],backIc:1:回退 ,dispIc:1:显示 ,queIc:1:查询 ,expIc:1:导出 ,createIc:1:创建 ,modifyIc:1:修改 ,deleteIc:1:删除 ,sublistIc:1:子表单列表 #[viewbutinfo],viewmanIc:1:视图管理 ,viewbut1Ic:1:进入明细 ,viewbut2Ic:1:返回上一级 #[styleinfo]null">
+    <SQLINFO><![CDATA[select sb.column3 codex,
+sb.column4 productname,
+sb.column8 productno,
+sb.column9 cardno,
+sb.column13 handlength,
+sb.column11 totalweight,
+sb.column12 kingweight,
+sb.column14 sbcolumn14,
+sb.column19 sbcolumn19,
+sb.column16 sbcolumn16,
+sb.column17 sbcolumn17,
+sb.column23 sbcolumn23,
+sb.column5 sbcolumn5,
+fa.column3 fcolumn3,
+fa.column12 fcolumn12,
+fa1.column8 fa1column8,
+sb1.column50 sb1column50,
+sb1.column48 sb1column48,
+fa1.column14 fa1column14,
+sb1.column52 sb1column52,
+sb1.column27 sb1column27,
+sb.column6 sbcolumn6,
+sb.timex timex,
+'' belongx
+from DY_661338441749388 sb,DY_661338441749389 fa,DY_271334208897441 sb1,DY_271334208897439 fa1 
+where sb.fatherlsh=fa.lsh and sb.column3=sb1.column4 and fa1.lsh=sb1.fatherlsh ]]></SQLINFO>
+    <FieldMapping NAME="条码" uuid="codex" virtual="" viewtype="" attributeName="codex" fieldName="CODEX" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="品名" uuid="productname" virtual="" viewtype="" attributeName="productname" fieldName="PRODUCTNAME" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="款号" uuid="productno" virtual="" viewtype="" attributeName="productno" fieldName="PRODUCTNO" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="证书号" uuid="cardno" virtual="" viewtype="" attributeName="cardno" fieldName="CARDNO" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="手寸" uuid="handlength" virtual="" viewtype="" attributeName="handlength" fieldName="HANDLENGTH" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="总重" uuid="totalweight" virtual="" viewtype="" attributeName="totalweight" fieldName="TOTALWEIGHT" attributeType="number" unit="" usable="true" period="1h" other="[htmltype]#[checktype]number#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="金重" uuid="kingweight" virtual="" viewtype="" attributeName="kingweight" fieldName="KINGWEIGHT" attributeType="number" unit="" usable="true" period="1h" other="[htmltype]#[checktype]number#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="主石(cp/t)" uuid="sbcolumn14" virtual="" viewtype="" attributeName="sbcolumn14" fieldName="SBCOLUMN14" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="副石(cp/t)" uuid="sbcolumn19" virtual="" viewtype="" attributeName="sbcolumn19" fieldName="SBCOLUMN19" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="颜色" uuid="sbcolumn16" virtual="" viewtype="" attributeName="sbcolumn16" fieldName="SBCOLUMN16" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="净度" uuid="sbcolumn17" virtual="" viewtype="" attributeName="sbcolumn17" fieldName="SBCOLUMN17" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="切工" uuid="sbcolumn23" virtual="" viewtype="" attributeName="sbcolumn23" fieldName="SBCOLUMN23" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="售价" uuid="sbcolumn5" virtual="" viewtype="" attributeName="sbcolumn5" fieldName="SBCOLUMN5" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="进货单价" uuid="fcolumn3" virtual="" viewtype="" attributeName="fcolumn3" fieldName="FCOLUMN3" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="分销商" uuid="fcolumn12" virtual="" viewtype="" attributeName="fcolumn12" fieldName="FCOLUMN12" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="供应商" uuid="fa1column8" virtual="" viewtype="" attributeName="fa1column8" fieldName="FA1COLUMN8" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="经营品牌" uuid="sb1column50" virtual="" viewtype="" attributeName="sb1column50" fieldName="SB1COLUMN50" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="产品大类" uuid="sb1column48" virtual="" viewtype="" attributeName="sb1column48" fieldName="SB1COLUMN48" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="自定义大类" uuid="fa1column14" virtual="" viewtype="" attributeName="fa1column14" fieldName="FA1COLUMN14" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="成色" uuid="sb1column52" virtual="" viewtype="" attributeName="sb1column52" fieldName="SB1COLUMN52" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="进货方式" uuid="sb1column27" virtual="" viewtype="" attributeName="sb1column27" fieldName="SB1COLUMN27" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="备注" uuid="sbcolumn6" virtual="" viewtype="" attributeName="sbcolumn6" fieldName="SBCOLUMN6" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="时间" uuid="timex" virtual="" viewtype="04" attributeName="timex" fieldName="TIMEX" attributeType="date" unit="" usable="true" period="1h" other="[htmltype]datetime#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="隶属" uuid="belongx" viewtype="17" attributeName="belongx" fieldName="BELONGX" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]tree#[checktype]#[musk]0#[opemode]0#[extend]"/>
+  </Parameter>
+</ParameterDefine>

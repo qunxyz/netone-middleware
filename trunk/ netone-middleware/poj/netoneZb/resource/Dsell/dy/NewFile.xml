@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Report>
+<Table id="table" ishead="tou" itemwidth="1621" itemheight="28"  rows="1" cols="18" CSS="-NULL-">
+	<sql><![CDATA[-NULL-]]></sql>
+	<col tableid="table" width="90" colid="0"/>
+	<col tableid="table" width="90" colid="1"/>
+	<col tableid="table" width="90" colid="2"/>
+	<col tableid="table" width="90" colid="3"/>
+	<col tableid="table" width="90" colid="4"/>
+	<col tableid="table" width="90" colid="5"/>
+	<col tableid="table" width="90" colid="6"/>
+	<col tableid="table" width="90" colid="7"/>
+	<col tableid="table" width="90" colid="8"/>
+	<col tableid="table" width="90" colid="9"/>
+	<col tableid="table" width="90" colid="10"/>
+	<col tableid="table" width="90" colid="11"/>
+	<col tableid="table" width="90" colid="12"/>
+	<col tableid="table" width="90" colid="13"/>
+	<col tableid="table" width="90" colid="14"/>
+	<col tableid="table" width="90" colid="15"/>
+	<col tableid="table" width="90" colid="16"/>
+	<col tableid="table" width="90" colid="17"/>
+	<tr tableid="table" rowid="0" height="28"/>
+	<td tableid="table" width="90" height="28" row="0" col="0" rowspan="1" colspan="1">
+ 		<Label id="Label1" text="退库单号" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="1" rowspan="1" colspan="1">
+ 		<Label id="Label2" text="退库日期" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="2" rowspan="1" colspan="1">
+ 		<Label id="Label3" text="供应商" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="3" rowspan="1" colspan="1">
+ 		<Label id="Label4" text="条形码" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="4" rowspan="1" colspan="1">
+ 		<Label id="Label5" text="品名" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="5" rowspan="1" colspan="1">
+ 		<Label id="Label6" text="款号" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="6" rowspan="1" colspan="1">
+ 		<Label id="Label7" text="证书号" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="7" rowspan="1" colspan="1">
+ 		<Label id="Label8" text="手寸" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="8" rowspan="1" colspan="1">
+ 		<Label id="Label9" text="总重" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="9" rowspan="1" colspan="1">
+ 		<Label id="Label10" text="金重" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="10" rowspan="1" colspan="1">
+ 		<Label id="Label11" text="主石(ct/p)" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="11" rowspan="1" colspan="1">
+ 		<Label id="Label12" text="副石(ct/p)" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="12" rowspan="1" colspan="1">
+ 		<Label id="Label13" text="颜色" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="13" rowspan="1" colspan="1">
+ 		<Label id="Label14" text="净度" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="14" rowspan="1" colspan="1">
+ 		<Label id="Label15" text="车工" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="15" rowspan="1" colspan="1">
+ 		<Label id="Label16" text="进货成本" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="16" rowspan="1" colspan="1">
+ 		<Label id="Label17" text="真实成本" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+	<td tableid="table" width="90" height="28" row="0" col="17" rowspan="1" colspan="1">
+ 		<Label id="Label18" text="售价" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" />
+	</td>
+</Table>
+<Table id="tablewei" ishead="wei" itemwidth="1620" itemheight="56"  rows="2" cols="18" CSS="-NULL-">
+	<sql><![CDATA[-NULL-]]></sql>
+	<tr tableid="tablewei" rowid="0" height="28"/>
+	<td tableid="tablewei" width="90" height="28" row="0" col="0" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="1" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="2" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="3" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="4" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="5" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="6" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="7" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="8" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="9" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="10" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="11" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="12" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="13" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="14" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="15" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="16" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="0" col="17" rowspan="1" colspan="1">
+ 		<Dataset id="dataset1" text="dataset1" color="#0B333C" fontWeight="normal" textDecoration="none" fontStyle="normal" fontSize="12" fontFamily="Verdana" >
+			<sql><![CDATA[ select  sum(SJ)  sjsum from  DYV_551340155137929]]></sql>
+		</Dataset>
+	</td>
+	<tr tableid="tablewei" rowid="1" height="28"/>
+	<td tableid="tablewei" width="90" height="28" row="1" col="0" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="1" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="2" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="3" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="4" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="5" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="6" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="7" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="8" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="9" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="10" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="11" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="12" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="13" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="14" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="15" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="16" rowspan="1" colspan="1">
+ 	</td>
+	<td tableid="tablewei" width="90" height="28" row="1" col="17" rowspan="1" colspan="1">
+ 	</td>
+</Table>
+<Interface columns="TKNO" displayname="退库单号" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="TKDATE" displayname="退库日期" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="ZDR" displayname="制单人" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="TXM" displayname="条形码" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="PM" displayname="品名" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="GYSNAME" displayname="供应商" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="CPDLNAME" displayname="产品大类" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="CLCS" displayname="材料成色" stringtype="字符串" remark="未设置" using="true" />
+<Interface columns="NOTE" displayname="备注" stringtype="字符串" remark="未设置" using="true" />
+</Report>

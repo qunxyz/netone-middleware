@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<ParameterDefine>
+  <Parameter levelColumn="BELONGX" timeColumn="TIMEX" ds="" table="DYV_961339166234723" NAME="进货明细表" uuid="03ac86d7b20e11e1ab6871c04173f8c5_" dataSrc="DY" usable="true" period="1h" other="[subform]#[listinfo]1,2,3,4,5,6,7,8#[orderinfo]1#[butinfo],backIc:1:回退 ,dispIc:1:显示 ,queIc:1:查询 ,expIc:1:导出 ,createIc:1:创建 ,modifyIc:1:修改 ,deleteIc:1:删除 ,sublistIc:1:子表单列表 #[viewbutinfo],viewmanIc:1:视图管理 ,viewbut1Ic:1:进入明细 ,viewbut2Ic:1:返回上一级 #[styleinfo]null">
+    <SQLINFO><![CDATA[select BELONGX BELONGX,TIMEX TIMEX,column3 column3,column4 column4,column8 column8,column9 column9,column13 column13,column11 column11,column12 column12,column14 column14,column19 column19,column16 column16,column17 column17,column21 column21,column5 column5 from DY_661338441749388 where 1=1]]></SQLINFO>
+    <FieldMapping NAME="区域" uuid="belongx" viewtype="17" attributeName="belongx" fieldName="BELONGX" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]tree#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="时间" uuid="timex" virtual="" viewtype="04" attributeName="timex" fieldName="TIMEX" attributeType="date" unit="" usable="true" period="1h" other="[htmltype]datetime#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="条形码" uuid="column3" virtual="" viewtype="" attributeName="column3" fieldName="COLUMN3" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="品名" uuid="column4" virtual="" viewtype="" attributeName="column4" fieldName="COLUMN4" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="款号" uuid="column8" virtual="" viewtype="" attributeName="column8" fieldName="COLUMN8" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="阿斯顿" uuid="column9" virtual="" viewtype="" attributeName="column9" fieldName="COLUMN9" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="爱的" uuid="column13" virtual="" viewtype="" attributeName="column13" fieldName="COLUMN13" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="column11" uuid="column11" virtual="" viewtype="" attributeName="column11" fieldName="COLUMN11" attributeType="number" unit="" usable="false" period="1h" other="[htmltype]#[checktype]number#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="column12" uuid="column12" virtual="" viewtype="" attributeName="column12" fieldName="COLUMN12" attributeType="number" unit="" usable="false" period="1h" other="[htmltype]#[checktype]number#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="column14" uuid="column14" virtual="" viewtype="" attributeName="column14" fieldName="COLUMN14" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="column19" uuid="column19" virtual="" viewtype="" attributeName="column19" fieldName="COLUMN19" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="column16" uuid="column16" virtual="" viewtype="" attributeName="column16" fieldName="COLUMN16" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="column17" uuid="column17" virtual="" viewtype="" attributeName="column17" fieldName="COLUMN17" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="column21" uuid="column21" virtual="" viewtype="" attributeName="column21" fieldName="COLUMN21" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="column5" uuid="column5" virtual="" viewtype="" attributeName="column5" fieldName="COLUMN5" attributeType="string" unit="" usable="false" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+  </Parameter>
+</ParameterDefine>

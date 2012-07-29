@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<ParameterDefine>
+  <Parameter levelColumn="BELONGX" timeColumn="TIMEX" ds="" table="DYV_891339942737787" NAME="入库明细表" uuid="f78439c0b8fd11e1aab0490940543abe_" dataSrc="DY" usable="true" period="1h" other="[subform]#[listinfo]1,2,3,4,5,6,7,8#[orderinfo]1#[butinfo],backIc:1:回退 ,dispIc:1:显示 ,queIc:1:查询 ,expIc:1:导出 ,createIc:1:创建 ,modifyIc:1:修改 ,deleteIc:1:删除 ,sublistIc:1:子表单列表 #[viewbutinfo],viewmanIc:1:视图管理 ,viewbut1Ic:1:进入明细 ,viewbut2Ic:1:返回上一级 #[styleinfo]null">
+    <SQLINFO><![CDATA[SELECT  '' TIMEX,'' BELONGX,t.column3 column3,t.column6 column6,t.column8 column8,t2.column4 column4,t2.column7 column7,
+t2.column11 column11,t2.column12 column12,t2.column16 column16,t2.column17 column17,t2.column24 column24,t2.column37 column37,
+t2.column66 column66,t2.column55 column55,t2.column56 column56,t2.column57 column57,t2.column31 column31,'' zscb,t2.column32 column32,
+t2.column33 column33,t2.column34 column34
+FROM DY_271334208897439 t
+LEFT JOIN DY_271334208897441 t2 ON t2.FATHERLSH=t.LSH]]></SQLINFO>
+    <FieldMapping NAME="时间" uuid="timex" virtual="" viewtype="04" attributeName="timex" fieldName="TIMEX" attributeType="date" unit="" usable="true" period="1h" other="[htmltype]datetime#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="字段" uuid="belongx" viewtype="17" attributeName="belongx" fieldName="BELONGX" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]tree#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="入库单号" uuid="column3" virtual="" viewtype="" attributeName="column3" fieldName="COLUMN3" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="入库日期" uuid="column6" virtual="" viewtype="" attributeName="column6" fieldName="COLUMN6" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="供应商" uuid="column8" virtual="" viewtype="" attributeName="column8" fieldName="COLUMN8" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="条形码" uuid="column4" virtual="" viewtype="" attributeName="column4" fieldName="COLUMN4" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="品名" uuid="column7" virtual="" viewtype="" attributeName="column7" fieldName="COLUMN7" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="款号" uuid="column11" virtual="" viewtype="" attributeName="column11" fieldName="COLUMN11" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="证书号" uuid="column12" virtual="" viewtype="" attributeName="column12" fieldName="COLUMN12" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="总重" uuid="column16" virtual="" viewtype="" attributeName="column16" fieldName="COLUMN16" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="金重" uuid="column17" virtual="" viewtype="" attributeName="column17" fieldName="COLUMN17" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="手寸" uuid="column24" virtual="" viewtype="" attributeName="column24" fieldName="COLUMN24" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="主石(ct/p/t)" uuid="column37" virtual="" viewtype="" attributeName="column37" fieldName="COLUMN37" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="副石(ct/p/g)" uuid="column66" virtual="" viewtype="" attributeName="column66" fieldName="COLUMN66" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="颜色" uuid="column55" virtual="" viewtype="" attributeName="column55" fieldName="COLUMN55" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="净度" uuid="column56" virtual="" viewtype="" attributeName="column56" fieldName="COLUMN56" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="切工" uuid="column57" virtual="" viewtype="" attributeName="column57" fieldName="COLUMN57" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="进货成本" uuid="column31" virtual="" viewtype="" attributeName="column31" fieldName="COLUMN31" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="真实成本" uuid="zscb" virtual="" viewtype="" attributeName="zscb" fieldName="ZSCB" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]char#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="入库市场成本" uuid="column32" virtual="" viewtype="" attributeName="column32" fieldName="COLUMN32" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="倍率" uuid="column33" virtual="" viewtype="" attributeName="column33" fieldName="COLUMN33" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+    <FieldMapping NAME="入库售价" uuid="column34" virtual="" viewtype="" attributeName="column34" fieldName="COLUMN34" attributeType="string" unit="" usable="true" period="1h" other="[htmltype]varchar#[checktype]#[musk]0#[opemode]0#[extend]"/>
+  </Parameter>
+</ParameterDefine>

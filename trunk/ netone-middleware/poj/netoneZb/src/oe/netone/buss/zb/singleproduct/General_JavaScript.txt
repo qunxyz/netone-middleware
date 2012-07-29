@@ -22,7 +22,7 @@
   *par1:$(tableName),DY_661338441749389
   *par2:$(par1),主键字段id,例:column3
   *par3:$(par2),主键id新值,例:$(column3)
-  *par4:$(par3),当前记录流水号,例:column4
+  *par4:$(par3),当前记录流水号,例:$(lsh)
   *
   *
   *

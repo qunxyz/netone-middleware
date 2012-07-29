@@ -36,7 +36,7 @@ $.getJSON("$(json_url)",   function(json){
   */
 var thisval = $(this).val();   
 if (thisval!=''){      
-	$('table#$(formcode)').find('#$(column1)').empty();
+	$('table#$(formcode)').find('#$(par1)').empty();
 	$('#divcae6d5c095f411e19d04e1f804e88ddd_   option').each(function(index, domEle){  
 		if (thisval==$(domEle).attr('id')){    
 			$('table#$(formcode)').find('#$(par1)').append("<option value="+  $(domEle).val()+">"+$(domEle).text()+"</option>");

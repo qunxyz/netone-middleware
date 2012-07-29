@@ -23,7 +23,18 @@ import org.apache.commons.lang.StringUtils;
 public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 		DyFormDesignService {
 	
+	static ResourceBundle rb=null;
+	static String []headArr={""};
+	static{
+		try{
+		rb=ResourceBundle.getBundle("dy");
+		String head=rb.getString("cachehead");
+		headArr=StringUtils.split(head,",");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 
+	}
 
 	public DyFormDesignServiceImpl() throws RemoteException {
 		super();
@@ -44,6 +55,9 @@ public class DyFormDesignServiceImpl extends UnicastRemoteObject implements
 		WebCache.removeCache("DYFORMTITLEX_" + formcode);
 		WebCache.removeCache("DYFORMX_" + formcode);
 		WebCache.removeCache("DYFORMCOLUMNX_" + formcode);
+		for (int i = 0; i < headArr.length; i++) {
+			WebCache.removeCache(headArr[i]+formcode);
+		}
 	}
 
 	public String addColumn(TCsColumn column) throws RemoteException {

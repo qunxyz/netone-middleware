@@ -1,0 +1,50 @@
+//分销调拨
+//子表单
+//条码号
+offset$:1-1$!size$:100$!initscript$:
+	$("table#a61c5973ce1b11e183c615f767bb9f54_").find('#column3').live('focus',function(){  
+		$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.FXKC&sr_fxsid='+$("table#ef03d311c0ee11e19e849de029b8abb5_").find('#column8').val(),  {   multiple: false,   dataType: "json",   autoFill: true,   mustMatch: true,   matchContains: false,   scrollHeight: 220,   width:300,   parse:  function(data) {    return $.map(data, function(row)   {  return   {  data: row,        value: row.column3,        result:  row.column3}   }); },  formatItem: function(item) { return  item.column3+' '+item.column4; },  formatResult: function(item) {  return item.column3; }   }).result(function(e, item) { 
+			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_701342253696596'+'&sr_pcode='+$(this).val(),       function(jsonx2){   if (jsonx2!=null){        if (jsonx2.count>0){    Ext.ux.Toast.msg("", "条形码已存在！");    return;   }  }  });   
+	var oo =  $(this).parent().parent();  
+	if (item!=null){   
+		oo.find('#column4').val(item.column4);      
+		oo.find('#column5').val(item.column5); 
+		oo.find('#column6').val(item.column6);     
+		oo.find('#column8').val(item.column22);      
+		oo.find('#column9').val(item.column8);  
+		oo.find('#column10').val(item.column9);      
+		oo.find('#column11').val(item.column10);      
+		oo.find('#column12').val(item.column11);      
+		oo.find('#column13').val(item.column12);    
+		oo.find('#column14').val(item.column13);     
+		oo.find('#column15').val(item.column14);      
+		oo.find('#column16').val(item.column15);      
+		oo.find('#column17').val(item.column16);
+		oo.find('#column18').val(item.column17);     
+		oo.find('#column19').val(item.column23);  
+		oo.find('#column20').val(item.column19); 
+		oo.find('#column21').val(item.column20); 
+		oo.find('#column22').val(item.column26); 
+		oo.find('#column23').val(item.column25); 
+	} else {  
+		oo.find('#column3').val('');      
+		oo.find('#column4').val('');      
+		oo.find('#column5').val('');      
+		oo.find('#column6').val('');    
+		oo.find('#column7').val('');      
+		oo.find('#column8').val('');      
+		oo.find('#column9').val('');      
+		oo.find('#column10').val('');    
+		oo.find('#column11').val('');      
+		oo.find('#column12').val('');      
+		oo.find('#column13').val('');      
+		oo.find('#column14').val('');     
+		oo.find('#column15').val(''); 
+		oo.find('#column16').val('');
+		oo.find('#column17').val('');
+		oo.find('#column18').val('');
+		oo.find('#column19').val('');
+		oo.find('#column20').val('');
+		oo.find('#column21').val('');  
+	}        
+});  $(this).unbind("focus");    });$!;

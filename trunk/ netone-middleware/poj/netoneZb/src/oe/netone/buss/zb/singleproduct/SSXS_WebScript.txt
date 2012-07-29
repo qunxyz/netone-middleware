@@ -1,0 +1,182 @@
+//首饰销售单
+//主表单
+//客户
+offset$:3-2$!size$:100$!onchangescript$: 
+	$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETVIPINFO&q="+encodeURI($(this).val()),    function(jsonx){   
+		if (jsonx!=null){    
+			$('table#8a606025a84f11e19b54fb13b166e993_').find('#column13').val(jsonx.column27);    
+			$('table#8a606025a84f11e19b54fb13b166e993_').find('#column14').val(jsonx.column30);    
+			$('table#8a606025a84f11e19b54fb13b166e993_').find('#column15').val(jsonx.column31);        
+			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETVIPLEVELBYPOINT&q="+jsonx.column30,      function(jsonx2){     
+				if (jsonx2!=null){      
+					$('table#8a606025a84f11e19b54fb13b166e993_').find('#column17').val(jsonx2.column3);     
+				} else {      
+					$('table#8a606025a84f11e19b54fb13b166e993_').find('#column17').val('');     
+				}    
+			});    
+		} else {    
+			$('table#8a606025a84f11e19b54fb13b166e993_').find('#column13').val('');    
+			$('table#8a606025a84f11e19b54fb13b166e993_').find('#column14').val(0);    
+			$('table#8a606025a84f11e19b54fb13b166e993_').find('#column15').val(0);    
+			$('table#8a606025a84f11e19b54fb13b166e993_').find('#column17').val('');
+			/** 会员级别编码 */   
+		}  
+	});
+$!
+
+//首饰销售单子表单
+//应收金额
+offset$:1-1$!size$:6,2$!onchangescript$: 
+	var $ssj = 0; 
+	var $yhje = 0;    
+	$('#1dde2f9fa81711e19b54fb13b166e993_').find('#column15').each(function(){ 
+		var o = $(this); 
+		if (o.val()  =='') 
+			return;  
+		var v = parseFloat(o.val());  
+		if(isNaN(v)){    v=0;  }  $ssj+=v; 
+	});        
+	$('#59af414da81611e19b54fb13b166e993_').find('#column5').each(function(){ 
+		var o = $(this); 
+		if (o.val()  =='') 
+			return;  
+		var v = parseFloat(o.val());  if(isNaN(v)){    v=0;  } $yhje +=v;   
+	});  
+	$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').val($ssj-$yhje);  
+	$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column7').val($yhje);      
+$!
+
+//销售明细
+//条码号
+offset$:1-1$!size$:100$!initscript$:     
+	$("table#1dde2f9fa81711e19b54fb13b166e993_").find('#column3').live('focus',function(){    
+	$(this).autocomplete('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTBYFXJH'+'&sr_clientid='+$('table#8a606025a84f11e19b54fb13b166e993_').find('#column8').val(), {  multiple: false,  dataType: "json",  autoFill: true,  mustMatch: true,  matchContains: false,  scrollHeight: 220,  width:300,  parse: function(data) {   return $.map(data, function(row) {    return {     data: row,     value: row.column4,     result: row.column4    }   });  },  formatItem: function(item) {   return  item.column4+' '+item.column7;  },  formatResult: function(item) {   return item.column4;  }  }) .result(function(e, item) {   
+		var o = $(this).parent().parent();  
+		if (item!=null){    
+			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_371337952339238'+'&sr_pcode='+$(this).val(),        function(jsonx2){         if (jsonx2!=null){         if (jsonx2.count>0){     Ext.ux.Toast.msg("", "条形码已存在！");     return;    }   }   });    
+	/***工费单价***/ o.find('#column9').val(item.column59); 
+	/** 产品名称  */  o.find('#column4').val(item.column7); 
+	o.find('#column25').val(item.column27);
+	o.find('#column26').val(item.jinzhong);     
+	/**售价  */  o.find('#column11').val(item.sellprice);  
+	/*** 产品大类 */  o.find('#column19').val(item.bigcate); 
+	if(item.bigcate=='dl006'){o.find('#column28').val('lx001');
+	o.find('#column28').trigger('change');} 
+	/**款号 */  o.find('#column20').val(item.column11);  
+	/** 证书号 */  o.find('#column21').val(item.column12); 
+	o.find('#column23').val(item.huohao); 
+	o.find('#column27').val(item.zhushihao);  
+	/***折扣信息**/  
+	$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSPECIALOFFERSINFOBYLEVEL&q="+$('table#8a606025a84f11e19b54fb13b166e993_').find('#column17').val(),    function(jsonx2){   
+		if (jsonx2!=null){    
+			var vs1 = Number(jsonx2.column10);    
+			if(isNaN(vs1)){      vs1=0;    }    
+			o.find('#column6').val(vs1);    
+			o.find('#column12').val('75%');     
+			var vs2 = Number(jsonx2.column9);    
+			if(isNaN(vs2)){      vs2=10;    }    
+			o.find('#column13').val((vs2/10*100)+'%'); 
+			o.find('#column14').val((vs2/10*75)+'%');
+			o.find('#column15').val((vs2*0.75/10)*item.sellprice); 
+		} else {    
+			o.find('#column6').val(0);    
+			o.find('#column12').val('75%');    
+			o.find('#column13').val('100%'); 
+			o.find('#column14').val('75%');
+			o.find('#column15').val(0.75*item.sellprice);
+		}  
+	});} else {   
+		o.find('#column4').val('');  
+		o.find('#column11').val('');  
+		o.find('#column19').val('');  
+		o.find('#column20').val('');  
+		o.find('#column21').val('');  
+	} });
+	$(this).unbind("focus");setTimeout(function(){$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change'); 
+	}, 250);});   
+$!
+
+//售价
+offset$:10-1$!size$:22,2$!onchangescript$:
+	var o = $(this);  
+	if(o.val()==''){ return;}  
+	var p = o.parent().parent();  
+	var ssj = p.find('#column15');  
+	if(isNaN(o.val())){   
+		ssj.val(0);    
+	} else {   
+		ssj.val((Number(o.val())*Number(p.find('#column14').val().replace('%',''))/100).toFixed(2));  
+	} 
+	$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change');     
+$!
+
+//当日金价
+offset$:5-1$!size$:22,2$!onchangescript$:
+	var o = $(this);
+	var p = o.parent().parent();
+	var zjj = Number(p.find('#column26').val())*Number(o.val()); 
+	p.find('#column7').val(zjj); 
+	var zgf = Number(p.find('#column26').val())*Number(p.find('#column9').val());
+	p.find('#column10').val(zgf);p.find('#column11').val(zgf+zjj); 
+	setTimeout(function(){p.find('#column11').trigger('change');}, 250); 
+$!
+
+//工费单价
+offset$:9-1$!size$:22,2$!onchangescript$:  
+	$(this).parent().parent().find('#column5').trigger('change');   
+$! 
+
+//折扣率
+offset$:11-1$!size$:100$!onchangescript$:
+	var o = $(this);  
+	if(o.val()==''){ return;}  
+	o.val(o.val().replace('%','')+'%');  
+	var p = o.parent().parent(); 
+	var sszk = (Number($(this).val().replace('%',''))/100)*(Number(p.find('#column13').val().replace('%',''))/100);  
+	p.find('#column14').val((sszk*100).toFixed(2)+'%'); 
+	p.find('#column15').val((Number(p.find('#column11').val())*Number(sszk)).toFixed(2)); 
+	$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change');     
+$! 
+
+//实售价
+offset$:14-1$!size$:22,2$!onchangescript$:
+	var o = $(this); 
+	if (o.val()  ==''){return;}
+	var p = o.parent().parent(); 
+	var zkl = Number($(this).val())/Number(p.find('#column13').val().replace('%',''))*100/Number(p.find('#column11').val());     
+	p.find('#column12').val((zkl*100).toFixed(2)+'%');             
+	p.find('#column14').val((Number(zkl)*Number(p.find('#column13').val().replace('%',''))).toFixed(2)+'%');
+	$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change');       
+$!
+
+//金重
+offset$:5-1$!size$:6,2$!onchangescript$:
+	$(this).parent().parent().find('#column5').trigger('change');
+$!
+
+//黄金类型
+offset$:4-1$!size$:100$!initscript$:
+	var divcae6d5c095f411e19d04e1f804e88ddd_=$('<select style=\"display:none\"></select>'); 
+	divcae6d5c095f411e19d04e1f804e88ddd_.attr ('id','divcae6d5c095f411e19d04e1f804e88ddd_'); 
+	divcae6d5c095f411e19d04e1f804e88ddd_.appendTo('body'); 
+	$.getJSON("http://42.120.40.204:83/scm/dyinfo? lsh=&model=0&ext=&formcode=b01bf075d79711e1907c01c3ecd3992f_&fatherlsh=1",   function(json){  $.each(json, function(i,item){   $('#divcae6d5c095f411e19d04e1f804e88ddd_').append("<option value="+item.column3+">"+item.column4+"</option>"); });  });
+$!; 
+onchangescript$:  
+	var thisval = $(this).val();      
+	var p = $(this).parent().parent();   
+	if (thisval!=''){      
+		$('#divcae6d5c095f411e19d04e1f804e88ddd_   option').each(    
+			function(index, domEle){      
+				if (thisval==$(domEle).val()){          
+					p.find('#column5').val($(domEle).text());     
+				}      
+			});
+		p.find('#column5').trigger('change');
+	} else {p.find('#column5').val(0);}
+$!;
+
+//促销优惠
+//优惠金额
+offset$:1-3$!size$:6,2$!onchangescript$: 
+	$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change');     
+$!; 

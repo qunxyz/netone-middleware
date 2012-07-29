@@ -2,11 +2,8 @@ package com.jl.web.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -1047,43 +1044,26 @@ public class FrameActionExt extends AbstractAction {
 
 						if ("dl001".equals(ext)) {
 							if ("column4".equals(colid)
-									|| "column86".equals(colid)
-									|| "column34".equals(colid)
-									|| "column36".equals(colid)
 									|| "column84".equals(colid)
-									|| "column48".equals(colid)
-									|| "column52".equals(colid)
 									|| "column7".equals(colid)
-									|| "column49".equals(colid)
-									|| "column51".equals(colid)
-									|| "column50".equals(colid)
-									|| "column55".equals(colid)
-									|| "column56".equals(colid)
-									|| "column58".equals(colid)
-									|| "column57".equals(colid)
 									|| "column11".equals(colid)
+									|| "column34".equals(colid)
+									|| "column37".equals(colid)
+									|| "column56".equals(colid)
+									|| "column55".equals(colid)
 									|| "column12".equals(colid)
-									|| "column13".equals(colid)
-									|| "column14".equals(colid)
-									|| "column15".equals(colid)
-									|| "column16".equals(colid)
-									|| "column17".equals(colid)
-									|| "column18".equals(colid)
-									|| "column19".equals(colid)
 									|| "column21".equals(colid)
-									|| "column22".equals(colid)
-									|| "column24".equals(colid)
-									|| "column25".equals(colid)
+									|| "column58".equals(colid)
 									|| "column72".equals(colid)
+									|| "column69".equals(colid)
+									|| "column71".equals(colid)
+									|| "column78".equals(colid)
 									|| "column73".equals(colid)
 									|| "column74".equals(colid)
 									|| "column75".equals(colid)
 									|| "column76".equals(colid)
-									|| "column77".equals(colid)
-									|| "column78".equals(colid)
 									|| "column79".equals(colid)
-									|| "column80".equals(colid)
-									|| "column83".equals(colid)) {
+									|| "column30".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1119,51 +1099,31 @@ public class FrameActionExt extends AbstractAction {
 							}
 						}
 						if ("dl003".equals(ext)) {
-							if ("column4".equals(colid)
-									|| "column34".equals(colid)
+							if ("column7".equals(colid)
+									|| "column11".equals(colid)
 									|| "column84".equals(colid)
-									|| "column52".equals(colid)
-									|| "column7".equals(colid)
-									|| "column49".equals(colid)
-									|| "column51".equals(colid)
+									|| "column34".equals(colid)
+									|| "column4".equals(colid)
+									|| "column24".equals(colid)		
 									|| "column12".equals(colid)
-									|| "column14".equals(colid)
-									|| "column18".equals(colid)
-									|| "column20".equals(colid)
-									|| "column24".equals(colid)
-									|| "column25".equals(colid)
-									|| "column26".equals(colid)
-									|| "column54".equals(colid)
-									|| "column37".equals(colid)
-									|| "column38".equals(colid)
-									|| "column39".equals(colid)
-									|| "column40".equals(colid)
-									|| "column55".equals(colid)
-									|| "column56".equals(colid)
-									|| "column57".equals(colid)
-									|| "column44".equals(colid)
-									|| "column45".equals(colid)
-									|| "column60".equals(colid)
-									|| "column61".equals(colid)
-									|| "column62".equals(colid)
-									|| "column27".equals(colid)
+									|| "column59".equals(colid)
+									|| "column20".equals(colid)		
 									|| "column72".equals(colid)
+									|| "column69".equals(colid)
+									|| "column71".equals(colid)
+									|| "column78".equals(colid)
 									|| "column73".equals(colid)
 									|| "column74".equals(colid)
 									|| "column75".equals(colid)
 									|| "column76".equals(colid)
-									|| "column77".equals(colid)
-									|| "column78".equals(colid)
 									|| "column79".equals(colid)
-									|| "column80".equals(colid)
-									|| "column83".equals(colid)) {
+									|| "column30".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
 						if ("dl004".equals(ext)) {
 							if ("column4".equals(colid)
-									|| "column34".equals(colid)
-									|| "column86".equals(colid)
+									|| "column86".equals(colid)   
 									|| "column87".equals(colid)
 									|| "column84".equals(colid)
 									|| "column52".equals(colid)
@@ -1234,68 +1194,49 @@ public class FrameActionExt extends AbstractAction {
 							}
 						}
 						if ("dl006".equals(ext)) {
-							if ("column4".equals(colid)
+							if ("column7".equals(colid)
 									|| "column84".equals(colid)
-									|| "column52".equals(colid)
-									|| "column7".equals(colid)
-									|| "column49".equals(colid)
-									|| "column11".equals(colid)
-									|| "column15".equals(colid)
-									|| "column16".equals(colid)
-									|| "column17".equals(colid)
-									|| "column19".equals(colid)
-									|| "column24".equals(colid)
-									|| "column27".equals(colid)
-									|| "column28".equals(colid)
-									|| "column53".equals(colid)
-									|| "column59".equals(colid)
-									|| "column31".equals(colid)
-									|| "column32".equals(colid)
-									|| "column33".equals(colid)
 									|| "column34".equals(colid)
+									|| "column4".equals(colid)
+									|| "column24".equals(colid)		
+									|| "column11".equals(colid)
+									|| "column12".equals(colid)
+									|| "column59".equals(colid)
+									|| "column20".equals(colid)		
 									|| "column72".equals(colid)
+									|| "column69".equals(colid)
+									|| "column71".equals(colid)
+									|| "column78".equals(colid)
 									|| "column73".equals(colid)
 									|| "column74".equals(colid)
 									|| "column75".equals(colid)
 									|| "column76".equals(colid)
-									|| "column77".equals(colid)
-									|| "column78".equals(colid)
 									|| "column79".equals(colid)
-									|| "column80".equals(colid)
-									|| "column83".equals(colid)) {
+									|| "column30".equals(colid)
+									|| "column31".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
 							}
 						}
 						if ("dl007".equals(ext)) {
-							if ("column4".equals(colid)
+							if ("column7".equals(colid)
 									|| "column84".equals(colid)
-									|| "column52".equals(colid)
-									|| "column7".equals(colid)
-									|| "column49".equals(colid)
-									|| "column11".equals(colid)
-									|| "column16".equals(colid)
-									|| "column17".equals(colid)
-									|| "column19".equals(colid)
-									|| "column24".equals(colid)
-									|| "column27".equals(colid)
-									|| "column28".equals(colid)
-									|| "column53".equals(colid)
-									|| "column30".equals(colid)
-									|| "column31".equals(colid)
-									|| "column32".equals(colid)
-									|| "column33".equals(colid)
 									|| "column34".equals(colid)
+									|| "column11".equals(colid)
+									|| "column4".equals(colid)
+									|| "column24".equals(colid)		
+									|| "column12".equals(colid)
+									|| "column59".equals(colid)	
 									|| "column72".equals(colid)
+									|| "column69".equals(colid)
+									|| "column71".equals(colid)
+									|| "column78".equals(colid)
 									|| "column73".equals(colid)
 									|| "column74".equals(colid)
 									|| "column75".equals(colid)
 									|| "column76".equals(colid)
-									|| "column77".equals(colid)
-									|| "column78".equals(colid)
 									|| "column79".equals(colid)
-									|| "column80".equals(colid)
-									|| "column83".equals(colid)) {
+									|| "column30".equals(colid)) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1332,34 +1273,26 @@ public class FrameActionExt extends AbstractAction {
 							}
 						}
 						if ("dl009".equals(ext)) {
-							if ("column4".equals(colid)
+							if ("column7".equals(colid)
 									|| "column84".equals(colid)
-									|| "column52".equals(colid)
-									|| "column7".equals(colid)
-									|| "column49".equals(colid)
-									|| "column11".equals(colid)
-									|| "column16".equals(colid)
-									|| "column17".equals(colid)
-									|| "column19".equals(colid)
-									|| "column24".equals(colid)
-									|| "column27".equals(colid)
-									|| "column28".equals(colid)
-									|| "column53".equals(colid)
-									|| "column30".equals(colid)
-									|| "column31".equals(colid)
-									|| "column32".equals(colid)
-									|| "column33".equals(colid)
 									|| "column34".equals(colid)
+									|| "column4".equals(colid)
+									|| "column24".equals(colid)
+									|| "column11".equals(colid)
+									|| "column12".equals(colid)
+									|| "column31".equals(colid)
+									|| "column20".equals(colid)
 									|| "column72".equals(colid)
+									|| "column69".equals(colid)
+									|| "column71".equals(colid)
+									|| "column78".equals(colid)
 									|| "column73".equals(colid)
 									|| "column74".equals(colid)
 									|| "column75".equals(colid)
 									|| "column76".equals(colid)
-									|| "column77".equals(colid)
-									|| "column78".equals(colid)
 									|| "column79".equals(colid)
-									|| "column80".equals(colid)
-									|| "column83".equals(colid)) {
+									|| "column30".equals(colid)
+									) {
 								subcolumnx[i].setHidden(false);
 							}
 						}
@@ -1397,7 +1330,6 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl011".equals(ext)) {
 							if ("column4".equals(colid)
-									|| "column34".equals(colid)
 									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
@@ -1439,7 +1371,6 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl012".equals(ext)) {
 							if ("column4".equals(colid)
-									|| "column34".equals(colid)
 									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
@@ -1481,7 +1412,6 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl013".equals(ext)) {
 							if ("column4".equals(colid)
-									|| "column34".equals(colid)
 									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
@@ -1550,7 +1480,6 @@ public class FrameActionExt extends AbstractAction {
 						}
 						if ("dl015".equals(ext)) {
 							if ("column4".equals(colid)
-									|| "column34".equals(colid)
 									|| "column84".equals(colid)
 									|| "column52".equals(colid)
 									|| "column7".equals(colid)
@@ -3255,13 +3184,21 @@ public class FrameActionExt extends AbstractAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String lsh = request.getParameter("lsh");
-		Double sum = new Double("0");
-		File file = new File("E:/SXXS.html");
-		InputStream input = new FileInputStream(file);
-		byte []bytearr=new byte[input.available()];
-		input.read(bytearr);
-		String info=new String(bytearr,"utf-8");
-		input.close();	
+
+		final String MY_STYLE1 = "customStyle1";
+
+		final String MY_DATA_STYLE1 = "customDataStyle1";
+		final String MY_DATA_STYLE2 = "customDataStyle2";
+		final String MY_HEADER_STYLE1 = "customHeaderStyle1";
+
+		final String MY_RIGHT_STYLE1 = "customRIGHTStyle1";
+
+		// 报表管理器
+		ReportManager rm = new ReportManager();
+		// 获得原始数据表格
+		Table t = new Table(14, 7);
+
+		// 首饰销售
 		DyFormData dydata0 = new DyFormData();
 		dydata0.setFormcode("8a606025a84f11e19b54fb13b166e993_");
 		dydata0.setFatherlsh("1");
@@ -3270,7 +3207,6 @@ public class FrameActionExt extends AbstractAction {
 		dydata0 = (DyFormData) listx0.get(0);
 		String clientId = dydata0.getColumn8();// 分销商
 		String code = dydata0.getColumn3();// 单号
-		String shy = dydata0.getColumn10();
 
 		// 分销商信息
 		DyFormData dydata1 = new DyFormData();
@@ -3278,319 +3214,237 @@ public class FrameActionExt extends AbstractAction {
 		dydata1.setFatherlsh("1");
 		dydata1.setColumn4(clientId);
 		List listx1 = DyEntry.iv().queryData(dydata1, 0, 1, "");
-		String address = "";
-		String tel = "";
-		if (listx1.size() > 0) {
-			dydata1 = (DyFormData) listx1.get(0);
-			address = dydata1.getColumn7();// 联系地址
-			tel = dydata1.getColumn11();// 联系电话
-		}
+		dydata1 = (DyFormData) listx1.get(0);
+		String address = dydata1.getColumn7();// 联系地址
+		String tel = dydata1.getColumn11();// 联系电话
 
 		// 首饰销售明细数据
 		DyFormData dydata = new DyFormData();
 		dydata.setFormcode("1dde2f9fa81711e19b54fb13b166e993_");
 		dydata.setFatherlsh(lsh);
 		List listx = DyEntry.iv().queryData(dydata, 0, 6, "");
-		info= StringUtils.replace(info, "$(address)", address);
-		info= StringUtils.replace(info, "$(tel)", tel);
-		info= StringUtils.replace(info, "$(date)", com.jl.common.TimeUtil
+
+		for (int i = 0; i < 4; i++) {
+			TableRow tr = new TableRow();
+
+			TableCell tc = new TableCell();
+			tc.setColSpan(2);
+			tr.addCell(tc);
+			TableCell tc2 = new TableCell();
+			tc2.setIsHidden(true);
+			tr.addCell(tc2);
+
+			tr.addCell(new TableCell());
+			tr.addCell(new TableCell());
+			tr.addCell(new TableCell());
+			tr.addCell(tc);
+			tr.addCell(tc2);
+
+			t.setRow(i, tr);
+		}
+
+		TableRow tr = new TableRow();
+
+		TableCell tc = new TableCell("" + address, Rectangle.ALIGN_CENTER);
+		tc.setColSpan(3);
+		tr.addCell(tc);
+		TableCell tc2 = new TableCell();
+		tc2.setIsHidden(true);
+		tr.addCell(tc2);
+		tr.addCell(tc2);
+
+		TableCell tcx = new TableCell("" + tel, Rectangle.ALIGN_CENTER);
+		tcx.setColSpan(2);
+		tr.addCell(tcx);
+		tr.addCell(tc2);
+
+		TableCell tcx0 = new TableCell(com.jl.common.TimeUtil
 				.getYear(new java.util.Date())
 				+ "年"
 				+ com.jl.common.TimeUtil.getMonth(new java.util.Date())
 				+ "月"
 				+ com.jl.common.TimeUtil.getDay(new java.util.Date())
-				+ "日	");
-		String loop= StringUtils.substringBetween(info, "$(loop-)", "$(-loop)");
-		 
-		StringBuffer but=new StringBuffer();
-		for(int i=0;i<6;i++){
-			DyFormData object = new DyFormData();
-			if(i<listx.size())
-				object = (DyFormData) listx.get(i);
-			String loopEach=loop;
-			loopEach=StringUtils.replace(loopEach, "$(loop.PM)", object.getColumn4()==null?"":object.getColumn4());
-			loopEach=StringUtils.replace(loopEach, "$(loop.JZ)", object.getColumn26()==null?"":(object.getColumn26().toString()+"(克)"));
-			loopEach=StringUtils.replace(loopEach, "$(loop.SZ)", object.getColumn24()==null?"":(object.getColumn24().toString()+"(ct)"));
-			loopEach=StringUtils.replace(loopEach, "$(loop.JJZ)", object.getColumn25()==null?"":(object.getColumn25().toString()+"(克)"));
-			loopEach=StringUtils.replace(loopEach, "$(loop.SJ)", object.getColumn11()==null?"":(object.getColumn11().toString()+"(元)"));
-			loopEach=StringUtils.replace(loopEach, "$(loop.SSJ)", object.getColumn15()==null?"":(object.getColumn15().toString()+"(元)"));
-			loopEach=StringUtils.replace(loopEach, "$(loop.HH)", object.getColumn23()==null?"":object.getColumn23());
-			but.append(loopEach);
+				+ "日	", Rectangle.ALIGN_CENTER);
+		tcx0.setColSpan(2);
+		tr.addCell(tcx0);
+		tr.addCell(tc2);
+
+		t.setRow(4, tr);
+
+		TableRow tr00_ = new TableRow();
+
+		TableCell tc00_ = new TableCell("");
+		tc00_.setColSpan(2);
+		tr00_.addCell(tc00_);
+		tr00_.addCell(tc2);
+
+		TableCell tc01_ = new TableCell("");
+		tc01_.setColSpan(3);
+		tr00_.addCell(tc01_);
+		tr00_.addCell(tc2);
+		tr00_.addCell(tc2);
+
+		TableCell tc02_ = new TableCell("");
+		tc02_.setColSpan(2);
+		tr00_.addCell(tc02_);
+		tr00_.addCell(tc2);
+
+		tr00_.setType(MY_DATA_STYLE1);
+		t.setRow(5, tr00_);
+
+		int cur = 6;
+		Double sum = new Double("0");
+		for (int j = 0; j < listx.size(); j++) {
+			DyFormData object = (DyFormData) listx.get(j);
+
+			TableRow tr00 = new TableRow();
+
+			TableCell tc00 = new TableCell(object.getColumn3());
+			tc00.setColSpan(2);
+			tr00.addCell(tc00);
+			tr00.addCell(tc2);
+
+			TableCell tc01 = new TableCell(object.getColumn4() + " 1件");
+			tc01.setColSpan(3);
+			tr00.addCell(tc01);
+			tr00.addCell(tc2);
+			tr00.addCell(tc2);
+
+			TableCell tc02 = new TableCell(object.getColumn15());
+			tc02.setColSpan(2);
+			tr00.addCell(tc02);
+			tr00.addCell(tc2);
+
 			if (object.getColumn15() != null) {
 				sum += Double.valueOf(object.getColumn15());
 			}
+
+			tr00.setType(MY_DATA_STYLE1);
+			t.setRow(cur + j, tr00);
 		}
-		info= StringUtils.replace(info, "$(sum)", sum.toString()+"(元)");
-		info= StringUtils.replace(info, "$(shy)", shy);
-		info=StringUtils.replace(info, "$(loop-)"+loop+"$(-loop)", but.toString());
+
+		TableRow tr000_ = new TableRow();
+
+		TableCell tc000_ = new TableCell("");
+		tc000_.setColSpan(2);
+		tr000_.addCell(tc000_);
+		tr000_.addCell(tc2);
+
+		TableCell tc001_ = new TableCell("");
+		tc001_.setColSpan(3);
+		tr000_.addCell(tc001_);
+		tr000_.addCell(tc2);
+		tr000_.addCell(tc2);
+
+		TableCell tc002_ = new TableCell(""
+				+ com.jl.common.MathHelper.round(sum, 2));
+		tc002_.setColSpan(2);
+		tr000_.addCell(tc002_);
+		tr000_.addCell(tc2);
+
+		tr000_.setType(MY_DATA_STYLE1);
+		t.setRow(13, tr000_);
+
+		// 定义报表对象
+		Report report = new Report();
+
+		// **************设置报表主体部分**************
+		ReportBody body = new ReportBody();
+		body.setData(t);
+		report.setBody(body);
+
+		// 输出文件
+		response.setHeader("Content-Disposition", "attachment; filename="
+				+ new String(("首饰销售单" + code).getBytes("GBK"), "ISO8859-1")
+				+ ".xls");
+		response.setContentType("application/vnd.ms-excel");
 		OutputStream os = response.getOutputStream();
-		os.write(info.getBytes());
-		os.flush();
-		os.close();
-//		final String MY_STYLE1 = "customStyle1";
-//
-//		final String MY_DATA_STYLE1 = "customDataStyle1";
-//		final String MY_DATA_STYLE2 = "customDataStyle2";
-//		final String MY_HEADER_STYLE1 = "customHeaderStyle1";
-//
-//		final String MY_RIGHT_STYLE1 = "customRIGHTStyle1";
-//
-//		// 报表管理器
-//		ReportManager rm = new ReportManager();
-//		// 获得原始数据表格
-//		Table t = new Table(14, 7);
-//
-//		// 首饰销售
-//		DyFormData dydata0 = new DyFormData();
-//		dydata0.setFormcode("8a606025a84f11e19b54fb13b166e993_");
-//		dydata0.setFatherlsh("1");
-//		dydata0.setLsh(lsh);
-//		List listx0 = DyEntry.iv().queryData(dydata0, 0, 1, "");
-//		dydata0 = (DyFormData) listx0.get(0);
-//		String clientId = dydata0.getColumn8();// 分销商
-//		String code = dydata0.getColumn3();// 单号
-//
-//		// 分销商信息
-//		DyFormData dydata1 = new DyFormData();
-//		dydata1.setFormcode("697afe8595db11e191e44dc1824bccae_");
-//		dydata1.setFatherlsh("1");
-//		dydata1.setColumn4(clientId);
-//		List listx1 = DyEntry.iv().queryData(dydata1, 0, 1, "");
-//		String address = "";
-//		String tel = "";
-//		if (listx1.size() > 0) {
-//			dydata1 = (DyFormData) listx1.get(0);
-//			address = dydata1.getColumn7();// 联系地址
-//			tel = dydata1.getColumn11();// 联系电话
-//		}
-//
-//		// 首饰销售明细数据
-//		DyFormData dydata = new DyFormData();
-//		dydata.setFormcode("1dde2f9fa81711e19b54fb13b166e993_");
-//		dydata.setFatherlsh(lsh);
-//		List listx = DyEntry.iv().queryData(dydata, 0, 6, "");
-//
-//		for (int i = 0; i < 4; i++) {
-//			TableRow tr = new TableRow();
-//
-//			TableCell tc = new TableCell();
-//			tc.setColSpan(2);
-//			tr.addCell(tc);
-//			TableCell tc2 = new TableCell();
-//			tc2.setIsHidden(true);
-//			tr.addCell(tc2);
-//
-//			tr.addCell(new TableCell());
-//			tr.addCell(new TableCell());
-//			tr.addCell(new TableCell());
-//			tr.addCell(tc);
-//			tr.addCell(tc2);
-//
-//			t.setRow(i, tr);
-//		}
-//
-//		TableRow tr = new TableRow();
-//
-//		TableCell tc = new TableCell("" + address, Rectangle.ALIGN_CENTER);
-//		tc.setColSpan(3);
-//		tr.addCell(tc);
-//		TableCell tc2 = new TableCell();
-//		tc2.setIsHidden(true);
-//		tr.addCell(tc2);
-//		tr.addCell(tc2);
-//
-//		TableCell tcx = new TableCell("" + tel, Rectangle.ALIGN_CENTER);
-//		tcx.setColSpan(2);
-//		tr.addCell(tcx);
-//		tr.addCell(tc2);
-//
-//		TableCell tcx0 = new TableCell(com.jl.common.TimeUtil
-//				.getYear(new java.util.Date())
-//				+ "年"
-//				+ com.jl.common.TimeUtil.getMonth(new java.util.Date())
-//				+ "月"
-//				+ com.jl.common.TimeUtil.getDay(new java.util.Date())
-//				+ "日	", Rectangle.ALIGN_CENTER);
-//		tcx0.setColSpan(2);
-//		tr.addCell(tcx0);
-//		tr.addCell(tc2);
-//
-//		t.setRow(4, tr);
-//
-//		TableRow tr00_ = new TableRow();
-//
-//		TableCell tc00_ = new TableCell("");
-//		tc00_.setColSpan(2);
-//		tr00_.addCell(tc00_);
-//		tr00_.addCell(tc2);
-//
-//		TableCell tc01_ = new TableCell("");
-//		tc01_.setColSpan(3);
-//		tr00_.addCell(tc01_);
-//		tr00_.addCell(tc2);
-//		tr00_.addCell(tc2);
-//
-//		TableCell tc02_ = new TableCell("");
-//		tc02_.setColSpan(2);
-//		tr00_.addCell(tc02_);
-//		tr00_.addCell(tc2);
-//
-//		tr00_.setType(MY_DATA_STYLE1);
-//		t.setRow(5, tr00_);
-//
-//		int cur = 6;
-//		Double sum = new Double("0");
-//		for (int j = 0; j < listx.size(); j++) {
-//			DyFormData object = (DyFormData) listx.get(j);
-//
-//			TableRow tr00 = new TableRow();
-//
-//			TableCell tc00 = new TableCell(object.getColumn23()==null?"":object.getColumn23());
-//			tc00.setColSpan(2);
-//			tr00.addCell(tc00);
-//			tr00.addCell(tc2);
-//
-//			TableCell tc01 = new TableCell((object.getColumn4()==null?"":object.getColumn4())+" "+(object.getColumn26()==null?"":object.getColumn26())+" "+(object.getColumn24()==null?"":object.getColumn24())+" "+(object.getColumn25()==null?"":object.getColumn25())+" "+(object.getColumn11()==null?"":object.getColumn11()));
-//			tc01.setColSpan(3);
-//			tr00.addCell(tc01);
-//			tr00.addCell(tc2);
-//			tr00.addCell(tc2);
-//
-//			TableCell tc02 = new TableCell(object.getColumn15());
-//			tc02.setColSpan(2);
-//			tr00.addCell(tc02);
-//			tr00.addCell(tc2);
-//
-//			if (object.getColumn15() != null) {
-//				sum += Double.valueOf(object.getColumn15());
-//			}
-//
-//			tr00.setType(MY_DATA_STYLE1);
-//			t.setRow(cur + j, tr00);
-//		}
-//
-//		TableRow tr000_ = new TableRow();
-//
-//		TableCell tc000_ = new TableCell("");
-//		tc000_.setColSpan(2);
-//		tr000_.addCell(tc000_);
-//		tr000_.addCell(tc2);
-//
-//		TableCell tc001_ = new TableCell("");
-//		tc001_.setColSpan(3);
-//		tr000_.addCell(tc001_);
-//		tr000_.addCell(tc2);
-//		tr000_.addCell(tc2);
-//
-//		TableCell tc002_ = new TableCell(""
-//				+ com.jl.common.MathHelper.round(sum, 2));
-//		tc002_.setColSpan(2);
-//		tr000_.addCell(tc002_);
-//		tr000_.addCell(tc2);
-//
-//		tr000_.setType(MY_DATA_STYLE1);
-//		t.setRow(13, tr000_);
-//
-//		// 定义报表对象
-//		Report report = new Report();
-//
-//		// **************设置报表主体部分**************
-//		ReportBody body = new ReportBody();
-//		body.setData(t);
-//		report.setBody(body);
-//
-//		// 输出文件
-//		response.setHeader("Content-Disposition", "attachment; filename="
-//				+ new String(("首饰销售单" + code).getBytes("GBK"), "ISO8859-1")
-//				+ ".xls");
-//		response.setContentType("application/vnd.ms-excel");
-//		OutputStream os = response.getOutputStream();
-//		try {
-//
-//			// 执行EXCEL格式报表的输出
-//			ExcelCss css = new ExcelCss() {
-//
-//				public void init(HSSFWorkbook workbook) {
-//					// 大、粗字体
-//					HSSFFont fontBig = workbook.createFont();
-//					fontBig.setFontHeightInPoints((short) 15);
-//					fontBig.setFontName("宋体");
-//					fontBig.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-//
-//					HSSFFont fontNormal = workbook.createFont();
-//					fontNormal.setFontHeightInPoints((short) 13);
-//					fontNormal.setFontName("宋体");
-//					// *****************end定义字体*****************
-//
-//					// ***************设置EXCEL报表的样式表******************
-//					HSSFCellStyle style = workbook.createCellStyle();
-//					style.setFont(fontNormal);
-//					style.setBorderBottom((short) 0);
-//					style.setBorderLeft((short) 0);
-//					style.setBorderRight((short) 0);
-//					style.setBorderTop((short) 0);
-//					style.setWrapText(false);
-//					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
-//					this.setStyle(Report.DATA_TYPE, style);
-//
-//					style = workbook.createCellStyle();
-//					style.setFont(fontNormal);
-//					style.setFont(fontBig);
-//					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
-//					style.setBorderBottom((short) 0);
-//					style.setBorderLeft((short) 0);
-//					style.setBorderRight((short) 0);
-//					style.setBorderTop((short) 0);
-//					style.setWrapText(false);
-//					this.setStyle(MY_STYLE1, style);
-//
-//					style = workbook.createCellStyle();
-//					style.setFont(fontNormal);
-//					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
-//					style.setBorderBottom((short) 0);
-//					style.setBorderLeft((short) 0);
-//					style.setBorderRight((short) 0);
-//					style.setBorderTop((short) 0);
-//					style.setWrapText(false);
-//					this.setStyle(MY_RIGHT_STYLE1, style);
-//
-//					style = workbook.createCellStyle();
-//					style.setFont(fontNormal);
-//					style.setBorderBottom((short) 0);
-//					style.setBorderLeft((short) 0);
-//					style.setBorderRight((short) 0);
-//					style.setBorderTop((short) 0);
-//					style.setWrapText(false);
-//					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
-//					this.setStyle(MY_DATA_STYLE1, style);
-//
-//					style = workbook.createCellStyle();
-//					style.setFont(fontNormal);
-//					style.setBorderBottom((short) 0);
-//					style.setBorderLeft((short) 0);
-//					style.setBorderRight((short) 0);
-//					style.setBorderTop((short) 0);
-//					style.setWrapText(false);
-//					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
-//					this.setStyle(MY_DATA_STYLE2, style);
-//
-//					style = workbook.createCellStyle();
-//					style.setFont(fontNormal);
-//					style.setBorderBottom((short) 0);
-//					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
-//					style.setBorderLeft((short) 0);
-//					style.setBorderRight((short) 0);
-//					style.setBorderTop((short) 0);
-//					style.setWrapText(false);
-//					this.setStyle(MY_HEADER_STYLE1, style);
-//
-//				}
-//			};
-//			new ExcelPrinter().print(report, css, os, true);
-//		} finally {
-//			if (os != null)
-//				os.close();
-//		}
+		try {
+
+			// 执行EXCEL格式报表的输出
+			ExcelCss css = new ExcelCss() {
+
+				public void init(HSSFWorkbook workbook) {
+					// 大、粗字体
+					HSSFFont fontBig = workbook.createFont();
+					fontBig.setFontHeightInPoints((short) 15);
+					fontBig.setFontName("宋体");
+					fontBig.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+
+					HSSFFont fontNormal = workbook.createFont();
+					fontNormal.setFontHeightInPoints((short) 13);
+					fontNormal.setFontName("宋体");
+					// *****************end定义字体*****************
+
+					// ***************设置EXCEL报表的样式表******************
+					HSSFCellStyle style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+					this.setStyle(Report.DATA_TYPE, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setFont(fontBig);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					this.setStyle(MY_STYLE1, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					this.setStyle(MY_RIGHT_STYLE1, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+					this.setStyle(MY_DATA_STYLE1, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setBorderBottom((short) 0);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+					this.setStyle(MY_DATA_STYLE2, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormal);
+					style.setBorderBottom((short) 0);
+					style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+					style.setBorderLeft((short) 0);
+					style.setBorderRight((short) 0);
+					style.setBorderTop((short) 0);
+					style.setWrapText(false);
+					this.setStyle(MY_HEADER_STYLE1, style);
+
+				}
+			};
+			new ExcelPrinter().print(report, css, os, true);
+		} finally {
+			if (os != null)
+				os.close();
+		}
 	}
 
 	public void test() {

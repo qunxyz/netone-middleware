@@ -83,7 +83,11 @@
 		<!-- 销退回收保存 -->
 		<action path="/reportx18"
 			type="com.jl.web.controller.ReportX18Action" parameter="method">
-		</action>		
+		</action>
+		<!-- 客户消费记录查询 -->
+		<action path="/reportx19"
+			type="com.jl.web.controller.ReportX19Action" parameter="method">
+		</action>			
 		
 		
 		

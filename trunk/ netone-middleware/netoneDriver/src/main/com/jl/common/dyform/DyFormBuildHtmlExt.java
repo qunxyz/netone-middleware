@@ -2171,7 +2171,7 @@ public final class DyFormBuildHtmlExt {
 		// tablejs.append(" }); \n");
 
 		tablejs.append("tableToGrid('table#" + formcode + "');$('table#"
-				+ formcode + "').setGridWidth('99%'); \n");
+				+ formcode + "').setGridWidth('900'); \n");
 
 		tablejs
 				.append("jQuery('table#"

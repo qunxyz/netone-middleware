@@ -396,6 +396,7 @@ public abstract class AbstractAction extends DispatchAction {
 					user.setLevel("adminx");
 					user.setNLevelName("/");
 				} else {
+					try{
 					Department department = (Department) getCommonDAO()
 							.findForObject("Department.selectInfo",
 									client.getBussid());
@@ -403,7 +404,6 @@ public abstract class AbstractAction extends DispatchAction {
 							.findForObject(
 									"Department.selectDepartmentlevelrow",
 									client.getBussid());// 上级数据信息集合
-
 					user.setDepartmentCode(department.getDepartmentCode());
 					user.setDepartmentName(department.getDepartmentName());
 					String pDeptId = department.getParentDepartmentId();
@@ -419,6 +419,16 @@ public abstract class AbstractAction extends DispatchAction {
 					nlevelName = StringUtils.replace(nlevelName, "[", "");
 					nlevelName = StringUtils.replace(nlevelName, "]", "");
 					user.setNLevelName(nlevelName);
+					}catch(Exception e){
+						e.printStackTrace();
+						System.err.println(client.getName()+"未知部门");
+						user.setDepartmentCode("");
+						user.setDepartmentName("未知部门");
+						user.setParentDepartmentId("");
+						user.setLevel("");
+						user.setNLevelName("/");
+					}
+
 				}
 				// 过30分钟
 				Calendar calendar = Calendar.getInstance();// 当前日期

@@ -12112,7 +12112,7 @@ jQuery(selector).each(function() {
 			colModel.push({
 				name: jQuery(this).attr("id") || jQuery.trim(jQuery.jgrid.stripHtml(jQuery(this).html())).split(' ').join('_'),
 				index: jQuery(this).attr("id") || jQuery.trim(jQuery.jgrid.stripHtml(jQuery(this).html())).split(' ').join('_'),
-				width: jQuery(this).width()+10 || 150,
+				width: jQuery(this).width() || 150,
 				sortable:false
 			});
 			colNames.push(jQuery(this).html());

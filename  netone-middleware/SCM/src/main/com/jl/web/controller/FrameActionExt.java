@@ -3462,11 +3462,16 @@ public class FrameActionExt extends AbstractAction {
 			boolean perm = SecurityEntry.iv().permission(usercode,
 					umsProtectedobject.getNaturalname());
 
+			boolean isexpand = true;
+			if ("normal-close".equals(umsProtectedobject.getExtendattribute())) {
+				isexpand = false;
+			}
+
 			if (perm) {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("title", umsProtectedobject.getName());
 				map.put("json", FrameResource.buildRootTreeRelation(
-						umsProtectedobject.getNaturalname(), true, false,
+						umsProtectedobject.getNaturalname(), isexpand, false,
 						usercode));
 
 				jsonList.add(map);

@@ -15,7 +15,6 @@ import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 public class ResourceImpl implements ResourceIfc {
 
-	@Override
 	public List<UmsProtectedobject> subAllById(String id) throws Exception{
 		try {
 			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
@@ -29,7 +28,6 @@ public class ResourceImpl implements ResourceIfc {
 		return null;
 	}
 
-	@Override
 	public List<UmsProtectedobject> subAllByName(String name)throws Exception {
 		try {
 			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
@@ -42,7 +40,6 @@ public class ResourceImpl implements ResourceIfc {
 		return null;
 	}
 
-	@Override
 	public List<UmsProtectedobject> subNextById(String id)throws Exception {
 		try {
 			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
@@ -55,7 +52,6 @@ public class ResourceImpl implements ResourceIfc {
 		return null;
 	}
 
-	@Override
 	public List<UmsProtectedobject> subNextByName(String name)throws Exception {
 		try {
 			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");

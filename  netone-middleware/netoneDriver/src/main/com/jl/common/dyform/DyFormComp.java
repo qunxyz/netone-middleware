@@ -415,9 +415,17 @@ public final class DyFormComp {
 						+ x[1] + "</option>");
 			}
 		}
-		return getHiddenInput(id + "_hidden", value)
-				+ getComp("<select ", ">" + valuestr + "</select>", id, "",
-						style, classname, readonly, extvalue);
+
+		if (readonly) {// Ö»¶Á½ûÓÃ
+			return getHiddenInput(id, value)
+					+ getComp("<select ", ">" + valuestr + "</select>", id
+							+ "_tmp", "", style, classname, readonly, extvalue
+							+ " disabled=\"disabled\" ");
+		} else {
+			return getHiddenInput(id + "_hidden", value)
+					+ getComp("<select ", ">" + valuestr + "</select>", id, "",
+							style, classname, readonly, extvalue);
+		}
 	}
 
 	/**

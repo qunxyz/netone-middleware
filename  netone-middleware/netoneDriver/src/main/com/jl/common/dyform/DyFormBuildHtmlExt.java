@@ -152,9 +152,10 @@ public final class DyFormBuildHtmlExt {
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			return null;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
-			if(StringUtils.isNotEmpty(value)){
+			if (StringUtils.isNotEmpty(value)) {
 				return DyFormComp.getHref("管理", "管理", value, "", "_blank");
-			}return "";
+			}
+			return "";
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
@@ -285,9 +286,10 @@ public final class DyFormBuildHtmlExt {
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			return null;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
-			if(StringUtils.isNotEmpty(value)){
-			return DyFormComp.getHref("管理", "管理", value, "", "_blank");
-			}return "";
+			if (StringUtils.isNotEmpty(value)) {
+				return DyFormComp.getHref("管理", "管理", value, "", "_blank");
+			}
+			return "";
 		} else if (arr[13][0].equals(htmltype)) {// 16:按钮
 			return null;
 		} else if (arr[14][0].equals(htmltype)) {// 17:单选资源
@@ -524,9 +526,9 @@ public final class DyFormBuildHtmlExt {
 			return value;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
 			if ("ext".equals(type)) {
-				if(StringUtils.isNotEmpty(value)){
+				if (StringUtils.isNotEmpty(value)) {
 					return DyFormComp.getJsFileHref(value, "", "管理");
-				}else{
+				} else {
 					return "";
 				}
 			}
@@ -1998,8 +2000,15 @@ public final class DyFormBuildHtmlExt {
 
 				String[][] arr = DyFormConsoleIfc._HTML_LIST;
 				if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
-					td.append(DyFormComp.getTh("", "&nbsp;" + columnname
-							+ musktip, TableTdStyle2, TABLE_TD_HEADER, ""));
+					Double width = _qc1.getWidth();
+					if (width == null || width == 0) {
+						td.append(DyFormComp.getTh("", "&nbsp;" + columnname
+								+ musktip, TableTdStyle2, TABLE_TD_HEADER, ""));
+					} else {
+						td.append(DyFormComp.getTh("", "&nbsp;" + columnname
+								+ musktip, TableTdStyle2 + "width:" + width
+								+ "px;", TABLE_TD_HEADER, ""));
+					}
 					++colspan;
 				}
 				eventListenScripts
@@ -2035,7 +2044,7 @@ public final class DyFormBuildHtmlExt {
 						columnmap, columnmapx, isedit, userinfo, parameter));
 			}
 		} else {// 无记录
-		// for (int i = 0; i < 7; i++) {
+			// for (int i = 0; i < 7; i++) {
 			html.append(buildTr(uuid(), formcode, false, null, _formx,
 					columnmap, columnmapx, isedit, userinfo, parameter));
 			// }

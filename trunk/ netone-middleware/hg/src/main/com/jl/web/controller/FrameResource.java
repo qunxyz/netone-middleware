@@ -65,10 +65,12 @@ public class FrameResource {
 			// + ",");
 
 			str.append("\"showcheck\":true,\"isexpand\": " + isexpand
-					+ ",\"state\":" + false + ", \"complete\": true");
+					+ ", \"complete\": true");
 
 			String jsonx = buildChildTreeRelation(r.getNaturalname(), isexpand);
 			if (!"".equals(jsonx)) {
+				str.append(",\"state\":" + (isexpand ? false : "\"closed\""));
+
 				str.append(",\"hasChildren\"");
 				str.append(":");
 				str.append("true");

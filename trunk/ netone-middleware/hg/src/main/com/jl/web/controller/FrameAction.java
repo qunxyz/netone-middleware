@@ -41,7 +41,6 @@ import com.jl.common.dyform.DyFormData;
 import com.jl.common.resource.Resource;
 import com.jl.common.resource.ResourceNode;
 import com.jl.common.security3a.Client3A;
-import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfActivePass;
 import com.jl.common.workflow.TWfParticipant;
@@ -1914,8 +1913,12 @@ public class FrameAction extends AbstractAction {
 		for (UmsProtectedobject umsProtectedobject : list) {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("title", umsProtectedobject.getName());
+			boolean isexpand = true;
+			if ("normal-close".equals(umsProtectedobject.getExtendattribute())) {
+				isexpand = false;
+			}
 			map.put("json", FrameResource.buildRootTreeRelation(
-					umsProtectedobject.getNaturalname(), true, false));
+					umsProtectedobject.getNaturalname(), isexpand, false));
 
 			jsonList.add(map);
 		}

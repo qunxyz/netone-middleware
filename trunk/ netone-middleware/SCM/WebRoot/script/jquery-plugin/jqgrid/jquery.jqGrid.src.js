@@ -12110,9 +12110,9 @@ jQuery(selector).each(function() {
 			colNames.push('__selection__');
 		} else {
 			colModel.push({
-				name: jQuery(this).attr("id") || jQuery.trim(jQuery.jgrid.stripHtml(jQuery(this).html())).split(' ').join('_'),
+				name:  jQuery(this).attr("id") || jQuery.trim(jQuery.jgrid.stripHtml(jQuery(this).html())).split(' ').join('_'),
 				index: jQuery(this).attr("id") || jQuery.trim(jQuery.jgrid.stripHtml(jQuery(this).html())).split(' ').join('_'),
-				width: jQuery(this).width() || 100,
+				width: jQuery(this).width()==0?0:(jQuery(this).width()+10) || 100,
 				sortable:false
 			});
 			colNames.push(jQuery(this).html());

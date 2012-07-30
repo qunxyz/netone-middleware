@@ -62,7 +62,8 @@
 		<div region="south" style="height: 30px; padding: 2px;" class="foot">
 			主题:<!-- ext样式|main样式|jquery样式 -->
 			<select id="theme" class="easyui-combobox" name="theme">
-				<option value="xtheme-black.css|red|black" selected="selected">默认</option>
+			<option value="ext-all.css|blue|blue" selected="selected">默认</option>
+				<option value="xtheme-black.css|red|black" >黑里透红</option>
 				<!-- --><option value="xtheme-brown.css|brown|brown">黄金时代</option>
 				<option value="xtheme-olive.css|olive|olive">绿色生机</option>
 				<option value="xtheme-green.css|green|green">清秀淡雅</option>
@@ -177,12 +178,12 @@ if($.browser.msie){//IE
  	   	    var mainTheme=getCookie('mainTheme');
   	    var appTheme=getCookie('appTheme');
   	    if(mainTheme==null || mainTheme==''){
-	     mainTheme='black';
-	    //mainTheme='blue';
+	    // mainTheme='black';
+	    mainTheme='blue';
      }
      if(appTheme==null || appTheme==''){
-	     appTheme='red';
-	     //appTheme='blue';
+	      //appTheme='red';
+	    appTheme='blue';
       } 
 	AppStyleUtils.swapStyleSheet('mainTheme', '<%=path%>/script/theme/jtheme/'+ mainTheme+'/style.css');
 	AppStyleUtils.swapStyleSheet('appTheme', '<%=path%>/script/theme/main/'+appTheme+'/style.css');

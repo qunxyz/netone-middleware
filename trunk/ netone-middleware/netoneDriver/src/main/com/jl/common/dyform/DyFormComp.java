@@ -1655,7 +1655,7 @@ public final class DyFormComp {
 		js
 				.append("id:\'"
 						+ id
-						+ "\',activeTab:0,autoTabs:true,split:true,animScroll:true,enableTabScroll:true,deferredRender:false,autoHeight:true,autoShow  :true");
+						+ "\',tabWidth:900,activeTab:0,autoTabs:true,split:true,animScroll:true,enableTabScroll:true,deferredRender:false,autoHeight:true,autoShow  :true");
 		js.append("    ,items: [" + items + "]");
 		js.append("});");
 		return js.toString();
@@ -1687,7 +1687,7 @@ public final class DyFormComp {
 				// if ("mode7".equals(mode)) {
 				items
 						.append(split
-								+ "{listeners:{show:function(tab){  } },autoHeight:true,contentEl:\""
+								+ "{listeners:{show:function(tab){  } },width:900,autoHeight:true,contentEl:\""
 								+ "" + id + "_form" + "\", title:'"
 								+ formname.get(i) + "'}");
 

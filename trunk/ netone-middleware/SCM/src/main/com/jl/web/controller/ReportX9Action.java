@@ -78,7 +78,6 @@ public class ReportX9Action extends AbstractAction {
 		String repstrcompare2_END = request.getParameter("repstrcompare2_END");
 		String reptimes1_START = request.getParameter("reptimes1_START");
 		String reptimes1_END = request.getParameter("reptimes1_END");
-
 		String repselect1 = request.getParameter("repselect1");
 		String repselect2 = request.getParameter("repselect2");
 		String repselect3 = request.getParameter("repselect3");
@@ -124,6 +123,8 @@ public class ReportX9Action extends AbstractAction {
 		sb.append("IFNULL(t.column3,'') xsno, ");
 		/* 货号统计 */
 		sb.append("IFNULL(t1.column23,'') hh, ");
+		/* 成本 */
+		sb.append("IFNULL(t1.column31,'') cb, ");
 
 		sb.append("IFNULL(COUNT(t1.column3),0) sl, ");
 		sb.append("IFNULL(SUM(rkmx.column16),0) zz,IFNULL(SUM(rkmx.column17),0) jz, ");
@@ -156,6 +157,34 @@ public class ReportX9Action extends AbstractAction {
 		    sb.append(" AND t1.column4 <= '" + reptimes1_END + "' ");
 		if(StringUtils.isNotEmpty(repselect1))
 			sb.append(" AND t.column8= '" + repselect1 + "' ");
+		if(StringUtils.isNotEmpty(repselect2))
+			sb.append("AND rkd.column8 = '" + repselect2 + "' ");
+		if(StringUtils.isNotEmpty(repselect3))
+			sb.append("AND rkmx.column50 = '" + repselect3 + "' ");
+		if(StringUtils.isNotEmpty(repstr3))
+			sb.append("AND t.column12 LIKE '%" + repstr3 + "%' ");
+		if(StringUtils.isNotEmpty(repstr4))
+			sb.append("AND t.column13 LIKE '%" + repstr4 + "%' ");
+		if(StringUtils.isNotEmpty(repselect5))
+			sb.append("AND t1.column17 = '" + repselect5 + "' ");
+		if(StringUtils.isNotEmpty(repselect6))
+			sb.append("AND rkmx.column48 = '" + repselect6 + "' ");
+		if(StringUtils.isNotEmpty(repselect7))
+			sb.append("AND t1.column19 = '" + repselect7 + "' ");
+		if(StringUtils.isNotEmpty(repselect8))
+			sb.append("AND rkmx.column52 = '" + repselect8 + "' ");
+		if(StringUtils.isNotEmpty(repselect9))
+			sb.append("AND rkmx.column81 = '" + repselect9 + "' ");
+		if(StringUtils.isNotEmpty(repselect10))
+			sb.append("AND t1.column4 LIKE '%" + repselect10 + "%' ");
+		if(StringUtils.isNotEmpty(repselect11))
+			sb.append("AND t.column10 = '" + repselect11 + "' ");
+		if(StringUtils.isNotEmpty(repselect12))
+			sb.append("AND t.column11 = '" + repselect12 + "' ");
+		if(StringUtils.isNotEmpty(repselect13))
+			sb.append("AND t.column9 = '" + repselect13 + "' ");
+		if(StringUtils.isNotEmpty(repselect14))
+			sb.append("AND t1.column18 = '%" + repselect14 + "%' ");
 
 		/* 品名 */
 		if("品名".equals(repselect4))
@@ -197,7 +226,7 @@ public class ReportX9Action extends AbstractAction {
 		if("货号统计".equals(repselect4))
 			sb.append("GROUP BY t1.column23 ");
 		
-		
+		System.out.println(sb.toString());
 		
 		
 		
@@ -245,9 +274,8 @@ public class ReportX9Action extends AbstractAction {
 		headerSet1.add(new TableCell("副石(ct/p)"));
 		headerSet1.add(new TableCell("售价"));
 		headerSet1.add(new TableCell("实售价"));
-		headerSet1.add(new TableCell("进货成本"));
+		headerSet1.add(new TableCell("成本"));
 		ReportExt reportExt = new ReportExt();
-System.out.println(sb.toString());
 		List list = DbTools.queryData(sb.toString());
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
@@ -266,12 +294,12 @@ System.out.println(sb.toString());
 			String zs = (String)object.get("zs");
 			String sj = object.get("sj")==null?"0":object.get("sj").toString();
 			String fs = (String)object.get("fs");
-			String jhcb = object.get("jhcb")==null?"0":object.get("jhcb").toString();
 			String cs = (String)object.get("cs");
 			String shy = (String)object.get("shy");
 			String xsno = (String)object.get("xsno");
 			String ssj = object.get("ssj")==null?"0":object.get("ssj").toString();
 			String hh = (String)object.get("hh");
+			String cb = object.get("cb")==null?"0":object.get("cb").toString();
 			
 			TableRow tr = new TableRow();
 			if ("小品名".equals(repselect4)) {
@@ -313,7 +341,7 @@ System.out.println(sb.toString());
 					Rectangle.ALIGN_RIGHT));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(ssj),
 					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(jhcb),
+			tr.addCell(new TableCell("" + MathHelper.moneyFormat(cb),
 					Rectangle.ALIGN_RIGHT));
 			t.addRow(tr);
 		}

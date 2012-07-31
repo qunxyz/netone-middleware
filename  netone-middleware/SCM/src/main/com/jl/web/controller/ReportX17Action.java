@@ -147,6 +147,7 @@ public class ReportX17Action extends AbstractAction {
 				"IFNULL(ssrkmx.column48,'') 'zdydl', ");
 		sb.append("IFNULL(t1.column19,'') 'cpdl'," +
 				"IFNULL(ssrkmx.column52,'') 'cs'," +
+				"IFNULL(ssrkmx.column31,'') 'cb'," +
 				"IFNULL(ssrkmx.column7,'') 'zsname', ");
 		sb.append("IFNULL(t.column10,'') 'shy'," +
 				"IFNULL(t.column11,'') 'dmjl'," +
@@ -234,6 +235,7 @@ public class ReportX17Action extends AbstractAction {
 		headerSet1.add(new TableCell("实售价"));
 		headerSet1.add(new TableCell("销售小备注"));
 		headerSet1.add(new TableCell("产品备注"));
+		headerSet1.add(new TableCell("成本"));
 		ReportExt reportExt = new ReportExt();
 		List list = DbTools.queryData(sb.toString());
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -253,7 +255,7 @@ public class ReportX17Action extends AbstractAction {
 			String ssj = object.get("ssj")==null?"0":object.get("ssj").toString();
 			String xsxbz = (String)object.get("xsxbz");
 			String bz = (String)object.get("bz");
-			
+			String cb = object.get("cb")==null?"0":object.get("cb").toString();
 			TableRow tr = new TableRow();
 			
 			tr.addCell(new TableCell(hh));
@@ -274,6 +276,7 @@ public class ReportX17Action extends AbstractAction {
 					Rectangle.ALIGN_RIGHT));
 			tr.addCell(new TableCell(xsxbz));
 			tr.addCell(new TableCell(bz));
+			tr.addCell(new TableCell(cb));
 			t.addRow(tr);
 		}
 

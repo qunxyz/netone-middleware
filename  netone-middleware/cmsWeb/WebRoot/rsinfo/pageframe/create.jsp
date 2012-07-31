@@ -127,6 +127,7 @@
 						<td>
 							<select name='extendattribute'>
 								<option value='normal'>普通页</option>
+								<option value='normal-close'>普通页-不展开</option>
 								<option value='final'>终了页</option>
 							</select>
 							<input type="hidden" name="needSerilaizer" value="1" />

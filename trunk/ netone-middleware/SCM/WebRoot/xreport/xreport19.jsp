@@ -204,15 +204,16 @@ html.VIE7 nobr {
 
 /** 公单标题表格TD */
 .table_td_title {
-	FILTER: progid :                   DXImageTransform .                
-		  Microsoft .   
+	FILTER: progid :                     DXImageTransform .                 
+		   Microsoft .    
 		     
 		  
 		 
 		
-		   Gradient(GradientType =                       0, StartColorStr =  
+		   
+		Gradient(GradientType =                         0, StartColorStr =   
 		              
-		     #D9ECF9, EndColorStr =                   #62BBE8);
+		      #D9ECF9, EndColorStr =                     #62BBE8);
 	background: -webkit-gradient(linear, left top, left bottom, from(#D9ECF9),
 		to(#62BBE8) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #D9ECF9, #62BBE8);
@@ -233,15 +234,16 @@ html.VIE7 nobr {
 
 /** 公单字段表格TD */
 .table_td_header {
-	FILTER: progid :                   DXImageTransform .                
-		  Microsoft .   
+	FILTER: progid :                     DXImageTransform .                 
+		   Microsoft .    
 		     
 		  
 		 
 		
-		   Gradient(GradientType =                       0, StartColorStr =  
+		   
+		Gradient(GradientType =                         0, StartColorStr =   
 		              
-		     #FEF9FF, EndColorStr =                   #DBDCDE);
+		      #FEF9FF, EndColorStr =                     #DBDCDE);
 	background: -webkit-gradient(linear, left top, left bottom, from(#FEF9FF),
 		to(#DBDCDE) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #FEF9FF, #DBDCDE);
@@ -339,15 +341,16 @@ html.VIE7 .form_fieldcontent {
 }
 
 .form_fieldcaption2 {
-	FILTER: progid :                   DXImageTransform .                
-		  Microsoft .   
+	FILTER: progid :                     DXImageTransform .                 
+		   Microsoft .    
 		     
 		  
 		 
 		
-		   Gradient(GradientType =                       0, StartColorStr =  
+		   
+		Gradient(GradientType =                         0, StartColorStr =   
 		              
-		     #D9ECF9, EndColorStr =                   #62BBE8);
+		      #D9ECF9, EndColorStr =                     #62BBE8);
 	background: -webkit-gradient(linear, left top, left bottom, from(#D9ECF9),
 		to(#62BBE8) ); /* for webkit browsers */
 	background: -moz-linear-gradient(top, #D9ECF9, #62BBE8);
@@ -527,6 +530,12 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 											</div>
 										</div>
+
+									</td>
+								</tr>
+								<tr class="form_tr" unselectable="off" onFocus="this.select()">
+									<td class="form_td" unselectable="off" onFocus="this.select()"
+										nowrap="nowrap">
 										<div class="form_fieldcontent" style="width: 196px">
 											<div class="form_fieldcaption" align="left" title="主石名称"
 												style="width: 60px;">
@@ -561,8 +570,10 @@ html.VIE7 .form_fieldinput {
 							<tr>
 								<td>
 									<input type="radio" id="_REPORTIDKEY" name="_REPORTIDKEY"
-										onchange=javascript:$('
-										#_REPORTID').val('REPORTDS.REPORTDS.SSXS.SSXSMXB'); unselectable="off";
+										onchange=javascript:$(
+										'
+										#_REPORTID').val('REPORTDS.REPORTDS.SSXS.SSXSMXB'); unselectable="off"
+										;
 										onFocus="this.select()" checked="checked" />
 									&nbsp;客户消费记录查询
 								</td>

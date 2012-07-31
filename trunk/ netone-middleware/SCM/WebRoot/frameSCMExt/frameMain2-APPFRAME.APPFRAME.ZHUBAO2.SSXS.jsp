@@ -68,7 +68,7 @@
 		<tr>
 			<td><input type='radio' id="bigcategorie" value="dl011" name="bigcategorie" /><font style="font-size: 14px;">半成品</font></td>
 			<td><input type='radio' id="bigcategorie" value="dl012" name="bigcategorie" /><font style="font-size: 14px;">定单类</font></td>
-			<td><input type='radio' id="bigcategorie" value="dl013" name="bigcategorie" /><font style="font-size: 14px;">物价类</font></td>
+			<td><input type='radio' id="bigcategorie" value="dl013" name="bigcategorie" /><font style="font-size: 14px;">一口价类</font></td>
 			<td><input type='radio' id="bigcategorie" value="dl014" name="bigcategorie" /><font style="font-size: 14px;">赠品类</font></td>
 			<td><input type='radio' id="bigcategorie" value="dl015" name="bigcategorie" /><font style="font-size: 14px;">其他类</font></td>
 		</tr>

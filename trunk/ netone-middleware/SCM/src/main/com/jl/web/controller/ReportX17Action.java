@@ -163,7 +163,7 @@ public class ReportX17Action extends AbstractAction {
 		sb.append("LEFT JOIN dyform.DY_271334208897441 ssrkmx ON  ssrkmx.column4 = t1.column3 ");
 		sb.append("LEFT JOIN dyform.DY_271334208897439 ssrk ON ssrk.LSH = ssrkmx.FATHERLSH ");
 		sb.append("LEFT JOIN dyform.DY_521339922112143 gys ON ssrk.column8 = t.column14 ");
-		sb.append("WHERE t.STATUSINFO='01' AND t1.STATUSINFO='01' ");
+		sb.append("WHERE t.STATUSINFO='01' AND t1.STATUSINFO='01' AND fxrh.STATUSINFO = '03'");
 		if(StringUtils.isNotEmpty(repstrcompare1_START))
 		    sb.append(" AND t1.column3 >= '" + repstrcompare1_START + "' ");
 		if(StringUtils.isNotEmpty(repstrcompare1_END))

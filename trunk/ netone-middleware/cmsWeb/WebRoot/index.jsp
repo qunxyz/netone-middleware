@@ -203,7 +203,8 @@
 
 							<td height="60">
 							    所有活动流程的实例列表，可在该页面上可视化的监控业务过程，执行业务操作逻辑
-								<A HREF="<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=moreWorklist&query=1&mode=1&height=430&listtype=01&sortfield=&sort=&psize=20&appname=" target='_blank'><FONT
+							   
+								<A HREF="<portal:envget envkey="WEBSER_APPFRAME"/>/workList.do?method=onMainView2&mode=1&height=260&listtype=01&sortfield=&sort=desc&psize=20&appname=" target='_blank'><FONT
 									class="OecLink">[待办]</FONT> </A>
 								<A HREF="<portal:envget envkey="WEBSER_APPFRAME"/>workList.do?method=moreWorklist&mode=1&height=430&listtype=02&sortfield=&sort=&psize=20&appname=" target='_blank'><FONT
 									class="OecLink">[已办]</FONT> </A>:

@@ -100,7 +100,11 @@ public class ReportX19Action extends AbstractAction {
 				"IFNULL(t.column11,'') 'dmjl'," +
 				"IFNULL(t.column9,'') 'sybz', ");
 		sb.append("IFNULL(fxrhd.column9,'') 'xsgz'," +
-				"IFNULL(t.column16,'') 'bz' ");
+				"IFNULL(t.column16,'') 'bz', "+
+				"IFNULL(khxx.column3,'') 'khxm', "+
+				"IFNULL(khxx.column27,'') 'jfkh', "+
+				"IFNULL(khxx.column16,'') 'yddh1', "+
+				"IFNULL(khxx.column17,'') 'yddh2' ");
 		//首饰销售单
 		sb.append("FROM dyform.DY_371337952339241 t ");
 		//销售明细
@@ -116,18 +120,19 @@ public class ReportX19Action extends AbstractAction {
 		if(StringUtils.isNotEmpty(repstrdim3))
 		    sb.append(" AND t.column12 like '%" + repstrdim3 + "%' ");
 		if(StringUtils.isNotEmpty(repstrdim13))
-		    sb.append(" AND t.column13 = '" + repstrdim13 + "' ");
+		    sb.append(" AND t.column13 like '%" + repstrdim13 + "%' ");
 		if(StringUtils.isNotEmpty(repstrdim4))
-		    sb.append(" AND (khxx.column16  like '%" + repstrdim13 + "%' or khxx.column17 like '%" + repstrdim13 + "%')");
+		    sb.append(" AND (khxx.column16 like '%" + repstrdim4 + "%' or khxx.column17 like '%" + repstrdim4 + "%')");
 		
-		
-		
-		
+			
 		// 获得原始数据表格
 		Table t = new Table();
 
 		List<TableCell> headerSet1 = new ArrayList();
-
+		headerSet1.add(new TableCell("客户姓名"));
+		headerSet1.add(new TableCell("积分卡号"));
+		headerSet1.add(new TableCell("移动电话1"));
+		headerSet1.add(new TableCell("移动电话2"));
 		headerSet1.add(new TableCell("货号"));
 		headerSet1.add(new TableCell("条形码"));
 		headerSet1.add(new TableCell("品名"));
@@ -143,6 +148,7 @@ public class ReportX19Action extends AbstractAction {
 		headerSet1.add(new TableCell("实售价"));
 		headerSet1.add(new TableCell("销售小备注"));
 		headerSet1.add(new TableCell("产品备注"));
+		
 		ReportExt reportExt = new ReportExt();
 		List list = DbTools.queryData(sb.toString());
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -162,9 +168,16 @@ public class ReportX19Action extends AbstractAction {
 			String ssj = object.get("ssj")==null?"0":object.get("ssj").toString();
 			String xsxbz = (String)object.get("xsxbz");
 			String bz = (String)object.get("bz");
+			String khxm = (String)object.get("khxm");
+			String jfkh = (String)object.get("jfkh");
+			String yddh1 = (String)object.get("yddh1");
+			String yddh2 = (String)object.get("yddh2");
 			
 			TableRow tr = new TableRow();
-			
+			tr.addCell(new TableCell(khxm));
+			tr.addCell(new TableCell(jfkh));
+			tr.addCell(new TableCell(yddh1));
+			tr.addCell(new TableCell(yddh2));
 			tr.addCell(new TableCell(hh));
 			tr.addCell(new TableCell(txm));
 			tr.addCell(new TableCell(pm));

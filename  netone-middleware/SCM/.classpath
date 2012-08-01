@@ -88,6 +88,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/log4j-1.2.11.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/morph-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-3.1.13-bin.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netoneDriver.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netscape.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/odmg-3.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/OecbeanClient.jar"/>
@@ -95,10 +96,10 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/OecSpeciPage.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/OeTag.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ojdbc6.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.0-rc4-20070503.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.2-FINAL-20081019.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-contrib-3.0-rc4-20070503.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-scratchpad-3.0-rc4-20070503.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.7-20101029.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-3.7-20101029.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-schemas-3.7-20101029.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-scratchpad-3.7-20101029.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/quartz-1.7.3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/reportapi.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/rmiService.jar"/>
@@ -128,6 +129,5 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xerces-2.4.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xstream-1.3.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/netoneDriver.jar" sourcepath="/netoneDriver"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

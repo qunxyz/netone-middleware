@@ -60,6 +60,10 @@ public class FrameResource {
 			str.append("	\"linkurl\":\"" + r.getActionurl() + "\"");
 			str.append("},");
 
+			if ("normal-close".equals(r.getExtendattribute())) {
+				isexpand = false;
+			}
+
 			// JSON json = JSONUtil2.fromBean(r, "yyyy-MM-dd HH:mm:ss");
 			// str.append(StringUtils.substringBetween(json.toString(), "{",
 			// "}")

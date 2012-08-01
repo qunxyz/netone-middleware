@@ -18,6 +18,8 @@ import com.jl.common.MathHelper;
 import com.jl.common.TimeUtil;
 import com.jl.common.report.GroupReport;
 import com.jl.common.report.ReportExt;
+import com.jl.common.security3a.Client3A;
+import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.DbTools;
 import com.lucaslee.report.model.Rectangle;
 import com.lucaslee.report.model.Report;
@@ -41,7 +43,7 @@ public class ReportX9Action extends AbstractAction {
 		request.setAttribute("beginTime", TimeUtil.formatDate(new Date(),
 				"yyyy-MM")
 				+ "-01");
-
+		
 		// 分销商信息
 		request.setAttribute("list_FClient", ReportBaseData.getFClientInfo());
 		request.setAttribute("list_GClient", ReportBaseData.getGClientInfo());
@@ -70,7 +72,8 @@ public class ReportX9Action extends AbstractAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String format = request.getParameter("format");
-
+		Client3A user=SecurityEntry.iv().onlineUser(request);
+		boolean rs=SecurityEntry.iv().permission(user.getClientId(), "BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.CBCK");
 		String repselect4 = request.getParameter("repselect4");
 		String repstrcompare1_START = request.getParameter("repstrcompare1_START");
 		String repstrcompare1_END = request.getParameter("repstrcompare1_END");
@@ -341,8 +344,11 @@ public class ReportX9Action extends AbstractAction {
 					Rectangle.ALIGN_RIGHT));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(ssj),
 					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(cb),
-					Rectangle.ALIGN_RIGHT));
+			if(rs)
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(cb),
+						Rectangle.ALIGN_RIGHT));
+			else
+				tr.addCell(new TableCell(""));
 			t.addRow(tr);
 		}
 

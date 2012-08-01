@@ -53,7 +53,7 @@
 		<table border=0 >
 		<tr>
 			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl001" checked="checked" /><font style="font-size: 14px;">镶嵌类</font></td>
-			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl002" /><font style="font-size: 14px;">素金(件)</font></td>
+			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl002" /><font style="font-size: 14px;">珍珠类(件)</font></td>
 			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl003" /><font style="font-size: 14px;">玉器类</font></td>
 			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl004" /><font style="font-size: 14px;">宝石类</font></td>
 			<td><input type='radio' id="bigcategorie" name="bigcategorie" value="dl005" /><font style="font-size: 14px;">银饰(件)</font></td>

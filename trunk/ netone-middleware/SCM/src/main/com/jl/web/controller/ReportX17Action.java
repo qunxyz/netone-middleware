@@ -18,6 +18,8 @@ import com.jl.common.MathHelper;
 import com.jl.common.TimeUtil;
 import com.jl.common.report.GroupReport;
 import com.jl.common.report.ReportExt;
+import com.jl.common.security3a.Client3A;
+import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.DbTools;
 import com.lucaslee.report.model.Rectangle;
 import com.lucaslee.report.model.Report;
@@ -65,6 +67,10 @@ public class ReportX17Action extends AbstractAction {
 	public void query(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		Client3A user=SecurityEntry.iv().onlineUser(request);
+		System.out.println(user.getClientId());
+		boolean rs=SecurityEntry.iv().permission(user.getClientId(), "BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.CBCK");
+		System.out.println(rs);
 		String format = request.getParameter("format");
 		//Ãı–Œ¬Î
 		String repstrcompare1_START = request.getParameter("repstrcompare1_START");
@@ -276,7 +282,11 @@ public class ReportX17Action extends AbstractAction {
 					Rectangle.ALIGN_RIGHT));
 			tr.addCell(new TableCell(xsxbz));
 			tr.addCell(new TableCell(bz));
-			tr.addCell(new TableCell(cb));
+			if(rs)
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(cb),
+						Rectangle.ALIGN_RIGHT));
+			else 
+				tr.addCell(new TableCell(""));
 			t.addRow(tr);
 		}
 

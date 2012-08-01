@@ -42,7 +42,7 @@
 						<h:text property="columname" require="false" styleClass="btext" />
 					</td>
 				</tr>
-				<tr>
+				<tr style='display:none'>
 					<td class="tdheaddes">
 						&nbsp;×Ö¶ÎÀàÐÍ
 					</td>
@@ -53,7 +53,7 @@
 								labelProperty="label" />
 						</h:select>
 					</td>
-				</tr>
+				</tr>			
 				<tr id='treemantr' style='display:none'>
 					<td class="tdheaddes">
 						&nbsp;Ñ¡ÔñÊ÷Í¼

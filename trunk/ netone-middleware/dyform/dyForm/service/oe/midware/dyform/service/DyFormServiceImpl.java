@@ -24,18 +24,7 @@ import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 public class DyFormServiceImpl extends UnicastRemoteObject implements
 		DyFormService {
-	static ResourceBundle rb=null;
-	static String []headArr={""};
-	static{
-		try{
-		rb=ResourceBundle.getBundle("dy");
-		String head=rb.getString("cachehead");
-		headArr=StringUtils.split(head,",");
-		}catch(Exception e){
-			e.printStackTrace();
-		}
 
-	}
 	public DyFormServiceImpl() throws RemoteException {
 		super();
 		// TODO Auto-generated constructor stub
@@ -45,9 +34,7 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 		BussDao bussDao = (BussDao) FormEntry.fetchBean("bussDao");
 		bussDao.create(bus);
 		String rs= bus.getLsh();
-		for (int i = 0; i < headArr.length; i++) {
-			WebCache.removeCache(headArr[i]+formid);
-		}
+
 		return rs;
 	}
 
@@ -99,18 +86,14 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 		BussDao bussDao = (BussDao) FormEntry.fetchBean("bussDao");
 		TCsBus buss = bussDao.loadObject(formid, id);
 		boolean rs= bussDao.drop(buss);
-		for (int i = 0; i < headArr.length; i++) {
-			WebCache.removeCache(headArr[i]+formid);
-		}
+
 		return rs;
 	}
 
 	public boolean modifyData(TCsBus bus) throws RemoteException {
 		BussDao bussDao = (BussDao) FormEntry.fetchBean("bussDao");
 		boolean rs= bussDao.update(bus);
-		for (int i = 0; i < headArr.length; i++) {
-			WebCache.removeCache(headArr[i]+bus.getFormcode());
-		}
+
 		return rs;
 	}
 

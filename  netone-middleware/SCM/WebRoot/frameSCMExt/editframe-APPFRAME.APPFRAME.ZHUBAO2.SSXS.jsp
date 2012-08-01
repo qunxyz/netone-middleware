@@ -234,7 +234,7 @@
 						{
 						  var formcode = $(this).attr('id');
 						  if (formcode!=''){
-						  
+						  $(this).find('tr.form_tr').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
 						  	$(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
 						  	//集成展示 子表单
 							var ids = jQuery("table#"+formcode).jqGrid('getDataIDs');   
@@ -317,7 +317,7 @@
 									 function(jsonx){
 									});
 									**/
-									window.open('http://42.120.40.204:83/scm/reportx18.do?method=query&lsh='+result.lsh);
+									//window.open('http://42.120.40.204:83/scm/reportx18.do?method=query&lsh='+result.lsh);
 					            }
 				            	
 				            	var paramlsh = result.lsh;

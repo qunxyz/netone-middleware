@@ -68,7 +68,6 @@ public class ReportX17Action extends AbstractAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		Client3A user=SecurityEntry.iv().onlineUser(request);
-		System.out.println(user.getClientId());
 		boolean rs=SecurityEntry.iv().permission(user.getClientId(), "BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.CBCK");
 		System.out.println(rs);
 		String format = request.getParameter("format");

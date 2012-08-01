@@ -18,6 +18,8 @@ import com.jl.common.MathHelper;
 import com.jl.common.TimeUtil;
 import com.jl.common.report.GroupReport;
 import com.jl.common.report.ReportExt;
+import com.jl.common.security3a.Client3A;
+import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.DbTools;
 import com.lucaslee.report.model.Rectangle;
 import com.lucaslee.report.model.Report;
@@ -65,7 +67,8 @@ public class ReportX16Action extends AbstractAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String format = request.getParameter("format");
-
+		Client3A user=SecurityEntry.iv().onlineUser(request);
+		boolean rs=SecurityEntry.iv().permission(user.getClientId(), "BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.CBCK");
 		String repselect1 = request.getParameter("repselect1");
 		String repstrcompare1_START = request.getParameter("repstrcompare1_START");
 		String repstrcompare1_END = request.getParameter("repstrcompare1_END");
@@ -97,7 +100,7 @@ public class ReportX16Action extends AbstractAction {
 		sb.append("IFNULL(t1.column12,0) jz,IFNULL(t1.column11,0) zz, ");
 		sb.append("IFNULL(t1.column14,'/') zs,IFNULL(t1.column19,'/') fs, ");
 		sb.append("IFNULL(sys.column4,'') ys,IFNULL(sjd.column4,'') jd,IFNULL(scg.column4,'') cg, ");
-		sb.append("IFNULL(t1.column5,0) sj ");
+		sb.append("IFNULL(t1.column5,0) sj,IFNULL(rkmx.column31,0) cb ");
 		sb.append("	FROM dyform.DY_661338441749389 t ");
 		sb.append("LEFT JOIN dyform.DY_661338441749388 t1 ON t.LSH = t1.FATHERLSH ");
 		sb.append("LEFT JOIN dyform.DY_61336130537483 fxs ON t.column12 = fxs.column4 ");
@@ -173,6 +176,7 @@ public class ReportX16Action extends AbstractAction {
 		headerSet1.add(new TableCell("净度"));
 		headerSet1.add(new TableCell("车工"));
 		headerSet1.add(new TableCell("售价"));
+		headerSet1.add(new TableCell("成本"));
 
 		ReportExt reportExt = new ReportExt();
 		System.out.println(sb);
@@ -195,6 +199,7 @@ public class ReportX16Action extends AbstractAction {
 			String zhushihao = (String)object.get("zhushihao");
 			String hh = (String)object.get("hh");
 			String fxsname = (String)object.get("fxsname");
+			String cb = object.get("cb")==null?"0":object.get("cb").toString();
 			TableRow tr = new TableRow();
 			if ("分库明细".equals(repselect1)) {
 				tr.addCell(new TableCell("分库明细"));
@@ -223,6 +228,10 @@ public class ReportX16Action extends AbstractAction {
 			tr.addCell(new TableCell(cg));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(sj),
 					Rectangle.ALIGN_RIGHT));
+			if(rs)
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(cb),
+						Rectangle.ALIGN_RIGHT));
+			else tr.addCell(new TableCell(""));
 			t.addRow(tr);
 		}
 

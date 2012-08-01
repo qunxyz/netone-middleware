@@ -18,6 +18,8 @@ import com.jl.common.MathHelper;
 import com.jl.common.TimeUtil;
 import com.jl.common.report.GroupReport;
 import com.jl.common.report.ReportExt;
+import com.jl.common.security3a.Client3A;
+import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.DbTools;
 import com.lucaslee.report.model.Rectangle;
 import com.lucaslee.report.model.Report;
@@ -64,7 +66,8 @@ public class ReportX8Action extends AbstractAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String format = request.getParameter("format");
-
+		Client3A user=SecurityEntry.iv().onlineUser(request);
+		boolean rs=SecurityEntry.iv().permission(user.getClientId(), "BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.CBCK");
 		String repselect1 = request.getParameter("repselect1");
 		String repstrcompare1_START = request.getParameter("repstrcompare1_START");
 		String repstrcompare1_END = request.getParameter("repstrcompare1_END");
@@ -110,7 +113,7 @@ public class ReportX8Action extends AbstractAction {
 		sb.append(" IFNULL(COUNT(t1.column3),0) sl, ");
 		sb.append(" IFNULL(SUM(t1.column12),0) jz,IFNULL(SUM(t1.column11),0) zz, ");
 		sb.append(" IFNULL(t1.column14,'/') zs,IFNULL(t1.column19,'/') fs, ");
-		sb.append(" IFNULL(SUM(t1.column5),0) sj,IFNULL(rkmx.column31,0) jhcb ");
+		sb.append(" IFNULL(SUM(t1.column5),0) sj,IFNULL(rkmx.column31,0) cb ");
 
 		sb.append(" FROM dyform.DY_661338441749389 t ");
 		sb.append(" LEFT JOIN dyform.DY_661338441749388 t1 ON t.LSH = t1.FATHERLSH ");
@@ -216,7 +219,7 @@ public class ReportX8Action extends AbstractAction {
 		headerSet1.add(new TableCell("主石(ct/p)"));
 		headerSet1.add(new TableCell("副石(ct/p)"));
 		headerSet1.add(new TableCell("售价"));
-		headerSet1.add(new TableCell("进货成本"));
+		headerSet1.add(new TableCell("成本"));
 
 		ReportExt reportExt = new ReportExt();
 
@@ -270,8 +273,11 @@ public class ReportX8Action extends AbstractAction {
 			tr.addCell(new TableCell(fs));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(sj),
 					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell("" + MathHelper.moneyFormat(jhcb),
-					Rectangle.ALIGN_RIGHT));
+			if(rs)
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(jhcb),
+						Rectangle.ALIGN_RIGHT));
+			else
+				tr.addCell(new TableCell(""));
 			t.addRow(tr);
 		}
 

@@ -665,6 +665,63 @@
 				$('table#8a606025a84f11e19b54fb13b166e993_').find('#column10').val('<rs:logininfo />');
 			}//end if
 			
+			//手工费计算
+			setInterval(function(){
+			
+			/*** 销售*/ 				
+			var jsonStr1___ = '';
+			$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
+			 jsonStr1___=$todo($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
+			});
+			
+			/***  回收　*/
+			var jsonStr2__ = '';
+			$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
+			 jsonStr2__=$todo($(this),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__);
+			});
+			
+			jsonStr1___ = '[' + jsonStr1___ + ']';
+			jsonStr2__ = '[' + jsonStr2__ + ']';
+			
+			
+			Ext.Ajax.request({
+							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
+							        // 请求的服务器地址
+							        form: '_FRAME_FORM_ID_',
+							        // 指定要提交的表单id
+							        method: 'POST',
+							        sync: true,
+							        params: {
+							            sr_selljson: jsonStr1___,
+								    sr_rejson: jsonStr2__
+							        },
+							        success: function (response, options) {
+							            var result = Ext.util.JSON.decode(response.responseText);
+							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column6').val(result.price);
+							        },
+							        failure: function (response, options) {
+							            
+							        }
+							    });
+			
+			
+			var vvvv1 = parseFloat($('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').val());
+				if(isNaN(vvvv1)){
+						vvvv1=0;
+				}
+			var vvvv2 = parseFloat($('table#8b6b6947a81411e19b54fb13b166e993_').find('#column4').val());
+				if(isNaN(vvvv2)){
+						vvvv2=0;
+				}
+			var vvvv3 = parseFloat($('table#8b6b6947a81411e19b54fb13b166e993_').find('#column6').val());
+				if(isNaN(vvvv3)){
+						vvvv3=0;
+				}	
+			$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(vvvv1-vvvv2-vvvv3);
+			
+			
+			},5000);
+
 			
 		});
 		

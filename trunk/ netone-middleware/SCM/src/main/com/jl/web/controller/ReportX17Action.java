@@ -143,8 +143,7 @@ public class ReportX17Action extends AbstractAction {
 				"IFNULL(t1.column15,0) 'ssj', ");
 		sb.append("IFNULL(t1.column16,'') 'xsxbz'," +
 				"IFNULL(fxrh.column20,'') 'cpbz', ");
-		sb.append("IFNULL(ssrk.column8,'') 'gys'," +
-				"IFNULL(gys.column3,'') 'gysname', ");
+		sb.append("IFNULL(ssrk.column8,'') 'gys',");
 		sb.append("IFNULL(ssrkmx.column50,'') 'pinpai'," +
 				"IFNULL(t.column12,'') 'khname', ");
 		sb.append("IFNULL(t.column13,'') 'hycard'," +
@@ -168,7 +167,6 @@ public class ReportX17Action extends AbstractAction {
 		sb.append("LEFT JOIN dyform.DY_661338441749389 fxrhd ON fxrhd.LSH=fxrh.FATHERLSH ");
 		sb.append("LEFT JOIN dyform.DY_271334208897441 ssrkmx ON  ssrkmx.column4 = t1.column3 ");
 		sb.append("LEFT JOIN dyform.DY_271334208897439 ssrk ON ssrk.LSH = ssrkmx.FATHERLSH ");
-		sb.append("LEFT JOIN dyform.DY_521339922112143 gys ON ssrk.column8 = t.column14 ");
 		sb.append("WHERE t.STATUSINFO='01' AND t1.STATUSINFO='01' AND fxrh.STATUSINFO = '03'");
 		if(StringUtils.isNotEmpty(repstrcompare1_START))
 		    sb.append(" AND t1.column3 >= '" + repstrcompare1_START + "' ");

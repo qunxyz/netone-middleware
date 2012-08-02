@@ -1368,6 +1368,8 @@ public class FrameActionExt extends AbstractAction {
 							("column7".equals(colid)
 
 							|| "column84".equals(colid)
+							
+							|| "column17".equals(colid)
 
 							|| "column34".equals(colid)
 
@@ -1418,6 +1420,8 @@ public class FrameActionExt extends AbstractAction {
 							("column7".equals(colid)
 
 							|| "column84".equals(colid)
+							
+							|| "column17".equals(colid)
 
 							|| "column34".equals(colid)
 
@@ -1698,7 +1702,11 @@ public class FrameActionExt extends AbstractAction {
 							("column4".equals(colid)
 
 									|| "column84".equals(colid)
+									
+									|| "column20".equals(colid)
 
+									|| "column24".equals(colid)
+							
 									|| "column89".equals(colid)
 									
 									|| "column31".equals(colid)
@@ -1756,6 +1764,10 @@ public class FrameActionExt extends AbstractAction {
 									|| "column89".equals(colid)
 									
 									|| "column31".equals(colid)
+									
+									|| "column20".equals(colid)
+
+									|| "column24".equals(colid)
 									
 									|| "column7".equals(colid)
 

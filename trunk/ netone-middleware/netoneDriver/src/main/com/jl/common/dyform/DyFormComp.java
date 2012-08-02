@@ -559,7 +559,7 @@ public final class DyFormComp {
 			comp.append(value_
 					+ getComp("<input type=\"radio\" ", clickscript + checkstr
 							+ " />", id + "_radio" + radioid, "", "", "",
-							readonly, ""));
+							readonly == true ? 1 : 0, ""));
 			comp.append(" ");
 		}
 
@@ -665,7 +665,7 @@ public final class DyFormComp {
 
 		comp.append(getComp("<input type=\"radio\" value=1 ", clickscript
 				+ checkstr + " />", id + "_radio" + radioid, "", style,
-				classname, readonly, "")
+				classname, readonly == true ? 1 : 0, "")
 				+ "Õæ");
 		comp.append(" ");
 
@@ -682,7 +682,7 @@ public final class DyFormComp {
 		clickscript += "  }\" ";
 		comp.append(getComp("<input type=\"radio\" value=0 ", clickscript
 				+ checkstr + " />", id + "_radio" + radioid, "", style,
-				classname, readonly, "")
+				classname, readonly == true ? 1 : 0, "")
 				+ "¼Ù");
 		return comp.toString();
 	}

@@ -653,12 +653,23 @@
 				});
 		    
 			}
+			
+			//$('#a01f21d4846a11e18d60d978b354ef4a_btn').find('td.table_td_title').append('<input type="button" onfocus="this.select()" unselectable="off" onclick="$COPY_a01f21d4846a11e18d60d978b354ef4a_();" class="btn" value="复制行">');
+			
 		});
-		
+
 		function _import(url){
 		    var lsh = document.getElementById('lsh').value;
 			if (lsh!='') window.open(url+'&parentid='+lsh);
 			else {alert('请先执行保存操作，再导入！');}
+		}
+		
+		function $buildNullData(formcode){
+		 var html = $.ajax({
+		  url: "<%=path%>/frame.do?method=buildNullData&url=${param.url}&formcode="+formcode,
+		  async: false
+		 }).responseText;
+		 return eval("("+html+")");
 		}
 		</script>
 		<title>${htmltitleinfo}</title>

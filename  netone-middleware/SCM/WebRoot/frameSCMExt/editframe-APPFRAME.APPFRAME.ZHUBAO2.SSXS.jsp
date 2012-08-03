@@ -704,21 +704,7 @@
 							            
 							        }
 							    });
-			
-			
-			var vvvv1 = parseFloat($('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').val());
-				if(isNaN(vvvv1)){
-						vvvv1=0;
-				}
-			var vvvv2 = parseFloat($('table#8b6b6947a81411e19b54fb13b166e993_').find('#column4').val());
-				if(isNaN(vvvv2)){
-						vvvv2=0;
-				}
-			var vvvv3 = parseFloat($('table#8b6b6947a81411e19b54fb13b166e993_').find('#column6').val());
-				if(isNaN(vvvv3)){
-						vvvv3=0;
-				}	
-			$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(vvvv1-vvvv2-vvvv3);
+			$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change');
 			
 			
 			});
@@ -760,21 +746,7 @@
 							            
 							        }
 							    });
-			
-			
-			var vvvv1 = parseFloat($('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').val());
-				if(isNaN(vvvv1)){
-						vvvv1=0;
-				}
-			var vvvv2 = parseFloat($('table#8b6b6947a81411e19b54fb13b166e993_').find('#column4').val());
-				if(isNaN(vvvv2)){
-						vvvv2=0;
-				}
-			var vvvv3 = parseFloat($('table#8b6b6947a81411e19b54fb13b166e993_').find('#column6').val());
-				if(isNaN(vvvv3)){
-						vvvv3=0;
-				}	
-			$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(vvvv1-vvvv2-vvvv3);
+			$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change');
 			
 			
 			});
@@ -786,6 +758,14 @@
 		    var lsh = document.getElementById('lsh').value;
 			if (lsh!='') window.open(url+'&parentid='+lsh);
 			else {alert('请先执行保存操作，再导入！');}
+		}
+		
+		function $buildNullData(formcode){
+		 var html = $.ajax({
+		  url: "<%=path%>/frame.do?method=buildNullData&url=${param.url}&formcode="+formcode,
+		  async: false
+		 }).responseText;
+		 return eval("("+html+")");
 		}
 		</script>
 		<title>${htmltitleinfo}</title>

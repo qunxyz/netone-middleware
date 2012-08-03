@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -3610,6 +3611,17 @@ public class FrameActionExt extends AbstractAction {
 		dydata.setFormcode("1dde2f9fa81711e19b54fb13b166e993_");
 		dydata.setFatherlsh(lsh);
 		List listx = DyEntry.iv().queryData(dydata, 0, 6, "");
+		
+		//判断是否有旧料回收
+		DyFormData dydata_1 = new DyFormData();
+		dydata_1.setFormcode("e17cb211a84911e19b54fb13b166e993_");
+		dydata_1.setFatherlsh(lsh);
+		List listx_1 = DyEntry.iv().queryData(dydata, 0, 6, "");
+		boolean flag = false;
+		if(listx_1.size()>1)
+			flag=true;
+		
+		
 		info = StringUtils.replace(info, "$(address)", address);
 		info = StringUtils.replace(info, "$(tel)", tel);
 		info = StringUtils.replace(info, "$(date)", com.jl.common.TimeUtil
@@ -3623,11 +3635,14 @@ public class FrameActionExt extends AbstractAction {
 				.substringBetween(info, "$(loop-)", "$(-loop)");
 
 		StringBuffer but = new StringBuffer();
+		String loopEach = "";
 		for (int i = 0; i < 6; i++) {
 			DyFormData object = new DyFormData();
+			loopEach = loop;
 			if (i < listx.size())
 				object = (DyFormData) listx.get(i);
-			String loopEach = loop;
+			else
+				break;
 			loopEach = StringUtils.replace(loopEach, "$(loop.PM)", object
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", object
@@ -3636,23 +3651,75 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", object
 					.getColumn24() == null ? "" : (object.getColumn24()
 					.toString() + "(ct)"));
-			loopEach = StringUtils.replace(loopEach, "$(loop.JJZ)", object
-					.getColumn25() == null ? "" : (object.getColumn25()
-					.toString() + "(克)"));
+			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", object
+					.getColumn25() == null ? "" : (object.getColumn10()
+					.toString() + "(元)"));
+			loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", object
+					.getColumn25() == null ? "" : (object.getColumn6()
+					.toString() + "(元)"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", object
 					.getColumn11() == null ? "" : (object.getColumn11()
 					.toString() + "(元)"));
-			loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", object
+			if(!flag){
+				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", object
 					.getColumn15() == null ? "" : (object.getColumn15()
 					.toString() + "(元)"));
+			} else {
+				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
+			}	
 			loopEach = StringUtils.replace(loopEach, "$(loop.HH)", object
 					.getColumn23() == null ? "" : object.getColumn23());
+			loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", "");
 			but.append(loopEach);
 			if (object.getColumn15() != null) {
 				sum += Double.valueOf(object.getColumn15());
 			}
 		}
-		info = StringUtils.replace(info, "$(sum)", sum.toString() + "(元)");
+		if(flag){
+			
+			List list = DbTools.queryData("select column3,column19,column14 from dyform.DY_371337952339238 where fatherlsh = '" + lsh + "'");
+			java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
+			String split = "";
+			if (list.size() > 0) {
+				for (int i = 0; i < list.size(); i++) {
+					String jsonStr = net.sf.json.JSONObject.fromObject(list.get(i))
+							.toString();
+					jsonBuffer.append(split);
+					jsonBuffer.append(jsonStr);
+					split = ",";
+				}
+			}
+			String selljson = "[" + jsonBuffer.toString() + "]";
+			
+			List list_1 = DbTools.queryData("select column3,column11,column8,column28,column29,column13,column20,column30,column12 from dyform.DY_371337952339239 where fatherlsh = '" + lsh + "'");
+			java.lang.StringBuffer jsonBuffer_1 = new java.lang.StringBuffer();
+			String split_1 = "";
+			if (list_1.size() > 0) {
+				for (int i = 0; i < list_1.size(); i++) {
+					String jsonStr = net.sf.json.JSONObject.fromObject(list_1.get(i))
+							.toString();
+					jsonBuffer_1.append(split_1);
+					jsonBuffer_1.append(jsonStr);
+					split_1 = ",";
+				}
+			}
+			String rejson = "[" + jsonBuffer.toString() + "]";
+
+			loopEach = StringUtils.replace(loopEach, "$(loop.HH)", "");
+			loopEach = StringUtils.replace(loopEach, "$(loop.PM)", "");
+			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", "");
+			loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
+			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", "");
+			loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", "");
+			loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", "");
+			loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
+			loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", reSell(selljson,rejson));
+			
+			but.append(loopEach);
+			info = StringUtils.replace(info, "$(sum)", sum.toString() + "(元)");
+		} else {
+			info = StringUtils.replace(info, "$(sum)", sum.toString() + "(元)");
+		}
 		info = StringUtils.replace(info, "$(shy)", shy);
 		info = StringUtils.replace(info, "$(loop-)" + loop + "$(-loop)", but
 				.toString());
@@ -3932,6 +3999,582 @@ public class FrameActionExt extends AbstractAction {
 		// }
 	}
 
+	/**
+	 * 销售明细 <BR>
+	 * 条形码 column3 <BR>
+	 * 大类 column19 <BR>
+	 * 实售折扣 column14
+
+	 */
+	/**
+	 * 回收<BR>
+	 * 回收类型 column3<BR>
+	 * 实测成色 column11 <BR>
+	 * 大类 column8 <BR>
+	 * 是否公司 column28 <BR>
+	 * 金重 column29 <BR>
+	 * 回收单价 column13 <BR>
+	 * 工费单价 column20 <BR>
+	 * 折扣率 column30 <BR>
+	 * 损耗 column12
+	 */
+	public static String reSell(String selljson, String rejson) {
+		net.sf.json.JSONArray selljson_ = net.sf.json.JSONArray
+				.fromObject(selljson);
+		net.sf.json.JSONArray rejson_ = net.sf.json.JSONArray
+				.fromObject(rejson);
+		StringBuffer pricecount = new StringBuffer();
+		pricecount.append("^^");
+
+		Map dlmap = new HashMap();
+
+		Map sellMap = new HashMap();
+		Map reMap = new HashMap();
+		/** 非公司 * */
+		Map reMap2 = new HashMap();
+		Map rePriceMap = new HashMap();
+
+		Map sellpurity_Map = new HashMap();
+		Map repurity_Map = new HashMap();
+
+		/** 实售折扣率 */
+		Map discount_Map = new HashMap();
+
+		if (rejson_.size() < 0)
+			return "{'price':0}";
+
+		for (int j = 0; j < selljson_.size(); j++) {
+			net.sf.json.JSONObject obj0 = selljson_.getJSONObject(j);
+
+			/** 销售 */
+			/** 条形码 code */
+			String code_ = "";
+			if (obj0.containsKey("column3")) {
+				code_ = obj0.getString("column3");
+			}
+			/** 材料成色 purity */
+			String purity_ = "";
+			/** 大类 bigcate */
+			String bigcate_ = "";
+			if (obj0.containsKey("column19")) {
+				bigcate_ = obj0.getString("column19");
+			}
+			/** 金重 kimjoong */
+			String kimjoong_ = "0";
+			/** column14 实售折扣 */
+			String discount_ = "";
+			if (obj0.containsKey("column14")) {
+				discount_ = obj0.getString("column14");
+			}
+
+			if (org.apache.commons.lang.StringUtils.isNotEmpty(discount_)) {
+				discount_Map.put(bigcate_, discount_.replace("%", ""));
+			} else {
+				discount_Map.put(bigcate_, "100");
+			}
+
+			/** 销售 */
+			/** 条形码 */
+			/** 材料成色 column52 */
+			/** 大类 */
+			/** 金重 column17 */
+
+			List list = DbTools.queryData("select IFNULL(column17,0) as jz,IFNULL(column52,'') as purity from dyform.DY_271334208897441  where column4='"
+									+ code_ + "' limit 1 ");
+			if (list.size() > 0) {
+				Map xxx = (Map) list.get(0);
+				kimjoong_ = xxx.get("jz").toString();
+				purity_ = xxx.get("purity").toString();
+			}
+
+			boolean x = org.apache.commons.lang.math.NumberUtils
+					.isNumber(kimjoong_);
+			double jz = 0.0;
+			if (x) {
+				jz = Double.valueOf(kimjoong_);
+			}
+			if (sellMap.containsKey(bigcate_)) {
+				Double jz_ = (Double) sellMap.get(bigcate_);
+				sellMap.put(bigcate_, jz_ + jz);
+			} else {
+				sellMap.put(bigcate_, jz);
+			}
+			/** 铂金(克) dl007 */
+			if ("dl007".equals(bigcate_)) {
+				if (sellpurity_Map.containsKey(purity_)) {
+					Double jz_ = (Double) sellpurity_Map.get(purity_);
+					sellpurity_Map.put(purity_, jz_ + jz);
+				} else {
+					sellpurity_Map.put(purity_, jz);
+				}
+			}
+		}
+
+		for (int i = 0; i < rejson_.size(); i++) {
+			net.sf.json.JSONObject obj0 = rejson_.getJSONObject(i);
+			/** 回收 * */
+			/** 回收类型 type* */
+			String type = "";
+			if (obj0.containsKey("column3")) {
+				type = obj0.getString("column3");
+			}
+			/** 实测成色 purity* */
+			String purity = "";
+			if (obj0.containsKey("column11")) {
+				purity = obj0.getString("column11");
+			}
+			/** 大类 bigcate* */
+			String bigcate = "";
+			if (obj0.containsKey("column8")) {
+				bigcate = obj0.getString("column8");
+			}
+			/** 是否公司 iscompany* */
+			String iscompany = "";
+			if (obj0.containsKey("column28")) {
+				iscompany = obj0.getString("column28");
+			}
+			/** 金重 kimjoong* */
+			String kimjoong = "0";
+			if (obj0.containsKey("column29")) {
+				kimjoong = obj0.getString("column29");
+			}
+			/** 回收单价 huishouprice* */
+			String huishouprice = "0";
+			if (obj0.containsKey("column13")) {
+				huishouprice = obj0.getString("column13");
+			}
+			/** 工费单价 gongfeiprice* */
+			String gongfeiprice = "0";
+			if (obj0.containsKey("column20")) {
+				gongfeiprice = obj0.getString("column20");
+			}
+
+			boolean x = org.apache.commons.lang.math.NumberUtils
+					.isNumber(kimjoong);
+			double jz = 0.0;
+			if (x) {
+				jz = Double.valueOf(kimjoong);
+			}
+			if ("1".equals(iscompany)) {
+				if (reMap.containsKey(bigcate)) {
+					Double jz_ = (Double) reMap.get(bigcate);
+					reMap.put(bigcate, jz_ + jz);
+				} else {
+					reMap.put(bigcate, jz);
+				}
+			} else {
+				if (reMap2.containsKey(bigcate)) {
+					Double jz_ = (Double) reMap2.get(bigcate);
+					reMap2.put(bigcate, jz_ + jz);
+				} else {
+					reMap2.put(bigcate, jz);
+				}
+			}
+
+			boolean y = org.apache.commons.lang.math.NumberUtils
+					.isNumber(huishouprice);
+			rePriceMap.put(bigcate, obj0);
+			/** 铂金(克) dl007 */
+			if ("dl007".equals(bigcate)) {
+				if (repurity_Map.containsKey(purity)) {
+					Double jz_ = (Double) repurity_Map.get(purity);
+					repurity_Map.put(purity, jz_ + jz);
+				} else {
+					repurity_Map.put(purity, jz);
+				}
+			}
+		}
+
+		Double pprice = 0.0;
+		for (java.util.Iterator iterator = reMap.keySet().iterator(); iterator
+				.hasNext();) {
+			String bigcate = (String) iterator.next();
+
+			net.sf.json.JSONObject reObject = (net.sf.json.JSONObject) rePriceMap
+					.get(bigcate);
+			/** 回收单价 */
+			String price_ = "0";
+			if (reObject.containsKey("column13")) {
+				price_ = reObject.getString("column13");
+			}
+			/**
+			 * * 折扣率(%) String discount_ = reObject.getString("column30");
+			 */
+
+			String discount_ = "100";
+			if (reObject.containsKey("column30")) {
+				discount_ = reObject.getString("column30");
+			}
+
+			Double reJz = (Double) reMap.get(bigcate);
+			Double reJz2 = (Double) reMap2.get(bigcate);
+			Double sellJz = (Double) sellMap.get(bigcate);
+
+			String iscompany = "";
+			if (reObject.containsKey("column28")) {
+				iscompany = reObject.getString("column28");
+			}
+
+			String damage = (String) reObject.get(bigcate);
+			Double damage_ = 0.0;
+			if (org.apache.commons.lang.StringUtils.isNotEmpty(damage)) {
+				damage_ = Double.valueOf(damage);
+			}
+
+			String discount = (String) discount_Map.get(bigcate);
+
+			/** 公司 */
+			if ("1".equals(iscompany)) {
+				if (sellMap.containsKey(bigcate)) {
+					/** 销售存在大类* */
+					/** 黄金(克) dl006* */
+					if ("dl006".equals(bigcate)) {
+
+						if (sellJz > reJz) {
+							/** 回收金重乘以回收单价（15或13元，这个回收单价是指工费回收单价）+实际添金的重量（=卖出的金重-回收金重）×当天实际金价×相关折扣* */
+							pprice += reJz * Double.valueOf(price_)
+									+ (sellJz - reJz) * Double.valueOf(price_)
+									* Double.valueOf(discount) / 100;
+							pricecount.append("+" + reJz + "*"
+									+ Double.valueOf(price_) + "+" + "("
+									+ sellJz + "-" + reJz + ") *"
+									+ Double.valueOf(price_) + "*"
+									+ Double.valueOf(discount) + "/100");
+						} else {
+							/** 卖出金重乘以回收单价（15或13元，这个回收单价是指工费回收单价）-余金重（=回收金重-卖出金重）×回收单价（只能收到输入* */
+							pprice += sellJz * Double.valueOf(price_)
+									+ (reJz - sellJz) * Double.valueOf(price_);
+							pricecount.append("+" + sellJz + "*"
+									+ Double.valueOf(price_) + "+(" + reJz
+									+ "-" + sellJz + ") *"
+									+ Double.valueOf(price_));
+						}
+
+					}
+
+					/** K金(克) dl009 */
+					if ("dl009".equals(bigcate)) {
+						pprice += reJz * Double.valueOf(price_);
+						System.out.println("公式:" + reJz + "*"
+								+ Double.valueOf(price_));
+					}
+
+					/** 镶嵌类 dl001 钻石 */
+					if ("dl001".equals(bigcate)) {
+						if (sellJz <= reJz) {
+							pprice += (reJz - sellJz)
+									* Double.valueOf(discount) / 100;
+							pricecount.append("+" + "(" + reJz + "-" + sellJz
+									+ ")* " + Double.valueOf(discount)
+									+ " /100");
+						}
+					}
+
+				} else {
+					/** 销售不存在大类* */
+					/** 黄金(克) dl006* */
+					if ("dl006".equals(bigcate)) {
+
+						/** 卖出金重乘以回收单价（15或13元，这个回收单价是指工费回收单价）-余金重（=回收金重-卖出金重）×回收单价（只能收到输入* */
+						pprice += sellJz * Double.valueOf(price_)
+								+ (reJz - sellJz) * reJz;
+						pricecount.append("+" + sellJz + "*" + price_ + "+"
+								+ "(" + reJz + "-" + sellJz + ") *" + reJz);
+					}
+				}
+			}
+
+			/** 非公司 */
+			if ("0".equals(iscompany)) {
+				if (sellMap.containsKey(bigcate)) {
+					/** 销售存在大类* */
+					/** 黄金(克) dl006* */
+					if ("dl006".equals(bigcate)) {
+
+						if (sellJz > reJz2) {
+							/** 销售金重-回收净重（=回收金重×成色-回收金重×损耗@2%/g）×当天黄金金价×相关折扣+工费（=回收净重×13或15元/g） */
+							pprice += (sellJz * (reJz2
+									* Double.valueOf(discount_) / 100 - reJz2
+									* damage_ / 100))
+									* Double.valueOf(price_)
+									* Double.valueOf(discount)
+									/ 100
+									+ (reJz2 * Double.valueOf(discount_) / 100 - reJz2
+											* damage_ / 100)
+									* Double.valueOf(price_);
+							pricecount.append("+" + "(" + sellJz + "* ("
+									+ reJz2 + "*" + Double.valueOf(discount_)
+									+ " / 100 -" + reJz2 + "*" + damage_
+									+ "/ 100))*" + Double.valueOf(price_) + "*"
+									+ Double.valueOf(discount) + "/100+("
+									+ reJz2 + "*" + Double.valueOf(discount_)
+									+ "/ 100 -" + reJz2 * damage_ + "/ 100)*"
+									+ Double.valueOf(price_));
+						} else {
+							/** 销售金重-回收净重（=回收金重×成色-回收金重×损耗@2%/g）×当天回收价（由师傅定）-工费（=销售金重×13或15元/g） */
+							pprice += (sellJz - (reJz2 * Double.valueOf(price_) - reJz2
+									* damage_ / 100))
+									* Double.valueOf(price_)
+									- (sellJz * Double.valueOf(price_));
+							pricecount.append("+" + "(" + sellJz + "- ("
+									+ reJz2 + "*" + Double.valueOf(price_)
+									+ "-" + reJz2 + "*" + damage_ + "/ 100))*"
+									+ Double.valueOf(price_) + "-(" + sellJz
+									+ "*" + Double.valueOf(price_) + ")");
+						}
+
+					}
+
+					/** K金(克) dl009 */
+					if ("dl009".equals(bigcate)) {
+						pprice += reJz * Double.valueOf(price_);
+						pricecount.append("+" + reJz + "*"
+								+ Double.valueOf(price_));
+					}
+
+				} else {
+					/** 销售不存在大类* */
+					/** 黄金(克) dl006* */
+					if ("dl006".equals(bigcate)) {
+
+						/** 卖出金重乘以回收单价（15或13元，这个回收单价是指工费回收单价）-余金重（=回收金重-卖出金重）×回收单价（只能收到输入 */
+						pprice += sellJz * Double.valueOf(price_)
+								+ (reJz - sellJz) * reJz;
+
+						pricecount.append("+" + sellJz + "*"
+								+ Double.valueOf(price_) + "+(" + reJz + "-"
+								+ sellJz + ") *" + reJz);
+					}
+				}
+			}
+
+		}
+
+		for (int i = 0; i < rejson_.size(); i++) {
+			net.sf.json.JSONObject obj0 = rejson_.getJSONObject(i);
+			/*******************************************************************
+			 * 回收 /** 回收类型 type
+			 ******************************************************************/
+			String type = "";
+			if (obj0.containsKey("column3")) {
+				type = obj0.getString("column3");
+			}
+			/** 实测成色 purity* */
+			String purity = "";
+			if (obj0.containsKey("column11")) {
+				purity = obj0.getString("column11");
+			}
+			/** 大类 bigcate* */
+			String bigcate = "";
+			if (obj0.containsKey("column8")) {
+				bigcate = obj0.getString("column8");
+			}
+			/** 是否公司 iscompany* */
+			String iscompany = "";
+			if (obj0.containsKey("column28")) {
+				iscompany = obj0.getString("column28");
+			}
+			/** 金重 kimjoong* */
+			String kimjoong = "";
+			if (obj0.containsKey("column29")) {
+				kimjoong = obj0.getString("column29");
+			}
+			/** 回收单价 huishouprice* */
+			String huishouprice = "0";
+			if (obj0.containsKey("column13")) {
+				huishouprice = obj0.getString("column13");
+			}
+			/** 工费单价 gongfeiprice* */
+			String gongfeiprice = "0";
+			if (obj0.containsKey("column20")) {
+				gongfeiprice = obj0.getString("column20");
+			}
+			/** 损耗 damage * */
+			String damage = "0";
+			if (obj0.containsKey("column12")) {
+				damage = obj0.getString("column12");
+			}
+
+			Double damage_ = 0.0;
+			if (org.apache.commons.lang.StringUtils.isNotEmpty(damage)) {
+				damage_ = Double.valueOf(damage);
+			}
+			String discount = (String) discount_Map.get(bigcate);
+			if (!"1".equals(iscompany)) {
+
+			}
+
+			/** 铂金(克) dl007 */
+			if ("dl007".equals(bigcate)) {
+				if (type.contains("换")) {
+					String[] x = type.split("换");
+					if (x.length == 2) {
+						String re_ = x[0];
+						String sell_ = x[1];
+
+						Double re1 = new Double(0);
+						if (repurity_Map.containsKey(re_)) {
+							re1 = (Double) repurity_Map.get(re_);
+						}
+						Double sell1 = new Double(0);
+						if (sellpurity_Map.containsKey(sell_)) {
+							sell1 = (Double) sellpurity_Map.get(sell_);
+						}
+
+						if ("PT950换PT950".equals(type)) {
+							if (sell1 > re1) {
+								/**
+								 * [回收金重-（回收的金重×损耗）}]×当天实际950铂金金价×相关折扣 +
+								 * 工费（=回收净重×回收单价-25元、23元*
+								 */
+								pprice += (re1 - (re1 * damage_ / 100))
+										* Double.valueOf(huishouprice)
+										* Double.valueOf(discount)
+										/ 100
+										+ ((re1 - (re1 * damage_ / 100)) * Double
+												.valueOf(huishouprice));
+
+								pricecount.append("+" + "(" + re1 + "-(" + re1
+										+ "*" + damage_ + "/100))*"
+										+ Double.valueOf(huishouprice) + "*"
+										+ Double.valueOf(discount) + "/100+(("
+										+ re1 + "-(re1*" + damage_ + "/100)) *"
+										+ Double.valueOf(huishouprice) + ")");
+							} else {
+								/**
+								 * 销售的金重小于回收的金重，[回收净重{=回收金重-（回收的金重×损耗）}
+								 * –销售的金重]×回收单价（咨询师傅定，pt950回收单价）-
+								 * 工费（=销售金重×回收单价-25元、23元）。
+								 */
+								pprice += (((re1 - (re1 * damage_ / 100)) - sell1)
+										* Double.valueOf(huishouprice) - sell1
+										* Double.valueOf(huishouprice));
+								pricecount.append("+" + "(((" + re1 + "-("
+										+ re1 + "*" + damage_ + "/100))-"
+										+ sell1 + ")*"
+										+ Double.valueOf(huishouprice) + "-"
+										+ sell1 + "*"
+										+ Double.valueOf(huishouprice) + ")");
+							}
+						}
+						if ("PT950换PT999".equals(type)) {
+							if (sell1 > re1) {
+								/**
+								 * {销售金重-回收净重[=回收金重×95%@是成色 – 回收金重×损耗（5%
+								 * 可以用固定的值）] } × 当天PT999的单价 × 相关折扣 +
+								 * 工费（回收净重×30元或28元）*
+								 */
+								pprice += (sell1 - (re1 * 95 / 100 - re1 * 5 / 100))
+										* Double.valueOf(huishouprice)
+										* 1
+										+ (re1 * 95 / 100 - re1 * 5 / 100)
+										* Double.valueOf(huishouprice);
+								pricecount.append("+" + "(" + sell1 + "-("
+										+ re1 + "*95/100-" + re1 + "*5/100))*"
+										+ Double.valueOf(huishouprice) + "*1+("
+										+ re1 + "*95/100-" + re1 + "*5/100)*"
+										+ Double.valueOf(huishouprice));
+							} else {
+								/**
+								 * {回收净重[=回收金重×95%@是成色 – 回收金重×损耗（5% 可以用固定的值）] –
+								 * 销售金重 } × 回收单价（由师傅确定，pt950的回收单价） -
+								 * 工费（销售金重×30元或28元）
+								 */
+								pprice += ((re1 * 95 / 100 - re1 * 5 / 100) - sell1)
+										* Double.valueOf(huishouprice)
+										- (re1 * 95 / 100 - re1 * 5 / 100)
+										* Double.valueOf(huishouprice);
+								pricecount.append("+" + "((" + re1 + "*95/100-"
+										+ re1 + "*5/100)-" + sell1 + ")*"
+										+ Double.valueOf(huishouprice) + "-("
+										+ re1 + "*95/100-" + re1 + "*5/100)*"
+										+ Double.valueOf(huishouprice));
+							}
+
+						}
+						if ("PT999换PT950".equals(type)) {
+							if (sell1 > re1) {
+								/**
+								 * {销售金重-回收净重 } × 当天PT950的单价 × 相关折扣 +
+								 * 工费（回收净重×25元或23元）
+								 */
+								pprice += (sell1 - (re1 * 99.9 / 100 - re1 * 0.1 / 100))
+										* Double.valueOf(huishouprice)
+										* Double.valueOf(discount)
+										/ 100
+										+ (re1 * 99.9 / 100 - re1 * 0.1 / 100)
+										* Double.valueOf(huishouprice);
+								pricecount.append("+" + "(" + sell1 + "-("
+										+ re1 + "*99.9/100-" + re1
+										+ "*0.1/100))*"
+										+ Double.valueOf(huishouprice) + "*"
+										+ Double.valueOf(discount) + "/100+("
+										+ re1 + "*99.9/100-" + re1
+										+ "*0.1/100)*"
+										+ Double.valueOf(huishouprice));
+							} else {
+								/**
+								 * {回收净重 – 销售金重 } × 回收单价（由师傅确定，pt999的回收单价） -
+								 * 工费（销售金重×25元或23元）
+								 */
+								pprice += ((re1 * 99.9 / 100 - re1 * 0.1 / 100) - sell1)
+										* Double.valueOf(huishouprice)
+										- (re1 * 99.9 / 100 - re1 * 0.1 / 100)
+										* Double.valueOf(huishouprice);
+								pricecount.append("+" + "((" + re1
+										+ "*99.9/100-" + re1 + "*0.1/100)-"
+										+ sell1 + ")*"
+										+ Double.valueOf(huishouprice) + "-("
+										+ re1 + "*99.9/100-" + re1
+										+ "*0.1/100)*"
+										+ Double.valueOf(huishouprice));
+							}
+						}
+						if ("PT999换PT999".equals(type)) {
+							if (sell1 > re1) {
+								/**
+								 * {销售金重-回收净重（=回收金重-回收金重×损耗） } × 当天PT999的单价 ×
+								 * 相关折扣 + 工费（回收净重×28元或30元）
+								 */
+								pprice += (re1 - (re1 * damage_ / 100))
+										* Double.valueOf(huishouprice)
+										* Double.valueOf(discount)
+										/ 100
+										+ ((re1 - (re1 * damage_ / 100)) * Double
+												.valueOf(huishouprice));
+								pricecount.append("+" + "(" + re1 + "-(" + re1
+										+ "*" + damage_ + "/100))*"
+										+ Double.valueOf(huishouprice) + "*"
+										+ Double.valueOf(discount) + "/100+(("
+										+ re1 + "-(re1*" + damage_ + "/100)) *"
+										+ Double.valueOf(huishouprice) + ")");
+							} else {
+								/**
+								 * {回收净重（=回收金重-回收金重×损耗） – 销售金重 } ×
+								 * 回收单价（由师傅确定，pt999的回收单价） - 工费（销售金重×30元或28元）
+								 */
+								pprice += (((re1 - (re1 * damage_ / 100)) - sell1)
+										* Double.valueOf(huishouprice) - sell1
+										* Double.valueOf(huishouprice));
+								pricecount.append("+" + "(((" + re1 + "-("
+										+ re1 + "*" + damage_ + "/100))-"
+										+ sell1 + ")*"
+										+ Double.valueOf(huishouprice) + "-"
+										+ sell1 + "*"
+										+ Double.valueOf(huishouprice) + ")");
+
+							}
+						}
+
+					}
+				}
+
+			}
+		}
+
+		return pricecount.toString().replace("^^+", "");
+	}
+	
 	public void test() {
 
 		StringBuffer sb = new StringBuffer();

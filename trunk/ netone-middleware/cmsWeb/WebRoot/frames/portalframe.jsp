@@ -68,22 +68,22 @@
 			}
 		}
 		function link(values){
-			/* $.get("frames.do?task="+values, {Action:"get",Name:"lulu"}, function (data, textStatus){
-				//返回的 data 可以是 xmlDoc, jsonObj, html, text, 等等.
-				this; // 在这里this指向的是Ajax请求的选项配置信息，请参考下图
-				//alert(data);
-				parent.$("#mynewcontent").css('display','') ;
-				parent.$("#mynewcontent").css('width','900px') ;
-				parent.$("#mynewcontent").css('height','750px') ;
-				parent.$("#mynewcontent iframe").attr('src',"frames.do?task="+values);
-				//parent.$("#mynewcontent").html(data);
-				//parent.$("#proletright").css('display','none');
-				
-				//alert(textStatus);//请求状态：success，error等等。
-				// 当然这里捕捉不到error，因为error的时候根本不会运行该回调函数
-				//alert(this);
-			});*/
+
 			parent.document.frames["proletright"].location="frames.do?task="+values ;
+			
+			
+		}
+		
+	   function link(values,type){
+			if(type=="1"){
+				window.open("<%=basePath%>frames.do?task="+values);
+			}else{
+			
+			parent.document.frames["proletright"].location="frames.do?task="+values ;
+			
+			}
+			
+			
 		}
 		
 		function bgChange(clickedtd){
@@ -242,7 +242,8 @@
 			<c:forEach items="${map}" var="map">
 				<c:if test="${map.key == getCol.naturalname}">
 					<c:forEach items="${map.value}" var="list">
-					<a class="myax" href=javascript:link("${list.naturalname}")>${list.name}</a>
+					
+					<a class="myax" href='javascript:link("${list.naturalname}" <c:if test="${list.name=='新建'}">,"1"</c:if>)'>${list.name}</a>
 					</c:forEach>
 				</c:if>
 			</c:forEach>

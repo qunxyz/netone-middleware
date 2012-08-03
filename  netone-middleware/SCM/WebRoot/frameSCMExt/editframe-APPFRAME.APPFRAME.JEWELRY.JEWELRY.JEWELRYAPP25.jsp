@@ -667,7 +667,7 @@
 		function $buildNullData(formcode){
 		 var html = $.ajax({
 		  url: "<%=path%>/frame.do?method=buildNullData&url=${param.url}&formcode="+formcode,
-		  async: false
+		  async: false,cache:false
 		 }).responseText;
 		 return eval("("+html+")");
 		}

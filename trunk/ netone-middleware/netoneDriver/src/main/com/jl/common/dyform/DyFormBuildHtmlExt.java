@@ -1972,7 +1972,6 @@ public final class DyFormBuildHtmlExt {
 		StringBuffer td = new StringBuffer();
 		Map<String, DyFormColumn> columnmap = new HashMap<String, DyFormColumn>();
 		int colspan = 1;
-
 		if (isedit == true) {
 			td.append(DyFormComp.getTh(formcode + DyFormComp._CHECK_NAME,
 					DyFormComp
@@ -2081,8 +2080,9 @@ public final class DyFormBuildHtmlExt {
 				+ "').html();nulltr=nulltr.replace('_TR_UUID_',makeUUID());nulltr=nulltr.replace('_BTN_UUID',makeUUID());";
 		btnstr.append("<script> $('body').append('<div id=\"htmlcache"
 				+ htmlcacheid + "\" style=\"display:none;\"></div>');function "
-				+ onclickAddFunctionname + "(){var datas_config = "
-				+ datas_config + ";$('#" + formcode
+				+ onclickAddFunctionname
+				+ "(){var datas_config = $buildNullData('" + formcode
+				+ "') ;$('#" + formcode
 				+ "').jqGrid('addRowData',makeUUID(), datas_config);}");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");
 		btnstr.append(DyFormComp.deleteRow_(formcode, onclickAddFunctionname));
@@ -2186,6 +2186,49 @@ public final class DyFormBuildHtmlExt {
 		mapx.put("js", "");
 
 		return mapx;
+	}
+
+	/**
+	 * 动态新增行
+	 * 
+	 * @param formcode
+	 * @param isedit
+	 * @param userinfo
+	 * @param parameter
+	 * @return
+	 * @throws Exception
+	 */
+	public static String buildNullData(String formcode, boolean isedit,
+			String userinfo, String parameter) throws Exception {
+		DyForm dyform = DyEntry.iv().loadForm(formcode);
+
+		// 展示表单字段-针对表单中的相关字段
+		DyFormColumn _formx[] = dyform.getAllColumn_();
+		Arrays.sort(_formx, getFormComparator());// 排序
+		Map<String, DyFormColumn> columnmapx = getDyFormColumnById(_formx);// 映射
+
+		Map<String, DyFormColumn> columnmap = new HashMap<String, DyFormColumn>();
+
+		for (int i = 0; i < _formx.length; i++) {
+			DyFormColumn _qc1 = _formx[i];
+			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
+			String columnid = _qc1.getColumnid();
+			// 字段名（中文）
+			String columnname = _qc1.getColumname();
+
+			// 是否隐蔽
+			boolean hidden = _qc1.isHidden();
+
+			if (hidden == false) {
+				columnmap.put(columnid, _qc1);
+
+			}
+		}
+
+		String datas_config = buildNullDatas(new DyFormData(), _formx,
+				columnmap, columnmapx, isedit, userinfo, parameter);
+
+		return datas_config;
 	}
 
 	public static String buildSubForm(DyForm subdyform, String fatherlsh,

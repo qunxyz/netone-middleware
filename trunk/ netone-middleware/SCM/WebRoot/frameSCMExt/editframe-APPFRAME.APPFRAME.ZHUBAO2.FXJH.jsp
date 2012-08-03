@@ -662,6 +662,14 @@
 			if (lsh!='') window.open(url+'&parentid='+lsh);
 			else {alert('请先执行保存操作，再导入！');}
 		}
+		
+		function $buildNullData(formcode){
+		 var html = $.ajax({
+		  url: "<%=path%>/frame.do?method=buildNullData&url=${param.url}&formcode="+formcode,
+		  async: false
+		 }).responseText;
+		 return eval("("+html+")");
+		}
 		</script>
 		<title>${htmltitleinfo}</title>
 	</head>

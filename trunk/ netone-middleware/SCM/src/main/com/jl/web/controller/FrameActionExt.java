@@ -3,7 +3,6 @@ package com.jl.web.controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,9 +29,6 @@ import oe.serialize.dao.PageInfo;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -61,15 +57,6 @@ import com.jl.common.workflow.WfEntry;
 import com.jl.entity.User;
 import com.jl.service.BaseService;
 import com.jl.service.FrameService;
-import com.lucaslee.report.ReportManager;
-import com.lucaslee.report.model.Rectangle;
-import com.lucaslee.report.model.Report;
-import com.lucaslee.report.model.ReportBody;
-import com.lucaslee.report.model.Table;
-import com.lucaslee.report.model.TableCell;
-import com.lucaslee.report.model.TableRow;
-import com.lucaslee.report.printer.ExcelCss;
-import com.lucaslee.report.printer.ExcelPrinter;
 
 public class FrameActionExt extends AbstractAction {
 
@@ -1053,9 +1040,9 @@ public class FrameActionExt extends AbstractAction {
 							|| "column84".equals(colid)
 
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)
-							
+
 							|| "column7".equals(colid)
 
 							|| "column11".equals(colid)
@@ -1129,7 +1116,7 @@ public class FrameActionExt extends AbstractAction {
 							|| "column30".equals(colid)
 
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)
 
 							|| "column32".equals(colid)
@@ -1201,9 +1188,9 @@ public class FrameActionExt extends AbstractAction {
 							|| "column76".equals(colid)
 
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)
-							
+
 							|| "column79".equals(colid)
 
 							|| "column30".equals(colid)) {
@@ -1231,11 +1218,11 @@ public class FrameActionExt extends AbstractAction {
 							|| "column49".equals(colid)
 
 							|| "column11".equals(colid)
-							
+
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)
-							
+
 							|| "column12".equals(colid)
 
 							|| "column16".equals(colid)
@@ -1326,9 +1313,9 @@ public class FrameActionExt extends AbstractAction {
 							|| "column24".equals(colid)
 
 							|| "column59".equals(colid)
-							
+
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)
 
 							|| "column32".equals(colid)
@@ -1368,7 +1355,7 @@ public class FrameActionExt extends AbstractAction {
 							("column7".equals(colid)
 
 							|| "column84".equals(colid)
-							
+
 							|| "column17".equals(colid)
 
 							|| "column34".equals(colid)
@@ -1404,9 +1391,9 @@ public class FrameActionExt extends AbstractAction {
 							|| "column79".equals(colid)
 
 							|| "column30".equals(colid)
-							
+
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
@@ -1420,7 +1407,7 @@ public class FrameActionExt extends AbstractAction {
 							("column7".equals(colid)
 
 							|| "column84".equals(colid)
-							
+
 							|| "column17".equals(colid)
 
 							|| "column34".equals(colid)
@@ -1436,17 +1423,17 @@ public class FrameActionExt extends AbstractAction {
 							|| "column59".equals(colid)
 
 							|| "column72".equals(colid)
-							
+
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)
-							
+
 							|| "column69".equals(colid)
 
 							|| "column71".equals(colid)
 
 							|| "column78".equals(colid)
-							
+
 							|| "column52".equals(colid)
 
 							|| "column73".equals(colid)
@@ -1471,43 +1458,43 @@ public class FrameActionExt extends AbstractAction {
 
 							("column7".equals(colid)
 
-									|| "column84".equals(colid)
+							|| "column84".equals(colid)
 
-									|| "column34".equals(colid)
+							|| "column34".equals(colid)
 
-									|| "column4".equals(colid)
+							|| "column4".equals(colid)
 
-									|| "column24".equals(colid)
+							|| "column24".equals(colid)
 
-									|| "column11".equals(colid)
+							|| "column11".equals(colid)
 
-									|| "column12".equals(colid)
-									
-									|| "column89".equals(colid)
-									
-									|| "column31".equals(colid)
-									
-									|| "column20".equals(colid)
+							|| "column12".equals(colid)
 
-									|| "column72".equals(colid)
+							|| "column89".equals(colid)
 
-									|| "column69".equals(colid)
+							|| "column31".equals(colid)
 
-									|| "column71".equals(colid)
+							|| "column20".equals(colid)
 
-									|| "column78".equals(colid)
+							|| "column72".equals(colid)
 
-									|| "column73".equals(colid)
+							|| "column69".equals(colid)
 
-									|| "column74".equals(colid)
+							|| "column71".equals(colid)
 
-									|| "column75".equals(colid)
+							|| "column78".equals(colid)
 
-									|| "column76".equals(colid)
+							|| "column73".equals(colid)
 
-									|| "column79".equals(colid)
+							|| "column74".equals(colid)
 
-									|| "column30".equals(colid)) {
+							|| "column75".equals(colid)
+
+							|| "column76".equals(colid)
+
+							|| "column79".equals(colid)
+
+							|| "column30".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
 							}
@@ -1530,11 +1517,11 @@ public class FrameActionExt extends AbstractAction {
 							|| "column11".equals(colid)
 
 							|| "column12".equals(colid)
-							
+
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)
-							
+
 							|| "column20".equals(colid)
 
 							|| "column72".equals(colid)
@@ -1567,43 +1554,43 @@ public class FrameActionExt extends AbstractAction {
 
 							("column7".equals(colid)
 
-									|| "column84".equals(colid)
+							|| "column84".equals(colid)
 
-									|| "column34".equals(colid)
+							|| "column34".equals(colid)
 
-									|| "column4".equals(colid)
+							|| "column4".equals(colid)
 
-									|| "column24".equals(colid)
+							|| "column24".equals(colid)
 
-									|| "column11".equals(colid)
+							|| "column11".equals(colid)
 
-									|| "column12".equals(colid)
-									
-									|| "column89".equals(colid)
-									
-									|| "column31".equals(colid)
-									
-									|| "column20".equals(colid)
+							|| "column12".equals(colid)
 
-									|| "column72".equals(colid)
+							|| "column89".equals(colid)
 
-									|| "column69".equals(colid)
+							|| "column31".equals(colid)
 
-									|| "column71".equals(colid)
+							|| "column20".equals(colid)
 
-									|| "column78".equals(colid)
+							|| "column72".equals(colid)
 
-									|| "column73".equals(colid)
+							|| "column69".equals(colid)
 
-									|| "column74".equals(colid)
+							|| "column71".equals(colid)
 
-									|| "column75".equals(colid)
+							|| "column78".equals(colid)
 
-									|| "column76".equals(colid)
+							|| "column73".equals(colid)
 
-									|| "column79".equals(colid)
+							|| "column74".equals(colid)
 
-									|| "column30".equals(colid)) {
+							|| "column75".equals(colid)
+
+							|| "column76".equals(colid)
+
+							|| "column79".equals(colid)
+
+							|| "column30".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
 							}
@@ -1684,11 +1671,11 @@ public class FrameActionExt extends AbstractAction {
 							|| "column79".equals(colid)
 
 							|| "column80".equals(colid)
-							
+
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)
-							
+
 							|| "column83".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
@@ -1701,53 +1688,53 @@ public class FrameActionExt extends AbstractAction {
 
 							("column4".equals(colid)
 
-									|| "column84".equals(colid)
-									
-									|| "column20".equals(colid)
+							|| "column84".equals(colid)
 
-									|| "column24".equals(colid)
-							
-									|| "column89".equals(colid)
-									
-									|| "column31".equals(colid)
-									
-									|| "column7".equals(colid)
+							|| "column20".equals(colid)
 
-									|| "column11".equals(colid)
+							|| "column24".equals(colid)
 
-									|| "column34".equals(colid)
+							|| "column89".equals(colid)
 
-									|| "column37".equals(colid)
+							|| "column31".equals(colid)
 
-									|| "column56".equals(colid)
+							|| "column7".equals(colid)
 
-									|| "column55".equals(colid)
+							|| "column11".equals(colid)
 
-									|| "column12".equals(colid)
+							|| "column34".equals(colid)
 
-									|| "column21".equals(colid)
+							|| "column37".equals(colid)
 
-									|| "column58".equals(colid)
+							|| "column56".equals(colid)
 
-									|| "column72".equals(colid)
+							|| "column55".equals(colid)
 
-									|| "column69".equals(colid)
+							|| "column12".equals(colid)
 
-									|| "column71".equals(colid)
+							|| "column21".equals(colid)
 
-									|| "column78".equals(colid)
+							|| "column58".equals(colid)
 
-									|| "column73".equals(colid)
+							|| "column72".equals(colid)
 
-									|| "column74".equals(colid)
+							|| "column69".equals(colid)
 
-									|| "column75".equals(colid)
+							|| "column71".equals(colid)
 
-									|| "column76".equals(colid)
+							|| "column78".equals(colid)
 
-									|| "column79".equals(colid)
+							|| "column73".equals(colid)
 
-									|| "column30".equals(colid)) {
+							|| "column74".equals(colid)
+
+							|| "column75".equals(colid)
+
+							|| "column76".equals(colid)
+
+							|| "column79".equals(colid)
+
+							|| "column30".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
 							}
@@ -1759,53 +1746,53 @@ public class FrameActionExt extends AbstractAction {
 
 							("column4".equals(colid)
 
-									|| "column84".equals(colid)
+							|| "column84".equals(colid)
 
-									|| "column89".equals(colid)
-									
-									|| "column31".equals(colid)
-									
-									|| "column20".equals(colid)
+							|| "column89".equals(colid)
 
-									|| "column24".equals(colid)
-									
-									|| "column7".equals(colid)
+							|| "column31".equals(colid)
 
-									|| "column11".equals(colid)
+							|| "column20".equals(colid)
 
-									|| "column34".equals(colid)
+							|| "column24".equals(colid)
 
-									|| "column37".equals(colid)
+							|| "column7".equals(colid)
 
-									|| "column56".equals(colid)
+							|| "column11".equals(colid)
 
-									|| "column55".equals(colid)
+							|| "column34".equals(colid)
 
-									|| "column12".equals(colid)
+							|| "column37".equals(colid)
 
-									|| "column21".equals(colid)
+							|| "column56".equals(colid)
 
-									|| "column58".equals(colid)
+							|| "column55".equals(colid)
 
-									|| "column72".equals(colid)
+							|| "column12".equals(colid)
 
-									|| "column69".equals(colid)
+							|| "column21".equals(colid)
 
-									|| "column71".equals(colid)
+							|| "column58".equals(colid)
 
-									|| "column78".equals(colid)
+							|| "column72".equals(colid)
 
-									|| "column73".equals(colid)
+							|| "column69".equals(colid)
 
-									|| "column74".equals(colid)
+							|| "column71".equals(colid)
 
-									|| "column75".equals(colid)
+							|| "column78".equals(colid)
 
-									|| "column76".equals(colid)
+							|| "column73".equals(colid)
 
-									|| "column79".equals(colid)
+							|| "column74".equals(colid)
 
-									|| "column30".equals(colid)) {
+							|| "column75".equals(colid)
+
+							|| "column76".equals(colid)
+
+							|| "column79".equals(colid)
+
+							|| "column30".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
 							}
@@ -1898,11 +1885,11 @@ public class FrameActionExt extends AbstractAction {
 							|| "column74".equals(colid)
 
 							|| "column75".equals(colid)
-							
+
 							|| "column89".equals(colid)
-							
+
 							|| "column31".equals(colid)
-							
+
 							|| "column76".equals(colid)
 
 							|| "column77".equals(colid)
@@ -4051,6 +4038,28 @@ public class FrameActionExt extends AbstractAction {
 			object.get("zcbnlj");// 本年支出金额累计
 			object.get("bnzrjelj");// 本年支入金额累计
 		}
+	}
+
+	// 新增行
+	public void buildNullData(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		String formcode = request.getParameter("formcode");
+		String url = request.getParameter("url");
+		User user = getOnlineUser(request);// 获取当前用户
+		String userinfo = user.getNLevelName() + "/" + user.getUserName() + ","
+				+ user.getNLevelName() + "/";
+		String data = DyFormBuildHtmlExt.buildNullData(formcode, true,
+				userinfo, url);
+
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			response.getWriter().write(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

@@ -205,7 +205,7 @@
 				column96 : column96,column97 : column97,column98 : column98,column99 : column99,column100 : column100
 				
 			};
-			var json___ = Ext.util.JSON.encode(w);
+			var json___ = Ext.util.JSON2.encode(w);
 			if (json___.indexOf('column')>0 && len!=100){
 				jsonStr += deliter + json___;
 			    deliter = ',';

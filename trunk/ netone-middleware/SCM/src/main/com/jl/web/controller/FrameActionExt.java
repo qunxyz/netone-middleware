@@ -3697,13 +3697,9 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", object
 					.getColumn26() == null ? "" : (object.getColumn26()
 					.toString() + "¿Ë" ));
-			if("dl001".equals((String)object.getColumn19()) || "dl004".equals((String)object.getColumn19())){
-				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", object
+			loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", object
 						.getColumn24() == null ? "" : (object.getColumn24()
 								.toString() + "ct"));
-			} else {
-				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
-			}
 			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", object
 					.getColumn10() == null ? "" : (object.getColumn10()
 					.toString() + "Ôª" ));

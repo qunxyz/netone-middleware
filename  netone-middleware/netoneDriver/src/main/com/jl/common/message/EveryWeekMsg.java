@@ -35,8 +35,8 @@ public final class EveryWeekMsg {
 				String usercode = (String) object.get("usercode");
 				String context = "";
 				if (countx > 1) {
-					context = "电子工作流平台友情提醒：当前您在新版电子工作流平台有" + countx
-							+ "条未处理工单，请及时登录10.51.176.5进行处理";
+					context = "友情提醒："+Message.msg_head + countx
+							+ "条未处理工单，"+Message.msg_end;
 					String[] info = { usercode, context };
 					msgTo.add(info);
 				}
@@ -54,8 +54,8 @@ public final class EveryWeekMsg {
 				String usercode = (String) object.get("usercode");
 				String appname=(String)object.get("appname");
 				String appnametip=AppEntry.iv().loadApp(appname).getName();
-				String context =  "电子工作流平台友情提醒：当前您在新版电子工作流平台有1条未处理工单:"
-							+ tip +"("+appnametip+ ")，请及时登10.51.176.5进行处理";
+				String context =  "友情提醒："+Message.msg_head+"有1条:"
+							+ tip +"("+appnametip+ "),"+Message.msg_end;
 				String[] info = { usercode, context };
 				msgTo.add(info);
 			}

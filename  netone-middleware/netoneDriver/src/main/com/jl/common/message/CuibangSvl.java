@@ -72,10 +72,10 @@ public final class CuibangSvl extends HttpServlet {
 				String noticetitle = revtemp != null ? revtemp.getValuenow()
 						: "";
 
-				String context = "电子工作流平台催办提醒：您在新版电子工作流平台有待办任务.文件标题:" + noticetitle+"("+appnametip+")";
+				String context = "[催办提醒]"+Message.msg_head+"文件标题:"+ noticetitle+"("+appnametip+")";
 				request.setAttribute("context", context);
 				request.setAttribute("workcode", workcode);
-				request.setAttribute("username", ", 发送人:" + username + " 请尽快登陆10.51.176.5处理");
+				request.setAttribute("username", ", 发送人:" + username + Message.msg_end);
 				request.setAttribute("usernamex",username);
 				// 获得所有 可被催办的对象信息
 				StringBuffer butx = new StringBuffer();

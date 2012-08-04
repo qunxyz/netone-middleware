@@ -1078,9 +1078,9 @@ public class FrameActionExt extends AbstractAction {
 							|| "column76".equals(colid)
 
 							|| "column79".equals(colid)
-							
+
 							|| "column36".equals(colid)
-							
+
 							|| "column96".equals(colid)
 
 							|| "column30".equals(colid)) {
@@ -1300,35 +1300,33 @@ public class FrameActionExt extends AbstractAction {
 
 							if
 
-							("column4".equals(colid)
+							("column7".equals(colid)
 
 							|| "column84".equals(colid)
 
-							|| "column52".equals(colid)
+							|| "column34".equals(colid)
 
-							|| "column7".equals(colid)
-
-							|| "column49".equals(colid)
-
-							|| "column11".equals(colid)
-
-							|| "column16".equals(colid)
+							|| "column4".equals(colid)
 
 							|| "column24".equals(colid)
 
-							|| "column59".equals(colid)
+							|| "column11".equals(colid)
+
+							|| "column12".equals(colid)
 
 							|| "column89".equals(colid)
 
 							|| "column31".equals(colid)
 
-							|| "column32".equals(colid)
-
-							|| "column33".equals(colid)
-
-							|| "column34".equals(colid)
+							|| "column20".equals(colid)
 
 							|| "column72".equals(colid)
+
+							|| "column69".equals(colid)
+
+							|| "column71".equals(colid)
+
+							|| "column78".equals(colid)
 
 							|| "column73".equals(colid)
 
@@ -1338,15 +1336,9 @@ public class FrameActionExt extends AbstractAction {
 
 							|| "column76".equals(colid)
 
-							|| "column77".equals(colid)
-
-							|| "column78".equals(colid)
-
 							|| "column79".equals(colid)
 
-							|| "column80".equals(colid)
-
-							|| "column83".equals(colid)) {
+							|| "column30".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
 							}
@@ -3614,21 +3606,24 @@ public class FrameActionExt extends AbstractAction {
 		dydata.setFormcode("1dde2f9fa81711e19b54fb13b166e993_");
 		dydata.setFatherlsh(lsh);
 		List listx = DyEntry.iv().queryData(dydata, 0, 6, "");
-		
+
 		// 旧料回收
-		List list_2 = DbTools.queryData("select sum(column6) column6,sum(column4) column4 from dyform.DY_371337952339234 where fatherlsh='"+lsh+"'");
-		Map m = (Map)list_2.get(0);
-		double sum_2 = Double.parseDouble(m.get("column6")==null?"0":m.get("column6").toString());
-		
-		//判断是否有旧料回收
+		List list_2 = DbTools
+				.queryData("select sum(column18) column18 from dyform.DY_371337952339234 where fatherlsh='"
+						+ lsh + "'");
+		Map m = (Map) list_2.get(0);
+		sum = Double.parseDouble(m.get("column18") == null ? "0" : m.get(
+				"column18").toString());
+
+		// 判断是否有旧料回收
 		DyFormData dydata_1 = new DyFormData();
 		dydata_1.setFormcode("e17cb211a84911e19b54fb13b166e993_");
 		dydata_1.setFatherlsh(lsh);
 		List listx_1 = DyEntry.iv().queryData(dydata_1, 0, 6, "");
 		boolean flag = false;
 		boolean flag_roop = true;
-		if(listx_1.size()>0){
-			flag=true;
+		if (listx_1.size() > 0) {
+			flag = true;
 		}
 		info = StringUtils.replace(info, "$(address)", address);
 		info = StringUtils.replace(info, "$(tel)", tel);
@@ -3648,28 +3643,32 @@ public class FrameActionExt extends AbstractAction {
 			String loopEach = loop;
 			if (i < listx.size())
 				object = (DyFormData) listx.get(i);
-			else{
-				if(flag && flag_roop){
-					List list = DbTools.queryData("select IFNULL(column3,'') column3,IFNULL(column19,'') column19,IFNULL(column14,'') column14 from dyform.DY_371337952339238 where fatherlsh = '" + lsh + "'");
+			else {
+				if (flag && flag_roop) {
+					List list = DbTools
+							.queryData("select IFNULL(column3,'') column3,IFNULL(column19,'') column19,IFNULL(column14,'') column14 from dyform.DY_371337952339238 where fatherlsh = '"
+									+ lsh + "'");
 					java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
 					String split = "";
 					if (list.size() > 0) {
 						for (int j = 0; j < list.size(); j++) {
-							String jsonStr = net.sf.json.JSONObject.fromObject(list.get(j))
-									.toString();
+							String jsonStr = net.sf.json.JSONObject.fromObject(
+									list.get(j)).toString();
 							jsonBuffer.append(split);
 							jsonBuffer.append(jsonStr);
 							split = ",";
 						}
 					}
 					String selljson = "[" + jsonBuffer.toString() + "]";
-					List list_1 = DbTools.queryData("select IFNULL(column3,'') column3,IFNULL(column11,'') column11,IFNULL(column8,'') column8,IFNULL(column28,'') column28,IFNULL(column29,0) column29,IFNULL(column13,0) column13,IFNULL(column20,0) column20,IFNULL(column30,'') column30,IFNULL(column12,'') column12 from dyform.DY_371337952339239 where fatherlsh = '" + lsh + "'");
+					List list_1 = DbTools
+							.queryData("select IFNULL(column3,'') column3,IFNULL(column11,'') column11,IFNULL(column8,'') column8,IFNULL(column28,'') column28,IFNULL(column29,0) column29,IFNULL(column13,0) column13,IFNULL(column20,0) column20,IFNULL(column30,'') column30,IFNULL(column12,'') column12 from dyform.DY_371337952339239 where fatherlsh = '"
+									+ lsh + "'");
 					java.lang.StringBuffer jsonBuffer_1 = new java.lang.StringBuffer();
 					String split_1 = "";
 					if (list_1.size() > 0) {
 						for (int j = 0; j < list_1.size(); j++) {
-							String jsonStr = net.sf.json.JSONObject.fromObject(list_1.get(j))
-									.toString();
+							String jsonStr = net.sf.json.JSONObject.fromObject(
+									list_1.get(j)).toString();
 							jsonBuffer_1.append(split_1);
 							jsonBuffer_1.append(jsonStr);
 							split_1 = ",";
@@ -3683,11 +3682,13 @@ public class FrameActionExt extends AbstractAction {
 					loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
 					loopEach = StringUtils.replace(loopEach, "$(loop.GF)", "");
 					loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", "");
-					loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", "");
-					loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", String.valueOf(sum_2));
-					loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", reSell(selljson,rejson));
+					loopEach = StringUtils
+							.replace(loopEach, "$(loop.JPGF)", "");
+					loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)",
+							String.valueOf(sum));
+					loopEach = StringUtils.replace(loopEach, "$(loop.TJ)",
+							reSell(selljson, rejson));
 					but.append(loopEach);
-					sum = sum_2;
 					flag_roop = false;
 					continue;
 				}
@@ -3696,32 +3697,37 @@ public class FrameActionExt extends AbstractAction {
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", object
 					.getColumn26() == null ? "" : (object.getColumn26()
-					.toString() + "克" ));
+					.toString() + "克"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", object
-						.getColumn24() == null ? "" : (object.getColumn24()
-								.toString() + "ct"));
+					.getColumn24() == null ? "" : (object.getColumn24()
+					.toString() + "ct"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", object
 					.getColumn10() == null ? "" : (object.getColumn10()
-					.toString() + "元" ));
+					.toString() + "元"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", object
 					.getColumn6() == null ? "" : (object.getColumn6()
 					.toString() + "元"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", object
 					.getColumn11() == null ? "" : (object.getColumn11()
-					.toString() + "元" ));
-			if(!flag){
+					.toString() + "元"));
+			if (!flag) {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", object
-					.getColumn15() == null ? "" : (object.getColumn15()
-					.toString()));
+						.getColumn15() == null ? "" : (object.getColumn15()
+						.toString()));
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
-			}	
+			}
 			loopEach = StringUtils.replace(loopEach, "$(loop.HH)", object
 					.getColumn23() == null ? "" : object.getColumn23());
 			loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", "");
 			but.append(loopEach);
 			if (object.getColumn15() != null) {
-				sum = sum + Double.parseDouble(object.getColumn15()) + Double.parseDouble(object.getColumn10()==null?"0":object.getColumn10()) + Double.parseDouble(object.getColumn6()==null?"0":object.getColumn6());
+				sum = sum
+						+ Double.parseDouble(object.getColumn15())
+						+ Double.parseDouble(object.getColumn10() == null ? "0"
+								: object.getColumn10())
+						+ Double.parseDouble(object.getColumn6() == null ? "0"
+								: object.getColumn6());
 			}
 		}
 		info = StringUtils.replace(info, "$(sum)", sum.toString());
@@ -4084,8 +4090,9 @@ public class FrameActionExt extends AbstractAction {
 			/** 大类 */
 			/** 金重 column17 */
 
-			List list = DbTools.queryData("select IFNULL(column17,0) as jz,IFNULL(column52,'') as purity from dyform.DY_271334208897441  where column4='"
-									+ code_ + "' limit 1 ");
+			List list = DbTools
+					.queryData("select IFNULL(column17,0) as jz,IFNULL(column52,'') as purity from dyform.DY_271334208897441  where column4='"
+							+ code_ + "' limit 1 ");
 
 			if (list.size() > 0) {
 				Map xxx = (Map) list.get(0);
@@ -4692,7 +4699,7 @@ public class FrameActionExt extends AbstractAction {
 
 		return pricecount.toString().replace("^^+", "");
 	}
-	
+
 	public void test() {
 
 		StringBuffer sb = new StringBuffer();

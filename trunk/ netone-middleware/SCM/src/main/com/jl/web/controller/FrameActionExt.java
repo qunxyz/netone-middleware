@@ -3615,10 +3615,10 @@ public class FrameActionExt extends AbstractAction {
 		dydata.setFatherlsh(lsh);
 		List listx = DyEntry.iv().queryData(dydata, 0, 6, "");
 		
-		// 旧料回收和销退汇总
+		// 旧料回收
 		List list_2 = DbTools.queryData("select sum(column6) column6,sum(column4) column4 from dyform.DY_371337952339234 where fatherlsh='"+lsh+"'");
 		Map m = (Map)list_2.get(0);
-		double sum_2 = Double.parseDouble(m.get("column6")==null?"0":m.get("column6").toString()) + Double.parseDouble(m.get("column4")==null?"0":m.get("column4").toString());
+		double sum_2 = Double.parseDouble(m.get("column6")==null?"0":m.get("column6").toString());
 		
 		//判断是否有旧料回收
 		DyFormData dydata_1 = new DyFormData();
@@ -3687,7 +3687,7 @@ public class FrameActionExt extends AbstractAction {
 					loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", String.valueOf(sum_2));
 					loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", reSell(selljson,rejson));
 					but.append(loopEach);
-					sum -=sum_2;
+					sum = sum_2;
 					flag_roop = false;
 					continue;
 				}
@@ -3697,9 +3697,13 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", object
 					.getColumn26() == null ? "" : (object.getColumn26()
 					.toString() + "克" ));
-			loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", object
-					.getColumn24() == null ? "" : (object.getColumn24()
-					.toString() + "ct"));
+			if("dl001".equals((String)object.getColumn19()) || "dl004".equals((String)object.getColumn19())){
+				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", object
+						.getColumn24() == null ? "" : (object.getColumn24()
+								.toString() + "ct"));
+			} else {
+				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
+			}
 			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", object
 					.getColumn10() == null ? "" : (object.getColumn10()
 					.toString() + "元" ));

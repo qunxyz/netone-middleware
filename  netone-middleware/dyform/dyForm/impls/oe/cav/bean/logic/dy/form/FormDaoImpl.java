@@ -166,8 +166,8 @@ public class FormDaoImpl implements FormDao {
 					upo.setActionurl("");
 					upo.setExtendattribute(tcf.getFormcode());
 					upo.setObjecttype("DYFROM");
-
-					rsrmi.addResource(upo, belongname);
+					
+					rsrmi.addResource(upo, belongname);					
 					
 					String [][]ope_role={{"add","新增"},{"modi","修改"},{"conf","确认"},{"uconf","反确认"},{"que","查询"},{"list","列表"},{"dele","删除"}};
 					for (int i = 0; i < ope_role.length; i++) {

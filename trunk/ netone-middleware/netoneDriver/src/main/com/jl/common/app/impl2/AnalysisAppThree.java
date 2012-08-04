@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -30,6 +31,9 @@ public class AnalysisAppThree {
 			e.printStackTrace();
 		}
 		   InputSource is = new InputSource();   
+		   if(StringUtils.isEmpty(str)){
+			   str="";
+		   }
 		   is.setCharacterStream(new StringReader(str));   
 
 		Document dom = null;
@@ -113,7 +117,6 @@ public class AnalysisAppThree {
 		
 		         // increment node
 		         current = current.getNextSibling();
-		         System.out.println(data);
 		       
 		     } // end while
 		     return data;

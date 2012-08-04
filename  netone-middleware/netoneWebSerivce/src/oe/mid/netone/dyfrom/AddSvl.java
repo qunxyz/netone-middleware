@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.app.AppEntry;
 import com.jl.common.dyform.DyEntry;
+import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormData;
 
 public class AddSvl extends HttpServlet {
@@ -59,34 +60,61 @@ public class AddSvl extends HttpServlet {
 		String userid = request.getParameter("userid");
 
 		DyFormData dydata = new DyFormData();
-		dydata.setFatherlsh(parentId);
-		dydata.setParticipant(userid);
 		if (StringUtils.isEmpty(parentId)) {
 			parentId = "1";
 		}
-		try {
-			formcode = AppEntry.iv().loadApp(appname).getDyformCode_();
-			List list = DyEntry.iv().fetchColumnList(formcode);
-			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-				TCsColumn object = (TCsColumn) iterator.next();
-				String columnId=object.getColumnid().toLowerCase();
-				if(columnId.startsWith("column")){
-					String value = request.getParameter(columnId);
-					if (StringUtils.isNotEmpty(value)) {
+		dydata.setFatherlsh(parentId);
+		dydata.setParticipant(userid);
 
-						BeanUtils.setProperty(dydata, columnId, value);
-
+		if(parentId.equals("1")){
+			//添加主表单
+			try {
+				formcode = AppEntry.iv().loadApp(appname).getDyformCode_();
+				List list = DyEntry.iv().fetchColumnList(formcode);
+				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+					TCsColumn object = (TCsColumn) iterator.next();
+					String columnId=object.getColumnid().toLowerCase();
+					if(columnId.startsWith("column")){
+						String value = request.getParameter(columnId);
+						if (StringUtils.isNotEmpty(value)) {
+	
+							BeanUtils.setProperty(dydata, columnId, value);
+	
+						}
 					}
 				}
+				String str = DyEntry.iv().addData(formcode, dydata);
+				response.getWriter().print(str);
+			} catch (Exception e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
 			}
-			String str = DyEntry.iv().addData(formcode, dydata);
-			response.getWriter().print(str);
-		} catch (Exception e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+		}else{
+			//添加子表单
+			try {
+				formcode = AppEntry.iv().loadApp(appname).getDyformCode_();
+				DyForm dyx[]=DyEntry.iv().loadForm(formcode).getSubform_();
+				if(dyx.length>0){
+					formcode=dyx[0].getFormcode();
+				}
+				List list = DyEntry.iv().fetchColumnList(formcode);
+				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+					TCsColumn object = (TCsColumn) iterator.next();
+					String columnId=object.getColumnid().toLowerCase();
+					if(columnId.startsWith("column")){
+						String value = request.getParameter(columnId);
+						if (StringUtils.isNotEmpty(value)) {
+							BeanUtils.setProperty(dydata, columnId, value);
+						}
+					}
+				}
+				String str = DyEntry.iv().addData(formcode, dydata);
+				response.getWriter().print(str);
+			} catch (Exception e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 		}
-
-
 	}
 
 	/**

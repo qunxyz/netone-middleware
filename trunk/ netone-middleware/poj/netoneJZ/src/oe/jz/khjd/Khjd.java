@@ -134,14 +134,4 @@ public class Khjd extends OeScript{
 		dy.set(lsh,"column4","0");/*1表示得分,0标示失分*/
 	}
 	
-	public void todox(){
-
-		String bussid=wf.get(runtimeid,"bussid");
-		String dept=dy.get(bussid+":c62ece53bf2b11e0bd85795d46e7adb1_","column7");
-		if(dept.contains("柘荣")||dept.contains("寿宁")||dept.contains("古田")||dept.contains("福安")||dept.contains("福鼎")
-				||dept.contains("屏南")||dept.contains("市区")){
-			return true;
-		}
-		return false;
-	}
 }

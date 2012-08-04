@@ -24,6 +24,16 @@ public final class AppObj extends UmsProtectedobject {
 	private String formendtitle;
 	
 	private String description;
+	
+	private String formnatualname;
+
+	public String getFormnatualname() {
+		return formnatualname;
+	}
+
+	public void setFormnatualname(String formnatualname) {
+		this.formnatualname = formnatualname;
+	}
 
 	public String getDescription() {
 		return description;

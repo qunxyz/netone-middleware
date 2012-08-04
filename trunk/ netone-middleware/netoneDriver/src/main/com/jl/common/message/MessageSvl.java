@@ -44,7 +44,7 @@ public class MessageSvl extends HttpServlet {
 		String context=request.getParameter("info");
 
 		if(StringUtils.isNotEmpty(mobile)&&StringUtils.isNotEmpty(context)){
-			Message.toMessageCore(mobile.split(","),context,request);
+			Message.toMessageCoreByMobileOrEmail(mobile.split(","),context,request);
 
 		    WebTip.htmlInfo("群发短信成功",true,false,response);
 		}

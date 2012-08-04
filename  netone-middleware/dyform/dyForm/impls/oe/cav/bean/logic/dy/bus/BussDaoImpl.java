@@ -28,6 +28,7 @@ import oe.cav.bean.logic.tools.DyObj;
 import oe.cav.bean.logic.tools.DyObjFromXml;
 import oe.cav.bean.logic.tools.SQLTools;
 import oe.cav.bean.logic.tools.XmlPools;
+import oe.frame.web.WebCache;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -545,9 +546,37 @@ public class BussDaoImpl implements BussDao {
 		if (StringUtils.isEmpty(participant)) {
 			return;
 		}
+		if("adminx".equals(participant)){
+			return ;
+		}		
+		
 		try {
 			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 			CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
+			
+			UmsProtectedobject upo2=new UmsProtectedobject();
+			upo2.setNaturalname("BUSSFORM.BUSSFORM.%");
+			upo2.setExtendattribute(obj.getFormcode());
+			Map map = new HashMap();
+			map.put("naturalname", "like");
+
+			List formlist = rs.fetchResource(upo2, map);
+			if(formlist.size()==1){
+				upo2=((UmsProtectedobject)formlist.get(0));
+			}
+			//检查是否有表单的管理权限
+			boolean isAdmin=cupm.checkUserPermission("0000", participant, upo2.getNaturalname(), "15");
+			if(isAdmin){
+				//管理授权意味着该用户可以看到所有数据
+				obj.setParticipant(null);
+				return;
+			}else{
+				if("1".equals(upo2.getActive())){
+					//如果表单的资源配置为 不共享模式activei=1，那么只有用户自己只能看到自己的数据,否则可以通过授权
+					// 获取许可的数据
+					return;
+				}
+			}
 			
 			//需要所有的群组
 			boolean alluserTeam = cupm.checkUserPermission("0000", participant,
@@ -679,17 +708,12 @@ public class BussDaoImpl implements BussDao {
 			log.error("输入对象TCsBus为空");
 			return null;
 		}
-
 		String formcode = obj.getFormcode();
 		// 根据数据库名读取DyObj对象属性
 		DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode).toString());
 
 		List columnlist = dfo.getColumn();
-		
-		//处理表单数据管理逻辑
 		permission(obj);
-		log.debug(obj.getParticipant());
-
 		// 查询语句生成
 		String finalSQL = BussDaoReference._SELECT
 				+ ConditionBuilder.build(obj, dfo, columnlist) + conditionPre;
@@ -767,13 +791,13 @@ public class BussDaoImpl implements BussDao {
 			log.error("输入对象TCsBus为空");
 			return 0;
 		}
+
 		String formcode = obj.getFormcode();
 		// 根据数据库名读取DyObj对象属性
 		DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode).toString());
 
 		List columnlist = dfo.getColumn();
 		
-		//处理表单数据管理逻辑
 		permission(obj);
 
 		// 查询语句生成
@@ -795,7 +819,6 @@ public class BussDaoImpl implements BussDao {
 			rs = st.executeQuery(finalSQL);
 			rs.next();
 			return rs.getInt(1);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;

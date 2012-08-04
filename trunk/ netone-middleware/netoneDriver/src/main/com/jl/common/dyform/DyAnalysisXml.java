@@ -130,18 +130,21 @@ public class DyAnalysisXml {
 		
 		
 		public String dealWithResourceScript(String script,String rsHead) throws  Exception{
+			//针对脚本资源对象调度处理，可通过naturalname去调度脚本通过？key=value#key2=value2的方式来传递参数
 			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
-			if(script!=null&&script.trim().startsWith(rsHead)){
+			if(StringUtils.isNotEmpty(script)&&script.trim().startsWith(rsHead)){
 				String scriptContect=StringUtils.substringBefore(script, "?");
 				String ext=rs.loadResourceByNatural(scriptContect).getExtendattribute();
 				String scriptAft=StringUtils.substringAfter(script, "?");
-				String []info=scriptAft.split("&");
+				String []info=scriptAft.split("#");
 				for (int i = 0; i < info.length; i++) {
 					String []param=info[i].split("=");
-					String key="$("+param[0]+")";
-					scriptContect=StringUtils.replace(scriptContect, key, param[1]);
+					if(param.length==2){
+						String key="$("+param[0]+")";
+						ext=StringUtils.replace(ext, key, param[1]);
+					}
 				}
-				return scriptContect;
+				return ext;
 			}else{
 				return script;
 			}

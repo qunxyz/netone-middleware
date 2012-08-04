@@ -5,10 +5,10 @@
 String formcode=request.getParameter("formcode");
 WebCache.removeCache("fetchColumnList"+formcode);
 WebCache.removeCache("queryColumnQ"+formcode);
-WebCache.removeCache("queryColumnX"+formcode+"0");
-WebCache.removeCache("queryColumnX"+formcode+"1");
-WebCache.removeCache("queryColumnX"+formcode+"2");
-WebCache.removeCache("queryColumnX"+formcode+"3");
+WebCache.removeCache("queryColumnX0"+formcode);
+WebCache.removeCache("queryColumnX1"+formcode);
+WebCache.removeCache("queryColumnX2"+formcode);
+WebCache.removeCache("queryColumnX3"+formcode);
 
 WebTip.htmlInfo("Ok init!",true,false,response);
 %>

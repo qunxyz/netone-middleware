@@ -39,7 +39,7 @@
 					cellspacing="1" id="lie_table">
 					<tr>
 						<td width="15%">
-							有&nbsp;&nbsp;&nbsp;&nbsp;效
+							非&nbsp;&nbsp;&nbsp;共享
 						</td>
 						<td>
 

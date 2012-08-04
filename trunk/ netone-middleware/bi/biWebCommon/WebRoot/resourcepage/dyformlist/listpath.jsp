@@ -377,12 +377,11 @@
 										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>Diagram.html?formcode=${list.extendattribute}&isedit=1','_parent');"
 										target="_blank"><font color='red'>[查看图表]</font></a>									
 									<a
-										href="resourcepage/dyformlist2/report.jsp?formcode=${list.extendattribute}"
+										href="<portal:envget envkey="WEBSER_APPFRAME"/>SimpleReport?formcode=${list.extendattribute}"
 										target="_blank"><font color='red'>[查看报表]</font></a>
 									<a
-										href="resourcepage/dyformlist2/reportExcel.jsp?formcode=${list.extendattribute}"
-										target="_blank"><font color='red'>[导出EXCEL]</font></a>
-										
+										href="<portal:envget envkey="WEBSER_APPFRAME"/>SimpleReport?formcode=${list.extendattribute}&excel=1"
+										target="_blank"><font color='red'>[导出EXCEL]</font></a>										
 									<a
 										href="<portal:envget envkey="WEBSER_BIWEB"/>/PagelistRightSvl?pagename=dyformlist&appname=${list.naturalname}"
 										target="_blank">[功能配置]</a>

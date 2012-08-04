@@ -82,15 +82,22 @@ public final class Security3AImpl implements Security3AIfc {
 		// 设置用户隶属的 中间件目录ID
 		String systemid = clerk.getDeptment();
 		user.setBelongto(systemid);
+		UmsProtectedobject upo =null;
+		try{
 		// 设置用户隶属的 业务系统目录ID
-		UmsProtectedobject upo = rs.loadResourceById(systemid);
+			upo = rs.loadResourceById(systemid);
+		
+		}catch(Exception e){
+			e.printStackTrace();
+			System.err.println("用户定义异常 systemid 所对应的部门不存在,使用默认的部门dept.dept");
+			upo=rs.loadResourceByNatural("DEPT.DEPT");
+		}
 		user.setBussid(upo.getActionurl());
 
 		user.setMobile(clerk.getPhoneNO());
 		user.setEmail(clerk.getEmail());
 		user.setDeptid(upo.getNaturalname());
 		user.setDeptname(upo.getName());
-		
 		return user;
 	}
 

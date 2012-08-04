@@ -1,5 +1,7 @@
 package com.jl.common.security3a;
 
+import com.jl.entity.Client;
+
 /**
  * 安全访问入口
  * 
@@ -18,9 +20,6 @@ public final class SecurityEntry {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String xxx = SecurityEntry.iv().listUserByDeptId(
-				new String[] { "[DEPT.DEPT]" });
-		System.out.println(xxx);
 	}
 
 }

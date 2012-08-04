@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import oe.env.client.EnvService;
+import oe.rmi.client.RmiEntry;
+
 import net.sf.json.JSONArray;
 
 import com.jl.common.workflow.DbTools;
@@ -57,11 +60,21 @@ public class LhTodaySvl extends HttpServlet {
 
 		String userid=request.getParameter("userid");
 		String date=request.getParameter("date");
+		EnvService env = null;
+		String value =null;
+		try {
+			env = (EnvService) RmiEntry.iv("envinfo");
+			value = env.fetchEnvValue("WEBSER_WebSerivce");
 
-		String sql="select x1.shopname shopname,x1.xoffset xoffset,count(*) picnum,concat('ListPicSvl?id=',x1.lshx) link from (select t1.column5 shopname,t2.column4 xoffset ,t2.lsh lshx"+
-		" from dyform.DY_961338295639576  t1,dyform.DY_211340244752515  t2 "+
-		"where t1.lsh=t2.fatherlsh and t2.participant='"+userid+"' and t2.created like '"+date+"%')  as x1 left join iss.t_file t3  on x1.lshx=t3.d_unid  group by x1.lshx";
-		System.out.println(sql);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		String sql="select x1.shopname shopname,x1.xoffset xoffset,count(*) picnum,concat('"+value+"ListPicSvl?id=',x1.lshx) link from (select t1.column5 shopname,t2.column4 xoffset ,t2.lsh lshx"+
+		",t2.created ttx from dyform.DY_961338295639576  t1,dyform.DY_211340244752515  t2 "+
+		"where t1.lsh=t2.fatherlsh and t2.participant='"+userid+"' and t2.created like '"+date+"%' order by t2.created desc)  as x1 left join iss.t_file t3  on x1.lshx=t3.d_unid  group by x1.lshx order by x1.ttx desc";
+		//System.out.println(sql);
 		List list=DbTools.queryData(sql);
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().print(JSONArray.fromObject(list).toString());

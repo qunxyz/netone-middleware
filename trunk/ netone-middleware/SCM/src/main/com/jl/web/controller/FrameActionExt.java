@@ -1079,6 +1079,10 @@ public class FrameActionExt extends AbstractAction {
 							|| "column76".equals(colid)
 
 							|| "column79".equals(colid)
+							
+							|| "column36".equals(colid)
+							
+							|| "column96".equals(colid)
 
 							|| "column30".equals(colid)) {
 
@@ -3612,16 +3616,20 @@ public class FrameActionExt extends AbstractAction {
 		dydata.setFatherlsh(lsh);
 		List listx = DyEntry.iv().queryData(dydata, 0, 6, "");
 		
+		// 旧料回收和销退汇总
+		List list_2 = DbTools.queryData("select sum(column6) column6,sum(column4) column4 from dyform.DY_371337952339234 where fatherlsh='"+lsh+"'");
+		Map m = (Map)list_2.get(0);
+		double sum_2 = Double.parseDouble(m.get("column6")==null?"0":m.get("column6").toString()) + Double.parseDouble(m.get("column4")==null?"0":m.get("column4").toString());
+		
 		//判断是否有旧料回收
 		DyFormData dydata_1 = new DyFormData();
 		dydata_1.setFormcode("e17cb211a84911e19b54fb13b166e993_");
 		dydata_1.setFatherlsh(lsh);
-		List listx_1 = DyEntry.iv().queryData(dydata, 0, 6, "");
+		List listx_1 = DyEntry.iv().queryData(dydata_1, 0, 6, "");
 		boolean flag = false;
-		if(listx_1.size()>1)
+		if(listx_1.size()>0){
 			flag=true;
-		
-		
+		}
 		info = StringUtils.replace(info, "$(address)", address);
 		info = StringUtils.replace(info, "$(tel)", tel);
 		info = StringUtils.replace(info, "$(date)", com.jl.common.TimeUtil
@@ -3635,35 +3643,35 @@ public class FrameActionExt extends AbstractAction {
 				.substringBetween(info, "$(loop-)", "$(-loop)");
 
 		StringBuffer but = new StringBuffer();
-		String loopEach = "";
-		for (int i = 0; i < 6; i++) {
+		int flag_size = 6;
+		if(flag)
+			flag_size = 5;
+		for (int i = 0; i < flag_size; i++) {
 			DyFormData object = new DyFormData();
-			loopEach = loop;
+			String loopEach = loop;
 			if (i < listx.size())
 				object = (DyFormData) listx.get(i);
-			else
-				break;
 			loopEach = StringUtils.replace(loopEach, "$(loop.PM)", object
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", object
 					.getColumn26() == null ? "" : (object.getColumn26()
-					.toString() + "(克)"));
+					.toString() + "(克)" ));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", object
 					.getColumn24() == null ? "" : (object.getColumn24()
 					.toString() + "(ct)"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", object
-					.getColumn25() == null ? "" : (object.getColumn10()
-					.toString() + "(元)"));
+					.getColumn10() == null ? "" : (object.getColumn10()
+					.toString() + "(元)" ));
 			loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", object
-					.getColumn25() == null ? "" : (object.getColumn6()
+					.getColumn6() == null ? "" : (object.getColumn6()
 					.toString() + "(元)"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", object
 					.getColumn11() == null ? "" : (object.getColumn11()
-					.toString() + "(元)"));
+					.toString() + "(元)" ));
 			if(!flag){
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", object
 					.getColumn15() == null ? "" : (object.getColumn15()
-					.toString() + "(元)"));
+					.toString() + "(元)" ));
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
 			}	
@@ -3672,12 +3680,11 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", "");
 			but.append(loopEach);
 			if (object.getColumn15() != null) {
-				sum += Double.valueOf(object.getColumn15());
+				sum = sum + Double.parseDouble(object.getColumn15()) + Double.parseDouble(object.getColumn10()==null?"0":object.getColumn10()) + Double.parseDouble(object.getColumn6()==null?"0":object.getColumn6());
 			}
 		}
 		if(flag){
-			
-			List list = DbTools.queryData("select column3,column19,column14 from dyform.DY_371337952339238 where fatherlsh = '" + lsh + "'");
+			List list = DbTools.queryData("select IFNULL(column3,'') column3,IFNULL(column19,'') column19,IFNULL(column14,'') column14 from dyform.DY_371337952339238 where fatherlsh = '" + lsh + "'");
 			java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
 			String split = "";
 			if (list.size() > 0) {
@@ -3690,8 +3697,7 @@ public class FrameActionExt extends AbstractAction {
 				}
 			}
 			String selljson = "[" + jsonBuffer.toString() + "]";
-			
-			List list_1 = DbTools.queryData("select column3,column11,column8,column28,column29,column13,column20,column30,column12 from dyform.DY_371337952339239 where fatherlsh = '" + lsh + "'");
+			List list_1 = DbTools.queryData("select IFNULL(column3,'') column3,IFNULL(column11,'') column11,IFNULL(column8,'') column8,IFNULL(column28,'') column28,IFNULL(column29,0) column29,IFNULL(column13,0) column13,IFNULL(column20,0) column20,IFNULL(column30,'') column30,IFNULL(column12,'') column12 from dyform.DY_371337952339239 where fatherlsh = '" + lsh + "'");
 			java.lang.StringBuffer jsonBuffer_1 = new java.lang.StringBuffer();
 			String split_1 = "";
 			if (list_1.size() > 0) {
@@ -3703,8 +3709,8 @@ public class FrameActionExt extends AbstractAction {
 					split_1 = ",";
 				}
 			}
-			String rejson = "[" + jsonBuffer.toString() + "]";
-
+			String rejson = "[" + jsonBuffer_1.toString() + "]";
+			String loopEach = loop;
 			loopEach = StringUtils.replace(loopEach, "$(loop.HH)", "");
 			loopEach = StringUtils.replace(loopEach, "$(loop.PM)", "");
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", "");
@@ -3712,11 +3718,10 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", "");
 			loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", "");
 			loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", "");
-			loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
+			loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", String.valueOf(sum_2));
 			loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", reSell(selljson,rejson));
-			
 			but.append(loopEach);
-			info = StringUtils.replace(info, "$(sum)", sum.toString() + "(元)");
+			info = StringUtils.replace(info, "$(sum)", String.valueOf((sum-sum_2)) + "(元)");
 		} else {
 			info = StringUtils.replace(info, "$(sum)", sum.toString() + "(元)");
 		}
@@ -4235,18 +4240,18 @@ public class FrameActionExt extends AbstractAction {
 							pprice += reJz * Double.valueOf(price_)
 									+ (sellJz - reJz) * Double.valueOf(price_)
 									* Double.valueOf(discount) / 100;
-							pricecount.append("+" + reJz + "*"
+							pricecount.append("+" + reJz + "x"
 									+ Double.valueOf(price_) + "+" + "("
-									+ sellJz + "-" + reJz + ") *"
-									+ Double.valueOf(price_) + "*"
+									+ sellJz + "-" + reJz + ") x"
+									+ Double.valueOf(price_) + "x"
 									+ Double.valueOf(discount) + "/100");
 						} else {
 							/** 卖出金重乘以回收单价（15或13元，这个回收单价是指工费回收单价）-余金重（=回收金重-卖出金重）×回收单价（只能收到输入* */
 							pprice += sellJz * Double.valueOf(price_)
 									+ (reJz - sellJz) * Double.valueOf(price_);
-							pricecount.append("+" + sellJz + "*"
+							pricecount.append("+" + sellJz + "x"
 									+ Double.valueOf(price_) + "+(" + reJz
-									+ "-" + sellJz + ") *"
+									+ "-" + sellJz + ") x"
 									+ Double.valueOf(price_));
 						}
 
@@ -4255,7 +4260,7 @@ public class FrameActionExt extends AbstractAction {
 					/** K金(克) dl009 */
 					if ("dl009".equals(bigcate)) {
 						pprice += reJz * Double.valueOf(price_);
-						System.out.println("公式:" + reJz + "*"
+						System.out.println("公式:" + reJz + "x"
 								+ Double.valueOf(price_));
 					}
 
@@ -4265,7 +4270,7 @@ public class FrameActionExt extends AbstractAction {
 							pprice += (reJz - sellJz)
 									* Double.valueOf(discount) / 100;
 							pricecount.append("+" + "(" + reJz + "-" + sellJz
-									+ ")* " + Double.valueOf(discount)
+									+ ")x " + Double.valueOf(discount)
 									+ " /100");
 						}
 					}
@@ -4278,8 +4283,8 @@ public class FrameActionExt extends AbstractAction {
 						/** 卖出金重乘以回收单价（15或13元，这个回收单价是指工费回收单价）-余金重（=回收金重-卖出金重）×回收单价（只能收到输入* */
 						pprice += sellJz * Double.valueOf(price_)
 								+ (reJz - sellJz) * reJz;
-						pricecount.append("+" + sellJz + "*" + price_ + "+"
-								+ "(" + reJz + "-" + sellJz + ") *" + reJz);
+						pricecount.append("+" + sellJz + "x" + price_ + "+"
+								+ "(" + reJz + "-" + sellJz + ") x" + reJz);
 					}
 				}
 			}
@@ -4302,13 +4307,13 @@ public class FrameActionExt extends AbstractAction {
 									+ (reJz2 * Double.valueOf(discount_) / 100 - reJz2
 											* damage_ / 100)
 									* Double.valueOf(price_);
-							pricecount.append("+" + "(" + sellJz + "* ("
-									+ reJz2 + "*" + Double.valueOf(discount_)
-									+ " / 100 -" + reJz2 + "*" + damage_
-									+ "/ 100))*" + Double.valueOf(price_) + "*"
+							pricecount.append("+" + "(" + sellJz + "x ("
+									+ reJz2 + "x" + Double.valueOf(discount_)
+									+ " / 100 -" + reJz2 + "x" + damage_
+									+ "/ 100))x" + Double.valueOf(price_) + "x"
 									+ Double.valueOf(discount) + "/100+("
-									+ reJz2 + "*" + Double.valueOf(discount_)
-									+ "/ 100 -" + reJz2 * damage_ + "/ 100)*"
+									+ reJz2 + "x" + Double.valueOf(discount_)
+									+ "/ 100 -" + reJz2 * damage_ + "/ 100)x"
 									+ Double.valueOf(price_));
 						} else {
 							/** 销售金重-回收净重（=回收金重×成色-回收金重×损耗@2%/g）×当天回收价（由师傅定）-工费（=销售金重×13或15元/g） */
@@ -4317,10 +4322,10 @@ public class FrameActionExt extends AbstractAction {
 									* Double.valueOf(price_)
 									- (sellJz * Double.valueOf(price_));
 							pricecount.append("+" + "(" + sellJz + "- ("
-									+ reJz2 + "*" + Double.valueOf(price_)
-									+ "-" + reJz2 + "*" + damage_ + "/ 100))*"
+									+ reJz2 + "x" + Double.valueOf(price_)
+									+ "-" + reJz2 + "x" + damage_ + "/ 100))x"
 									+ Double.valueOf(price_) + "-(" + sellJz
-									+ "*" + Double.valueOf(price_) + ")");
+									+ "x" + Double.valueOf(price_) + ")");
 						}
 
 					}
@@ -4328,7 +4333,7 @@ public class FrameActionExt extends AbstractAction {
 					/** K金(克) dl009 */
 					if ("dl009".equals(bigcate)) {
 						pprice += reJz * Double.valueOf(price_);
-						pricecount.append("+" + reJz + "*"
+						pricecount.append("+" + reJz + "x"
 								+ Double.valueOf(price_));
 					}
 
@@ -4341,9 +4346,9 @@ public class FrameActionExt extends AbstractAction {
 						pprice += sellJz * Double.valueOf(price_)
 								+ (reJz - sellJz) * reJz;
 
-						pricecount.append("+" + sellJz + "*"
+						pricecount.append("+" + sellJz + "x"
 								+ Double.valueOf(price_) + "+(" + reJz + "-"
-								+ sellJz + ") *" + reJz);
+								+ sellJz + ") x" + reJz);
 					}
 				}
 			}
@@ -4435,10 +4440,10 @@ public class FrameActionExt extends AbstractAction {
 												.valueOf(huishouprice));
 
 								pricecount.append("+" + "(" + re1 + "-(" + re1
-										+ "*" + damage_ + "/100))*"
-										+ Double.valueOf(huishouprice) + "*"
+										+ "x" + damage_ + "/100))x"
+										+ Double.valueOf(huishouprice) + "x"
 										+ Double.valueOf(discount) + "/100+(("
-										+ re1 + "-(re1*" + damage_ + "/100)) *"
+										+ re1 + "-(re1x" + damage_ + "/100)) x"
 										+ Double.valueOf(huishouprice) + ")");
 							} else {
 								/**
@@ -4450,10 +4455,10 @@ public class FrameActionExt extends AbstractAction {
 										* Double.valueOf(huishouprice) - sell1
 										* Double.valueOf(huishouprice));
 								pricecount.append("+" + "(((" + re1 + "-("
-										+ re1 + "*" + damage_ + "/100))-"
-										+ sell1 + ")*"
+										+ re1 + "x" + damage_ + "/100))-"
+										+ sell1 + ")x"
 										+ Double.valueOf(huishouprice) + "-"
-										+ sell1 + "*"
+										+ sell1 + "x"
 										+ Double.valueOf(huishouprice) + ")");
 							}
 						}
@@ -4470,9 +4475,9 @@ public class FrameActionExt extends AbstractAction {
 										+ (re1 * 95 / 100 - re1 * 5 / 100)
 										* Double.valueOf(huishouprice);
 								pricecount.append("+" + "(" + sell1 + "-("
-										+ re1 + "*95/100-" + re1 + "*5/100))*"
-										+ Double.valueOf(huishouprice) + "*1+("
-										+ re1 + "*95/100-" + re1 + "*5/100)*"
+										+ re1 + "x95/100-" + re1 + "x5/100))x"
+										+ Double.valueOf(huishouprice) + "x1+("
+										+ re1 + "x95/100-" + re1 + "x5/100)x"
 										+ Double.valueOf(huishouprice));
 							} else {
 								/**
@@ -4484,10 +4489,10 @@ public class FrameActionExt extends AbstractAction {
 										* Double.valueOf(huishouprice)
 										- (re1 * 95 / 100 - re1 * 5 / 100)
 										* Double.valueOf(huishouprice);
-								pricecount.append("+" + "((" + re1 + "*95/100-"
-										+ re1 + "*5/100)-" + sell1 + ")*"
+								pricecount.append("+" + "((" + re1 + "x95/100-"
+										+ re1 + "x5/100)-" + sell1 + ")x"
 										+ Double.valueOf(huishouprice) + "-("
-										+ re1 + "*95/100-" + re1 + "*5/100)*"
+										+ re1 + "x95/100-" + re1 + "x5/100)x"
 										+ Double.valueOf(huishouprice));
 							}
 
@@ -4505,12 +4510,12 @@ public class FrameActionExt extends AbstractAction {
 										+ (re1 * 99.9 / 100 - re1 * 0.1 / 100)
 										* Double.valueOf(huishouprice);
 								pricecount.append("+" + "(" + sell1 + "-("
-										+ re1 + "*99.9/100-" + re1
-										+ "*0.1/100))*"
-										+ Double.valueOf(huishouprice) + "*"
+										+ re1 + "x99.9/100-" + re1
+										+ "x0.1/100))x"
+										+ Double.valueOf(huishouprice) + "x"
 										+ Double.valueOf(discount) + "/100+("
-										+ re1 + "*99.9/100-" + re1
-										+ "*0.1/100)*"
+										+ re1 + "x99.9/100-" + re1
+										+ "x0.1/100)x"
 										+ Double.valueOf(huishouprice));
 							} else {
 								/**
@@ -4522,11 +4527,11 @@ public class FrameActionExt extends AbstractAction {
 										- (re1 * 99.9 / 100 - re1 * 0.1 / 100)
 										* Double.valueOf(huishouprice);
 								pricecount.append("+" + "((" + re1
-										+ "*99.9/100-" + re1 + "*0.1/100)-"
-										+ sell1 + ")*"
+										+ "x99.9/100-" + re1 + "x0.1/100)-"
+										+ sell1 + ")x"
 										+ Double.valueOf(huishouprice) + "-("
-										+ re1 + "*99.9/100-" + re1
-										+ "*0.1/100)*"
+										+ re1 + "x99.9/100-" + re1
+										+ "x0.1/100)x"
 										+ Double.valueOf(huishouprice));
 							}
 						}
@@ -4543,10 +4548,10 @@ public class FrameActionExt extends AbstractAction {
 										+ ((re1 - (re1 * damage_ / 100)) * Double
 												.valueOf(huishouprice));
 								pricecount.append("+" + "(" + re1 + "-(" + re1
-										+ "*" + damage_ + "/100))*"
-										+ Double.valueOf(huishouprice) + "*"
+										+ "x" + damage_ + "/100))x"
+										+ Double.valueOf(huishouprice) + "x"
 										+ Double.valueOf(discount) + "/100+(("
-										+ re1 + "-(re1*" + damage_ + "/100)) *"
+										+ re1 + "-(re1x" + damage_ + "/100)) x"
 										+ Double.valueOf(huishouprice) + ")");
 							} else {
 								/**
@@ -4557,10 +4562,10 @@ public class FrameActionExt extends AbstractAction {
 										* Double.valueOf(huishouprice) - sell1
 										* Double.valueOf(huishouprice));
 								pricecount.append("+" + "(((" + re1 + "-("
-										+ re1 + "*" + damage_ + "/100))-"
-										+ sell1 + ")*"
+										+ re1 + "x" + damage_ + "/100))-"
+										+ sell1 + ")x"
 										+ Double.valueOf(huishouprice) + "-"
-										+ sell1 + "*"
+										+ sell1 + "x"
 										+ Double.valueOf(huishouprice) + ")");
 
 							}

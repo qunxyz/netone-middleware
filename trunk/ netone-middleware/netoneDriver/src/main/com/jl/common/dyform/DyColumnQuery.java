@@ -179,7 +179,9 @@ public class DyColumnQuery {
 				columnKey.put(object.getColumnid().toUpperCase(), columnnew);
 			}
 		}
- 
+		if(listDate.size()==0){
+			return new ArrayList();
+		}
 		UmsProtectedobject upjs = (UmsProtectedobject) listDate.get(0);
 		if (StringUtils.isNotEmpty(upjs.getActionurl())&&isExists(upjs.getActionurl(), "config")) {
 

@@ -94,7 +94,7 @@ public class InitOuCache extends HttpServlet {
 			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 			for (int i = 0; i < rsinfo.length; i++) {
 				UmsProtectedobject upo = new UmsProtectedobject();
-				List list = rs.queryObjectProtectedObj(upo, null, 0, 1000000,
+				List list = rs.queryObjectProtectedObj(upo, null, 0, 100000,
 						" and naturalname like '" + rsinfo[i] + "%'");
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					UmsProtectedobject object = (UmsProtectedobject) iterator

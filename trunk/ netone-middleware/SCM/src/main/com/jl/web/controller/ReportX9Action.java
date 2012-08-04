@@ -277,7 +277,8 @@ public class ReportX9Action extends AbstractAction {
 		headerSet1.add(new TableCell("副石(ct/p)"));
 		headerSet1.add(new TableCell("售价"));
 		headerSet1.add(new TableCell("实售价"));
-		headerSet1.add(new TableCell("成本"));
+		if(rs)
+			headerSet1.add(new TableCell("成本"));
 		ReportExt reportExt = new ReportExt();
 		List list = DbTools.queryData(sb.toString());
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -347,8 +348,6 @@ public class ReportX9Action extends AbstractAction {
 			if(rs)
 				tr.addCell(new TableCell("" + MathHelper.moneyFormat(cb),
 						Rectangle.ALIGN_RIGHT));
-			else
-				tr.addCell(new TableCell(""));
 			t.addRow(tr);
 		}
 

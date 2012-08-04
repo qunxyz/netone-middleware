@@ -219,7 +219,8 @@ public class ReportX8Action extends AbstractAction {
 		headerSet1.add(new TableCell("主石(ct/p)"));
 		headerSet1.add(new TableCell("副石(ct/p)"));
 		headerSet1.add(new TableCell("售价"));
-		headerSet1.add(new TableCell("成本"));
+		if(rs)
+			headerSet1.add(new TableCell("成本"));
 
 		ReportExt reportExt = new ReportExt();
 
@@ -276,8 +277,6 @@ public class ReportX8Action extends AbstractAction {
 			if(rs)
 				tr.addCell(new TableCell("" + MathHelper.moneyFormat(jhcb),
 						Rectangle.ALIGN_RIGHT));
-			else
-				tr.addCell(new TableCell(""));
 			t.addRow(tr);
 		}
 

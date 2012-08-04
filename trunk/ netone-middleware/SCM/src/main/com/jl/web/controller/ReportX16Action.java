@@ -176,7 +176,8 @@ public class ReportX16Action extends AbstractAction {
 		headerSet1.add(new TableCell("净度"));
 		headerSet1.add(new TableCell("车工"));
 		headerSet1.add(new TableCell("售价"));
-		headerSet1.add(new TableCell("成本"));
+		if(rs)
+			headerSet1.add(new TableCell("成本"));
 
 		ReportExt reportExt = new ReportExt();
 		System.out.println(sb);
@@ -231,7 +232,6 @@ public class ReportX16Action extends AbstractAction {
 			if(rs)
 				tr.addCell(new TableCell("" + MathHelper.moneyFormat(cb),
 						Rectangle.ALIGN_RIGHT));
-			else tr.addCell(new TableCell(""));
 			t.addRow(tr);
 		}
 

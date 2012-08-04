@@ -3655,23 +3655,23 @@ public class FrameActionExt extends AbstractAction {
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", object
 					.getColumn26() == null ? "" : (object.getColumn26()
-					.toString() + "(克)" ));
+					.toString() + "克" ));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", object
 					.getColumn24() == null ? "" : (object.getColumn24()
-					.toString() + "(ct)"));
+					.toString() + "ct"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", object
 					.getColumn10() == null ? "" : (object.getColumn10()
-					.toString() + "(元)" ));
+					.toString() + "元" ));
 			loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", object
 					.getColumn6() == null ? "" : (object.getColumn6()
-					.toString() + "(元)"));
+					.toString() + "元"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", object
 					.getColumn11() == null ? "" : (object.getColumn11()
-					.toString() + "(元)" ));
+					.toString() + "元" ));
 			if(!flag){
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", object
 					.getColumn15() == null ? "" : (object.getColumn15()
-					.toString() + "(元)" ));
+					.toString()));
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
 			}	
@@ -3721,9 +3721,9 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", String.valueOf(sum_2));
 			loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", reSell(selljson,rejson));
 			but.append(loopEach);
-			info = StringUtils.replace(info, "$(sum)", String.valueOf((sum-sum_2)) + "(元)");
+			info = StringUtils.replace(info, "$(sum)", String.valueOf((sum-sum_2)));
 		} else {
-			info = StringUtils.replace(info, "$(sum)", sum.toString() + "(元)");
+			info = StringUtils.replace(info, "$(sum)", sum.toString());
 		}
 		info = StringUtils.replace(info, "$(shy)", shy);
 		info = StringUtils.replace(info, "$(loop-)" + loop + "$(-loop)", but

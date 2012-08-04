@@ -3643,14 +3643,13 @@ public class FrameActionExt extends AbstractAction {
 				.substringBetween(info, "$(loop-)", "$(-loop)");
 
 		StringBuffer but = new StringBuffer();
-		int flag_size = 6;
-		if(flag)
-			flag_size = 5;
-		for (int i = 0; i < flag_size; i++) {
+		for (int i = 0; i < 6; i++) {
 			DyFormData object = new DyFormData();
 			String loopEach = loop;
 			if (i < listx.size())
 				object = (DyFormData) listx.get(i);
+			else
+				break;
 			loopEach = StringUtils.replace(loopEach, "$(loop.PM)", object
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", object

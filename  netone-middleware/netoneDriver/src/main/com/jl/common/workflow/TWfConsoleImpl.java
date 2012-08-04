@@ -709,9 +709,10 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 
 			String noticetitle = revtemp != null ? revtemp.getValuenow() : "";
 			String appnametip = AppEntry.iv().loadApp(appname).getName();
-			String context = "您好！您在新版电子工作流平台有新的待办任务.文件标题:" + noticetitle + "("
+			
+			String context = Message.msg_head+",文件标题:" + noticetitle + "("
 					+ appnametip + "), 发送人:" + fromUserObj.getName()
-					+ " 请尽快登陆10.51.176.5处理";
+					+ Message.msg_end;
 			System.out.println(context);
 			Message.toMessageByUser(touser, context);
 
@@ -894,19 +895,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 	}
 
 	public WorkflowProcess loadProcess(String processid) throws Exception {
-		String key = "WORKFLOW_" + processid;
-		try {
-			if (!WebCache.containCache(key)) {
-				WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
-				WorkflowProcess wf = wfview.fetchWorkflowProcess(processid);
-				WebCache.setCache(key, wf, null);
-				return wf;
-			}
-			return (WorkflowProcess) WebCache.getCache(key);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
+		WorkflowProcess wf = wfview.fetchWorkflowProcess(processid);
+		return wf;
 	}
 
 	public TWfActive loadRuntimeActive(String processid, String activeid,
@@ -1117,10 +1108,10 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 					timeOver = 0;
 				if (timeOver > 0) {
 
-					String context = "电子工作流平台友情提醒:" + commitername
+					String context = Message.msg_head + ","+commitername
 							+ "发给您的待处理任务:" + tip + "(" + appnametip
 							+ ") 已经超出最后办理时限:" + timeOver / (3600 * 1000)
-							+ "小时,请尽快登陆新版电子工作流平台10.51.176.5处理";
+							+ "小时,"+Message.msg_end;
 
 					String rs = Message.toMessageByUser(usercode, context);
 					if ("ok".equals(rs)) {

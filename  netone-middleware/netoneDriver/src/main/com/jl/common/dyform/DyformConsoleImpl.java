@@ -932,8 +932,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	public List<DyFormColumn> queryColumnX(String formcode, String model)
 			throws Exception {
-		if(WebCache.containCache("queryColumnX"+formcode+model)){
-			return (List)WebCache.getCache("queryColumnX"+formcode+model);
+		if(WebCache.containCache("queryColumnX"+model+formcode)){
+			return (List)WebCache.getCache("queryColumnX"+model+formcode);
 		}
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
@@ -949,7 +949,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			
 			newColumn.add(columnnew);
 		}
-		WebCache.setCache("queryColumnX"+formcode+model, newColumn, null);
+		WebCache.setCache("queryColumnX"+model+formcode, newColumn, null);
 		return newColumn;
 	}
 

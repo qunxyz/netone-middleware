@@ -548,8 +548,7 @@ public class BussDaoImpl implements BussDao {
 		}
 		if("adminx".equals(participant)){
 			return ;
-		}		
-		
+		}
 		try {
 			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 			CupmRmi cupm = (CupmRmi) RmiEntry.iv("cupm");
@@ -566,6 +565,7 @@ public class BussDaoImpl implements BussDao {
 			}
 			//检查是否有表单的管理权限
 			boolean isAdmin=cupm.checkUserPermission("0000", participant, upo2.getNaturalname(), "15");
+			System.out.println("is admin:"+isAdmin);
 			if(isAdmin){
 				//管理授权意味着该用户可以看到所有数据
 				obj.setParticipant(null);
@@ -574,6 +574,7 @@ public class BussDaoImpl implements BussDao {
 				if("1".equals(upo2.getActive())){
 					//如果表单的资源配置为 不共享模式activei=1，那么只有用户自己只能看到自己的数据,否则可以通过授权
 					// 获取许可的数据
+					obj.setParticipant("'"+obj.getParticipant()+"'");
 					return;
 				}
 			}
@@ -598,7 +599,6 @@ public class BussDaoImpl implements BussDao {
 				obj.setParticipant(but.toString());
 				
 			}
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -717,7 +717,6 @@ public class BussDaoImpl implements BussDao {
 		// 查询语句生成
 		String finalSQL = BussDaoReference._SELECT
 				+ ConditionBuilder.build(obj, dfo, columnlist) + conditionPre;
-
 		List list = new ArrayList();
 
 		Connection conn = null;
@@ -803,8 +802,6 @@ public class BussDaoImpl implements BussDao {
 		// 查询语句生成
 		String finalSQL = BussDaoReference._SELECTCOUNT
 				+ ConditionBuilder.build(obj, dfo, columnlist) + conditionPre;
-
-		log.debug(finalSQL);
 
 		Connection conn = null;
 		ResultSet rs = null;

@@ -49,6 +49,18 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		appobj.setWorklistsize(list.getWorklistsize());
 		appobj.setFormtitle(list.getFormtitle());
 		appobj.setFormendtitle(list.getFormtitle());
+		
+		UmsProtectedobject upo2=new UmsProtectedobject();
+		upo2.setNaturalname("BUSSFORM.BUSSFORM.%");
+		upo2.setExtendattribute(list.getFormcode());
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+		List formlist = rs.fetchResource(upo, map);
+		if(formlist.size()==1){
+			String name=((UmsProtectedobject)formlist.get(0)).getNaturalname();
+			appobj.setFormnatualname(name);
+		}
+		
 		String worklistDefaultColumn = list.getWorklistDefaultColumn();
 		if (StringUtils.isNotEmpty(worklistDefaultColumn)) {
 			appobj.setWorklistColumn(StringUtils.substringBetween(

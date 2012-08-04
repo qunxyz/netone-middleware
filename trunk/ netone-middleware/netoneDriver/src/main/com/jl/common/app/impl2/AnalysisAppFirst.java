@@ -127,7 +127,6 @@ public class AnalysisAppFirst {
 
 	            // increment node
 	            current = current.getNextSibling();
-	            System.out.println(data);
 	          
 	        } // end while
 	        return data;

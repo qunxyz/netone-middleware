@@ -79,9 +79,9 @@ public class DyFormCopySvl extends HttpServlet {
 		}
 		List list = dysc.fetchColumnList(formid);
 		TCsForm tcf = dysc.loadForm(formid);
-
-		TCsForm busForm = dysc.loadForm(formid);
-		String tablename = busForm.getTablename();
+		tcf.setFormcode(null);
+		
+		String tablename=tcf.getTablename();
 
 		String datastr[] = dys.create(tcf, pagepath);
 
@@ -109,7 +109,7 @@ public class DyFormCopySvl extends HttpServlet {
 
 		UmsProtectedobject upo = rsrmi.loadResourceByNatural(pagepath + "."
 				+ datastr[0]);
-		upo.setName(upo.getName() + "-¸´ÖÆ");
+		upo.setName(upobj.getName() + "-¸´ÖÆ");
 		upo.setActionurl(upobj.getActionurl());
 		rsrmi.updateResource(upo);
 

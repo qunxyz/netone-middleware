@@ -328,10 +328,10 @@
 										href="javascript:window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>Diagram.html?formcode=${list.extendattribute}&isedit=1','_parent');"
 										target="_blank"><font color='red'>[数据分析]</font></a>									
 									<a
-										href="resourcepage/dyformlist2/report.jsp?formcode=${list.extendattribute}"
+										href="<portal:envget envkey="WEBSER_APPFRAME"/>SimpleReport?formcode=${list.extendattribute}"
 										target="_blank"><font color='red'>[查看报表]</font></a>
 									<a
-										href="resourcepage/dyformlist2/reportExcel.jsp?formcode=${list.extendattribute}"
+										href="<portal:envget envkey="WEBSER_APPFRAME"/>SimpleReport?formcode=${list.extendattribute}&excel=1"
 										target="_blank"><font color='red'>[导出EXCEL]</font></a>
 							</c:if>
 

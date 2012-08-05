@@ -418,6 +418,8 @@ public class SSXS_Script extends OeScript {
 				// busz.setColumn41(object.get("column37")==null?"0":object.get("column37").toString());
 				//
 				// busz.setColumn43(object.get("column31")==null?"0":object.get("column31").toString());
+				
+				busz.setColumn44((String) object.get("column32"));
 
 				busz.setStatusinfo("01");
 

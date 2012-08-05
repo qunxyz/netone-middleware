@@ -3687,6 +3687,7 @@ public class FrameActionExt extends AbstractAction {
 					loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", "");
 					loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
 					loopEach = StringUtils.replace(loopEach, "$(loop.GF)", "");
+					loopEach = StringUtils.replace(loopEach, "$(loop.DRJJ)", "");
 					loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", "");
 					loopEach = StringUtils
 							.replace(loopEach, "$(loop.JPGF)", "");
@@ -3703,27 +3704,30 @@ public class FrameActionExt extends AbstractAction {
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", object
 					.getColumn26() == null ? "" : (object.getColumn26()
-					.toString() + "克"));
+					.toString().replaceAll(".00", "") + "克"));
 			if(object.getColumn19() != null && ("dl001".equals(object.getColumn19().toString()) || "dl004".equals(object.getColumn19().toString()))){
 				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", object
 						.getColumn24() == null ? "" : (object.getColumn24()
-						.toString() + "ct"));
+						.toString().replaceAll(".00", "") + "ct"));
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
 			}
 			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", object
 					.getColumn10() == null ? "" : (object.getColumn10()
-					.toString() + "元"));
+					.toString().replaceAll(".00", "") + "元"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", object
 					.getColumn6() == null ? "" : (object.getColumn6()
-					.toString() + "元"));
+					.toString().replaceAll(".00", "") + "元"));
+			loopEach = StringUtils.replace(loopEach, "$(loop.DRJJ)", object
+					.getColumn6() == null ? "" : (object.getColumn5()
+					.toString().replaceAll(".00", "") + "元/g"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", object
 					.getColumn11() == null ? "" : (object.getColumn11()
-					.toString() + "元"));
+					.toString().replaceAll(".00", "") + "元"));
 			if (!flag) {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", object
 						.getColumn15() == null ? "" : (object.getColumn15()
-						.toString()));
+						.toString()).replaceAll(".00", ""));
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
 			}
@@ -3732,7 +3736,7 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", "");
 			but.append(loopEach);
 		}
-		info = StringUtils.replace(info, "$(sum)", sum.toString());
+		info = StringUtils.replace(info, "$(sum)", sum.toString().replaceAll(".00", ""));
 		info = StringUtils.replace(info, "$(shy)", shy);
 		info = StringUtils.replace(info, "$(loop-)" + loop + "$(-loop)", but
 				.toString());

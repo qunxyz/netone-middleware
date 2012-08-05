@@ -230,19 +230,21 @@
 				    
 				    var $isnull = false;
 				     var jsonStr = '';
-				    $("body").find("table").each(function(){   
+				     $("body").find("table").each(function(){   
 						if ($(this).attr('id')!='${formcode}')
 						{
 						  var formcode = $(this).attr('id');
 						  if (formcode!=''){
-						  
-						  	$(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
+						
+							$(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
 						  	//集成展示 子表单
+
 							var ids = jQuery("table#"+formcode).jqGrid('getDataIDs');   
 						    for(var i=0;i < ids.length;i++){   
 						        var cl = ids[i];   
 						        $(this).each(function(){jsonStr=$todo($('#'+cl),formcode,jsonStr);});
 						    }
+							$(this).filter(".table_form").each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
 						  
 						  }
 						  

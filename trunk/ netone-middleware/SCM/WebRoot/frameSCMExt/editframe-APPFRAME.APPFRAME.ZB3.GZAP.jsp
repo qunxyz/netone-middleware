@@ -1,8 +1,8 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>	
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>
 <%
 	String path = request.getContextPath();
 %>
@@ -24,7 +24,6 @@
 		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/jquery.multiselect.filter.min.js"></script>
 		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/i18n/jquery.multiselect.filter.zh-cn.js"></script>
 		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery-multiselect/i18n/jquery.multiselect.zh-cn.js"></script>
-
 		
 		<script src="<%=path%>/script/jquery-plugin/json2.js" type="text/javascript"></script>
 		<script language="javascript" type="text/javascript"
@@ -34,18 +33,138 @@
 		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jqgrid/i18n/grid.locale-cn.js"></script>
 		<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jqgrid/jquery.jqGrid.src.js"></script>
 		<link rel="stylesheet" href="<%=path%>/script/jquery-plugin/jqgrid/css/ui.jqgrid.css" type="text/css" media="screen" />
-		
+		<script>
+/*
+ Transform a table to a jqGrid.
+ Peter Romianowski <peter.romianowski@optivo.de> 
+ If the first column of the table contains checkboxes or
+ radiobuttons then the jqGrid is made selectable.
+*/
+// Addition - selector can be a class or id
+function tableToGrid(selector, options) {
+jQuery(selector).each(function() {
+	if(this.grid) {return;} //Adedd from Tony Tomov
+	// This is a small "hack" to make the width of the jqGrid 100%
+	jQuery(this).width("99%");
+	var w = jQuery(this).width();
+
+	// Text whether we have single or multi select
+	var inputCheckbox = jQuery('tr td:first-child input[type=checkbox]:first', jQuery(this));
+	var inputRadio = jQuery('tr td:first-child input[type=radio]:first', jQuery(this));
+	var selectMultiple = inputCheckbox.length > 0;
+	var selectSingle = !selectMultiple && inputRadio.length > 0;
+	var selectable = selectMultiple || selectSingle;
+	//var inputName = inputCheckbox.attr("name") || inputRadio.attr("name");
+
+	// Build up the columnModel and the data
+	var colModel = [];
+	var colNames = [];
+	jQuery('th', jQuery(this)).each(function() {
+		if (colModel.length === 0 && selectable) {
+			colModel.push({
+				name: '__selection__',
+				index: '__selection__',
+				width: 0,
+				hidden: true
+			});
+			colNames.push('__selection__');
+		} else {
+
+
+			colModel.push({
+				name:  jQuery(this).attr("id") || jQuery.trim(jQuery.jgrid.stripHtml(jQuery(this).html())).split(' ').join('_'),
+				index: jQuery(this).attr("id") || jQuery.trim(jQuery.jgrid.stripHtml(jQuery(this).html())).split(' ').join('_'),
+				//width: jQuery(this).width()==0?0:(jQuery(this).width()+10) || 100,
+width: 50,
+				sortable:false
+			});
+			colNames.push(jQuery(this).html());
+		}
+	});
+	var data = [];
+	var rowIds = [];
+	var rowChecked = [];
+	jQuery('tbody > tr', jQuery(this)).each(function() {
+		var row = {};
+		var rowPos = 0;
+		jQuery('td', jQuery(this)).each(function() {
+			if (rowPos === 0 && selectable) {
+				var input = jQuery('input', jQuery(this));
+				var rowId = input.attr("value");
+				rowIds.push(rowId || data.length);
+				if (input.is(":checked")) {
+					rowChecked.push(rowId);
+				}
+				row[colModel[rowPos].name] = input.attr("value");
+			} else {
+				row[colModel[rowPos].name] = jQuery(this).html();
+			}
+			rowPos++;
+		});
+		if(rowPos >0) { data.push(row); }
+	});
+
+	// Clear the original HTML table
+	jQuery(this).empty();
+
+	// Mark it as jqGrid
+	jQuery(this).addClass("scroll");
+
+	jQuery(this).jqGrid(jQuery.extend({
+		datatype: "local",
+		width: w,
+		colNames: colNames,
+		colModel: colModel,
+		height: 'auto',
+		shrinkToFit:false,
+		multiselect: selectMultiple
+		//inputName: inputName,
+		//inputValueCol: imputName != null ? "__selection__" : null
+	}, options || {}));
+
+	// Add data
+	var a;
+	for (a = 0; a < data.length; a++) {
+		var id = null;
+		if (rowIds.length > 0) {
+			id = rowIds[a];
+			
+			var S4 = function () {
+		        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+		    };
+			id = 'uid'+(S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+			
+			if (id && id.replace) {
+				// We have to do this since the value of a checkbox
+				// or radio button can be anything 
+				id = encodeURIComponent(id).replace(/[.\-%]/g, "_");
+			}
+		}
+		if (id === null) {
+			id = a + 1;
+		}
+		jQuery(this).jqGrid("addRowData",id, data[a]);
+	}
+
+	// Set the selection
+	for (a = 0; a < rowChecked.length; a++) {
+		jQuery(this).jqGrid("setSelection",rowChecked[a]);
+	}
+});
+};
+</script>
 		
 		<!-- 样式文件 -->	
 		${linkcss}
 		<!-- 时间控件脚本 -->
 		${datecompFunc}
 		<script>
-		var onuser='<rs:logininfo />';
 		/*
 		Auto-growing textareas; technique ripped from Facebook
 		(Textarea need set style "overflow:hidden" under IE)
 		*/
+		
+		var onuser='<rs:logininfo />';
 		$(function() {
 		function times(string, number) {
 		  for (var i = 0, r = ''; i < number; i ++) r += string;
@@ -162,7 +281,8 @@
 			var column51,column52,column53,column54,column55,column56,column57,column58,column59,column60;
 			var column61,column62,column63,column64,column65,column66,column67,column68,column69,column70;
 			var column71,column72,column73,column74,column75,column76,column77,column78,column79,column80;
-			var column81,column82,column83,column84,column85,column86,column87,column88,column89,column90;
+		 	
+		 	var column81,column82,column83,column84,column85,column86,column87,column88,column89,column90;
 		 	var column91,column92,column93,column94,column95,column96,column97,column98,column99,column100;
 		 	
 		 	var len = 0;
@@ -203,71 +323,10 @@
 				column86 : column86,column87 : column87,column88 : column88,column89 : column89,column90 : column90,
 				column91 : column91,column92 : column92,column93 : column93,column94 : column94,column95 : column95,
 				column96 : column96,column97 : column97,column98 : column98,column99 : column99,column100 : column100
+				
 				
 			};
 			var json___ = Ext.util.JSON.encode(w);
-			if (json___.indexOf('column')>0 && len!=100){
-				jsonStr += deliter + json___;
-			    deliter = ',';
-			}
-			return jsonStr;
-		}
-
-function $todo2(thisObj,formcode,jsonStr){
-			var deliter = '';
-			if (jsonStr!='')  deliter = ',';
-			var column1,column2,column3,column4,column5,column6,column7,column8,column9,column10;
-			var column11,column12,column13,column14,column15,column16,column17,column18,column19,column20;
-			var column21,column22,column23,column24,column25,column26,column27,column28,column29,column30;
-			var column31,column32,column33,column34,column35,column36,column37,column38,column39,column40;
-			var column41,column42,column43,column44,column45,column46,column47,column48,column49,column50;
-			var column51,column52,column53,column54,column55,column56,column57,column58,column59,column60;
-			var column61,column62,column63,column64,column65,column66,column67,column68,column69,column70;
-			var column71,column72,column73,column74,column75,column76,column77,column78,column79,column80;
-			var column81,column82,column83,column84,column85,column86,column87,column88,column89,column90;
-		 	var column91,column92,column93,column94,column95,column96,column97,column98,column99,column100;
-		 	
-		 	var len = 0;
-			for(var i=1;i<=100;i++){
-				var _o = thisObj.find('#column'+i);
-				if (_o){
-					var $val_ =  _o.val();
-					if ($val_=='undefined') $val_=null;
-					if ($val_!=null && $val_!=''){
-						eval("column" + i + " = '"+HTMLEncode($val_)+"';");
-					} else {
-						$isnull = true;len=len+1;
-					}
-				} else {
-					len=len+1;
-				}
-			}
-			    
-			 var w = {
-				formcode : formcode,
-				column1 : column1,column2 : column2,column3 : column3,column4 : column4,column5 : column5,
-				column6 : column6,column7 : column7,column8 : column8,column9 : column9,column10 : column10,
-				column11 : column11,column12 : column12,column13 : column13,column14 : column14,column15 : column15,
-				column16 : column16,column17 : column17,column18 : column18,column19 : column19,column20 : column20,
-				column21 : column21,column22 : column22,column23 : column23,column24 : column24,column25 : column25,
-				column26 : column26,column27 : column27,column28 : column28,column29 : column29,column30 : column30,
-				column31 : column31,column32 : column32,column33 : column33,column34 : column34,column35 : column35,
-				column36 : column36,column37 : column37,column38 : column38,column39 : column39,column40 : column40,
-				column41 : column41,column42 : column42,column43 : column43,column44 : column44,column45 : column45,
-				column46 : column46,column47 : column47,column48 : column48,column49 : column49,column50 : column50,
-				column51 : column51,column52 : column52,column53 : column53,column54 : column54,column55 : column55,
-				column56 : column56,column57 : column57,column58 : column58,column59 : column59,column60 : column60,
-				column61 : column61,column62 : column62,column63 : column63,column64 : column64,column65 : column65,
-				column66 : column66,column67 : column67,column68 : column68,column69 : column69,column70 : column70,
-				column71 : column71,column72 : column72,column73 : column73,column74 : column74,column75 : column75,
-				column76 : column76,column77 : column77,column78 : column78,column79 : column79,column80 : column80,
-				column81 : column81,column82 : column82,column83 : column83,column84 : column84,column85 : column85,
-				column86 : column86,column87 : column87,column88 : column88,column89 : column89,column90 : column90,
-				column91 : column91,column92 : column92,column93 : column93,column94 : column94,column95 : column95,
-				column96 : column96,column97 : column97,column98 : column98,column99 : column99,column100 : column100
-				
-			};
-			var json___ = Ext.util.JSON2.encode(w);
 			if (json___.indexOf('column')>0 && len!=100){
 				jsonStr += deliter + json___;
 			    deliter = ',';
@@ -290,7 +349,8 @@ function $todo2(thisObj,formcode,jsonStr){
 				    
 				    
 				    var $isnull = false;
-				     var jsonStr = ''; $("body").find("table").each(function(){   
+				     var jsonStr = '';
+				      $("body").find("table").each(function(){   
 						if ($(this).attr('id')!='${formcode}')
 						{
 						  var formcode = $(this).attr('id');
@@ -304,8 +364,7 @@ function $todo2(thisObj,formcode,jsonStr){
 						        var cl = ids[i];   
 						        $(this).each(function(){jsonStr=$todo($('#'+cl),formcode,jsonStr);});
 						    }
-
-							$(this).filter(".table_form").each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
+$(this).filter(".table_form").each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
 						  
 						  }
 						  
@@ -315,11 +374,14 @@ function $todo2(thisObj,formcode,jsonStr){
 				        //Ext.MessageBox.alert('提示', '子表单不能为空!');
 				        //return;
 				    }
+					if ($isnull == true) {
+				        //Ext.MessageBox.alert('提示', '子表单不能为空!');
+				        //return;
+				    }
 				    /**
 				     * - 保存信息及明细
 				     */
 				    jsonStr = '[' + jsonStr + ']';
-					//alert(jsonStr);
 				    Ext.Ajax.request({
 				        url: "<c:url value='/frame.do?method=onSavaOrUpdate' />",
 				        // 请求的服务器地址
@@ -376,13 +438,6 @@ function $todo2(thisObj,formcode,jsonStr){
 				            		document.getElementById('unid').value=result.lsh;
 				            		//document.getElementById('fileMainFrame').contentWindow.updateFile(result.lsh);
 								**/
-									//打印销售单
-									/**
-									$.getJSON('http://42.120.40.204:83/scm/reportx18.do?method=query&lsh='+result.lsh, 
-									 function(jsonx){
-									});
-									**/
-									//window.open('http://42.120.40.204:83/scm/reportx18.do?method=query&lsh='+result.lsh);
 					            }
 				            	
 				            	var paramlsh = result.lsh;
@@ -520,7 +575,7 @@ function $todo2(thisObj,formcode,jsonStr){
 		}
 		
 		function _print(){
-			var url = "<c:url value='/frame.do?method=print' />"+"&naturalname=${param.naturalname}&lsh="+document.getElementById('lsh').value;
+			var url = "<c:url value='/frame.do?method=onPrintViewMain' />"+"&naturalname=${param.naturalname}&lsh="+document.getElementById('lsh').value;
 			window.open(url);
 		}
 		
@@ -709,172 +764,7 @@ function $todo2(thisObj,formcode,jsonStr){
 		    	window.resizeTo(myw, myh);     //把当前窗体的长宽跳转为myw和myh
 		    }
 			
-			
-			//店长角色
-			<rs:permission action="7" resource="BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE1,BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE3">
-			</rs:permission>
-			if ('${param.lsh}'==''){
-			
-				$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETFCLIENTBYUSER&sr_participant=<rs:logininfo />", 
-				 function(jsonx){
-				  if(jsonx!=null){
-				  	var obj=$('table#8a606025a84f11e19b54fb13b166e993_').find('#column8');
-				  	obj.empty();
-				  	$.each(jsonx, function(ii,itemx){
-				  		//分销商
-				  		obj.append('<option value=\"'+itemx.fclientcode+'\">'+itemx.fclientname+'</option>');
-				  	});
-				  }
-				});
-				//售货员
-				$('table#8a606025a84f11e19b54fb13b166e993_').find('#column10').val('<rs:logininfo />');
-			}//end if
-			
-			
-			//手工费计算
-
-			$("table#1dde2f9fa81711e19b54fb13b166e993_").find('input').live('change',function(){ 
-			var ooo= $(this);			
-			/*** 销售*/ 				
-			var jsonStr1___ = '';
-			$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
-			 jsonStr1___+=$todo2($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
-			});  
-
-			
-			/***  回收2　*/
-			var jsonStr2__2 = '';
-			$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
-			 jsonStr2__2+=$todo2($(this),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__2);
-			});
-			
-			jsonStr1___ = '[' + jsonStr1___ + ']';
-			jsonStr2__2 = '[' + jsonStr2__2 + ']';			
-
-
-			Ext.Ajax.request({
-							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
-							        // 请求的服务器地址
-							        //form: '_FRAME_FORM_ID_',
-							        // 指定要提交的表单id
-							        method: 'POST',
-							        sync: true,
-							        params: {
-							            sr_selljson: jsonStr1___,
-								    sr_rejson: jsonStr2__2
-							        },
-							        success: function (response, options) {
-							            var result = Ext.util.JSON.decode(response.responseText);
-								    
-							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(result.price);
-								    
-							        },
-							        failure: function (response, options) {
-							            
-							        }
-							    });
-			
-			});
-
-			
-
-			$("table#e17cb211a84911e19b54fb13b166e993_").find('input').live('change',function(){ 
-			var ooo= $(this);			
-			/*** 销售*/ 				
-			var jsonStr1___ = '';
-			//$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
-			// jsonStr1___+=$todo2($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
-			//}); 
-var ids1 = jQuery("table#1dde2f9fa81711e19b54fb13b166e993_").jqGrid('getDataIDs');   
-var split1='';
-						    for(var i=0;i < ids1.length;i++){   
-						        var cl = ids1[i];   
-						        jsonStr1___+=split1+$todo2($('#'+cl),'1dde2f9fa81711e19b54fb13b166e993_','');
-							split1=',';
-						    }
-
-			
-			/***  回收　*/
-			var jsonStr2__ = '';
-			//$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
-			 jsonStr2__=$todo2($(this).parent().parent(),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__);
-			//});
-			/***  回收2　*/
-			var jsonStr2__2 = '';
-			//$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
-			// jsonStr2__2+=$todo2($(this),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__2)
-			//});
-			var ids = jQuery("table#e17cb211a84911e19b54fb13b166e993_").jqGrid('getDataIDs');   
-			var split='';
-						    for(var i=0;i < ids.length;i++){   
-						        var cl = ids[i];   
-						        jsonStr2__2+=split+$todo2($('#'+cl),'e17cb211a84911e19b54fb13b166e993_','');
-							split=',';
-						    }
-			
-			
-			jsonStr1___ = '[' + jsonStr1___ + ']';
-			jsonStr2__ = '[' + jsonStr2__ + ']';
-			jsonStr2__2 = '[' + jsonStr2__2 + ']';			
-			
-			Ext.Ajax.request({
-							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
-							        // 请求的服务器地址
-							        //form: '_FRAME_FORM_ID_',
-							        // 指定要提交的表单id
-							        method: 'POST',
-							        sync: true,
-							        params: {
-							            sr_selljson: jsonStr1___,
-								    sr_rejson: jsonStr2__
-							        },
-							        success: function (response, options) {
-							            var result = Ext.util.JSON.decode(response.responseText);
-								    var xx = parseFloat(result.reprice);
-								    if(isNaN(xx)) xx=0;
-								    ooo.parent().parent().find('#column21').val(xx.toFixed(2));
-							        },
-							        failure: function (response, options) {
-							            
-							        }
-							    });
-
-
-			Ext.Ajax.request({
-							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
-							        // 请求的服务器地址
-							        //form: '_FRAME_FORM_ID_',
-							        // 指定要提交的表单id
-							        method: 'POST',
-							        sync: true,
-							        params: {
-							            sr_selljson: jsonStr1___,
-								    sr_rejson: jsonStr2__2
-							        },
-							        success: function (response, options) {
-							            var result = Ext.util.JSON.decode(response.responseText);
-								    var xx = parseFloat(result.price);
-								    if(isNaN(xx)) xx=0;
-							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(2));
-								    
-							        },
-							        failure: function (response, options) {
-							            
-							        }
-							    });
-			
-			});
-
-			
 		});
-
-		function todojson(formcode){
-			var jsonStr2__2 = '';
-			$("table#"+formcode+"").each(function(){   
-			 jsonStr2__2+=$todo($(this),formcode,jsonStr2__2);
-			});
-			return jsonStr2__2;
-		}
 		
 		
 		function _import(url){

@@ -386,7 +386,7 @@ public class SSXS_Script extends OeScript {
 
 				// busz.setColumn17((String)object.get("column18"));
 
-				busz.setColumn22((String) object.get("dl015"));
+				busz.setColumn22("dl015");
 
 				busz.setColumn24("旧料回收商品");
 

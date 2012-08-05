@@ -235,7 +235,7 @@
 						{
 						  var formcode = $(this).attr('id');
 						  if (formcode!=''){
-						  
+						
 						  	$(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
 						  	//集成展示 子表单
 							var ids = jQuery("table#"+formcode).jqGrid('getDataIDs');   
@@ -243,7 +243,7 @@
 						        var cl = ids[i];   
 						        $(this).each(function(){jsonStr=$todo($('#'+cl),formcode,jsonStr);});
 						    }
-						  
+						  $(this).filter(".table_form").each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
 						  }
 						  
 						}//end if

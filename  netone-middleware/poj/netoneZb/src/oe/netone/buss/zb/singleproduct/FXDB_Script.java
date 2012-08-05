@@ -10,180 +10,249 @@ import java.util.Map;
 import oescript.parent.OeScript;
 
 public class FXDB_Script extends OeScript {
-	public void queRen(){
-		try{
-			System.out.println("_________________分销调拨确认_______________________");
-					dy.set("$(lsh)"+":"+"$(formcode)","column7", "确认");
-					dy.set("$(lsh)"+":"+"$(formcode)","column13" , "$(participant)");
-					SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					String a1=dateformat.format(new java.util.Date());
+	public void queRen() {
+		try {
+			System.out
+					.println("_________________分销调拨确认_______________________");
+			dy.set("$(lsh)" + ":" + "$(formcode)", "column7", "确认");
+			dy
+					.set("$(lsh)" + ":" + "$(formcode)", "column13",
+							"$(participant)");
+			SimpleDateFormat dateformat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
+			String a1 = dateformat.format(new java.util.Date());
 
+			dy.set("$(lsh)" + ":" + "$(formcode)", "column14", a1);
 
-							dy.set("$(lsh)"+":"+"$(formcode)","column14" , a1);
+			Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
 
+			oe.midware.workflow.engine.rule2.func.STools st = new oe.midware.workflow.engine.rule2.func.STools();
 
-					Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+			List list = db
 
-							oe.midware.workflow.engine.rule2.func.STools st=new oe.midware.workflow.engine.rule2.func.STools();
+					.queryData(
 
-							List list = db
+							con,
 
-									.queryData(
+							"select t.*,t2.column8 CFXS,t2.column9 CGZ,t2.column10 RFXS,t2.column11 RGZ,t2.column3 DH,t2.column4 RQ from DY_701342253696596 t,DY_671340788796691 t2 where t.fatherlsh=t2.lsh and t2.lsh='$(lsh)'");
 
-											con,
+			con = db.con("DATASOURCE.DATASOURCE.DYFORM");
 
-											"select t.*,t2.column8 CFXS,t2.column9 CGZ,t2.column10 RFXS,t2.column11 RGZ,t2.column3 DH,t2.column4 RQ from DY_701342253696596 t,DY_671340788796691 t2 where t.fatherlsh=t2.lsh and t2.lsh='$(lsh)'");
+			StringBuffer par = new StringBuffer("");
 
-							con = db.con("DATASOURCE.DATASOURCE.DYFORM");	
+			String split = "";
 
-							StringBuffer par = new StringBuffer("");
+			boolean flag = true;
 
-							String split = "";
+			String lshxxxxf = "";
 
-							boolean flag = true;
+			String lshxxxxr = "";
 
-							String lshxxxxf = "";
+			String partcipantz = "$(participant)";
 
-							String lshxxxxr = "";
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 
-							String partcipantz="$(participant)";
+				Map object = (Map) iterator.next();
 
-							for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				par.append(split + "'" + (String) object.get("column3") + "'");
 
-								Map object = (Map) iterator.next();
+				split = ",";
 
-								par.append(split +"'"+ (String)object.get("column3")+"'");
+				if (flag) {
 
-								split = ",";
+					oe.cav.bean.logic.bus.TCsBus busr = new oe.cav.bean.logic.bus.TCsBus();
 
-								if(flag){
+					busr.setFatherlsh("1");
 
-									oe.cav.bean.logic.bus.TCsBus busr = new oe.cav.bean.logic.bus.TCsBus();
+					busr.setColumn3("DB_"
+							+ (String) object.get("RFXS")
+							+ "_"
+							+ (String) object.get("CFXS")
+							+ "_"
+							+ (String) object.get("DH")
+							+ "_"
+							+ (String) (new java.text.SimpleDateFormat(
+									"yyyyMMddHHmmss")
+									.format(new java.util.Date())));
 
-									busr.setFatherlsh("1");
+					busr.setColumn4("$(participant)");
 
-									busr.setColumn3("DB_"+(String)object.get("RFXS")+"_"+(String)object.get("CFXS")+"_"+(String)object.get("DH")+"_"+(String)(new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date())));
+					busr
+							.setColumn5((String) (new java.text.SimpleDateFormat(
+									"yyyy-MM-dd HH:mm:ss")
+									.format(new java.util.Date())));
 
-									busr.setColumn4("$(participant)");
+					busr.setColumn6("");
 
-									busr.setColumn5((String)(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date())));
+					busr.setColumn8((String) object.get("RQ"));
 
-									busr.setColumn6("");
+					busr.setColumn9((String) object.get("RGZ"));
 
-									busr.setColumn8((String)object.get("RQ"));
+					busr.setColumn10("调拨入库单_调入分销商编码:"
+							+ (String) object.get("RFXS") + "_调出分销商编码:"
+							+ (String) object.get("CFXS"));
 
-									busr.setColumn9((String)object.get("RGZ"));
+					busr.setColumn12((String) object.get("RFXS"));
 
-									busr.setColumn10("调拨入库单_调入分销商编码:"+(String)object.get("RFXS")+"_调出分销商编码:"+(String)object.get("CFXS"));
+					busr.setColumn13("$(participant)");
 
-									busr.setColumn12((String)object.get("RFXS"));
+					busr
+							.setColumn14((String) (new java.text.SimpleDateFormat(
+									"yyyy-MM-dd HH:mm:ss")
+									.format(new java.util.Date())));
 
-									busr.setColumn13("$(participant)");
+					busr.setColumn15("确认");
 
-									busr.setColumn14((String)(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date())));
+					busr.setStatusinfo("01");
 
-					                                busr.setColumn15("确认");
+					busr.setFormcode("668ca03cad4b11e1bbb551abdbadc425_");
+					busr.setTimex((new Timestamp(System.currentTimeMillis())
+							.toString()));
 
-									busr.setStatusinfo("01");
+					busr.setBelongx("$(participant)");
 
-									busr.setFormcode("668ca03cad4b11e1bbb551abdbadc425_");
-									busr.setTimex((new Timestamp(System.currentTimeMillis()).toString()));
+					String clientDeptCode = (String) object.get("RFXS");
+					String sqlx = "select usercode from iss.t_user where departmentid in (select departmentId from iss.t_department where departmentCode='"
+							+ clientDeptCode + "') limit 0,1";
+					Connection conx = db.con("DATASOURCE.DATASOURCE.DYFORM");
+					List listx = db.queryData(conx, sqlx);
+					if (listx.size() == 1) {
+						String usercode = (String) ((Map) listx.get(0))
+								.get("usercode");
+						partcipantz = usercode;
+					}
 
-									busr.setBelongx("");
+					busr.setParticipant(partcipantz);
 
-									String clientDeptCode=(String)object.get("RFXS");
-									String sqlx="select usercode from iss.t_user where departmentid in (select departmentId from iss.t_department where departmentCode='"+clientDeptCode+"') limit 0,1";
-									Connection conx = db.con("DATASOURCE.DATASOURCE.DYFORM");	
-									List listx=db.queryData(conx, sqlx);
-									if(listx.size()==1){
-										String usercode=(String)((Map)listx.get(0)).get("usercode");
-										partcipantz=usercode;
-									}
+					busr.setCreated("");
+					busr.setLsh((String) java.util.UUID.randomUUID().toString()
+							.replace("-", ""));
 
-									busr.setParticipant(partcipantz);
+					lshxxxxf = st.dy_.addData(
+							"668ca03cad4b11e1bbb551abdbadc425_", busr);
 
-									busr.setCreated("");
-									busr.setLsh((String)java.util.UUID.randomUUID().toString().replace("-",""));
+					flag = false;
 
-									lshxxxxf =st.dy_.addData("668ca03cad4b11e1bbb551abdbadc425_", busr);
+					System.out.println("插入:" + lshxxxxf);
 
-									flag=false;
+				}
 
-									System.out.println("插入:"+lshxxxxf);
+				oe.cav.bean.logic.bus.TCsBus busz = new oe.cav.bean.logic.bus.TCsBus();
 
-								}
+				busz.setFatherlsh(lshxxxxf);
 
-								oe.cav.bean.logic.bus.TCsBus busz = new oe.cav.bean.logic.bus.TCsBus();
+				busz.setColumn3((String) object.get("column3"));
 
-								busz.setFatherlsh(lshxxxxf);
+				busz.setColumn4((String) object.get("column4"));
+				busz.setColumn5(object.get("column5") == null ? "0" : object
+						.get("column5").toString());
+				busz.setColumn6((String) object.get("column6"));
 
-								busz.setColumn3((String)object.get("column3"));
+				busz.setColumn8((String) object.get("column9"));
 
-								busz.setColumn4((String)object.get("column4"));
-			 				busz.setColumn5(object.get("column5")==null?"0":object.get("column5").toString());
-								busz.setColumn6((String)object.get("column6"));
+				busz.setColumn9((String) object.get("column10"));
 
-								busz.setColumn8((String)object.get("column9"));
+				busz.setColumn11(object.get("column12") == null ? "0" : object
+						.get("column12").toString());
 
-								busz.setColumn9((String)object.get("column10"));
+				busz.setColumn12(object.get("column13") == null ? "0" : object
+						.get("column13").toString());
+				busz.setColumn13((String) object.get("column14"));
 
-								busz.setColumn10((String)object.get("column11"));
-								busz.setColumn11(object.get("column12")==null?"0":object.get("column12").toString());
-								busz.setColumn12(object.get("column13")==null?"0":object.get("column13").toString());
-								busz.setColumn13((String)object.get("column14"));
+				busz.setColumn14((String) object.get("column15"));
 
-								busz.setColumn14((String)object.get("column15"));
+				busz.setColumn15((String) object.get("column16"));
 
-								busz.setColumn15((String)object.get("column16"));
+				busz.setColumn16((String) object.get("column17"));
 
-								busz.setColumn16((String)object.get("column17"));
+				busz.setColumn17((String) object.get("column18"));
 
-								busz.setColumn17((String)object.get("column18"));
+				busz.setColumn22((String) object.get("column8"));
 
-								busz.setColumn19((String)object.get("column20"));
+				busz.setColumn24("总公司调拨入库");
+				busz.setColumn25((String) object.get("column23"));
+				busz.setColumn26((String) object.get("column22"));
 
-								busz.setColumn20(object.get("column21")==null?"调拨备注:总公司调拨商品":(String)object.get("column20")+"|调拨备注:总公司调拨商品");
+				busz.setColumn28(object.get("column24") == null ? "0" : object
+						.get("column24").toString());
 
-								busz.setColumn22((String)object.get("column8"));
+				busz.setColumn29(object.get("column25") == null ? "0" : object
+						.get("column25").toString());
 
-								busz.setColumn23((String)object.get("column19"));
+				busz.setColumn30(object.get("column26") == null ? "0" : object
+						.get("column26").toString());
 
-					                        busz.setColumn24("总公司调拨入库");
-			busz.setColumn26((String)object.get("column22"));
+				busz.setColumn31(object.get("column27") == null ? "0" : object
+						.get("column27").toString());
 
-			busz.setColumn25((String)object.get("column23"));
+				busz.setColumn32(object.get("column28") == null ? "0" : object
+						.get("column28").toString());
 
-								busz.setStatusinfo("01");
+				busz.setColumn33(object.get("column30") == null ? "0" : object
+						.get("column30").toString());
 
-								busz.setFormcode("84bbd11aad4711e1bbb551abdbadc425_");
-								busz.setTimex((new Timestamp(System.currentTimeMillis()).toString()));
+				busz.setColumn34(object.get("column32") == null ? "0" : object
+						.get("column32").toString());
 
-								busz.setBelongx("");
+				busz.setColumn35(object.get("column31") == null ? "0" : object
+						.get("column31").toString());
 
-								busz.setParticipant(partcipantz);
+				busz.setColumn37(object.get("column33") == null ? "0" : object
+						.get("column33").toString());
 
-								busz.setCreated("");
-								busz.setLsh(java.util.UUID.randomUUID().toString().replace("-",""));
+				busz.setColumn38(object.get("column34") == null ? "0" : object
+						.get("column34").toString());
 
-								lshxxxxr =st.dy_.addData("84bbd11aad4711e1bbb551abdbadc425_", busz);
+				busz.setColumn39(object.get("column35") == null ? "0" : object
+						.get("column35").toString());
 
-								System.out.println("插入:"+lshxxxxr);
+				busz.setColumn40(object.get("column36") == null ? "0" : object
+						.get("column36").toString());
 
-							}
+				busz.setColumn41(object.get("column37") == null ? "0" : object
+						.get("column37").toString());
 
-							if (list.size()>0){					String sql = "update DY_661338441749388 set STATUSINFO='04',column24='已调拨出库' where column4 in ("+par.toString()+") and STATUSINFO='01' and column24!='总公司调拨入库'";
+				busz.setColumn43(object.get("column31") == null ? "0" : object
+						.get("column31").toString());
 
-								db.execute(con, sql);
+				busz.setColumn44((String) object.get("column39"));
 
-							}
+				busz.setStatusinfo("01");
 
-							db.close(con);
+				busz.setFormcode("84bbd11aad4711e1bbb551abdbadc425_");
+				busz.setTimex((new Timestamp(System.currentTimeMillis())
+						.toString()));
 
-			System.out.println("_________________分销调拨确认_______________________");
-					}catch(Exception e){
-						e.printStackTrace();
-					
-	}
+				busz.setBelongx("");
+
+				busz.setParticipant(partcipantz);
+
+				busz.setCreated("");
+				busz.setLsh(java.util.UUID.randomUUID().toString().replace("-",
+						""));
+
+				lshxxxxr = st.dy_.addData("84bbd11aad4711e1bbb551abdbadc425_",
+						busz);
+
+				System.out.println("插入:" + lshxxxxr);
+
+			}
+
+			if (list.size() > 0) {
+				String sql = "update DY_661338441749388 set STATUSINFO='04',column24='已调拨出库' where column3 in ("
+						+ par.toString()
+						+ ") and STATUSINFO='01' and column24!='总公司调拨入库'";
+
+				db.execute(con, sql);
+
+			}
+
+			db.close(con);
+
+			System.out
+					.println("_________________分销调拨确认_______________________");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
-	

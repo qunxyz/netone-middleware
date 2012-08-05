@@ -147,7 +147,7 @@ public class SSXS_Script extends OeScript {
 				con = db.con("DATASOURCE.DATASOURCE.DYFORM");
 				List listx = new ArrayList();
 				listx.add(clientId);
-				//判断是否有旧料回收
+				// 判断是否有旧料回收
 				oe.cav.bean.logic.bus.TCsBus busx_1 = new oe.cav.bean.logic.bus.TCsBus();
 				busx_1.setFatherlsh("$(lsh)");
 				busx_1.setFormcode("1dde2f9fa81711e19b54fb13b166e993_");
@@ -197,10 +197,10 @@ public class SSXS_Script extends OeScript {
 			db.execute(con, sql);
 			db.close(con);
 
-			/**主表单**/
+			/** 主表单* */
 			String lsh = "$(lsh)";
 
-			/**商品提醒配置**/
+			/** 商品提醒配置* */
 			oe.cav.bean.logic.bus.TCsBus busx0 = new oe.cav.bean.logic.bus.TCsBus();
 			busx0.setFatherlsh("1");
 			busx0.setFormcode("4313df5dc03911e19e849de029b8abb5_");
@@ -209,13 +209,13 @@ public class SSXS_Script extends OeScript {
 			for (int i = 0; i < listx0.size(); i++) {
 				oe.cav.bean.logic.bus.TCsBus x0 = (oe.cav.bean.logic.bus.TCsBus) listx0
 						.get(i);
-				/**  **/
+				/** * */
 				String p1 = x0.getColumn3();
-				/***角色 **/
+				/** *角色 * */
 				String p2 = x0.getColumn4();
 				System.out.println(p1);
 
-				/**销售明细表单**/
+				/** 销售明细表单* */
 				oe.cav.bean.logic.bus.TCsBus busx = new oe.cav.bean.logic.bus.TCsBus();
 				busx.setFatherlsh(lsh);
 				busx.setFormcode("1dde2f9fa81711e19b54fb13b166e993_");
@@ -226,7 +226,7 @@ public class SSXS_Script extends OeScript {
 					String pcode = x.getColumn3();
 					System.out.println("pcode:" + pcode);
 
-					/** 生成商品提醒信息*/
+					/** 生成商品提醒信息 */
 					if (org.apache.commons.lang.StringUtils.contains(pcode, p1)) {
 						oe.cav.bean.logic.bus.TCsBus bus2 = new oe.cav.bean.logic.bus.TCsBus();
 						bus2.setFatherlsh("1");
@@ -277,10 +277,174 @@ public class SSXS_Script extends OeScript {
 			}
 			db.close(con);
 
+			con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+			List list_jlhs = db
+
+					.queryData(
+
+							con,
+
+							"select t.*,t2.column3 DH,t2.column4 RQ,t2.column8 FXS from DY_371337952339239 t,DY_371337952339241 t2 where t.fatherlsh=t2.lsh and t2.lsh='$(lsh)'");
+			db.close(con);
+			boolean flag = true;
+
+			String lshxxxxf = "";
+
+			String lshxxxxr = "";
+
+			for (Iterator iterator = list_jlhs.iterator(); iterator.hasNext();) {
+
+				Map object = (Map) iterator.next();
+
+				if (flag) {
+
+					oe.cav.bean.logic.bus.TCsBus busr = new oe.cav.bean.logic.bus.TCsBus();
+
+					busr.setFatherlsh("1");
+
+					busr.setColumn3("SSHS_" + (String) object.get("DH"));
+
+					busr.setColumn4("$(participant)");
+
+					busr
+							.setColumn5((String) (new java.text.SimpleDateFormat(
+									"yyyy-MM-dd HH:mm:ss")
+									.format(new java.util.Date())));
+
+					busr.setColumn6("");
+
+					busr.setColumn8((String) object.get("RQ"));
+
+					busr.setColumn9((String) object.get("column25"));
+
+					busr.setColumn10("旧料回收");
+
+					busr.setColumn12((String) object.get("FXS"));
+
+					busr.setColumn13("$(participant)");
+
+					busr
+							.setColumn14((String) (new java.text.SimpleDateFormat(
+									"yyyy-MM-dd HH:mm:ss")
+									.format(new java.util.Date())));
+
+					busr.setColumn15("确认");
+
+					busr.setStatusinfo("01");
+
+					busr.setFormcode("668ca03cad4b11e1bbb551abdbadc425_");
+
+					busr.setTimex((new Timestamp(System.currentTimeMillis())
+							.toString()));
+
+					busr.setBelongx("");
+
+					busr.setParticipant("$(participant)");
+
+					busr.setCreated("");
+
+					busr.setLsh((String) java.util.UUID.randomUUID().toString()
+							.replace("-", ""));
+
+					lshxxxxf = st.dy_.addData(
+							"668ca03cad4b11e1bbb551abdbadc425_", busr);
+
+					flag = false;
+
+					System.out.println("插入:" + lshxxxxf);
+
+				}
+
+				oe.cav.bean.logic.bus.TCsBus busz = new oe.cav.bean.logic.bus.TCsBus();
+
+				busz.setFatherlsh(lshxxxxf);
+
+				busz.setColumn3((String) object.get("column31"));
+
+				busz.setColumn4((String) object.get("column23"));
+
+				// busz.setColumn5(object.get("column5")==null?"0":object.get("column5").toString());
+
+				busz.setColumn6((String) object.get("column22"));
+
+				// busz.setColumn8((String)object.get("column9"));
+
+				// busz.setColumn9((String)object.get("column10"));
+
+				// busz.setColumn11(object.get("column12")==null?"0":object.get("column12").toString());
+
+				busz.setColumn12(object.get("column29") == null ? "0" : object
+						.get("column29").toString());
+
+				// busz.setColumn13((String)object.get("column14"));
+
+				// busz.setColumn14((String)object.get("column15"));
+
+				// busz.setColumn15((String)object.get("column16"));
+
+				// busz.setColumn16((String)object.get("column17"));
+
+				// busz.setColumn17((String)object.get("column18"));
+
+				busz.setColumn22((String) object.get("dl015"));
+
+				busz.setColumn24("旧料回收商品");
+
+				// busz.setColumn28(object.get("column24")==null?"0":object.get("column24").toString());
+				//
+				// busz.setColumn29(object.get("column25")==null?"0":object.get("column25").toString());
+				//
+				// busz.setColumn30(object.get("column26")==null?"0":object.get("column26").toString());
+				//
+				// busz.setColumn31(object.get("column27")==null?"0":object.get("column27").toString());
+				//
+				// busz.setColumn32(object.get("column28")==null?"0":object.get("column28").toString());
+				//
+				// busz.setColumn33(object.get("column30")==null?"0":object.get("column30").toString());
+				//
+				// busz.setColumn34(object.get("column32")==null?"0":object.get("column32").toString());
+				//
+				// busz.setColumn35(object.get("column31")==null?"0":object.get("column31").toString());
+				//
+				// busz.setColumn37(object.get("column33")==null?"0":object.get("column33").toString());
+				//
+				// busz.setColumn38(object.get("column34")==null?"0":object.get("column34").toString());
+
+				busz.setColumn39(object.get("column20") == null ? "0" : object
+						.get("column20").toString());
+
+				// busz.setColumn40(object.get("column36")==null?"0":object.get("column36").toString());
+				//
+				// busz.setColumn41(object.get("column37")==null?"0":object.get("column37").toString());
+				//
+				// busz.setColumn43(object.get("column31")==null?"0":object.get("column31").toString());
+
+				busz.setStatusinfo("01");
+
+				busz.setFormcode("84bbd11aad4711e1bbb551abdbadc425_");
+
+				busz.setTimex((new Timestamp(System.currentTimeMillis())
+						.toString()));
+
+				busz.setBelongx("");
+
+				busz.setParticipant("$(participant)");
+
+				busz.setCreated("");
+
+				busz.setLsh(java.util.UUID.randomUUID().toString().replace("-",
+						""));
+
+				lshxxxxr = st.dy_.addData("84bbd11aad4711e1bbb551abdbadc425_",
+						busz);
+
+				System.out.println("插入:" + lshxxxxr);
+
+			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
 }

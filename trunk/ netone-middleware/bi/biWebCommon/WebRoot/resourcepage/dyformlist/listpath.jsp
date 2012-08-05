@@ -250,7 +250,7 @@
 									if(type=='forminfox')
 									window.open('<portal:envget envkey="WEBSER_SpeedyForm"/>UpdateDoForm.html?naturalname=${upo.naturalname}&formid='+formcode,'_blank');
 							        if(type=='copy')
-									window.open('/dyForm/DyFormCopySvl?pagepath=${upo.naturalname}&formcode='+formcode,'_blank');
+									window.open('/biWeb/DyFormCopySvl?pagepath=${upo.naturalname}&formcode='+formcode,'_blank');
 									if(type=='istake')
 									window.open('/netone/dyistake?pagepath=${upo.naturalname}&formcode='+formcode,'_blank');
 								}								

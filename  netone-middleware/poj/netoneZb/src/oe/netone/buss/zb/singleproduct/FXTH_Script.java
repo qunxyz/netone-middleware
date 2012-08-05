@@ -40,9 +40,9 @@ public class FXTH_Script extends OeScript {
 				db.execute(con, sql);
 				db.close(con);
 				con = db.con("DATASOURCE.DATASOURCE.DYFORM");
-				sql = "update DY_661338441749388 set STATUSINFO='01',column82='已退回' where column3 in ("
+				sql = "update DY_661338441749388 set STATUSINFO='01',column24='已退回' where column3 in ("
 						+ par.toString()
-						+ ") and STATUSINFO='03' and fatherlsh in (select lsh from DY_661338441749389 where column12 = '0001')";
+						+ ") and fatherlsh in (select lsh from DY_661338441749389 where column12 = '0001')";
 				db.execute(con, sql);
 			}
 			db.close(con);

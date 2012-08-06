@@ -1285,7 +1285,7 @@ public final class DyFormComp {
 		js.append(" var config = {");
 		js.append("collapsible:true,");
 		js.append("layout:'border', ");
-		js.append("autoWidth:true,autoScroll:false,");
+		js.append("autoWidth:true,autoScroll:true,");
 		js.append("border:false,");
 		js.append("cls:'',");
 		js.append("items:[{" + center + "},{" + east + "},{" + west + "},{"
@@ -1340,7 +1340,7 @@ public final class DyFormComp {
 		if (ext != null && !"".equals(ext)) {
 			sb.append(ext + ",");
 		}
-		sb.append("autoScroll:false");
+		sb.append("autoScroll:true");
 		return sb.toString();
 	}
 
@@ -1378,7 +1378,7 @@ public final class DyFormComp {
 		if (ext != null && !"".equals(ext)) {
 			sb.append(ext + ",");
 		}
-		sb.append("autoScroll:false");
+		sb.append("autoScroll:true");
 		return sb.toString();
 	}
 

@@ -761,43 +761,44 @@ function $todo2(thisObj,formcode,jsonStr){
 							        sync: true,
 							        params: {
 							            sr_selljson: jsonStr1___,
-								    sr_rejson: jsonStr2__2
+								    	sr_rejson: jsonStr2__2
 							        },
 							        success: function (response, options) {
 							            var result = Ext.util.JSON.decode(response.responseText);
 								    
 							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(result.price);
-								    
+								    	
 							        },
 							        failure: function (response, options) {
 							            
 							        }
 							    });
-			
+							    
+							    $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column29').trigger('change');
+							    
+							    
 			});
 
-			
-
 			$("table#e17cb211a84911e19b54fb13b166e993_").find('input').live('change',function(){ 
-			var ooo= $(this);			
+			var ooo= $(this);
 			/*** 销售*/ 				
 			var jsonStr1___ = '';
 			//$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
 			// jsonStr1___+=$todo2($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
 			//}); 
-var ids1 = jQuery("table#1dde2f9fa81711e19b54fb13b166e993_").jqGrid('getDataIDs');   
-var split1='';
-						    for(var i=0;i < ids1.length;i++){   
-						        var cl = ids1[i];   
-						        jsonStr1___+=split1+$todo2($('#'+cl),'1dde2f9fa81711e19b54fb13b166e993_','');
-							split1=',';
-						    }
+			var ids1 = jQuery("table#1dde2f9fa81711e19b54fb13b166e993_").jqGrid('getDataIDs');   
+			var split1='';
+		    for(var i=0;i < ids1.length;i++){   
+		        var cl = ids1[i];   
+		        jsonStr1___+=split1+$todo2($('#'+cl),'1dde2f9fa81711e19b54fb13b166e993_','');
+				split1=',';
+		    }
 
 			
 			/***  回收　*/
-			var jsonStr2__ = '';
+			//var jsonStr2__ = '';
 			//$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
-			 jsonStr2__=$todo2($(this).parent().parent(),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__);
+			// jsonStr2__=$todo2($(this).parent().parent(),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__);
 			//});
 			/***  回收2　*/
 			var jsonStr2__2 = '';
@@ -806,16 +807,20 @@ var split1='';
 			//});
 			var ids = jQuery("table#e17cb211a84911e19b54fb13b166e993_").jqGrid('getDataIDs');   
 			var split='';
-						    for(var i=0;i < ids.length;i++){   
-						        var cl = ids[i];   
-						        jsonStr2__2+=split+$todo2($('#'+cl),'e17cb211a84911e19b54fb13b166e993_','');
-							split=',';
-						    }
-			
+		    for(var i=0;i < ids.length;i++){   
+		        var cl = ids[i];   
+		        jsonStr2__2+=split+$todo2($('#'+cl),'e17cb211a84911e19b54fb13b166e993_','');
+				split=',';
+		    }
 			
 			jsonStr1___ = '[' + jsonStr1___ + ']';
-			jsonStr2__ = '[' + jsonStr2__ + ']';
 			jsonStr2__2 = '[' + jsonStr2__2 + ']';			
+			
+			var p1 = parseFloat(ooo.parent().parent().find('#column20').val());
+			if (isNaN(p1)) p1=0;
+			var p2 = parseFloat(ooo.parent().parent().find('#column29').val());
+			if (isNaN(p2)) p2=0;
+			ooo.parent().parent().find('#column21').val((p1*p2).toFixed(2));
 			
 			Ext.Ajax.request({
 							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
@@ -826,36 +831,17 @@ var split1='';
 							        sync: true,
 							        params: {
 							            sr_selljson: jsonStr1___,
-								    sr_rejson: jsonStr2__
-							        },
-							        success: function (response, options) {
-							            var result = Ext.util.JSON.decode(response.responseText);
-								    var xx = parseFloat(result.reprice);
-								    if(isNaN(xx)) xx=0;
-								    ooo.parent().parent().find('#column21').val(xx.toFixed(2));
-							        },
-							        failure: function (response, options) {
-							            
-							        }
-							    });
-
-
-			Ext.Ajax.request({
-							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
-							        // 请求的服务器地址
-							        //form: '_FRAME_FORM_ID_',
-							        // 指定要提交的表单id
-							        method: 'POST',
-							        sync: true,
-							        params: {
-							            sr_selljson: jsonStr1___,
-								    sr_rejson: jsonStr2__2
+								    	sr_rejson: jsonStr2__2
 							        },
 							        success: function (response, options) {
 							            var result = Ext.util.JSON.decode(response.responseText);
 								    var xx = parseFloat(result.price);
 								    if(isNaN(xx)) xx=0;
 							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(2));
+								    
+								    var xx2=parseFloat(result.rejgStr);
+								    if(isNaN(xx2)) xx2=0;
+								    ooo.parent().parent().find('#column26').val(xx2.toFixed(2));//写净重
 								    
 							        },
 							        failure: function (response, options) {
@@ -864,7 +850,8 @@ var split1='';
 							    });
 			
 			});
-
+			
+			
 			
 		});
 
@@ -894,6 +881,7 @@ var split1='';
 		<title>${htmltitleinfo}</title>
 	</head>
 	<body>
+		</select>
 		<!--  
 		<div region="west" title="左边栏" style="width:150px;">
 			<BR>

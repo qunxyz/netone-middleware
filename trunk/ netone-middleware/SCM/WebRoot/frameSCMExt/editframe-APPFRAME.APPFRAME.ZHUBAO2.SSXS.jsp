@@ -766,7 +766,10 @@ function $todo2(thisObj,formcode,jsonStr){
 							        success: function (response, options) {
 							            var result = Ext.util.JSON.decode(response.responseText);
 								    
-							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(result.price);
+							           var xx = parseFloat(result.price);
+								    	if(isNaN(xx)) xx=0;
+							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(2));
+								    
 								    	
 							        },
 							        failure: function (response, options) {
@@ -774,7 +777,7 @@ function $todo2(thisObj,formcode,jsonStr){
 							        }
 							    });
 							    
-							    $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column29').trigger('change');
+			//reTodoPrice();	//修改销售  再次计算应收金额			    
 							    
 							    
 			});
@@ -841,7 +844,7 @@ function $todo2(thisObj,formcode,jsonStr){
 								    
 								    var xx2=parseFloat(result.rejgStr);
 								    if(isNaN(xx2)) xx2=0;
-								    ooo.parent().parent().find('#column26').val(xx2.toFixed(2));//写净重
+								    ooo.parent().parent().find('#column26').val(xx2.toFixed(3));//写净重
 								    
 							        },
 							        failure: function (response, options) {
@@ -854,6 +857,69 @@ function $todo2(thisObj,formcode,jsonStr){
 			
 			
 		});
+		
+		//修改销售  再次计算应收金额
+		function reTodoPrice(){
+		
+			/*** 销售*/ 				
+			var jsonStr1___ = '';
+			//$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
+			// jsonStr1___+=$todo2($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
+			//}); 
+			var ids1 = jQuery("table#1dde2f9fa81711e19b54fb13b166e993_").jqGrid('getDataIDs');   
+			var split1='';
+		    for(var i=0;i < ids1.length;i++){   
+		        var cl = ids1[i];   
+		        jsonStr1___+=split1+$todo2($('#'+cl),'1dde2f9fa81711e19b54fb13b166e993_','');
+				split1=',';
+		    }
+
+			
+			/***  回收　*/
+			//var jsonStr2__ = '';
+			//$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
+			// jsonStr2__=$todo2($(this).parent().parent(),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__);
+			//});
+			/***  回收2　*/
+			var jsonStr2__2 = '';
+			//$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
+			// jsonStr2__2+=$todo2($(this),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__2)
+			//});
+			var ids = jQuery("table#e17cb211a84911e19b54fb13b166e993_").jqGrid('getDataIDs');   
+			var split='';
+		    for(var i=0;i < ids.length;i++){   
+		        var cl = ids[i];   
+		        jsonStr2__2+=split+$todo2($('#'+cl),'e17cb211a84911e19b54fb13b166e993_','');
+				split=',';
+		    }
+			
+			jsonStr1___ = '[' + jsonStr1___ + ']';
+			jsonStr2__2 = '[' + jsonStr2__2 + ']';			
+			
+			Ext.Ajax.request({
+							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
+							        // 请求的服务器地址
+							        //form: '_FRAME_FORM_ID_',
+							        // 指定要提交的表单id
+							        method: 'POST',
+							        sync: true,
+							        params: {
+							            sr_selljson: jsonStr1___,
+								    	sr_rejson: jsonStr2__2
+							        },
+							        success: function (response, options) {
+							            var result = Ext.util.JSON.decode(response.responseText);
+								    var xx = parseFloat(result.price);
+								    if(isNaN(xx)) xx=0;
+							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(2));
+								    
+							        },
+							        failure: function (response, options) {
+							            
+							        }
+							    });
+		}
+		
 
 		function todojson(formcode){
 			var jsonStr2__2 = '';

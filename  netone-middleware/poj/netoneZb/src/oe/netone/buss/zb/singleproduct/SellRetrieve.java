@@ -103,8 +103,14 @@ public class SellRetrieve extends OeScript {
 		// String selljson =
 		// "[{'formcode':'1dde2f9fa81711e19b54fb13b166e993_','column3':'HJ08502','column4':'黄金02','column5':'100.00','column6':'20','column7':'810','column9':'10','column10':'81','column11':'810','column12':'75.00%','column13':'100%','column14':'75.00%','column15':'708.50','column19':'dl006','column20':'Q123','column21':'C120','column23':'Y862','column26':'8.1','column28':'lx001','column32':'8.1','column35':'70.85','column36':'01','column37':'0'}]";
 
-		String rejson = "[{'formcode':'e17cb211a84911e19b54fb13b166e993_','column3':'hj','column8':'dl006','column12':'0.18','column13':'390','column20':'20','column21':'180.00','column26':'111','column28':'0','column29':'9','column30':'99','column31':'1111'},{'formcode':'e17cb211a84911e19b54fb13b166e993_','column3':'hj','column8':'dl006','column12':'20','column13':'390','column20':'20','column21':'40.00','column28':'0','column29':'2','column30':'99','column31':'1111'}]";
-		String selljson = "[{'formcode':'1dde2f9fa81711e19b54fb13b166e993_','column3':'hj_test01','column4':'hj_test01','column5':'410.00','column6':'0','column7':'4100','column9':'10','column10':'100','column11':'4100','column12':'75.00%','column13':'100%','column14':'75.00%','column15':'3175.00','column19':'dl006','column20':'hj_test01','column21':'hj_test01','column23':'10','column26':'10','column28':'lx001','column32':'10','column36':'01','column37':'0'}]";
+		// String rejson =
+		// "[{'formcode':'e17cb211a84911e19b54fb13b166e993_','column3':'hj','column8':'dl006','column12':'0.18','column13':'390','column20':'20','column21':'180.00','column26':'111','column28':'0','column29':'9','column30':'99','column31':'1111'},{'formcode':'e17cb211a84911e19b54fb13b166e993_','column3':'hj','column8':'dl006','column12':'20','column13':'390','column20':'20','column21':'40.00','column28':'0','column29':'2','column30':'99','column31':'1111'}]";
+		// String selljson =
+		// "[{'formcode':'1dde2f9fa81711e19b54fb13b166e993_','column3':'hj_test01','column4':'hj_test01','column5':'410.00','column6':'0','column7':'4100','column9':'10','column10':'100','column11':'4100','column12':'75.00%','column13':'100%','column14':'75.00%','column15':'3175.00','column19':'dl006','column20':'hj_test01','column21':'hj_test01','column23':'10','column26':'10','column28':'lx001','column32':'10','column36':'01','column37':'0'}]";
+
+		String rejson = "[{'formcode':'e17cb211a84911e19b54fb13b166e993_','column3':'normal','column8':'dl009','column20':'20','column21':'180.00','column26':'20.00','column28':'0','column29':'9','column32':'JL003'}]";
+		String selljson = "[{'formcode':'1dde2f9fa81711e19b54fb13b166e993_','column3':'KJtest02','column4':'KJtest02','column6':'0','column9':'0','column11':'2000','column12':'75%','column13':'100%','column14':'75%','column15':'1500.00','column19':'dl009','column20':'KJtest02','column21':'KJtest02','column23':'102','column26':'0','column36':'01','column37':'0'}]";
+
 		/**
 		 * 销售明细 <BR>
 		 * 条形码 column3 <BR>
@@ -405,10 +411,10 @@ public class SellRetrieve extends OeScript {
 				/** K金(克) dl009 */
 				if ("dl009".equals(bigcate)) {
 					/** * 只能按金重回收。金重×回收单价（由师傅来定）。 */
-					pprice += reJz * Double.valueOf(price_);
-					rePrice = "" + reJz * Double.valueOf(price_);
-					pricecount
-							.append("+" + reJz + "*" + Double.valueOf(price_));
+					pprice += reJz * Double.valueOf(price2_);
+					rePrice = "" + reJz * Double.valueOf(price2_);
+					pricecount.append("+" + reJz + "*"
+							+ Double.valueOf(price2_));
 				}
 
 				/** 镶嵌类 dl001 钻石 */
@@ -419,13 +425,15 @@ public class SellRetrieve extends OeScript {
 						 * 等值兑换，消费方式为原价相减（不返现金）×当天折扣；原则：正价不能换一口价，一口价可以换正价。一口价换正价的方式：正价先按当天折扣打折 –
 						 * “一扣价”。
 						 */
-						pprice += (reJz - sellJz) * Double.valueOf(discount)
-								/ 100;
-						rePrice = "" + (reJz - sellJz)
-								* Double.valueOf(discount) / 100;
+						// pprice += (reJz - sellJz) * Double.valueOf(discount)
+						// / 100;
+						// rePrice = "" + (reJz - sellJz)
+						// * Double.valueOf(discount) / 100;
+						//
+						// pricecount.append("+" + "(" + reJz + "-" + sellJz
+						// + ")*" + Double.valueOf(discount) + "/100");
+						pprice += 0;
 
-						pricecount.append("+" + "(" + reJz + "-" + sellJz
-								+ ")*" + Double.valueOf(discount) + "/100");
 					}
 				}
 
@@ -446,9 +454,9 @@ public class SellRetrieve extends OeScript {
 				/** K金(克) dl009 */
 				if ("dl009".equals(bigcate)) {
 					/** * 只能按金重回收。金重×回收单价（由师傅来定）。 */
-					pprice += reJz * Double.valueOf(price_);
-					pricecount
-							.append("+" + reJz + "*" + Double.valueOf(price_));
+					pprice += reJz * Double.valueOf(price2_);
+					pricecount.append("+" + reJz + "*"
+							+ Double.valueOf(price2_));
 				}
 			}
 
@@ -565,9 +573,9 @@ public class SellRetrieve extends OeScript {
 				/** K金(克) dl009 */
 				if ("dl009".equals(bigcate)) {
 					/** * 只能按金重回收。金重×回收单价（由师傅来定）。 */
-					pprice += reJz * Double.valueOf(price_);
-					pricecount
-							.append("+" + reJz + "*" + Double.valueOf(price_));
+					pprice += reJz2 * Double.valueOf(price2_);
+					pricecount.append("+" + reJz2 + "*"
+							+ Double.valueOf(price2_));
 				}
 
 			} else {
@@ -596,8 +604,8 @@ public class SellRetrieve extends OeScript {
 				/** K金(克) dl009 */
 				if ("dl009".equals(bigcate)) {
 					/** * 只能按金重回收。金重×回收单价（由师傅来定）。 */
-					pprice += reJz * Double.valueOf(price2_);
-					pricecount.append("+" + reJz + "*"
+					pprice += reJz2 * Double.valueOf(price2_);
+					pricecount.append("+" + reJz2 + "*"
 							+ Double.valueOf(price2_));
 				}
 			}
@@ -685,21 +693,20 @@ public class SellRetrieve extends OeScript {
 								 */
 								pprice += (sell1 - (re1 - re1 * damage_ / 100))
 										* Double.valueOf(jj)
-										* Double.valueOf(discount)
-										/ 100
-										+ ((sell1 - (re1 - re1 * damage_ / 100)) * Double
-												.valueOf(price2_));
+										* Double.valueOf(discount) / 100
+										+ (re1 - re1 * damage_ / 100)
+										* Double.valueOf(price2_);
 								rejgStr += (re1 - re1 * damage_ / 100);
 								rePrice = ""
-										+ ((sell1 - (re1 - re1 * damage_ / 100)) * Double
+										+ ((re1 - re1 * damage_ / 100) * Double
 												.valueOf(price2_));
-								pricecount.append("+" + "" + sell1 + "-(" + re1
-										+ "-" + re1 + "*" + damage_ + "/100))*"
-										+ Double.valueOf(jj) + "*"
-										+ Double.valueOf(discount) + "/100+(("
-										+ sell1 + "-(" + re1 + "-" + +re1 + "*"
-										+ damage_ + "/100))*"
-										+ Double.valueOf(price2_) + "");
+								pricecount.append("+" + "(" + sell1 + "-("
+										+ re1 + "-" + re1 + "*" + damage_
+										+ "/100))*" + Double.valueOf(jj) + "*"
+										+ Double.valueOf(discount) + "/100+("
+										+ re1 + "-" + +re1 + "*" + damage_
+										+ "/100)*" + Double.valueOf(price2_)
+										+ "");
 							} else {
 								/**
 								 * 销售的金重小于回收的金重，[回收净重{=回收金重-（回收的金重×损耗）}
@@ -708,7 +715,7 @@ public class SellRetrieve extends OeScript {
 								pprice += (((re1 - (re1 * damage_ / 100)) - sell1)
 										* Double.valueOf(price_) - sell1
 										* Double.valueOf(price2_));
-								rejgStr += (re1 * damage_ / 100);
+								rejgStr += (re1 - (re1 * damage_ / 100));
 								rePrice = "" + sell1 * Double.valueOf(price2_);
 								pricecount.append("+" + "((" + re1 + "-(" + re1
 										+ "*" + damage_ + "/100))-" + sell1
@@ -768,7 +775,7 @@ public class SellRetrieve extends OeScript {
 								 * 工费（回收净重×工费单价25元或23元）
 								 */
 								pprice += (sell1 - (re1 * 99.9 / 100 - re1 * 0.1 / 100))
-										* Double.valueOf(price_)
+										* Double.valueOf(jj)
 										* Double.valueOf(discount)
 										/ 100
 										+ (re1 * 99.9 / 100 - re1 * 0.1 / 100)
@@ -780,10 +787,9 @@ public class SellRetrieve extends OeScript {
 
 								pricecount.append("+" + "(" + sell1 + "-("
 										+ re1 + "*99.9/100-" + re1
-										+ "*0.1/100))*"
-										+ Double.valueOf(price_) + "*"
-										+ Double.valueOf(discount) + "/100+("
-										+ re1 + "*99.9/100-" + re1
+										+ "*0.1/100))*" + Double.valueOf(jj)
+										+ "*" + Double.valueOf(discount)
+										+ "/100+(" + re1 + "*99.9/100-" + re1
 										+ "*0.1/100)*"
 										+ Double.valueOf(price2_));
 							} else {

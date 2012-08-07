@@ -1070,8 +1070,19 @@ public final class DyFormBuildHtmlExt {
 					"align=\"left\""));// 标题
 		}
 
+		// start
+		boolean isconfirmStatus = isedit ? true : false;
+		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
+				user.getUserCode());
+		// 特殊操作 直接允许编辑
+		if (editcolumns.length > 0) {
+			isedit = false;
+		}
+		// end
+
 		// 展示表单字段-针对表单中的相关字段
 		DyFormColumn _formx[] = dyform.getAllColumn_();
+
 		if (StringUtils.isNotEmpty(lsh)) {// 公单已保存,不需要加载人员信息
 			userinfo = "";
 		}
@@ -1107,6 +1118,18 @@ public final class DyFormBuildHtmlExt {
 			String columnname = _qc1.getColumname();
 
 			Double xoffset = _qc1.getYoffset();
+
+			// 特殊操作 指定编辑
+			if (isconfirmStatus) {
+				if (editcolumns.length > 0) {
+					_qc1.setReadonly(true);
+					for (int j = 0; j < editcolumns.length; j++) {
+						if (columnid.equals(editcolumns[j])) {
+							_qc1.setReadonly(false);
+						}
+					}
+				}
+			}
 
 			boolean hidden = _qc1.isHidden();
 			if (hidden == false) {
@@ -1176,6 +1199,16 @@ public final class DyFormBuildHtmlExt {
 					"align=\"left\""));// 标题
 		}
 
+		// start
+		boolean isconfirmStatus = isedit ? true : false;
+		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
+				user.getUserCode());
+		// 特殊操作 直接允许编辑
+		if (editcolumns.length > 0) {
+			isedit = false;
+		}
+		// end
+
 		// 展示表单字段-针对表单中的相关字段
 		DyFormColumn _formx[] = dyform.getAllColumn_();
 		if (StringUtils.isNotEmpty(lsh)) {// 公单已保存,不需要加载人员信息
@@ -1213,6 +1246,18 @@ public final class DyFormBuildHtmlExt {
 			String columnname = _qc1.getColumname();
 
 			Double xoffset = _qc1.getYoffset();
+
+			// 特殊操作 指定编辑
+			if (isconfirmStatus) {
+				if (editcolumns.length > 0) {
+					_qc1.setReadonly(true);
+					for (int j = 0; j < editcolumns.length; j++) {
+						if (columnid.equals(editcolumns[j])) {
+							_qc1.setReadonly(false);
+						}
+					}
+				}
+			}
 
 			boolean hidden = _qc1.isHidden();
 			if (hidden == false) {
@@ -1272,6 +1317,16 @@ public final class DyFormBuildHtmlExt {
 					"align=\"left\""));// 标题
 		}
 
+		// start
+		boolean isconfirmStatus = isedit ? true : false;
+		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
+				user.getUserCode());
+		// 特殊操作 直接允许编辑
+		if (editcolumns.length > 0) {
+			isedit = false;
+		}
+		// end
+
 		// 展示表单字段-针对表单中的相关字段
 		DyFormColumn _formx[] = dyform.getAllColumn_();
 		if (StringUtils.isNotEmpty(lsh)) {// 公单已保存,不需要加载人员信息
@@ -1312,6 +1367,18 @@ public final class DyFormBuildHtmlExt {
 			Double xoffset = _qc1.getYoffset();
 
 			boolean hidden = _qc1.isHidden();
+
+			// 特殊操作 指定编辑
+			if (isconfirmStatus) {
+				if (editcolumns.length > 0) {
+					_qc1.setReadonly(true);
+					for (int j = 0; j < editcolumns.length; j++) {
+						if (columnid.equals(editcolumns[j])) {
+							_qc1.setReadonly(false);
+						}
+					}
+				}
+			}
 
 			if (hidden == false) {
 
@@ -1964,6 +2031,16 @@ public final class DyFormBuildHtmlExt {
 		DyForm dyform = subdyform;
 		String formcode = dyform.getFormcode();
 
+		// start
+		boolean isconfirmStatus = isedit ? true : false;
+		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
+				user.getUserCode());
+		// 特殊操作 直接允许编辑
+		if (editcolumns.length > 0) {
+			isedit = false;
+		}
+		// end
+
 		// 展示表单字段-针对表单中的相关字段
 		DyFormColumn _formx[] = dyform.getAllColumn_();
 		Arrays.sort(_formx, getFormComparator());// 排序
@@ -1991,6 +2068,18 @@ public final class DyFormBuildHtmlExt {
 
 			// 是否隐蔽
 			boolean hidden = _qc1.isHidden();
+
+			// 特殊操作 指定编辑
+			if (isconfirmStatus) {
+				if (editcolumns.length > 0) {
+					_qc1.setReadonly(true);
+					for (int j = 0; j < editcolumns.length; j++) {
+						if (columnid.equals(editcolumns[j])) {
+							_qc1.setReadonly(false);
+						}
+					}
+				}
+			}
 
 			if (hidden == false) {
 				columnmap.put(columnid, _qc1);

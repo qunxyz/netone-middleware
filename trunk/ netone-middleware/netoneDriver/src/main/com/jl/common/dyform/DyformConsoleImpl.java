@@ -1006,7 +1006,6 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}
 	}
 
-	@Override
 	public String[] manageColumn(String formcode, String participant) throws Exception {
 		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		

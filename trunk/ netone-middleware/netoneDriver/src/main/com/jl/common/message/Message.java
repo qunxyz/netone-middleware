@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ import oe.security3a.seucore.obj.Clerk;
 
 public final class Message {
 	
-	static ResourceBundle rsx=ResourceBundle.getBundle("config");
+	static ResourceBundle rsx=ResourceBundle.getBundle("config",Locale.CHINESE);
 	static boolean isemail=true;
 	
 	public static String msg_head="";
@@ -31,8 +32,8 @@ public final class Message {
 		try{
 			String msgMode=rsx.getString("msgmode");
 			isemail="email".equals(msgMode);
-			msg_head=rsx.getString("msg_head");
-			msg_end=rsx.getString("msg_end");
+			msg_head=WebStr.iso8859ToGBK(rsx.getString("msg_head"));
+			msg_end=WebStr.iso8859ToGBK(rsx.getString("msg_end"));
 		}catch(Exception e){
 			e.printStackTrace();
 			if(StringUtils.isEmpty(msg_head)){

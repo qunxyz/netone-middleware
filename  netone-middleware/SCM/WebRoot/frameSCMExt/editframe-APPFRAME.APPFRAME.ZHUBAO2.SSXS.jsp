@@ -726,8 +726,11 @@ function $todo2(thisObj,formcode,jsonStr){
 				  	});
 				  }
 				});
+				//制单人
+				var ope = $('table#8a606025a84f11e19b54fb13b166e993_').find('#column5');
+				if(ope.val()=='') ope.val('<rs:logininfo />');
 				//售货员
-				$('table#8a606025a84f11e19b54fb13b166e993_').find('#column10').val('<rs:logininfo />');
+				//$('table#8a606025a84f11e19b54fb13b166e993_').find('#column10').val('<rs:logininfo />');
 			}//end if
 			
 			
@@ -781,6 +784,55 @@ function $todo2(thisObj,formcode,jsonStr){
 							    
 							    
 			});
+$("table#e17cb211a84911e19b54fb13b166e993_").find('#column8').live('change',function(){ 
+			var ooo= $(this);
+			ooo.parent().parent().find('#column12').val('');
+			var iscompany = ooo.parent().parent().find('#column28').val();
+			var jz = parseFloat(ooo.parent().parent().find('#column29').val());
+			if (isNaN(jz)) jz=0;
+			var bigcate = ooo.parent().parent().find('#column8').val()
+			if ((bigcate=='dl006' && iscompany==0) ||  (bigcate=='dl007') ){
+			$("#damage option[value=\'"+bigcate+"\']").attr("selected", true);
+			var da = parseFloat($("#damage option[value=\'"+bigcate+"\']").text());
+			if (isNaN(da)) da=0;
+			ooo.parent().parent().find('#column12').val(da*jz);
+			} else {
+			ooo.parent().parent().find('#column12').val('');
+			}
+});
+$("table#e17cb211a84911e19b54fb13b166e993_").find('#column28').live('change',function(){ 
+			var ooo= $(this);
+			ooo.parent().parent().find('#column12').val('');
+			var iscompany = ooo.parent().parent().find('#column28').val();
+			var jz = parseFloat(ooo.parent().parent().find('#column29').val());
+			if (isNaN(jz)) jz=0;
+			var bigcate = ooo.parent().parent().find('#column8').val()
+			if ((bigcate=='dl006' && iscompany==0) ||  (bigcate=='dl007') ){
+			$("#damage option[value=\'"+bigcate+"\']").attr("selected", true);
+			var da = parseFloat($("#damage option[value=\'"+bigcate+"\']").text());
+			if (isNaN(da)) da=0;
+			ooo.parent().parent().find('#column12').val(da*jz);
+			} else {
+			ooo.parent().parent().find('#column12').val('');
+			}
+});
+$("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',function(){ 
+			var ooo= $(this);
+			ooo.parent().parent().find('#column12').val('');
+			var iscompany = ooo.parent().parent().find('#column28').val();
+			var jz = parseFloat(ooo.parent().parent().find('#column29').val());
+			if (isNaN(jz)) jz=0;
+			var bigcate = ooo.parent().parent().find('#column8').val()
+			if ((bigcate=='dl006' && iscompany==0) ||  (bigcate=='dl007') ){
+			$("#damage option[value=\'"+bigcate+"\']").attr("selected", true);
+			var da = parseFloat($("#damage option[value=\'"+bigcate+"\']").text());
+			if (isNaN(da)) da=0;
+			ooo.parent().parent().find('#column12').val(da*jz);
+			} else {
+			ooo.parent().parent().find('#column12').val('');
+			}
+});
+
 
 			$("table#e17cb211a84911e19b54fb13b166e993_").find('input').live('change',function(){ 
 			var ooo= $(this);
@@ -797,7 +849,6 @@ function $todo2(thisObj,formcode,jsonStr){
 				split1=',';
 		    }
 
-			
 			/***  回收　*/
 			//var jsonStr2__ = '';
 			//$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
@@ -853,6 +904,19 @@ function $todo2(thisObj,formcode,jsonStr){
 							    });
 			
 			});
+			
+			
+			//破损
+			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETDAMAGE", 
+				 function(jsonx){
+				  if(jsonx!=null){
+				  	var obj=$('#damage');
+				  	$.each(jsonx, function(ii,itemx){
+				  		//破损率
+				  		obj.append('<option value=\"'+itemx.column3+'\">'+itemx.column4+'</option>');
+				  	});
+				  }
+				});
 			
 			
 			
@@ -947,6 +1011,8 @@ function $todo2(thisObj,formcode,jsonStr){
 		<title>${htmltitleinfo}</title>
 	</head>
 	<body>
+		<select id="damage" style="display: none">
+			<option value=""></option>
 		</select>
 		<!--  
 		<div region="west" title="左边栏" style="width:150px;">

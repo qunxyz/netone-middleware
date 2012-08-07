@@ -1071,7 +1071,7 @@ public final class DyFormBuildHtmlExt {
 		}
 
 		// start
-		boolean isconfirmStatus = isedit ? true : false;
+		boolean isconfirmStatus = isedit ? false : true;
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		// 特殊操作 直接允许编辑
@@ -1202,7 +1202,7 @@ public final class DyFormBuildHtmlExt {
 		}
 
 		// start
-		boolean isconfirmStatus = isedit ? true : false;
+		boolean isconfirmStatus = isedit ? false : true;
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		// 特殊操作 直接允许编辑
@@ -1322,7 +1322,7 @@ public final class DyFormBuildHtmlExt {
 		}
 
 		// start
-		boolean isconfirmStatus = isedit ? true : false;
+		boolean isconfirmStatus = isedit ? false : true;
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		// 特殊操作 直接允许编辑
@@ -2038,7 +2038,7 @@ public final class DyFormBuildHtmlExt {
 		String formcode = dyform.getFormcode();
 
 		// start
-		boolean isconfirmStatus = isedit ? true : false;
+		boolean isconfirmStatus = isedit ? false : true;
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		// 特殊操作 直接允许编辑

@@ -180,3 +180,31 @@ $!;
 offset$:1-3$!size$:6,2$!onchangescript$: 
 	$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change');     
 $!; 
+
+//首饰销售明细
+//抵用积分
+offset$:32-1$!size$:10,2$!onchangescript$:
+	if($(this).val()>$('table#8a606025a84f11e19b54fb13b166e993_').find('#column14').val()){
+		alert('积分不足!!!');
+		$(this).val(0);
+		return;
+	}
+	var p = $(this).parent().parent();
+	p.find('#column34').val(Number($(this).val()*window.jfl).toFixed(2));
+	setTimeout(function(){$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change');}, 1000); 
+$!;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

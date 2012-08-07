@@ -210,4 +210,14 @@ public interface DyFormConsoleIfc {
 	 * @throws RemoteException
 	 */
 	List<DyFormColumn> queryColumnQ(String formcode) throws Exception;
+	
+	/**
+	 * 管理表单，针对特殊应用，通过授权用户可以再任何时候去修改相关字段，无论该表单
+	 * 是归档过还是未归档过
+	 * @param formcode
+	 * @param participant
+	 * @return
+	 */
+	String[] manageColumn(String formcode,String participant) throws Exception;
+	
 }

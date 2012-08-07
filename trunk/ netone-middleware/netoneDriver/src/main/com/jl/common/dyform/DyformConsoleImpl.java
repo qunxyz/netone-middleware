@@ -34,6 +34,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.resource.Resource;
+import com.jl.common.security3a.Security3AIfc;
+import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfConsoleIfc;
 import com.jl.common.workflow.WfEntry;
@@ -44,8 +46,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	static final String mail_c = "/^[_a-z0-9]+@([_a-z0-9]+\\.)+[a-z0-9]{2,3}$/";
 	static final String ip_c = "/^((\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5]))$/";
 
-	static boolean needscript=false;;
-	
+	static boolean needscript=false;
+	static boolean needCache=false;
 	static{
 		try{
 		ResourceBundle rsx=ResourceBundle.getBundle("config");
@@ -53,6 +55,10 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		if("yes".equals(need)){
 			needscript=true;
 		}
+		String needCacheTmp=rsx.getString("needCache");
+		if("yes".equals(needCacheTmp)){
+			needCache=true;
+		}		
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -98,7 +104,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	}
 
 	public List<DyFormColumn> fetchColumnList(String formid) throws Exception {
-		if(WebCache.containCache("fetchColumnList"+formid)){
+		if(needCache&&WebCache.containCache("fetchColumnList"+formid)){
 			return (List)WebCache.getCache("fetchColumnList"+formid);
 		}
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
@@ -124,6 +130,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			this.dealWithDefaultValue(columnnew, rs);
 			newColumn.add(columnnew);
 		}
+		if(needCache)
 		WebCache.setCache("fetchColumnList"+formid, newColumn, null);
 		return newColumn;
 	}
@@ -932,7 +939,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	public List<DyFormColumn> queryColumnX(String formcode, String model)
 			throws Exception {
-		if(WebCache.containCache("queryColumnX"+model+formcode)){
+		if(needCache&&WebCache.containCache("queryColumnX"+model+formcode)){
 			return (List)WebCache.getCache("queryColumnX"+model+formcode);
 		}
 		// TODO Auto-generated method stub
@@ -949,6 +956,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			
 			newColumn.add(columnnew);
 		}
+		if(needCache)
 		WebCache.setCache("queryColumnX"+model+formcode, newColumn, null);
 		return newColumn;
 	}
@@ -956,7 +964,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	public List<DyFormColumn> queryColumnQ(String formcode )
 			throws Exception {
 		
-		if(WebCache.containCache("queryColumnQ"+formcode)){
+		if(needCache&&WebCache.containCache("queryColumnQ"+formcode)){
 			return (List)WebCache.getCache("queryColumnQ"+formcode);
 		}
 		// TODO Auto-generated method stub
@@ -970,6 +978,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			dealWithDefaultValue(object, rs);
 			newColumn.add(object);
 		}
+		if(needCache)
 		WebCache.setCache("queryColumnQ"+formcode, newColumn, null);
 		return newColumn;
 	}
@@ -990,6 +999,36 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}else{
 			return false;
 		}
+	}
+
+	@Override
+	public String[] manageColumn(String formcode, String participant) throws Exception {
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+				
+		UmsProtectedobject upo2=new UmsProtectedobject();
+		upo2.setNaturalname("BUSSFORM.BUSSFORM.%");
+		upo2.setExtendattribute(formcode);
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+
+		List formlist = rs.fetchResource(upo2, map);
+		
+		if(formlist.size()==1){
+			upo2=((UmsProtectedobject)formlist.get(0));
+		}
+		List listx=rs.subResource(upo2.getId());
+		List columnAvail=new ArrayList();
+		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
+			UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+			String objname=object.getNaturalname();
+			String columnid=StringUtils.substringAfterLast(objname, ".");
+			if(columnid.toLowerCase().startsWith("column")){
+				boolean avail=SecurityEntry.iv().permission(participant, objname);
+				if(avail)
+				columnAvail.add(columnid);
+			}
+		}
+		return (String[])listx.toArray(new String[0]);
 	}
 
 }

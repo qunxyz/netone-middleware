@@ -150,13 +150,14 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 
 		List list = new ArrayList();
 		//List list_cx = new ArrayList();
-		if(SecurityEntry.iv().permission(clientId, naturalname_count)){
-			list=wfview.coreSqlview(loadworklist_count);
-			//list_cx = list;
-		}else{
-			list=wfview.coreSqlview(loadworklist);
-		}
-		 
+//		boolean permission=true;
+//		if(permission){
+//			list=wfview.coreSqlview(loadworklist_count);
+//			//list_cx = list;
+//		}else{
+//			
+//		}
+		list=wfview.coreSqlview(loadworklist);
 		if (list.size() >= 1) {
 			int flag = 0;
 			Map map = (Map) list.get(0);
@@ -180,13 +181,15 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 					x = Integer.parseInt(mp.get("cx").toString());
 				}
 				int y = 0;
-				if(SecurityEntry.iv().permission(clientId, naturalname_count)&&"00".equals(listType)){
-					y=list.size();
-					flag = y;
-				}else{
-					y=Integer.parseInt(map.get("cx").toString());
-					flag = y - x;
-				}
+//				if(SecurityEntry.iv().permission(clientId, naturalname_count)&&"00".equals(listType)){
+//					y=list.size();
+//					flag = y;
+//				}else{
+//					y=Integer.parseInt(map.get("cx").toString());
+//					flag = y - x;
+//				}
+				y=Integer.parseInt(map.get("cx").toString());
+				flag = y - x;
 			} else {
 				flag = Integer.parseInt((String) map.get("cx"));
 			}
@@ -540,6 +543,10 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			dataX.setExt(wfext);
 			Activity act = WfEntry.iv().loadProcess(processidx).getActivity(
 					actid);
+			if(act==null){
+				act =new Activity();
+				act.setName("无知节点");
+			}
 
 			// 获得流程的所有相关变量
 			List listRev = wfview.fetchRelevantVar((String) object
@@ -710,9 +717,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			if (columnx != null) {
 				if (!column[0].equals("null")) {
 					String actname = "丢失当前节点" + operateMode;
-					if (act != null) {
-						actname = act.getName() + operateMode;
-					}
+					actname = act.getName() + operateMode;
 					data.add(actname);
 					dataid.add("w2.actname");
 				}

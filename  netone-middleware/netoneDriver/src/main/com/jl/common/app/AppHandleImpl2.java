@@ -49,6 +49,7 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		appobj.setWorklistsize(list.getWorklistsize());
 		appobj.setFormtitle(list.getFormtitle());
 		appobj.setFormendtitle(list.getFormtitle());
+		appobj.setName(upo.getName());
 		
 		UmsProtectedobject upo2=new UmsProtectedobject();
 		upo2.setNaturalname("BUSSFORM.BUSSFORM.%");

@@ -217,14 +217,15 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 							.hasNext();) {
 						DyFormData object = (DyFormData) iterator.next();
 						Object key=BeanUtils.getProperty(object, form[1]);
-						Object value=BeanUtils.getProperty(object, form[2]);
+						String value="";
 						//字段下拉字段组合
 						if(StringUtils.contains(form[2], "@")){
-							value="";
 							String []valuex=StringUtils.split(form[2], "@");
 							for (int i = 0; i < valuex.length; i++) {
 								value=value+BeanUtils.getProperty(object, valuex[i]);
 							}
+						}else{
+							value=BeanUtils.getProperty(object, form[2]);
 						}
 						
 						String keyinfo=key==null?"":key.toString();

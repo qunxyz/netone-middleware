@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import oe.cav.bean.logic.bus.TCsBus;
 import oe.cav.bean.logic.column.TCsColumn;
@@ -24,7 +23,6 @@ import oe.cav.web.data.dyform.utils.DymaticFormCheck;
 import oe.env.client.EnvService;
 import oe.frame.web.WebCache;
 import oe.midware.dyform.service.DyFormService;
-import oe.midware.workflow.service.WorkflowView;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -33,11 +31,8 @@ import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.jl.common.resource.Resource;
-import com.jl.common.security3a.Security3AIfc;
 import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
-import com.jl.common.workflow.TWfConsoleIfc;
 import com.jl.common.workflow.WfEntry;
 
 public final class DyformConsoleImpl implements DyFormConsoleIfc {
@@ -211,7 +206,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			rsinfo = StringUtils.substringBetween(valuelist, "[DYFORM:", "]");
 
 			if (StringUtils.isNotEmpty(rsinfo)) {
-				String form[]=rsinfo.split(",");
+				String form[]=StringUtils.split(rsinfo,",");
 				DyFormData dfd=new DyFormData();
 				dfd.setFatherlsh("1");
 				dfd.setFormcode(form[0]);
@@ -223,6 +218,15 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 						DyFormData object = (DyFormData) iterator.next();
 						Object key=BeanUtils.getProperty(object, form[1]);
 						Object value=BeanUtils.getProperty(object, form[2]);
+						//字段下拉字段组合
+						if(StringUtils.contains(form[2], "@")){
+							value="";
+							String []valuex=StringUtils.split(form[2], "@");
+							for (int i = 0; i < valuex.length; i++) {
+								value=value+BeanUtils.getProperty(object, valuex[i]);
+							}
+						}
+						
 						String keyinfo=key==null?"":key.toString();
 						String valueinfo=value==null?"":value.toString();
 						but.append(keyinfo + "-"
@@ -1004,6 +1008,16 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	@Override
 	public String[] manageColumn(String formcode, String participant) throws Exception {
 		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+		
+		if("adminx".equals(participant)){
+			List columnx=this.fetchColumnList(formcode);
+			List columnxx=new ArrayList();
+			for (Iterator iterator = columnx.iterator(); iterator.hasNext();) {
+				DyFormColumn object = (DyFormColumn) iterator.next();
+				columnxx.add(object.getColumnid());
+			}
+			return (String[])columnxx.toArray(new String[0]);
+		}
 				
 		UmsProtectedobject upo2=new UmsProtectedobject();
 		upo2.setNaturalname("BUSSFORM.BUSSFORM.%");

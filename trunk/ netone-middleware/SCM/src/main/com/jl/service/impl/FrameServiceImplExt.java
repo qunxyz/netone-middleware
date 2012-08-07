@@ -303,20 +303,20 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		DyForm[] subdyforms = dyform.getSubform_();
 
 		Boolean ishidden = false;// ÊÇ·ñÒþ²Ø
-//		if (subformmode != null && subformmode.containsKey("MAINFORM")) {
-//			String submode = (String) subformmode.get("MAINFORM");
-//			if ("0".equals(submode)) {// ±à¼­
-//				isedit = true;
-//				ishidden = false;
-//			} else if ("1".equals(submode)) {// Ö»¶Á
-//				isedit = false;
-//				ishidden = false;
-//			} else if ("2".equals(submode)) {// Òþ²Ø
-//				ishidden = true;
-//			} else {
-//				ishidden = false;
-//			}
-//		}
+		// if (subformmode != null && subformmode.containsKey("MAINFORM")) {
+		// String submode = (String) subformmode.get("MAINFORM");
+		// if ("0".equals(submode)) {// ±à¼­
+		// isedit = true;
+		// ishidden = false;
+		// } else if ("1".equals(submode)) {// Ö»¶Á
+		// isedit = false;
+		// ishidden = false;
+		// } else if ("2".equals(submode)) {// Òþ²Ø
+		// ishidden = true;
+		// } else {
+		// ishidden = false;
+		// }
+		// }
 
 		String ids = "frame" + DyFormBuildHtmlExt.uuid();
 		if (!ishidden) {
@@ -342,37 +342,37 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 
 			for (int i = 0; i < subdyforms.length; i++) {
 				DyForm subdyform = subdyforms[i];
-//				if (subformmode == null) {
-//					issubedit = true;
-//				} else if (subformmode.containsKey(-1)) {
-//					String submode = (String) subformmode.get(-1);
-//					if ("0".equals(submode)) {// ±à¼­
-//						issubedit = true;
-//						issubhidden = false;
-//					} else if ("1".equals(submode)) {// Ö»¶Á
-//						issubedit = false;
-//						issubhidden = false;
-//					} else if ("2".equals(submode)) {// Òþ²Ø
-//						issubhidden = true;
-//					} else {
-//						issubedit = true;
-//						issubhidden = false;
-//					}
-//				} else {
-//					String submode = (String) subformmode.get(i);
-//					if ("0".equals(submode)) {// ±à¼­
-//						issubedit = true;
-//						issubhidden = false;
-//					} else if ("1".equals(submode)) {// Ö»¶Á
-//						issubedit = false;
-//						issubhidden = false;
-//					} else if ("2".equals(submode)) {// Òþ²Ø
-//						issubhidden = true;
-//					} else {
-//						issubedit = true;
-//						issubhidden = false;
-//					}
-//				}
+				// if (subformmode == null) {
+				// issubedit = true;
+				// } else if (subformmode.containsKey(-1)) {
+				// String submode = (String) subformmode.get(-1);
+				// if ("0".equals(submode)) {// ±à¼­
+				// issubedit = true;
+				// issubhidden = false;
+				// } else if ("1".equals(submode)) {// Ö»¶Á
+				// issubedit = false;
+				// issubhidden = false;
+				// } else if ("2".equals(submode)) {// Òþ²Ø
+				// issubhidden = true;
+				// } else {
+				// issubedit = true;
+				// issubhidden = false;
+				// }
+				// } else {
+				// String submode = (String) subformmode.get(i);
+				// if ("0".equals(submode)) {// ±à¼­
+				// issubedit = true;
+				// issubhidden = false;
+				// } else if ("1".equals(submode)) {// Ö»¶Á
+				// issubedit = false;
+				// issubhidden = false;
+				// } else if ("2".equals(submode)) {// Òþ²Ø
+				// issubhidden = true;
+				// } else {
+				// issubedit = true;
+				// issubhidden = false;
+				// }
+				// }
 
 				if (issubedit == null)
 					issubedit = true;

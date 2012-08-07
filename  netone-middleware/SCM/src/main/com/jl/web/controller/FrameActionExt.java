@@ -1676,7 +1676,9 @@ public class FrameActionExt extends AbstractAction {
 
 							|| "column31".equals(colid)
 
-							|| "column83".equals(colid)) {
+							|| "column83".equals(colid)
+							
+							|| "column98".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
 							}

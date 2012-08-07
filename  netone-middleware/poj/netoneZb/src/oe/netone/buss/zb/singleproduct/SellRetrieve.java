@@ -527,15 +527,15 @@ public class SellRetrieve extends OeScript {
 				/** 黄金(克) dl006* */
 				if ("dl006".equals(bigcate)) {
 
-					/** 卖出金重乘以工费单价-余金重（=回收金重-卖出金重）×回收金价+精品工费 */
-					pprice += sellJz * Double.valueOf(price2_)
-							- (reJz - sellJz) * Double.valueOf(price_)
-							+ jpprice;
-					rePrice = "" + sellJz * Double.valueOf(price2_);
-					pricecount.append("+" + sellJz + "*"
-							+ Double.valueOf(price2_) + "-(" + reJz + "-"
-							+ sellJz + ")*" + Double.valueOf(price2_) + "+"
-							+ jpprice);
+					/** 净金重*回收金价-工费金额 (注：净金重 = 金重) */
+					pprice += reJz * Double.valueOf(price_) - reJz
+							* Double.valueOf(price2_);
+					rePrice = ""
+							+ (reJz * Double.valueOf(price_) - reJz
+									* Double.valueOf(price2_));
+					rejgStr = reJz;
+					pricecount.append("+" + reJz + "*" + Double.valueOf(price_)
+							+ "-" + reJz + "*" + Double.valueOf(price2_));
 				}
 
 				/** K金(克) dl009 */
@@ -675,22 +675,24 @@ public class SellRetrieve extends OeScript {
 				/** 黄金(克) dl006* */
 				if ("dl006".equals(bigcate)) {
 
-					/** 回收净重（=回收金重×成色-回收金重×损耗@2%/g）-销售金重×回收金价（由师傅定）-工费（=销售金重×工费单价13或15元/g）-工费-精品工费 */
-					pprice += ((reJz2 * Double.valueOf(discount_) / 100 - reJz2
-							* damage_ / 100) - sellJz2)
+					/** 净金重(=金重*成色-金重*损耗)*回收金价-工费金额 */
+					pprice += (reJz2 * Double.valueOf(discount_) / 100 - reJz2
+							* damage_ / 100)
 							* Double.valueOf(price_)
-							- (sellJz2 * Double.valueOf(price2_)) - jpprice;
+							- reJz2
+							* Double.valueOf(price2_);
 					rejgStr += (reJz2 * Double.valueOf(discount_) / 100 - reJz2
 							* damage_ / 100);
 
 					rePrice = "" + sellJz2 * Double.valueOf(price2_)
 							* Double.valueOf(price2_);
 
-					pricecount.append("+" + "((" + reJz2 + "*"
+					pricecount.append("+" + "(" + reJz2 + "*"
 							+ Double.valueOf(discount_) + "/100-" + reJz2 + "*"
-							+ damage_ + "/100" + ")-" + sellJz2 + ")*"
-							+ Double.valueOf(price_) + "-(" + sellJz2 + "*"
-							+ Double.valueOf(price2_) + ")" + "-" + jpprice);
+							+ damage_ + "/100)*" + Double.valueOf(price_) + "-"
+							+ reJz2 + "*" + Double.valueOf(price2_)
+
+					);
 				}
 
 				/** K金(克) dl009 */
@@ -973,8 +975,8 @@ public class SellRetrieve extends OeScript {
 											+ re1 + "-" + re1 + "*" + damage_
 											+ "/100))*" + Double.valueOf(jj)
 											+ "*" + Double.valueOf(discount)
-											+ "/100+((" + re1 + "-" + re1
-											+ "*" + damage_ + "/100)*"
+											+ "/100+((" + re1 + "-" + re1 + "*"
+											+ damage_ + "/100)*"
 											+ Double.valueOf(price2_) + ")"
 											+ "+" + jpprice);
 								} else {
@@ -1046,7 +1048,7 @@ public class SellRetrieve extends OeScript {
 											+ re1 + "-" + re1 + "*" + damage_
 											+ "/100))*" + Double.valueOf(jj)
 											+ "*" + Double.valueOf(discount)
-											+ "/100+(" + re1 + "-" +re1 + "*"
+											+ "/100+(" + re1 + "-" + re1 + "*"
 											+ damage_ + "/100)*"
 											+ Double.valueOf(price2_) + "+"
 											+ jpprice);
@@ -1206,8 +1208,8 @@ public class SellRetrieve extends OeScript {
 											+ re1 + "-" + re1 + "*" + damage_
 											+ "/100))*" + Double.valueOf(jj)
 											+ "*" + Double.valueOf(discount)
-											+ "/100+((" + re1 + "-" + re1
-											+ "*" + damage_ + "/100)*"
+											+ "/100+((" + re1 + "-" + re1 + "*"
+											+ damage_ + "/100)*"
 											+ Double.valueOf(price2_) + ")"
 											+ "+" + jpprice);
 								} else {

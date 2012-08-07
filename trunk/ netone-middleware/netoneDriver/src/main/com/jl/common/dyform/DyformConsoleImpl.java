@@ -1042,7 +1042,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				columnAvail.add(columnid);
 			}
 		}
-		return (String[])listx.toArray(new String[0]);
+		return (String[])columnAvail.toArray(new String[0]);
 	}
 
 }

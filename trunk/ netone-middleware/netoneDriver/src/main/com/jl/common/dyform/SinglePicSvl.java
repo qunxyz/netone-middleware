@@ -1,33 +1,21 @@
 package com.jl.common.dyform;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
-
 import oe.env.client.EnvService;
 import oe.rmi.client.RmiEntry;
 
-import com.jl.common.workflow.DbTools;
-
-/**
- * 展示图片
- * @author robanco
- *
- */
-public class ListPicSvl extends HttpServlet {
+public class SinglePicSvl extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public ListPicSvl() {
+	public SinglePicSvl() {
 		super();
 	}
 
@@ -43,10 +31,6 @@ public class ListPicSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		String id=request.getParameter("id");
-		String sql="select unid from iss.t_file where d_unid='"+id+"'";
-		List list=DbTools.queryData(sql);
 		EnvService env = null;
 		String value =null;
 		try {
@@ -57,24 +41,8 @@ public class ListPicSvl extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		StringBuffer but=new StringBuffer("<html><body>");
-		
-		but.append("<a href='"+value+"/file.do?method=onMainView&d_unid="+id+"' target='_blank'>[图片管理]</a><br>");
-		
-		String gradp="<hr><table border='1' style='table-layout:fixed;word-break:break-all'><tr><td width='250' height='220'>$k1</td><td width='250' height='220'>$k2</td><td width='250' height='220'>$k3</td><td width='250' height='220'>$k4</td></tr>"+
-		"<tr><td width='250' height='220'>$k5</td><td width='250' height='220'>$k6</td><td width='250' height='220'>$k7</td><td width='250' height='220'>$k8</td></tr></table>";
-		int i=1;
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			Map type = (Map) iterator.next();
-			String unid=(String)type.get("unid");
-			String url=value+"/file.do?method=onDownLoadFile&isOnLine=0&unid="+unid;
-			gradp=StringUtils.replace(gradp, "$k"+i, "<a href='"+value+"/SinglePicSvl?unid="+unid+"' target='_blank'><img src='"+url+"' onload='javascript:this.resized=true;this.style.width=250;this.style.height=200;'/></a>");
-			i++;
-		}
-		but.append(gradp);
-		but.append("</body></html>");
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print(but.toString());
+		String url=value+"/file.do?method=onDownLoadFile&isOnLine=0&unid="+request.getParameter("unid");
+		response.getWriter().print("<html><body><img src='"+url+"'/></body></html>");
 
 	}
 
@@ -90,6 +58,7 @@ public class ListPicSvl extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		doGet(request,response);
 	}
 

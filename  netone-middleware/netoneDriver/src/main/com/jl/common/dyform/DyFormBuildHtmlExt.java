@@ -1075,8 +1075,10 @@ public final class DyFormBuildHtmlExt {
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		// 特殊操作 直接允许编辑
-		if (editcolumns.length > 0) {
-			isedit = false;
+		if (isconfirmStatus) {
+			if (editcolumns.length > 0) {
+				isedit = false;
+			}
 		}
 		// end
 
@@ -1204,8 +1206,10 @@ public final class DyFormBuildHtmlExt {
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		// 特殊操作 直接允许编辑
-		if (editcolumns.length > 0) {
-			isedit = false;
+		if (isconfirmStatus) {
+			if (editcolumns.length > 0) {
+				isedit = false;
+			}
 		}
 		// end
 
@@ -1322,8 +1326,10 @@ public final class DyFormBuildHtmlExt {
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		// 特殊操作 直接允许编辑
-		if (editcolumns.length > 0) {
-			isedit = false;
+		if (isconfirmStatus) {
+			if (editcolumns.length > 0) {
+				isedit = false;
+			}
 		}
 		// end
 
@@ -2036,8 +2042,10 @@ public final class DyFormBuildHtmlExt {
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		// 特殊操作 直接允许编辑
-		if (editcolumns.length > 0) {
-			isedit = false;
+		if (isconfirmStatus) {
+			if (editcolumns.length > 0) {
+				isedit = false;
+			}
 		}
 		// end
 

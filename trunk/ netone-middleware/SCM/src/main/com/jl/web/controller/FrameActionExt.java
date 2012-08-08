@@ -4024,30 +4024,32 @@ public class FrameActionExt extends AbstractAction {
 		// }
 	}
 
-	/**
-	 * 销售明细 <BR>
-	 * 条形码 column3 <BR>
-	 * 大类 column19 <BR>
-	 * 实售折扣 column14 <BR>
-	 * 当天金价 column5 <BR>
-	 * 标价 column11 <BR>
-	 * 精品工费 column6
-	 */
 
-	/**
-	 * 回收 回收类型 column3 <BR>
-	 * 实测成色 column11 <BR>
-	 * 大类 column8 <BR>
-	 * 是否公司 column28 <BR>
-	 * 金重 column29 <BR>
-	 * 回收单价 column13 <BR>
-	 * 工费单价 column20 <BR>
-	 * 折扣率 column30 <BR>
-	 * 损耗 column12 <BR>
-	 * 标价 column33
-	 */
 	public static String reSell(String selljson, String rejson) {
 
+
+		/**
+		 * 销售明细 <BR>
+		 * 条形码 column3 <BR>
+		 * 大类 column19 <BR>
+		 * 实售折扣 column14 <BR>
+		 * 当天金价 column5 <BR>
+		 * 标价 column11 <BR>
+		 * 精品工费 column6
+		 */
+
+		/**
+		 * 回收 回收类型 column3 <BR>
+		 * 实测成色 column11 <BR>
+		 * 大类 column8 <BR>
+		 * 是否公司 column28 <BR>
+		 * 金重 column29 <BR>
+		 * 回收单价 column13 <BR>
+		 * 工费单价 column20 <BR>
+		 * 折扣率 column30 <BR>
+		 * 损耗 column12 <BR>
+		 * 标价 column33
+		 */
 		net.sf.json.JSONArray selljson_ = net.sf.json.JSONArray
 				.fromObject(selljson);
 		net.sf.json.JSONArray rejson_ = net.sf.json.JSONArray
@@ -4087,8 +4089,9 @@ public class FrameActionExt extends AbstractAction {
 			return "{'price':0}";
 
 		/** 损耗数据 */
-		List listx = DbTools
-				.queryData("select * from dyform.DY_71344176619324 ");
+		
+		List listx = DbTools.queryData("select * from dyform.DY_71344176619324 ");
+		
 		Map damageMap = new HashMap();
 		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
@@ -4141,7 +4144,7 @@ public class FrameActionExt extends AbstractAction {
 
 			List list = DbTools
 					.queryData("select IFNULL(column17,0) as jz,IFNULL(column52,'') as purity from dyform.DY_271334208897441  where column4='"
-							+ code_ + "' limit 1 ");
+									+ code_ + "' limit 1 ");
 			if (list.size() > 0) {
 				Map xxx = (Map) list.get(0);
 				kimjoong_ = xxx.get("jz").toString();
@@ -4521,7 +4524,11 @@ public class FrameActionExt extends AbstractAction {
 				/** 黄金(克) dl006* */
 				if ("dl006".equals(bigcate)) {
 
-					if (sellJz2 >= reJz2) {
+					/** 回收净重 */
+					Double reNetweight = reJz2 * Double.valueOf(discount_)
+							/ 100 - damage_ / 100;
+
+					if (sellJz2 >= reNetweight) {
 						/** 销售金重-回收净重（=回收金重×成色-回收金重×损耗@2%/g）×当天销售黄金金价×相关折扣+工费（=回收净重×工费单价13或15元/g）+精品工费 */
 						pprice += (sellJz2 - (reJz2 * Double.valueOf(discount_)
 								/ 100 - damage_ / 100))
@@ -4691,7 +4698,10 @@ public class FrameActionExt extends AbstractAction {
 							Double d1 = Double.valueOf(rediscount);
 
 							if ("PT950_PT950".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 - damage_ / 100;
+
+								if (sell1 >= reNetweight) {
 									/**
 									 * [销售的金重-回收净重{=回收金重-（回收的金重×损耗）}]×当天实际950铂金金价×相关折扣 +
 									 * 工费（=回收净重×回收单价-25元、23元）+精品工费
@@ -4733,7 +4743,11 @@ public class FrameActionExt extends AbstractAction {
 								}
 							}
 							if ("PT950_PT999".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 * d1 / 100 - damage_
+										/ 100;
+
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重[=回收金重×95%@是成色 – 回收金重×损耗（5%
 									 * 可以用固定的值）] } × 当天PT999的单价 × 相关折扣 +
@@ -4784,7 +4798,10 @@ public class FrameActionExt extends AbstractAction {
 
 							}
 							if ("PT999_PT950".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 * d1 / 100 - damage_
+										/ 100;
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重 } × 当天PT950的单价 × 相关折扣 +
 									 * 工费（回收净重×工费单价25元或23元）+精品工费
@@ -4831,7 +4848,9 @@ public class FrameActionExt extends AbstractAction {
 								}
 							}
 							if ("PT999_PT999".equals(type)) {
-								if (sell1 > re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 - (damage_ / 100);
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重（=回收金重-回收金重×损耗） } × 当天PT999的单价 ×
 									 * 相关折扣 + 工费（回收净重×工费单价28元或30元）+精品工费
@@ -4901,7 +4920,9 @@ public class FrameActionExt extends AbstractAction {
 							}
 
 							if ("PT950_PT950".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 - damage_ / 100;
+								if (sell1 >= reNetweight) {
 									/**
 									 * [销售的金重-回收净重{=回收金重-（回收的金重×损耗）}]×当天实际950铂金金价×相关折扣 +
 									 * 工费（=回收净重×回收单价-25元、23元）+精品工费
@@ -4943,7 +4964,10 @@ public class FrameActionExt extends AbstractAction {
 								}
 							}
 							if ("PT950_PT999".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 * 95 / 100 - damage_
+										/ 100;
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重[=回收金重×95%@是成色 – 回收金重×损耗（5%
 									 * 可以用固定的值）] } × 当天PT999的单价 × 相关折扣 +
@@ -4993,7 +5017,10 @@ public class FrameActionExt extends AbstractAction {
 
 							}
 							if ("PT999_PT950".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 * 99.9 / 100 - damage_
+										/ 100;
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重 } × 当天PT950的单价 × 相关折扣 +
 									 * 工费（回收净重×工费单价25元或23元）+精品工费
@@ -5039,7 +5066,9 @@ public class FrameActionExt extends AbstractAction {
 								}
 							}
 							if ("PT999_PT999".equals(type)) {
-								if (sell1 > re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 - (damage_ / 100);
+								if (sell1 > reNetweight) {
 									/**
 									 * {销售金重-回收净重（=回收金重-回收金重×损耗） } × 当天PT999的单价 ×
 									 * 相关折扣 + 工费（回收净重×工费单价28元或30元）+精品工费
@@ -5091,6 +5120,7 @@ public class FrameActionExt extends AbstractAction {
 
 			}
 		}
+
 
 		return pricecount.toString().replace("^^+", "");
 	}

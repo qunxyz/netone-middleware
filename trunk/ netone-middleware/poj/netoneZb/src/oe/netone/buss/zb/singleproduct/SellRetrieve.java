@@ -617,7 +617,11 @@ public class SellRetrieve extends OeScript {
 				/** 黄金(克) dl006* */
 				if ("dl006".equals(bigcate)) {
 
-					if (sellJz2 >= reJz2) {
+					/** 回收净重 */
+					Double reNetweight = reJz2 * Double.valueOf(discount_)
+							/ 100 - damage_ / 100;
+
+					if (sellJz2 >= reNetweight) {
 						/** 销售金重-回收净重（=回收金重×成色-回收金重×损耗@2%/g）×当天销售黄金金价×相关折扣+工费（=回收净重×工费单价13或15元/g）+精品工费 */
 						pprice += (sellJz2 - (reJz2 * Double.valueOf(discount_)
 								/ 100 - damage_ / 100))
@@ -787,7 +791,10 @@ public class SellRetrieve extends OeScript {
 							Double d1 = Double.valueOf(rediscount);
 
 							if ("PT950_PT950".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 - damage_ / 100;
+
+								if (sell1 >= reNetweight) {
 									/**
 									 * [销售的金重-回收净重{=回收金重-（回收的金重×损耗）}]×当天实际950铂金金价×相关折扣 +
 									 * 工费（=回收净重×回收单价-25元、23元）+精品工费
@@ -829,7 +836,11 @@ public class SellRetrieve extends OeScript {
 								}
 							}
 							if ("PT950_PT999".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 * d1 / 100 - damage_
+										/ 100;
+
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重[=回收金重×95%@是成色 – 回收金重×损耗（5%
 									 * 可以用固定的值）] } × 当天PT999的单价 × 相关折扣 +
@@ -880,7 +891,10 @@ public class SellRetrieve extends OeScript {
 
 							}
 							if ("PT999_PT950".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 * d1 / 100 - damage_
+										/ 100;
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重 } × 当天PT950的单价 × 相关折扣 +
 									 * 工费（回收净重×工费单价25元或23元）+精品工费
@@ -927,7 +941,9 @@ public class SellRetrieve extends OeScript {
 								}
 							}
 							if ("PT999_PT999".equals(type)) {
-								if (sell1 > re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 - (damage_ / 100);
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重（=回收金重-回收金重×损耗） } × 当天PT999的单价 ×
 									 * 相关折扣 + 工费（回收净重×工费单价28元或30元）+精品工费
@@ -997,7 +1013,9 @@ public class SellRetrieve extends OeScript {
 							}
 
 							if ("PT950_PT950".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 - damage_ / 100;
+								if (sell1 >= reNetweight) {
 									/**
 									 * [销售的金重-回收净重{=回收金重-（回收的金重×损耗）}]×当天实际950铂金金价×相关折扣 +
 									 * 工费（=回收净重×回收单价-25元、23元）+精品工费
@@ -1039,7 +1057,10 @@ public class SellRetrieve extends OeScript {
 								}
 							}
 							if ("PT950_PT999".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 * 95 / 100 - damage_
+										/ 100;
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重[=回收金重×95%@是成色 – 回收金重×损耗（5%
 									 * 可以用固定的值）] } × 当天PT999的单价 × 相关折扣 +
@@ -1089,7 +1110,10 @@ public class SellRetrieve extends OeScript {
 
 							}
 							if ("PT999_PT950".equals(type)) {
-								if (sell1 >= re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 * 99.9 / 100 - damage_
+										/ 100;
+								if (sell1 >= reNetweight) {
 									/**
 									 * {销售金重-回收净重 } × 当天PT950的单价 × 相关折扣 +
 									 * 工费（回收净重×工费单价25元或23元）+精品工费
@@ -1135,7 +1159,9 @@ public class SellRetrieve extends OeScript {
 								}
 							}
 							if ("PT999_PT999".equals(type)) {
-								if (sell1 > re1) {
+								/** 回收净重 */
+								Double reNetweight = re1 - (damage_ / 100);
+								if (sell1 > reNetweight) {
 									/**
 									 * {销售金重-回收净重（=回收金重-回收金重×损耗） } × 当天PT999的单价 ×
 									 * 相关折扣 + 工费（回收净重×工费单价28元或30元）+精品工费

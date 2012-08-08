@@ -811,23 +811,21 @@ public class SellRetrieve extends OeScript {
 											+ jpprice);
 								} else {
 									/**
-									 * 销售的金重小于回收的金重，[回收净重{=回收金重-（回收的金重×损耗）}
-									 * –销售的金重]×回收单价（咨询师傅定，pt950回收单价）-
-									 * 工费（=销售金重×工费单价。-精品工费
+									 * 销售的金重小于回收的金重，(工费（=销售金重×工费单价)+精品工费)-[回收净重{=回收金重-（回收的金重×损耗）}
+									 * –销售的金重]×回收单价（咨询师傅定，pt950回收单价）
+									 * 
 									 */
-									pprice += (((re1 - (damage_ / 100)) - sell1)
-											* Double.valueOf(price_) - sell1
-											* Double.valueOf(price2_))
-											- jpprice;
+									pprice += (sell1 * Double.valueOf(price2_) + jpprice)
+											- ((re1 - (damage_ / 100)) - sell1)
+											* Double.valueOf(price_);
 									rejgStr += (re1 - (damage_ / 100));
 									rePrice = "" + sell1
 											* Double.valueOf(price2_);
-									pricecount.append("+" + "((" + re1 + "-"
+									pricecount.append("+" + "(" + sell1 + "*"
+											+ Double.valueOf(price2_) + "+"
+											+ jpprice + ")-((" + re1 + "-"
 											+ damage_ + "/100)-" + sell1 + ")*"
-											+ Double.valueOf(price_) + "-"
-											+ sell1 + "*"
-											+ Double.valueOf(price2_) + "-"
-											+ jpprice);
+											+ Double.valueOf(price_));
 								}
 							}
 							if ("PT950_PT999".equals(type)) {
@@ -860,26 +858,24 @@ public class SellRetrieve extends OeScript {
 											+ jpprice);
 								} else {
 									/**
-									 * {回收净重[=回收金重×95%@是成色 – 回收金重×损耗（5%
-									 * 可以用固定的值）] – 销售金重 } ×
-									 * 回收金价（由师傅确定，pt950的回收单价） -
-									 * 工费（销售金重×工费单价30元或28元）-精品工费
+									 * （工费（销售金重×工费单价30元或28元）+精品工费）-{回收净重[=回收金重×95%@是成色 –
+									 * 回收金重×损耗（5% 可以用固定的值）] – 销售金重 } ×
+									 * 回收金价（由师傅确定，pt950的回收单价）
+									 * 
 									 */
-									pprice += ((re1 * d1 / 100 - damage_ / 100) - sell1)
-											* Double.valueOf(price_)
-											- sell1
-											* Double.valueOf(price2_) - jpprice;
+									pprice += (sell1 * Double.valueOf(price2_) + jpprice)
+											- ((re1 * d1 / 100 - damage_ / 100) - sell1)
+											* Double.valueOf(price_);
 									rejgStr += (re1 * d1 / 100 - damage_ / 100);
 									rePrice = "" + sell1
 											* Double.valueOf(price2_);
 
-									pricecount.append("+" + "((" + re1 + "*"
-											+ d1 + "/100-" + damage_ + "/100)-"
+									pricecount.append("+" + "(" + sell1 + "*"
+											+ Double.valueOf(price2_) + "+"
+											+ jpprice + ")-((" + re1 + "*" + d1
+											+ "/100-" + damage_ + "/100)-"
 											+ sell1 + ")*"
-											+ Double.valueOf(price_) + "-"
-											+ sell1 + "*"
-											+ Double.valueOf(price2_) + "-"
-											+ jpprice);
+											+ Double.valueOf(price_));
 								}
 
 							}
@@ -911,24 +907,23 @@ public class SellRetrieve extends OeScript {
 											+ jpprice);
 								} else {
 									/**
-									 * {回收净重 – 销售金重 } × 回收单价（由师傅确定，pt999的回收单价） -
-									 * 工费（销售金重×工费单价25元或23元）-精品工费
+									 * （工费（销售金重×工费单价25元或23元）+精品工费）-{回收净重 – 销售金重 } ×
+									 * 回收单价（由师傅确定，pt999的回收单价） -
+									 * 
 									 */
-									pprice += ((re1 * d1 / 100 - damage_ / 100) - sell1)
-											* Double.valueOf(price_)
-											- sell1
-											* Double.valueOf(price2_) - jpprice;
+									pprice += (sell1 * Double.valueOf(price2_) + jpprice)
+											- ((re1 * d1 / 100 - damage_ / 100) - sell1)
+											* Double.valueOf(price_);
 									rejgStr += (re1 * d1 / 100 - damage_ / 100);
 									rePrice = "" + sell1
 											* Double.valueOf(price2_);
 
-									pricecount.append("+" + "((" + re1 + "*"
-											+ d1 + "/100-" + damage_ + "/100)-"
+									pricecount.append("+" + "(" + sell1 + "*"
+											+ Double.valueOf(price2_) + "+"
+											+ jpprice + ")-((" + re1 + "*" + d1
+											+ "/100-" + damage_ + "/100)-"
 											+ sell1 + ")*"
-											+ Double.valueOf(price_) + "-"
-											+ sell1 + "*"
-											+ Double.valueOf(price2_) + "-"
-											+ jpprice);
+											+ Double.valueOf(price_));
 								}
 							}
 							if ("PT999_PT999".equals(type)) {
@@ -958,24 +953,22 @@ public class SellRetrieve extends OeScript {
 											+ "+" + jpprice);
 								} else {
 									/**
-									 * {回收净重（=回收金重-回收金重×损耗） – 销售金重 } ×
-									 * 回收单价（由师傅确定，pt999的回收单价） -
-									 * 工费（销售金重×30元或28元）-精品工费
+									 * (工费（销售金重×30元或28元）+精品工费)-{回收净重（=回收金重-回收金重×损耗） –
+									 * 销售金重 } × 回收单价（由师傅确定，pt999的回收单价）
+									 * 
 									 */
-									pprice += (((re1 - damage_ / 100) - sell1)
-											* Double.valueOf(price_) - sell1
-											* Double.valueOf(price2_))
-											- jpprice;
+									pprice += (sell1 * Double.valueOf(price2_) + jpprice)
+											- ((re1 - damage_ / 100) - sell1)
+											* Double.valueOf(price_);
 									rejgStr += (re1 - damage_ / 100);
 									rePrice = "" + sell1
 											* Double.valueOf(price2_);
 
-									pricecount.append("+" + "(((" + re1 + "-"
+									pricecount.append("+" + "(" + sell1 + "*"
+											+ Double.valueOf(price2_) + "+"
+											+ jpprice + ")-((" + re1 + "-"
 											+ damage_ + "/100)-" + sell1 + ")*"
-											+ Double.valueOf(price_) + "-"
-											+ sell1 + "*"
-											+ Double.valueOf(price2_) + ")"
-											+ "-" + jpprice);
+											+ Double.valueOf(price_));
 
 								}
 							}
@@ -1028,23 +1021,21 @@ public class SellRetrieve extends OeScript {
 											+ jpprice);
 								} else {
 									/**
-									 * 销售的金重小于回收的金重，[回收净重{=回收金重-（回收的金重×损耗）}
-									 * –销售的金重]×回收单价（咨询师傅定，pt950回收单价）-
-									 * 工费（=销售金重×工费单价。-精品工费
+									 * （工费（=销售金重×工费单价）+精品工费）-销售的金重小于回收的金重，[回收净重{=回收金重-（回收的金重×损耗）}
+									 * –销售的金重]×回收单价（咨询师傅定，pt950回收单价）
+									 * 
 									 */
-									pprice += (((re1 - damage_ / 100) - sell1)
-											* Double.valueOf(price_) - sell1
-											* Double.valueOf(price2_))
-											- jpprice;
+									pprice += (sell1 * Double.valueOf(price2_) + jpprice)
+											- ((re1 - damage_ / 100) - sell1)
+											* Double.valueOf(price_);
 									rejgStr += (re1 - (damage_ / 100));
 									rePrice = "" + sell1
 											* Double.valueOf(price2_);
-									pricecount.append("+" + "((" + re1 + "-"
+									pricecount.append("+" + "(" + sell1 + "*"
+											+ Double.valueOf(price2_) + "+"
+											+ jpprice + ")-((" + re1 + "-"
 											+ damage_ + "/100)-" + sell1 + ")*"
-											+ Double.valueOf(price_) + "-"
-											+ sell1 + "*"
-											+ Double.valueOf(price2_) + "-"
-											+ jpprice);
+											+ Double.valueOf(price_));
 								}
 							}
 							if ("PT950_PT999".equals(type)) {
@@ -1076,26 +1067,24 @@ public class SellRetrieve extends OeScript {
 											+ jpprice);
 								} else {
 									/**
-									 * {回收净重[=回收金重×95%@是成色 – 回收金重×损耗（5%
-									 * 可以用固定的值）] – 销售金重 } ×
-									 * 回收金价（由师傅确定，pt950的回收单价） -
-									 * 工费（销售金重×工费单价30元或28元）-精品工费
+									 * (工费（销售金重×工费单价30元或28元）+精品工费)-{回收净重[=回收金重×95%@是成色 –
+									 * 回收金重×损耗（5% 可以用固定的值）] – 销售金重 } ×
+									 * 回收金价（由师傅确定，pt950的回收单价）
+									 * 
 									 */
-									pprice += ((re1 * 95 / 100 - damage_ / 100) - sell1)
-											* Double.valueOf(price_)
-											- sell1
-											* Double.valueOf(price2_) - jpprice;
+									pprice += (sell1 * Double.valueOf(price2_) + jpprice)
+											- ((re1 * 95 / 100 - damage_ / 100) - sell1)
+											* Double.valueOf(price_);
 									rejgStr += (re1 * 95 / 100 - damage_ / 100);
 									rePrice = "" + sell1
 											* Double.valueOf(price2_);
 
-									pricecount.append("+" + "((" + re1
+									pricecount.append("+" + "(" + sell1 + "*"
+											+ Double.valueOf(price2_) + "+"
+											+ jpprice + ")-((" + re1
 											+ "*95/100-" + damage_ + "/100)-"
 											+ sell1 + ")*"
-											+ Double.valueOf(price_) + "-"
-											+ sell1 + "*"
-											+ Double.valueOf(price2_) + "-"
-											+ jpprice);
+											+ Double.valueOf(price_));
 								}
 
 							}
@@ -1126,24 +1115,23 @@ public class SellRetrieve extends OeScript {
 											+ jpprice);
 								} else {
 									/**
-									 * {回收净重 – 销售金重 } × 回收单价（由师傅确定，pt999的回收单价） -
-									 * 工费（销售金重×工费单价25元或23元）-精品工费
+									 * （工费（销售金重×工费单价25元或23元）+精品工费)- {回收净重 – 销售金重 } ×
+									 * 回收单价（由师傅确定，pt999的回收单价）
+									 * 
 									 */
-									pprice += ((re1 * 99.9 / 100 - damage_ / 100) - sell1)
-											* Double.valueOf(price_)
-											- sell1
-											* Double.valueOf(price2_) - jpprice;
+									pprice += (sell1 * Double.valueOf(price2_) + jpprice)
+											- ((re1 * 99.9 / 100 - damage_ / 100) - sell1)
+											* Double.valueOf(price_);
 									rejgStr += (re1 * 99.9 / 100 - damage_ / 100);
 									rePrice = "" + sell1
 											* Double.valueOf(price2_);
 
-									pricecount.append("+" + "((" + re1
+									pricecount.append("+" + "(" + sell1 + "*"
+											+ Double.valueOf(price2_) + "+"
+											+ jpprice + ")-((" + re1
 											+ "*99.9/100-" + damage_ + "/100)-"
 											+ sell1 + ")*"
-											+ Double.valueOf(price_) + "-"
-											+ sell1 + "*"
-											+ Double.valueOf(price2_) + "-"
-											+ jpprice);
+											+ Double.valueOf(price_));
 								}
 							}
 							if ("PT999_PT999".equals(type)) {
@@ -1173,24 +1161,22 @@ public class SellRetrieve extends OeScript {
 											+ "+" + jpprice);
 								} else {
 									/**
-									 * {回收净重（=回收金重-回收金重×损耗） – 销售金重 } ×
-									 * 回收单价（由师傅确定，pt999的回收单价） -
-									 * 工费（销售金重×30元或28元）-精品工费
+									 * (工费（销售金重×30元或28元）+精品工费)-{回收净重（=回收金重-回收金重×损耗） –
+									 * 销售金重 } × 回收单价（由师傅确定，pt999的回收单价）
+									 * 
 									 */
-									pprice += (((re1 - (damage_ / 100)) - sell1)
-											* Double.valueOf(price_) - sell1
-											* Double.valueOf(price2_))
-											- jpprice;
+									pprice += (sell1 * Double.valueOf(price2_) + jpprice)
+											- ((re1 - (damage_ / 100)) - sell1)
+											* Double.valueOf(price_);
 									rejgStr += (re1 - (damage_ / 100));
 									rePrice = "" + sell1
 											* Double.valueOf(price2_);
 
-									pricecount.append("+" + "(((" + re1 + "-"
+									pricecount.append("+" + "(" + sell1 + "*"
+											+ Double.valueOf(price2_) + "+"
+											+ jpprice + ")-((" + re1 + "-"
 											+ damage_ + "/100)-" + sell1 + ")*"
-											+ Double.valueOf(price_) + "-"
-											+ sell1 + "*"
-											+ Double.valueOf(price2_) + ")"
-											+ "-" + jpprice);
+											+ Double.valueOf(price_));
 
 								}
 							}

@@ -1,17 +1,15 @@
 package oe.jz.khjd;
 
+import java.sql.Connection;
+import java.util.List;
+import java.util.Map;
+
+import oe.cav.bean.logic.bus.TCsBus;
+import oescript.parent.OeScript;
 
 import org.apache.commons.lang.StringUtils;
 
-import oescript.parent.OeScript;
-
 import com.jl.common.app.AppEntry;
-import com.jl.common.workflow.WfEntry;
-import com.jl.common.workflow.TWfConsoleIfc;
-
-import oe.cav.bean.logic.bus.TCsBus;
-import oe.midware.workflow.runtime.ormobj.TWfWorklist;
-import com.jl.common.workflow.TWfActive;
 
 /**
  * 客户接待业务，工作流环节中的脚本逻辑
@@ -55,19 +53,28 @@ public class Khjd_Wfscript extends OeScript{
 		String bussid=wf.get(runtimeid,"bussid");
 		String busstype=wf.get(runtimeid,"busstype");
 		String formcode=AppEntry.iv().loadApp(busstype).getDyformCode_();
-		String formNa=AppEntry.iv().loadApp(busstype).getFormnatualname();
+		String formNa="BUSSFORM.BUSSFORM.TEST.JJXT.DY_731343095376648";
 		String column31=dy.get(bussid+":"+formcode,"column31");
 		
 		TCsBus bus=new TCsBus();
 		bus.setColumn31(column31);
 		int rsx=dy.queryDataNum(formNa, bus, "");
+		int rs=1;
 		if("1".equals(column31)||"2".equals(column31)){// 如果是 来电 
-			   int rs=rsx %5;
+			rs=rsx %5;
 			   dy.set(bussid+":"+formcode,"column30" ,String.valueOf(rs) );
 		}
 		if("3".equals(column31)){
-			   int rs=5-rsx %5;
+			   rs=5-rsx %5;
 			   dy.set(bussid+":"+formcode,"column30" ,String.valueOf(rs) );
+		}
+
+		String sql="select column3 hr from DY_71344346481385  where column5= '"+rs+"'";
+		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+		List list=db.queryData(con, sql);
+		if(list.size()>0){
+			Map mapx=(Map)list.get(0);
+			dy.set(bussid+":"+formcode,"column49" ,mapx.get("hr"));
 		}
 	}
 	
@@ -84,7 +91,7 @@ public class Khjd_Wfscript extends OeScript{
 		
 		String formcode=AppEntry.iv().loadApp(busstype).getDyformCode_();
 		String lshinfo=bussid+":"+formcode;
-		String designer=dy.get(lshinfo, "column33");/*设计师字段*/
+		String designer=dy.get(lshinfo, "column49");/*设计师字段*/
 		/*往人员统计表单中写入数据*/
 		String lsh=dy.newInstance("BUSSFORM.BUSSFORM.TEST.JJXT.GCSJ.DY_581343874103968");
 		dy.set(lsh, "fatherlsh", bussid);
@@ -113,8 +120,7 @@ public class Khjd_Wfscript extends OeScript{
 	 * @throws Exception
 	 */
 	public  void todo4()throws Exception {
-		
-		
+				
 		//import org.apache.commons.lang.StringUtils;
 		//import com.jl.common.app.*;
 		
@@ -123,7 +129,7 @@ public class Khjd_Wfscript extends OeScript{
 		
 		String formcode=AppEntry.iv().loadApp(busstype).getDyformCode_();
 		String lshinfo=bussid+":"+formcode;
-		String designer=dy.get(lshinfo, "column33");/*设计师字段*/
+		String designer=dy.get(lshinfo, "column49");/*设计师字段*/
 		
 		String lsh=dy.newInstance("BUSSFORM.BUSSFORM.TEST.JJXT.GCSJ.DY_581343874103968");
 		dy.set(lsh, "fatherlsh", bussid);
@@ -146,5 +152,7 @@ public class Khjd_Wfscript extends OeScript{
 		dy.set(lsh2, "column3", dept);
 		dy.set(lsh2,"column4","0");/*1表示得分,0标示失分*/
 	}
+	
+	
 
 }

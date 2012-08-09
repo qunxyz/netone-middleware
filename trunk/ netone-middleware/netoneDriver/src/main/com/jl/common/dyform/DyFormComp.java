@@ -50,9 +50,7 @@ public final class DyFormComp {
 		String readonlystr = readonly == true ? " readonly=\"readonly\" " : "";
 
 		return startTag + idAnamestr + valuestr + stylestr + classnamestr
-				+ readonlystr + " " + extvalue
-				+ " unselectable=\"off\" onFocus=\"this.select()\" " + " "
-				+ endTag;
+				+ readonlystr + " " + extvalue + " " + endTag;
 	}
 
 	/**
@@ -263,7 +261,7 @@ public final class DyFormComp {
 		String extValue = "";
 		if (readonly == false) {
 			extValue = " onFocus=\"" + WdatePickerFunc + "(" + dateformattype
-					+ ");this.blur();\" ";
+					+ ");\" ";
 		}
 		return getComp("<input type=\"text\" ", " />", id, valuestr, style,
 				"Wdate", readonly, extValue);
@@ -1052,8 +1050,8 @@ public final class DyFormComp {
 					+ "\" type=\"button\" value=\"бн\" onclick=javascript:$select(this,\""
 					+ url + "\") />";
 		}
-		return getComp("<input type=\"text\" ", " onfocus=\"this.blur()\" />"
-				+ selectbtn, id, value, style, classname, readonly, "");
+		return getComp("<input type=\"text\" ", "  />" + selectbtn, id, value,
+				style, classname, readonly, "");
 	}
 
 	/**

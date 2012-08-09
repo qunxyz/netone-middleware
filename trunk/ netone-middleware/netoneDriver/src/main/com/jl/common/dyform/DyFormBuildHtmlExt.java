@@ -1122,7 +1122,7 @@ public final class DyFormBuildHtmlExt {
 			if (editcolumns.length > 0) {
 				_qc1.setReadonly(true);
 				for (int j = 0; j < editcolumns.length; j++) {
-					if (columnid.equals(editcolumns[j])) {
+					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
 					}
 				}
@@ -1246,7 +1246,7 @@ public final class DyFormBuildHtmlExt {
 			if (editcolumns.length > 0) {
 				_qc1.setReadonly(true);
 				for (int j = 0; j < editcolumns.length; j++) {
-					if (columnid.equals(editcolumns[j])) {
+					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
 					}
 				}
@@ -1363,7 +1363,7 @@ public final class DyFormBuildHtmlExt {
 			if (editcolumns.length > 0) {
 				_qc1.setReadonly(true);
 				for (int j = 0; j < editcolumns.length; j++) {
-					if (columnid.equals(editcolumns[j])) {
+					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
 					}
 				}
@@ -2060,7 +2060,7 @@ public final class DyFormBuildHtmlExt {
 			if (editcolumns.length > 0) {
 				_qc1.setReadonly(true);
 				for (int j = 0; j < editcolumns.length; j++) {
-					if (columnid.equals(editcolumns[j])) {
+					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
 					}
 				}

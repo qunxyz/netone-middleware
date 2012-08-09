@@ -870,12 +870,6 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 			jsonStr1___ = '[' + jsonStr1___ + ']';
 			jsonStr2__2 = '[' + jsonStr2__2 + ']';			
 			
-			var p1 = parseFloat(ooo.parent().parent().find('#column20').val());
-			if (isNaN(p1)) p1=0;
-			var p2 = parseFloat(ooo.parent().parent().find('#column29').val());
-			if (isNaN(p2)) p2=0;
-			ooo.parent().parent().find('#column21').val((p1*p2).toFixed(2));
-			
 			Ext.Ajax.request({
 							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
 							        // 请求的服务器地址
@@ -902,6 +896,11 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 							            
 							        }
 							    });
+					var p1 = parseFloat(ooo.parent().parent().find('#column20').val());
+					if (isNaN(p1)) p1=0;
+					var p2 = parseFloat(ooo.parent().parent().find('#column26').val());
+					if (isNaN(p2)) p2=0;
+					ooo.parent().parent().find('#column21').val((p1*p2).toFixed(2));
 			
 			});
 			

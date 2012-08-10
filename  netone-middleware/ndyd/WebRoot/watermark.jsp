@@ -12,5 +12,8 @@ String cssURL = path + "/erp";
 </HEAD>
 <body class="bodyStyle">
 <!-- End ImageReady Slices -->
+<table border='1'>
+<tr bgcolor="#999999" ><td>xxxx</td></tr>
+</table>
 </BODY>
 </HTML>

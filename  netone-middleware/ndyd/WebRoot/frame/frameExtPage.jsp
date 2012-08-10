@@ -22,8 +22,8 @@ String cssURL = request.getContextPath()+ "/script/theme/main/blue/images";
 		<div id="top_nd_bg_1" style="height:35px;background-image: url('<%=cssURL%>/top_nd_bg.gif');z-index:9999;">
 			<div id="top_nd_bg" style="background-image: url('<%=cssURL%>/top_nd_bg.gif');text-align: left;width:1000px;z-index:9999;">
 				<div id="btn_nd">
-						<input id="upBtn_5_3" type="button" value=" 新建工单 " class="btn"
-							onclick="javascript:window.open('<%=path%>/frame.do?method=onEditViewMain&isadd=1&naturalname=${param.naturalname}');" />
+						<input id="upBtn_5_3" type="button" value=" 进入工单 " class="btn"
+							onclick="javascript:window.open('<%=path%>/frame.do?method=onEditViewMain&isadd=1&naturalname=${param.naturalname}&lsh=${param.lsh}&workcode=${param.workcode}&operatemode=${param.operatemode}&commiter=${param.commiter}');" />
 				<input id="upBtn_5_3" type="button" value=" 关 闭 " class="btn"
 							onclick="javascript:window.close();" />
 				</div>

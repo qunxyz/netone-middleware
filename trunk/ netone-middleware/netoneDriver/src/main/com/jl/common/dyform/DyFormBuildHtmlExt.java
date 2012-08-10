@@ -1120,7 +1120,7 @@ public final class DyFormBuildHtmlExt {
 
 			// 特殊操作 指定编辑
 			if (editcolumns.length > 0) {
-				_qc1.setReadonly(true);
+				// _qc1.setReadonly(true);
 				for (int j = 0; j < editcolumns.length; j++) {
 					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
@@ -1244,7 +1244,7 @@ public final class DyFormBuildHtmlExt {
 
 			// 特殊操作 指定编辑
 			if (editcolumns.length > 0) {
-				_qc1.setReadonly(true);
+				// _qc1.setReadonly(true);
 				for (int j = 0; j < editcolumns.length; j++) {
 					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
@@ -1361,7 +1361,7 @@ public final class DyFormBuildHtmlExt {
 
 			// 特殊操作 指定编辑
 			if (editcolumns.length > 0) {
-				_qc1.setReadonly(true);
+				// _qc1.setReadonly(true);
 				for (int j = 0; j < editcolumns.length; j++) {
 					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
@@ -2058,7 +2058,7 @@ public final class DyFormBuildHtmlExt {
 
 			// 特殊操作 指定编辑
 			if (editcolumns.length > 0) {
-				_qc1.setReadonly(true);
+				// _qc1.setReadonly(true);
 				for (int j = 0; j < editcolumns.length; j++) {
 					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);

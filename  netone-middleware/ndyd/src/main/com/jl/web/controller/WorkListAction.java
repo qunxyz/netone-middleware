@@ -156,7 +156,10 @@ public class WorkListAction extends AbstractAction {
 		}
 		String sql = null;
 		String count_sql = null;
-		String listtype = request.getParameter("listType");
+		String listtype = request.getParameter("listtype");
+		if(StringUtils.isEmpty(listtype)){
+			listtype="01";
+		}
 		// 首页more链接中处理
 		if ("01".equals(listtype)) {// 待办
 			sql = "SELECT"
@@ -377,8 +380,7 @@ public class WorkListAction extends AbstractAction {
 
 			List<DataObj> list = WlEntry.iv().worklist(user.getUserCode(),
 					appname, mode, start, length, listtype, queryColumn);
-			int total = WlEntry.iv().count(user.getUserCode(), appname, mode,
-					listtype, queryColumn);
+			int total = list.size();
 
 			String projectname = DyFormBuildHtml.projectname + "/";
 			JSONArray arr = new JSONArray();

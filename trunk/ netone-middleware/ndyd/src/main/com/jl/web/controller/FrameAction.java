@@ -17,8 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
+import oe.env.client.EnvService;
 import oe.midware.workflow.runtime.ormobj.TWfRuntime;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import oe.serialize.dao.PageInfo;
 
@@ -41,7 +44,6 @@ import com.jl.common.dyform.DyFormData;
 import com.jl.common.resource.Resource;
 import com.jl.common.resource.ResourceNode;
 import com.jl.common.security3a.Client3A;
-import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfActivePass;
 import com.jl.common.workflow.TWfParticipant;
@@ -303,10 +305,12 @@ public class FrameAction extends AbstractAction {
 			User user = getOnlineUser(request);
 			// boolean permission = SecurityEntry.iv().permission(1
 			// user.getUserCode(), naturalname);
+			if(user!=null){
 			boolean permission = AppEntry.iv().canCreate(naturalname,
 					user.getUserName() + "[" + user.getUserCode() + "]");
 
 			request.setAttribute("permission", permission);
+			}
 		} else {
 			request.setAttribute("permission", true);
 		}
@@ -331,6 +335,7 @@ public class FrameAction extends AbstractAction {
 		String workcode = request.getParameter("workcode");
 		String query = request.getParameter("query");
 		String lsh = request.getParameter("lsh");
+		String operatemode = request.getParameter("operatemode");
 		loadNavInfo(request);
 		boolean isedit = true;
 		boolean ispermission = true;// 是否启用鉴权
@@ -347,9 +352,29 @@ public class FrameAction extends AbstractAction {
 			forward = "/frame/editframe-" + naturalname + ".jsp";
 		}
 		String isadd = request.getParameter("isadd");
-		if (StringUtils.isNotEmpty(app.getDescription()) && !"1".equals(isadd) && StringUtils.isEmpty(lsh)) {
-			forward = forward = "/frame/frameExtPage.jsp";
-			request.setAttribute("urltext", app.getDescription());
+
+		String urltemplate=app.getDescription();
+		if(StringUtils.isNotEmpty(workcode)){
+			String actid=WfEntry.iv().loadWorklist(workcode).getActivityid();
+			UmsProtectedobject upo=new UmsProtectedobject();
+			upo.setDescription(naturalname+"."+actid);
+			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+			EnvService env=(EnvService)RmiEntry.iv("envinfo");
+			List list=rs.queryObjectProtectedObj(upo, null, 0, 1, "");
+			
+			if(list!=null&&list.size()==1){
+				UmsProtectedobject upox=(UmsProtectedobject)list.get(0);
+				urltemplate=env.fetchEnvValue("WEBSER_FCK")+"/PagelistViewSvl?pagename=simplefcklist&chkid="+upox.getId();
+			}
+		}
+
+		if(StringUtils.isNotEmpty(urltemplate)&&!"03".equals(operatemode)){
+			// 针对新增的模板
+			if (!"1".equals(isadd)) {
+				forward = forward = "/frame/frameExtPage.jsp";
+				request.setAttribute("urltext", urltemplate);
+			}
+			
 		}
 
 		ActionForward af = new ActionForward(forward);

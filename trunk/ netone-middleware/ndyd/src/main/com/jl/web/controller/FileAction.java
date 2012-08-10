@@ -51,14 +51,20 @@ public class FileAction extends AbstractAction {
 		String workcode = request.getParameter("workcode");
 		String naturalname = request.getParameter("naturalname");
 		User user = getOnlineUser(request);// 获取当前用户
-		TWfActive act = WfEntry.iv().listCurrentActive(naturalname, workcode,
+		TWfActive act = new TWfActive();
+		try{
+			act=WfEntry.iv().listCurrentActive(naturalname, workcode,
 				user.getUserCode());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		String filefunction = act.getFilefunction();// 是否启用附件功能 1：启用 0：不启用
 		String filetext = act.getFiletext();// 附件提示
 		request.setAttribute("filefunction", filefunction);
 		request.setAttribute("filetext", filetext == null ? "" : filetext);
 		// end 工作流鉴权
 		return mapping.findForward("onMainView");
+		
 	}
 
 	// 合同管理附件处理onContractMgr

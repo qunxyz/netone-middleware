@@ -40,8 +40,13 @@
 					<c:when test="${param.query=='look'}">
 					<div id="look_1" style="">
 						<div id="btn_nd">
+
 							<input id="cannelBtn_look" type="button" value=" 关 闭 " class="btn"
 								onclick="javascript:window.close();" />
+
+							<input id="cannelBtn_lookListxx" type="button" value=" 已 阅 " class="btn"
+								onclick="javascript:window.open('LookListOverSvl?workcode=${param.workcode}')" />
+						
 							<c:if test="${param.cuibang=='true'}">	
 							<input id="cannelBtn_cuibang" type="button" value=" 催 办 " class="btn"
 								onclick="cuiban();" />
@@ -78,10 +83,10 @@
 				<div id="audit_1" style="display: none;">
 					<div id="btn_nd">
 						<c:if test="${isFirstAct==true}">
-						
+						 
 						<input id="deleteBtn_1" type="button" value=" 作 废 " class="btn"
 								onclick="javascript:_delete();" />
-						
+					
 						<input id="deleteBtn_2" type="button" value=" 归 档 " class="btn"
 								onclick="javascript:_delete(0);" />
 						</c:if>

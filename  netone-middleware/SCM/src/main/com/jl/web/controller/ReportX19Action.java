@@ -86,8 +86,20 @@ public class ReportX19Action extends AbstractAction {
 				"IFNULL(t1.column15,0) 'ssj', ");
 		sb.append("IFNULL(t1.column16,'') 'xsxbz'," +
 				"IFNULL(fxrh.column20,'') 'cpbz', ");
-		sb.append("IFNULL(ssrk.column8,'') 'gys'," +
-				"IFNULL(gys.column3,'') 'gysname', ");
+		sb.append("IFNULL(ssrk.column8,'') 'gys',");
+		
+		
+		
+		sb.append("IFNULL(t1.column33,'') 'dyjf',");
+		sb.append("IFNULL(t1.column34,'') 'dkje',");
+		sb.append("IFNULL(khxx.column6,'') 'khsr',");
+		
+		
+		
+		
+		
+		
+		
 		sb.append("IFNULL(ssrkmx.column50,'') 'pinpai'," +
 				"IFNULL(t.column12,'') 'khname', ");
 		sb.append("IFNULL(t.column13,'') 'hycard'," +
@@ -130,6 +142,7 @@ public class ReportX19Action extends AbstractAction {
 		List<TableCell> headerSet1 = new ArrayList();
 		headerSet1.add(new TableCell("客户姓名"));
 		headerSet1.add(new TableCell("积分卡号"));
+		headerSet1.add(new TableCell("客户生日"));
 		headerSet1.add(new TableCell("移动电话1"));
 		headerSet1.add(new TableCell("移动电话2"));
 		headerSet1.add(new TableCell("货号"));
@@ -145,6 +158,8 @@ public class ReportX19Action extends AbstractAction {
 		headerSet1.add(new TableCell("售价"));
 		headerSet1.add(new TableCell("折扣率"));
 		headerSet1.add(new TableCell("实售价"));
+		headerSet1.add(new TableCell("抵用积分"));
+		headerSet1.add(new TableCell("抵扣金额"));
 		headerSet1.add(new TableCell("销售小备注"));
 		headerSet1.add(new TableCell("产品备注"));
 		
@@ -172,9 +187,14 @@ public class ReportX19Action extends AbstractAction {
 			String yddh1 = (String)object.get("yddh1");
 			String yddh2 = (String)object.get("yddh2");
 			
+			String khsr = (String)object.get("khsr");
+			String dyjf = (String)object.get("dyjf");
+			String dkje = (String)object.get("dkje");
+			
 			TableRow tr = new TableRow();
 			tr.addCell(new TableCell(khxm));
 			tr.addCell(new TableCell(jfkh));
+			tr.addCell(new TableCell(khsr));
 			tr.addCell(new TableCell(yddh1));
 			tr.addCell(new TableCell(yddh2));
 			tr.addCell(new TableCell(hh));
@@ -192,6 +212,10 @@ public class ReportX19Action extends AbstractAction {
 					Rectangle.ALIGN_RIGHT));
 			tr.addCell(new TableCell(zkr));
 			tr.addCell(new TableCell("" + MathHelper.moneyFormat(ssj),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell("" + MathHelper.moneyFormat(dyjf),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell("" + MathHelper.moneyFormat(dkje),
 					Rectangle.ALIGN_RIGHT));
 			tr.addCell(new TableCell(xsxbz));
 			tr.addCell(new TableCell(bz));

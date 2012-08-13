@@ -42,6 +42,7 @@ import com.jl.common.workflow.DbTools;
 import com.jl.common.workflow.DbTools2;
 import com.jl.common.workflow.TWfWorklistExt;
 import com.jl.common.workflow.WfEntry;
+import com.jl.common.workflow.WfReportUtil;
 import com.jl.common.workflow.worklist.DataObj;
 import com.jl.common.workflow.worklist.QueryColumn;
 import com.jl.common.workflow.worklist.WlEntry;
@@ -380,7 +381,8 @@ public class WorkListAction extends AbstractAction {
 
 			List<DataObj> list = WlEntry.iv().worklist(user.getUserCode(),
 					appname, mode, start, length, listtype, queryColumn);
-			int total = list.size();
+		    int total = WlEntry.iv().count(user.getUserCode(), appname, mode, 
+		    	        listtype, queryColumn);
 
 			String projectname = DyFormBuildHtml.projectname + "/";
 			JSONArray arr = new JSONArray();
@@ -688,79 +690,34 @@ public class WorkListAction extends AbstractAction {
 	public ActionForward phpListDetailMain(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-
-		Map conditionMap = new HashMap();
-		// JSONArray jsonArr = JSONArray.fromObject(conditions);
-		// for (Iterator iterator = jsonArr.iterator(); iterator.hasNext();) {
-		// JSONObject object = (JSONObject) iterator.next();
-		// conditionMap.put(object.getString("name").toString(), object
-		// .getString("value").toString());
-		// }
-		// 接收参数
-		String type = request.getParameter("type");// 类型
-		String did = request.getParameter("did");// 部门id
-		String total_ = request.getParameter("total");// 总数
-		String naturalname_ = request.getParameter("naturalname");// naturalname
-		String name = naturalname_ + did;
-
-		// 得到缓存数据
-		List list = new ArrayList();
-		Map map_all = new HashMap();
-		if (naturalname_.equals("all")) {
-
-			if ("week".equals(type)) {
-				map_all = (Map) WebCache.getCache("all" + did);// 获取对应部门信息集合
-				list = (List) map_all.get("week_all");
-			} else if ("dearling".equals(type)) {
-				map_all = (Map) WebCache.getCache("all" + did);// 获取对应部门信息集合
-				list = (List) map_all.get("dearling_all");
-			} else if ("after28".equals(type)) {
-				map_all = (Map) WebCache.getCache("all" + did);// 获取对应部门信息集合
-				list = (List) map_all.get("after28_all");
-			}
-
-		} else {
-			if ("week".equals(type)) {
-				map_all = (Map) WebCache.getCache(name);// 获取对应部门信息集合
-				list = (List) map_all.get("week");
-			} else if ("dearling".equals(type)) {
-				map_all = (Map) WebCache.getCache(name);// 获取对应部门信息集合
-				list = (List) map_all.get("dearling");
-			} else if ("after28".equals(type)) {
-				map_all = (Map) WebCache.getCache(name);// 获取对应部门信息集合
-				list = (List) map_all.get("after28");
+		String listkey=request.getParameter("listkey");
+		List ltdata=new ArrayList();
+		if(StringUtils.isEmpty(listkey)){
+			request.setAttribute("ltdata", ltdata);
+			return mapping.findForward("phpListDetailMain");
+		}
+		boolean avail=false;
+		String deptnameOuter=StringUtils.substringBefore(listkey, "@");
+		String deptnameOuterReal=deptnameOuter.substring(8);
+		System.out.println("deptnameOuterReal:"+deptnameOuterReal+",deptnameOuter:"+deptnameOuter);
+		Client3A client=SecurityEntry.iv().onlineUser(request);
+		String deptid=client.getDeptid();
+		if(deptid.startsWith(deptnameOuterReal)){
+			avail=true;
+		}else{
+			boolean rs=SecurityEntry.iv().permission(client.getClientId(), deptnameOuterReal);
+			if(rs){
+				avail=true;
 			}
 		}
-		int total_value = 0;
-		if (list != null) {
-
-			//System.out.println("list=" + list.toString());
-			User user = getOnlineUser(request);// 获取当前登录者信息
-			String clientid = user.getUserId();
-			Client3A client3a = SecurityEntry.iv().loadUser(clientid);
-			leaderViewPojo lvp = new leaderViewPojo();
-			List ltdata = new ArrayList();// 取值
-			// 权限判断
-
-			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-				lvp = (leaderViewPojo) iterator.next();
-				// flag状态 如果是0则只显示不做超链接 如果是1显示并做超链接
-				lvp.setFlag(0);
-				if (SecurityEntry.iv().permission(clientid, "DEPT.DEPT")) {// 大领导
-					lvp.setFlag(1);
-				} else if (SecurityEntry.iv().permission(clientid,
-						"DEPT.DEPT.297236c57ea1410d841db89adbfd3f08")
-						&& client3a.getBelongto().equals(did)) {// 部门领导
-					lvp.setFlag(1);
-				} else if (lvp.getUsercode().equals(user.getUserCode())||lvp.getCommiter().equals(user.getUserCode())) {// 普通用户
-					lvp.setFlag(1);
-				}
-				if (StringUtils.isNotEmpty(lvp.getNaturalname2())) {
-					ltdata.add(lvp);
-				}
-			}
-			 request.setAttribute("ltdata", ltdata);
-		}// if end
+		
+		ltdata=WfReportUtil.leaderViewDetail(listkey);
+		if(avail){
+			request.setAttribute("flag", "1");
+		}else{
+			request.setAttribute("flag", "0");
+		}
+		request.setAttribute("ltdata", ltdata);
 		return mapping.findForward("phpListDetailMain");
 	}
 }

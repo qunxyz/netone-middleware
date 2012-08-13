@@ -325,18 +325,25 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 						issubhidden = false;
 					}
 				} else {
-					String submode = (String) subformmode.get(i);
-					if ("0".equals(submode)) {// ±à¼­
+					Object submode =  subformmode.get(i);
+					if(submode!=null&&submode.getClass().getName().equals("java.lang.Boolean")){
 						issubedit = true;
 						issubhidden = false;
-					} else if ("1".equals(submode)) {// Ö»¶Á
-						issubedit = false;
-						issubhidden = false;
-					} else if ("2".equals(submode)) {// Òþ²Ø
-						issubhidden = true;
-					} else {
-						issubedit = true;
-						issubhidden = false;
+					}else{
+						String  submodex =  (String)subformmode.get(i);
+						if ("0".equals(submodex)) {// ±à¼­
+							issubedit = true;
+							issubhidden = false;
+						} else if ("1".equals(submodex)) {// Ö»¶Á
+							issubedit = false;
+							issubhidden = false;
+						} else if ("2".equals(submodex)) {// Òþ²Ø
+							issubhidden = true;
+						} else {
+							issubedit = true;
+							issubhidden = false;
+						}
+
 					}
 				}
 

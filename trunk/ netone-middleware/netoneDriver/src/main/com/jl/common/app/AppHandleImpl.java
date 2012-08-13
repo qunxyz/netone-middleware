@@ -378,9 +378,11 @@ public final class AppHandleImpl implements AppHandleIfc {
 		} else {
 			actx.setParticipant(upo.getExtendattribute());
 		}
+		if(StringUtils.isNotEmpty(commiter)){
 		//追加人员工作量
-		String addWorkItemParticipant=countWorkItem(actx.getParticipant());
-		actx.setParticipant(addWorkItemParticipant);
+			String addWorkItemParticipant=countWorkItem(actx.getParticipant());
+			actx.setParticipant(addWorkItemParticipant);
+		}
 		// 无论是选部门、角色、组还是流程角色最终都表现为人的选择
 		actx.setParticipantmode(_PARTICIPANT_MODE_HUMAN);
 		if (this._PARTICIPANT_MODE_CREATER.equals(objtype)) {
@@ -468,7 +470,7 @@ public final class AppHandleImpl implements AppHandleIfc {
 			String data= ((Map)list.get(0)).get("cou").toString();
 			String deptname=SecurityEntry.iv().loadUser(info).getDeptname();
 
-			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(/部门:"+deptname+"/工作量:"+data+")["+info+"]");
+			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(/部门:"+deptname+"/当前待办任务:"+data+")["+info+"]");
 	
 		}catch(Exception e){
 			e.printStackTrace();

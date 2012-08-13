@@ -57,8 +57,9 @@
 				<c:otherwise>
 					<div id="new_1" style="display: none;">
 						<div id="btn_nd">
+							
 							<input id="deleteBtn_1" type="button" value=" 作 废 " class="btn"
-								onclick="javascript:_delete();" />
+								onclick="javascript:_delete();" /> 
 							<input id="saveBtn_1" type="button" value=" 保 存 " class="btn"
 								onclick="javascript:_save();" />
 							<input id="nextBtn_1" type="button" value=" 下一步 " class="btn"
@@ -83,10 +84,10 @@
 				<div id="audit_1" style="display: none;">
 					<div id="btn_nd">
 						<c:if test="${isFirstAct==true}">
-						 
+						 <!-- 
 						<input id="deleteBtn_1" type="button" value=" 作 废 " class="btn"
 								onclick="javascript:_delete();" />
-					
+					 	-->
 						<input id="deleteBtn_2" type="button" value=" 归 档 " class="btn"
 								onclick="javascript:_delete(0);" />
 						</c:if>

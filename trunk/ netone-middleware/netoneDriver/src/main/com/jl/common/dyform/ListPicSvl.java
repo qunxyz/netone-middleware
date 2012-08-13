@@ -45,7 +45,7 @@ public class ListPicSvl extends HttpServlet {
 			throws ServletException, IOException {
 		
 		String id=request.getParameter("id");
-		String sql="select unid from iss.t_file where d_unid='"+id+"'";
+		String sql="select unid,filename from iss.t_file where d_unid='"+id+"'";
 		List list=DbTools.queryData(sql);
 		EnvService env = null;
 		String value =null;
@@ -62,18 +62,22 @@ public class ListPicSvl extends HttpServlet {
 		but.append("<a href='"+value+"/file.do?method=onMainView&d_unid="+id+"' target='_blank'>[Õº∆¨π‹¿Ì]</a><br>");
 		
 		String gradp="<hr><table border='1' style='table-layout:fixed;word-break:break-all'><tr><td width='250' height='220'>$k1</td><td width='250' height='220'>$k2</td><td width='250' height='220'>$k3</td><td width='250' height='220'>$k4</td></tr>"+
-		"<tr><td width='250' height='220'>$k5</td><td width='250' height='220'>$k6</td><td width='250' height='220'>$k7</td><td width='250' height='220'>$k8</td></tr></table>";
+		"<tr bgcolor='#999990'><td width='250' height='20'>$x1</td><td width='250' height='20'>$x2</td><td width='250' height='20'>$x3</td><td width='250' height='20'>$x4</td></tr>"+
+		"<tr><td width='250' height='220'>$k5</td><td width='250' height='220'>$k6</td><td width='250' height='220'>$k7</td><td width='250' height='220'>$k8</td></tr>"+
+		"<tr bgcolor='#999990'><td width='250' height='20'>$x5</td><td width='250' height='20'>$x6</td><td width='250' height='20'>$x7</td><td width='250' height='20'>$x8</td></tr></table>";
 		int i=1;
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map type = (Map) iterator.next();
 			String unid=(String)type.get("unid");
+			String filename=(String)type.get("filename");
 			String url=value+"/file.do?method=onDownLoadFile&isOnLine=0&unid="+unid;
 			gradp=StringUtils.replace(gradp, "$k"+i, "<a href='"+value+"/SinglePicSvl?unid="+unid+"' target='_blank'><img src='"+url+"' onload='javascript:this.resized=true;this.style.width=250;this.style.height=200;'/></a>");
+			gradp=StringUtils.replace(gradp, "$x"+i,filename);
 			i++;
 		}
 		but.append(gradp);
 		but.append("</body></html>");
-		response.setContentType("text/html;charset=utf-8");
+		response.setContentType("text/html;charset=GBK");
 		response.getWriter().print(but.toString());
 
 	}

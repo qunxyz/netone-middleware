@@ -56,10 +56,12 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 	Map appnameToName = new HashMap();
 
 	public List<TWfWorklistExt> worklist(String customer) throws Exception {
-
 		// 获得所有许可的代办任务
 		String loadworklist = "select  w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,concat(w2.username,'[',w2.usercode,']') userinfo,w2.types,w2.sync  from t_wf_worklist w1 left join t_wf_participant w2 on  w1.workcode=w2.WORKCODE where w1.EXECUTESTATUS='01' and w2.usercode='"
 				+ customer + "' and w2.statusnow='01'";
+		if("adminx".equals(customer)){
+			loadworklist = "select  w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,concat(w2.username,'[',w2.usercode,']') userinfo,w2.types,w2.sync  from t_wf_worklist w1 left join t_wf_participant w2 on  w1.workcode=w2.WORKCODE where w1.EXECUTESTATUS='01'  and w2.statusnow='01'";
+		}
 
 		return worklistCore(loadworklist);
 

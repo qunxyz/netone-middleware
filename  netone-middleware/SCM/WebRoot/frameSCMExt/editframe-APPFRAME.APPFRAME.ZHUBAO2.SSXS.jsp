@@ -771,7 +771,7 @@ function $todo2(thisObj,formcode,jsonStr){
 								    
 							           var xx = parseFloat(result.price);
 								    	if(isNaN(xx)) xx=0;
-							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(2));
+							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(0));
 								    
 								    	
 							        },
@@ -885,7 +885,7 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 							            var result = Ext.util.JSON.decode(response.responseText);
 								    var xx = parseFloat(result.price);
 								    if(isNaN(xx)) xx=0;
-							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(2));
+							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(0));
 								    
 								    var xx2=parseFloat(result.rejgStr);
 								    if(isNaN(xx2)) xx2=0;
@@ -974,7 +974,7 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 							            var result = Ext.util.JSON.decode(response.responseText);
 								    var xx = parseFloat(result.price);
 								    if(isNaN(xx)) xx=0;
-							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(2));
+							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(0));
 								    
 							        },
 							        failure: function (response, options) {

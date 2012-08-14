@@ -356,7 +356,7 @@ function $select(o,url){
 						  handler: function (){
 						  
 								Ext.Ajax.request({
-							        url: '',
+							        url: '/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.SRDYJ',
 							        method: 'POST',
 							        success: function (response, options) {
 							        	alert('生日抵用金初始化成功!');

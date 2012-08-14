@@ -418,7 +418,7 @@ public class SSXS_Script extends OeScript {
 				// busz.setColumn41(object.get("column37")==null?"0":object.get("column37").toString());
 				//
 				// busz.setColumn43(object.get("column31")==null?"0":object.get("column31").toString());
-				
+
 				busz.setColumn44((String) object.get("column32"));
 
 				busz.setStatusinfo("01");
@@ -443,7 +443,13 @@ public class SSXS_Script extends OeScript {
 				System.out.println("插入:" + lshxxxxr);
 
 			}
-
+			if ("是".equals("$(column27)")) {
+				con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+				sql = "update DY_131337490209098 set column60 = 0,column58='已抵用,抵用时间:" + new SimpleDateFormat("yyyy-MM-dd")
+				.format(new java.util.Date()) + ",抵用单号:$(column3)' where column27='$(column13)'";
+				db.execute(con, sql);
+				db.close(con);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

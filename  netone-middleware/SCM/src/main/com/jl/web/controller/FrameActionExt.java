@@ -3708,32 +3708,32 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.PM)", object
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", (object
-					.getColumn26() == null || "0.0".equals(object.getColumn26().toString())) ? "" : (object.getColumn26()
+					.getColumn26() == null || "0.00".equals(object.getColumn26().toString())) ? "" : (object.getColumn26()
 					.toString().replaceAll(".00", "") + "克"));
 			if (object.getColumn19() != null
 					&& ("dl001".equals(object.getColumn19().toString()) || "dl004"
 							.equals(object.getColumn19().toString()))) {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", (object
-						.getColumn24() == null || "0.0".equals(object
+						.getColumn24() == null || "0.00".equals(object
 						.getColumn24().toString()))? "" : (object.getColumn24()
 						.toString().replaceAll(".00", "") + "ct"));
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
 			}
 			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", (object
-					.getColumn10() == null || "0.0".equals(object
+					.getColumn10() == null || "0.00".equals(object
 							.getColumn10().toString())) ? "" : (object.getColumn10()
 					.toString().replaceAll(".00", "") + "元"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", (object
-					.getColumn6() == null || "0.0".equals(object
+					.getColumn6() == null || "0.00".equals(object
 					.getColumn6().toString())) ? "" : (object.getColumn6()
 					.toString().replaceAll(".00", "") + "元"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.DRJJ)", (object
-					.getColumn6() == null || "0.0".equals(object
+					.getColumn6() == null || "0.00".equals(object
 					.getColumn6().toString())) ? "" : (object.getColumn5()
 					.toString().replaceAll(".00", "") + "元/g"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", (object
-					.getColumn11() == null || "0.0".equals(object
+					.getColumn11() == null || "0.00".equals(object
 					.getColumn11().toString())) ? "" : (object.getColumn11()
 					.toString().replaceAll(".00", "") + "元"));
 			if (!flag) {

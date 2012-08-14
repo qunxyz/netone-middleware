@@ -37,7 +37,7 @@ function $$print(lsh){
 	
 function $$hx(lsh){
 	if (!confirm('确认要核销?')){return;};
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.UPDATECXSTATUS"+'&sr_lsh='+lsh, 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.UPDATECXSTATUS"+'&sr_lsh='+lsh, 
 			 function(jsonx){
 			  Ext.ux.Toast.msg("", jsonx.tip);
 	});

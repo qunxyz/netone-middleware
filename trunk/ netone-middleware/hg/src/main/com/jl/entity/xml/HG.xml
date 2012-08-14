@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="HG">
+
+	<!-- 查找行政区划与组织机构的关联关系 -->
+	<select id="findPartAProductRelation" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+			distinct t3.FItemID productId,
+			t1.FSupplyID partId,
+			t3.FFullNumber productCode,
+			t3.FName productName,
+			'684a303ce5af11e18d0e6cf04976618c' as type,
+			'' nLevel,
+			'' level,
+			'' nLevelName,
+		    '产品' levelName
+		from ICStockBill t1 
+		left join ICstockBillEntry t2 on t1.FInterID=t2.FInterID
+		left join t_item t3 on t3.FItemID=t2.FItemID
+		where t1.FSupplyID=#partId# and t3.FDeleted=0
+		order by t3.FFullNumber
+	</select>
+	
+	<!-- 加载部门/公司父根节点 HG数据源-->
+	<select id="loadPartRoot" parameterClass="java.lang.String"
+		resultClass="java.util.HashMap">
+			SELECT 
+			   t.FItemID partId,
+			   t.FName partName,
+			   t.FFullNumber partCode,
+			   '0' parentPartId,
+			   '' parentPartCode,
+			   '' parentPartName
+			FROM t_item t 
+			WHERE t.FParentID = #partId# and t.FItemClassID=1 /**and t.FDetail=0**/
+			and t.FDeleted=0
+			order by t.FFullNumber
+	</select>
+	
+	<!-- 根据上级分类查找子分类　HG数据源-->
+	<select id="findChildPart" parameterClass="java.util.Map"
+		resultClass="java.util.HashMap">
+			SELECT 
+			   t.FItemID partId,
+			   t.FName partName,
+			   t.FFullNumber partCode,
+			   t.FParentID parentPartId,
+			   tt.FFullNumber parentPartCode,
+			   tt.FName parentPartName
+			FROM t_item t
+			LEFT JOIN t_item tt on t.FParentID = tt.FItemID
+			WHERE t.FItemClassID=1 and tt.FItemClassID=1 and t.FParentID = #partId#
+			and t.FDeleted=0  and tt.FDeleted=0
+			/** and t.FDetail=0  and tt.FDetail=0 **/
+			<isNotEmpty property="partCode" prepend="and">
+				(t.FShortNumber like '%$partCode$%' or t.FName like '%$partCode$%')
+			</isNotEmpty>
+			order by t.FFullNumber
+	</select>
+	
+
+	<!-- 产品 根据上级分类查找子分类　-->
+	<select id="findChildCategories" parameterClass="java.lang.String"
+		resultClass="java.util.HashMap">
+			SELECT 
+			   t.FItemID partId,
+			   t.FFullNumber partCode,
+			   t.FName partName,
+			   t.FParentID parentPartId,
+			   tt.FFullNumber parentPartCode,
+			   tt.FName parentPartName
+			FROM t_item t
+			LEFT JOIN t_item tt on t.FParentID = tt.FItemID
+			WHERE t.FParentID = #categoriesId#
+			 and t.FItemClassID=4 
+			 and t.FDetail=0
+			 and t.FDeleted=0  and tt.FDeleted=0
+	</select>
+	
+	<!-- 查找所有产品的名称和产品的ID号 -->
+	<select id="findProductSetByPC" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			FItemID as productId,FFullNumber as productCode,FName as productName 
+		FROM t_item 
+		where FItemClassID=4 and FDeleted=0
+			<isNotEmpty property="categoriesId" prepend="and">
+				FParentID = #categoriesId#
+			</isNotEmpty>
+			<isNotEmpty property="condition" prepend="and">
+				(FShortNumber like '%$condition$%' or
+				FName like '%$condition$%')
+			</isNotEmpty>			
+	</select>
+	
+</sqlMap>

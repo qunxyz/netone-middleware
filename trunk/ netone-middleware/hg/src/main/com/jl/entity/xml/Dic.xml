@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Dic">
+	<!-- 别名设置 -->
+	<typeAlias alias="dic" type="com.jl.entity.Dic" />
+
+	<!--  分页 查询系统配置数据信息 -->
+	<select id="resultPageByCondition" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		    SELECT 
+		            sid,
+		            code,
+		            name,
+		            type,
+		            operate,
+		            operateTime
+            FROM t_dic 
+		<!-- 查询条件 -->
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="type">
+				type = #type#
+			</isNotNull>
+		</dynamic>
+		LIMIT #startIndex#,#pageSize#
+	</select>
+
+	<!-- 统计 数据的总数 -->
+	<select id="totalPageByCondition"
+		parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+	     SELECT count(*) as dataCount FROM t_dic	
+		<!-- 查询条件 -->
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="type">
+				type = #type#
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<!-- 加载 根据编号返回信息-->
+	<select id="loadSystemConfig" parameterClass="java.lang.String"
+		resultClass="dic">
+		     SELECT 
+		            sid,
+		            code,
+		            name,
+		            type,
+		            operate,
+		            operateTime
+            FROM t_dic 
+            WHERE sid=#sid# 
+	</select>
+	
+	
+	<!-- 插入 系统配置信息 -->
+	<insert id="insertSystemConfig" parameterClass="dic">
+		<selectKey resultClass="java.lang.String" keyProperty="sid" type="pre">
+			SELECT REPLACE(UUID(),'-','') as sid
+		</selectKey>
+			INSERT INTO t_dic(sid,code,name,type,operate,operateTime)
+			VALUES(
+			        #sid#,
+			        #code#,
+			        #name#,
+					#type#,
+					#operate:VARCHAR#,
+					#operateTime:DATETIME#
+			)
+	</insert>
+
+	<!-- 更新 系统配置信息-->
+	<update id="updateSystemConfig" parameterClass="dic">
+       UPDATE t_dic SET 
+       code=#code#,
+       name=#name#,
+       type=#type#,
+       operate=#operate#,
+       operateTime=#operateTime#
+       WHERE sid=#sid#
+	</update>
+
+	<!-- 批量删除 数据信息 -->
+	<delete id="deleteSystemConfig" parameterClass="java.lang.String">
+       DELETE FROM t_dic WHERE sid=#sid#
+	</delete>
+		
+	<!-- 加载 系统配置信息至 下拉列表 -->
+	<select id="loadSystemConfigToSelect" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	    SELECT 
+	            sid,
+	            code,
+	            name,
+	            type,
+	            operate,
+	            operateTime
+        FROM t_dic 
+		<!-- 查询条件 -->
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="type">
+				type = #type#
+			</isNotNull>
+		</dynamic>
+		order by code asc
+	</select>
+</sqlMap>

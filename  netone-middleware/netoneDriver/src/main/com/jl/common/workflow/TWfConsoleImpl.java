@@ -1725,7 +1725,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 
 	@Override
 	public boolean bussFormLock(String lsh)throws Exception {
-		String sql="select t2.activityid actid,t2.executestatus stat,t2.workcode wk from t_wf_relevantvar_tmp t1,t_wf_worklist t2 where t1.lsh='"+lsh+"' and t1.runtimeid=t2.runtimeid";
+		String sql="select t2.activityid actid,t2.executestatus stat,t2.workcode wk from netone.t_wf_relevantvar_tmp t1,netone.t_wf_worklist t2 where t1.lsh='"+lsh+"' and t1.runtimeid=t2.runtimeid";
 		List list=DbTools.queryData(sql);
 		if(list.size()>1){
 			return true;

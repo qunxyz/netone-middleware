@@ -23,26 +23,27 @@
  	<bean id="dataSource" class="com.jl.dao.DynamicDataSource">     
             <property name="targetDataSources">     
                <map key-type="java.lang.String">     
-                  <entry key="0" value-ref="ds1"/>
+                  <entry key="0" value-ref="hgds"/>
                </map>     
             </property>     
-            <property name="defaultTargetDataSource" ref="ds1"/>     
+            <property name="defaultTargetDataSource" ref="hgds"/>     
     </bean>
     
-	<!-- 默认数据源 -->
-	<bean id="ds1"
+	<!-- 航港数据源 -->
+	<bean id="hgds"
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driver}" />
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.user}" />
-		<property name="password" value="${jdbc.password}" />
+		<property name="driverClassName" value="${sqlserverjdbc.driver}" />
+		<property name="url" value="${sqlserverjdbc.url}" />
+		<property name="username" value="${sqlserverjdbc.user}" />
+		<property name="password" value="${sqlserverjdbc.password}" />
 		<property name="maxActive" value="${pool.maxActive}"></property>
-		 <property name="maxIdle" value="${pool.maxIdle}"></property>
+		<property name="maxIdle" value="${pool.maxIdle}"></property>
 		<property name="maxWait" value="${pool.maxWait}"></property>
 		<property name="removeAbandoned" value="${pool.removeA}"></property>
 		<property name="removeAbandonedTimeout" value="${pool.removeATimeOut}"></property>
 	</bean>
+	
 	
 	 <bean id="dataSource2"
 		class="org.apache.commons.dbcp.BasicDataSource"

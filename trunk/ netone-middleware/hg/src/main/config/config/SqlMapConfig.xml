@@ -25,5 +25,11 @@
 	<sqlMap resource="com/jl/entity/xml/Yijian.xml" />
 	<sqlMap resource="com/jl/entity/xml/ContractMgr.xml"/>
 	<sqlMap resource="com/jl/entity/xml/leaderView.xml"/>
-			<sqlMap resource="com/jl/entity/xml/Dyform.xml" />
+	<sqlMap resource="com/jl/entity/xml/Dyform.xml" />
+	
+	
+	<sqlMap resource="com/jl/entity/xml/Part.xml" />
+	<sqlMap resource="com/jl/entity/xml/Product.xml" />
+	<sqlMap resource="com/jl/entity/xml/HG.xml" />
+	<sqlMap resource="com/jl/entity/xml/Dic.xml" />
 </sqlMapConfig>

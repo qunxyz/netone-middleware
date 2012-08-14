@@ -887,6 +887,10 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 								    if(isNaN(xx)) xx=0;
 							            $('table#8b6b6947a81411e19b54fb13b166e993_').find('#column18').val(xx.toFixed(0));
 								    
+								    var reprice = parseFloat(result.reprice);//工费金额
+								    if(isNaN(reprice)) reprice=0;
+								    ooo.parent().parent().find('#column21').val(reprice.toFixed(2));
+								    
 								    var xx2=parseFloat(result.rejgStr);
 								    if(isNaN(xx2)) xx2=0;
 								    ooo.parent().parent().find('#column26').val(xx2.toFixed(3));//写净重
@@ -900,7 +904,7 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 					if (isNaN(p1)) p1=0;
 					var p2 = parseFloat(ooo.parent().parent().find('#column26').val());
 					if (isNaN(p2)) p2=0;
-					ooo.parent().parent().find('#column21').val((p1*p2).toFixed(2));
+					//ooo.parent().parent().find('#column21').val((p1*p2).toFixed(2));
 			
 			});
 			

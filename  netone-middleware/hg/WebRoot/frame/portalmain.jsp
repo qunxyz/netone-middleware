@@ -56,7 +56,7 @@
 			<!-- 第二层 -->  
 		</div><!-- 第一层 -->
 		<div region="center" title="&nbsp;" iconCls="icon-destop">
-			<iframe id="contentFrame" src="map.do?method=onQMap" style="width: 100%; height: 100%;"
+			<iframe id="contentFrame" src="/ndyd/workList.do?method=onMainView2&mode=1&height=260&listtype=01&sortfield=&sort=desc&psize=20&appname=" style="width: 100%; height: 100%;"
 				frameborder="0" scrolling="auto"></iframe>
 		</div>
 		<div region="south" style="height: 30px; padding: 2px;" class="foot">
@@ -213,7 +213,7 @@ if($.browser.msie){//IE
 	//提醒
 	var countx = 0;
 	$('#countx').html('('+countx+')');
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
 	 function(jsonx){
 	  var html = '';
 	  countx = 0;
@@ -241,7 +241,7 @@ if($.browser.msie){//IE
 
 function showmessager(){
 	var countx = 0;
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
 	 function(jsonx){
 	  var html = '';
 	  countx = 0;

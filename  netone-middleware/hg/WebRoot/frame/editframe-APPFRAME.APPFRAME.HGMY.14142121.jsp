@@ -730,7 +730,7 @@ $(function() {
 /**新品公司方案编号生成**/
 var teed24806997411e192f721ec7b3aba82_column4 = $('table#eed24806997411e192f721ec7b3aba82_').find('#column4');
 if (teed24806997411e192f721ec7b3aba82_column4.val()==''){
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETXINPIN", 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETXINPIN", 
 	 function(jsonx){
 		if (jsonx!=null){
 			teed24806997411e192f721ec7b3aba82_column4.val(jsonx.code);
@@ -739,7 +739,7 @@ if (teed24806997411e192f721ec7b3aba82_column4.val()==''){
 } 
 
 /** 网点名称 联想组件*/
-$('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
+$('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
 	multiple: false,
 	dataType: "json",
 	autoFill: true,
@@ -782,7 +782,7 @@ $('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('http
 });
 
 /**新品结款方式**/
-$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
+$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
@@ -800,7 +800,7 @@ $.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOAS
 /**物料**/
 $("table#22c5bb08997611e192f721ec7b3aba82_").find('#column3').live('focus',function(){ 
 
- $(this).autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT', {
+ $(this).autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.NEWPRODUCT&sr_supplyid='+$('table#eed24806997411e192f721ec7b3aba82_').find("#column10").val(), {
 	multiple: false,
 	dataType: "json",
 	autoFill: true,
@@ -839,7 +839,7 @@ $("table#22c5bb08997611e192f721ec7b3aba82_").find('#column3').live('focus',funct
 	$(this).parent().parent().find('#column6').val(item.FEquipmentNum);
 	$(this).parent().parent().find('#column7').val(item.FOrderPrice);
 	var c13 = $(this).parent().parent().find('#column13');
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
 	 function(jsonx){
 	  c13.empty();
 	  $.each(jsonx, function(ii,itemx){
@@ -865,10 +865,10 @@ $('table#22c5bb08997611e192f721ec7b3aba82_').find('#column4').each(function(){
  var thisobj_obj = $(this).parent().parent().find('#column13_hidden');
  if (thisobj_obj) thisobj_val=thisobj_obj.val();
  if ($(this).val()!=''){
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
 	 function(itemxg){
 	 	if (itemxg!=null){
-			$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
+			$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
 			 function(jsonx){
 			  thisobj.empty();
 			  $.each(jsonx, function(ii,itemx){

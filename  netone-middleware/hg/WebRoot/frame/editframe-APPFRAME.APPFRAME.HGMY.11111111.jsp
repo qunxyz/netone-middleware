@@ -730,7 +730,7 @@ $(function() {
 /** 促销公司方案编号生成 初始化 */
 var t7806a31e97f811e1b01667a74cfdf95c_column3 = $('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column3');
 if (t7806a31e97f811e1b01667a74cfdf95c_column3.val()==''){
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETCUXIAO", 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETCUXIAO", 
 	 function(jsonx){
 		if (jsonx!=null){
 			t7806a31e97f811e1b01667a74cfdf95c_column3.val(jsonx.code);
@@ -739,7 +739,7 @@ if (t7806a31e97f811e1b01667a74cfdf95c_column3.val()==''){
 } 
 
 /** 促销网点名称 联想组件 */ 
-$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
+$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
 	multiple: false,
 	dataType: "json",
 	autoFill: true,
@@ -782,7 +782,7 @@ $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('http
 });
 
 /** 促销网点结款方式 初始化*/
-$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
+$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
   	if (itemx!=null){
@@ -800,7 +800,7 @@ $.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOAS
 /** 促销子表单操作*/
 $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',function(){ 
 
- $(this).autocomplete('http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT', {
+ $(this).autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT', {
 	multiple: false,
 	dataType: "json",
 	autoFill: true,
@@ -839,7 +839,7 @@ $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',funct
 	var thisobj18 = $(this).parent().parent().find('#column18');
 	var thisobj5 = $(this).parent().parent().find('#column5'); 
 	var FUnitID = null;
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 
 	 function(jsonx){
 	  thisobj18.empty();
 	  $.each(jsonx, function(ii,itemx){
@@ -847,7 +847,7 @@ $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',funct
 	  			FUnitID=itemx.FMeasureUnitID;
 				var sc_FTypeID = $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").val();
 				var sc_FUnitID = FUnitID;
-				$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRICEBYFITEMID&q="+fitemid+"|"+sc_FTypeID+"|"+sc_FUnitID, 
+				$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRICEBYFITEMID&q="+fitemid+"|"+sc_FTypeID+"|"+sc_FUnitID, 
 				 function(itemxg){
 						if(itemxg!=null && itemxg[0]!=null) thisobj5.val(itemxg[0].FPrice);
 				});
@@ -877,7 +877,7 @@ $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").change(function()
 	var sc_FTypeID = $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").val();
 	var sc_FUnitID = $(this).val();
 	var fitemid = $(this).parent().parent().find('#column19').val();
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRICEBYFITEMID&q="+fitemid+"|"+sc_FTypeID+"|"+sc_FUnitID, 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRICEBYFITEMID&q="+fitemid+"|"+sc_FTypeID+"|"+sc_FUnitID, 
 	 function(itemxg){
 			if(itemxg!=null) thisobj5.val(itemxg[0].FPrice);
 	});
@@ -890,10 +890,10 @@ $('table#5fe85cb097f911e1b01667a74cfdf95c_').find('#column19').each(function(){
  var thisobj18_obj = $(this).parent().parent().find('#column18_hidden');
  if (thisobj18_obj) thisobj18_val=thisobj18_obj.val();
  if ($(this).val()!=''){
-	$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
+	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETPRODUCTBYID&q="+$(this).val(), 
 	 function(itemxg){
 	 	if (itemxg!=null){
-			$.getJSON("http://hg.fzjunling.com:91/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
+			$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+itemxg[0].FUnitGroupID, 
 			 function(jsonx){
 			  thisobj18.empty();
 			  $.each(jsonx, function(ii,itemx){

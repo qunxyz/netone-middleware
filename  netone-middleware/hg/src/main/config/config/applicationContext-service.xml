@@ -117,5 +117,22 @@
 				<ref bean="commonDAO" />
 			</property>
 	  </bean>  
+
+
+	  <!-- 应用程序管理 -->
+	  <bean id="appService"
+			class="com.jl.service.impl.AppServiceImpl">
+			<property name="commonDAO">
+				<ref bean="commonDAO" />
+			</property>
+	  </bean>  
+		
+	  <!-- 字典管理 -->
+		<bean id="dicService"
+			class="com.jl.service.impl.DicServiceImpl">
+			<property name="commonDAO">
+				<ref bean="commonDAO" />
+			</property>
+	  </bean>  
 	
 </beans>

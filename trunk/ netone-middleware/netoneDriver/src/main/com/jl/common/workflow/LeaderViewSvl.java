@@ -59,7 +59,8 @@ public class LeaderViewSvl extends HttpServlet {
 			data=(List)obj;
 		}
 		response.setContentType("text/html;charset=gbk");
-		response.getWriter().print(JSONArray.fromObject(data).toString());
+		String info=JSONArray.fromObject(data).toString();
+		response.getWriter().print(info);
 	}
 
 	/**

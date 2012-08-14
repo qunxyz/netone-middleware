@@ -510,14 +510,24 @@ public class SellRetrieve extends OeScript {
 					if (rebprice == null)
 						rebprice = 0.0;
 
-					if (rebprice > sellbprice) {
-						pprice += (rebprice - sellbprice)
+					if (sellbprice >= rebprice) {
+						pprice += (sellbprice - rebprice)
 								* Double.valueOf(discount) / 100;
-						rePrice = "" + (rebprice - sellbprice)
+						rePrice = "" + (sellbprice - rebprice)
 								* Double.valueOf(discount) / 100;
-
-						pricecount.append("+" + "(" + rebprice + "-"
-								+ sellbprice + ")*" + Double.valueOf(discount)
+						pricecount.append("+" + "(" + sellbprice + "-"
+								+ rebprice + ")*" + Double.valueOf(discount)
+								+ "/100");
+					} else {
+						Double pppprice = sellbprice - rebprice;
+						if (pppprice < 0) {
+							pppprice = 0.0;
+						}
+						pprice += pppprice * Double.valueOf(discount) / 100;
+						rePrice = "" + pppprice * Double.valueOf(discount)
+								/ 100;
+						pricecount.append("+" + "(" + sellbprice + "-"
+								+ rebprice + ")*" + Double.valueOf(discount)
 								+ "/100");
 					}
 				}
@@ -530,9 +540,7 @@ public class SellRetrieve extends OeScript {
 					/** 净金重*回收金价-工费金额 (注：净金重 = 金重) */
 					pprice += reJz * Double.valueOf(price_) - reJz
 							* Double.valueOf(price2_);
-					rePrice = ""
-							+ (reJz * Double.valueOf(price_) - reJz
-									* Double.valueOf(price2_));
+					rePrice = "" + reJz * Double.valueOf(price2_);
 					rejgStr = reJz;
 					pricecount.append("+" + reJz + "*" + Double.valueOf(price_)
 							+ "-" + reJz + "*" + Double.valueOf(price2_));
@@ -542,6 +550,7 @@ public class SellRetrieve extends OeScript {
 				if ("dl009".equals(bigcate)) {
 					/** * 只能按金重回收。金重×回收单价（由师傅来定）。 */
 					pprice += reJz * Double.valueOf(price2_);
+					rePrice = "" + reJz * Double.valueOf(price2_);
 					pricecount.append("+" + reJz + "*"
 							+ Double.valueOf(price2_));
 				}
@@ -647,8 +656,7 @@ public class SellRetrieve extends OeScript {
 								* Double.valueOf(price_)
 								- (sellJz2 * Double.valueOf(price2_)) - jpprice;
 						rejgStr += (reJz2 * Double.valueOf(discount_) / 100 - damage_ / 100);
-						rePrice = "" + sellJz2 * Double.valueOf(price2_)
-								* Double.valueOf(price2_);
+						rePrice = "" + sellJz2 * Double.valueOf(price2_);
 
 						pricecount
 								.append("+" + "((" + reJz2 + "*"
@@ -666,6 +674,7 @@ public class SellRetrieve extends OeScript {
 				if ("dl009".equals(bigcate)) {
 					/** * 只能按金重回收。金重×回收单价（由师傅来定）。 */
 					pprice += reJz2 * Double.valueOf(price2_);
+					rePrice = "" + reJz2 * Double.valueOf(price2_);
 					pricecount.append("+" + reJz2 + "*"
 							+ Double.valueOf(price2_));
 				}
@@ -682,7 +691,8 @@ public class SellRetrieve extends OeScript {
 							* Double.valueOf(price2_);
 					rejgStr += (reJz2 * Double.valueOf(discount_) / 100 - damage_ / 100);
 
-					rePrice = "" + sellJz2 * Double.valueOf(price2_)
+					rePrice = ""
+							+ (reJz2 * Double.valueOf(discount_) / 100 - damage_ / 100)
 							* Double.valueOf(price2_);
 
 					pricecount.append("+" + "(" + reJz2 + "*"
@@ -697,6 +707,7 @@ public class SellRetrieve extends OeScript {
 				if ("dl009".equals(bigcate)) {
 					/** * 只能按金重回收。金重×回收单价（由师傅来定）。 */
 					pprice += reJz2 * Double.valueOf(price2_);
+					rePrice = "" + reJz2 * Double.valueOf(price2_);
 					pricecount.append("+" + reJz2 + "*"
 							+ Double.valueOf(price2_));
 				}

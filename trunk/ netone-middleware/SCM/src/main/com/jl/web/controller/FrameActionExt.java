@@ -3619,7 +3619,7 @@ public class FrameActionExt extends AbstractAction {
 
 		// æ…¡œªÿ ’
 		List list_2 = DbTools
-				.queryData("select sum(column18) column18 from dyform.DY_371337952339234 where fatherlsh='"
+				.queryData("select column18 from dyform.DY_371337952339234 where fatherlsh='"
 						+ lsh + "'");
 		Map m = (Map) list_2.get(0);
 		sum = Double.parseDouble(m.get("column18") == null ? "0" : m.get(
@@ -3744,7 +3744,7 @@ public class FrameActionExt extends AbstractAction {
 			but.append(loopEach);
 		}
 		info = StringUtils.replace(info, "$(sum)", sum.toString().replaceAll(
-				".00", ""));
+				"", ""));
 		info = StringUtils.replace(info, "$(shy)", shy);
 		info = StringUtils.replace(info, "$(loop-)" + loop + "$(-loop)", but
 				.toString());

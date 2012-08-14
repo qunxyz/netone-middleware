@@ -351,6 +351,11 @@ public class FrameAction extends AbstractAction {
 		isedit = pmap.get("isedit");
 		ispermission = pmap.get("ispermission");
 
+		boolean isformLock = WfEntry.iv().bussFormLock(lsh);
+		// true 表示表单锁定 不能编辑
+		if (isformLock)
+			isedit = false;
+
 		load(mapping, form, request, response, isedit, ispermission);
 		// return mapping.findForward("onEditView");
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录

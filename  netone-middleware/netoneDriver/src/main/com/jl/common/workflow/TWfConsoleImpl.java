@@ -492,15 +492,18 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		for (Iterator iterator = listRouteAimActivity.iterator(); iterator
 				.hasNext();) {
 			Activity object = (Activity) iterator.next();
-			String processname = StringUtils.substringBetween(object
-					.getWorkflowProcess().getName(), "[", "]");
-			String processid = object.getWorkflowProcess().getId();
-			TWfActive actx = AppEntry.iv().loadCfgActive(appname,
-					object.getId(), commiter, runtimeid);
-			actx.setProcessid(processid);
-			actx.setProcessname(processname);
-			newact.add(actx);
-
+			if(object!=null){
+				WorkflowProcess wf=object.getWorkflowProcess();
+				if(wf!=null){
+					String processname = StringUtils.substringBetween(wf.getName(), "[", "]");
+					String processid = wf.getId();
+					TWfActive actx = AppEntry.iv().loadCfgActive(appname,
+							object.getId(), commiter, runtimeid);
+					actx.setProcessid(processid);
+					actx.setProcessname(processname);
+					newact.add(actx);
+				}
+			}
 		}
 		return newact;
 	}
@@ -509,8 +512,11 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			String commiter, String runtimeid) throws Exception {
 		List list = new ArrayList();
 		list.add(object);
-		return (TWfActive) makeTWfActive(list, appid, commiter, runtimeid).get(
-				0);
+		List actx=makeTWfActive(list, appid, commiter, runtimeid);
+		if(actx!=null&&actx.size()>0){
+			return (TWfActive)actx.get(0);
+		}
+		return new TWfActive();
 
 	}
 
@@ -1275,8 +1281,11 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		TWfWorklist wf = this.loadWorklist(workcode);
 		Activity act = this.loadProcess(wf.getProcessid()).getActivity(
 				wf.getActivityid());
-		return act.isStartActivity();
-
+		if(act!=null){
+			return act.isStartActivity();
+		}
+		return false;
+		
 	}
 
 	public void specifyCuibangByWorkcode(String commiter, String workcode,
@@ -1712,6 +1721,30 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			}
 		}
 		throw new RuntimeException("流程定义异常丢失首节点:" + processid);
+	}
+
+	@Override
+	public boolean bussFormLock(String lsh)throws Exception {
+		String sql="select t2.activityid actid,t2.executestatus stat,t2.workcode wk from t_wf_relevantvar_tmp t1,t_wf_worklist t2 where t1.lsh='"+lsh+"' and t1.runtimeid=t2.runtimeid";
+		List list=DbTools.queryData(sql);
+		if(list.size()>1){
+			return true;
+		}
+		if(list.size()==0){
+			return false;
+		}else{
+			Map map=(Map)list.get(0);
+			String stat=(String)map.get("stat");
+			String workcode=(String)map.get("wk");
+			if("01".equals(stat)){
+				//算法 如果 流程启动了，但是首节点还未提交此时还能修改
+				if(WfEntry.iv().checkFirstAct(workcode)){
+					return false;
+				}
+				
+			}
+		}
+		return true;
 	}
 
 }

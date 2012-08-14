@@ -34,6 +34,9 @@ pageEncoding="UTF-8" %>
 <script type="text/javascript" src="<%=scriptsURL%>/ext/ComboBoxTree.js"></script>
 <script type="text/javascript" src="<%=scriptsURL%>/ext/ext-extend.js"></script>
 <script type="text/javascript" src="<%=scriptsURL%>/ext/extend/Toast.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<%=scriptsURL%>/ext/extend/PagingTreeLoader.css">
+<script type="text/javascript" src="<%=scriptsURL%>/ext/extend/PagingTreeLoader.js"></script>
 <script type="text/javascript">
 <!--
 Ext.BLANK_IMAGE_URL = '<%=scriptsURL%>/ext/resources/images/default/s.gif';//Load default image

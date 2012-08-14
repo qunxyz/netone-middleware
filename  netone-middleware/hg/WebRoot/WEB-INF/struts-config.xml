@@ -30,6 +30,24 @@
 			type="com.jl.web.controller.XReportHGAction" parameter="method">
 		</action>	
 		
+		
+		<!-- 字典配置 -->
+		<action path="/dic"
+			type="com.jl.web.controller.DicAction"
+			parameter="method">
+			<forward contextRelative="true" name="onMainView"
+				path="/app/dicMain.jsp">
+			</forward>
+			<forward contextRelative="true" name="onEditView"
+				path="/app/editDic.jsp">
+			</forward>
+		</action>
+		
+		<!-- 应用程序入口 -->
+		<action path="/app"
+			type="com.jl.web.controller.AppAction" parameter="method">
+		</action>	
+		
 		<action path="/frame"
 			type="com.jl.web.controller.FrameAction" parameter="method">
 			<forward contextRelative="true" name="portalView"

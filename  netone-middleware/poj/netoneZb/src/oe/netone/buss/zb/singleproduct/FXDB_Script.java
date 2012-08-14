@@ -255,4 +255,149 @@ public class FXDB_Script extends OeScript {
 			e.printStackTrace();
 		}
 	}
+
+	public void xinJian() {
+		try {
+			if ("$(column4)" == null || "$(column4)" == "") {
+				dy.set("$(lsh)" + ":" + "$(formcode)", "column4",
+						new SimpleDateFormat("yyyy-MM-dd")
+								.format(new java.util.Date()));
+			}
+
+			dy.set("$(lsh)" + ":" + "$(formcode)", "column7", "ÐÂ½¨");
+
+			dy.set("$(lsh)" + ":" + "$(formcode)", "statusinfo", "");
+
+			dy.set("$(lsh)" + ":" + "$(formcode)", "belongx", "$(participant)");
+
+			dy.set("$(lsh)" + ":" + "$(formcode)", "column5", "$(participant)");
+
+			Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+			String sql = "update DY_671340788796691 set PARTICIPANT=(SELECT usercode FROM iss.t_user WHERE departmentid IN (SELECT departmentId FROM iss.t_department WHERE departmentCode='$(column10)') LIMIT 0,1) where lsh='$(lsh)'";
+			System.out.println(sql);
+			db.execute(con, sql);
+			db.close(con);
+			SimpleDateFormat dateformat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
+
+			String a1 = dateformat.format(new java.util.Date());
+
+			dy.set("$(lsh)" + ":" + "$(formcode)", "column6", a1);
+
+			con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+
+			oe.midware.workflow.engine.rule2.func.STools st = new oe.midware.workflow.engine.rule2.func.STools();
+
+			List list = db
+
+					.queryData(
+
+							con,
+
+							"select t.* from DY_661338441749388 t,DY_661338441749389 t2 where t.fatherlsh=t2.lsh and t2.column3 in (select t3.column3 from DY_291344594829006 t3,DY_671340788796691 t4 where t3.fatherlsh = t4.lsh and t4.lsh = '$(lsh)')");
+
+			con = db.con("DATASOURCE.DATASOURCE.DYFORM");
+
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+
+				Map object = (Map) iterator.next();
+
+				oe.cav.bean.logic.bus.TCsBus busz = new oe.cav.bean.logic.bus.TCsBus();
+
+				busz.setFatherlsh("$(lsh)");
+
+				busz.setColumn3((String) object.get("column3"));
+
+				busz.setColumn4((String) object.get("column4"));
+				busz.setColumn5(object.get("column5") == null ? "0" : object
+						.get("column5").toString());
+				busz.setColumn6((String) object.get("column6"));
+
+				busz.setColumn8((String) object.get("column22"));
+
+				busz.setColumn9((String) object.get("column8"));
+
+				busz.setColumn10((String) object.get("column9"));
+
+				busz.setColumn12(object.get("column11") == null ? "0" : object
+						.get("column11").toString());
+
+				busz.setColumn13(object.get("column12") == null ? "0" : object
+						.get("column12").toString());
+
+				busz.setColumn14((String) object.get("column13"));
+
+				busz.setColumn15((String) object.get("column14"));
+
+				busz.setColumn16((String) object.get("column15"));
+
+				busz.setColumn17((String) object.get("column16"));
+
+				busz.setColumn18((String) object.get("column17"));
+
+				busz.setColumn22((String) object.get("column26"));
+
+				busz.setColumn23((String) object.get("column25"));
+
+				busz.setColumn24(object.get("column28") == null ? "0" : object
+						.get("column28").toString());
+
+				busz.setColumn25(object.get("column29") == null ? "0" : object
+						.get("column29").toString());
+
+				busz.setColumn26(object.get("column30") == null ? "0" : object
+						.get("column30").toString());
+
+				busz.setColumn27(object.get("column31") == null ? "0" : object
+						.get("column31").toString());
+
+				busz.setColumn28((String) object.get("column32"));
+
+				busz.setColumn29((String) object.get("column35"));
+
+				busz.setColumn30(object.get("column33") == null ? "0" : object
+						.get("column33").toString());
+
+				busz.setColumn31((String) object.get("column43"));
+
+				busz.setColumn32((String) object.get("column34"));
+
+				busz.setColumn33(object.get("column37") == null ? "0" : object
+						.get("column37").toString());
+
+				busz.setColumn34((String) object.get("column38"));
+
+				busz.setColumn35(object.get("column39") == null ? "0" : object
+						.get("column39").toString());
+
+				busz.setColumn36(object.get("column40") == null ? "0" : object
+						.get("column40").toString());
+
+				busz.setColumn37((String) object.get("column41"));
+
+				busz.setColumn39((String) object.get("column44"));
+				busz.setColumn40((String) object.get("column45"));
+				busz.setColumn41((String) object.get("column46"));
+
+				busz.setStatusinfo("00");
+
+				busz.setFormcode("a61c5973ce1b11e183c615f767bb9f54_");
+				busz.setTimex((new Timestamp(System.currentTimeMillis())
+						.toString()));
+
+				busz.setBelongx("");
+
+				busz.setParticipant("$(participant)");
+
+				busz.setCreated("");
+				busz.setLsh(java.util.UUID.randomUUID().toString().replace("-",
+						""));
+
+				st.dy_.addData("84bbd11aad4711e1bbb551abdbadc425_", busz);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

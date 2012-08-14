@@ -1393,7 +1393,7 @@ public class FrameActionExt extends AbstractAction {
 							|| "column89".equals(colid)
 
 							|| "column52".equals(colid)
-							
+
 							|| "column31".equals(colid)) {
 
 								subcolumnx[i].setHidden(false);
@@ -3633,7 +3633,7 @@ public class FrameActionExt extends AbstractAction {
 		boolean flag = false;
 		boolean flag_roop = true;
 		if (listx_1.size() > 0) {
-			flag = true;
+//			flag = true;
 		}
 		info = StringUtils.replace(info, "$(address)", address);
 		info = StringUtils.replace(info, "$(tel)", tel);
@@ -3708,38 +3708,43 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.PM)", object
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", (object
-					.getColumn26() == null || "0.00".equals(object.getColumn26().toString())) ? "" : (object.getColumn26()
-					.toString().replaceAll(".00", "") + "克"));
+					.getColumn26() == null || "0.00".equals(object
+					.getColumn26().toString())) ? "" : (object.getColumn26()
+					.toString().replace(".00", "") + "克"));
 			if (object.getColumn19() != null
 					&& ("dl001".equals(object.getColumn19().toString()) || "dl004"
 							.equals(object.getColumn19().toString()))) {
-				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", (object
-						.getColumn24() == null || "0.00".equals(object
-						.getColumn24().toString()))? "" : (object.getColumn24()
-						.toString().replaceAll(".00", "") + "ct"));
+				loopEach = StringUtils
+						.replace(
+								loopEach,
+								"$(loop.SZ)",
+								(object.getColumn24() == null || "0.00"
+										.equals(object.getColumn24().toString())) ? ""
+										: (object.getColumn24().toString()
+												.replace(".00", "") + "ct"));
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
 			}
 			loopEach = StringUtils.replace(loopEach, "$(loop.GF)", (object
 					.getColumn10() == null || "0.00".equals(object
-							.getColumn10().toString())) ? "" : (object.getColumn10()
-					.toString().replaceAll(".00", "") + "元"));
+					.getColumn10().toString())) ? "" : (object.getColumn10()
+					.toString().replace(".00", "") + "元"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.JPGF)", (object
-					.getColumn6() == null || "0.00".equals(object
-					.getColumn6().toString())) ? "" : (object.getColumn6()
-					.toString().replaceAll(".00", "") + "元"));
+					.getColumn6() == null || "0.00".equals(object.getColumn6()
+					.toString())) ? "" : (object.getColumn6().toString()
+					.replace(".00", "") + "元"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.DRJJ)", (object
-					.getColumn6() == null || "0.00".equals(object
-					.getColumn6().toString())) ? "" : (object.getColumn5()
-					.toString().replaceAll(".00", "") + "元/g"));
+					.getColumn6() == null || "0.00".equals(object.getColumn6()
+					.toString())) ? "" : (object.getColumn5().toString()
+					.replace(".00", "") + "元/g"));
 			loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", (object
 					.getColumn11() == null || "0.00".equals(object
 					.getColumn11().toString())) ? "" : (object.getColumn11()
-					.toString().replaceAll(".00", "") + "元"));
+					.toString().replace(".00", "") + "元"));
 			if (!flag) {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", object
 						.getColumn15() == null ? "" : (object.getColumn15()
-						.toString()).replaceAll(".00", ""));
+						.toString()).replace(".00", ""));
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
 			}
@@ -3748,8 +3753,7 @@ public class FrameActionExt extends AbstractAction {
 			loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", "");
 			but.append(loopEach);
 		}
-		info = StringUtils.replace(info, "$(sum)", sum.toString().replaceAll(
-				"", ""));
+		info = StringUtils.replace(info, "$(sum)", sum.toString());
 		info = StringUtils.replace(info, "$(shy)", shy);
 		info = StringUtils.replace(info, "$(loop-)" + loop + "$(-loop)", but
 				.toString());
@@ -4029,9 +4033,7 @@ public class FrameActionExt extends AbstractAction {
 		// }
 	}
 
-
 	public static String reSell(String selljson, String rejson) {
-
 
 		/**
 		 * 销售明细 <BR>
@@ -4094,9 +4096,10 @@ public class FrameActionExt extends AbstractAction {
 			return "{'price':0}";
 
 		/** 损耗数据 */
-		
-		List listx = DbTools.queryData("select * from dyform.DY_71344176619324 ");
-		
+
+		List listx = DbTools
+				.queryData("select * from dyform.DY_71344176619324 ");
+
 		Map damageMap = new HashMap();
 		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
@@ -4149,7 +4152,7 @@ public class FrameActionExt extends AbstractAction {
 
 			List list = DbTools
 					.queryData("select IFNULL(column17,0) as jz,IFNULL(column52,'') as purity from dyform.DY_271334208897441  where column4='"
-									+ code_ + "' limit 1 ");
+							+ code_ + "' limit 1 ");
 			if (list.size() > 0) {
 				Map xxx = (Map) list.get(0);
 				kimjoong_ = xxx.get("jz").toString();
@@ -5125,7 +5128,6 @@ public class FrameActionExt extends AbstractAction {
 
 			}
 		}
-
 
 		return pricecount.toString().replace("^^+", "");
 	}

@@ -1072,6 +1072,7 @@ public final class DyFormBuildHtmlExt {
 
 		// start
 		// 特殊操作 直接允许编辑
+		boolean isconfirmstatus = isedit == false ? true : false;
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		if (editcolumns.length > 0) {
@@ -1120,7 +1121,9 @@ public final class DyFormBuildHtmlExt {
 
 			// 特殊操作 指定编辑
 			if (editcolumns.length > 0) {
-				// _qc1.setReadonly(true);
+				if (isconfirmstatus) {
+					_qc1.setReadonly(true);
+				}
 				for (int j = 0; j < editcolumns.length; j++) {
 					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
@@ -1197,6 +1200,7 @@ public final class DyFormBuildHtmlExt {
 		}
 
 		// start
+		boolean isconfirmstatus = isedit == false ? true : false;
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		if (editcolumns.length > 0) {
@@ -1244,7 +1248,9 @@ public final class DyFormBuildHtmlExt {
 
 			// 特殊操作 指定编辑
 			if (editcolumns.length > 0) {
-				// _qc1.setReadonly(true);
+				if (isconfirmstatus) {
+					_qc1.setReadonly(true);
+				}
 				for (int j = 0; j < editcolumns.length; j++) {
 					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
@@ -1311,6 +1317,7 @@ public final class DyFormBuildHtmlExt {
 		}
 
 		// start
+		boolean isconfirmstatus = isedit == false ? true : false;
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		if (editcolumns.length > 0) {
@@ -1361,7 +1368,9 @@ public final class DyFormBuildHtmlExt {
 
 			// 特殊操作 指定编辑
 			if (editcolumns.length > 0) {
-				// _qc1.setReadonly(true);
+				if (isconfirmstatus) {
+					_qc1.setReadonly(true);
+				}
 				for (int j = 0; j < editcolumns.length; j++) {
 					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);
@@ -2021,6 +2030,7 @@ public final class DyFormBuildHtmlExt {
 		String formcode = dyform.getFormcode();
 
 		// start
+		boolean isconfirmstatus = isedit == false ? true : false;
 		String[] editcolumns = DyEntry.iv().manageColumn(formcode,
 				user.getUserCode());
 		if (editcolumns.length > 0) {
@@ -2058,7 +2068,9 @@ public final class DyFormBuildHtmlExt {
 
 			// 特殊操作 指定编辑
 			if (editcolumns.length > 0) {
-				// _qc1.setReadonly(true);
+				if (isconfirmstatus) {
+					_qc1.setReadonly(true);
+				}
 				for (int j = 0; j < editcolumns.length; j++) {
 					if (columnid.equalsIgnoreCase(editcolumns[j])) {
 						_qc1.setReadonly(false);

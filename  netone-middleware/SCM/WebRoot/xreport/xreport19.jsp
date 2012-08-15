@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -465,6 +466,11 @@ html.VIE7 .form_fieldinput {
 		$(function() {
 			$("#tabs").tabs();
 			$('#tabs').tabs('select', "tabs");
+			<rs:permission action="7" resource="BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE1,BUSSENV.BUSSENV.SECURITY.ROLE.ZBROLE.ROLE3">
+			</rs:permission>
+			var obj=$('table#xreport').find('#yh'); 
+			obj.val('<rs:logininfo />');
+			alert('<rs:logininfo />'); 
 		});
 		
 	</script>
@@ -548,6 +554,14 @@ html.VIE7 .form_fieldinput {
 													onFocus="this.select()" />
 												<input type="text" id="repstrdim4" name="repstrdim4"
 													style="width: 99.0px" unselectable="off"
+													onFocus="this.select()" />
+											</div>
+										</div>
+										<div class="form_fieldcontent" style="width: 196px">
+											<div class="form_fieldinput" style="width: 136px;"
+												align="left">
+												<input type="hidden" id="yh"
+													name="yh" value="" unselectable="off"
 													onFocus="this.select()" />
 											</div>
 										</div>

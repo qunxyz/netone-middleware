@@ -59,6 +59,8 @@ public class ReportX19Action extends AbstractAction {
 		String repstrdim13 = request.getParameter("repstrdim13");
 		// 手机号码
 		String repstrdim4 = request.getParameter("repstrdim4");
+		//用户
+		String yh = request.getParameter("yh");
 		StringBuffer sb = new StringBuffer();
 
 		/** 首饰销售明细表 */
@@ -125,7 +127,7 @@ public class ReportX19Action extends AbstractAction {
 		sb
 				.append("LEFT JOIN dyform.DY_131337490209098 khxx ON khxx.column27 = t.column13 ");
 		sb
-				.append("WHERE t.STATUSINFO='01' AND t1.STATUSINFO='01' AND fxrh.STATUSINFO = '03'");
+				.append("WHERE t.STATUSINFO='01' AND t1.STATUSINFO='01' AND fxrh.STATUSINFO = '03' AND t.column8 in (SELECT column4 FROM dyform.DY_61336130537483 WHERE column21 LIKE '%"+ yh  +"[%')");
 		if (StringUtils.isNotEmpty(repstrdim3))
 			sb.append(" AND t.column12 like '%" + repstrdim3 + "%' ");
 		if (StringUtils.isNotEmpty(repstrdim13))

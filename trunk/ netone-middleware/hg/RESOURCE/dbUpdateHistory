@@ -1,5 +1,5 @@
 /** */ 
-DROP TABLE IF EXISTS `t_partproduct`;
+DROP TABLE IF EXISTS iss.`t_partproduct`;
 CREATE TABLE `t_partproduct` (
   `rid` VARCHAR(32) NOT NULL,
   `partId` VARCHAR(32) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE `t_partproduct` (
   KEY `index_type` (`type`)
 ) ENGINE=INNODB DEFAULT CHARSET=gbk;
 
-DROP TABLE IF EXISTS `t_dic`;
+DROP TABLE IF EXISTS iss.`t_dic`;
 CREATE TABLE `t_dic` (
   `sid` VARCHAR(32) NOT NULL,
   `code` VARCHAR(45) NOT NULL,
@@ -25,4 +25,4 @@ CREATE TABLE `t_dic` (
 ) ENGINE=INNODB DEFAULT CHARSET=gbk;
 
 
-insert  into `t_dic`(`sid`,`code`,`name`,`type`,`operate`,`operateTime`) values ('684a303ce5af11e18d0e6cf04976618c','0001','有卖','productBussCate','adminx','2012-08-14 09:31:32'),('a08e8fdee5af11e18d0e6cf04976618c','0002','想卖','productBussCate','adminx','2012-08-14 09:30:59'),('a8124d05e5af11e18d0e6cf04976618c','0003','不想卖','productBussCate','adminx','2012-08-14 09:31:12');
+insert  into iss.`t_dic`(`sid`,`code`,`name`,`type`,`operate`,`operateTime`) values ('684a303ce5af11e18d0e6cf04976618c','0001','有卖','productBussCate','adminx','2012-08-14 09:31:32'),('a08e8fdee5af11e18d0e6cf04976618c','0002','想卖','productBussCate','adminx','2012-08-14 09:30:59'),('a8124d05e5af11e18d0e6cf04976618c','0003','不想卖','productBussCate','adminx','2012-08-14 09:31:12');

@@ -3633,7 +3633,7 @@ public class FrameActionExt extends AbstractAction {
 		boolean flag = false;
 		boolean flag_roop = true;
 		if (listx_1.size() > 0) {
-//			flag = true;
+			flag = true;
 		}
 		info = StringUtils.replace(info, "$(address)", address);
 		info = StringUtils.replace(info, "$(tel)", tel);
@@ -3686,25 +3686,14 @@ public class FrameActionExt extends AbstractAction {
 					}
 					String rejson = "[" + jsonBuffer_1.toString() + "]";
 					loopEach = loop;
-					loopEach = StringUtils.replace(loopEach, "$(loop.HH)", "");
-					loopEach = StringUtils.replace(loopEach, "$(loop.PM)", "");
-					loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", "");
-					loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
-					loopEach = StringUtils.replace(loopEach, "$(loop.GF)", "");
-					loopEach = StringUtils
-							.replace(loopEach, "$(loop.DRJJ)", "");
-					loopEach = StringUtils.replace(loopEach, "$(loop.SJ)", "");
-					loopEach = StringUtils
-							.replace(loopEach, "$(loop.JPGF)", "");
-					loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)",
-							String.valueOf(sum));
-					loopEach = StringUtils.replace(loopEach, "$(loop.TJ)",
-							reSell(selljson, rejson));
+					loopEach = StringUtils.replace(loopEach, "$(loop.XXDY)", "<td colspan=\"5\" width=\"441\">" + reSell(selljson, rejson) + "</td>");
+					loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)",String.valueOf(sum) + "Ԫ");
 					but.append(loopEach);
 					flag_roop = false;
 					continue;
 				}
 			}
+			loopEach = StringUtils.replace(loopEach, "$(loop.XXDY)", "<td width=\"206\" valign=\"bottom\">$(loop.HH) $(loop.PM)</td><td colspan=\"4\" width=\"235\" valign=\"bottom\">$(loop.JZ) $(loop.DRJJ) $(loop.SZ) $(loop.GF) $(loop.JPGF) $(loop.SJ)</td>");
 			loopEach = StringUtils.replace(loopEach, "$(loop.PM)", object
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", (object
@@ -3744,16 +3733,15 @@ public class FrameActionExt extends AbstractAction {
 			if (!flag) {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", object
 						.getColumn15() == null ? "" : (object.getColumn15()
-						.toString()).replace(".00", ""));
+						.toString()).replace(".00", "") + "Ԫ");
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
 			}
 			loopEach = StringUtils.replace(loopEach, "$(loop.HH)", object
 					.getColumn23() == null ? "" : object.getColumn23());
-			loopEach = StringUtils.replace(loopEach, "$(loop.TJ)", "");
 			but.append(loopEach);
 		}
-		info = StringUtils.replace(info, "$(sum)", sum.toString());
+		info = StringUtils.replace(info, "$(sum)", sum.toString()+"Ԫ");
 		info = StringUtils.replace(info, "$(shy)", shy);
 		info = StringUtils.replace(info, "$(loop-)" + loop + "$(-loop)", but
 				.toString());

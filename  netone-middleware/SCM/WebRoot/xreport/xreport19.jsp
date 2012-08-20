@@ -470,7 +470,6 @@ html.VIE7 .form_fieldinput {
 			</rs:permission>
 			var obj=$('table#xreport').find('#yh'); 
 			obj.val('<rs:logininfo />');
-			alert('<rs:logininfo />'); 
 		});
 		
 	</script>

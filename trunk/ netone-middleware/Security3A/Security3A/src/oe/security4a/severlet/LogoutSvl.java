@@ -41,6 +41,7 @@ public class LogoutSvl extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType(CONTENT_TYPE);
 		String gotourl = request.getParameter("gotourl");
+		gotourl=StringUtils.replace(gotourl, "$99$", "&");
 
 		String ssourl = SecurityConfig.getInstance().getSsoServerUrl();
 		// 补充功能- 针对登陆用户的改进,只能允许一个帐户登陆一次

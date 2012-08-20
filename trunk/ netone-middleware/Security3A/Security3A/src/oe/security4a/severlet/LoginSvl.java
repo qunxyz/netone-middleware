@@ -58,7 +58,6 @@ public class LoginSvl extends HttpServlet
     throws ServletException, IOException
   {
     response.setContentType("text/html; charset=GBK");
-    System.out.println("-----"+request.getParameter("oajump"));
     request.getSession().setAttribute("oajump", request.getParameter("oajump"));
 
     String username = StringUtil.iso8859toGBK(request

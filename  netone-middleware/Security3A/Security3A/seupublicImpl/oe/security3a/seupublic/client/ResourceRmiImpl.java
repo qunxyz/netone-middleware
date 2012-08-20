@@ -10,8 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import oe.env.client.EnvService;
 import oe.frame.orm.OrmerEntry;
 import oe.frame.web.WebCache;
+import oe.rmi.client.RmiEntry;
 import oe.security3a.SeumanEntry;
 import oe.security3a.SeuserEntry;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -209,6 +211,20 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 		if (!WebCache.containCache("NID_" + id)) {
 			UmsProtectedobject upo = (UmsProtectedobject) pos.fetchDao()
 					.loadObject(UmsProtectedobject.class, id);
+			EnvService env;
+			try {
+				env = (EnvService) RmiEntry.iv("envinfo");
+				String source1=env.fetchEnvValue("source1");
+				String source2=env.fetchEnvValue("source2");
+				String actionurl=upo.getActionurl();
+				if(upo.getNaturalname().startsWith("FRAMEPG.FRAMEPG")&&StringUtils.isNotEmpty(actionurl)){
+					actionurl=StringUtils.replace(actionurl, source1, source2);
+					upo.setActionurl(actionurl);
+				}
+
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			WebCache.setCache("NID_" + id, upo, null);
 			return upo;
 		} else {
@@ -233,6 +249,22 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 						+ " 对应的资源数为：" + list.size());
 			}
 			UmsProtectedobject upo = (UmsProtectedobject) list.get(0);
+			EnvService env;
+			try {
+				env = (EnvService) RmiEntry.iv("envinfo");
+				String source1=env.fetchEnvValue("source1");
+				String source2=env.fetchEnvValue("source2");
+				String actionurl=upo.getActionurl();
+				if(upo.getNaturalname().startsWith("FRAMEPG.FRAMEPG")&&StringUtils.isNotEmpty(actionurl)){
+					actionurl=StringUtils.replace(actionurl, source1, source2);
+					upo.setActionurl(actionurl);
+				}
+
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			
 			WebCache.setCache("NA_" + naturalname, upo, null);
 			return upo;
 		} else {
@@ -498,8 +530,28 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 			Map comparisonKey, int from, int to, String conditionPre)
 			throws RemoteException {
 
-		return pos.fetchDao().queryObjects(upo, comparisonKey, from, to,
+		List list= pos.fetchDao().queryObjects(upo, comparisonKey, from, to,
 				conditionPre);
+		if(upo!=null&upo.getNaturalname()!=null&&upo.getNaturalname().startsWith("FRAMEPG.FRAMEPG")){
+			
+			EnvService env;
+			try {
+				env = (EnvService) RmiEntry.iv("envinfo");
+				String source1=env.fetchEnvValue("source1");
+				String source2=env.fetchEnvValue("source2");
+				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+					UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+					String actionurl=object.getActionurl();
+					if(StringUtils.isNotEmpty(actionurl)){
+						actionurl=StringUtils.replace(actionurl, source1, source2);
+						object.setActionurl(actionurl);
+					}
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return list;
 	}
 
 	public long queryObjectNumberProtectedObj(UmsProtectedobject upo,

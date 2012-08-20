@@ -7,16 +7,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import oe.cav.bean.logic.bus.TCsBus;
 import oe.cav.bean.logic.column.TCsColumn;
+import oe.env.client.EnvService;
 import oe.midware.dyform.service.DyFormService;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.derby.tools.sysinfo;
+
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -25,10 +27,26 @@ import org.dom4j.Element;
 
 import com.jl.common.ScriptTools;
 import com.jl.common.workflow.DbTools;
-import com.jl.common.workflow.WfEntry;
 import com.sun.org.apache.commons.beanutils.BeanUtils;
 
 public class DyAnalysisXml {
+	static String source1=null;
+	static String source2=null;
+	static{
+		try{
+			
+			EnvService env;
+				env = (EnvService) RmiEntry.iv("envinfo");
+				 source1=env.fetchEnvValue("source1");
+				 source2=env.fetchEnvValue("source2");
+
+		}catch(Exception e){
+			e.printStackTrace();
+			source1=null;
+			source2=null;
+		}
+	}
+	
 	// 脚本的使用
 	public List  script2(String formid, List param)throws Exception {
 		String mxlstr = null;
@@ -132,6 +150,7 @@ public class DyAnalysisXml {
 		public String dealWithResourceScript(String script,String rsHead) throws  Exception{
 			//针对脚本资源对象调度处理，可通过naturalname去调度脚本通过？key=value#key2=value2的方式来传递参数
 			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+			String scirptfinal=null;
 			if(StringUtils.isNotEmpty(script)&&script.trim().startsWith(rsHead)){
 				String scriptContect=StringUtils.substringBefore(script, "?");
 				String ext=rs.loadResourceByNatural(scriptContect).getExtendattribute();
@@ -144,10 +163,14 @@ public class DyAnalysisXml {
 						ext=StringUtils.replace(ext, key, param[1]);
 					}
 				}
-				return ext;
+				scirptfinal= ext;
 			}else{
-				return script;
+				scirptfinal= script;
 			}
+			if(source1!=null&&source2!=null){
+				scirptfinal=StringUtils.replace(scirptfinal, source1, source2);
+			}
+			return scirptfinal;
 		}
 	// 脚本的使用
 	public Object scriptPre(String formid, TCsBus bus,String mode)
@@ -231,6 +254,10 @@ public class DyAnalysisXml {
 			Element configEle = (Element) iter.next();
 			script = configEle.getText();
 		}
+		if(source1!=null&&source2!=null){
+			script=StringUtils.replace(script, source1, source2);
+		}
+	
 		return script;
 	}
 

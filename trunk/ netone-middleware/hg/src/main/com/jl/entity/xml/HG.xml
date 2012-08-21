@@ -4,26 +4,76 @@
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="HG">
 
-	<!-- 查找行政区划与组织机构的关联关系 -->
+	<!-- 查找销售数据 -->
 	<select id="findPartAProductRelation" parameterClass="java.util.Map" resultClass="java.util.HashMap">
 		select 
 			distinct t3.FItemID productId,
 			t1.FSupplyID partId,
-			t3.FFullNumber productCode,
+			org.FName as partName,
+			t3.FNumber productCode,
 			t3.FName productName,
 			'684a303ce5af11e18d0e6cf04976618c' as type,
+			t3.F_105 as productLSH,/**条型码*/
 			'' nLevel,
 			'' level,
 			'' nLevelName,
 		    '产品' levelName
 		from ICStockBill t1 
 		left join ICstockBillEntry t2 on t1.FInterID=t2.FInterID
-		left join t_item t3 on t3.FItemID=t2.FItemID
+		left join t_ICItem t3 on t3.FItemID=t2.FItemID
+		left join t_Organization org on org.FItemID=t1.FSupplyID
 		where t1.FSupplyID=#partId# and t3.FDeleted=0
-		order by t3.FFullNumber
+		<!-- 排除已关联类别的产品 -->
+		<isNotEmpty property="productIds" prepend="and">
+			t2.FItemID not in (
+				$productIds$
+			)
+		</isNotEmpty>
+		order by t3.FNumber
 	</select>
 	
-	<!-- 加载部门/公司父根节点 HG数据源-->
+	<!-- 查找想卖数据 -->
+	<select id="findPartAProductRelation2" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+			distinct FItemID productId,
+			'$partId$' partId,
+			(select FName from t_Organization where FItemId='$partId$') as partName,
+			FNumber productCode,
+			FName productName,
+			'a08e8fdee5af11e18d0e6cf04976618c' as type,
+			F_105 as productLSH,/**条型码*/
+			'' nLevel,
+			'' level,
+			'' nLevelName,
+		    '产品' levelName
+		from t_ICItem 
+		where FDeleted=0
+		<!-- 排除已关联类别的产品 -->
+		<isNotEmpty property="productIds" prepend="and">
+			FItemID not in (
+				$productIds$
+			)
+		</isNotEmpty>
+		order by FNumber
+	</select>
+	
+	<!-- 查找有卖的销售产品信息是否最新 -->
+	<select id="findSellInfoIsNew" parameterClass="java.util.Map" resultClass="int">
+		select 
+			count(distinct t3.FItemID) as countx
+		from ICStockBill t1 
+		left join ICstockBillEntry t2 on t1.FInterID=t2.FInterID
+		left join t_ICItem t3 on t3.FItemID=t2.FItemID
+		where t1.FSupplyID=#partId# and t3.FDeleted=0
+		<!-- 排除已关联类别的产品 -->
+		<isNotEmpty property="productIds" prepend="and">
+			t2.FItemID not in (
+				$productIds$
+			)
+		</isNotEmpty>
+	</select>
+	
+	<!-- 加载网点父根节点 HG数据源-->
 	<select id="loadPartRoot" parameterClass="java.lang.String"
 		resultClass="java.util.HashMap">
 			SELECT 
@@ -39,13 +89,13 @@
 			order by t.FFullNumber
 	</select>
 	
-	<!-- 根据上级分类查找子分类　HG数据源-->
+	<!-- 根据上级分类查找子网点　HG数据源-->
 	<select id="findChildPart" parameterClass="java.util.Map"
 		resultClass="java.util.HashMap">
 			SELECT 
 			   t.FItemID partId,
-			   t.FName partName,
 			   t.FFullNumber partCode,
+			   t.FName partName,
 			   t.FParentID parentPartId,
 			   tt.FFullNumber parentPartCode,
 			   tt.FName parentPartName
@@ -60,8 +110,14 @@
 			order by t.FFullNumber
 	</select>
 	
-
-	<!-- 产品 根据上级分类查找子分类　-->
+	<!-- 查找所有客户 -->
+	<select id="selectAllOrganization" parameterClass="string" resultClass="java.util.HashMap">
+		SELECT 
+			FItemID partId,FNumber partCode,FName partName
+		FROM t_Organization where FDeleted=0
+	</select>
+	
+	<!-- 产品分类 根据上级分类查找子分类　-->
 	<select id="findChildCategories" parameterClass="java.lang.String"
 		resultClass="java.util.HashMap">
 			SELECT 
@@ -79,19 +135,42 @@
 			 and t.FDeleted=0  and tt.FDeleted=0
 	</select>
 	
-	<!-- 查找所有产品的名称和产品的ID号 -->
+	<!-- 查找所有产品的名称和产品的ID号 过时 -->
 	<select id="findProductSetByPC" parameterClass="java.util.Map" resultClass="java.util.HashMap">
 		SELECT 
-			FItemID as productId,FFullNumber as productCode,FName as productName 
-		FROM t_item 
-		where FItemClassID=4 and FDeleted=0
+			FItemID as productId,FNumber as productCode,FName as productName,F_105 as productLSH/**条型码*/
+		FROM t_ICItem 
+		where FDeleted=0
 			<isNotEmpty property="categoriesId" prepend="and">
 				FParentID = #categoriesId#
 			</isNotEmpty>
 			<isNotEmpty property="condition" prepend="and">
 				(FShortNumber like '%$condition$%' or
 				FName like '%$condition$%')
-			</isNotEmpty>			
+			</isNotEmpty>
 	</select>
 	
+	<!-- 查找所有产品的名称和产品的ID号 过时 -->
+	<select id="findProductSetByPC2" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			FItemID as productId,FNumber as productCode,FName as productName,F_105 as productLSH/**条型码*/
+		FROM t_ICItem 
+		where FDeleted=0
+			<isNotEmpty property="categoriesId" prepend="and">
+				FParentID = #categoriesId#
+			</isNotEmpty>
+			<isNotEmpty property="condition" prepend="and">
+				(FShortNumber like '%$condition$%' or
+				FName like '%$condition$%')
+			</isNotEmpty>
+			<!-- 排除已关联类别的产品 -->
+			<isNotEmpty property="productIds" prepend="and">
+				FItemID in (
+					$productIds$
+				)
+			</isNotEmpty>
+			<isEmpty property="productIds" prepend="and">
+				FItemID = 0
+			</isEmpty>
+	</select>
 </sqlMap>

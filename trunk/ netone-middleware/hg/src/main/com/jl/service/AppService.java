@@ -18,7 +18,7 @@ public interface AppService {
 	public void findPartTree(HttpServletRequest request,
 			HttpServletResponse response);
 
-	public void findPartAProductRelation(HttpServletRequest request,
+	public void savePartAProductRelation(HttpServletRequest request,
 			HttpServletResponse response);
 
 	public void findCategoriesTree(HttpServletRequest request,
@@ -26,8 +26,30 @@ public interface AppService {
 
 	public void findProductSetByPC(HttpServletRequest request,
 			HttpServletResponse response);
+	
+	
+	public void findProductSetByParentId(HttpServletRequest request,
+			HttpServletResponse response);
 
 	public void relatePartAProduct(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 同步产品有卖，想卖数据
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void syncProductData(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 导出网点产品
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void exportPartAndProduct(HttpServletRequest request,
 			HttpServletResponse response);
 
 }

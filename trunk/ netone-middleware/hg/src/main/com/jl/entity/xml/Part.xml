@@ -148,7 +148,8 @@
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="type">
 			t.type = #type#
-		</isNotEmpty>		
+		</isNotEmpty>
+		order by t.partName,t.productName,dic.name
 	</select>
 	
 </sqlMap>

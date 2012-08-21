@@ -432,7 +432,14 @@ html.VIE7 .form_fieldinput {
 		        msg: '正在搜索请稍候......'
 		    });
 		    **/
-		    
+		    if ($('#productName').val()==''){
+					$('#productId').val('');
+					$('#productName').val('');
+			}
+			if ($('#partName').val()==''){
+					$('#partId').val('');
+					$('#partName').val('');
+			}
 		    
 		    var formatstr = "&format="+$('#format').val();
 		    var form1 = document.getElementById('_xreport_form');
@@ -501,6 +508,77 @@ html.VIE7 .form_fieldinput {
 			$("#tabs").tabs();
 			$('#tabs').tabs('select', "tabs");
 			loadCates();
+			
+			//网点联想
+			$('#partName').autocomplete('<c:url value="/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT"/>', {
+				multiple: true,
+				dataType: "json",
+				autoFill: false,
+				mustMatch: true,
+				matchContains: true,
+				scrollHeight: 220,
+				parse: function(data) {
+					return $.map(data, function(row) {
+						return {
+							data: row,
+							value: row.FName,
+							result: row.FName
+						}
+					});
+				},
+				formatItem: function(item) {
+					return  item.FShortNumber+' '+item.FName;
+				},
+				formatResult: function(item) {
+					return item.FName;
+				}
+			
+			})
+			.result(function(e, item) {
+				if(item!=null){
+					$('#partId').val(item.FItemID);
+					$('#partName').val(item.FName);
+				} else {
+					$('#partId').val('');
+					$('#partName').val('');
+				}
+			});
+			
+			//产品联想
+			$('#productName').autocomplete('<c:url value="/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT"/>', {
+				multiple: true,
+				dataType: "json",
+				autoFill: false,
+				mustMatch: true,
+				matchContains: true,
+				scrollHeight: 220,
+				parse: function(data) {
+					return $.map(data, function(row) {
+						return {
+							data: row,
+							value: row.FName,
+							result: row.FName
+						}
+					});
+				},
+				formatItem: function(item) {
+					return  item.FShortNumber+' '+item.FName;
+				},
+				formatResult: function(item) {
+					return item.FName;
+				}
+			
+			})
+			.result(function(e, item) {
+				if(item!=null){
+					$('#productId').val(item.FItemID);
+					$('#productName').val(item.FName);
+				} else {
+					$('#productId').val('');
+					$('#productName').val('');
+				}
+			});
+			
 		});
 		
 	</script>
@@ -518,10 +596,7 @@ html.VIE7 .form_fieldinput {
 				<div id="tabs" style="height: 100%;">
 					<ul>
 						<li>
-							<a href="#tabs-1" onclick="" class="ui-tabs-selected">查询依据</a>
-						</li>
-						<li>
-							<a href="#tabs-2" onclick="">报表查询</a>
+							<a href="#tabs-1" onclick="" class="ui-tabs-selected">网点产品情况表</a>
 						</li>
 					</ul>
 					<div id="tabs-1">
@@ -541,7 +616,7 @@ html.VIE7 .form_fieldinput {
 											<div class="form_fieldinput" style="width: 332px;"
 												align="left">
 												<input id="partId" name="partId" type="hidden" />
-												<input id="partName" name="partName" readonly="readonly" style="width: 307.0px" onclick="openclientselect();"/>
+												<input id="partName" name="partName" style="width: 307.0px" />
 												<input type="button" value="..." onclick="openclientselect()" />
 											</div>
 										</div>
@@ -557,7 +632,7 @@ html.VIE7 .form_fieldinput {
 											<div class="form_fieldinput" style="width: 332px;"
 												align="left">
 												<input id="productId" name="productId" type="hidden" />
-												<input id="productName" name="productName" readonly="readonly" style="width: 307.0px"/>
+												<input id="productName" name="productName" style="width: 307.0px" />
 												<input type="button" value="..." onclick="openproductselect()" />
 											</div>
 										</div>
@@ -579,6 +654,22 @@ html.VIE7 .form_fieldinput {
 										</div>
 									</td>
 								</tr>
+								<tr>
+									<td align="center">
+										报表输出格式:
+										<select id="format" name="format">
+											<option value="html" selected="selected">
+												网页
+											</option>
+											<option value="excel">
+												excel
+											</option>
+											<option value="pdf">
+												pdf
+											</option>
+										</select>
+									</td>
+								</tr>
 							</table>
 							<input type="hidden" id="_REPORTID" name="_REPORTID"  />
 						</form>
@@ -587,42 +678,6 @@ html.VIE7 .form_fieldinput {
 							<input type="button" value="查询" onclick="query();" class="btn">
 						</div>
 					</div>
-					<div id="tabs-2">
-
-						<table border="0" align="center">
-							<tr>
-								<td>
-									<input type="radio" id="_REPORTIDKEY" name="_REPORTIDKEY" checked="checked" />
-									&nbsp;网点产品情况表
-								</td>
-							</tr>
-
-
-							<tr>
-								<td>
-									报表输出格式:
-									<select id="format" name="format">
-										<option value="html" selected="selected">
-											网页
-										</option>
-										<option value="excel">
-											excel
-										</option>
-										<option value="pdf">
-											pdf
-										</option>
-									</select>
-								</td>
-							</tr>
-						</table>
-
-
-						<div align='center'>
-							<BR>
-							<input type="button" value="查询" onclick="query();" class="btn">
-						</div>
-					</div>
-
 
 
 				</div>

@@ -4,20 +4,23 @@
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="Part">
 	
-	<!-- 查找行政区划与组织机构的关联关系 -->
+	<!-- 查找网点与产品的关联关系 -->
 	<select id="findPartAProductRelation" parameterClass="java.util.Map" resultClass="java.util.HashMap">
 		select
 			t.partId,
+			t.partName,
 			t.productId,
 			t.productCode,
 			t.productName,
+			t.productLSH,
+			t.status,
 			t.type,
 			'' nLevel,
 			'' level,
 			'' nLevelName,
 		    '产品' levelName
 		from t_partproduct t
-		where t.partId = #partId#
+		where t.partId = #partId# and status = 0
 		<isNotEmpty prepend="and" property="productCode">
 			(t.productCode like '%$productCode$%' or t.productName like '%$productCode$%')
 		</isNotEmpty>
@@ -28,22 +31,124 @@
 	</select>
 	
 	<select id="findPartAProductIsExist" parameterClass="java.util.Map" resultClass="int">
-		select count(*) from t_partproduct where partId = #partId# and productId = #productId# and type=#type#
+		select count(*) from t_partproduct where partId = #partId# and productId = #productId# and status=0
 	</select>
 	<!-- 添加关联 -->
 	<insert id="appendPartAProductRelation" parameterClass="java.util.Map">
-		insert into t_partproduct (rid,partId,productId,productCode,productName,type) values (
+		insert into t_partproduct (rid,partId,partName,productId,productCode,productName,productLSH,type) values (
 			REPLACE(UUID(),'-',''),
 			#partId#,
+			#partName#,
 			#productId#,
 			#productCode#,
 			#productName#,
+			#productLSH#,
 			#type#
 		)
 	</insert>
+	
+	<!-- 更新关联 -->
+	<update id="updatePartAProductRelation" parameterClass="java.util.Map">
+		update t_partproduct set status=#status#,type=#type# where partId = #partId# and productId = #productId#
+	</update>
+	
 	<!-- 移除关联 -->
 	<delete id="removePartAProductRelation" parameterClass="java.util.Map">
 		delete from t_partproduct where partId = #partId# and productId = #productId#
 	</delete>
+	
+	<!-- 查找状态 -->
+	<select id="findPartAProductByOne" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select * from t_partproduct where partId = #partId# and productId = #productId#
+	</select>
+	
+	<!-- 获取关联有卖产品字符串 -->
+	<select id="getRelationProductByPartId" parameterClass="string" resultClass="string">
+		SELECT distinct productId as str FROM t_partproduct WHERE partId=#partId# and type='684a303ce5af11e18d0e6cf04976618c'
+	</select>
+	
+	<!-- 获取关联产品字符串 status=0 -->
+	<select id="getRelationProductByPartIdStatus0" parameterClass="string" resultClass="string">
+		SELECT distinct productId as str FROM t_partproduct WHERE partId=#partId# and status=0
+	</select>
+	
+	<!-- 获取关联产品字符串 status=0 -->
+	<select id="getRelationProductByPartIdStatus1" parameterClass="string" resultClass="string">
+		SELECT distinct productId as str FROM t_partproduct WHERE partId=#partId# and status=1
+	</select>
+	
+	
+	<!-- 获取关联产品字符串 有卖与不想卖 -->
+	<select id="getRelationProductByPartId13" parameterClass="string" resultClass="string">
+		select
+			distinct productId as str
+		from t_partproduct t
+		where t.partId = #partId#
+		and t.type not in ('a08e8fdee5af11e18d0e6cf04976618c')
+	</select>
+	
+	<!-- 获取NOT关联产品字符串 有卖与不想卖 -->
+	<select id="getNotRelationProductByPartId13" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select
+			t.productId,
+			t.partId,
+			t.partName,
+			t.productCode,
+			t.productName,
+			t.productLSH,
+			t.status,
+			t.type,
+			'' nLevel,
+			'' level,
+			'' nLevelName,
+		    '产品' levelName
+		from t_partproduct t
+		where t.partId = #partId# and status = 0
+		and t.productId not in (
+				$productIds$
+			)
+		and t.type in ('a08e8fdee5af11e18d0e6cf04976618c')
+	</select>
+	
+	<!-- 检查想卖是否存在 -->
+	<select id="checkPartId3IsExist" parameterClass="java.util.Map" resultClass="int">
+		select
+			ifnull(count(*),0) as v
+		from t_partproduct t
+		where t.partId = #partId#
+		and t.productId = #productId#
+		and t.type in ('a08e8fdee5af11e18d0e6cf04976618c')
+	</select>
+	
+	<!-- 打印导出网点产品报表 -->
+	<select id="selectPartAndProduct" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+			ifnull(t.partName,'') as partName,
+			ifnull(t.productName,'') as productName,
+			ifnull(t.productLSH,'') as productLSH,
+			ifnull(dic.name,'') as typename
+		from t_partproduct t
+		left join t_dic dic on dic.sid=t.type
+		where t.status=0
+		<!-- 网点 -->
+		<isNotEmpty prepend="and" property="partId">
+			t.partId in
+			<iterate property="partId" open="(" close=")"
+						conjunction=",">
+				#partId[]#
+			</iterate>
+		</isNotEmpty>
+		<!-- 产品ID -->
+		<isNotEmpty prepend="and" property="productId">
+			t.productId in
+			<iterate property="productId" open="(" close=")"
+						conjunction=",">
+				#productId[]#
+			</iterate>
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="type">
+			t.type = #type#
+		</isNotEmpty>		
+	</select>
 	
 </sqlMap>

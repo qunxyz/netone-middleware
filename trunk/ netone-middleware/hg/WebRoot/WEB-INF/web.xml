@@ -12,7 +12,7 @@
 	<!--start 配置log4j的File Appender 引用上下文路径 -->
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>NDYDWebApp.root</param-value>
+		<param-value>HGWebApp.root</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>

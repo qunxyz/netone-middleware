@@ -49,7 +49,7 @@ public class AppAction extends AbstractAction {
 		AppService service = (AppService) WebApplicationContextUtils
 				.getRequiredWebApplicationContext(servlet.getServletContext())
 				.getBean("appService");
-		service.findPartAProductRelation(request, response);
+		service.savePartAProductRelation(request, response);
 	}
 
 	// 关联区域与公司页面
@@ -72,6 +72,69 @@ public class AppAction extends AbstractAction {
 				.getRequiredWebApplicationContext(servlet.getServletContext())
 				.getBean("appService");
 		service.relatePartAProduct(request, response);
+	}
+
+	// 同步产品数据
+	public void syncProductData(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.syncProductData(request, response);
+	}
+
+	// 导出网点产品情况表
+	public ActionForward exportPartAndProductViewMain(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String forward = "/app/partAndProductReport.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 导出网点产品情况表
+	public void exportPartAndProduct(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.exportPartAndProduct(request, response);
+	}
+
+	// HG网点选择
+	public ActionForward clientMultiSelectMain(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String forward = "/app/clientMultiSelect.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 产品选择
+	public ActionForward productMultiSelectMain(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String forward = "/app/productMultiSelect.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 产品列表根据父ID过滤产品数据
+	public void findProductSetByParentId(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.findProductSetByParentId(request, response);
 	}
 
 }

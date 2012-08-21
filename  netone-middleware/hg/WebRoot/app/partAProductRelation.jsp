@@ -12,6 +12,7 @@
 	<body>
 		<input type="hidden" id="parentCategoriesId" name="parentCategoriesId"/>
 		<input type="hidden" id="node" name="node"/>
+		<input type="hidden" id="nodename" name="nodename"/>
 		<input type="hidden" id="parentProductId" name="parentProductId" value="0"/>
 		<input type="hidden" id="list" name="list" value="all"/>
 	</body>
@@ -22,7 +23,7 @@
  Ext.ns('Buss.Data');
   Buss.Data.BussGrid  =  Ext.extend(Ext.grid.GridPanel,{
 		 initComponent: function() {
-		    var index= new Ext.grid.RowNumberer();//
+		    var index= new Ext.grid.RowNumberer({width:25});//
 		    var cb = new Ext.grid.CheckboxSelectionModel({ //创建Grid表格组件
 				singleSelect: false
 		   	});
@@ -36,19 +37,21 @@
 										root : 'rows'
 									}, [
 										{name: 'partId'},
+										{name: 'partName'},
 										{name: 'productId'},
 										{name: 'productCode'},
 										{name: 'productName'},
+										{name: 'productLSH'},
 										{name: 'type'}
 									])
 						}),
 				columns : [index,
 					cb,
-					{header: "编码", align:'center',dataIndex: 'productCode',
+					{header: "条型码", align:'center',dataIndex: 'productLSH',sortable : true,
 						renderer : function (value, metadata, record, rowIndex, columnIndex, store) {   
 						    //build the qtip:   
-						    var title = '&nbsp;' + record.get('productCode') +   
-						        ' ' + record.get('productName');   
+						    var title = '&nbsp;' + record.get('productLSH') + ' '+  record.get('productCode') +   
+						        ' ' + record.get('productName');
 						    var tip = '';
 						    
 						    metadata.attr = 'ext:qtitle="' + title + '"' + ' ext:qtip="' + tip + '"';   
@@ -58,19 +61,19 @@
 						    return displayText;   
 						}
 					},
-					{header: "名称", align:'center',dataIndex: 'productName'},
-					{header: "类别", align:'center',dataIndex: 'type', renderer:
+					{header: "名称", align:'center',dataIndex: 'productName',sortable : true},
+					{header: "类别", align:'center',dataIndex: 'type',sortable : true, renderer:
 						     function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) {
 								   return $("#cates option[value='"+value+"']").text();
 							 }
-					},
-					{header: "操作", align:'center',dataIndex: '', sortable: false, renderer:
+					}
+					/**,{header: "操作", align:'center',dataIndex: '', sortable: false, renderer:
 						     function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) {
 								   value = "&nbsp;<a href=\"javascript:void(0)\" onclick=relatePartAProduct(\"remove\",\""+record.get('productId')+"\")  title=\"移除关联\" >-</a>&nbsp;"+
 								   		   "&nbsp;";
 								   return value;
 							 }
-					 }
+					 }**/
 				],
 				viewConfig:{forceFit:true},
 				loadMask:true
@@ -99,7 +102,7 @@
  Ext.ns('Buss.Data2');
   Buss.Data2.BussGrid  =  Ext.extend(Ext.grid.GridPanel,{
 		 initComponent: function() {
-		    var index= new Ext.grid.RowNumberer();//
+		    var index= new Ext.grid.RowNumberer({width:25});//
 		    var cb = new Ext.grid.CheckboxSelectionModel({ //创建Grid表格组件
 				singleSelect: false
 		   	});
@@ -114,16 +117,17 @@
 									}, [
 										{name: 'productId'},
 										{name: 'productCode'},
+										{name: 'productLSH'},
 										{name: 'productName'}
 									])
 						}),
 				columns : [index,
 					cb,
-					{header: "编码", align:'center',dataIndex: 'productCode',
+					{header: "编码", align:'center',dataIndex: 'productCode',sortable : true,
 						renderer : function (value, metadata, record, rowIndex, columnIndex, store) {   
 						    //build the qtip:   
-						    var title = '&nbsp;' + record.get('productCode') +   
-						        ' ' + record.get('productName');   
+						    var title = '&nbsp;' + record.get('productLSH') + ' '+  record.get('productCode') +   
+						        ' ' + record.get('productName');
 						    var tip = '';
 						    
 						    metadata.attr = 'ext:qtitle="' + title + '"' + ' ext:qtip="' + tip + '"';   
@@ -133,8 +137,8 @@
 						    return displayText;
 						}
 					},
-					{header: "名称", align:'center',dataIndex: 'productName'},
-					{header: "操作", align:'center',dataIndex: '', sortable: false, renderer:
+					{header: "名称", align:'center',dataIndex: 'productName',sortable : true},
+					{header: "操作", align:'center',sortable : true,dataIndex: '', sortable: false, renderer:
 						     function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) {
 								   value = "&nbsp;<a href=\"javascript:void(0)\" onclick=relatePartAProductx(\"add\","+rowIndex+")  title=\"添加关联\" >+</a>&nbsp;"+
 								   		   "&nbsp;<a href=\"javascript:void(0)\" onclick=relatePartAProduct(\"remove\",\""+record.get('productId')+"\")  title=\"移除关联\" >-</a>&nbsp;";
@@ -159,6 +163,7 @@
 				  } else {
 				  options.params.id = Ext.get('parentCategoriesId').getValue();
 				  }
+				  options.params.node = Ext.get('node').getValue();
 		  		  options.params.condition = Ext.get('condition').getValue();
 				  return true;
 		  });
@@ -170,7 +175,7 @@
 Ext.ns('Buss.Layout');
 
 var nodeid='0';
-var nodename='公司';
+var nodename='网点';
 var nodecode='0';
 var parentnodeid='0';
 Buss.Layout.Viewport =  Ext.extend(Ext.Viewport, {
@@ -215,9 +220,11 @@ Buss.Layout.Viewport =  Ext.extend(Ext.Viewport, {
 						click : function(node,e){	
 						   if(node.attributes.id != nodeid){
 						   	   Ext.get('node').dom.value = node.attributes.partId;
+						   	   Ext.get('nodename').dom.value = node.attributes.partName;
 						       refresh();
 						   } else {
 						   	   Ext.get('node').dom.value='0';
+						   	   Ext.get('nodename').dom.value='';
 						   	   Ext.getCmp('BussGrid').store.removeAll();
 						   }
 						},
@@ -239,17 +246,18 @@ Buss.Layout.Viewport =  Ext.extend(Ext.Viewport, {
 	            	layout:'column',
 				    items: [{
 				    	columnWidth: .5,
-						title:'已关联',
+						title:'已关联<input type="button" value="手动同步" onclick="syncProductData()" />',
 				        frame:true,				    	
 				    	id:'BussGrid',
 				        xtype:'BussGrid',
 				        height:clientHeight,
 				        tbar:new Ext.Toolbar([
+				        	{text : '移除',iconCls:'deleteIcon',handler:function(){multi('remove');}},
+				        	 '-',
 				        	{xtype:'panel',baseCls : 'x-plain',
 								html:'类别:<select id=\'cates\'   onchange=\'refresh()\'><option value=\'\'>所有</option></select>'
 							 },
 							 '-',
-				        	{text : '移除',iconCls:'deleteIcon',handler:function(){multi('remove');}},
 							{
 								xtype:'panel',
 								baseCls : 'x-plain',
@@ -257,22 +265,26 @@ Buss.Layout.Viewport =  Ext.extend(Ext.Viewport, {
 							},
 							'-',
 							{text : '查找',iconCls:'viewIcon',id:'ext_b_search',handler:refresh}
+							,{text : '报表',iconCls:'viewIcon',id:'ext_b_search2',handler:function(){
+								window.open('<c:url value="/app.do?method=exportPartAndProductViewMain"/>');
+							}}
 						])
 				        
 				    },{
 				        columnWidth: .5,
 				        title:'产品列表',
 				        frame:true,
-				        height:clientHeight+40,
+				        height:clientHeight,
 				        id:'BussGrid2',
 		       			xtype:'BussGrid2',
 		       			tbar:new Ext.Toolbar([
 		       			    {text : '添加',iconCls:'addIcon',handler:function(){multi('add');}},
-							{
+							/**{
 								xtype:'panel',
 								baseCls : 'x-plain',
 								html:'<div id=\"comboBoxTree\"></div>'
-							},
+							},**/
+							 '-',
 							{xtype:'panel',baseCls : 'x-plain',
 								html:'<input id=\'condition\' type=\'text\' onkeyup=\'onKeyUpEvent2(event);\' onchange=\'refresh2();\'>'
 							 },
@@ -353,12 +365,13 @@ function _select(ids,values,texts){
 	}	
 }
 
-var refresh = function (){
- 	Ext.getCmp('BussGrid').store.load();
-}
-
 var refresh2 = function (){
  	Ext.getCmp('BussGrid2').store.load();
+}
+
+var refresh = function (){
+ 	Ext.getCmp('BussGrid').store.load();
+ 	refresh2();
 }
 
 var refresh2All = function (){
@@ -377,7 +390,7 @@ if (t=='add'){
 }
 			var partId = Ext.get('node').getValue();
 			if (partId=='0' || partId=='') {
-				Ext.MessageBox.alert('提示','请选择要关联的公司划分!');
+				Ext.MessageBox.alert('提示','请选择要关联的网点划分!');
 				return;
 			}
 		    var msgTip = Ext.MessageBox.show({
@@ -417,7 +430,7 @@ if (t=='add'){
 			var rec = Ext.getCmp('BussGrid2').store.getAt(index);
 			var partId = Ext.get('node').getValue();
 			if (partId=='0' || partId=='') {
-				Ext.MessageBox.alert('提示','请选择要关联的公司划分!');
+				Ext.MessageBox.alert('提示','请选择要关联的网点划分!');
 				return;
 			}
 		    var msgTip = Ext.MessageBox.show({
@@ -428,7 +441,7 @@ if (t=='add'){
 		     Ext.Ajax.request({
 					url :"<c:url value='/app.do?method=onRelatePartAProduct' />",//请求的服务器地址
 					method : 'POST',
-					params:{t:t,type:cates,partId:partId,productId:rec.get('productId'),productCode:rec.get('productCode'),productName:rec.get('productName')},
+					params:{t:t,type:cates,partId:partId,partName:rec.get('partName'),productLSH:rec.get('productLSH'),productId:rec.get('productId'),productCode:rec.get('productCode'),productName:rec.get('productName')},
 					success : function(response,options){
 						msgTip.hide();
 						var result = Ext.util.JSON.decode(response.responseText);
@@ -451,7 +464,7 @@ function multi(t){
 var cates = document.getElementById('cates').value;
 	var partId = Ext.get('node').getValue();
 	if (partId=='0' || partId=='') {
-		Ext.MessageBox.alert('提示','请选择要关联的公司划分!');
+		Ext.MessageBox.alert('提示','请选择要关联的网点划分!');
 		return;
 	}
 	var recs = null;
@@ -472,11 +485,13 @@ var cates = document.getElementById('cates').value;
 			var productId = rec.get('productId');
 			var productCode = rec.get('productCode');
 			var productName = rec.get('productName');
+			var productLSH = rec.get('productLSH');
+			var partName = rec.get('partName');
 			Ext.Ajax.request({
 					url :"<c:url value='/app.do?method=onRelatePartAProduct' />",//请求的服务器地址
 					method : 'POST',
 					sync:true,
-					params:{t:t,type:cates,partId:partId,productId:productId,productCode:productCode,productName:productName},
+					params:{t:t,type:cates,partName:partName,partId:partId,productId:productId,productCode:productCode,productName:productName,productLSH:productLSH},
 					success : function(response,options){
 						var result = Ext.util.JSON.decode(response.responseText);
 						if(result.error==null){
@@ -512,7 +527,7 @@ Ext.onReady(function(){
 		 } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
 		    clientHeight = document.body.clientHeight;
 	   }
-	   p.setHeight(clientHeight-30);
+	   p.setHeight(clientHeight-1);
 	});
 	Ext.getCmp('BussGrid2').addListener('bodyresize', function(p,width,height) {
 	   var clientHeight = 0;
@@ -521,13 +536,12 @@ Ext.onReady(function(){
 		 } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
 		    clientHeight = document.body.clientHeight;
 	   }
-	   p.setHeight(clientHeight-30);
+	   p.setHeight(clientHeight-1);
 	});
-	
+	Ext.getCmp('BussGrid').syncSize();
 	Ext.getCmp('BussGrid2').syncSize();
 	
-	refresh2();
-	deptTree.init();
+	//deptTree.init();
 	loadCates();
 });
 
@@ -571,5 +585,26 @@ function onKeyUpEvent2(e){//监听键盘事件
 				    checkAjaxStatus(response);
 				}
 			});
+	}
+	
+	function syncProductData(){
+		 if (confirm('确认是否需要同步数据!')){
+		 	 var msgTip = Ext.MessageBox.show({
+				title:'系统提示',
+				width : 200,
+				msg:'正在同步信息请稍后......'
+		  	});
+			 var vUrl = '<c:url value="/app.do?method=syncProductData"/>';
+				Ext.Ajax.request({
+				    url:  vUrl,
+				    success: function(response, options){
+				   		msgTip.hide();
+		  			},
+					failure: function (response, options) {
+						msgTip.hide();
+					    checkAjaxStatus(response);
+					}
+				});
+		 }
 	}
 </script>

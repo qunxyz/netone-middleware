@@ -1,4 +1,4 @@
-/** */ 
+/**2012-8-15 */ 
 DROP TABLE IF EXISTS iss.`t_partproduct`;
 CREATE TABLE `t_partproduct` (
   `rid` VARCHAR(32) NOT NULL,
@@ -26,3 +26,9 @@ CREATE TABLE `t_dic` (
 
 
 insert  into iss.`t_dic`(`sid`,`code`,`name`,`type`,`operate`,`operateTime`) values ('684a303ce5af11e18d0e6cf04976618c','0001','有卖','productBussCate','adminx','2012-08-14 09:31:32'),('a08e8fdee5af11e18d0e6cf04976618c','0002','想卖','productBussCate','adminx','2012-08-14 09:30:59'),('a8124d05e5af11e18d0e6cf04976618c','0003','不想卖','productBussCate','adminx','2012-08-14 09:31:12');
+
+/**2012-8-16 */ 
+ALTER TABLE `iss`.`t_partproduct` ADD COLUMN `productLSH` VARCHAR(45) AFTER `productName`;
+ALTER TABLE `iss`.`t_partproduct` ADD COLUMN `status` INTEGER DEFAULT 0 AFTER `type` ;
+/**2012-8-20 */
+ALTER TABLE `iss`.`t_partproduct` ADD COLUMN `partName` VARCHAR(100) DEFAULT NULL AFTER `partId`;

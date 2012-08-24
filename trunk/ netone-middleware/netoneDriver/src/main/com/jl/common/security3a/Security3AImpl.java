@@ -732,9 +732,6 @@ public final class Security3AImpl implements Security3AIfc {
 			rsinfo.addAll(other);
 			return rsinfo;
 	
-
-
-
 	}
 
 	private List<Resource> listHumanInDir(String parentNaturalname, int from,

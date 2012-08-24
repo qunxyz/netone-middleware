@@ -593,6 +593,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		dyform.setListColumn_(columnArr);
 
 		String htmlinfo = form.getExtendattribute();
+		if(StringUtils.isEmpty(htmlinfo)){
+			htmlinfo=form.getFormname();
+		}
 		dyform.setHtmltitleinfo_(htmlinfo);
 
 		EnvService env = (EnvService) RmiEntry.iv("envinfo");

@@ -72,6 +72,8 @@ public final class AppHandleImpl implements AppHandleIfc {
 			if (StringUtils.isNotEmpty(worklistcolumn))
 				app.setWorklistColumn(worklistcolumn);
 		}
+
+		app.setFormtitle(upo.getName());
 		return app;
 	}
 
@@ -466,11 +468,12 @@ public final class AppHandleImpl implements AppHandleIfc {
 		for (int i = 0; i < datax.length; i++) {
 			String info=StringUtils.substringBetween(datax[i],"[","]");
 		try{
-			List list=WfEntry.iv().useCoreView().coreSqlview("select count(*) cou from netone.t_wf_participant where usercode='"+info+"' and statusnow='01'");
+			String sql="select  count(*) cou from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on w1.workcode=w2.WORKCODE where w1.EXECUTESTATUS='01' and w2.usercode='"+info+"' and w2.statusnow='01' and w2.types in ('01','02')";
+			List list=WfEntry.iv().useCoreView().coreSqlview(sql);			
 			String data= ((Map)list.get(0)).get("cou").toString();
 			String deptname=SecurityEntry.iv().loadUser(info).getDeptname();
 
-			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(/部门:"+deptname+"/当前待办任务:"+data+")["+info+"]");
+			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(/部门:"+deptname+"/待办工单数:"+data+")["+info+"]");
 	
 		}catch(Exception e){
 			e.printStackTrace();

@@ -47,8 +47,13 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		appobj.setWorkflowCode_(list.getProcessid());
 		appobj.setWorkflowName_(list.getProcessname());
 		appobj.setWorklistsize(list.getWorklistsize());
-		appobj.setFormtitle(list.getFormtitle());
-		appobj.setFormendtitle(list.getFormtitle());
+		
+		String formtitle=list.getFormtitle();
+		if(StringUtils.isEmpty(formtitle)){
+			formtitle=upo.getName();
+		}
+		appobj.setFormtitle(formtitle);
+		appobj.setFormendtitle(list.getFormendtitle());
 		appobj.setName(upo.getName());
 		
 		UmsProtectedobject upo2=new UmsProtectedobject();
@@ -202,11 +207,12 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		for (int i = 0; i < datax.length; i++) {
 			String info=StringUtils.substringBetween(datax[i],"[","]");
 		try{
-			List list=WfEntry.iv().useCoreView().coreSqlview("select count(*) cou from netone.t_wf_participant where usercode='"+info+"' and statusnow='01'");
+			String sql="select  count(*) cou from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on w1.workcode=w2.WORKCODE where w1.EXECUTESTATUS='01' and w2.usercode='"+info+"' and w2.statusnow='01' and w2.types in ('01','02')";
+			List list=WfEntry.iv().useCoreView().coreSqlview(sql);
 			String data= ((Map)list.get(0)).get("cou").toString();
 			String deptname=SecurityEntry.iv().loadUser(info).getDeptname();
 
-			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(/部门:"+deptname+"/工作量:"+data+")["+info+"]");
+			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(/部门:"+deptname+"/待办工单数:"+data+")["+info+"]");
 	
 		}catch(Exception e){
 			e.printStackTrace();

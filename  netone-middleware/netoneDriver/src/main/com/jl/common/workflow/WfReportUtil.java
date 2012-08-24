@@ -25,7 +25,7 @@ public class WfReportUtil {
 	static Map dept_people=new Hashtable();
 	
 	/**
-	 * 领导视图明细展示
+	 * 领导视图明细展示(领导视图php页面会传递过来流程id)
 	 * @param listkey
 	 * @return
 	 * @throws Exception
@@ -46,9 +46,9 @@ public class WfReportUtil {
 			}
 			if(but.length()>0){
 				
-				String sql="SELECT t1.lsh lsh,t1.appname appname,t1.d0 formtitle,t2.runtimeid runid,t2.workcode workcode,t2.ACTIVITYID actid,t2.starttime starttime,t3.username username FROM netone.t_wf_relevantvar_tmp t1, netone.t_wf_worklist t2,netone.t_wf_participant t3 WHERE t1.runtimeid=t2.runtimeid and t2.workcode=t3.workcode and t1.runtimeid in("
+				String sql="SELECT t1.lsh lsh,t1.appname appname,t1.d0 formtitle,t2.runtimeid runid,t2.workcode workcode,t2.ACTIVITYID actid,t2.starttime starttime,t3.username username FROM netone.t_wf_relevantvar_tmp t1, netone.t_wf_worklist t2,netone.t_wf_participant t3 WHERE t3.types='01' and t1.runtimeid=t2.runtimeid and t2.workcode=t3.workcode and t1.runtimeid in("
 					+but.substring(1)+")  ORDER BY t2.runtimeid,t2.STARTTIME DESC";
-				System.out.println("sql:"+sql);
+				//System.out.println("sql:"+sql);
 				List list=DbTools.queryData(sql);
 				ResourceRmi rs=null;
 				try {
@@ -149,7 +149,7 @@ public class WfReportUtil {
 			Map map=new SequencedHashMap();
 			//本周内
 			String sql_this_week="SELECT DISTINCT runtimeid runid FROM netone.t_wf_worklist WHERE $processid$  EXECUTESTATUS='02' AND workcode IN("+
-				"SELECT workcode FROM netone.t_wf_participant WHERE statusnow='02' and "+
+				"SELECT workcode FROM netone.t_wf_participant WHERE types='01' and statusnow='02' and "+
 				" createtime<= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) -7 DAY)"+  
 				" AND createtime>= DATE_SUB(CURDATE(),INTERVAL WEEKDAY(CURDATE()) DAY) and  usercode IN("+dept_people.get(naturalname)+"))";
 			if("all".equals(processid)){
@@ -172,7 +172,7 @@ public class WfReportUtil {
 	
 			//处理中
 			String sql_doing="SELECT DISTINCT runtimeid runid FROM netone.t_wf_worklist WHERE $processid$ EXECUTESTATUS='01' and  workcode IN("+
-				"SELECT workcode FROM netone.t_wf_participant WHERE statusnow='01' and usercode IN("+dept_people.get(naturalname)+"))";
+				"SELECT workcode FROM netone.t_wf_participant WHERE types='01' and  statusnow='01' and usercode IN("+dept_people.get(naturalname)+"))";
 			if("all".equals(processid)){
 				sql_doing=StringUtils.replace(sql_doing, "$processid$","");
 				
@@ -193,7 +193,7 @@ public class WfReportUtil {
 			String leader_1=key1+"#"+this_doingArr.size();
 			//超48小时
 			String sql_over48="SELECT DISTINCT runtimeid runid FROM netone.t_wf_worklist WHERE $processid$ EXECUTESTATUS='01' and  workcode IN("+
-				"SELECT workcode FROM netone.t_wf_participant WHERE statusnow='01'  AND (NOW()-DATE_SUB(createtime, INTERVAL -48 HOUR))>0 and usercode IN("+dept_people.get(naturalname)+
+				"SELECT workcode FROM netone.t_wf_participant WHERE types='01' and  statusnow='01'  AND (NOW()-DATE_SUB(createtime, INTERVAL -48 HOUR))>0 and usercode IN("+dept_people.get(naturalname)+
 				"))";	
 			if("all".equals(processid)){
 				sql_over48=StringUtils.replace(sql_over48, "$processid$","");

@@ -501,7 +501,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			"where w1.EXECUTESTATUS='01' and w1.RUNTIMEID in("+
 			"select runtimeid from t_wf_runtime where STATUSNOW='01' and runtimeid in("+
 			"select runtimeid from t_wf_participant where STATUSNOW='02' and USERCODE='"+clientId+"'))"+
-			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition + " order by w1.starttime desc limit "+from+","+size;	
+			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition + " order by w1.runtimeid,w1.starttime desc limit "+from+","+size;	
 			
 			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
 		} else if ("03".equals(listType)) {
@@ -543,7 +543,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		
 		
 		List dataClear=new ArrayList();
-		if("01".equals(listType)||"02".equals(listType)){
+		if("01".equals(listType)){
 			dataClear=list;
 		}else{
 			String runtimeidpre="";

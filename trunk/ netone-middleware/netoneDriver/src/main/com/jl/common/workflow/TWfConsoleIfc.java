@@ -1,8 +1,6 @@
 package com.jl.common.workflow;
 
 import java.util.List;
-import java.util.Map;
-
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
 import oe.midware.workflow.service.WorkflowConsole;
 import oe.midware.workflow.service.WorkflowView;

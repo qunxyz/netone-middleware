@@ -423,6 +423,11 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		String statusValue = status == null ? "01" : status;
 		String createtime = (new Timestamp(System.currentTimeMillis()))
 				.toString();
+		
+		String participant_app=StringUtils.substringBetween(participant, "(", ")");
+		if(participant_app!=null){
+			participant=StringUtils.replace(participant, "("+participant_app+")", "");
+		}
 
 		console
 				.coreSqlhandle("insert into  t_wf_participant(lsh,username,usercode,types,workcode,statusnow,commitercode,commitername,extendattribute,createtime,opemode,actid,actname,sync)values('"
@@ -1740,7 +1745,6 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				if(WfEntry.iv().checkFirstAct(workcode)){
 					return false;
 				}
-				
 			}
 		}
 		return true;

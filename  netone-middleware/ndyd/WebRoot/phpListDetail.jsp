@@ -148,7 +148,7 @@ TABLE {
 		<TR height=30>
 		<td>
 		<c:if test="${flag==1}">
-		<a href="<%=path%>/frame.do?method=onEditViewMain&naturalname=<c:out value="${ltdata.appname}"/>&lsh=<c:out value="${ltdata.lsh}"/>&workcode=<c:out value="${ltdata.workcode}"/>&operatemode=01&query=look&cuibang=true&commiter=<c:out value="${ltdata.commiter}"/>" target="_blank">
+		<a href="<%=path%>/frame.do?method=onEditViewMain&naturalname=<c:out value="${ltdata.appname}"/>&lsh=<c:out value="${ltdata.lsh}"/>&workcode=<c:out value="${ltdata.workcode}"/>&operatemode=01&query=lookx&cuibang=true&commiter=<c:out value="${ltdata.commiter}"/>" target="_blank">
 		<c:out value="${ltdata.formtitle}"/></a>
 		</c:if>
 		<c:if test="${flag==0}">

@@ -277,9 +277,15 @@ public class FrameAction extends AbstractAction {
 		if (StringUtils.isNotEmpty(workcode)) {
 			isedit = false;
 			TWfWorklist wlx = WfEntry.iv().loadWorklist(workcode);
-			TWfActive active = WfEntry.iv().loadRuntimeActive(
+			TWfActive active =new TWfActive();
+			try{
+				active= WfEntry.iv().loadRuntimeActive(
 					wlx.getProcessid(), wlx.getActivityid(), naturalname, "",
 					wlx.getRuntimeid());
+			}catch(Exception e){
+				e.printStackTrace();
+				active.setFobitzb(false);
+			}
 
 			boolean isFormEdit = active.isFormEdit();
 			boolean isFirstAct = WfEntry.iv().checkFirstAct(workcode);
@@ -330,7 +336,6 @@ public class FrameAction extends AbstractAction {
 		AppObj app = AppEntry.iv().loadApp(naturalname);
 		String formcode = app.getDyformCode_();
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
-		request.setAttribute("htmltitleinfo", dyform.getHtmltitleinfo_());
 		request.setAttribute("htmlendinfo", dyform.getHtmlendinfo_());
 		String workcode = request.getParameter("workcode");
 		String query = request.getParameter("query");
@@ -354,29 +359,19 @@ public class FrameAction extends AbstractAction {
 		String isadd = request.getParameter("isadd");
 
 		String urltemplate=app.getDescription();
-		if(StringUtils.isNotEmpty(workcode)){
-			String actid=WfEntry.iv().loadWorklist(workcode).getActivityid();
-			UmsProtectedobject upo=new UmsProtectedobject();
-			upo.setDescription(naturalname+"."+actid);
-			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
-			EnvService env=(EnvService)RmiEntry.iv("envinfo");
-			List list=rs.queryObjectProtectedObj(upo, null, 0, 1, "");
-			
-			if(list!=null&&list.size()==1){
-				UmsProtectedobject upox=(UmsProtectedobject)list.get(0);
-				urltemplate=env.fetchEnvValue("WEBSER_FCK")+"/PagelistViewSvl?pagename=simplefcklist&chkid="+upox.getId();
-			}
-		}
+		EnvService env=(EnvService)RmiEntry.iv("envinfo");
+		urltemplate="&nbsp;&nbsp;<a target='_blank' href='"+env.fetchEnvValue("WEBSER_FCK")+"/PagelistViewSvl?pagename=simplefcklist&chkid="+urltemplate+"'  ><font size='3' color='red'>帮助</font></a>";
+
 
 		if(StringUtils.isNotEmpty(urltemplate)&&!"03".equals(operatemode)){
 			// 针对新增的模板
 			if (!"1".equals(isadd)) {
-				forward = forward = "/frame/frameExtPage.jsp";
-				request.setAttribute("urltext", urltemplate);
+				//forward = forward = "/frame/frameExtPage.jsp";
+				//request.setAttribute("urltext", urltemplate);
 			}
 			
 		}
-
+		request.setAttribute("htmltitleinfo", app.getFormtitle()+(urltemplate==null?"":urltemplate));
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
 		// true不使用转向,默认是false代表转向
@@ -391,7 +386,8 @@ public class FrameAction extends AbstractAction {
 		String naturalname = request.getParameter("naturalname");
 		String $isedit = request.getParameter("isedit");
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
-		request.setAttribute("htmltitleinfo", dyform.getHtmltitleinfo_());
+		AppObj app=AppEntry.iv().loadApp(naturalname);
+		request.setAttribute("htmltitleinfo", app.getFormtitle());
 		boolean isedit = false;
 		if ("1".equals($isedit))
 			isedit = true;
@@ -422,12 +418,21 @@ public class FrameAction extends AbstractAction {
 		}
 		if (StringUtils.isEmpty(workcode))
 			workcode = "";
-		String activityName = WfEntry.iv().getActivityName(naturalname,
+		String activityName ="";
+		try{
+			activityName= WfEntry.iv().getActivityName(naturalname,
 				workcode);
+		}catch(Exception e){
+			activityName="未知节点";
+		}
 		if (StringUtils.isNotEmpty(workcode)) {
+			try{
 			TWfActive twfActive = WfEntry.iv()
 					.loadActive(naturalname, workcode);
 			request.setAttribute("isFobitzb", twfActive.isFobitzb());
+		}catch(Exception e){
+			request.setAttribute("isFobitzb", true);
+		}
 		} else {
 			request.setAttribute("isFobitzb", true);
 		}
@@ -931,7 +936,7 @@ public class FrameAction extends AbstractAction {
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
-		request.setAttribute("htmltitleinfo", dyform.getHtmltitleinfo_());
+		request.setAttribute("htmltitleinfo", app.getFormtitle());
 		return mapping.findForward("onAuditView");
 	}
 
@@ -1009,7 +1014,7 @@ public class FrameAction extends AbstractAction {
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
-		request.setAttribute("htmltitleinfo", dyform.getHtmltitleinfo_());
+		request.setAttribute("htmltitleinfo", app.getFormtitle());
 		TWfWorklist wlx = bean;
 		TWfActive active = WfEntry.iv().loadRuntimeActive(wlx.getProcessid(),
 				wlx.getActivityid(), naturalname, "", wlx.getRuntimeid());

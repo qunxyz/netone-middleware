@@ -527,10 +527,9 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 
 			"where w1.RUNTIMEID in("+
 			"select runtimeid from t_wf_runtime where runtimeid in("+
-			"select runtimeid from t_wf_participant where STATUSNOW='02' and USERCODE='"+clientId+"'))"+
+			"select runtimeid from t_wf_participant where USERCODE='"+clientId+"'))"+
 			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition + " order by w1.runtimeid,w1.starttime desc limit "+from+","+(size+100);	
 			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
-
 		}
 		
 		
@@ -557,7 +556,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				dataClear.add(object);
 			}
 			if(dataClear.size()>20){
-				dataClear.subList(0, 20);
+				dataClear=dataClear.subList(0, 20);
 			}
 		}
 		

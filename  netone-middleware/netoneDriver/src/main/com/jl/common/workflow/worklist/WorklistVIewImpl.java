@@ -840,7 +840,6 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 	}
 
 
-	@Override
 	public List<String> worklistOnlyLsh(String clientId, String appname,
 			boolean mode, int from, int size, String listType, QueryColumn query)
 			throws Exception {
@@ -1031,7 +1030,6 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		return listfinal;
 	}
 
-	@Override
 	public int countOnlyLsh(String clientId, String appname, boolean mode,
 			String listType, QueryColumn query) throws Exception {
 		// 预先装载工作流句柄

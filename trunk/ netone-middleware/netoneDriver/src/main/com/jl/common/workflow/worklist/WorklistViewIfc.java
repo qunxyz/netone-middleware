@@ -30,6 +30,27 @@ public interface WorklistViewIfc {
 	List<DataObj> worklist(String clientid, String appname, boolean mode,
 			int from, int size, String listtype, QueryColumn query)
 			throws Exception;
+	/**
+	 * 符合条件的待办任务(仅返回表单的lsh)
+	 * 
+	 * @param clientid
+	 *            客户id
+	 * @param appname
+	 *            应用名
+	 * @param mode
+	 *            业务模式true 待办、抄送,false 抄阅
+	 * @param from
+	 * @param size
+	 * @param listtype
+	 *            任务类型、01 待办、02已办但未归档 、03 已办已归档
+	 * @param query
+	 *            查询字段对象
+	 * @return 数值数组罗列所有对应的记录值
+	 * @throws Exception
+	 */
+	List<String> worklistOnlyLsh(String clientid, String appname, boolean mode,
+			int from, int size, String listtype, QueryColumn query)
+			throws Exception;
 
 	/**
 	 * 符合条件的待办任务总数
@@ -51,7 +72,26 @@ public interface WorklistViewIfc {
 	 */
 	int count(String clientid, String appname, boolean mode, String listtype,
 			QueryColumn query) throws Exception;
-
+	/**
+	 * 符合条件的待办任务总数（仅表单lsh）
+	 * 
+	 * @param clientid
+	 *            客户id
+	 * @param appname
+	 *            应用名
+	 * 
+	 * @param mode
+	 *            业务模式true 待办、抄送,false 抄阅
+	 * 
+	 * @param listtype
+	 *            任务类型、01 待办、02已办但未归档 、03 已办已归档
+	 * @param query
+	 *            查询字段对象
+	 * @return
+	 * @throws Exception
+	 */
+	int countOnlyLsh(String clientid, String appname, boolean mode, String listtype,
+			QueryColumn query) throws Exception;
 	/**
 	 * 罗列查询字段
 	 * 

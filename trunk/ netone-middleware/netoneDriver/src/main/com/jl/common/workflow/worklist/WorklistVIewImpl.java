@@ -838,4 +838,381 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				"participant");
 		System.out.println(index);
 	}
+
+
+	@Override
+	public List<String> worklistOnlyLsh(String clientId, String appname,
+			boolean mode, int from, int size, String listType, QueryColumn query)
+			throws Exception {
+		// 预先装载工作流句柄
+		CupmRmi cupm = null;
+		WorkflowView wfview = null;
+		try {
+			wfview = (WorkflowView) RmiEntry.iv("wfview");
+			cupm = (CupmRmi) RmiEntry.iv("cupm");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String opemode = "('01','02')";
+		if (!mode) {
+			opemode = "('03','04')";
+		}
+		String processidStr = "";
+		String processidstr_detail="";//某人查看流程所有权限
+		String naturalname_detail = "";//busswf...
+		boolean multiAppname = false;
+		int sizecolumn = 0;
+		Map wf2dycfg = null;
+		if (StringUtils.isNotEmpty(appname)) {
+
+			String appnameall[] = appname.split(",");
+			if (appnameall.length > 1) {
+				multiAppname = true;
+			} else {
+				if (appnameall.length == 1) {
+					List columnx = listQueryColumn(appname);
+					sizecolumn = columnx.size();
+					wf2dycfg = AppEntry.iv().wf2dyformBindCfg2(appname);
+				}
+
+			}
+			StringBuffer but = new StringBuffer();
+			for (int i = 0; i < appnameall.length; i++) {
+				AppObj app = AppEntry.iv().loadApp(appnameall[i]);
+				but.append(",'" + app.getWorkflowCode_() + "'");
+				naturalname_detail = app.getWorkflowCode_();
+			}
+
+			processidStr = "and w1.processid in(" + but.toString().substring(1)
+					+ ")";
+			processidstr_detail ="w1.processid in(" + but.toString().substring(1)
+			+ ")";
+		} else {
+			multiAppname = true;
+		}
+
+		String urlEnd = "";
+		// 获得所有许可的代办任务
+		String loadworklist = "";
+		String loadworklist_detail="";//根据权限提供显示流程所有工单
+		String condition = "";
+		boolean flag = false;
+		if (query != null && !query.getValue().equals("")) {
+			flag=true;
+			if (!query.isTime()) {
+				condition = " and " + query.getId() + " like '%"
+						+ query.getValue() + "%' ";
+			} else {
+				String fromtime = StringUtils.substringBefore(query.getValue(),
+						"_");
+				String totime = StringUtils.substringAfter(query.getValue(),
+						"_");
+				if (!fromtime.trim().equals("")) {
+					condition = " and " + query.getId() + ">='" + fromtime
+							+ "'";
+				}
+				if (!totime.trim().equals("")) {
+					condition = " and " + query.getId() + "<='" + totime + "'";
+				}
+			}
+		}
+		String conditionx = null; 
+		if (query != null && query.getOrder() != null
+				&& !"".equals(query.getOrder())) {
+			String str =condition;
+			if(StringUtils.isEmpty(str)){
+				str="";
+			}
+			condition = str;
+			if(flag){
+				conditionx=str;
+			}else{
+				conditionx="";
+			}
+			
+		}
+
+		if ("01".equals(listType)) {
+			// 抄阅
+			if (opemode.equals("('03')")) {
+				loadworklist = "select distinct w3.lsh lshx from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='"
+						+ clientId
+						+ "' and w2.statusnow in ('01','02')"
+						+ processidStr
+						+ " and w2.types in "
+						+ opemode
+						+ condition +" limit "+from+","+size ;
+				loadworklist_detail=StringUtils.replace(loadworklist, "w2.usercode='"+clientId+"'", " 1=1 ");
+
+			} else if (opemode.equals("('04')")) {// 阅读
+				loadworklist = "select  distinct w3.lsh lshx  from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='"
+						+ clientId
+						+ "' and w2.statusnow in ('01')"
+						+ processidStr
+						+ " and w2.types in "
+						+ opemode
+						+ condition+" limit "+from+","+size ;
+				loadworklist_detail=StringUtils.replace(loadworklist, "w2.usercode='"+clientId+"'", "1=1");
+
+			} else {
+				// 待办任务
+				loadworklist = "select distinct w3.lsh lshx  from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS='01' and w2.usercode='"
+						+ clientId
+						+ "' and w2.statusnow='01"
+						+ "' "
+						+ processidStr
+						+ " and w2.types in "
+						+ opemode
+						+ condition +" limit "+from+","+size ;
+				loadworklist_detail=StringUtils.replace(loadworklist, "w2.usercode='"+clientId+"'", " 1=1 ");
+			}
+		} else if ("02".equals(listType)) {
+			urlEnd = "&query=look&cuibang=true";
+			// 所有结束任务但未归档
+			loadworklist="select w3.lsh lshx "+
+
+			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
+
+			"where w1.EXECUTESTATUS='01' and w1.RUNTIMEID in("+
+			"select runtimeid from t_wf_runtime where STATUSNOW='01' and runtimeid in("+
+			"select runtimeid from t_wf_participant where STATUSNOW='02' and USERCODE='"+clientId+"'))"+
+			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition+" limit "+from+","+size ;	
+			
+			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
+		} else if ("03".equals(listType)) {
+			// 所有结束任务且已经归档
+			urlEnd = "&query=look";
+			// 所有结束任务但未归档
+			loadworklist="select distinct w3.lsh lshx "+
+
+			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
+
+			"where w1.RUNTIMEID in("+
+			"select runtimeid from t_wf_runtime where STATUSNOW='02' and runtimeid in("+
+			"select runtimeid from t_wf_participant where STATUSNOW='02' and USERCODE='"+clientId+"'))"+
+			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition +" limit "+from+","+size ;	
+			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
+		} else {
+			// 所有个人任务
+			loadworklist="select distinct w3.lsh lshx "+
+
+			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
+
+			"where w1.RUNTIMEID in("+
+			"select runtimeid from t_wf_runtime where runtimeid in("+
+			"select runtimeid from t_wf_participant where STATUSNOW='02' and USERCODE='"+clientId+"'))"+
+			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition+" limit "+from+","+size ;	
+			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
+
+		}
+		
+		
+		List list =null;
+
+		if("adminx".equals(clientId)){
+			list =wfview.coreSqlview(loadworklist_detail);
+		}else{
+			if(!multiAppname){
+				String workflowcode=AppEntry.iv().loadApp(appname).getWorkflowCode_();
+				boolean admin=SecurityEntry.iv().permission(clientId, workflowcode);
+				if(admin){
+					list =wfview.coreSqlview(loadworklist_detail);
+				}
+			}
+			list =wfview.coreSqlview(loadworklist);
+		}
+		List listfinal=new ArrayList();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			String lsh=(String)object.get("lshx");
+			listfinal.add(lsh);
+		}
+		return listfinal;
+	}
+
+	@Override
+	public int countOnlyLsh(String clientId, String appname, boolean mode,
+			String listType, QueryColumn query) throws Exception {
+		// 预先装载工作流句柄
+		CupmRmi cupm = null;
+		WorkflowView wfview = null;
+		try {
+			wfview = (WorkflowView) RmiEntry.iv("wfview");
+			cupm = (CupmRmi) RmiEntry.iv("cupm");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String opemode = "('01','02')";
+		if (!mode) {
+			opemode = "('03','04')";
+		}
+		String processidStr = "";
+		String processidstr_detail="";//某人查看流程所有权限
+		String naturalname_detail = "";//busswf...
+		boolean multiAppname = false;
+		int sizecolumn = 0;
+		Map wf2dycfg = null;
+		if (StringUtils.isNotEmpty(appname)) {
+
+			String appnameall[] = appname.split(",");
+			if (appnameall.length > 1) {
+				multiAppname = true;
+			} else {
+				if (appnameall.length == 1) {
+					List columnx = listQueryColumn(appname);
+					sizecolumn = columnx.size();
+					wf2dycfg = AppEntry.iv().wf2dyformBindCfg2(appname);
+				}
+
+			}
+			StringBuffer but = new StringBuffer();
+			for (int i = 0; i < appnameall.length; i++) {
+				AppObj app = AppEntry.iv().loadApp(appnameall[i]);
+				but.append(",'" + app.getWorkflowCode_() + "'");
+				naturalname_detail = app.getWorkflowCode_();
+			}
+
+			processidStr = "and w1.processid in(" + but.toString().substring(1)
+					+ ")";
+			processidstr_detail ="w1.processid in(" + but.toString().substring(1)
+			+ ")";
+		} else {
+			multiAppname = true;
+		}
+
+		String urlEnd = "";
+		// 获得所有许可的代办任务
+		String loadworklist = "";
+		String loadworklist_detail="";//根据权限提供显示流程所有工单
+		String condition = "";
+		boolean flag = false;
+		if (query != null && !query.getValue().equals("")) {
+			flag=true;
+			if (!query.isTime()) {
+				condition = " and " + query.getId() + " like '%"
+						+ query.getValue() + "%' ";
+			} else {
+				String fromtime = StringUtils.substringBefore(query.getValue(),
+						"_");
+				String totime = StringUtils.substringAfter(query.getValue(),
+						"_");
+				if (!fromtime.trim().equals("")) {
+					condition = " and " + query.getId() + ">='" + fromtime
+							+ "'";
+				}
+				if (!totime.trim().equals("")) {
+					condition = " and " + query.getId() + "<='" + totime + "'";
+				}
+			}
+		}
+		String conditionx = null; 
+		if (query != null && query.getOrder() != null
+				&& !"".equals(query.getOrder())) {
+			String str =condition;
+			if(StringUtils.isEmpty(str)){
+				str="";
+			}
+			condition = str;
+			if(flag){
+				conditionx=str;
+			}else{
+				conditionx="";
+			}
+			
+		}
+
+		if ("01".equals(listType)) {
+			// 抄阅
+			if (opemode.equals("('03')")) {
+				loadworklist = "select distinct w3.lsh lshx from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='"
+						+ clientId
+						+ "' and w2.statusnow in ('01','02')"
+						+ processidStr
+						+ " and w2.types in "
+						+ opemode
+						+ condition;
+				loadworklist_detail=StringUtils.replace(loadworklist, "w2.usercode='"+clientId+"'", " 1=1 ");
+
+			} else if (opemode.equals("('04')")) {// 阅读
+				loadworklist = "select  distinct w3.lsh lshx  from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='"
+						+ clientId
+						+ "' and w2.statusnow in ('01')"
+						+ processidStr
+						+ " and w2.types in "
+						+ opemode
+						+ condition ;
+				loadworklist_detail=StringUtils.replace(loadworklist, "w2.usercode='"+clientId+"'", "1=1");
+
+			} else {
+				// 待办任务
+				loadworklist = "select distinct w3.lsh lshx  from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS='01' and w2.usercode='"
+						+ clientId
+						+ "' and w2.statusnow='01"
+						+ "' "
+						+ processidStr
+						+ " and w2.types in "
+						+ opemode
+						+ condition  ;
+				loadworklist_detail=StringUtils.replace(loadworklist, "w2.usercode='"+clientId+"'", " 1=1 ");
+			}
+		} else if ("02".equals(listType)) {
+			urlEnd = "&query=look&cuibang=true";
+			// 所有结束任务但未归档
+			loadworklist="select w3.lsh lshx "+
+
+			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
+
+			"where w1.EXECUTESTATUS='01' and w1.RUNTIMEID in("+
+			"select runtimeid from t_wf_runtime where STATUSNOW='01' and runtimeid in("+
+			"select runtimeid from t_wf_participant where STATUSNOW='02' and USERCODE='"+clientId+"'))"+
+			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition ;	
+			
+			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
+		} else if ("03".equals(listType)) {
+			// 所有结束任务且已经归档
+			urlEnd = "&query=look";
+			// 所有结束任务但未归档
+			loadworklist="select distinct w3.lsh lshx "+
+
+			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
+
+			"where w1.RUNTIMEID in("+
+			"select runtimeid from t_wf_runtime where STATUSNOW='02' and runtimeid in("+
+			"select runtimeid from t_wf_participant where STATUSNOW='02' and USERCODE='"+clientId+"'))"+
+			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition  ;	
+			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
+		} else {
+			// 所有个人任务
+			loadworklist="select distinct w3.lsh lshx "+
+
+			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
+
+			"where w1.RUNTIMEID in("+
+			"select runtimeid from t_wf_runtime where runtimeid in("+
+			"select runtimeid from t_wf_participant where STATUSNOW='02' and USERCODE='"+clientId+"'))"+
+			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition;	
+			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
+
+		}
+		
+		
+		List list =null;
+
+		if("adminx".equals(clientId)){
+			list =wfview.coreSqlview(loadworklist_detail);
+		}else{
+			if(!multiAppname){
+				String workflowcode=AppEntry.iv().loadApp(appname).getWorkflowCode_();
+				boolean admin=SecurityEntry.iv().permission(clientId, workflowcode);
+				if(admin){
+					list =wfview.coreSqlview(loadworklist_detail);
+				}
+			}
+			list =wfview.coreSqlview(loadworklist);
+		}
+
+		return list.size();
+	}
 }

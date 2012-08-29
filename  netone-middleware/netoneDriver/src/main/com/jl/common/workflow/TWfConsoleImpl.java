@@ -424,9 +424,9 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		String createtime = (new Timestamp(System.currentTimeMillis()))
 				.toString();
 		
-		String participant_app=StringUtils.substringBetween(participant, "(", ")");
+		String participant_app=StringUtils.substringBetween(username, "(", ")");
 		if(participant_app!=null){
-			participant=StringUtils.replace(participant, "("+participant_app+")", "");
+			username=StringUtils.replace(username, "("+participant_app+")", "");
 		}
 
 		console

@@ -37,11 +37,26 @@
 		<div id="top_nd_bg_1" style="height:35px;background-image: url('<%=cssURL%>/top_nd_bg.gif');z-index:9999;">
 			<div id="top_nd_bg" style="background-image: url('<%=cssURL%>/top_nd_bg.gif');text-align: left;width:1000px;z-index:9999;">
 				<c:choose>
+				  <c:when test="${param.query=='lookx'}">
+					<div id="look_1" style="">
+						<div id="btn_nd">
+
+							<input id="cannelBtn_look" type="button" value=" 关 闭" class="btn"
+								onclick="javascript:window.close();" />
+
+							<c:if test="${param.cuibang=='true'}">	
+							<input id="cannelBtn_cuibang" type="button" value=" 催 办 " class="btn"
+								onclick="cuiban();" />
+							</c:if>		
+						</div>
+					</div>
+				</c:when>
+				
 					<c:when test="${param.query=='look'}">
 					<div id="look_1" style="">
 						<div id="btn_nd">
 
-							<input id="cannelBtn_look" type="button" value=" 关 闭 " class="btn"
+							<input id="cannelBtn_look" type="button" value=" 关 闭 111" class="btn"
 								onclick="javascript:window.close();" />
 
 							<input id="cannelBtn_lookListxx" type="button" value=" 已 阅 " class="btn"

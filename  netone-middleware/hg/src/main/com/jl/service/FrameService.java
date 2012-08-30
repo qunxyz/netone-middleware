@@ -186,26 +186,6 @@ public interface FrameService {
 			throws Exception;
 
 	/**
-	 * 工单详情
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	public String dyformDetail(HttpServletRequest request,
-			HttpServletResponse response) throws Exception;
-
-	/**
-	 * 工单处理详情
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	public String dyformDealDetail(HttpServletRequest request,
-			HttpServletResponse response) throws Exception;
-
-	/**
 	 * 确认状态
 	 * 
 	 * @param request

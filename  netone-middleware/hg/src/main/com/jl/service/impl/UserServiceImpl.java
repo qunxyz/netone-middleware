@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 
 import com.jl.common.JSONUtil2;
 import com.jl.common.MD5Util;
+import com.jl.common.SpringBeanUtilHg;
 import com.jl.common.TimeUtil;
 import com.jl.dao.CommonDAO;
 import com.jl.entity.User;
@@ -48,6 +49,12 @@ public class UserServiceImpl extends BaseService implements UserService {
 
 	public void setCommonDAO(CommonDAO commonDAO) {
 		this.commonDAO = commonDAO;
+	}
+
+	private CommonDAO getHgDAO() {
+		CommonDAO dao = (CommonDAO) SpringBeanUtilHg.getInstance().getBean(
+				"commonDAO");
+		return dao;
 	}
 
 	public void queryInfo(HttpServletRequest request,
@@ -271,6 +278,82 @@ public class UserServiceImpl extends BaseService implements UserService {
 		} finally {
 			super.writeJsonStr(response, json.toString());
 		}
+	}
+
+	public void syncUserFromK3(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+			Map map = new HashMap();
+			List list = (List) commonDAO.select("Part.selectAllDept", map);
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				Map object = (Map) iterator.next();
+				String departmentCode = (String) object.get("departmentCode");
+				String departmentId = (String) object.get("departmentId");
+
+				Map map2 = new HashMap();
+				map2.put("deptcode", departmentCode);
+				List listx = (List) getHgDAO().select("HG.selectEmp", map2);
+				for (Iterator iterator2 = listx.iterator(); iterator2.hasNext();) {
+					Map object2 = (Map) iterator2.next();
+
+					Integer FGender = (Integer) object2.get("FGender");
+					String FPhone = (String) object2.get("FPhone");
+					String FShortNumber = (String) object2.get("FShortNumber");
+					String FNumber = (String) object2.get("FNumber");
+					Integer FParentID = (Integer) object2.get("FParentID");
+					Integer FDepartmentID = (Integer) object2
+							.get("FDepartmentID");
+					Integer orders = (Integer) object2.get("F_102");
+					String FName = (String) object2.get("FName");
+
+					User user = new User();
+					user.setUserCode(FShortNumber);
+					user.setOrders(orders);
+					user.setUserName(FName);
+					user.setDepartmentId(departmentId);
+					user.setPhone(FPhone);
+					user.setTypes("x");
+					user.setAccounttypes(1);
+					user.setStatus("1");
+					/**
+					 * 男 1068 女 1069
+					 */
+					user.setSex("" + ((FGender == 1068) ? 0 : 1));
+
+					Integer exists = (Integer) commonDAO.findForObject(
+							"User.findUserCodeIsExist", FShortNumber);
+
+					Map extAttribute = new HashMap();
+					extAttribute.put("orders", user.getOrders());
+					if (exists > 0) {// 保存
+						user.setStatus("1");
+						String userid = (String) commonDAO.findForObject(
+								"Part.findUserInfoByCode", user.getUserCode());
+						user.setUserId(userid);
+						user = (User) commonDAO.update("User.updateUser", user);
+						if (enableSyncComponent) {
+							getSecurityAPI(request).editAccount(
+									user.getDepartmentId(), user.getUserCode(),
+									user.getUserName(), extAttribute);
+						}
+					} else {// 创建
+						user.setStatus("1");
+						user = (User) commonDAO.insert("User.insertUser", user);
+						if (enableSyncComponent) {
+							getSecurityAPI(request).newAccount(
+									user.getDepartmentId(), user.getUserCode(),
+									user.getUserName(), extAttribute);
+						}
+					}
+
+				}
+			}
+
+		} catch (Exception e) {
+			log.error("同步出错！", e);
+		}
+
 	}
 
 	// ----Private Methods

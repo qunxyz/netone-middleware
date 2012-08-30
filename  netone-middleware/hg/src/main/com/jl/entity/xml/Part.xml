@@ -3,6 +3,21 @@
     PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="Part">
+	<!-- 查找所有部门 -->
+	<select id="selectAllDept" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select * from t_department where 1=1
+	</select>
+	
+	<!-- 查找父ID部门信息 -->
+	<select id="findParentDeptInfo" parameterClass="string" resultClass="string">
+		select IFNULL(departmentId,'') as v from t_department where departmentcode=#departmentcode# limit 1
+	</select>
+	
+	<!-- 根据编码查找 用户 -->
+	<select id="findUserInfoByCode" parameterClass="string" resultClass="string">
+          SELECT userid FROM t_user WHERE userCode=#userCode#  
+	</select>
+	
 	
 	<!-- 查找网点与产品的关联关系 -->
 	<select id="findPartAProductRelation" parameterClass="java.util.Map" resultClass="java.util.HashMap">

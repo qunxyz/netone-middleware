@@ -60,7 +60,6 @@ public interface DepartmentService {
 	public void findDepartmentTree(HttpServletRequest request,
 			HttpServletResponse response);
 
-	
 	/**
 	 * 查询部门/公司树X
 	 * 
@@ -121,6 +120,15 @@ public interface DepartmentService {
 	 * @param response
 	 */
 	public void fobidFunction(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 同步K3部门到部门表
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void syncDeptFromK3(HttpServletRequest request,
 			HttpServletResponse response);
 
 }

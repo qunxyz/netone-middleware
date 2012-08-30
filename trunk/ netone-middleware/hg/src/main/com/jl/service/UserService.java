@@ -24,7 +24,7 @@ public interface UserService {
 	 *            响应对象
 	 */
 	void queryInfo(HttpServletRequest request, HttpServletResponse response);
-	
+
 	/**
 	 * 查询集合数据，结果以分页形式展现
 	 * 
@@ -65,4 +65,13 @@ public interface UserService {
 	 *            响应对象
 	 */
 	void deleteInfo(HttpServletRequest request, HttpServletResponse response);
+
+	/**
+	 * 同步K3职员到用户表中
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	void syncUserFromK3(HttpServletRequest request, HttpServletResponse response);
+
 }

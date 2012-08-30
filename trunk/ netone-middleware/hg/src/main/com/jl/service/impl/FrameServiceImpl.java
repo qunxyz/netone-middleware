@@ -171,6 +171,14 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		dayx.script(formcode, lsh, "PDelete");
 		// END 前置脚本
 
+		// true 表示表单锁定 不能编辑
+		boolean isformLock = WfEntry.iv().bussFormLock(lsh);
+		if (isformLock) {
+			json.put("tip", "已归档或在审核中的单子，不能作废!");
+			json.put("error", "yes");
+			return json.toString();
+		}
+
 		if (StringUtils.isEmpty(lsh)) {
 			json.put("tip", "该单未保存,无须作废!");
 		} else {
@@ -214,6 +222,14 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		DyAnalysisXml dayx = new DyAnalysisXml();
 		dayx.script(formcode, lsh, "PDelete");
 		// END 前置脚本
+
+		// true 表示表单锁定 不能编辑
+		boolean isformLock = WfEntry.iv().bussFormLock(lsh);
+		if (isformLock) {
+			json.put("tip", "已归档或在审核中的单子，不能作废!");
+			json.put("error", "yes");
+			return json.toString();
+		}
 
 		if (StringUtils.isEmpty(lsh)) {
 			json.put("tip", "该单未保存,无须归档!");
@@ -294,7 +310,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		String hiddenunid = DyFormComp.getHiddenInput("unid", lsh);
 		String hiddenlsh = DyFormComp.getHiddenInput("lsh", lsh);
 		if (!ishidden) {
-			html.append(DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
+			html.append(DyFormBuildHtml.buildForm(dyform, false, userinfo,
 					naturalname, lsh, false, false, parameter, hiddenid
 							+ hiddenunid + hiddenlsh));
 		} else {
@@ -342,6 +358,10 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 
 				if (issubedit == null)
 					issubedit = true;
+				
+				// 特殊处理
+				if (isedit == false)
+					issubedit = false;
 
 				String submode = subdyform.getSubmode();
 				if ("2".equals(submode)) {// 2:链接展示-多条子表单记录(需要保存主表单)
@@ -386,12 +406,19 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		String clientId = participant_;
 		String mode = naturalname;
 		String ddid = id;
+
+		boolean reuseform = false;
+		// 流程共用一个表单特殊处理
+		if ("APPFRAME.APPFRAME.HGMY.HXTASK".equals(naturalname)) {
+			reuseform = true;
+		}
+
 		String ddurl = "frame.do?method=onEditViewMain&naturalname="
 				+ naturalname + "&lsh=";
 		boolean isspecial = false;//
 		if (StringUtils.isEmpty(runtimeid) || "null".equals(runtimeid)) {
 			String runtimeidx = WfEntry.iv().getSession(id);
-			if (runtimeidx != null && !runtimeidx.equals("")) {
+			if (runtimeidx != null && !runtimeidx.equals("") && !reuseform) {
 				runtimeid = runtimeidx;
 				isspecial = true;
 			} else {
@@ -940,188 +967,6 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		String str = StringUtils.join(jSonSet.iterator(), ",");
 		str = "[" + str + "]";
 		return str;
-	}
-
-	public String dyformDetail(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		String naturalname = request.getParameter("naturalname");
-		AppObj app = AppEntry.iv().loadApp(naturalname);
-		String formcode = app.getDyformCode_();
-		String condition = request.getParameter("condition");
-		DyForm dyform = DyEntry.iv().loadForm(formcode);
-		// DyFormColumn _formx[] = dyform.getAllColumn_();
-
-		DyFormData dydata = new DyFormData();
-		dydata.setFatherlsh("1");
-		dydata.setFormcode(formcode);
-
-		List<DyFormData> list = DyEntry.iv().queryData(dydata, 0, 999999,
-				condition);
-
-		List<TableCell> headerList = new ArrayList<TableCell>();
-		headerList.add(new TableCell("" + "文档ID"));
-		Map listmap = new HashMap();
-		for (int i = 0; i < dyform.getQueryColumn_().length; i++) {
-			DyFormColumn _qc1 = dyform.getQueryColumn_()[i];
-			headerList.add(new TableCell("" + _qc1.getColumname()));
-			listmap.put(_qc1.getColumnid(), _qc1.getColumnid());
-		}
-		headerList.add(new TableCell("" + "工单处理过程"));
-
-		Table t = new Table();
-		ReportExt reportExt = new ReportExt();
-		Method[] ms = DyFormData.class.getMethods();
-		for (int i = 0; i < list.size(); i++) {
-			DyFormData DyFormData = list.get(i);
-			TableRow trdata = new TableRow();
-			trdata.addCell(new TableCell("" + DyFormData.getLsh()));
-			for (Method m : ms) {
-				if (m.getName().startsWith("get")
-						&& m.getParameterTypes().length == 0
-						&& !m.getName().equals("get")
-						&& !m.getName().equals("getClass")) {
-					char[] fieldch = m.getName().substring(3).toCharArray();
-					fieldch[0] = Character.toLowerCase(fieldch[0]);
-					String field = new String(fieldch);
-
-					if (listmap.containsKey(field)) {
-						Object value = m.invoke(DyFormData, null);
-						value = value == null ? "" : value;
-
-						trdata.addCell(new TableCell("" + value));
-					}
-				}
-			}
-
-			// S 工单处理过程
-			Map relevantvar_tmp = (Map) commonDAO.findForObject(
-					"Dyform.select_wf_relevantvar_tmp", DyFormData.getLsh());
-			StringBuffer dealdetail = new StringBuffer();
-			if (relevantvar_tmp != null) {
-				String runtimeid = (String) relevantvar_tmp.get("runtimeid");
-				List<TWfParticipant> listx = WfEntry.iv()
-						.listAllParticipantinfo(runtimeid, true);
-				for (TWfParticipant wfParticipant : listx) {
-					dealdetail.append(wfParticipant.getUsername() + ":"
-							+ wfParticipant.getCreatetime() + "#"
-							+ wfParticipant.getAuditnode() + "\n");
-				}
-			}
-			trdata.addCell(new TableCell("" + dealdetail.toString()));
-			// E 工单处理过程
-
-			t.addRow(trdata);
-		}
-
-		Report reportX = reportExt.setSimpleColHeader(t, headerList);
-		Long currentTimeMillis = System.currentTimeMillis();
-		GroupReport groupReport = new GroupReport();
-		response.reset();
-		groupReport.format("excel", "工单详情" + currentTimeMillis, reportX,
-				response);
-		return null;
-	}
-
-	public String dyformDealDetail(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		String naturalname = request.getParameter("naturalname");
-		AppObj app = AppEntry.iv().loadApp(naturalname);
-		String formcode = app.getDyformCode_();
-		String condition = request.getParameter("condition");
-		DyForm dyform = DyEntry.iv().loadForm(formcode);
-		// DyFormColumn _formx[] = dyform.getAllColumn_();
-
-		DyFormData dydata = new DyFormData();
-		dydata.setFatherlsh("1");
-		dydata.setFormcode(formcode);
-
-		List<DyFormData> list = DyEntry.iv().queryData(dydata, 0, 999999,
-				condition);
-
-		List<TableCell> headerList = new ArrayList<TableCell>();
-		headerList.add(new TableCell(""));
-		headerList.add(new TableCell("处理人"));
-		headerList.add(new TableCell("开始时间"));
-		headerList.add(new TableCell("结束时间"));
-		headerList.add(new TableCell("环节"));
-		headerList.add(new TableCell("文档ID"));
-		headerList.add(new TableCell("历时分钟"));
-		headerList.add(new TableCell("工单名称"));
-
-		Table t = new Table();
-		ReportExt reportExt = new ReportExt();
-		Method[] ms = DyFormData.class.getMethods();
-		int index = 0;
-		for (int i = 0; i < list.size(); i++) {
-			DyFormData DyFormData = list.get(i);
-			// trdata.addCell(new TableCell("" + DyFormData.getLsh()));
-
-			Map relevantvar_tmp = (Map) commonDAO.findForObject(
-					"Dyform.select_wf_relevantvar_tmp", DyFormData.getLsh());
-
-			if (relevantvar_tmp != null) {
-				String runtimeid = (String) relevantvar_tmp.get("runtimeid");
-				String d0 = (String) relevantvar_tmp.get("d0");
-
-				List<TWfParticipant> listx = WfEntry.iv()
-						.listAllParticipantinfo(runtimeid, true);
-				for (TWfParticipant wfParticipant : listx) {
-					TableRow trdata = new TableRow();
-
-					trdata.addCell(new TableCell("" + (++index)));// 0
-					trdata.addCell(new TableCell(""
-							+ wfParticipant.getUsername()));// 1
-					trdata.addCell(new TableCell(""
-							+ wfParticipant.getCreatetime()));// 2
-					trdata.addCell(new TableCell(""
-							+ wfParticipant.getDonetime()));// 3
-					trdata.addCell(new TableCell(""
-							+ wfParticipant.getActname()));// 4
-					trdata.addCell(new TableCell("" + DyFormData.getLsh()));// 5
-					trdata.addCell(new TableCell(""
-							+ getBetweenDayNumber(
-									wfParticipant.getCreatetime(),
-									wfParticipant.getDonetime())));// 6
-					trdata.addCell(new TableCell("" + d0));// 7
-					t.addRow(trdata);
-				}
-			}
-		}
-
-		Report reportX = reportExt.setSimpleColHeader(t, headerList);
-		Long currentTimeMillis = System.currentTimeMillis();
-		GroupReport groupReport = new GroupReport();
-		response.reset();
-		groupReport.format("excel", "工单处理详情" + currentTimeMillis, reportX,
-				response);
-
-		return null;
-	}
-
-	/**
-	 * 计算两个时间点之间分钟差
-	 * 
-	 * @param dateA
-	 * @param dateB
-	 * @return
-	 */
-	public static int getBetweenDayNumber(String dateA, String dateB) {
-		if (StringUtils.isEmpty(dateA) || StringUtils.isEmpty(dateB))
-			return -1;
-
-		long dayNumber = 0;
-		// 1小时=60分钟=3600秒=3600000
-		long mins = 60L * 1000L;
-		// long day= 24L * 60L * 60L * 1000L;计算天数之差
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		try {
-			java.util.Date d1 = df.parse(dateA);
-			java.util.Date d2 = df.parse(dateB);
-			dayNumber = (d2.getTime() - d1.getTime()) / mins;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return (int) dayNumber;
 	}
 
 	public String saveConfirmStatus(HttpServletRequest request,

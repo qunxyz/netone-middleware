@@ -29,9 +29,9 @@ import org.apache.log4j.Logger;
 import com.jl.common.CommonUploadUtil;
 import com.jl.common.JSONUtil2;
 import com.jl.common.JxlUtilsTemplate;
+import com.jl.common.SpringBeanUtilHg;
 import com.jl.dao.CommonDAO;
 import com.jl.entity.Client;
-import com.jl.entity.ClientPriceLevel;
 import com.jl.entity.Department;
 import com.jl.entity.DepartmentLevel;
 import com.jl.entity.User;
@@ -58,6 +58,12 @@ public class DepartmentServiceImpl extends BaseService implements
 
 	public void setCommonDAO(CommonDAO commonDAO) {
 		this.commonDAO = commonDAO;
+	}
+
+	private CommonDAO getHgDAO() {
+		CommonDAO dao = (CommonDAO) SpringBeanUtilHg.getInstance().getBean(
+				"commonDAO");
+		return dao;
 	}
 
 	public DepartmentServiceImpl() {
@@ -940,6 +946,115 @@ public class DepartmentServiceImpl extends BaseService implements
 			dao.update("Department.updateDepartmentlevelrow", dept);
 		}
 		dao.update("Department.updateCurrDepartmentlevelrow", dept);
+	}
+
+	public void syncDeptFromK3(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			sycnDept(0, request);
+		} catch (Exception e) {
+			log.error("同步出错！", e);
+		}
+	}
+
+	private List getParentDeptID(int parentId) throws Exception {
+		List list = (List) getHgDAO().select("HG.selectDeptByParentID",
+				parentId);
+		return list;
+	}
+
+	private void sycnDept(int pid, HttpServletRequest request) throws Exception {
+
+		Map pdeptInfo = (Map) getHgDAO().findForObject(
+				"HG.selectParentDeptInfo", pid);
+		String pcode = "";
+		if (pdeptInfo != null) {
+			pcode = (String) pdeptInfo.get("FNumber");
+		}
+		List list = getParentDeptID(pid);
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			Integer FItemID = (Integer) object.get("FItemID");
+			Integer FParentID = (Integer) object.get("FParentID");
+			String FNumber = (String) object.get("FNumber");
+			String FName = (String) object.get("FName");
+
+			String departmentid = (String) commonDAO.findForObject(
+					"Part.findParentDeptInfo", FNumber);
+			String parentDepartmentid = (String) commonDAO.findForObject(
+					"Part.findParentDeptInfo", "".equals(pcode) ? "hgmy"
+							: pcode);
+			Department dept = new Department();
+			dept.setDepartmentCode(FNumber);
+			dept.setDepartmentName(FName);
+			Department pdept = new Department();
+			pdept.setDepartmentId(parentDepartmentid);
+			dept.setParentDepartment(pdept);
+			dept.setParentDepartmentId(parentDepartmentid);
+			dept.setLevel("-1");
+
+			if (StringUtils.isNotEmpty(departmentid)) {
+				dept.setDepartmentId(departmentid);
+				Department _dept = (Department) commonDAO.update(
+						"Department.updateDepartment", dept);
+				// 同步组件目录API
+				Map extAttribute = new HashMap();
+				extAttribute.put("orders", dept.getOrders());
+				if (enableSyncComponent)
+					getSecurityAPI(request).editOrganization(
+							parentDepartmentid, departmentid, FName,
+							extAttribute);
+			} else {
+				Department _dept = (Department) commonDAO.insert(
+						"Department.insertDepartment", dept);
+				// 同步组件目录API
+				Map extAttribute = new HashMap();
+				extAttribute.put("orders", _dept.getOrders());
+				if (enableSyncComponent)
+					getSecurityAPI(request).newOrganization(parentDepartmentid,
+							_dept.getDepartmentId(), FName, extAttribute);
+			}
+			syncFunction(commonDAO, dept, "-1");
+			sycnDept(FItemID, request);
+		}
+	}
+
+	/**
+	 * 同步组织机构功能
+	 * 
+	 * @param dao
+	 * @param map
+	 * @param bussType
+	 * @param operateItem
+	 * @throws Exception
+	 * @author don add by 2011.3.14
+	 */
+	private void syncFunction(CommonDAO dao, Department dept, String bussType)
+			throws Exception {
+
+		List<Department> levelList = new ArrayList<Department>();
+		int nlevel = 0;// 当前树所在级别
+		String deptId = dept.getDepartmentId();
+		String deptCode = dept.getDepartmentCode();
+		String deptName = dept.getDepartmentName();
+		String pDeptId = dept.getParentDepartment().getDepartmentId();
+		String deptId_ = deptId;
+		String pDeptId_ = pDeptId;
+		nlevel = findTreeRelation(dao, levelList, deptId, ++nlevel);
+
+		Department _dept = new Department();
+		_dept.setDepartmentId(deptId);
+		_dept.setDepartmentCode(deptCode);
+		_dept.setDepartmentName(deptName);
+		_dept.setParentDepartmentId(pDeptId);
+
+		// 初始化公司横向数据
+		initDepartmentlevelrow(dao, deptId);
+		// 更新本级组织机构关联
+		buildTreeRelation(dao, levelList, deptId, nlevel, bussType,
+				getIsBuildTreeLevel(bussType));
+		// 更新公司横向数据
+		updateDepartmentlevelrow(dao, _dept);
 	}
 
 	/**

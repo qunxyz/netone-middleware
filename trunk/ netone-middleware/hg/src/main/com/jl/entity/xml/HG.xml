@@ -173,4 +173,37 @@
 				FItemID = 0
 			</isEmpty>
 	</select>
+	
+	<!-- 查询职员表 
+	FGender
+	FPhone
+	FShortNumber
+	FNumber
+	FParentID
+	FDepartmentID
+	-->
+	<select id="selectEmp" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select 
+			* 
+		from t_emp
+		where FDeleted=0 and FDepartmentID  in  (
+			select FItemID from t_department where FNumber=#deptcode#
+		)
+	</select>
+	
+	<!-- 根据职员代码查找职员信息 -->
+	<select id="selectEmpByNumber" parameterClass="string" resultClass="java.util.HashMap">
+		select * from t_emp where FShortNumber=#code# and FDeleted=0
+	</select>
+	
+	<!-- 根据父ID查找部门 -->
+	<select id="selectDeptByParentID" parameterClass="int" resultClass="java.util.HashMap">
+		select * from t_item where FItemClassID=2 and FDeleted=0 and FParentID=#FParentID#
+	</select>
+	
+	<!-- 根据父ID查找部门 -->
+	<select id="selectParentDeptInfo" parameterClass="int" resultClass="java.util.HashMap">
+		select * from t_item where FItemClassID=2 and FDeleted=0 and FItemID=#FParentID#
+	</select>
+	
 </sqlMap>

@@ -710,7 +710,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			listnew.add(data);
 		}
 		this.dealWithImgFile(listnew, formcode);
-	
+		this.dealWithDataTransformInScript(listnew, formcode);
 		return listnew;
 	}
 

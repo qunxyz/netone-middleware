@@ -1470,6 +1470,7 @@ public final class DyFormBuildHtml {
 		StringBuffer html = new StringBuffer();
 		// 展示表单字段-针对管理列表中的查询字段
 		Arrays.sort(queryColumn, getFormComparator());// 排序
+		String[][] arr = DyFormConsoleIfc._HTML_LIST;
 		for (int i = 0; i < queryColumn.length; i++) {
 			DyFormColumn _qc1 = queryColumn[i];
 			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
@@ -1482,11 +1483,17 @@ public final class DyFormBuildHtml {
 			String valuelist = _qc1.getValuelist();
 
 			if (columnid.contains("column")) {
-				String input = DyFormComp.getTag("<span>&nbsp;" + columnname
-						+ ":", "</span>", routeAppointComp2(htmltype, columnid,
-						"", "", "", false, valuelist, "", "", "", _qc1
-								.getDefaultValue()));
+
+				String hidden = "";
+				if (arr[28][0].equals(_qc1.getViewtype())) {// 隐藏
+					hidden = " style=\'display:none\' ";
+				}
+				String input = DyFormComp.getTag("<span " + hidden + ">&nbsp;"
+						+ columnname + ":", "</span>", routeAppointComp2(
+						htmltype, columnid, "", "", "", false, valuelist, "",
+						"", "", _qc1.getDefaultValue()));
 				html.append(input);
+
 			}
 		}
 		html.append(DyFormComp.getButton("", "查询", "", "", false,

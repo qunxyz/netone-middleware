@@ -806,15 +806,15 @@ public final class DyFormComp {
 	public static String getJsSelectTextKV(String columnid, String valuelist) {
 
 		StringBuffer jshtml = new StringBuffer();
-		jshtml.append("var pre = store.getAt(rowIndex).get('" + columnid
+		jshtml.append("var val = store.getAt(rowIndex).get('" + columnid
 				+ "') ;");
 		jshtml.append("var v = \"" + valuelist + "\".split(',');");
 
-		jshtml.append("var val = '';");
+		jshtml.append("");
 		jshtml.append("for (var i = 0; i < v.length; i++) {");
 		jshtml.append("	var x = v[i].split('-');");
-		jshtml.append("	if (pre == x[0]) {");
-		jshtml.append("		val=x[1];break;");
+		jshtml.append("	if (val == x[0]) {");
+		jshtml.append("		return x[1];");
 		jshtml.append("	}");
 		jshtml.append("}");
 		jshtml.append("if(val=='undefined' || val==null) val='';");

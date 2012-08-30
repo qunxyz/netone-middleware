@@ -482,7 +482,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			dayx.script(formcode, bussid, "SelectRead");
 		}
 		dealWithImgFile(data, formcode);
-		data = dealWithDataTransformInScript(data, formcode);
+		//data = dealWithDataTransformInScript(data, formcode);
 		return data;
 	}
 
@@ -719,7 +719,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			listnew.add(data);
 		}
 		this.dealWithImgFile(listnew, formcode);
-		listnew = this.dealWithDataTransformInScript(listnew, formcode);
+		//listnew = this.dealWithDataTransformInScript(listnew, formcode);
 		return listnew;
 	}
 

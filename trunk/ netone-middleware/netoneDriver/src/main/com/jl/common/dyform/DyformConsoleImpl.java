@@ -46,24 +46,24 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	static final String mail_c = "/^[_a-z0-9]+@([_a-z0-9]+\\.)+[a-z0-9]{2,3}$/";
 	static final String ip_c = "/^((\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d|\\d\\d|[0-1]\\d\\d|2[0-4]\\d|25[0-5]))$/";
 
-	static boolean needscript=false;
-	static boolean needCache=false;
-	static{
-		try{
-		ResourceBundle rsx=ResourceBundle.getBundle("config");
-		String need=rsx.getString("needCoreScript");
-		if("yes".equals(need)){
-			needscript=true;
-		}
-		String needCacheTmp=rsx.getString("needCache");
-		if("yes".equals(needCacheTmp)){
-			needCache=true;
-		}		
-		}catch(Exception e){
+	static boolean needscript = false;
+	static boolean needCache = false;
+	static {
+		try {
+			ResourceBundle rsx = ResourceBundle.getBundle("config");
+			String need = rsx.getString("needCoreScript");
+			if ("yes".equals(need)) {
+				needscript = true;
+			}
+			String needCacheTmp = rsx.getString("needCache");
+			if ("yes".equals(needCacheTmp)) {
+				needCache = true;
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String addData(String formid, DyFormData bus) throws Exception {
 		if (bus == null) {
 			throw new Exception("空表单");
@@ -81,47 +81,47 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		busx.setTimex((new Timestamp(System.currentTimeMillis()).toString()));
 		busx.setFormcode(formid);
 		DyAnalysisXml dayx = new DyAnalysisXml();
-		if(needscript)
-		dayx.scriptPre(formid, busx, "PNewSave");		
+		if (needscript)
+			dayx.scriptPre(formid, busx, "PNewSave");
 		String lsh = dy.addData(formid, busx);
 		System.out.println("new data coming:" + lsh);
-		if(needscript)
-		dayx.script(formid, lsh, "NewSave");
+		if (needscript)
+			dayx.script(formid, lsh, "NewSave");
 		return lsh;
 	}
 
 	public boolean deleteData(String formid, String id) throws Exception {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
-		
+
 		DyAnalysisXml dayx = new DyAnalysisXml();
-		if(needscript)
-		dayx.script(formid, id, "PDelete");
-		boolean rs=dy.deleteData(formid, id);
-		if(needscript)
-		dayx.script(formid, id, "Delete");
+		if (needscript)
+			dayx.script(formid, id, "PDelete");
+		boolean rs = dy.deleteData(formid, id);
+		if (needscript)
+			dayx.script(formid, id, "Delete");
 		return rs;
 
 	}
 
 	public List<DyFormColumn> fetchColumnList(String formid) throws Exception {
-		if(needCache&&WebCache.containCache("fetchColumnList"+formid)){
-			return (List)WebCache.getCache("fetchColumnList"+formid);
+		if (needCache && WebCache.containCache("fetchColumnList" + formid)) {
+			return (List) WebCache.getCache("fetchColumnList" + formid);
 		}
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 		List listcolumn = dy.fetchColumnList(formid);
-		
+
 		List newColumn = new ArrayList();
 		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		for (Iterator iterator = listcolumn.iterator(); iterator.hasNext();) {
-			TCsColumn object = (TCsColumn) iterator.next();		
+			TCsColumn object = (TCsColumn) iterator.next();
 			String typex = object.getViewtype();
 			if ("20".equals(typex) || "21".equals(typex) || "29".equals(typex)) {
 				// continue;
 			}
-			if(object.getColumncode().startsWith("num_")){
+			if (object.getColumncode().startsWith("num_")) {
 				object.setViewtype("01");
 			}
-			if(object.getColumncode().startsWith("time_")){
+			if (object.getColumncode().startsWith("time_")) {
 				object.setViewtype("04");
 			}
 			DyFormColumn columnnew = new DyFormColumn();
@@ -130,13 +130,13 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			this.dealWithDefaultValue(columnnew, rs);
 			newColumn.add(columnnew);
 		}
-		if(needCache)
-		WebCache.setCache("fetchColumnList"+formid, newColumn, null);
+		if (needCache)
+			WebCache.setCache("fetchColumnList" + formid, newColumn, null);
 		return newColumn;
 	}
-	
-	
-	public List<DyFormColumn> fetchColumnListForDesign(String formid) throws Exception {
+
+	public List<DyFormColumn> fetchColumnListForDesign(String formid)
+			throws Exception {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 		List listcolumn = dy.fetchColumnList(formid);
 		List newColumn = new ArrayList();
@@ -150,93 +150,96 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyFormColumn columnnew = new DyFormColumn();
 			BeanUtils.copyProperties(columnnew, object);
 			loadColumnx(columnnew);
-			//dealWithKvDict(columnnew, rs);
+			// dealWithKvDict(columnnew, rs);
 			newColumn.add(columnnew);
 		}
 
 		return newColumn;
 	}
-	
+
 	private void dealWithDefaultValue(DyFormColumn columnnew, ResourceRmi rs) {
 		// 扩展处理 k-v 列表，支持字典应用
 		String htmltype = columnnew.getViewtype();
 
-
-		//System.out.println(htmltype);
+		// System.out.println(htmltype);
 		if ("11".equals(htmltype)) {
-			//KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
+			// KV列表有4种模式 1、手工配置的备选值 2、来自资源树某层目录的值 3、来自SOA脚本 4、来自其他动态表单的字段
 			StringBuffer but = new StringBuffer();
 			String valuelist = columnnew.getValuelist();
-			//来自资源树某层目录的值
-			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
-			
+			// 来自资源树某层目录的值
+			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:",
+					"]");
+
 			if (StringUtils.isNotEmpty(rsinfo)) {
-				String valuetmp[]=StringUtils.split(rsinfo,",");
-				String rsNaturaname=valuetmp[0];
-				String rsKey=valuetmp.length==2?valuetmp[1]:"name";
+				String valuetmp[] = StringUtils.split(rsinfo, ",");
+				String rsNaturaname = valuetmp[0];
+				String rsKey = valuetmp.length == 2 ? valuetmp[1] : "name";
 				if (!StringUtils.contains(rsNaturaname, ".")) {
 					rsNaturaname = rsNaturaname + "." + rsNaturaname;
 				}
 				try {
-					UmsProtectedobject upo = rs.loadResourceByNatural(rsNaturaname);
+					UmsProtectedobject upo = rs
+							.loadResourceByNatural(rsNaturaname);
 					List sub = rs.subResource(upo.getId());
 
 					for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
 						UmsProtectedobject object = (UmsProtectedobject) iterator
 								.next();
-						String key=object.getName();
-						if(rsKey.equals("naturalname")){
-							key=object.getNaturalname();
-						}else if(rsKey.equals("id")){
-							key=object.getId();
-						}else if(rsKey.equals("nameid")){
-							key=object.getName()+"["+object.getId()+"]";
-						}else if(rsKey.equals("namenatual")){
-							key=object.getName()+"["+object.getNaturalname()+"]";
-						}else if(rsKey.equals("actionurl")){
-							key=object.getActionurl();
+						String key = object.getName();
+						if (rsKey.equals("naturalname")) {
+							key = object.getNaturalname();
+						} else if (rsKey.equals("id")) {
+							key = object.getId();
+						} else if (rsKey.equals("nameid")) {
+							key = object.getName() + "[" + object.getId() + "]";
+						} else if (rsKey.equals("namenatual")) {
+							key = object.getName() + "["
+									+ object.getNaturalname() + "]";
+						} else if (rsKey.equals("actionurl")) {
+							key = object.getActionurl();
 						}
-						but.append(key + "-"
-								+ object.getName() + ",");
+						but.append(key + "-" + object.getName() + ",");
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			//来自SOA脚本
-			dealWithSoa(valuelist,rs,but);
-			
-			//来自其他表单字段
+			// 来自SOA脚本
+			dealWithSoa(valuelist, rs, but);
+
+			// 来自其他表单字段
 			rsinfo = StringUtils.substringBetween(valuelist, "[DYFORM:", "]");
 
 			if (StringUtils.isNotEmpty(rsinfo)) {
-				String form[]=StringUtils.split(rsinfo,",");
-				DyFormData dfd=new DyFormData();
+				String form[] = StringUtils.split(rsinfo, ",");
+				DyFormData dfd = new DyFormData();
 				dfd.setFatherlsh("1");
 				dfd.setFormcode(form[0]);
-				String condition=form.length==4?form[3]:"";
+				String condition = form.length == 4 ? form[3] : "";
 				try {
-					List data=DyEntry.iv().queryData(dfd, 0, 1000, condition);
+					List data = DyEntry.iv().queryData(dfd, 0, 1000, condition);
 					for (Iterator iterator = data.iterator(); iterator
 							.hasNext();) {
 						DyFormData object = (DyFormData) iterator.next();
-						Object key=BeanUtils.getProperty(object, form[1]);
-						String value="";
-						//字段下拉字段组合
-						if(StringUtils.contains(form[2], "@")){
-							String []valuex=StringUtils.split(form[2], "@");
+						Object key = BeanUtils.getProperty(object, form[1]);
+						String value = "";
+						// 字段下拉字段组合
+						if (StringUtils.contains(form[2], "@")) {
+							String[] valuex = StringUtils.split(form[2], "@");
 							for (int i = 0; i < valuex.length; i++) {
-								value=value+BeanUtils.getProperty(object, valuex[i]);
+								value = value
+										+ BeanUtils.getProperty(object,
+												valuex[i]);
 							}
-						}else{
-							value=BeanUtils.getProperty(object, form[2]);
+						} else {
+							value = BeanUtils.getProperty(object, form[2]);
 						}
-						
-						String keyinfo=key==null?"":key.toString();
-						String valueinfo=value==null?"":value.toString();
-						but.append(keyinfo + "-"
-								+ valueinfo + ",");
+
+						String keyinfo = key == null ? "" : key.toString();
+						String valueinfo = value == null ? "" : value
+								.toString();
+						but.append(keyinfo + "-" + valueinfo + ",");
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -246,43 +249,44 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			if (but.length() > 0) {
 				columnnew.setValuelist(but.toString());
 			}
-		}else if ("17".equals(htmltype)||"18".equals(htmltype)||"22".equals(htmltype)||"23".equals(htmltype)||"27".equals(htmltype)||"28".equals(htmltype)) {
-			//处理树
+		} else if ("17".equals(htmltype) || "18".equals(htmltype)
+				|| "22".equals(htmltype) || "23".equals(htmltype)
+				|| "27".equals(htmltype) || "28".equals(htmltype)) {
+			// 处理树
 			String valuelist = columnnew.getValuelist();
-			//来自资源树某层目录的值
-			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:", "]");
-			if(StringUtils.isNotEmpty(rsinfo)){
-				String name=StringUtils.substringBefore(valuelist, "[TREE:");
-				String treex[]=rsinfo.split(",");
-				//在树中只取一个naturalname其他不用
-				columnnew.setValuelist(name+"["+treex[0]+"]");
+			// 来自资源树某层目录的值
+			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:",
+					"]");
+			if (StringUtils.isNotEmpty(rsinfo)) {
+				String name = StringUtils.substringBefore(valuelist, "[TREE:");
+				String treex[] = rsinfo.split(",");
+				// 在树中只取一个naturalname其他不用
+				columnnew.setValuelist(name + "[" + treex[0] + "]");
 			}
-		}else if("30".equals(htmltype)||"31".equals(htmltype)||"32".equals(htmltype)){
+		} else if ("30".equals(htmltype) || "31".equals(htmltype)
+				|| "32".equals(htmltype)) {
 			columnnew.setDefaultValue("");
-		}
-		else {
+		} else {
 			String valuelist = columnnew.getValuelist();
-			if(StringUtils.isNotEmpty(valuelist)){
-				valuelist=valuelist.trim();
+			if (StringUtils.isNotEmpty(valuelist)) {
+				valuelist = valuelist.trim();
 			}
-			StringBuffer but=new StringBuffer();
-			dealWithSoa(valuelist,rs,but);
+			StringBuffer but = new StringBuffer();
+			dealWithSoa(valuelist, rs, but);
 			if (but.length() > 0) {
 				columnnew.setDefaultValue(but.toString());
-			}else{
+			} else {
 				columnnew.setDefaultValue(valuelist);
 			}
 		}
-		
 
 	}
-	
-	
-	private void dealWithSoa(String valuelist,ResourceRmi rs,StringBuffer but){
+
+	private void dealWithSoa(String valuelist, ResourceRmi rs, StringBuffer but) {
 		String rsinfo = StringUtils.substringBetween(valuelist, "[SOA:", "]");
 		if (StringUtils.isNotEmpty(rsinfo)) {
-			String naturalname[]=rsinfo.split(",");
-			UmsProtectedobject upo=null;
+			String naturalname[] = rsinfo.split(",");
+			UmsProtectedobject upo = null;
 			try {
 				upo = rs.loadResourceByNatural(naturalname[0]);
 			} catch (RemoteException e) {
@@ -294,20 +298,21 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 				env = (EnvService) RmiEntry.iv("envinfo");
 				String value = env.fetchEnvValue("WEBSER_APPFRAME");
-				value=value+"Soasvl?naturalname="+naturalname[0]+(naturalname.length==2?naturalname[1]:"");
+				value = value + "Soasvl?naturalname=" + naturalname[0]
+						+ (naturalname.length == 2 ? naturalname[1] : "");
 
-						//System.out.println("sync user to php:"+url);
-						// 通讯协议
-						URL rul = new URL(value);
-						// 获得数据流
-						URLConnection urlc = rul.openConnection();
-						InputStream input = urlc.getInputStream();
-						// 进行数据交换
+				// System.out.println("sync user to php:"+url);
+				// 通讯协议
+				URL rul = new URL(value);
+				// 获得数据流
+				URLConnection urlc = rul.openConnection();
+				InputStream input = urlc.getInputStream();
+				// 进行数据交换
 
-						int read = 0;
-						while ((read = input.read()) != -1) {
-							but.append((char) read);
-						}
+				int read = 0;
+				while ((read = input.read()) != -1) {
+					but.append((char) read);
+				}
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -317,7 +322,6 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}
 
 	}
-
 
 	private void loadColumnx(DyFormColumn columnnew) throws Exception {
 
@@ -332,13 +336,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 		String ext = columnnew.getExtendattribute();
 		if (ext != null && !ext.equals("")) {
-			DyAnalysisXml ds=new DyAnalysisXml();
+			DyAnalysisXml ds = new DyAnalysisXml();
 			// 设置获得焦点事件
 			String focusScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_FOCUSSCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
-			columnnew.setFocusScript(ds.dealWithResourceScript(focusScript,"WEBSOASCRIPT"));
-			
+			columnnew.setFocusScript(ds.dealWithResourceScript(focusScript,
+					"WEBSOASCRIPT"));
+
 			// 设置失去焦点事件
 			String loseFocusScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_LOSEFOCUSSCRIPT,
@@ -365,7 +370,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				loseFocusScript = "if($(this).val()!=''){ if(!$(this).val().match("
 						+ check_req + ")){alert('无效格式');}}" + loseFocusScript;
 			}
-			columnnew.setLoseFocusScript(ds.dealWithResourceScript(loseFocusScript,"WEBSOASCRIPT"));
+			columnnew.setLoseFocusScript(ds.dealWithResourceScript(
+					loseFocusScript, "WEBSOASCRIPT"));
 
 			// 是否是一组字段
 			String groupScript = StringUtils.substringBetween(ext,
@@ -379,13 +385,15 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			String initScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_INITSCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
-			columnnew.setInitScript(ds.dealWithResourceScript(initScript,"WEBSOASCRIPT"));
+			columnnew.setInitScript(ds.dealWithResourceScript(initScript,
+					"WEBSOASCRIPT"));
 
 			// 设置改变事件
 			String onchange = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_ONCHANGESCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
-			columnnew.setOnchangeScript(ds.dealWithResourceScript(onchange,"WEBSOASCRIPT"));
+			columnnew.setOnchangeScript(ds.dealWithResourceScript(onchange,
+					"WEBSOASCRIPT"));
 
 			// 设置校验脚本
 			String reqExpressionularX = StringUtils.substringBetween(ext,
@@ -401,10 +409,10 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			} else {
 				columnnew.setRegExpression(reqExpressionular);
 			}
-			if(columnnew.getColumname().endsWith("$#")){
-			// 是否隐蔽
+			if (columnnew.getColumname().endsWith("$#")) {
+				// 是否隐蔽
 				columnnew.setHidden(true);
-			}else{
+			} else {
 				columnnew.setHidden(false);
 			}
 			// 是否必填
@@ -447,8 +455,6 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			columnnew.setReadonly("1".equals(columnnew.getOpemode()));
 		}
 	}
-	
-
 
 	public DyFormColumn loadColumn(String formid, String columnid)
 			throws Exception {
@@ -464,9 +470,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	public DyFormData loadData(String formcode, String bussid) throws Exception {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
-		TCsBus bus =new TCsBus();
-		if(StringUtils.isNotEmpty(bussid)){
-			 bus = dy.loadData(bussid, formcode);
+		TCsBus bus = new TCsBus();
+		if (StringUtils.isNotEmpty(bussid)) {
+			bus = dy.loadData(bussid, formcode);
 		}
 		bus.setFormcode(formcode);
 		DyFormData data = new DyFormData();
@@ -475,7 +481,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyAnalysisXml dayx = new DyAnalysisXml();
 			dayx.script(formcode, bussid, "SelectRead");
 		}
-		dealWithImgFile(data,formcode);
+		dealWithImgFile(data, formcode);
+		data = dealWithDataTransformInScript(data, formcode);
 		return data;
 	}
 
@@ -489,22 +496,23 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyAnalysisXml dayx = new DyAnalysisXml();
 			dayx.script(formcode, bussid, "SelectUpdate");
 		}
-		dealWithImgFile(data,formcode);
+		dealWithImgFile(data, formcode);
 		return data;
 	}
-	
-	private void dealWithImgFile(DyFormData data,String formcode)throws Exception{
-		//针对附件字段的特别处理，附件字段需要写入表单的lsh，用来展示附件链接使用
-		List list=this.fetchColumnListForDesign(formcode);
-		String appfileColumnid="";
+
+	private void dealWithImgFile(DyFormData data, String formcode)
+			throws Exception {
+		// 针对附件字段的特别处理，附件字段需要写入表单的lsh，用来展示附件链接使用
+		List list = this.fetchColumnListForDesign(formcode);
+		String appfileColumnid = "";
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsColumn object = (TCsColumn) iterator.next();
-			if(object.getViewtype().equals("15")){
-				appfileColumnid=object.getColumnid(); 
+			if (object.getViewtype().equals("15")) {
+				appfileColumnid = object.getColumnid();
 			}
 		}
 		EnvService env = null;
-		String value =null;
+		String value = null;
 		try {
 			env = (EnvService) RmiEntry.iv("envinfo");
 			value = env.fetchEnvValue("WEBSER_APPFRAMEX");
@@ -513,27 +521,28 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(StringUtils.isNotEmpty(data.getLsh())){
-			String urlhead=value+"ListPicSvl?id="+data.getLsh();
+		if (StringUtils.isNotEmpty(data.getLsh())) {
+			String urlhead = value + "ListPicSvl?id=" + data.getLsh();
 			BeanUtils.setProperty(data, appfileColumnid, urlhead);
-		}else{
+		} else {
 			BeanUtils.setProperty(data, appfileColumnid, "");
 		}
 
 	}
-	
-	private void dealWithImgFile(List<DyFormData> data,String formcode)throws Exception{
-		//针对附件字段的特别处理，附件字段需要写入表单的lsh，用来展示附件链接使用
-		List list=this.fetchColumnListForDesign(formcode);
-		String appfileColumnid="";
+
+	private void dealWithImgFile(List<DyFormData> data, String formcode)
+			throws Exception {
+		// 针对附件字段的特别处理，附件字段需要写入表单的lsh，用来展示附件链接使用
+		List list = this.fetchColumnListForDesign(formcode);
+		String appfileColumnid = "";
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsColumn object = (TCsColumn) iterator.next();
-			if(object.getViewtype().equals("15")){
-				appfileColumnid=object.getColumnid(); 
+			if (object.getViewtype().equals("15")) {
+				appfileColumnid = object.getColumnid();
 			}
 		}
 		EnvService env = null;
-		String value =null;
+		String value = null;
 		try {
 			env = (EnvService) RmiEntry.iv("envinfo");
 			value = env.fetchEnvValue("WEBSER_APPFRAMEX");
@@ -544,14 +553,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		}
 		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
 			DyFormData object = (DyFormData) iterator.next();
-			if(StringUtils.isNotEmpty(object.getLsh())){
-				String urlhead=value+"ListPicSvl?id="+object.getLsh();
+			if (StringUtils.isNotEmpty(object.getLsh())) {
+				String urlhead = value + "ListPicSvl?id=" + object.getLsh();
 				BeanUtils.setProperty(object, appfileColumnid, urlhead);
-			}else{
+			} else {
 				BeanUtils.setProperty(object, appfileColumnid, "");
 			}
 		}
-		
+
 	}
 
 	public DyForm loadForm(String formid) throws Exception {
@@ -598,8 +607,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		dyform.setListColumn_(columnArr);
 
 		String htmlinfo = form.getExtendattribute();
-		if(StringUtils.isEmpty(htmlinfo)){
-			htmlinfo=form.getFormname();
+		if (StringUtils.isEmpty(htmlinfo)) {
+			htmlinfo = form.getFormname();
 		}
 		dyform.setHtmltitleinfo_(htmlinfo);
 
@@ -647,20 +656,20 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		TCsBus bux = new TCsBus();
 		BeanUtils.copyProperties(bux, bus);
 		DyAnalysisXml dayx = new DyAnalysisXml();
-		if(needscript)
-		dayx.script(formid, lsh, "PUpdateSave"); //正常保存
+		if (needscript)
+			dayx.script(formid, lsh, "PUpdateSave"); // 正常保存
 		boolean rs = dy.modifyData(bux);
 		if (rs) {
-			if(bux.getStatusinfo()==null){
-				if(needscript)
-				dayx.script(formid, lsh, "UpdateSave"); //正常保存
+			if (bux.getStatusinfo() == null) {
+				if (needscript)
+					dayx.script(formid, lsh, "UpdateSave"); // 正常保存
 			}
-//			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("02")){
-//				dayx.script(formid, lsh, "Onaffirm");//反确认
-//			}
-//			if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("01")){
-//				dayx.script(formid, lsh, "Yesaffirm");//确认
-//			}
+			// if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("02")){
+			// dayx.script(formid, lsh, "Onaffirm");//反确认
+			// }
+			// if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("01")){
+			// dayx.script(formid, lsh, "Yesaffirm");//确认
+			// }
 		}
 		return rs;
 	}
@@ -676,13 +685,13 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		if (StringUtils.isEmpty(bus.getFatherlsh())) {
 			return new ArrayList();
 		}
-		
+
 		String formcode = bus.getFormcode();
-		String subcondtion=subCondition(formcode,bux);
-		List list = dy.queryData(bux, form, to, subcondtion+condition);
-				
+		String subcondtion = subCondition(formcode, bux);
+		List list = dy.queryData(bux, form, to, subcondtion + condition);
+
 		DyAnalysisXml dayx = new DyAnalysisXml();
-		
+
 		if (list == null || list.size() == 0) {
 			// 创建初始化处理，有些时候主表单需要自动带出几条子表单信息
 			// 信息格式为 List(TCsBus)
@@ -694,13 +703,13 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				list = (ArrayList) rsinfo;
 			}
 		}
-		//处理列表预处理事件
-		List listx=dayx.script2(formcode, list);
-		if(listx!=null&&listx.size()>0){
-			list=listx;
+		// 处理列表预处理事件
+		List listx = dayx.script2(formcode, list);
+		if (listx != null && listx.size() > 0) {
+			list = listx;
 		}
-		if(list==null){
-			list=new ArrayList();
+		if (list == null) {
+			list = new ArrayList();
 		}
 		List listnew = new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -710,7 +719,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			listnew.add(data);
 		}
 		this.dealWithImgFile(listnew, formcode);
-		this.dealWithDataTransformInScript(listnew, formcode);
+		listnew = this.dealWithDataTransformInScript(listnew, formcode);
 		return listnew;
 	}
 
@@ -718,28 +727,30 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 		TCsBus bux = new TCsBus();
 		BeanUtils.copyProperties(bux, bus);
-		String subcondtion=subCondition(bux.getFormcode(),bux);
+		String subcondtion = subCondition(bux.getFormcode(), bux);
 		int number = dy.queryDataNum(bux, condition);
 		return number;
 
 	}
-	
-	private String subCondition(String formcode,TCsBus bus)throws Exception{
-		//处理扩展条件
-		List listx=this.queryColumnQ(formcode);
-		StringBuffer butCon=new StringBuffer();
+
+	private String subCondition(String formcode, TCsBus bus) throws Exception {
+		// 处理扩展条件
+		List listx = this.queryColumnQ(formcode);
+		StringBuffer butCon = new StringBuffer();
 		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
 			DyFormColumn objx = (DyFormColumn) iterator.next();
-			String columnid=objx.getColumnid();
-			String value=BeanUtils.getProperty(bus, columnid);
-			String addcondition=objx.getExtendattribute();
+			String columnid = objx.getColumnid();
+			String value = BeanUtils.getProperty(bus, columnid);
+			String addcondition = objx.getExtendattribute();
 			// 自定义的查询字段如果有特殊条件的情况下
-			if(StringUtils.isNotEmpty(value)&&StringUtils.isNotEmpty(addcondition)){
+			if (StringUtils.isNotEmpty(value)
+					&& StringUtils.isNotEmpty(addcondition)) {
 				// 特殊条件中可能且仅有可能存在该字段的变量值格式为 $()
-				String key="$(value)";
-				//将条件中的变量替换为真实值
-				butCon.append(" "+StringUtils.replace(addcondition, key, value));
-				//将表单中该字段设置为空，避免被拿去普通查询
+				String key = "$(value)";
+				// 将条件中的变量替换为真实值
+				butCon.append(" "
+						+ StringUtils.replace(addcondition, key, value));
+				// 将表单中该字段设置为空，避免被拿去普通查询
 				BeanUtils.setProperty(bus, columnid, "");
 			}
 		}
@@ -823,7 +834,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		String preNaturalname = ((UmsProtectedobject) formlist.get(0))
 				.getNaturalname();
 		String preId = ((UmsProtectedobject) formlist.get(0)).getId();
-		Map mapPermissionkey=new HashMap();
+		Map mapPermissionkey = new HashMap();
 		try {
 			List subResource = rmi.subResource(preId);
 			if (subResource == null || subResource.size() == 0) {
@@ -831,11 +842,12 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				return;
 			}
 			for (Iterator iterator = subResource.iterator(); iterator.hasNext();) {
-				UmsProtectedobject object = (UmsProtectedobject) iterator.next();
-				//System.out.println("-------------:"+object.getNaturalname());
+				UmsProtectedobject object = (UmsProtectedobject) iterator
+						.next();
+				// System.out.println("-------------:"+object.getNaturalname());
 				mapPermissionkey.put(object.getNaturalname(), "");
 			}
-			
+
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -845,8 +857,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyFormColumn object = columnList[i];
 			String naturalname = preNaturalname + "."
 					+ object.getColumncode().toUpperCase();
-			//System.out.println("-------------x:"+naturalname);
-			if(!mapPermissionkey.containsKey(naturalname)){
+			// System.out.println("-------------x:"+naturalname);
+			if (!mapPermissionkey.containsKey(naturalname)) {
 				continue;
 			}
 			boolean man = cupm.checkUserPermission("0000", usercode,
@@ -867,84 +879,94 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		String formcolumn = act.getEditcolumn();
 		if (formcolumn == null || formcolumn.equals("")) {// 能进入
 			// permission方法意味着需要编辑表单，如果用户没有配置需要编辑那些表单，那么默认全部都能编辑
-		}else{
-		String[] columnxtmp = StringUtils.split(formcolumn, ",");
-		Map permssionColumn = new HashMap();
+		} else {
+			String[] columnxtmp = StringUtils.split(formcolumn, ",");
+			Map permssionColumn = new HashMap();
 
-		for (int i = 0; i < columnxtmp.length; i++) {
-			String key = StringUtils.substringBetween(columnxtmp[i], "[", "]");
-			permssionColumn.put(key, "");
-		}
-		if (permssionColumn.size() == 0) {
-			return;
-		}
-		DyFormColumn[] columnx = form.getAllColumn_();
-		for (int i = 0; i < columnx.length; i++) {
-			if (!permssionColumn.containsKey(columnx[i].getColumnid())) {
-				columnx[i].setReadonly(true);
-				columnx[i].setMusk_(false);// 如果是只读那么需要忽略其必须控制
+			for (int i = 0; i < columnxtmp.length; i++) {
+				String key = StringUtils.substringBetween(columnxtmp[i], "[",
+						"]");
+				permssionColumn.put(key, "");
+			}
+			if (permssionColumn.size() == 0) {
+				return;
+			}
+			DyFormColumn[] columnx = form.getAllColumn_();
+			for (int i = 0; i < columnx.length; i++) {
+				if (!permssionColumn.containsKey(columnx[i].getColumnid())) {
+					columnx[i].setReadonly(true);
+					columnx[i].setMusk_(false);// 如果是只读那么需要忽略其必须控制
+				}
 			}
 		}
-		}
-		
-		//表单字段授权控制
-		columnPermission(form,usercode);
-		
-		//流程表单控制
+
+		// 表单字段授权控制
+		columnPermission(form, usercode);
+
+		// 流程表单控制
 		try {
 
-		//字表单字段控制
-		String subcolumn=act.getSubcolumn();
-		if (subcolumn == null || subcolumn.equals("")) {// 能进入
-			// permission方法意味着需要编辑表单，如果用户没有配置需要编辑那些表单，那么默认全部都能编辑
-			return;
-		}
-		subcolumn = subcolumn.replace("&quot;", "\"");
-		subcolumn = subcolumn.replace("&amp;", "&");
-		String [] subarr=subcolumn.split("&");
-		DyForm [] subDyForms=form.getSubform_();
-		for(int j=0;j<subDyForms.length;j++){
-			for(int sub=0;sub<subarr.length;sub++){
-				String substr=subarr[sub];
-				JSONObject jsonobj= JSONObject.fromObject(substr);
-				if(subDyForms[j].getFormcode().equals(jsonobj.get("subformcode").toString())){
-					
-					String[] read = StringUtils.split((jsonobj.get("read")).toString(), ",");
-					Map readmap = new HashMap();
-					//只读的字段
-					for (int i = 0; i < read.length; i++) {
-						String key = StringUtils.substringBetween(read[i], "[", "]");
-						readmap.put(key, "");
-					}
-					String[] hide = StringUtils.split((jsonobj.get("hide")).toString(), ",");
-					Map hidemap = new HashMap();
-					//隐藏的字段
-					for (int i = 0; i < hide.length; i++) {
-						String key = StringUtils.substringBetween(hide[i], "[", "]");
-						hidemap.put(key, "");
-					}
-					
-					if (hidemap.size() == 0 && readmap.size()==0) {
-						return;
-					}
-					DyFormColumn[] subcolumnx = subDyForms[j].getAllColumn_();
-					 
-					for (int i = 0; i < subcolumnx.length; i++) {
-						if(readmap.size()!=0){
-						if (readmap.containsKey(subcolumnx[i].getColumnid())) {
-							subcolumnx[i].setReadonly(true);
-							subcolumnx[i].setMusk_(false);// 如果是只读那么需要忽略其必须控制
-						}}
-						if(hidemap.size()!=0){
-						if (hidemap.containsKey(subcolumnx[i].getColumnid())) {
-							subcolumnx[i].setHidden(true);// 如果是隐藏
+			// 字表单字段控制
+			String subcolumn = act.getSubcolumn();
+			if (subcolumn == null || subcolumn.equals("")) {// 能进入
+				// permission方法意味着需要编辑表单，如果用户没有配置需要编辑那些表单，那么默认全部都能编辑
+				return;
+			}
+			subcolumn = subcolumn.replace("&quot;", "\"");
+			subcolumn = subcolumn.replace("&amp;", "&");
+			String[] subarr = subcolumn.split("&");
+			DyForm[] subDyForms = form.getSubform_();
+			for (int j = 0; j < subDyForms.length; j++) {
+				for (int sub = 0; sub < subarr.length; sub++) {
+					String substr = subarr[sub];
+					JSONObject jsonobj = JSONObject.fromObject(substr);
+					if (subDyForms[j].getFormcode().equals(
+							jsonobj.get("subformcode").toString())) {
+
+						String[] read = StringUtils.split((jsonobj.get("read"))
+								.toString(), ",");
+						Map readmap = new HashMap();
+						// 只读的字段
+						for (int i = 0; i < read.length; i++) {
+							String key = StringUtils.substringBetween(read[i],
+									"[", "]");
+							readmap.put(key, "");
 						}
+						String[] hide = StringUtils.split((jsonobj.get("hide"))
+								.toString(), ",");
+						Map hidemap = new HashMap();
+						// 隐藏的字段
+						for (int i = 0; i < hide.length; i++) {
+							String key = StringUtils.substringBetween(hide[i],
+									"[", "]");
+							hidemap.put(key, "");
+						}
+
+						if (hidemap.size() == 0 && readmap.size() == 0) {
+							return;
+						}
+						DyFormColumn[] subcolumnx = subDyForms[j]
+								.getAllColumn_();
+
+						for (int i = 0; i < subcolumnx.length; i++) {
+							if (readmap.size() != 0) {
+								if (readmap.containsKey(subcolumnx[i]
+										.getColumnid())) {
+									subcolumnx[i].setReadonly(true);
+									subcolumnx[i].setMusk_(false);// 如果是只读那么需要忽略其必须控制
+								}
+							}
+							if (hidemap.size() != 0) {
+								if (hidemap.containsKey(subcolumnx[i]
+										.getColumnid())) {
+									subcolumnx[i].setHidden(true);// 如果是隐藏
+								}
+							}
 						}
 					}
 				}
+
 			}
-			
-		}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -952,13 +974,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	public List<DyFormColumn> queryColumnX(String formcode, String model)
 			throws Exception {
-		if(needCache&&WebCache.containCache("queryColumnX"+model+formcode)){
-			return (List)WebCache.getCache("queryColumnX"+model+formcode);
+		if (needCache
+				&& WebCache.containCache("queryColumnX" + model + formcode)) {
+			return (List) WebCache.getCache("queryColumnX" + model + formcode);
 		}
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
-		List list= dyfcQuery.QueryColumn(formcode, model);
-		List newColumn=new ArrayList();
+		List list = dyfcQuery.QueryColumn(formcode, model);
+		List newColumn = new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			TCsColumn object = (TCsColumn) iterator.next();
 			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
@@ -966,24 +989,24 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			BeanUtils.copyProperties(columnnew, object);
 			loadColumnx(columnnew);
 			dealWithDefaultValue(columnnew, rs);
-			
+
 			newColumn.add(columnnew);
 		}
-		if(needCache)
-		WebCache.setCache("queryColumnX"+model+formcode, newColumn, null);
+		if (needCache)
+			WebCache.setCache("queryColumnX" + model + formcode, newColumn,
+					null);
 		return newColumn;
 	}
 
-	public List<DyFormColumn> queryColumnQ(String formcode )
-			throws Exception {
-		
-		if(needCache&&WebCache.containCache("queryColumnQ"+formcode)){
-			return (List)WebCache.getCache("queryColumnQ"+formcode);
+	public List<DyFormColumn> queryColumnQ(String formcode) throws Exception {
+
+		if (needCache && WebCache.containCache("queryColumnQ" + formcode)) {
+			return (List) WebCache.getCache("queryColumnQ" + formcode);
 		}
 		// TODO Auto-generated method stub
 		DyColumnQuery dyfcQuery = new DyColumnQuery();
-		List list= dyfcQuery.QueryColumnQ(formcode);
-		List newColumn=new ArrayList();
+		List list = dyfcQuery.QueryColumnQ(formcode);
+		List newColumn = new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			DyFormColumn object = (DyFormColumn) iterator.next();
 			ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
@@ -991,68 +1014,77 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			dealWithDefaultValue(object, rs);
 			newColumn.add(object);
 		}
-		if(needCache)
-		WebCache.setCache("queryColumnQ"+formcode, newColumn, null);
+		if (needCache)
+			WebCache.setCache("queryColumnQ" + formcode, newColumn, null);
 		return newColumn;
 	}
 
-
-	public boolean whenFlowPageEdit(String bussid, String participant)throws Exception {
-		String runtimeid=WfEntry.iv().getSession("bussid");
-		if(StringUtils.isEmpty(runtimeid)){
+	public boolean whenFlowPageEdit(String bussid, String participant)
+			throws Exception {
+		String runtimeid = WfEntry.iv().getSession("bussid");
+		if (StringUtils.isEmpty(runtimeid)) {
 			return true;// 说明无流程
 		}
-		if(StringUtils.contains(participant, "[")){
-			participant=StringUtils.substringBetween(participant, "[","]");
+		if (StringUtils.contains(participant, "[")) {
+			participant = StringUtils.substringBetween(participant, "[", "]");
 		}
-		List list=WfEntry.iv().useCoreView().coreSqlview("select workcode from t_wf_participant where usercode='"+participant+"' and STATUSNOW='01' and workcode in( select workcode from t_wf_worklist where RUNTIMEID='"+runtimeid+"')");
-		
-		if(list!=null&&list.size()>0){
+		List list = WfEntry
+				.iv()
+				.useCoreView()
+				.coreSqlview(
+						"select workcode from t_wf_participant where usercode='"
+								+ participant
+								+ "' and STATUSNOW='01' and workcode in( select workcode from t_wf_worklist where RUNTIMEID='"
+								+ runtimeid + "')");
+
+		if (list != null && list.size() > 0) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
-	public String[] manageColumn(String formcode, String participant) throws Exception {
+	public String[] manageColumn(String formcode, String participant)
+			throws Exception {
 		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
-		
-		if("adminx".equals(participant)){
-			List columnx=this.fetchColumnList(formcode);
-			List columnxx=new ArrayList();
+
+		if ("adminx".equals(participant)) {
+			List columnx = this.fetchColumnList(formcode);
+			List columnxx = new ArrayList();
 			for (Iterator iterator = columnx.iterator(); iterator.hasNext();) {
 				DyFormColumn object = (DyFormColumn) iterator.next();
 				columnxx.add(object.getColumnid());
 			}
-			return (String[])columnxx.toArray(new String[0]);
+			return (String[]) columnxx.toArray(new String[0]);
 		}
-				
-		UmsProtectedobject upo2=new UmsProtectedobject();
+
+		UmsProtectedobject upo2 = new UmsProtectedobject();
 		upo2.setNaturalname("BUSSFORM.BUSSFORM.%");
 		upo2.setExtendattribute(formcode);
 		Map map = new HashMap();
 		map.put("naturalname", "like");
 
 		List formlist = rs.fetchResource(upo2, map);
-		
-		if(formlist.size()==1){
-			upo2=((UmsProtectedobject)formlist.get(0));
+
+		if (formlist.size() == 1) {
+			upo2 = ((UmsProtectedobject) formlist.get(0));
 		}
-		List listx=rs.subResource(upo2.getId());
-		List columnAvail=new ArrayList();
+		List listx = rs.subResource(upo2.getId());
+		List columnAvail = new ArrayList();
 		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
 			UmsProtectedobject object = (UmsProtectedobject) iterator.next();
-			String objname=object.getNaturalname();
-			String columnid=StringUtils.substringAfterLast(objname, ".");
-			if(columnid.toLowerCase().startsWith("column")){
-				boolean avail=SecurityEntry.iv().permission(participant, objname);
-				if(avail)
-				columnAvail.add(columnid);
+			String objname = object.getNaturalname();
+			String columnid = StringUtils.substringAfterLast(objname, ".");
+			if (columnid.toLowerCase().startsWith("column")) {
+				boolean avail = SecurityEntry.iv().permission(participant,
+						objname);
+				if (avail)
+					columnAvail.add(columnid);
 			}
 		}
-		return (String[])columnAvail.toArray(new String[0]);
+		return (String[]) columnAvail.toArray(new String[0]);
 	}
-	
+
 	/**
 	 * 嵌入脚本处理数据转化脚本<BR>
 	 * 
@@ -1061,7 +1093,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	 * @param formcode
 	 * @throws Exception
 	 */
-	private void dealWithDataTransformInScript(List<DyFormData> data,
+	private List dealWithDataTransformInScript(List<DyFormData> data,
 			String formcode) throws Exception {
 		// 当前目录的URI
 		URL paths = Thread.currentThread().getContextClassLoader().getResource(
@@ -1071,7 +1103,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		Object[] obj = { data };
 		StringBuffer scripts = new StringBuffer();
 
-		File file = new File(path + "/script/" + formcode + ".jcode");
+		File file = new File(path + "/script/formdatalist-" + formcode
+				+ ".jcode");
 		// 存在脚本，读取脚本内容并动态执行
 		if (file.exists()) {
 			BufferedReader reader = null;
@@ -1096,8 +1129,57 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				}
 			}
 			// 执行脚本
-			ScriptTools.todo(scripts.toString(),obj);
+			return (List) ScriptTools.todo(scripts.toString(), obj);
 		}
+		return data;
+	}
+
+	/**
+	 * 嵌入脚本处理数据转化脚本<BR>
+	 * 
+	 * @author don add
+	 * @param data
+	 * @param formcode
+	 * @throws Exception
+	 */
+	private DyFormData dealWithDataTransformInScript(DyFormData data,
+			String formcode) throws Exception {
+		// 当前目录的URI
+		URL paths = Thread.currentThread().getContextClassLoader().getResource(
+				"");
+		String path = paths.getPath();
+
+		Object[] obj = { data };
+		StringBuffer scripts = new StringBuffer();
+
+		File file = new File(path + "/script/formdata-" + formcode + ".jcode");
+		// 存在脚本，读取脚本内容并动态执行
+		if (file.exists()) {
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(new FileReader(file));
+				String tempString = null;
+				int line = 1;
+				// 一次读入一行，直到读入null为文件结束
+				while ((tempString = reader.readLine()) != null) {
+					scripts.append(tempString);
+					line++;
+				}
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e1) {
+					}
+				}
+			}
+			// 执行脚本
+			return (DyFormData) ScriptTools.todo(scripts.toString(), obj);
+		}
+		return data;
 	}
 
 }

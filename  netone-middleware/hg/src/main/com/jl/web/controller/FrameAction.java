@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,9 +17,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import oe.midware.workflow.runtime.ormobj.TWfRuntime;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import oe.serialize.dao.PageInfo;
 
@@ -30,21 +34,28 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jl.common.JSONUtil2;
 import com.jl.common.ScriptTools;
+import com.jl.common.TimeUtil;
 import com.jl.common.app.AppEntry;
 import com.jl.common.app.AppHandleIfc;
 import com.jl.common.app.AppObj;
+import com.jl.common.dyform.DyColumnQuery;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormBuildHtml;
+import com.jl.common.dyform.DyFormColumn;
 import com.jl.common.dyform.DyFormComp;
 import com.jl.common.dyform.DyFormData;
 import com.jl.common.resource.Resource;
 import com.jl.common.resource.ResourceNode;
 import com.jl.common.security3a.Client3A;
+import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfActivePass;
 import com.jl.common.workflow.TWfParticipant;
 import com.jl.common.workflow.WfEntry;
+import com.jl.common.workflow.worklist.DataObj;
+import com.jl.common.workflow.worklist.QueryColumn;
+import com.jl.common.workflow.worklist.WlEntry;
 import com.jl.entity.User;
 import com.jl.service.BaseService;
 import com.jl.service.FrameService;
@@ -57,6 +68,166 @@ public class FrameAction extends AbstractAction {
 			throws Exception {
 		loadAccordtree(mapping, form, request, response);
 		return mapping.findForward("portalView");
+	}
+
+	// 数据列表
+	public ActionForward worklistView(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String appname = request.getParameter("appname");
+		String sortfield = request.getParameter("sortfield");
+		String sort = request.getParameter("sort");
+
+		List list = WlEntry.iv().listQueryColumn(appname);
+		if (StringUtils.isEmpty(sortfield)) {
+			sortfield = ((QueryColumn) list.get(list.size() - 1)).getId();
+		}
+		if (StringUtils.isEmpty(sort)) {
+			sort = "desc";
+		}
+		Integer sortindex = WlEntry.iv().fetchQueryColumnIndex(appname,
+				sortfield);
+		sortindex = sortindex == null ? 0 : sortindex;
+		String aaSorting = "[[" + sortindex + ",'" + sort + "']]";
+
+		// 设置各列宽度
+		if (list.size() > 0) {
+			JSONArray arr = new JSONArray();
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				QueryColumn object = (QueryColumn) iterator.next();
+				JSONObject json = new JSONObject();
+				json.put("sWidth", object.getWidth());
+				arr.add(json);
+			}
+			request.setAttribute("aoColumns", arr.toString());
+			System.out.println(arr.toString());
+		}
+
+		request.setAttribute("aaSorting", aaSorting);
+		request.setAttribute("queryColumn", list);
+		request.setAttribute("endTime", TimeUtil.formatDate(new Date(),
+				"yyyy-MM-dd"));
+		request.setAttribute("beginTime", TimeUtil.formatDate(new Date(),
+				"yyyy-MM")
+				+ "-01");
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		File file = new File(path + "/frame/worklist-" + appname + ".jsp");
+		String forward = "/frame/worklist.jsp";
+		if (file.exists()) {
+			forward = "/frame/worklist-" + appname + ".jsp";
+		}
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 查询后台待办任务数据
+	public void worklist(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String conditions = request.getParameter("conditions");
+		Map conditionMap = new HashMap();
+		JSONArray jsonArr = JSONArray.fromObject(conditions);
+		for (Iterator iterator = jsonArr.iterator(); iterator.hasNext();) {
+			JSONObject object = (JSONObject) iterator.next();
+			conditionMap.put(object.getString("name").toString(), object
+					.getString("value").toString());
+		}
+		String appname = (String) conditionMap.get("appname");
+		String sortfield_ = (String) conditionMap.get("iSortCol_0");
+		String sort = (String) conditionMap.get("sSortDir_0");
+		String mode_ = (String) conditionMap.get("mode");
+		String listtype = (String) conditionMap.get("listtype");
+		String sEcho = (String) conditionMap.get("sEcho");
+		String querycolumnindex = (String) conditionMap.get("querycolumn");
+		String condition = (String) conditionMap.get("condition");
+		String iDisplayStart = (String) conditionMap.get("iDisplayStart");
+		String iDisplayLength = (String) conditionMap.get("iDisplayLength");
+		try {
+			if (StringUtils.isEmpty(sort)) {
+				sort = "desc";
+			}
+			int sortfield = 0;
+			List listx = WlEntry.iv().listQueryColumn(appname);
+			if (StringUtils.isEmpty(sortfield_)) {
+				sortfield = listx.size() - 1;
+			} else {
+				sortfield = Integer.parseInt(sortfield_);
+			}
+			if (StringUtils.isNotEmpty(condition)) {
+				condition = condition.trim();
+			}
+			int start = 0;
+			if (StringUtils.isNotEmpty(iDisplayStart)) {
+				start = Integer.parseInt(iDisplayStart);
+			}
+			int length = 10;
+			if (StringUtils.isNotEmpty(iDisplayLength)) {
+				length = Integer.parseInt(iDisplayLength);
+			}
+
+			User user = getOnlineUser(request);
+			Integer index = 0;
+			if (StringUtils.isNotEmpty(querycolumnindex)) {
+				index = Integer.parseInt(querycolumnindex);
+			}
+			QueryColumn sortColumn = WlEntry.iv().loadQueryColumn(appname,
+					sortfield);
+			QueryColumn queryColumn = WlEntry.iv().loadQueryColumn(appname,
+					index);
+			queryColumn.setValue(condition);
+			queryColumn
+					.setOrder(" order by " + sortColumn.getId() + " " + sort);
+			boolean mode = false;
+			if (StringUtils.isNotEmpty(mode_)) {
+				if ("1".equals(mode_)) {
+					mode = true;
+				}
+			}
+
+			List<DataObj> list = WlEntry.iv().worklist(user.getUserCode(),
+					appname, mode, start, length, listtype, queryColumn);
+			System.out.println(list.size() + ":" + start + ":" + length);
+			int total = WlEntry.iv().count(user.getUserCode(), appname, mode,
+					listtype, queryColumn);
+
+			String projectname = DyFormBuildHtml.projectname + "/";
+			JSONArray arr = new JSONArray();
+			for (int i = 0; i < list.size(); i++) {
+				String bussid = list.get(i).getExt().getBussid();
+				String[] data = list.get(i).getData();
+				String[] $id = list.get(i).getId();
+				String[] datas = new String[data.length + 1];
+				String url = projectname
+						+ "frame.do?method=onEditViewMain&naturalname="
+						+ appname + "&query=look&lsh=" + bussid
+						+ "&readonly=true";
+				for (int j = 0; j < data.length; j++) {
+					String title = data[j];
+					String content = data[j];
+					datas[j] = data[j];
+					System.out.println("data:" + $id[j] + ":" + content);
+					if (title == null)
+						title = "";
+					if (content == null)
+						content = "";
+					// if (content != null && content.length() > 10) {
+					// content = content.substring(0, 10) + "...";
+					// }
+					datas[j] = DyFormComp.getHref(content, title, url, "",
+							"_blank");
+				}
+				System.out.println(datas.length + ":" + data.length);
+				datas[data.length] = "1";
+				arr.add(datas);
+			}
+			String jsonstr = buildJsonStr_(sEcho, total, total, arr.toString());
+			// System.out.println("json=" + arr.toString());
+			super.writeJsonStr(response, jsonstr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ActionForward onMainView(ActionMapping mapping, ActionForm form,
@@ -82,6 +253,22 @@ public class FrameAction extends AbstractAction {
 		String queryConditionHtml = DyFormBuildHtml.buildQueryCondition(dyform
 				.getQueryColumn_());
 		request.setAttribute("queryConditionHtml", queryConditionHtml);
+
+		// 按钮控制
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(formcode);
+		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+		List formlist = rs.fetchResource(upo, map);
+		if (formlist.size() != 1) {
+			throw new RuntimeException("存在表单异常定义");
+		}
+		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
+				.getNaturalname();
+		request.setAttribute("naturalname_dyform", naturalname_dyform);
+		// end 按钮控制
 
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
 		File file = new File(path + "/frame/frameMain-" + naturalname + ".jsp");
@@ -182,11 +369,12 @@ public class FrameAction extends AbstractAction {
 		String naturalname = request.getParameter("naturalname");
 		String start = request.getParameter("start");// 开始索引
 		String limit = request.getParameter("limit");// 页码
+		String mode_ = "1";
+		String listtype = "00";
 		PageInfo obj = new PageInfo();
 		try {
 			AppObj app = AppEntry.iv().loadApp(naturalname);
 			String formcode = app.getDyformCode_();
-
 			Integer from_ = Integer.parseInt(start);
 			Integer limit_ = Integer.parseInt(limit);
 			Integer to_ = from_ + limit_ - 1;
@@ -196,10 +384,35 @@ public class FrameAction extends AbstractAction {
 			dydata.setFatherlsh("1");
 			dydata.setFormcode(formcode);
 			if (!"adminx".equals(user.getUserCode())) {
-				dydata.setParticipant(user.getUserCode());
+				// dydata.setParticipant(user.getUserCode());
 			}
 
-			obj = (PageInfo) ins.queryForPage(dydata, from_, limit_, "");
+			boolean mode = false;
+			if (StringUtils.isNotEmpty(mode_)) {
+				if ("1".equals(mode_)) {
+					mode = true;
+				}
+			}
+
+			List<String> lshlists = WlEntry.iv().worklistOnlyLsh(
+					user.getUserCode(), naturalname, mode, 0, 999999999,
+					listtype, null);
+			StringBuffer lshs = new StringBuffer();
+			String split_ = "";
+			for (Iterator iterator = lshlists.iterator(); iterator.hasNext();) {
+				String string = (String) iterator.next();
+				lshs.append(split_ + "'" + string + "'");
+				split_ = ",";
+			}
+			String condition = "";
+			if (lshlists.size() > 0) {
+				condition = " and lsh in ( " + lshs.toString()
+						+ " ) order by CREATED desc";
+			} else {
+				condition = " and 1=2 ";
+			}
+
+			obj = (PageInfo) ins.queryForPage(dydata, from_, limit_, condition);
 			int total = obj.getTotalRows();
 			List result = obj.getResultList();
 			StringBuffer jsonBuffer = new StringBuffer();
@@ -215,7 +428,7 @@ public class FrameAction extends AbstractAction {
 					clientId = group.getParticipant();
 				}
 
-				String runtimeid = WfEntry.iv().getSession(lsh);
+				String runtimeid = WfEntry.iv().getSession(lsh,naturalname);
 				if (runtimeid != null && StringUtils.isNotEmpty(runtimeid)) {
 
 					TWfRuntime runtime = WfEntry.iv().useCoreView()
@@ -356,6 +569,7 @@ public class FrameAction extends AbstractAction {
 		if (isformLock)
 			isedit = false;
 
+		request.setAttribute("isformLock", isformLock);
 		load(mapping, form, request, response, isedit, ispermission);
 		// return mapping.findForward("onEditView");
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
@@ -455,6 +669,7 @@ public class FrameAction extends AbstractAction {
 			Map subformmode = act.getSubformmode();
 			// if (StringUtils.isNotEmpty(lsh) &&
 			// StringUtils.isNotEmpty(formcode)) {
+			
 			formhtml = ins.load(workcode, naturalname, dyform, lsh, isedit,
 					subformmode, user.getNLevelName() + "/"
 							+ user.getUserName() + "," + user.getNLevelName(),
@@ -1463,6 +1678,30 @@ public class FrameAction extends AbstractAction {
 		return list;
 	}
 
+	private String buildJsonStr_(String sEcho, int iTotalRecords,
+			int iTotalDisplayRecords, String json) {
+		StringBuilder store = new StringBuilder();
+		store.append("{");
+
+		store.append("\"sEcho\"");
+		store.append(":");
+		store.append(sEcho + ",");
+
+		store.append("\"iTotalRecords\"");
+		store.append(":");
+		store.append(iTotalRecords + ",");
+
+		store.append("\"iTotalDisplayRecords\"");
+		store.append(":");
+		store.append(iTotalDisplayRecords + ",");
+
+		store.append("\"aaData\"");
+		store.append(":");
+		store.append(json);
+		store.append("}");
+		return store.toString();
+	}
+
 	public static void setWfUser(String[] humens, Map tempMap) {
 		StringBuffer usercodeSB = new StringBuffer();
 		StringBuffer usernameSB = new StringBuffer();
@@ -1857,75 +2096,35 @@ public class FrameAction extends AbstractAction {
 
 	// end ext
 
-	// 工单查询页面
-	public ActionForward dyformDetailQueryMain(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		return null;
-	}
-
-	// 工单详情报表
-	public void dyformDetail(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		FrameService ins = (FrameService) WebApplicationContextUtils
-				.getRequiredWebApplicationContext(servlet.getServletContext())
-				.getBean("frameService");
-		ins.dyformDetail(request, response);
-	}
-
-	// 工单详情报表
-	public void dyformDealDetail(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		FrameService ins = (FrameService) WebApplicationContextUtils
-				.getRequiredWebApplicationContext(servlet.getServletContext())
-				.getBean("frameService");
-		ins.dyformDealDetail(request, response);
-	}
-
-	// 合同管理
-	public ActionForward onContractMgr(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// this.getClientPermissions(request, response);
-		request.setAttribute("limit", new DyForm().getEachPageSize_());
-		// String naturalname = request.getParameter("naturalname");
-		String naturalname = "APPFRAME.APPFRAME.HTTX";
-		AppObj app = AppEntry.iv().loadApp(naturalname);
-		String formcode = app.getDyformCode_();
-		DyForm dyform = DyEntry.iv().loadForm(formcode);
-		String columns = DyFormBuildHtml.buildExtColumns(dyform, "1", true);
-		String fields = DyFormBuildHtml.buildExtFields(dyform);
-		request.setAttribute("columns", columns);
-		request.setAttribute("fields", fields);
-		String queryColumnHtml = DyFormBuildHtml.buildQueryColumn(dyform
-				.getQueryColumn_());
-		request.setAttribute("queryColumnsHtml", queryColumnHtml);
-		String queryConditionHtml = DyFormBuildHtml.buildQueryCondition(dyform
-				.getQueryColumn_());
-		request.setAttribute("queryConditionHtml", queryConditionHtml);
-		return mapping.findForward("onContractMgr");
-	}
-
 	// 加载手风琴树HTML
 	private void loadAccordtree(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String naturalurl = request.getParameter("naturalurl");
 		List<Map<String, String>> jsonList = new ArrayList<Map<String, String>>();
-		List<UmsProtectedobject> list = FrameResource.findByPId(naturalurl);
+		User user = getOnlineUser(request);
+		String usercode = user.getUserCode();
+		List<UmsProtectedobject> list = FrameResource.findByPId(naturalurl,
+				usercode);
 		for (UmsProtectedobject umsProtectedobject : list) {
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("title", umsProtectedobject.getName());
+
+			boolean perm = SecurityEntry.iv().permission(usercode,
+					umsProtectedobject.getNaturalname());
+
 			boolean isexpand = true;
 			if ("normal-close".equals(umsProtectedobject.getExtendattribute())) {
 				isexpand = false;
 			}
-			map.put("json", FrameResource.buildRootTreeRelation(
-					umsProtectedobject.getNaturalname(), isexpand, false));
 
-			jsonList.add(map);
+			if (perm) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("title", umsProtectedobject.getName());
+				map.put("json", FrameResource.buildRootTreeRelation(
+						umsProtectedobject.getNaturalname(), isexpand, false,
+						usercode));
+
+				jsonList.add(map);
+			}
 		}
 
 		String html = DyFormComp.getEasyuiAccordionTree(jsonList);

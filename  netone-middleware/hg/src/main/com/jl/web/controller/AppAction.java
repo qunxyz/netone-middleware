@@ -1,16 +1,30 @@
 package com.jl.web.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.jl.common.SpringBeanUtilHg;
+import com.jl.dao.CommonDAO;
 import com.jl.service.AppService;
+import com.jl.service.DepartmentService;
+import com.jl.service.UserService;
 
 public class AppAction extends AbstractAction {
+
+	private CommonDAO getHgDAO() {
+		CommonDAO dao = (CommonDAO) SpringBeanUtilHg.getInstance().getBean(
+				"commonDAO");
+		return dao;
+	}
 
 	// 根据分类查找产品信息
 	public void onFindProductSetByPC(ActionMapping mapping, ActionForm form,
@@ -135,6 +149,42 @@ public class AppAction extends AbstractAction {
 				.getRequiredWebApplicationContext(servlet.getServletContext())
 				.getBean("appService");
 		service.findProductSetByParentId(request, response);
+	}
+
+	// 同步用户
+	public void syncK3User(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		UserService service = (UserService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("userService");
+		service.syncUserFromK3(request, response);
+	}
+
+	// 同步部门
+	public void syncK3Dept(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		DepartmentService service = (DepartmentService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("departmentService");
+		service.syncDeptFromK3(request, response);
+	}
+
+	// 根据编码获取职员信息
+	public void getEmpByNumber(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String usercode = request.getParameter("usercode");
+		Map emp = (Map) getHgDAO().findForObject("HG.selectEmpByNumber",
+				usercode);
+		Integer FDepartmentID = null;
+		if (emp != null) {
+			FDepartmentID = (Integer) emp.get("FDepartmentID");
+		}
+		JSONObject json = new JSONObject();
+		json = JSONObject.fromObject(emp);
+		super.writeJsonStr(response, json.toString());
 	}
 
 }

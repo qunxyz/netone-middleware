@@ -50,7 +50,12 @@ Ext.grid.GridPanel有一个重大缺陷，就是单元格的内容不能选中�
     .x-selectable, .x-selectable * {   
         -moz-user-select: text! important ;   
         -khtml-user-select: text! important ;   
-    }   
+    } 
+    .x-grid3-cell-inner {   
+	      /*内容长的时候换行*/   
+	      white-space:normal !important;   
+	}
+    
 </style>
 <script type="text/javascript">
 if  (!Ext.grid.GridView.prototype.templates) {   

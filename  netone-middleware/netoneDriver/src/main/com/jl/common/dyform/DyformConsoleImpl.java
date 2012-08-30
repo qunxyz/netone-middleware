@@ -206,8 +206,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				}
 			}
 			// 来自SOA脚本
-			dealWithSoa(valuelist, rs, but);
-
+			but = dealWithSoa(valuelist, rs, but);
 			// 来自其他表单字段
 			rsinfo = StringUtils.substringBetween(valuelist, "[DYFORM:", "]");
 
@@ -272,7 +271,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				valuelist = valuelist.trim();
 			}
 			StringBuffer but = new StringBuffer();
-			dealWithSoa(valuelist, rs, but);
+			but = dealWithSoa(valuelist, rs, but);
 			if (but.length() > 0) {
 				columnnew.setDefaultValue(but.toString());
 			} else {
@@ -282,7 +281,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	}
 
-	private void dealWithSoa(String valuelist, ResourceRmi rs, StringBuffer but) {
+	private StringBuffer dealWithSoa(String valuelist, ResourceRmi rs,
+			StringBuffer but) {
 		String rsinfo = StringUtils.substringBetween(valuelist, "[SOA:", "]");
 		if (StringUtils.isNotEmpty(rsinfo)) {
 			String naturalname[] = rsinfo.split(",");
@@ -313,13 +313,18 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				while ((read = input.read()) != -1) {
 					but.append((char) read);
 				}
-
+				String str = but.toString();
+				str = new String(str.getBytes("ISO-8859-1"), "UTF-8");
+				but = new StringBuffer();
+				but.append(str);
+				return but;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 		}
+		return but;
 
 	}
 
@@ -482,7 +487,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			dayx.script(formcode, bussid, "SelectRead");
 		}
 		dealWithImgFile(data, formcode);
-		//data = dealWithDataTransformInScript(data, formcode);
+		// data = dealWithDataTransformInScript(data, formcode);
 		return data;
 	}
 
@@ -719,7 +724,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			listnew.add(data);
 		}
 		this.dealWithImgFile(listnew, formcode);
-		//listnew = this.dealWithDataTransformInScript(listnew, formcode);
+		// listnew = this.dealWithDataTransformInScript(listnew, formcode);
 		return listnew;
 	}
 

@@ -1,6 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
 <%
 	String path = request.getContextPath();
@@ -164,6 +165,7 @@
 	</body>
 </html>
 <script>
+var onuser='<rs:logininfo />';
 /*
 Auto-growing textareas; technique ripped from Facebook
 (Textarea need set style "overflow:hidden" under IE)
@@ -243,6 +245,82 @@ $.fn.autogrow = function(options) {
 	    loadInfo2();
 		loadinfo3();
 	});
+	
+	/*** 开始脚本 */
+	$(function() {
+		var curruser = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column24');
+		if(curruser.val()!='' || curruser.val()!=null || curruser.val()!='undefined'){
+			curruser.val(onuser);
+		}
+		
+		$.getJSON("<c:url value='/app.do?method=getEmpByNumber' />"+"&usercode="+curruser.val(),   function(jsonx){
+			if (jsonx!=null){
+			   $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21').val(jsonx.FDepartmentID);
+			   $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21_hidden').val(jsonx.FDepartmentID);
+			}
+		});
+	
+		//客户分类 初始化
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23').empty();
+		$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETSUBMESSAGEINFO&q=501",   function(jsonx){   
+			$.each(jsonx, function(ii,itemx){    
+				if (itemx!=null){     
+					var column_val = '';     
+					var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23_hidden');     
+					if (column_obj) column_val=column_obj.val();     
+					var selected = '';     
+					if (column_val==itemx.FInterID) selected = " selected=\'selected\' ";   
+					$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23').append('<option value=\"'+itemx.FInterID+'\" '+selected+'>'+itemx.FName+'</option>');  
+				}   
+			}); 
+		});
+		//付款方式 初始化
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column22').empty();
+		$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD",   function(jsonx){   
+			$.each(jsonx, function(ii,itemx){    
+				if (itemx!=null){     
+					var column_val = '';     
+					var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column22_hidden');     
+					if (column_obj) column_val=column_obj.val();     
+					var selected = '';   
+					if (column_val==itemx.FItemID) selected = " selected=\'selected\' ";   
+					$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column22').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');  
+				}   
+			});  
+		}); 
+		//客户层级 初始化
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column6').empty();
+		$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETCLIENTLEVEL",   function(jsonx){   
+			$.each(jsonx, function(ii,itemx){
+				if (itemx!=null){
+					var column_val = '';
+					var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column6_hidden');     
+					if (column_obj) column_val=column_obj.val();     
+					var selected = '';
+					if (column_val==itemx.FItemID) selected = " selected=\'selected\' ";   
+					$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column6').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');  
+				}   
+			}); 
+		});
+		
+		
+		//分属部门 初始化
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21').empty();
+		$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETDEPTLEVEL",   function(jsonx){   
+			$.each(jsonx, function(ii,itemx){    
+				if (itemx!=null){     
+					var column_val = '';     
+					var column_obj = $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21_hidden');     
+					if (column_obj) column_val=column_obj.val();     
+					var selected = '';     
+					if (31993==itemx.FItemID) selected = " selected=\'selected\' ";   
+					$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21').append('<option value=\"'+itemx.FItemID+'\" '+selected+'>'+itemx.FName+'</option>');  
+				}   
+			}); 
+		}); 
+		
+	});
+	/** 结束脚本 */
 	
 	var selectObjVar = null;//全局变量 存放需要选择资源返回值的对象
 	function $select(o,url){

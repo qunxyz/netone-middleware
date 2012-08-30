@@ -88,7 +88,9 @@
 			<a href="<%=basePath %>/logoutsvl?gotourl=<%=basePath %>" >[注销]</a>
 			<a href='<rs:changepassword/>' target='_blank'>【修改密码】</a>
 			<a href='<rs:userinfo/>' target='_blank'>【个人信息】</a>
+			<rs:permission action="7" resource="BUSSFORM.BUSSFORM.BNHGYW.DY_991336361733786.HX">
 			<a href="javascript:void(0)" onclick="showmessager();">查看提醒<span id="countx"></span></a>
+			</rs:permission>
 		</div>
 	</body>
 </html>
@@ -211,31 +213,28 @@ if($.browser.msie){//IE
 	}
 
 	//提醒
+	<rs:permission action="7" resource="BUSSFORM.BUSSFORM.BNHGYW.DY_991336361733786.HX">
 	var countx = 0;
 	$('#countx').html('('+countx+')');
 	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
 	 function(jsonx){
-	  var html = '';
-	  countx = 0;
-	  $.each(jsonx, function(ii,itemx){
-	  	if (itemx!=null){
-	  		html+=itemx.url;
-	  		countx++;
-		}
-	  });
+	  var html = jsonx.result;
+	  countx = jsonx.count;
 	  if (html!=''){
 	  		$('#countx').html('('+countx+')');
 	  		$('#messager').html(html);
 		    $("#messager").dialog({ 
-		    	title:'提醒'
+		    	title:'提醒'+$('#countx').html()+''
+		    	,height:220
 			    ,position:  ['right','bottom']
 			    ,closeText: 'hide'
 			    ,focus: function(event, ui) {
 			    }
 		     });
-		     setTimeout(function(){$("#messager").dialog('close');},5000); 
+		     //setTimeout(function(){$("#messager").dialog('close');},5000); 
 	  }
 	});
+	</rs:permission>
 	
 })
 
@@ -243,14 +242,8 @@ function showmessager(){
 	var countx = 0;
 	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB", 
 	 function(jsonx){
-	  var html = '';
-	  countx = 0;
-	  $.each(jsonx, function(ii,itemx){
-	  	if (itemx!=null){
-	  		countx++;
-	  		html+=itemx.url;
-		}
-	  });
+	  var html = jsonx.result;
+	  countx = jsonx.count;
 	  if (html!=''){
 	  		if ($('#countx')) $('#countx').html('('+countx+')');
 	  		if ($("#messager")){

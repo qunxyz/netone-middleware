@@ -737,14 +737,28 @@ if (t7806a31e97f811e1b01667a74cfdf95c_column3.val()==''){
 		}
 	});
 } 
+/** 促销网点名称初始化 */
+$('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column11').empty();
+$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETSUBMESSAGEINFO&q=501",   function(jsonx){   
+	$.each(jsonx, function(ii,itemx){    
+		if (itemx!=null){     
+			var column_val = '';     
+			var column_obj = $('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column11_hidden');     
+			if (column_obj) column_val=column_obj.val();     
+			var selected = '';     
+			if (column_val==itemx.FInterID) selected = " selected=\'selected\' ";   $('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column11').append('<option value=\"'+itemx.FInterID+'\" '+selected+'>'+itemx.FName+'</option>');  
+		}   
+	});
+});
 
-/** 促销网点名称 联想组件 */ 
+/** 促销网点名称 联想组件 过时
 $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
 	multiple: false,
 	dataType: "json",
-	autoFill: true,
+	autoFill: false,
 	mustMatch: true,
 	matchContains: false,
+	cacheLength:100,
 	scrollHeight: 220,
 	parse: function(data) {
 		return $.map(data, function(row) {
@@ -780,8 +794,10 @@ $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column5").autocomplete('/ndy
 	$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").val('');
 	}
 });
-
+ */ 
+ 
 /** 促销网点结款方式 初始化*/
+$('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column9').empty();
 $.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEMENTPERIOD", 
  function(jsonx){
   $.each(jsonx, function(ii,itemx){
@@ -798,16 +814,20 @@ $.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEM
 });
 
 /** 促销子表单操作*/
-$("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',function(){ 
-
- $(this).autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT', {
+$("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',function(){
+ var urlx = '/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT'; 
+ if ($(this).attr("autocomplete")=='off') return;
+ $(this).autocomplete(urlx, {
 	multiple: false,
 	dataType: "json",
-	autoFill: true,
+	autoFill: false,
 	mustMatch: true,
 	matchContains: false,
 	scrollHeight: 220,
 	width:300,
+	extraParams:{
+       sr_FRelatedID: function() { return $('table#7806a31e97f811e1b01667a74cfdf95c_').find('#column11').val(); }   
+    },
 	parse: function(data) {
 		return $.map(data, function(row) {
 			return {
@@ -827,12 +847,6 @@ $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',funct
 })
 .result(function(e, item) {
  if (item!=null){
-  var ccc = $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column10").val();
- if (ccc=='' && $(this).val()!=''){
- 	alert('请先输入促销网点名称!');
- 	return;
- }
- 
  	var fitemid = item.FItemID;
 	$(this).parent().parent().find('#column4').val(item.FModel);
 	$(this).parent().parent().find('#column19').val(fitemid);
@@ -865,13 +879,13 @@ $("table#5fe85cb097f911e1b01667a74cfdf95c_").find('#column3').live('focus',funct
  }
 	
 });
-$(this).unbind("focus");
+
 
 });
 
-
 /** 单位change事件 */
-$('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").change(function(){
+
+$('table#5fe85cb097f911e1b01667a74cfdf95c_').find("#column18").live('change',function(){
 
 	var thisobj5 = $(this).parent().parent().find('#column5');
 	var sc_FTypeID = $('table#7806a31e97f811e1b01667a74cfdf95c_').find("#column11").val();

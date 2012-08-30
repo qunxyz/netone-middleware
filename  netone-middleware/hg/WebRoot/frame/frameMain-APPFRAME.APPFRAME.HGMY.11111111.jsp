@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>		
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
@@ -21,7 +22,6 @@
 		<input type="hidden" id="endTime" name="endTime">
 		<input type="hidden" id="status" name="status">
 		<input type="hidden" id="clientId" name="clientId">-->
-		
 		<div id="conditionDiv">
 			${queryColumnsHtml}
 		</div>
@@ -37,10 +37,7 @@ function $$print(lsh){
 	
 function $$hx(lsh){
 	if (!confirm('确认要核销?')){return;};
-	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.UPDATECXSTATUS"+'&sr_lsh='+lsh, 
-			 function(jsonx){
-			  Ext.ux.Toast.msg("", jsonx.tip);
-	});
+	window.open('<c:url value="/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.HGMY.HXTASK"/>'+'&lsh='+lsh);
 }
 
 var selectObjVar = null;//全局变量 存放需要选择资源返回值的对象
@@ -77,17 +74,41 @@ function $select(o,url){
 				        index,
 						cb,
 						${columns}
-						,{header: "操作",dataIndex: "", sortable: false, renderer: 
+						,{header: "核销状态",dataIndex: "statusinfo", width:80,sortable: false, renderer: 
+						function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) { 
+								var statusinfo = store.getAt(rowIndex).get('statusinfo') ; 
+								if (statusinfo=='01'){
+									return '<font color="green">待核销</font>';
+								} else if (statusinfo=='02'){
+									return '<font color="blue">已核销</font>';
+								} else {
+									return '<font color="red">未核销</font>';
+								}
+							}
+						}
+						,{header: "操作",dataIndex: "", width:200,sortable: false, renderer: 
 						function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) { 
 							var lsh = store.getAt(rowIndex).get('lsh') ; 
 							var runtimeid = store.getAt(rowIndex).get('runtimeid') ; 
+							var statusinfo = store.getAt(rowIndex).get('statusinfo') ; 
 							var RUN = store.getAt(rowIndex).get('run') ; 
 							var value = "";
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$query('"+lsh+"','"+runtimeid+"','true'); >查看</a>&nbsp;";
+							<rs:permission action="7" resource="${naturalname_dyform}.PRINT">
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$$print('"+lsh+"'); >打印</a>&nbsp;";
+							</rs:permission>
+							<rs:permission action="7" resource="${naturalname_dyform}.HX">
+							if (statusinfo=='01'){
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$$hx('"+lsh+"'); >核销</a>&nbsp;";
+							}
+							</rs:permission>
+							<rs:permission action="7" resource="${naturalname_dyform}.MODI">
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$edit('"+lsh+"','"+runtimeid+"'); >编辑</a>&nbsp;";
-							value += "&nbsp;<a href='javascript:void(0)' onclick=$delete('"+lsh+"'); >作废</a>&nbsp;";return value;
+							</rs:permission>
+							<rs:permission action="7" resource="${naturalname_dyform}.DEL">
+							value += "&nbsp;<a href='javascript:void(0)' onclick=$delete('"+lsh+"'); >作废</a>&nbsp;";
+							</rs:permission>
+							return value;
 							}
 						}
 				],
@@ -154,14 +175,17 @@ function $select(o,url){
 					 region:"north",
 					 cls:'',
 					 items:[
-					  		{
+					  	<rs:permission action="7" resource="${naturalname_dyform}.ADD">
+					  	{
 						  text:'新增',
 						  id:'ext_b_add',
 						  iconCls:"addIcon",
 						  handler: function (){
 								window.open('<c:url value="/frame.do?method=onEditViewMain&naturalname=${param.naturalname}"/>');
 						  }
-						},'-',{xtype:'panel',
+						},'-',
+						</rs:permission>
+						{xtype:'panel',
 							baseCls : 'x-plain',
 							contentEl : 'conditionDiv'
 						}
@@ -169,6 +193,7 @@ function $select(o,url){
 					    id:"PlanGrid",
 					    xtype:"PlanGrid",
 					    region:"center",
+					    minColumnWidth:20,
 			            border:false,
 			            hideBorders:true,
 			            height : clientHeight-20,

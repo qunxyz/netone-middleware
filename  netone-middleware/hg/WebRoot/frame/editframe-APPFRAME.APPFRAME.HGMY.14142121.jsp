@@ -742,7 +742,7 @@ if (teed24806997411e192f721ec7b3aba82_column4.val()==''){
 $('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
 	multiple: false,
 	dataType: "json",
-	autoFill: true,
+	autoFill: false,
 	mustMatch: true,
 	matchContains: false,
 	scrollHeight: 220,
@@ -799,15 +799,18 @@ $.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.SETTLEM
 
 /**物料**/
 $("table#22c5bb08997611e192f721ec7b3aba82_").find('#column3').live('focus',function(){ 
-
- $(this).autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.NEWPRODUCT&sr_supplyid='+$('table#eed24806997411e192f721ec7b3aba82_').find("#column10").val(), {
+ if ($(this).attr("autocomplete")=='off') return;
+ $(this).autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.NEWPRODUCT', {
 	multiple: false,
 	dataType: "json",
-	autoFill: true,
+	autoFill: false,
 	mustMatch: true,
 	matchContains: false,
 	scrollHeight: 220,
 	width:300,
+	extraParams:{
+       sr_supplyid: function() { return $('table#eed24806997411e192f721ec7b3aba82_').find("#column10").val(); }   
+    }, 
 	parse: function(data) {
 		return $.map(data, function(row) {
 			return {
@@ -836,7 +839,7 @@ $("table#22c5bb08997611e192f721ec7b3aba82_").find('#column3').live('focus',funct
 	var fitemid = item.FItemID;
 	$(this).parent().parent().find('#column4').val(fitemid);
 	$(this).parent().parent().find('#column5').val(item.FModel);
-	$(this).parent().parent().find('#column6').val(item.FEquipmentNum);
+	$(this).parent().parent().find('#column6').val(item.F105);
 	$(this).parent().parent().find('#column7').val(item.FOrderPrice);
 	var c13 = $(this).parent().parent().find('#column13');
 	$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.QUERYUNITBYUNIDGROUPID&q="+item.FUnitGroupID, 

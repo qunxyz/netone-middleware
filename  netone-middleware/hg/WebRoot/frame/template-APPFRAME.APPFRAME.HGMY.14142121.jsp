@@ -52,10 +52,12 @@
 				<c:otherwise>
 					<div id="new_1" style="display: none;">
 						<div id="btn_nd">
+							<c:if test="${isformLock==false}">
 							<input id="deleteBtn_1" type="button" value=" 作 废 " class="btn"
 								onclick="javascript:_delete();" />
 							<input id="saveBtn_1" type="button" value=" 保 存 " class="btn"
 								onclick="javascript:_save();" />
+							</c:if>	
 							<input id="nextBtn_1" type="button" value=" 下一步 " class="btn"
 								onclick="javascript:_auditNext_1();" />
 							<input id="cannelBtn_1" type="button" value=" 取 消 " class="btn"
@@ -78,7 +80,6 @@
 				<div id="audit_1" style="display: none;">
 					<div id="btn_nd">
 						<c:if test="${isFirstAct==true}">
-						
 						<input id="deleteBtn_1" type="button" value=" 作 废 " class="btn"
 								onclick="javascript:_delete();" />
 						

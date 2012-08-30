@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>		
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
@@ -74,9 +75,16 @@ function $select(o,url){
 							var runtimeid = store.getAt(rowIndex).get('runtimeid') ; 
 							var RUN = store.getAt(rowIndex).get('run') ; 
 							var value = "";value += "&nbsp;<a href='javascript:void(0)' onclick=$query('"+lsh+"','"+runtimeid+"','true'); >查看</a>&nbsp;";
+							<rs:permission action="7" resource="${naturalname_dyform}.PRINT">
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$$print('"+lsh+"'); >打印</a>&nbsp;";
+							</rs:permission>
+							<rs:permission action="7" resource="${naturalname_dyform}.MODI">
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$edit('"+lsh+"','"+runtimeid+"'); >编辑</a>&nbsp;";
-							value += "&nbsp;<a href='javascript:void(0)' onclick=$delete('"+lsh+"'); >作废</a>&nbsp;";return value;
+							</rs:permission>
+							<rs:permission action="7" resource="${naturalname_dyform}.DEL">
+							value += "&nbsp;<a href='javascript:void(0)' onclick=$delete('"+lsh+"'); >作废</a>&nbsp;";
+							</rs:permission>
+							return value;
 							}
 						}
 				],
@@ -143,20 +151,24 @@ function $select(o,url){
 					 region:"north",
 					 cls:'',
 					 items:[
-					  		{
+					  	<rs:permission action="7" resource="${naturalname_dyform}.ADD">
+					  	{
 						  text:'新增',
 						  id:'ext_b_add',
 						  iconCls:"addIcon",
 						  handler: function (){
 								window.open('<c:url value="/frame.do?method=onEditViewMain&naturalname=${param.naturalname}"/>');
 						  }
-						},'-',{xtype:'panel',
+						},'-',
+						</rs:permission>
+						{xtype:'panel',
 							baseCls : 'x-plain',
 							contentEl : 'conditionDiv'
 						}
                 	]},{
 					    id:"PlanGrid",
 					    xtype:"PlanGrid",
+					    minColumnWidth:20,
 					    region:"center",
 			            border:false,
 			            hideBorders:true,

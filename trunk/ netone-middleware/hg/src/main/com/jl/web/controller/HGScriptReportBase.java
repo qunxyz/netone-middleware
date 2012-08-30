@@ -1,10 +1,8 @@
 package com.jl.web.controller;
 
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import oe.cav.bean.logic.bus.TCsBus;
 import oescript.parent.OeScript;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,7 +30,7 @@ import com.lucaslee.report.printer.ExcelPrinter;
 public class HGScriptReportBase extends OeScript {
 
 	// 新品进场
-	public  void listtable1(String lsh, HttpServletResponse response)
+	public void listtable1(String lsh, HttpServletResponse response)
 			throws Exception {
 		final String MY_STYLE1 = "customStyle1";
 
@@ -348,7 +345,7 @@ public class HGScriptReportBase extends OeScript {
 				}
 			};
 			new ExcelPrinter().print(report, css, fo, true);
-			System.out.println("生成成功！");
+			// System.out.println("生成成功！");
 		} finally {
 			if (fo != null)
 				fo.close();
@@ -356,11 +353,12 @@ public class HGScriptReportBase extends OeScript {
 	}
 
 	// 促销
-	public  void listtable2(String lsh, HttpServletResponse response)
+	public void listtable2(String lsh, HttpServletResponse response)
 			throws Exception {
 		final String MY_STYLE1 = "customStyle1";
 
 		final String MY_DATA_STYLE1 = "customDataStyle1";
+		final String MY_DATA_STYLE1_BOLD = "customDataStyle1Bold";
 		final String MY_DATA_STYLE2 = "customDataStyle2";
 		final String MY_HEADER_STYLE1 = "customHeaderStyle1";
 
@@ -375,19 +373,24 @@ public class HGScriptReportBase extends OeScript {
 		// String lsh = "c5f422d673024f8eaaff7863d8dce68e";
 		x.add(x);
 		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
-		List list = db.queryData(con,
-				"SELECT * from DY_991336361733786  where lsh='" + lsh + "'  ");
+		List list = db
+				.queryData(
+						con,
+						"SELECT t.*,sub.column7 begindate,sub.column8 as enddate from DY_991336361733786 t left join DY_991336361733788 sub on sub.fatherlsh=t.lsh  where t.lsh='"
+								+ lsh + "'  ");
 		db.close(con);
 
 		TableRow thr = new TableRow(14);
 		TableCell htc = new TableCell("促销活动申请表");
-		htc.setColSpan(13);
+		htc.setHeight(400);
+		htc.setColSpan(12);
 		thr.setCell(0, htc);
 		thr.setType(MY_STYLE1);
 
 		TableCell htc2 = new TableCell("单位：（元/件）");
+		htc2.setColSpan(2);
 		htc2.setCssClass(MY_RIGHT_STYLE1);
-		thr.setCell(13, htc2);
+		thr.setCell(12, htc2);
 		t.addRow(thr);
 
 		TableCell hiddencell = new TableCell("");
@@ -400,7 +403,16 @@ public class HGScriptReportBase extends OeScript {
 		String mcol5 = "";
 		String mcol6 = "";
 		String mcol7 = "";
+
+		String wf1 = "";// 审批1
+		String wf2 = "";// 审批2
+		String wf3 = "";// 审批3
+		String wf4 = "";// 审批4
+
 		String clientid = "";
+		String clientcate = "";// 客户分类
+		String begindate = "";// 促销开始时间
+		String enddate = "";// 促销结束时间
 		if (list.size() > 0) {
 			Map map = (Map) list.get(0);
 			mcol1 = (String) map.get("column3");
@@ -411,6 +423,13 @@ public class HGScriptReportBase extends OeScript {
 			mcol6 = (String) map.get("column8");
 			mcol7 = (String) map.get("column9");
 			clientid = (String) map.get("column10");
+			clientcate = (String) map.get("column11");
+			wf1 = (String) map.get("column12");
+			wf2 = (String) map.get("column13");
+			wf3 = (String) map.get("column14");
+			wf4 = (String) map.get("column15");
+			begindate = (String) map.get("begindate");
+			enddate = (String) map.get("enddate");
 		}
 
 		Connection conxx = db.con("DATASOURCE.DATASOURCE.DYFORM");
@@ -463,8 +482,9 @@ public class HGScriptReportBase extends OeScript {
 		tc00_.setRowSpan(2);
 		tr1.addCell(tc00_);
 
-		TableCell tc00 = new TableCell("名称:" + mcol3);
+		TableCell tc00 = new TableCell("名称:" + getSubmessByFTypeID(clientcate));
 		tc00.setColSpan(6);
+		tc00.setHeight(300);
 		tr1.addCell(tc00);
 		tr1.addCell(hiddencell);
 		tr1.addCell(hiddencell);
@@ -490,6 +510,7 @@ public class HGScriptReportBase extends OeScript {
 		TableCell tc000_ = new TableCell("促销网点");
 		tc000_.setAlign(tc000_.ALIGN_CENTER);
 		tc000_.setIsHidden(true);
+		tc000_.setHeight(600);
 		tr2.addCell(tc000_);
 
 		TableCell tc000 = new TableCell("联系人:" + mcol5);
@@ -578,9 +599,12 @@ public class HGScriptReportBase extends OeScript {
 		trx2.addCell(hiddencell);
 		trx2.addCell(hiddencell);
 		trx2.addCell(hiddencell);
+		trx2.setType(MY_DATA_STYLE1);
 		t.addRow(trx2);
 
 		double[] sumx = new double[4];
+		StringBuffer productidStrs = new StringBuffer();
+		String split = "";
 		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
 			String col3 = (String) object.get("column3") == null ? "" : object
@@ -612,6 +636,11 @@ public class HGScriptReportBase extends OeScript {
 					: ((BigDecimal) object.get("column14")).toString();
 			String col15 = object.get("column15") == null ? "" : object.get(
 					"column15").toString();
+			String column19 = object.get("column19") == null ? "" : object.get(
+					"column19").toString();
+
+			productidStrs.append(split + column19);
+			split = ",";
 
 			TableRow tr = new TableRow();
 			tr.addCell(new TableCell(col3));
@@ -641,7 +670,7 @@ public class HGScriptReportBase extends OeScript {
 		}
 
 		TableRow trx2_00 = new TableRow();
-		TableCell tcx_1_200 = new TableCell("合  计", Rectangle.ALIGN_CENTER);
+		TableCell tcx_1_200 = new TableCell("总  计", Rectangle.ALIGN_CENTER);
 		tcx_1_200.setColSpan(2);
 		trx2_00.addCell(tcx_1_200);
 		trx2_00.addCell(hiddencell);
@@ -669,7 +698,7 @@ public class HGScriptReportBase extends OeScript {
 		trx2_00.addCell(tcx_5_200);
 		trx2_00.addCell(hiddencell);
 		trx2_00.addCell(hiddencell);
-
+		trx2_00.setType(MY_DATA_STYLE1);
 		t.addRow(trx2_00);
 
 		TableRow trx000_ = new TableRow();
@@ -692,36 +721,46 @@ public class HGScriptReportBase extends OeScript {
 		trx000_.addCell(hiddencell);
 		trx000_.addCell(hiddencell);
 		trx000_.addCell(hiddencell);
-
+		trx000_.setType(MY_DATA_STYLE1);
 		t.addRow(trx000_);
 
 		TableRow thr00000 = new TableRow(14);
 		TableCell htc00 = new TableCell("★核销需要资料：厂家费用申请及审批表");
 		htc00.setColSpan(14);
 		thr00000.setCell(0, htc00);
+		thr00000.setType(MY_DATA_STYLE1_BOLD);
 		t.addRow(thr00000);
 
 		TableRow trx_ = new TableRow();
-		TableCell tcx_1_ = new TableCell("分销商或业务员确认:");
+
+		TableCell tcx_1_ = new TableCell("分销商或业务员确认:"
+				+ ((wf1 == null || "".equals(wf1)) ? ""
+						: wf1.split("\\|\\|")[0]));
 		tcx_1_.setColSpan(4);
 		trx_.addCell(tcx_1_);
 		trx_.addCell(hiddencell);
 		trx_.addCell(hiddencell);
 		trx_.addCell(hiddencell);
 
-		TableCell tcx_2_ = new TableCell("主管确认:");
+		TableCell tcx_2_ = new TableCell("主管确认:"
+				+ ((wf2 == null || "".equals(wf2)) ? ""
+						: wf2.split("\\|\\|")[0]));
 		tcx_2_.setColSpan(3);
 		trx_.addCell(tcx_2_);
 		trx_.addCell(hiddencell);
 		trx_.addCell(hiddencell);
 
-		TableCell tcx_3_ = new TableCell("财务确认:");
+		TableCell tcx_3_ = new TableCell("财务确认:"
+				+ ((wf3 == null || "".equals(wf3)) ? ""
+						: wf3.split("\\|\\|")[0]));
 		tcx_3_.setColSpan(3);
 		trx_.addCell(tcx_3_);
 		trx_.addCell(hiddencell);
 		trx_.addCell(hiddencell);
 
-		TableCell tcx_4_ = new TableCell("总经理确认:");
+		TableCell tcx_4_ = new TableCell("总经理确认:"
+				+ ((wf4 == null || "".equals(wf4)) ? ""
+						: wf4.split("\\|\\|")[0]));
 		tcx_4_.setColSpan(4);
 		trx_.addCell(tcx_4_);
 		trx_.addCell(hiddencell);
@@ -731,141 +770,177 @@ public class HGScriptReportBase extends OeScript {
 		t.addRow(trx_);
 
 		TableRow trx2_ = new TableRow();
-		TableCell tcx_1_2 = new TableCell("日期:");
+		TableCell tcx_1_2 = new TableCell("日期:"
+				+ ((wf1 == null || "".equals(wf1)) ? ""
+						: wf1.split("\\|\\|")[1]));
 		tcx_1_2.setColSpan(4);
 		trx2_.addCell(tcx_1_2);
 		trx2_.addCell(hiddencell);
 		trx2_.addCell(hiddencell);
 		trx2_.addCell(hiddencell);
 
-		TableCell tcx_2_2 = new TableCell("日期:");
+		TableCell tcx_2_2 = new TableCell("日期:"
+				+ ((wf2 == null || "".equals(wf2)) ? ""
+						: wf2.split("\\|\\|")[1]));
 		tcx_2_2.setColSpan(3);
 		trx2_.addCell(tcx_2_2);
 		trx2_.addCell(hiddencell);
 		trx2_.addCell(hiddencell);
 
-		TableCell tcx_3_2 = new TableCell("日期:");
+		TableCell tcx_3_2 = new TableCell("日期:"
+				+ ((wf3 == null || "".equals(wf3)) ? ""
+						: wf3.split("\\|\\|")[1]));
 		tcx_3_2.setColSpan(3);
 		trx2_.addCell(tcx_3_2);
 		trx2_.addCell(hiddencell);
 		trx2_.addCell(hiddencell);
 
-		TableCell tcx_4_2 = new TableCell("日期:");
+		TableCell tcx_4_2 = new TableCell("日期:"
+				+ ((wf4 == null || "".equals(wf4)) ? ""
+						: wf4.split("\\|\\|")[1]));
 		tcx_4_2.setColSpan(4);
 		trx2_.addCell(tcx_4_2);
 		trx2_.addCell(hiddencell);
 		trx2_.addCell(hiddencell);
 		trx2_.addCell(hiddencell);
-
 		t.addRow(trx2_);
+
+		// 空行
+		TableRow thrnull = new TableRow(14);
+		t.addRow(thrnull);
 
 		// 销售量统计
 		TableRow thr000001 = new TableRow(14);
-		TableCell htc001 = new TableCell("销售量统计");
+		TableCell htc001 = new TableCell(mcol3 + begindate + "至" + enddate
+				+ "促销活动量");
+		htc001.setAlign(Rectangle.VALIGN_MIDDLE);
 		htc001.setColSpan(14);
 		thr000001.setCell(0, htc001);
 		t.addRow(thr000001);
 
+		// 销售记录
 		TableRow tr11 = new TableRow();
-		TableCell cell11 = new TableCell("产品编号");
-		cell11.setColSpan(2);
-		tr11.addCell(cell11);
+
+		tr11.addCell(new TableCell("日期", Rectangle.ALIGN_CENTER));
+		TableCell cc1 = new TableCell("单据编号", Rectangle.ALIGN_CENTER);
+		cc1.setColSpan(2);
+		tr11.addCell(cc1);
 		tr11.addCell(hiddencell);
 
-		TableCell cell211 = new TableCell("产品名称");
-		cell211.setColSpan(2);
-		tr11.addCell(cell211);
+		TableCell cc2 = new TableCell("购货单位", Rectangle.ALIGN_CENTER);
+		cc2.setColSpan(2);
+		tr11.addCell(cc2);
 		tr11.addCell(hiddencell);
 
-		TableCell cell311 = new TableCell("规格");
-		cell311.setColSpan(2);
-		tr11.addCell(cell311);
+		tr11.addCell(new TableCell("产品编号", Rectangle.ALIGN_CENTER));
+
+		TableCell cc3 = new TableCell("产品名称", Rectangle.ALIGN_CENTER);
+		cc3.setColSpan(2);
+		tr11.addCell(cc3);
 		tr11.addCell(hiddencell);
 
-		TableCell cell411 = new TableCell("单价");
-		cell411.setColSpan(2);
-		tr11.addCell(cell411);
-		tr11.addCell(hiddencell);
-
-		TableCell cell511 = new TableCell("数量");
-		cell511.setColSpan(2);
-		tr11.addCell(cell511);
-		tr11.addCell(hiddencell);
-
-		TableCell cell611 = new TableCell("金额");
-		cell611.setColSpan(2);
-		tr11.addCell(cell611);
-		tr11.addCell(hiddencell);
-
-		tr11.addCell(new TableCell(""));
-		tr11.addCell(new TableCell(""));
+		tr11.addCell(new TableCell("规格型号", Rectangle.ALIGN_CENTER));
+		tr11.addCell(new TableCell("单位", Rectangle.ALIGN_CENTER));
+		tr11.addCell(new TableCell("数量", Rectangle.ALIGN_CENTER));
+		tr11.addCell(new TableCell("单价", Rectangle.ALIGN_CENTER));
+		tr11.addCell(new TableCell("金额", Rectangle.ALIGN_CENTER));
+		tr11.addCell(new TableCell("对应名称", Rectangle.ALIGN_CENTER));
 
 		tr11.setType(MY_DATA_STYLE1);
 		t.addRow(tr11);
 
 		StringBuffer sqlstr = new StringBuffer();
 		sqlstr
-				.append(" select FShortNumber as FItemIDName,Fname as FItemName,FModel as FItemModel,isnull(u1.FConsignPrice,0) FConsignPrice,isnull(u1.Fauxqty,0) Fauxqty,isnull(u1.FConsignAmount,0) FConsignAmount ");
+				.append(" select v1.FDate as FDate,org.FName as orgName,v1.FBillNo,t3192.FShortNumber as FItemIDName,t3192.Fname as FItemName,unit.FName as UnitName,t3192.FModel as FItemModel,isnull(convert(decimal(22,2),u1.FConsignPrice),0) FConsignPrice,isnull(convert(decimal(22,2),u1.Fauxqty),0) Fauxqty,isnull(convert(decimal(22,2),u1.FConsignAmount),0) FConsignAmount,u1.FMapName ");
 		sqlstr.append(" from ICStockBill v1  ");
 		sqlstr
 				.append(" Inner Join ICStockBillEntry u1 on v1.FInterID=u1.FInterID ");
 		sqlstr
 				.append(" left outer join t_ICItem t3192 on u1.FItemID=t3192.FItemID ");
-		sqlstr.append(" where v1.FTranType=21 and v1.FSupplyID="
-				+ (("".equals(clientid)) ? "" : clientid) + " and v1.fdate>='"
-				+ cxStartdate + "' " + " and v1.fdate<='" + cxEnddate + "' ");
-		System.out.println(sqlstr.toString());
+		sqlstr
+				.append(" left outer join t_Organization org on org.FItemID=v1.FSupplyID ");
+		sqlstr
+				.append(" left outer join t_MeasureUnit unit on unit.FItemID=u1.FUnitID ");
+		sqlstr.append(" where v1.FTranType=21 and org.FTypeID="
+				+ (("".equals(clientcate)) ? "" : clientcate)
+				+ " and u1.FItemID in (" + productidStrs.toString() + ")"
+				+ " and v1.fdate>='" + cxStartdate + "' " + " and v1.fdate<='"
+				+ cxEnddate + "' ");
+
+		// sqlstr.append(" where v1.FTranType=21 ");//测试
+
 		Connection hgcon = db.con("DATASOURCE.DATASOURCE.HGDB");
 
 		List selllist = db.queryData(hgcon, sqlstr.toString());
+		double[] total = new double[1];
 		for (Iterator iterator = selllist.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
 			String FItemIDName = (String) object.get("FItemIDName");
 			String FItemName = (String) object.get("FItemName");
 			String FItemModel = (String) object.get("FItemModel");
-			String FConsignPrice = (String) object.get("FConsignPrice");
-			String Fauxqty = (String) object.get("Fauxqty");
-			String FConsignAmount = (String) object.get("FConsignAmount");
+			BigDecimal FConsignPrice = (BigDecimal) object.get("FConsignPrice");
+			BigDecimal Fauxqty = (BigDecimal) object.get("Fauxqty");
+			BigDecimal FConsignAmount = (BigDecimal) object
+					.get("FConsignAmount");
+			String FDate = (String) object.get("FDate").toString();
+			String orgName = (String) object.get("orgName");
+			String FBillNo = (String) object.get("FBillNo");
+			String UnitName = (String) object.get("UnitName");
+			/** 对应名称 03贴 */
+			String FMapName = (String) object.get("FMapName");
 
 			TableRow tr = new TableRow();
 
-			TableCell cell = new TableCell(FItemIDName);
-			cell.setColSpan(2);
-			tr.addCell(cell);
+			tr.addCell(new TableCell(FDate.substring(0, 11)));
+
+			TableCell ccx1 = new TableCell(FBillNo);
+			ccx1.setColSpan(2);
+			tr.addCell(ccx1);
 			tr.addCell(hiddencell);
 
-			TableCell cell2 = new TableCell(FItemName);
-			cell2.setColSpan(2);
-			tr.addCell(cell2);
+			TableCell ccx2 = new TableCell(orgName);
+			ccx2.setColSpan(2);
+			tr.addCell(ccx2);
 			tr.addCell(hiddencell);
 
-			TableCell cell3 = new TableCell(FItemModel);
-			cell3.setColSpan(2);
-			tr.addCell(cell3);
+			tr.addCell(new TableCell(FItemIDName));
+
+			TableCell ccx3 = new TableCell(FItemName);
+			ccx3.setColSpan(2);
+			tr.addCell(ccx3);
 			tr.addCell(hiddencell);
 
-			TableCell cell4 = new TableCell(FConsignPrice);
-			cell4.setColSpan(2);
-			tr.addCell(cell4);
-			tr.addCell(hiddencell);
-
-			TableCell cell5 = new TableCell(Fauxqty);
-			cell5.setColSpan(2);
-			tr.addCell(cell5);
-			tr.addCell(hiddencell);
-
-			TableCell cell6 = new TableCell(FConsignAmount);
-			cell6.setColSpan(2);
-			tr.addCell(cell6);
-			tr.addCell(hiddencell);
-
-			tr.addCell(new TableCell(""));
-			tr.addCell(new TableCell(""));
+			tr.addCell(new TableCell(FItemModel));
+			tr.addCell(new TableCell(UnitName));
+			tr.addCell(new TableCell("" + Fauxqty));
+			tr.addCell(new TableCell("" + FConsignPrice));
+			tr.addCell(new TableCell("" + FConsignAmount));
+			tr.addCell(new TableCell("" + FMapName));
 
 			tr.setType(MY_DATA_STYLE1);
 			t.addRow(tr);
+
+			total[0] += FConsignAmount.doubleValue();
 		}
 		db.close(hgcon);
+
+		TableRow tr = new TableRow();
+		tr.addCell(new TableCell("合计"));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell(""));
+		tr.addCell(new TableCell("" + total[0]));
+		tr.addCell(new TableCell(""));
+		tr.setType(MY_DATA_STYLE1);
+		t.addRow(tr);
 
 		// 定义报表对象
 		Report report = new Report();
@@ -895,6 +970,11 @@ public class HGScriptReportBase extends OeScript {
 					fontBig.setFontName("宋体");
 					fontBig.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 
+					HSSFFont fontNormalBold = workbook.createFont();
+					fontNormalBold.setFontHeightInPoints((short) 10);
+					fontNormalBold.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+					fontNormalBold.setFontName("宋体");
+
 					HSSFFont fontNormal = workbook.createFont();
 					fontNormal.setFontHeightInPoints((short) 10);
 					fontNormal.setFontName("宋体");
@@ -906,15 +986,21 @@ public class HGScriptReportBase extends OeScript {
 					style.setBorderLeft((short) 0);
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);
+					style.setWrapText(true);
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
 					this.setStyle(Report.DATA_TYPE, style);
 
 					style = workbook.createCellStyle();
 					style.setFont(fontBig);
-					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
 					style.setBorderBottom((short) 0);
 					style.setBorderLeft((short) 0);
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);
+					style.setWrapText(true);
 					this.setStyle(MY_STYLE1, style);
 
 					style = workbook.createCellStyle();
@@ -923,6 +1009,9 @@ public class HGScriptReportBase extends OeScript {
 					style.setBorderLeft((short) 0);
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
+					style.setWrapText(true);
 					this.setStyle(MY_RIGHT_STYLE1, style);
 
 					style = workbook.createCellStyle();
@@ -931,15 +1020,31 @@ public class HGScriptReportBase extends OeScript {
 					style.setBorderLeft((short) 1);
 					style.setBorderRight((short) 1);
 					style.setBorderTop((short) 1);
+					style.setVerticalAlignment(HSSFCellStyle.ALIGN_LEFT);
+					style.setWrapText(true);
 					this.setStyle(MY_DATA_STYLE1, style);
+
+					style = workbook.createCellStyle();
+					style.setFont(fontNormalBold);
+					style.setBorderBottom((short) 1);
+					style.setBorderLeft((short) 1);
+					style.setBorderRight((short) 1);
+					style.setBorderTop((short) 1);
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
+					style.setWrapText(true);
+					this.setStyle(MY_DATA_STYLE1_BOLD, style);
 
 					style = workbook.createCellStyle();
 					style.setFont(fontNormal);
 					style.setBorderBottom((short) 1);
 					style.setBorderLeft((short) 1);
 					style.setAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
 					style.setBorderRight((short) 1);
 					style.setBorderTop((short) 1);
+					style.setWrapText(true);
 					this.setStyle(MY_DATA_STYLE2, style);
 
 					style = workbook.createCellStyle();
@@ -949,12 +1054,20 @@ public class HGScriptReportBase extends OeScript {
 					style.setBorderLeft((short) 1);
 					style.setBorderRight((short) 1);
 					style.setBorderTop((short) 1);
+					style.setWrapText(true);// 自动换行
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
 					this.setStyle(MY_HEADER_STYLE1, style);
 
+					int[] widths = { (short) 12, (short) 7, (short) 7,
+							(short) 5, (short) 5, (short) 5, (short) 5,
+							(short) 5, (short) 5, (short) 5, (short) 5,
+							(short) 8, (short) 8, (short) 8 };
+					this.setWidths(widths);
 				}
 			};
 			new ExcelPrinter().print(report, css, fo, true);
-			System.out.println("生成成功！");
+			// System.out.println("生成成功！");
 		} finally {
 			if (fo != null)
 				fo.close();
@@ -962,7 +1075,7 @@ public class HGScriptReportBase extends OeScript {
 	}
 
 	// 新用户申请
-	public  void listtable3(String lsh, HttpServletResponse response)
+	public void listtable3(String lsh, HttpServletResponse response)
 			throws Exception {
 		final String MY_STYLE1 = "customStyle1";
 
@@ -1142,6 +1255,7 @@ public class HGScriptReportBase extends OeScript {
 		// 5
 		TableRow tr5 = new TableRow();
 		TableCell tc5 = new TableCell("申请时间:" + mcol14);
+		tc5.setHeight(500);
 		tc5.setColSpan(2);
 		tr5.addCell(tc5);
 		tr5.addCell(hiddencell);
@@ -1207,6 +1321,11 @@ public class HGScriptReportBase extends OeScript {
 					fontBig.setFontName("宋体");
 					fontBig.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 
+					HSSFFont fontNormalBold = workbook.createFont();
+					fontNormalBold.setFontHeightInPoints((short) 10);
+					fontNormalBold.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+					fontNormalBold.setFontName("宋体");
+
 					HSSFFont fontNormal = workbook.createFont();
 					fontNormal.setFontHeightInPoints((short) 10);
 					fontNormal.setFontName("宋体");
@@ -1218,15 +1337,21 @@ public class HGScriptReportBase extends OeScript {
 					style.setBorderLeft((short) 0);
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);
+					style.setWrapText(true);
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
 					this.setStyle(Report.DATA_TYPE, style);
 
 					style = workbook.createCellStyle();
 					style.setFont(fontBig);
-					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
 					style.setBorderBottom((short) 0);
 					style.setBorderLeft((short) 0);
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);
+					style.setWrapText(true);
 					this.setStyle(MY_STYLE1, style);
 
 					style = workbook.createCellStyle();
@@ -1235,6 +1360,9 @@ public class HGScriptReportBase extends OeScript {
 					style.setBorderLeft((short) 0);
 					style.setBorderRight((short) 0);
 					style.setBorderTop((short) 0);
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
+					style.setWrapText(true);
 					this.setStyle(MY_RIGHT_STYLE1, style);
 
 					style = workbook.createCellStyle();
@@ -1243,6 +1371,8 @@ public class HGScriptReportBase extends OeScript {
 					style.setBorderLeft((short) 1);
 					style.setBorderRight((short) 1);
 					style.setBorderTop((short) 1);
+					style.setVerticalAlignment(HSSFCellStyle.ALIGN_LEFT);
+					style.setWrapText(true);
 					this.setStyle(MY_DATA_STYLE1, style);
 
 					style = workbook.createCellStyle();
@@ -1250,8 +1380,11 @@ public class HGScriptReportBase extends OeScript {
 					style.setBorderBottom((short) 1);
 					style.setBorderLeft((short) 1);
 					style.setAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
 					style.setBorderRight((short) 1);
 					style.setBorderTop((short) 1);
+					style.setWrapText(true);
 					this.setStyle(MY_DATA_STYLE2, style);
 
 					style = workbook.createCellStyle();
@@ -1261,12 +1394,19 @@ public class HGScriptReportBase extends OeScript {
 					style.setBorderLeft((short) 1);
 					style.setBorderRight((short) 1);
 					style.setBorderTop((short) 1);
+					style.setWrapText(true);// 自动换行
+					style
+							.setVerticalAlignment(HSSFCellStyle.ALIGN_CENTER_SELECTION);
 					this.setStyle(MY_HEADER_STYLE1, style);
+
+					int[] widths = { (short) 15, (short) 15, (short) 9,
+							(short) 9, (short) 9, (short) 9, (short) 9 };
+					this.setWidths(widths);
 
 				}
 			};
 			new ExcelPrinter().print(report, css, fo, true);
-			System.out.println("生成成功！");
+			// System.out.println("生成成功！");
 		} finally {
 			if (fo != null)
 				fo.close();
@@ -1330,11 +1470,9 @@ public class HGScriptReportBase extends OeScript {
 	public static String GETDEPTLEVEL(String id) {
 		if (StringUtils.isNotEmpty(id)) {
 			Connection hgcon = db.con("DATASOURCE.DATASOURCE.HGDB");
-			List list = db
-					.queryData(
-							hgcon,
-							"select * from t_item where FItemClassID=2 and FDeleted=0 and fDetail=0  and FItemID="
-									+ id);
+			List list = db.queryData(hgcon,
+					"select * from t_item where FItemClassID=2 and FDeleted=0 and FItemID="
+							+ id);
 			if (list.size() > 0) {
 				Map map = (Map) list.get(0);
 				String fname = (String) map.get("FName");

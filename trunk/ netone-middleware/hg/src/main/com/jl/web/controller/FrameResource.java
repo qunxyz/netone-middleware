@@ -23,8 +23,8 @@ public class FrameResource {
 	 * @return
 	 */
 	public static String buildRootTreeRelation(String id, boolean isexpand,
-			boolean rootShowcheck) {
-		String jsonx = buildChildTreeRelation(id, isexpand);
+			boolean rootShowcheck, String usercode) {
+		String jsonx = buildChildTreeRelation(id, isexpand, usercode);
 		String jsondata = "[" + jsonx + "]";
 		return jsondata;
 	}
@@ -37,8 +37,9 @@ public class FrameResource {
 	 * @param checkedmap
 	 * @return
 	 */
-	public static String buildChildTreeRelation(String pid, boolean isexpand) {
-		List<UmsProtectedobject> set = findByPId(pid);
+	public static String buildChildTreeRelation(String pid, boolean isexpand,
+			String usercode) {
+		List<UmsProtectedobject> set = findByPId(pid, usercode);
 		if (set.size() == 0)
 			return "";
 		StringBuilder str = new StringBuilder();
@@ -59,6 +60,10 @@ public class FrameResource {
 			str.append("	\"linkurl\":\"" + r.getActionurl() + "\"");
 			str.append("},");
 
+			if ("normal-close".equals(r.getExtendattribute())) {
+				isexpand = false;
+			}
+
 			// JSON json = JSONUtil2.fromBean(r, "yyyy-MM-dd HH:mm:ss");
 			// str.append(StringUtils.substringBetween(json.toString(), "{",
 			// "}")
@@ -67,7 +72,8 @@ public class FrameResource {
 			str.append("\"showcheck\":true,\"isexpand\": " + isexpand
 					+ ", \"complete\": true");
 
-			String jsonx = buildChildTreeRelation(r.getNaturalname(), isexpand);
+			String jsonx = buildChildTreeRelation(r.getNaturalname(), isexpand,
+					usercode);
 			if (!"".equals(jsonx)) {
 				str.append(",\"state\":" + (isexpand ? false : "\"closed\""));
 
@@ -91,7 +97,8 @@ public class FrameResource {
 		return str.substring(0, str.length() - 1);
 	}
 
-	public static List<UmsProtectedobject> findByPId(String naturalname) {
+	public static List<UmsProtectedobject> findByPId(String naturalname,
+			String usercode) {
 		List list = new ArrayList();
 		List listx = null;
 		ResourceRmi resourceRmi = null;
@@ -108,12 +115,15 @@ public class FrameResource {
 			try {
 				upjid = resourceRmi.loadResourceByNatural(name
 						.getResourcecode());
+				boolean perm = SecurityEntry.iv().permission(usercode,
+						upjid.getNaturalname());
 
 				// no.setName(upjid.getName());
 				// no.setNaturalname(upjid.getNaturalname());
 				// no.setUrl(upjid.getActionurl());
 
-				list.add(upjid);
+				if (perm)
+					list.add(upjid);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

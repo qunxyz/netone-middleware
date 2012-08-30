@@ -260,6 +260,28 @@ BussGrid.Layout.Viewport =  Ext.extend(Ext.Viewport, {
 							 <c:if test="${adminx == 'adminx'}">
 								,{text : '更新扩展',id:'_initExtData',iconCls:'saveIcon',handler:_initExtData}
 							 </c:if>
+							 ,{text : '同步K3部门',iconCls:'manageIcon',handler:function(){
+							 	var msgTip = Ext.MessageBox.show({
+									title:'系统提示',
+									width : 250,
+									msg:'正在执行操作请稍后......'
+								});
+								 Ext.Ajax.request({
+										url :"<c:url value='/app.do?method=syncK3Dept' />",//请求的服务器地址
+										method : 'POST',
+										sync:true,
+										success : function(response,options){
+											msgTip.hide();
+							 				alert('同步成功!');
+										},
+										failure : function(response,options){
+											msgTip.hide();
+											checkAjaxStatus(response);
+											alert('同步失败!');
+										}
+							　   });
+								
+							 }}
 						])
 					  },{
 						id:'BussGrid',
@@ -272,6 +294,27 @@ BussGrid.Layout.Viewport =  Ext.extend(Ext.Viewport, {
 							 {text : '修改',iconCls:'editIcon',handler:_editUser},
 							 {text : '删除',iconCls:'deleteIcon',handler:_deleteUser},
 							 {text : '帐号',iconCls:'manageIcon',menu :fobidFunctionMenu2}
+							 ,{text : '同步K3职员',iconCls:'manageIcon',handler:function(){
+							 	var msgTip = Ext.MessageBox.show({
+									title:'系统提示',
+									width : 250,
+									msg:'正在执行操作请稍后......'
+								});
+								 Ext.Ajax.request({
+										url :"<c:url value='/app.do?method=syncK3User' />",//请求的服务器地址
+										method : 'POST',
+										sync:true,
+										success : function(response,options){
+											msgTip.hide();
+							 				alert('同步成功!');
+										},
+										failure : function(response,options){
+											msgTip.hide();
+											checkAjaxStatus(response);
+											alert('同步失败!');
+										}
+							　   });
+							 }}
 						])
 					}]
 				}

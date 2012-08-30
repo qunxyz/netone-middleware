@@ -395,7 +395,26 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return null;
+	}
+	
+	public String getSession(String key,String appname) {
+		WorkflowView wfview;
+		try {
+			wfview = (WorkflowView) RmiEntry.iv("wfview");
+			List list = wfview
+					.coreSqlview("select runtimeid from t_wf_relevantvar_tmp where lsh='"
+							+ key + "' and appname='"+appname+"'");
+			if (list.size() > 0) {
+				// 可能查到多个数据，特别是重置后，由于业务系统继续保留使用之前业务数据的ID，
+				// 所以会出现多个相同的相关变量数据，实属正常现象，在这里通过修改条件适应即可
+				return (String) ((Map) list.get(0))
+						.get("runtimeid");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 

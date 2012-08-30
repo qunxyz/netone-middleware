@@ -354,7 +354,10 @@ public interface TWfConsoleIfc {
 	 * 根据业务ID获得流程ID
 	 */
 	String getSession(String key);
-
+	/**
+	 * 根据业务ID 和 应用ID 获得流程ID，有的时候一个表单可能在多个流程中扭转
+	 */
+	String getSession(String key,String appname);
 	/**
 	 * 重新激活执行过的某节点
 	 * 

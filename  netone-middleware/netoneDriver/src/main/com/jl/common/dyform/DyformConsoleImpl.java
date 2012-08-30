@@ -1,5 +1,9 @@
 package com.jl.common.dyform;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,6 +35,7 @@ import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.jl.common.ScriptTools;
 import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.WfEntry;
@@ -1046,6 +1051,53 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 		}
 		return (String[])columnAvail.toArray(new String[0]);
+	}
+	
+	/**
+	 * 嵌入脚本处理数据转化脚本<BR>
+	 * 
+	 * @author don add
+	 * @param data
+	 * @param formcode
+	 * @throws Exception
+	 */
+	private void dealWithDataTransformInScript(List<DyFormData> data,
+			String formcode) throws Exception {
+		// 当前目录的URI
+		URL paths = Thread.currentThread().getContextClassLoader().getResource(
+				"");
+		String path = paths.getPath();
+
+		Object[] obj = { data };
+		StringBuffer scripts = new StringBuffer();
+
+		File file = new File(path + "/script/" + formcode + ".jcode");
+		// 存在脚本，读取脚本内容并动态执行
+		if (file.exists()) {
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(new FileReader(file));
+				String tempString = null;
+				int line = 1;
+				// 一次读入一行，直到读入null为文件结束
+				while ((tempString = reader.readLine()) != null) {
+					scripts.append(tempString);
+					line++;
+				}
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e1) {
+					}
+				}
+			}
+			// 执行脚本
+			ScriptTools.todo(scripts.toString(),obj);
+		}
 	}
 
 }

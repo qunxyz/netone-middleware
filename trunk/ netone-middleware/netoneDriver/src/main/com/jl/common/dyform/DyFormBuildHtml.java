@@ -16,9 +16,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.jl.common.app.AppEntry;
-import com.jl.common.app.AppObj;
-
 public final class DyFormBuildHtml {
 	// 计算一行中列数为columnCount时，每列的宽度。
 	public static int calcAvailColumnWidth(int columnCount) {
@@ -1052,8 +1049,8 @@ public final class DyFormBuildHtml {
 								parameter, column.getDefaultValue()) + _N;
 			} else {
 				_startDiv = "<div class=\"" + FORM_FIELD_INPUT_READ
-						+ "\" style=\"width:" + _width + ";\"" + hiddenstyle
-						+ " align=\"left\">" + _N;
+						+ "\" style=\"width:" + _width + ";" + hiddenstyle
+						+ "\"" + " align=\"left\">" + _N;
 				_endDiv = "</div>";
 				_value = routeAppointValue(column.getViewtype(), "" + value,
 						column.getValuelist())

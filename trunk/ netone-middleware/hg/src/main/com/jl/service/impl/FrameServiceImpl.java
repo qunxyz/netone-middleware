@@ -310,7 +310,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		String hiddenunid = DyFormComp.getHiddenInput("unid", lsh);
 		String hiddenlsh = DyFormComp.getHiddenInput("lsh", lsh);
 		if (!ishidden) {
-			html.append(DyFormBuildHtml.buildForm(dyform, false, userinfo,
+			html.append(DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
 					naturalname, lsh, false, false, parameter, hiddenid
 							+ hiddenunid + hiddenlsh));
 		} else {

@@ -650,6 +650,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 			dyform.setSubform_((DyForm[]) subformAll.toArray(new DyForm[0]));
 		}
+		// dyform = dealWithFormTransformInScript(dyform,formid);
 
 		return dyform;
 	}
@@ -1185,6 +1186,54 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			return (DyFormData) ScriptTools.todo(scripts.toString(), obj);
 		}
 		return data;
+	}
+
+	/**
+	 * 嵌入脚本处理表单转化脚本<BR>
+	 * 
+	 * @author don add
+	 * @param data
+	 * @param formcode
+	 * @throws Exception
+	 */
+	private DyForm dealWithFormTransformInScript(DyForm dyform, String formcode)
+			throws Exception {
+		// 当前目录的URI
+		URL paths = Thread.currentThread().getContextClassLoader().getResource(
+				"");
+		String path = paths.getPath();
+
+		Object[] obj = { dyform };
+		StringBuffer scripts = new StringBuffer();
+
+		File file = new File(path + "/script/form-" + formcode + ".jcode");
+		// 存在脚本，读取脚本内容并动态执行
+		if (file.exists()) {
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(new FileReader(file));
+				String tempString = null;
+				int line = 1;
+				// 一次读入一行，直到读入null为文件结束
+				while ((tempString = reader.readLine()) != null) {
+					scripts.append(tempString);
+					line++;
+				}
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e1) {
+					}
+				}
+			}
+			// 执行脚本
+			return (DyForm) ScriptTools.todo(scripts.toString(), obj);
+		}
+		return dyform;
 	}
 
 }

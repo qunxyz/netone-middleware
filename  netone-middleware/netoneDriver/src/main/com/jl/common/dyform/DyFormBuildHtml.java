@@ -1937,6 +1937,126 @@ public final class DyFormBuildHtml {
 	}
 
 	/**
+	 * 建立Ext所需要的列<BR>
+	 * {header: "需求名称", width: 120, dataIndex: 'subjectName', sortable: true},
+	 * {header: "客户姓名", width: 100, dataIndex: 'customerName', sortable: true}
+	 * 
+	 * @param dyform
+	 * @return
+	 */
+	public static String buildExtCustomColumns(DyForm dyform, String type,
+			boolean isedit) {
+		StringBuffer html = new StringBuffer();
+		// 展示表单字段-针对表单中的相关字段
+		// DyFormColumn[] _formx = dyform.getListColumn_();
+		String split = "";
+		DyFormColumn[] _formx = new DyFormColumn[0];
+
+		try {
+			List<DyFormColumn> list = DyEntry.iv().queryColumnX(
+					dyform.getFormcode(), "2");
+			_formx = (DyFormColumn[]) list
+					.toArray(new DyFormColumn[list.size()]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		for (int i = 0; i < _formx.length; i++) {
+			DyFormColumn _qc1 = _formx[i];
+			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
+			String columnid = _qc1.getColumnid();
+			// 字段名（中文）
+			String columnname = _qc1.getColumname();
+
+			// 是否隐蔽
+			boolean hidden = _qc1.isHidden();
+
+			if (hidden == false) {
+				String ext = routeAppointValue(_qc1.getViewtype(), columnid,
+						_qc1.getValuelist(), "ext");// 扩展脚本控制
+				// ext = null;
+
+				// String musktip = _qc1.isMusk_() == true ? "<span
+				// style=\"color:red\">*</span>"
+				// : "";
+				String musktip = "";
+
+				String[][] arr = DyFormConsoleIfc._HTML_LIST;
+				if (!arr[28][0].equals(_qc1.getViewtype())) {// 非隐藏
+					html.append(split + "{header: '" + columnname + musktip
+							+ "', dataIndex: '" + columnid
+							+ "', sortable: true" + ",hidden:" + false
+							+ (ext == null ? "" : ("," + ext)) + "}");
+					split = ",";
+				}
+			}
+		}
+
+		// if ("1".equals(type)) {
+		// html
+		// .append(",{header: \"操作\",dataIndex: \"\", sortable: false,
+		// renderer:");
+		// html
+		// .append(" function operateRend(value, cellmeta, record, rowIndex,
+		// columnIndex, store) {");
+		// html
+		// .append(" var lsh = store.getAt(rowIndex).get('lsh') ;");
+		// html
+		// .append(" var runtimeid = store.getAt(rowIndex).get('runtimeid') ;");
+		// html
+		// .append(" var RUN = store.getAt(rowIndex).get('run') ;");
+		// html.append(" var value = \"\";");
+		// // html.append(" if(RUN==true){");
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$query('\"+lsh+\"','\"+runtimeid+\"','true');
+		// >查看</a>&nbsp;\";");
+		// // html.append("}else{");
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$edit('\"+lsh+\"','\"+runtimeid+\"'); >编辑</a>&nbsp;\";");
+		// // html.append(" }");
+		//
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$delete('\"+lsh+\"'); >删除</a>&nbsp;\";");
+		//
+		// html.append("return value;");
+		// html.append("}");
+		//
+		// html.append("}");
+		// } else if ("2".equals(type)) {
+		// html
+		// .append(",{header: \"操作\",dataIndex: \"\", sortable: false,
+		// renderer:");
+		// html
+		// .append(" function operateRend(value, cellmeta, record, rowIndex,
+		// columnIndex, store) {");
+		// html
+		// .append(" var lsh = store.getAt(rowIndex).get('lsh') ;");
+		// html.append(" var value = \"\";");
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$query('\"+lsh+\"'); >查看</a>&nbsp;\";");
+		// if (isedit) {
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$edit('\"+lsh+\"'); >编辑</a>&nbsp;\";");
+		// html
+		// .append("value += \"&nbsp;<a href='javascript:void(0)'
+		// onclick=$delete('\"+lsh+\"'); >删除</a>&nbsp;\";");
+		// }
+		//
+		// html.append("return value;");
+		// html.append("}");
+		//
+		// html.append("}");
+		// }
+
+		return html.toString();
+	}
+
+	/**
 	 * 获取查询结果
 	 * 
 	 * @param dyform

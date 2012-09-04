@@ -21,7 +21,6 @@ import oe.env.client.EnvService;
 import oe.midware.workflow.runtime.ormobj.TWfRuntime;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
 import oe.rmi.client.RmiEntry;
-import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import oe.serialize.dao.PageInfo;
 
@@ -277,12 +276,12 @@ public class FrameAction extends AbstractAction {
 		if (StringUtils.isNotEmpty(workcode)) {
 			isedit = false;
 			TWfWorklist wlx = WfEntry.iv().loadWorklist(workcode);
-			TWfActive active =new TWfActive();
-			try{
-				active= WfEntry.iv().loadRuntimeActive(
-					wlx.getProcessid(), wlx.getActivityid(), naturalname, "",
-					wlx.getRuntimeid());
-			}catch(Exception e){
+			TWfActive active = new TWfActive();
+			try {
+				active = WfEntry.iv().loadRuntimeActive(wlx.getProcessid(),
+						wlx.getActivityid(), naturalname, "",
+						wlx.getRuntimeid());
+			} catch (Exception e) {
 				e.printStackTrace();
 				active.setFobitzb(false);
 			}
@@ -311,11 +310,11 @@ public class FrameAction extends AbstractAction {
 			User user = getOnlineUser(request);
 			// boolean permission = SecurityEntry.iv().permission(1
 			// user.getUserCode(), naturalname);
-			if(user!=null){
-			boolean permission = AppEntry.iv().canCreate(naturalname,
-					user.getUserName() + "[" + user.getUserCode() + "]");
+			if (user != null) {
+				boolean permission = AppEntry.iv().canCreate(naturalname,
+						user.getUserName() + "[" + user.getUserCode() + "]");
 
-			request.setAttribute("permission", permission);
+				request.setAttribute("permission", permission);
 			}
 		} else {
 			request.setAttribute("permission", true);
@@ -358,20 +357,23 @@ public class FrameAction extends AbstractAction {
 		}
 		String isadd = request.getParameter("isadd");
 
-		String urltemplate=app.getDescription();
-		EnvService env=(EnvService)RmiEntry.iv("envinfo");
-		urltemplate="&nbsp;&nbsp;<a target='_blank' href='"+env.fetchEnvValue("WEBSER_FCK")+"/PagelistViewSvl?pagename=simplefcklist&chkid="+urltemplate+"'  ><font size='3' color='red'>帮助</font></a>";
+		String urltemplate = app.getDescription();
+		EnvService env = (EnvService) RmiEntry.iv("envinfo");
+		urltemplate = "&nbsp;&nbsp;<a target='_blank' href='"
+				+ env.fetchEnvValue("WEBSER_FCK")
+				+ "/PagelistViewSvl?pagename=simplefcklist&chkid="
+				+ urltemplate + "'  ><font size='3' color='red'>帮助</font></a>";
 
-
-		if(StringUtils.isNotEmpty(urltemplate)&&!"03".equals(operatemode)){
+		if (StringUtils.isNotEmpty(urltemplate) && !"03".equals(operatemode)) {
 			// 针对新增的模板
 			if (!"1".equals(isadd)) {
-				//forward = forward = "/frame/frameExtPage.jsp";
-				//request.setAttribute("urltext", urltemplate);
+				// forward = forward = "/frame/frameExtPage.jsp";
+				// request.setAttribute("urltext", urltemplate);
 			}
-			
+
 		}
-		request.setAttribute("htmltitleinfo", app.getFormtitle()+(urltemplate==null?"":urltemplate));
+		request.setAttribute("htmltitleinfo", app.getFormtitle()
+				+ (urltemplate == null ? "" : urltemplate));
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
 		// true不使用转向,默认是false代表转向
@@ -386,7 +388,7 @@ public class FrameAction extends AbstractAction {
 		String naturalname = request.getParameter("naturalname");
 		String $isedit = request.getParameter("isedit");
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
-		AppObj app=AppEntry.iv().loadApp(naturalname);
+		AppObj app = AppEntry.iv().loadApp(naturalname);
 		request.setAttribute("htmltitleinfo", app.getFormtitle());
 		boolean isedit = false;
 		if ("1".equals($isedit))
@@ -418,21 +420,20 @@ public class FrameAction extends AbstractAction {
 		}
 		if (StringUtils.isEmpty(workcode))
 			workcode = "";
-		String activityName ="";
-		try{
-			activityName= WfEntry.iv().getActivityName(naturalname,
-				workcode);
-		}catch(Exception e){
-			activityName="未知节点";
+		String activityName = "";
+		try {
+			activityName = WfEntry.iv().getActivityName(naturalname, workcode);
+		} catch (Exception e) {
+			activityName = "未知节点";
 		}
 		if (StringUtils.isNotEmpty(workcode)) {
-			try{
-			TWfActive twfActive = WfEntry.iv()
-					.loadActive(naturalname, workcode);
-			request.setAttribute("isFobitzb", twfActive.isFobitzb());
-		}catch(Exception e){
-			request.setAttribute("isFobitzb", true);
-		}
+			try {
+				TWfActive twfActive = WfEntry.iv().loadActive(naturalname,
+						workcode);
+				request.setAttribute("isFobitzb", twfActive.isFobitzb());
+			} catch (Exception e) {
+				request.setAttribute("isFobitzb", true);
+			}
 		} else {
 			request.setAttribute("isFobitzb", true);
 		}
@@ -994,6 +995,7 @@ public class FrameAction extends AbstractAction {
 			request.setAttribute("processEndTip", "流程结束。");
 			request.setAttribute("processTitle", "归档");
 			result.addAll(listTrackActionEnd("归档"));
+			result.addAll(listTrackAction2("0"));// 抄阅
 			request.setAttribute("processList", result);
 			request.setAttribute("isend", "true");
 			return "onShowEndView";
@@ -1071,12 +1073,14 @@ public class FrameAction extends AbstractAction {
 						.getParticipantmode())
 						&& StringUtils.isEmpty(filteractiveids) && !isfirst) {
 					result.addAll(listTrackActionEnd("归档"));
+					result.addAll(listTrackAction2("0"));// 抄阅
 				}
 			} else {
 				request.setAttribute("helpTip", "帮助提示: 流程结束,请点击完成,结束流程。");
 				request.setAttribute("processEndTip", "流程结束。");
 				request.setAttribute("processTitle", "归档");
 				result.addAll(listTrackActionEnd("归档"));
+				result.addAll(listTrackAction2("0"));// 抄阅
 				request.setAttribute("processList", result);
 				request.setAttribute("isend", "true");
 				return "onShowEndView";

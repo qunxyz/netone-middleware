@@ -301,10 +301,10 @@ public final class AppHandleImpl implements AppHandleIfc {
 
 	public TWfActive loadCfgActive(String naturalname, String actid,
 			String commiter, String runtimeid) throws Exception {
-		String key=runtimeid+actid+commiter+naturalname;
-		if(WebCache.containCache(key)){
-			return (TWfActive)WebCache.getCache(key);
-		}
+//		String key=runtimeid+actid+commiter+naturalname;
+//		if(WebCache.containCache(key)){
+//			return (TWfActive)WebCache.getCache(key);
+//		}
 		
 		ResourceRmi rmi = (ResourceRmi) RmiEntry.iv("resource");
 		// 支持新的表单定制模式
@@ -330,7 +330,7 @@ public final class AppHandleImpl implements AppHandleIfc {
 		TWfActive actx= loadCfgActiveCore(act, commiter, upo, runtimeid);
 		long time=System.currentTimeMillis() + 1800000L;
 		Date dateinfo = new Date(time);
-		WebCache.setCache(key, actx,dateinfo );
+		//WebCache.setCache(key, actx,dateinfo );
 		return actx;
 		
 	}

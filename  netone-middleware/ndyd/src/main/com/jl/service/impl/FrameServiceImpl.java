@@ -451,6 +451,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			wfmap.put("runtimeid", runtimeid);
 			wfmap.put("workcode", workcode);
 		}
+		wfmap.put("isspecial", isspecial);
 		return wfmap;
 	}
 

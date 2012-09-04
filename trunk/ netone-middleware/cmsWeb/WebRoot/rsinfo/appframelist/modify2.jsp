@@ -182,7 +182,7 @@
 						</td>
 						<td>
 							<input type="text" name="name" value="${upo.name}"
-								class="textinput_td" readonly="readonly" />
+								class="textinput_td"/>
 						</td>
 					</tr>
 					<tr>

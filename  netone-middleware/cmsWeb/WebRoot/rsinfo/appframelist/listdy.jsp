@@ -112,6 +112,8 @@
 							<td nowrap>
 								<a href="javascript:edit('${list.id}');"><font color='blue'>[≈‰÷√]</font>
 								</a>
+							<a href="javascript:del('${list.id}');"><font color='blue'>[…æ≥˝]</font>
+								</a>
 
 							</td>
 						</tr>

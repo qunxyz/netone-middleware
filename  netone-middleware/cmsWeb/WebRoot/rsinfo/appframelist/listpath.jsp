@@ -136,9 +136,14 @@
 		function init(id){
 			var url='InitCfgSvl?id='+id;
 			window.open(url);
+		}	
+		function init2(id){
+			var url='<portal:envget envkey="WEBSER_APPFRAME"/>/InitDataSvl?name='+id;
+			window.open(url);
 		}		
 		</script>
 	</head>
+	
 	<body style="font-size: 12px; margin: 22px">
 		<div style="width: 100%; height: 100%">
 			<form action="" method="post" name="form1">
@@ -284,13 +289,13 @@
 								<c:if test="${list.inclusion!='1'}">
 									 <a href="javascript:editx('${list.id}');"><font color='red'>[框架配置]</font></a>
 									 <a
-										href="javascript:edit('${list.id}');"><font color='#999999'>[框架配置](旧)</font></a> <a
-										href="javascript:cfg_p('${list.id}');"><font color='#999999'>[参与者配置](旧)</font></a> <a
-										href="javascript:cfg_dy('${list.id}');"><font color='#999999'>[流程表单配置](旧)</font></a> 
+										href="javascript:edit('${list.id}');"><font color='#999999'>[框架]</font></a> <a
+										href="javascript:cfg_p('${list.id}');"><font color='#999999'>[参与者]</font></a> <a
+										href="javascript:cfg_dy('${list.id}');"><font color='#999999'>[表单]</font></a> 
 									
 									
 										<select id='appmode' name='appmode'  onchange="javascript:man('${list.naturalname}',this.value);">
-									        <option value="-1">-应用选择-</option>
+									        <option value="-1">-应用入口-</option>
 											<option value="0">过程</option>
 											<option value="1">通用</option>
 											<option value="2">带子表单</option>
@@ -299,7 +304,7 @@
 										</select>
 
 										<select id='flowmode' name='flowmode'  onchange="javascript:manx('${list.naturalname}',this.value);">
-									        <option value="-1">-流程应用选择-</option>
+									        <option value="-1">-流程相关-</option>
 											<option value="0" >待办应用</option>
 											<option value="1">待阅应用</option>
 											<option value="2">已办未归档</option>
@@ -313,7 +318,8 @@
 									<a href="javascript:worklistdone2('${list.naturalname}');"><font color='green'></font></a>
 									<a href="" target='_blank'><font color='green'></font></a>
 									
-									<a href="javascript:init('${list.id}');">初始化</a>
+									<a href="javascript:init('${list.id}');">初始化框架</a>
+									<a href="javascript:init2('${list.naturalname}');">初始化数据</a>
 									<a href="javascript:del('${list.id}');">删除</a>
 								</c:if>
 							</td>

@@ -70,6 +70,17 @@
 			var url='<portal:envget envkey="WEBSER_WFWEB"/>/PagelistpathRightSvl?pagename=pagelist&appname=BUSSWF';
 			window.open(url);
 		}
+		
+		function mantemplate(){
+			var url='<portal:envget envkey="WEBSER_FCK"/>/PagelistpathRightSvl?appname=FCK&pagename=fcklist';
+			window.open(url);
+		}
+		
+		function selecthis(id,name,inclusion,parent,path){
+		 	var valuex=name+'[<portal:envget envkey="WEBSER_FCK"/>'+'/PagelistViewSvl?pagename=simplefcklist&chkid='+id+"]";
+		 	document.getElementById("description_").value=valuex;
+		 	document.getElementById("description").value=valuex;
+		}
 		</script>
 	</head>
 	<body style="font-size: 12px;margin: 22px" onload="loadx()">
@@ -180,10 +191,13 @@
 					</tr>
 					<tr>
 						<td width="15%">
-							描述
+							工单模板
 						</td>
 						<td>
-							<textarea rows="4" cols="60" name="description">${upo.description}</textarea>
+							<input type="hidden" name="description" value="${upo.description}" />
+							<input type="text" name="description_" value="${upo.description}" readonly/>							
+							<input type='button' name='choicepagex' id="choicepagex"
+								value='模板选择' onClick='mantemplate()'>		
 						</td>
 					</tr>
 				</table>

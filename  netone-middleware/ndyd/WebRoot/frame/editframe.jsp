@@ -45,6 +45,8 @@
 								步骤:第 <span id="stepNum">1</span> 步,共 2 步。 
 							</c:otherwise>
 						</c:choose>
+						<div id="helptext" style="font-size: 16px;font-weight: bold;color: #386BA4;">
+						<img src="<%=path%>/images/appImage/btn/info/tips.png" />${helptext}&nbsp;&nbsp;</div>
 						&nbsp;<span style="font-size: 16px;font-weight: bold;color: #386BA4;">${htmltitleinfo}</span>
 					</td>
 				</tr>
@@ -242,6 +244,8 @@ $.fn.autogrow = function(options) {
 	    }
 	    loadInfo2();
 		loadinfo3();
+		
+		$("#helptext").floatdiv("rightmiddle");
 	});
 	
 	var selectObjVar = null;//全局变量 存放需要选择资源返回值的对象
@@ -531,13 +535,13 @@ function _auditNext_1(){
 									document.getElementById('runtimeid').value=result_.runtimeid;
 									document.getElementById('workcode').value=result_.workcode;
 									
-									if (result_.ismultinode==true || result_.ismultinode=='true'){
+									//if (result_.ismultinode==true || result_.ismultinode=='true' || result_.isspecial==true){
 										var url="<%=path%>/frame.do?method=onAuditView&commiter="+result_.commiter+"&naturalname=${param.naturalname}&lsh="+paramlsh+"&workcode="+result_.workcode+"&operatemode=${param.operatemode}&chooseresult=0&filteractiveids_=${param.filteractiveids_}";
 										window.location.href=url+'&page=audit_2&pagenew=1';
-									} else {
-										var url_ ='<%=path%>/frame.do?method=onShowView&naturalname=${param.naturalname}&chooseresult=0'+"&lsh="+paramlsh+"&workcode="+result_.workcode+"&runtimeid="+result_.runtimeid+"&flowppage=2&filteractiveids_=${param.filteractiveids_}";
-										window.location.href=url_+'&page=new_2';
-									}
+									//} else {
+									//	var url_ ='<%=path%>/frame.do?method=onShowView&naturalname=${param.naturalname}&chooseresult=0'+"&lsh="+paramlsh+"&workcode="+result_.workcode+"&runtimeid="+result_.runtimeid+"&flowppage=2&filteractiveids_=${param.filteractiveids_}";
+									//	window.location.href=url_+'&page=new_2';
+									//}
 					            }
 					        },
 					        failure: function (response, options) {

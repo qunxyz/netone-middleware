@@ -43,7 +43,12 @@ public final class DyFormComp {
 		String idAnamestr = !"".equals(id) ? " id=\"" + id + "\" name=\"" + id
 				+ "\" " : "";
 		String valuestr = !"".equals(value) ? " value=\"" + value + "\" " : "";
-		// style += (readonly == true ? "background:#cccccc;color:#000;" : "");
+		if (StringUtils.isEmpty(value)) {
+			style += (readonly == true ? "border:1.5px solid #D6D4D3;color:#D6D4D3;"
+					: "");
+			// style += (readonly == true ? "background:#cccccc;color:#000;" :
+			// "");
+		}
 		String stylestr = !"".equals(style) ? " style=\"" + style + "\" " : "";
 		String classnamestr = !"".equals(classname) ? " class=\"" + classname
 				+ "\" " : "";
@@ -231,7 +236,7 @@ public final class DyFormComp {
 		String $id = "textarea" + id;
 		String changescript = " onchange=javascript:" + "$(this).siblings(\"#"
 				+ id + "\").val($(this).val());" + " ";
-		style += (readonly == true ? "background:#cccccc;color:#000;" : "");
+		// style += (readonly == true ? "background:#cccccc;color:#000;" : "");
 		return hiddenInput
 				+ getComp("<textarea ", " >" + value + "</textarea>", $id, "",
 						style, "", readonly, " rows=\"2\" cols=\"20\" "

@@ -30,6 +30,11 @@
   </head>
   
   <body onload="$load();">
+  	<div id="helptext" style="display: none">
+  	<span style="font-size: 16px;font-weight: bold;color: #386BA4;">
+  	<img src="<%=path%>/images/appImage/btn/info/tips.png" />${helptext}&nbsp;&nbsp;
+  	</span>
+  	</div>
 	<input type="hidden" id="runtimeid" name="runtimeid" value="${param.runtimeid}" />
 	<input type="hidden" id="workcode" name="workcode" value="${param.workcode}" />
 	<div id="app-header" style="z-index:9999;" align="left">
@@ -84,11 +89,11 @@
 				</div>
 				<div id="audit_1" style="display: none;">
 					<div id="btn_nd">
-						<c:if test="${isFirstAct==true}">
-						
+						<c:if test="${formlock==true}">
 						<input id="deleteBtn_1" type="button" value=" 作 废 " class="btn"
 								onclick="javascript:_delete();" />
-					 	
+						</c:if>
+					 	<c:if test="${isFirstAct==true}">
 						<input id="deleteBtn_2" type="button" value=" 归 档 " class="btn"
 								onclick="javascript:_delete(0);" />
 						</c:if>
@@ -357,6 +362,14 @@
 			$disabledall();
 			//$hideall();
 		</c:if>
+		
+		
+		<c:if test="${!empty helptext}">
+				$('#btn_nd').each(function(){
+					$(this).append($('#helptext').html());
+				});
+		</c:if>
+		
 	}
 	
 </script>

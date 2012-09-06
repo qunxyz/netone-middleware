@@ -82,15 +82,15 @@ public final class Security3AImpl implements Security3AIfc {
 		// 设置用户隶属的 中间件目录ID
 		String systemid = clerk.getDeptment();
 		user.setBelongto(systemid);
-		UmsProtectedobject upo =null;
-		try{
-		// 设置用户隶属的 业务系统目录ID
+		UmsProtectedobject upo = null;
+		try {
+			// 设置用户隶属的 业务系统目录ID
 			upo = rs.loadResourceById(systemid);
-		
-		}catch(Exception e){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("用户定义异常 systemid 所对应的部门不存在,使用默认的部门dept.dept");
-			upo=rs.loadResourceByNatural("DEPT.DEPT");
+			upo = rs.loadResourceByNatural("DEPT.DEPT");
 		}
 		user.setBussid(upo.getActionurl());
 
@@ -171,6 +171,12 @@ public final class Security3AImpl implements Security3AIfc {
 		if (extAttribute != null && extAttribute.containsKey("orders")) {
 			clerk.setRemark(((Integer) extAttribute.get("orders")).toString());
 		}
+		if (extAttribute.containsKey("mail")) {
+			clerk.setEmail(extAttribute.get("mail").toString());
+		}
+		if (extAttribute.containsKey("phoneNO")) {
+			clerk.setPhoneNO(extAttribute.get("phoneNO").toString());
+		}
 		// 更新用户隶属部门
 		clerk.setDeptment(upo.getId());
 		rmi.updateClerk(DEMAIN_CODE, clerk);
@@ -238,8 +244,16 @@ public final class Security3AImpl implements Security3AIfc {
 		clerk.setNaturalname(clientId);
 		clerk.setDeptment(upo.getId());
 		clerk.setDescription(clientId);
-		clerk.setEmail("oesee@139.com");
-		clerk.setPhoneNO("15860836998");
+		if (extAttribute.containsKey("mail")) {
+			clerk.setEmail(extAttribute.get("mail").toString());
+		} else {
+			clerk.setEmail("oesee@139.com");
+		}
+		if (extAttribute.containsKey("phoneNO")) {
+			clerk.setPhoneNO(extAttribute.get("phoneNO").toString());
+		} else {
+			clerk.setPhoneNO("15860836998");
+		}
 		boolean rs = rmi.addClerk(DEMAIN_CODE, clerk);
 		if (rs) {
 			return this.OPE_TIP_SUCCESS;
@@ -457,12 +471,12 @@ public final class Security3AImpl implements Security3AIfc {
 	public String listUserByRoleId(String roleid[], String commiter,
 			boolean isflowrole) throws Exception {
 		StringBuffer but = new StringBuffer();
-		for (int i = 0; i < roleid.length; i++){
-			
-			String rs=listUserByRoleIdCore(roleid[i],commiter,isflowrole);
+		for (int i = 0; i < roleid.length; i++) {
+
+			String rs = listUserByRoleIdCore(roleid[i], commiter, isflowrole);
 			but.append(rs);
 		}
-			
+
 		return but.toString();
 	}
 
@@ -473,7 +487,7 @@ public final class Security3AImpl implements Security3AIfc {
 		// 检查本部门
 		String partCoreCode = StringUtils.substringBetween(roleid, "[", "]");
 		List<Clerk> list = rs.fetchUser(DEMAIN_CODE, partCoreCode);
-		Client3A curUser =null;
+		Client3A curUser = null;
 		if (StringUtils.isNotEmpty(commiter)) {
 			curUser = this.loadUser(commiter);
 			String deptid = curUser.getBelongto();
@@ -490,14 +504,14 @@ public final class Security3AImpl implements Security3AIfc {
 			addUser(but, list);
 		}
 
-		if (curUser!=null&&isflowrole && but.length() == 0) {// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次
-			
+		if (curUser != null && isflowrole && but.length() == 0) {// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次
+
 			String deptid = curUser.getBelongto();
 			nextMen(but, list, deptid, rs);
 		}
 
-		if (curUser!=null&&isflowrole && but.length() == 0) {// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次，并且往上一级再做横向搜索
-			
+		if (curUser != null && isflowrole && but.length() == 0) {// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次，并且往上一级再做横向搜索
+
 			String deptid = curUser.getBelongto();
 			for (int j = 0; j < 2; j++) {// 保证每个角色横向搜索一次，并且往上一级再做横向搜索
 				// 该写法有重复上面的搜索将来需要改进
@@ -509,7 +523,7 @@ public final class Security3AImpl implements Security3AIfc {
 			}
 		}
 
-		if (curUser!=null&&isflowrole && but.length() == 0) {
+		if (curUser != null && isflowrole && but.length() == 0) {
 			String deptid = curUser.getBelongto();
 			for (int j = 0; j < 3; j++) {
 				// 橫向縱向掃描
@@ -521,7 +535,7 @@ public final class Security3AImpl implements Security3AIfc {
 		}
 
 		// 下行寻找
-		if (curUser!=null&&isflowrole && but.length() == 0) {// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次
+		if (curUser != null && isflowrole && but.length() == 0) {// 流程角色在当前区域没有找到人员，那么开始横向搜索,保证每个角色横向搜索一次
 			String deptid = curUser.getBelongto();
 			nextDownMen(but, list, deptid, rs);
 		}
@@ -696,10 +710,10 @@ public final class Security3AImpl implements Security3AIfc {
 		UmsProtectedobject upo = new UmsProtectedobject();
 		upo.setParentdir(rs.loadResourceByNatural(parentNaturalname).getId());
 
-//		List list = rs.queryObjectProtectedObj(upo, null, 0, 1000,
-//				" order by CAST(reference AS UNSIGNED) desc");
+		// List list = rs.queryObjectProtectedObj(upo, null, 0, 1000,
+		// " order by CAST(reference AS UNSIGNED) desc");
 		List list = rs.queryObjectProtectedObj(upo, null, 0, 1000,
-		" order by aggregation");
+				" order by aggregation");
 		List listData = new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			UmsProtectedobject object = (UmsProtectedobject) iterator.next();
@@ -724,14 +738,14 @@ public final class Security3AImpl implements Security3AIfc {
 		if ("22".equals(rstype) || "23".equals(rstype)) {
 			rsinfo = this.listHumanInDir(parentNaturalname, from, size,
 					condition);
-		}else if(parentNaturalname.startsWith("SYSROLE.SYSROLE")){
+		} else if (parentNaturalname.startsWith("SYSROLE.SYSROLE")) {
 			rsinfo = this.listRoleInDir(parentNaturalname, from, size,
 					condition);
 		}
-			List other = listOtherRsInDir(parentNaturalname, from, size, condition);
-			rsinfo.addAll(other);
-			return rsinfo;
-	
+		List other = listOtherRsInDir(parentNaturalname, from, size, condition);
+		rsinfo.addAll(other);
+		return rsinfo;
+
 	}
 
 	private List<Resource> listHumanInDir(String parentNaturalname, int from,
@@ -749,28 +763,30 @@ public final class Security3AImpl implements Security3AIfc {
 			Resource rsx = new Resource();
 			rsx.setResourceid(object.getDescription());
 			rsx.setResourcecode(object.getDescription());
-			rsx.setResourcename(object.getDescription()+"["+parseDnName(objectx) + object.getName()+"]");
+			rsx.setResourcename(object.getDescription() + "["
+					+ parseDnName(objectx) + object.getName() + "]");
 			listData.add(rsx);
 		}
 		return listData;
 	}
-	
+
 	private List<Resource> listRoleInDir(String parentNaturalname, int from,
 			int size, String condition) throws Exception {
 		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
-	    UmsProtectedobject upox = rs.loadResourceByNatural(parentNaturalname);
-	    UmsRole role = new UmsRole();
-	    role.setBelongingness(upox.getNaturalname());
-	    List list = rs.fetchRole(role, null, "");
-	    List listData = new ArrayList();
-	      for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-	    	  UmsRole cl = (UmsRole) iterator.next();
-				Resource rsx = new Resource();
-				rsx.setResourceid(cl.getId().toString());
-				rsx.setResourcecode(cl.getNaturalname());
-				rsx.setResourcename(cl.getName()+"["+cl.getId().toString()+"]");
-				listData.add(rsx);
-	      }
+		UmsProtectedobject upox = rs.loadResourceByNatural(parentNaturalname);
+		UmsRole role = new UmsRole();
+		role.setBelongingness(upox.getNaturalname());
+		List list = rs.fetchRole(role, null, "");
+		List listData = new ArrayList();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			UmsRole cl = (UmsRole) iterator.next();
+			Resource rsx = new Resource();
+			rsx.setResourceid(cl.getId().toString());
+			rsx.setResourcecode(cl.getNaturalname());
+			rsx.setResourcename(cl.getName() + "[" + cl.getId().toString()
+					+ "]");
+			listData.add(rsx);
+		}
 
 		return listData;
 	}
@@ -832,7 +848,7 @@ public final class Security3AImpl implements Security3AIfc {
 			rsx.setResourcecode(object.getNaturalname());
 			rsx.setResourcename(parseDnName(object) + rsname);
 			rsx.setTypes(object.getObjecttype());
-						rsx.setId(object.getId());
+			rsx.setId(object.getId());
 			rsx.setParentid(object.getParentdir());
 			rsx.setText(object.getExtendattribute());
 			rsx.setInclusion(object.getInclusion());

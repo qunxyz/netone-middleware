@@ -89,7 +89,7 @@
 				</div>
 				<div id="audit_1" style="display: none;">
 					<div id="btn_nd">
-						<c:if test="${formlock==true}">
+						<c:if test="${formlock==false}">
 						<input id="deleteBtn_1" type="button" value=" 作 废 " class="btn"
 								onclick="javascript:_delete();" />
 						</c:if>

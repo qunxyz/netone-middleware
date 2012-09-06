@@ -300,6 +300,10 @@ public class FrameAction extends AbstractAction {
 				isedit = true;
 				request.setAttribute("isFirstAct", isFirstAct);
 			}
+
+			boolean formlock = WfEntry.iv().bussFormLockByWorkcode(workcode);
+			// formlock==true 流程发起 不能作废
+			request.setAttribute("formlock", formlock);
 			request.setAttribute("isEditAct", isedit);
 		} else {
 			ispermission = true;
@@ -310,11 +314,11 @@ public class FrameAction extends AbstractAction {
 			User user = getOnlineUser(request);
 			// boolean permission = SecurityEntry.iv().permission(1
 			// user.getUserCode(), naturalname);
-			if(user!=null){
-			boolean permission = AppEntry.iv().canCreate(naturalname,
-					user.getUserName() + "[" + user.getUserCode() + "]");
+			if (user != null) {
+				boolean permission = AppEntry.iv().canCreate(naturalname,
+						user.getUserName() + "[" + user.getUserCode() + "]");
 
-			request.setAttribute("permission", permission);
+				request.setAttribute("permission", permission);
 			}
 		} else {
 			request.setAttribute("permission", true);
@@ -357,22 +361,27 @@ public class FrameAction extends AbstractAction {
 		}
 		String isadd = request.getParameter("isadd");
 
-		String urltemplate=app.getDescription();
-		EnvService env=(EnvService)RmiEntry.iv("envinfo");
-		urltemplate="&nbsp;&nbsp;<a target='_blank' href='"+env.fetchEnvValue("WEBSER_FCK")+"/PagelistViewSvl?pagename=simplefcklist&chkid="+urltemplate+"'  ><font size='3' color='red'>帮助</font></a>";
+		String urltemplate = app.getDescription();
+		EnvService env = (EnvService) RmiEntry.iv("envinfo");
+		if (StringUtils.isNotEmpty(urltemplate)) {
+			urltemplate = "&nbsp;&nbsp;<a target='_blank' href='"
+					+ env.fetchEnvValue("WEBSER_FCK")
+					+ "/PagelistViewSvl?pagename=simplefcklist&chkid="
+					+ urltemplate
+					+ "'  ><font size='3' color='red'>工单填写须知</font></a>";
+		}
 
-
-		if(StringUtils.isNotEmpty(urltemplate)&&!"03".equals(operatemode)){
+		if (StringUtils.isNotEmpty(urltemplate) && !"03".equals(operatemode)) {
 			// 针对新增的模板
 			if (!"1".equals(isadd)) {
-				//forward = forward = "/frame/frameExtPage.jsp";
-				//request.setAttribute("urltext", urltemplate);
+				// forward = forward = "/frame/frameExtPage.jsp";
+				// request.setAttribute("urltext", urltemplate);
 			}
-			
+
 		}
-		request.setAttribute("helptext", (urltemplate==null?"":urltemplate));
-		request.setAttribute("htmltitleinfo", app.getFormtitle()
-				+ (urltemplate == null ? "" : urltemplate));
+		request.setAttribute("helptext", (urltemplate == null ? ""
+				: urltemplate));
+		request.setAttribute("htmltitleinfo", app.getFormtitle());
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
 		// true不使用转向,默认是false代表转向
@@ -387,7 +396,7 @@ public class FrameAction extends AbstractAction {
 		String naturalname = request.getParameter("naturalname");
 		String $isedit = request.getParameter("isedit");
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
-		AppObj app=AppEntry.iv().loadApp(naturalname);
+		AppObj app = AppEntry.iv().loadApp(naturalname);
 		request.setAttribute("htmltitleinfo", app.getFormtitle());
 		boolean isedit = false;
 		if ("1".equals($isedit))
@@ -419,21 +428,20 @@ public class FrameAction extends AbstractAction {
 		}
 		if (StringUtils.isEmpty(workcode))
 			workcode = "";
-		String activityName ="";
-		try{
-			activityName= WfEntry.iv().getActivityName(naturalname,
-				workcode);
-		}catch(Exception e){
-			activityName="未知节点";
+		String activityName = "";
+		try {
+			activityName = WfEntry.iv().getActivityName(naturalname, workcode);
+		} catch (Exception e) {
+			activityName = "未知节点";
 		}
 		if (StringUtils.isNotEmpty(workcode)) {
-			try{
-			TWfActive twfActive = WfEntry.iv()
-					.loadActive(naturalname, workcode);
-			request.setAttribute("isFobitzb", twfActive.isFobitzb());
-		}catch(Exception e){
-			request.setAttribute("isFobitzb", true);
-		}
+			try {
+				TWfActive twfActive = WfEntry.iv().loadActive(naturalname,
+						workcode);
+				request.setAttribute("isFobitzb", twfActive.isFobitzb());
+			} catch (Exception e) {
+				request.setAttribute("isFobitzb", true);
+			}
 		} else {
 			request.setAttribute("isFobitzb", true);
 		}
@@ -1068,9 +1076,9 @@ public class FrameAction extends AbstractAction {
 
 				boolean isfirst = WfEntry.iv().loadProcess(wlx.getProcessid())
 						.getActivity(wlx.getActivityid()).isStartActivity();
-				
+
 				boolean isEnd = WfEntry.iv().loadProcess(wlx.getProcessid())
-				.getActivity(wlx.getActivityid()).isExitActivity();
+						.getActivity(wlx.getActivityid()).isExitActivity();
 				// 是否是创建者
 				if (AppHandleIfc._PARTICIPANT_MODE_CREATER.equals(active
 						.getParticipantmode())

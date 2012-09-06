@@ -1309,6 +1309,21 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			return act.isStartActivity();
 		}
 		return false;
+	}
+	
+	public boolean bussFormLockByWorkcode(String workcode) throws Exception {
+		boolean isFirst=checkFirstAct(workcode);
+		if(!isFirst){
+			return true;
+		}
+		String runtimeid=this.loadWorklist(workcode).getRuntimeid();
+		String sql="select runtimeid from netone.t_wf_worklist where runtimeid='"+runtimeid+"'";
+		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
+		List list=wfview.coreSqlview(sql);
+		if(list.size()>1){
+			return true;
+		}
+		return false;
 		
 	}
 

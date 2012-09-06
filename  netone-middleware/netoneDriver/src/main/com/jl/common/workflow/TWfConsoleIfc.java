@@ -43,6 +43,14 @@ public interface TWfConsoleIfc {
 	boolean bussFormLock(String lsh)throws Exception;
 	
 	/**
+	 * 业务锁定，在流程应用中，如果表单已经提交审批那么系统需要
+	 * 在管理窗口中锁定表单不允许修改作废等操作
+	 * @param lsh
+	 * @return
+	 */
+	boolean bussFormLockByWorkcode(String workcode)throws Exception;
+	
+	/**
 	 * 获得流程首节点
 	 * @param processid
 	 * @return

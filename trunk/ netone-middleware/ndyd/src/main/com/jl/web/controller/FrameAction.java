@@ -369,6 +369,8 @@ public class FrameAction extends AbstractAction {
 					+ "/PagelistViewSvl?pagename=simplefcklist&chkid="
 					+ urltemplate
 					+ "'  ><font size='3' color='red'>¹¤µ¥ÌîÐ´ÐëÖª</font></a>";
+			request.setAttribute("helptext", (urltemplate == null ? ""
+					: urltemplate));
 		}
 
 		if (StringUtils.isNotEmpty(urltemplate) && !"03".equals(operatemode)) {
@@ -379,8 +381,6 @@ public class FrameAction extends AbstractAction {
 			}
 
 		}
-		request.setAttribute("helptext", (urltemplate == null ? ""
-				: urltemplate));
 		request.setAttribute("htmltitleinfo", app.getFormtitle());
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);

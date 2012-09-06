@@ -149,22 +149,6 @@
         -->
       </property>
    </bean>
-   <!-- 启动调度 -->
-   <bean id="start" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-     <property name="triggers">
-       <list>
-       	 <!--  流程过期办理定时调度 -->
-         <ref bean="expireJobCronTrigger" />
-         
-         <!-- 每周一早上9:00调度 -->
-         <ref bean="jobCronTrigger1" />
-         
-    	<!-- 合同管理调度 每天早上7点 -->
-    	<ref bean="contractMgr"/>
-    	<!-- 领导试图定期执行 -->
-    	<ref bean="leaderView"/>
-       </list>
-     </property>
-   </bean>
+
     
 </beans>  

@@ -37,31 +37,17 @@
 		<div id="top_nd_bg_1" style="height:35px;background-image: url('<%=cssURL%>/top_nd_bg.gif');z-index:9999;">
 			<div id="top_nd_bg" style="background-image: url('<%=cssURL%>/top_nd_bg.gif');text-align: left;width:1000px;z-index:9999;">
 				<c:choose>
-				  <c:when test="${param.query=='lookx'}">
+			
+					<c:when test="${param.query=='look' || param.query=='lookx'}">
 					<div id="look_1" style="">
 						<div id="btn_nd">
 
-							<input id="cannelBtn_look" type="button" value=" 关 闭" class="btn"
+							<input id="cannelBtn_look" type="button" value=" 关 闭 " class="btn"
 								onclick="javascript:window.close();" />
-
-							<c:if test="${param.cuibang=='true'}">	
-							<input id="cannelBtn_cuibang" type="button" value=" 催 办 " class="btn"
-								onclick="cuiban();" />
-							</c:if>		
-						</div>
-					</div>
-				</c:when>
-				
-					<c:when test="${param.query=='look'}">
-					<div id="look_1" style="">
-						<div id="btn_nd">
-
-							<input id="cannelBtn_look" type="button" value=" 关 闭 111" class="btn"
-								onclick="javascript:window.close();" />
-
+							<c:if test="param.query=='look'">
 							<input id="cannelBtn_lookListxx" type="button" value=" 已 阅 " class="btn"
 								onclick="javascript:window.open('LookListOverSvl?workcode=${param.workcode}')" />
-						
+							</c:if>
 							<c:if test="${param.cuibang=='true'}">	
 							<input id="cannelBtn_cuibang" type="button" value=" 催 办 " class="btn"
 								onclick="cuiban();" />
@@ -99,10 +85,10 @@
 				<div id="audit_1" style="display: none;">
 					<div id="btn_nd">
 						<c:if test="${isFirstAct==true}">
-						 <!-- 
+						
 						<input id="deleteBtn_1" type="button" value=" 作 废 " class="btn"
 								onclick="javascript:_delete();" />
-					 	-->
+					 	
 						<input id="deleteBtn_2" type="button" value=" 归 档 " class="btn"
 								onclick="javascript:_delete(0);" />
 						</c:if>
@@ -110,6 +96,8 @@
 						<input id="saveBtn_2" type="button" value=" 保 存 " class="btn"
 									onclick="javascript:_save();" />		
 						</c:if>
+						
+						<c:if test="${!(param.query eq 'look' || param.query eq 'lookx')}">
 						<input id="nextBtn_3" type="button" value=" 下一步 " class="btn"
 							onclick="javascript:onAuditNext(0);" />
 							
@@ -127,6 +115,7 @@
 						</c:choose>	
 						<input id="cannelBtn_3" type="button" value=" 取 消 " class="btn"
 							onclick="javascript:window.close();" />
+						</c:if>
 					</div>
 				</div>
 				<div id="audit_2" style="display: none;">
@@ -329,7 +318,7 @@
 			  		$show('new_2');
 			  	</c:when>
 			  	<c:otherwise>
-			  		<c:if test="${param.query!='look'}">
+			  		<c:if test="${!(param.query eq 'look' || param.query eq 'lookx')}">
 			  			$show('new_1');
 			  		</c:if>
 			  	</c:otherwise>
@@ -347,7 +336,7 @@
 			  		$show('audit_3_3');
 			  	</c:when>
 			  	<c:otherwise>
-			  		<c:if test="${param.query!='look'}">
+			  		<c:if test="${!(param.query eq 'look' || param.query eq 'lookx')}">
 			  			$show('audit_1');
 			  		</c:if>
 			  	</c:otherwise>

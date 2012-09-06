@@ -45,8 +45,12 @@
 								步骤:第 <span id="stepNum">1</span> 步,共 2 步。 
 							</c:otherwise>
 						</c:choose>
+						<c:if test="${!empty helptext}">
+						<!-- 
 						<div id="helptext" style="font-size: 16px;font-weight: bold;color: #386BA4;">
 						<img src="<%=path%>/images/appImage/btn/info/tips.png" />${helptext}&nbsp;&nbsp;</div>
+						</c:if>
+						 -->
 						&nbsp;<span style="font-size: 16px;font-weight: bold;color: #386BA4;">${htmltitleinfo}</span>
 					</td>
 				</tr>
@@ -245,7 +249,9 @@ $.fn.autogrow = function(options) {
 	    loadInfo2();
 		loadinfo3();
 		
-		$("#helptext").floatdiv("rightmiddle");
+		<c:if test="${!empty helptext}">
+		//$("#helptext").floatdiv("rightmiddle");
+		</c:if>
 	});
 	
 	var selectObjVar = null;//全局变量 存放需要选择资源返回值的对象

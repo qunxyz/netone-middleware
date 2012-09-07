@@ -215,9 +215,13 @@ public final class AppHandleImpl implements AppHandleIfc {
 			if (fileid.startsWith("r_")) {
 				continue;
 			}
-
-			UmsProtectedobject upo = rmi.loadResourceByNatural(naturalname
+			UmsProtectedobject upo =new UmsProtectedobject();
+            try{
+            	upo=rmi.loadResourceByNatural(naturalname
 					+ "." + data[i].getId().toUpperCase());
+            }catch(Exception e){
+            	e.printStackTrace();
+            }
 			TWfRelevant rev = new TWfRelevant();
 			rev.setRev2column(upo.getActionurl());
 			rev.setRev2formcode(upo.getExtendattribute());

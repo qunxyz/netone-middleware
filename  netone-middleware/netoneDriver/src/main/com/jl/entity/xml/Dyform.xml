@@ -6,4 +6,10 @@
 	<select id="select_wf_relevantvar_tmp" parameterClass="string" resultClass="java.util.HashMap">
 		select * from netone.t_wf_relevantvar_tmp where lsh=#lsh# limit 1
 	</select>
+	
+	<!-- 动态SQL -->
+	<select id="select_wf_info" parameterClass="string" resultClass="java.util.HashMap" remapResults="true">
+	$SQL$
+	</select>
+	
 </sqlMap>

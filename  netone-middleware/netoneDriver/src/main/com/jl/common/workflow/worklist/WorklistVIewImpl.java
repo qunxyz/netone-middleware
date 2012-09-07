@@ -458,7 +458,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 
 		if ("01".equals(listType)) {
 			// ³­ÔÄ
-			if (opemode.equals("('03')")) {
+			if (opemode.contains("'03'")) {
 				loadworklist = "select  w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='"
 						+ clientId
 						+ "' and w2.statusnow in ('01','02')"
@@ -468,7 +468,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 						+ condition + " order by w1.STARTTIME desc   limit " + from + "," + size;
 				loadworklist_detail=StringUtils.replace(loadworklist, "w2.usercode='"+clientId+"'", "1=1");
 
-			} else if (opemode.equals("('04')")) {// ÔÄ¶Á
+			} else if (opemode.contains("'04'")) {// ÔÄ¶Á
 				loadworklist = "select  w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='"
 						+ clientId
 						+ "' and w2.statusnow in ('01')"

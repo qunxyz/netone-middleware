@@ -1252,4 +1252,44 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		return json.toString();
 	}
 
+	public String queryDyReport(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String sql = request.getParameter("sql");
+		List list = new ArrayList();
+		if (StringUtils.isNotEmpty(sql)) {
+			list = (List) commonDAO.select("Dyform.select_wf_info", sql);
+		}
+		List<TableCell> headerList = new ArrayList<TableCell>();
+		Map field = (Map) list.get(0);
+		for (Iterator iterator2 = field.keySet().iterator(); iterator2
+				.hasNext();) {
+			String key = (String) iterator2.next();
+			headerList.add(new TableCell(""
+					+ new String(key.getBytes("GBK"), "UTF-8")));
+		}
+
+		Table t = new Table();
+		ReportExt reportExt = new ReportExt();
+
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			TableRow row = new TableRow();
+			for (Iterator iterator2 = object.keySet().iterator(); iterator2
+					.hasNext();) {
+				String key = (String) iterator2.next();
+				row.addCell(new TableCell("" + object.get(key)));
+			}
+			t.addRow(row);
+		}
+
+		Report reportX = reportExt.setSimpleColHeader(t, headerList);
+		Long currentTimeMillis = System.currentTimeMillis();
+		GroupReport groupReport = new GroupReport();
+		response.reset();
+		groupReport.format("excel", "±¨±í" + currentTimeMillis, reportX,
+				response);
+		return null;
+	}
+
 }

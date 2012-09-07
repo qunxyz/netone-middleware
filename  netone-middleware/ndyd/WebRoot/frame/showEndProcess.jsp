@@ -22,7 +22,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</script>
 	${linkcss}
 	<script type="text/javascript">
-	
+		$(function() {
+				showIframe('0');
+		});
+		
 		function up_Next_1(){
 			Ext.MessageBox.show({
 		        title: '提示',
@@ -39,22 +42,110 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			window.location.href=url+'&page=new_1';
 		}
 	
-		function showperson(value,activeids,singleselect,usercode,username){//多选
-			document.getElementById('choosepersonbox').style.display="block";
-			if (usercode==null || usercode=='undefiend') usercode='';
-			if (username==null || usercode=='undefiend') username='';
-			document.getElementById('tmp_usercode').value=usercode;
-			document.getElementById('tmp_username').value=username;
-			document.getElementById('personframe').src="<%=path%>department/user.do?method=onMultiSelectUserX&singleselect="+singleselect+"&hiddendept=0&includedept=0&node="+value+"&activityid="+activeids+"&usercode="+usercode+"&username="+username;
+		function showIframe(activeid){
+			$('iframe').each(function(){
+				$(this).css('display','none');
+			});
+			$('body #vertmenu a').removeHighlight();//取消高亮
+			var i = 0;
+			$('iframe').each(function(){
+				var id = $(this).attr('id');
+				id = id.replace('personframe','');
+				var personframesrc = $('#personframe'+id).attr('src')
+				$('#listdatabox'+id).css('background-color','');
+				if (activeid=='0' || activeid==''){
+					if (i==0){
+						$(this).css('display','block');
+						$('#listdatabox'+id).highlight($('#listdatabox'+id).html(), { wordsOnly: true });
+						if (personframesrc=='' || personframesrc=='undefined' || personframesrc==null){
+							$('#personframe'+id).attr('src',$('#'+id).val());
+						}
+						$('#listdatabox'+id).css('background-color','#D3E1F1');
+					}
+					i++;
+				} else if (activeid==id){
+					$(this).css('display','block');
+					$('#listdatabox'+id).highlight($('#listdatabox'+id).html(), { wordsOnly: true });
+					if (personframesrc=='' || personframesrc=='undefined' || personframesrc==null){
+						$('#personframe'+id).attr('src',$('#'+id).val());
+					}
+					$('#listdatabox'+id).css('background-color','#D3E1F1');
+				}
+			});
 		}
-		
-		function showperson2(value,activeids,singleselect,usercode,username){//单选
-			document.getElementById('choosepersonbox').style.display="block";
+	
+		function showperson(name,value,activeids,singleman,autoroute,usercode,username,special,pmode,needtree,needsync,needsearch){//人员选择
 			if (usercode==null || usercode=='undefiend') usercode='';
 			if (username==null || usercode=='undefiend') username='';
-			document.getElementById('tmp_usercode').value=usercode;
-			document.getElementById('tmp_username').value=username;
-			document.getElementById('personframe').src="<%=path%>department/user.do?method=onMultiSelectUserX&singleselect="+singleselect+"&hiddendept=0&includedept=0&node="+value+"&activityid="+activeids+"&usercode="+usercode+"&username="+username;
+	
+			var personframe = "";
+			var singleselect = 0;
+			var hiddendept = 0;
+			if (autoroute==true){
+				personframe="<%=path%>/frame.do?method=onAutorouteView";
+			} else {
+				if (singleman==true || singleman=='true'){
+					singleselect = 1;
+				} else {
+					singleselect = 0;
+				}
+				if (needtree==true || needtree=='true'){
+					hiddendept = 0;
+				} else {
+					hiddendept = 1;
+				}
+				personframe="<%=path%>/department/user.do?method=onMultiSelectUserX&pmode="+pmode+"&singleselect="+singleselect+"&hiddendept="+hiddendept+"&includedept=0&node="+value+"&activityid="+activeids+"&usercode="+usercode+"&username="+username+"&needsync="+needsync+"&needsearch="+needsearch;
+			}
+			
+			if (activeids=='trackActionSpecialType1'){
+				singleselect=0;
+				usercode='';
+				username='';
+				name='抄送';
+				value='0';
+				//activeids='trackActionSpecialType1';
+				singleman=false;
+				autoroute=false;
+				needsearch=true;
+				personframe="<%=path%>/department/user.do?method=onMultiSelectUserX&pmode="+pmode+"&singleselect="+singleselect+"&hiddendept=0&includedept=0&node="+value+"&activityid="+'trackActionSpecialType1'+"&usercode="+usercode+"&username="+username+"&needsearch="+needsearch;
+			} else if (activeids=='trackActionSpecialType2'){
+				singleselect=0;
+				usercode='';
+				username='';
+				value='0';
+				//activeids='trackActionSpecialType2';
+				singleman=false;
+				autoroute=false;
+				name='抄阅';
+				needsearch=true;
+				personframe="<%=path%>/department/user.do?method=onMultiSelectUserX&pmode="+pmode+"&singleselect="+singleselect+"&hiddendept=0&includedept=0&node="+value+"&activityid="+'trackActionSpecialType2'+"&usercode="+usercode+"&username="+username+"&needsearch="+needsearch;
+			} else if (activeids=='trackActionSpecialType4'){
+				singleselect=0;
+				usercode='';
+				username='';
+				value='0';
+				//activeids='trackActionSpecialType4';
+				singleman=false;
+				autoroute=false;
+				name='归档并抄阅';
+				needsearch=true;
+				personframe="<%=path%>/department/user.do?method=onMultiSelectUserX&pmode="+pmode+"&singleselect="+singleselect+"&hiddendept=0&includedept=0&node="+value+"&activityid="+'trackActionSpecialType4'+"&usercode="+usercode+"&username="+username+"&needsearch="+needsearch;
+			} else if (activeids=='trackActionSpecialType3'){
+				singleselect=0;
+				usercode='';
+				username='';
+				value='0';
+				//activeids='trackActionSpecialType3';
+				singleman=false;
+				autoroute=false;
+				name='阶段性回复';
+				needsearch=true;
+				personframe="<%=path%>/department/user.do?method=onMultiSelectUserX&pmode="+pmode+"&singleselect="+singleselect+"&hiddendept=0&includedept=0&node="+value+"&activityid="+'trackActionSpecialType3'+"&usercode="+usercode+"&username="+username+"&needsearch="+needsearch;
+			}
+			$('#'+activeids).val(personframe);
+			$('#leftprocesscontent').show();
+			$('#processlist').show();
+			$('#personselect').show();
 		}
 		
 		function up_5(){
@@ -79,6 +170,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<c:when test="${param.chooseresult==0}">
 					auditEnd();
 				</c:when>
+				<c:when test="${param.chooseresult==3}">
+					assignAuditEnd();
+				</c:when>
 				<c:otherwise>
 					speicalAuditEnd();
 				</c:otherwise>
@@ -94,15 +188,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		function auditEnd(){
-				
+				var userid = document.getElementById('usercode').value;
+				if (userid==''){
+					//Ext.MessageBox.alert('提示','未选择,请选择人员或部门提交!');
+					//return;
+				}
+				 var notice = 0;
+			  	 if($("#notice").attr("checked")==true){
+			  	 	notice = document.getElementById('notice').value;
+			  	 }
 				var msgTip = Ext.MessageBox.show({
 			        title: '提示',
 			        width: 250,
 			        closable:false,
-			        msg: '正在执行操作请稍后......'
+			        msg: '正在执行操作请稍候......'
 			    });
+			    $disabledall();
 				Ext.Ajax.request({
-				        url: "<c:url value='/frame.do?method=onNewEnd' />",
+				        url: "<c:url value='/frame.do?method=onNewEnd' />&naturalname=${param.naturalname}&lsh=${param.lsh}&notice="+notice,
 				        // 请求的服务器地址
 				        // 指定要提交的表单id
 				        method: 'POST',
@@ -111,10 +214,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				            msgTip.hide();
 				            var result = Ext.util.JSON.decode(response.responseText);
 				            if (result.error != null) {
+				            	$enableall();
 				                Ext.MessageBox.alert('提示', result.tip);
 				            } else {
-				            	Ext.ux.Toast.msg("", result.tip);
-				            	$disabledall();
+				            	alert(result.tip);
 				            	_refreshOpenerWin();
 				            	window.opener=null;
 				            	//window.open('','_top');
@@ -123,6 +226,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        },
 				        failure: function (response, options) {
 				            msgTip.hide();
+				            $enableall();
 				            checkAjaxStatus(response);
 				            var result = Ext.util.JSON.decode(response.responseText);
 				            Ext.MessageBox.alert('提示', result.tip);
@@ -131,14 +235,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		
 		function speicalAuditEnd(){
+				var userid = document.getElementById('usercode').value;
+				if (userid==''){
+					//Ext.MessageBox.alert('提示','未选择,请选择人员或部门提交!');
+					//return;
+				}
+				 var notice = 0;
+			  	 if($("#notice").attr("checked")==true){
+			  	 	notice = document.getElementById('notice').value;
+			  	 }
 				var msgTip = Ext.MessageBox.show({
 			        title: '提示',
 			        width: 250,
 			        closable:false,
-			        msg: '正在执行操作请稍后......'
+			        msg: '正在执行操作请稍候......'
 			    });
+			    $disabledall();
 				Ext.Ajax.request({
-				        url: "<c:url value='/frame.do?method=onAuditEnd' />",
+				        url: "<c:url value='/frame.do?method=onAuditEnd' />&naturalname=${param.naturalname}&lsh=${param.lsh}&notice="+notice,
 				        // 请求的服务器地址
 				        // 指定要提交的表单id
 				        method: 'POST',
@@ -147,11 +261,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				            msgTip.hide();
 				            var result = Ext.util.JSON.decode(response.responseText);
 				            if (result.error != null) {
+				            	$enableall();
 				                Ext.MessageBox.alert('提示', result.tip);
 				            } else {
-				            	Ext.ux.Toast.msg("", result.tip);
+				            	alert(result.tip);
 				            	_refreshOpenerWin();
-				            	$disabledall();
 				            	window.opener=null;
 				            	//window.open('','_top');
 				            	window.close();
@@ -159,6 +273,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        },
 				        failure: function (response, options) {
 				            msgTip.hide();
+				            $enableall();
+				            checkAjaxStatus(response);
+				            var result = Ext.util.JSON.decode(response.responseText);
+				            Ext.MessageBox.alert('提示', result.tip);
+				        }
+				    });
+			}
+			
+			function assignAuditEnd(){
+				var userid = document.getElementById('usercode').value;
+				if (userid==''){
+					//Ext.MessageBox.alert('提示','未选择,请选择人员或部门提交!');
+					//return;
+				}
+				 var notice = 0;
+			  	 if($("#notice").attr("checked")==true){
+			  	 	notice = document.getElementById('notice').value;
+			  	 }
+				var msgTip = Ext.MessageBox.show({
+			        title: '提示',
+			        width: 250,
+			        closable:false,
+			        msg: '正在执行操作请稍候......'
+			    });
+			    $disabledall();
+				Ext.Ajax.request({
+				        url: "<c:url value='/frame.do?method=onAssignEnd' />&commiter=${param.commiter}&naturalname=${param.naturalname}&lsh=${param.lsh}&notice="+notice,
+				        // 请求的服务器地址
+				        // 指定要提交的表单id
+				        method: 'POST',
+				        form:'form1',
+				        success: function (response, options) {
+				            msgTip.hide();
+				            var result = Ext.util.JSON.decode(response.responseText);
+				            if (result.error != null) {
+				            	$enableall();
+				                Ext.MessageBox.alert('提示', result.tip);
+				            } else {
+				            	alert(result.tip);
+				            	_refreshOpenerWin();
+				            	window.opener=null;
+				            	//window.open('','_top');
+				            	window.close();
+				            }
+				        },
+				        failure: function (response, options) {
+				            msgTip.hide();
+				            $enableall();
 				            checkAjaxStatus(response);
 				            var result = Ext.util.JSON.decode(response.responseText);
 				            Ext.MessageBox.alert('提示', result.tip);
@@ -181,14 +343,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input type="hidden" id="workcode" name="workcode" value="${param.workcode}" />
 		<input type="hidden" id="runtimeid" name="runtimeid" value="${param.runtimeid}" />
 		
-		<input type="hidden" id="tmp_usercode" name="tmp_usercode" value="${processList[0].usercode}" />
-		<input type="hidden" id="tmp_username" name="tmp_username" value="${processList[0].username}" />
+		<input type="hidden" id="tmp_usercode" name="tmp_usercode" value="" />
+		<input type="hidden" id="tmp_username" name="tmp_username" value="" />
 		<input type="hidden" id="processlen" name="processlen" value="${fn:length(processList)}"/>
 		
 		<input type="hidden" id="issync" name="issync" value="0" />
 		
 		<input type="hidden" id="operatemode" name="operatemode" value="${param.operatemode}" />
 		<input type="hidden" id="naturalname" name="naturalname" value="${param.naturalname}" />
+		<input type="hidden" id="filteractiveids" name="filteractiveids" value="${param.filteractiveids}" />
 	</form>
 	<center>
 	<jsp:include page="template.jsp"></jsp:include>
@@ -227,9 +390,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</table>
 				<hr id="hr_nd">
 			</div>
-		<div id="box" align="left">
+			<div id="box" align="left">
 			<span id="helpInfo_nd"><font style="font-size: 14px;font-weight: bold;">${processEndTip}</font></span>
+			
+			
+			<div id="processcontentbox">
+				<input type="hidden" id="lsh" name="lsh" value="${param.lsh}">
+				<input type="hidden" id="chooseresult" name="chooseresult" value="${param.chooseresult}">
+				<c:choose>
+				<c:when test="${fn:length(processList)==1}">
+					<div id="processlist" align="left" style="height: 415px;width: 100%">
+					    <input type="hidden" id="${processList[0].activeids}" name="${processList[0].activeids}"  />
+					    <input type="hidden" id="${processList[0].activeids}_usercode" value="${processList[0].usercode}" />
+					    <input type="hidden" id="${processList[0].activeids}_username" value="${processList[0].username}" />
+						<div id="vertmenu" style="width: 100%;">
+						<ul >
+						<li><a id="listdatabox${processList[0].activeids}" style="width: 100%;border-bottom:0px dashed #2666AE;" href="#" title="${processList[0].name}" onclick="showIframe('${processList[0].activeids}')">${processList[0].name}</a></li>
+						</ul>
+						</div>
+					
+					<iframe id="personframe${processList[0].activeids}" width="920" align="left" height="390" style="display: none;" frameborder="0"></iframe>
+					<script type="text/javascript">
+					showperson('${processList[0].name}','${processList[0].value}','${processList[0].activeids}','${processList[0].singleman}','${processList[0].autoroute}','${processList[0].usercode}','${processList[0].username}',2,'${processList[0].pmode}','${processList[0].needtree}','${processList[0].needsync}','${processList[0].needsearch}');
+					</script>
+						
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div id="processlist" align="left">
+					<c:forEach var="processList" items="${processList}" varStatus="step">
+						    <input type="hidden" id="${processList.activeids}" name="${processList.activeids}"  />
+						    <input type="hidden" id="${processList.activeids}_usercode" value="${processList.usercode}" />
+						    <input type="hidden" id="${processList.activeids}_username" value="${processList.username}" />
+							<div id="vertmenu" >
+							<ul >
+							<li><a id="listdatabox${processList.activeids}" href="#" title="${processList.name}" onclick="showIframe('${processList.activeids}')">${processList.name}</a></li>
+							</ul>
+							</div>
+					</c:forEach>
+					</div>
+					<c:forEach var="processList" items="${processList}" varStatus="step">
+						<iframe id="personframe${processList.activeids}" width="696" align="left" height="400" style="display: none;" frameborder="0"></iframe>
+						<script type="text/javascript">
+						showperson('${processList.name}','${processList.value}','${processList.activeids}','${processList.singleman}','${processList.autoroute}','${processList.usercode}','${processList.username}',2,'${processList.pmode}','${processList.needtree}','${processList.needsync}','${processList.needsearch}');
+						</script>
+					</c:forEach>				
+				</c:otherwise>
+				</c:choose>
+				
+				
+				<div id="noticeBox" align="left">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="notice" id="notice" type="checkbox" value="1" />流转状态变化时不发送短信
+				</div>
+				
+			</div>
+			
+			
 	    </div>
+			
 	</center>    
 	 <jsp:include page="footer.jsp"></jsp:include>
   </body>

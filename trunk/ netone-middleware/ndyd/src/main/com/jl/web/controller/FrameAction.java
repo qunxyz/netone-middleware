@@ -1976,4 +1976,25 @@ public class FrameAction extends AbstractAction {
 		request.setAttribute("accordhtml", html);
 	}
 
+	//动态报表
+	public ActionForward queryDyReportView(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String forward = "/frame/dyReportView.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	//动态报表
+	public void queryDyReport(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		FrameService ins = (FrameService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("frameService");
+		ins.queryDyReport(request, response);
+	}
+
 }

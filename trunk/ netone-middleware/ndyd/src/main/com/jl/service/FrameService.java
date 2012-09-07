@@ -227,4 +227,14 @@ public interface FrameService {
 	 */
 	public String saveUnConfirmStatus(HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
+	
+	/**
+	 * 查询动态报表
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public String queryDyReport(HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
 }

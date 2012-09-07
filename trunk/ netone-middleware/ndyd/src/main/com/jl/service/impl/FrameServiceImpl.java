@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -1261,7 +1262,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			list = (List) commonDAO.select("Dyform.select_wf_info", sql);
 		}
 		List<TableCell> headerList = new ArrayList<TableCell>();
-		Map field = (Map) list.get(0);
+		Map field = (LinkedHashMap) list.get(0);
 		for (Iterator iterator2 = field.keySet().iterator(); iterator2
 				.hasNext();) {
 			String key = (String) iterator2.next();
@@ -1273,7 +1274,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		ReportExt reportExt = new ReportExt();
 
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			Map object = (Map) iterator.next();
+			Map object = (LinkedHashMap) iterator.next();
 			TableRow row = new TableRow();
 			for (Iterator iterator2 = object.keySet().iterator(); iterator2
 					.hasNext();) {
@@ -1287,8 +1288,8 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		Long currentTimeMillis = System.currentTimeMillis();
 		GroupReport groupReport = new GroupReport();
 		response.reset();
-		groupReport.format("excel", "报表" + currentTimeMillis, reportX,
-				response);
+		groupReport
+				.format("excel", "报表" + currentTimeMillis, reportX, response);
 		return null;
 	}
 

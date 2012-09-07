@@ -325,12 +325,14 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 						issubhidden = false;
 					}
 				} else {
-					Object submode =  subformmode.get(i);
-					if(submode!=null&&submode.getClass().getName().equals("java.lang.Boolean")){
+					Object submode = subformmode.get(i);
+					if (submode != null
+							&& submode.getClass().getName().equals(
+									"java.lang.Boolean")) {
 						issubedit = true;
 						issubhidden = false;
-					}else{
-						String  submodex =  (String)subformmode.get(i);
+					} else {
+						String submodex = (String) subformmode.get(i);
 						if ("0".equals(submodex)) {// 编辑
 							issubedit = true;
 							issubhidden = false;
@@ -465,7 +467,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		json.put("tip", "提交成功");
 		TWfWorklist worklist = WfEntry.iv().loadWorklist(workcode);
 		String runtimeid = worklist.getRuntimeid();
-		String yijian = worklist.getExtendattribute();
+		// String yijian = worklist.getExtendattribute();
 
 		// 原先用operatemode 判断，但是发现传递过来的operatemode参数总是为空
 		if ("03".equals(operatemode)) {
@@ -482,8 +484,8 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			return json.toString();
 
 		} else if ("end".equals(operatemode)
-				|| filteractiveids
-						.contains(FrameService.trackActionSpecialTypeEND)) {
+				|| FrameService.trackActionSpecialTypeEND
+						.contains(filteractiveids)) {
 			json.put("tip", "归档成功");
 			// WebCache.removeCache($DYFORM + cachekey);
 			String error = WfEntry.iv().nextToEnd(workcode, participant);
@@ -516,6 +518,8 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					"");
 			filteractiveids_.replaceAll(FrameService.trackActionSpecialType3,
 					"");
+			filteractiveids_.replaceAll(FrameService.trackActionSpecialType4,
+					"");
 			// filteractiveids_.replaceAll(FrameService.trackActionSpecialTypeEND,
 			// "");
 			filteractiveids_ = StringUtils.substring(filteractiveids_, 0,
@@ -529,6 +533,9 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					json.put("error", "yes");
 					return json.toString();
 				}
+			} else if (specialActivityMap
+					.containsKey(FrameService.trackActionSpecialType4)) {
+
 			} else {
 				if (len == 0) {
 					end = true;
@@ -542,19 +549,21 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		}
 
 		if (end == false) {
-			if (!specialActivityMap
-					.containsKey(FrameService.trackActionSpecialType3)) {
-				String error = "";
-				if (activityMap.size() == 1) {
-					error = nextNormalByManual(activityMap, workcode,
-							participant);
-				} else {
-					error = nextNormalByAuto(workcode, participant);
-				}
-				if (StringUtils.isNotEmpty(error)) {
-					json.put("error", "yes");
-					json.put("tip", "提交失败(" + error + ")");
-					return json.toString();
+			if (!FrameService.trackActionSpecialType4.contains(filteractiveids)) {
+				if (!specialActivityMap
+						.containsKey(FrameService.trackActionSpecialType3)) {
+					String error = "";
+					if (activityMap.size() == 1) {
+						error = nextNormalByManual(activityMap, workcode,
+								participant);
+					} else {
+						error = nextNormalByAuto(workcode, participant);
+					}
+					if (StringUtils.isNotEmpty(error)) {
+						json.put("error", "yes");
+						json.put("tip", "提交失败(" + error + ")");
+						return json.toString();
+					}
 				}
 			}
 
@@ -568,7 +577,9 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 				String activityid_for_check = object.getActivityid();
 
 				if (specialActivityMap
-						.containsKey(FrameService.trackActionSpecialType3)) {
+						.containsKey(FrameService.trackActionSpecialType3)
+						|| specialActivityMap
+								.containsKey(FrameService.trackActionSpecialType4)) {
 					ready_to_specify_reader(naturalname, activityMap,
 							specialActivityMap, limitMap, activityid_for_check,
 							object, participant, issync, "01");
@@ -578,6 +589,18 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 							object, participant, issync, "01");
 				}
 			}
+
+			if (FrameService.trackActionSpecialType4.contains(filteractiveids)) {
+				json.put("tip", "归档成功");
+				// WebCache.removeCache($DYFORM + cachekey);
+				String error = WfEntry.iv().nextToEnd(workcode, participant);
+				if (StringUtils.isNotEmpty(error)) {
+					json.put("error", "yes");
+					json.put("tip", "归档失败(" + error + ")");
+				}
+				// return json.toString();
+			}
+
 		} else {
 			// WebCache.removeCache($DYFORM + cachekey+"false");
 			String error = WfEntry.iv().nextToEnd(workcode, participant);
@@ -677,6 +700,8 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					|| FrameService.trackActionSpecialType2
 							.equalsIgnoreCase(tmp_activityid_)
 					|| FrameService.trackActionSpecialType3
+							.equalsIgnoreCase(tmp_activityid_)
+					|| FrameService.trackActionSpecialType4
 							.equalsIgnoreCase(tmp_activityid_)) {// 特殊
 				if (specialActivityMap.containsKey(tmp_activityid_)) {
 					StringBuffer sbx = specialActivityMap.get(tmp_activityid_);
@@ -816,6 +841,11 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 							WfEntry.iv().specifyReaderByWorkcode(participant,
 									worklist.getWorkcode(), personxs[i],
 									opemode);
+						} else if (FrameService.trackActionSpecialType4
+								.equals(activityidxx)) {// 归档抄阅
+							WfEntry.iv().specifyReaderByWorkcode(participant,
+									worklist.getWorkcode(), personxs[i],
+									opemode);
 						}
 						WfEntry.iv().specifyLimit(worklist.getWorkcode(),
 								personxs[i], Long.valueOf(limitx));
@@ -857,6 +887,10 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 				} else if (FrameService.trackActionSpecialType3
 						.equals(activityidxx)) {// 阅读
 					WfEntry.iv().distributedSubmit(participant,
+							worklist.getWorkcode(), personxs[i], opemode);
+				} else if (FrameService.trackActionSpecialType4
+						.equals(activityidxx)) {// 归档抄阅
+					WfEntry.iv().specifyReaderByWorkcode(participant,
 							worklist.getWorkcode(), personxs[i], opemode);
 				}
 				WfEntry.iv().specifyLimit(worklist.getWorkcode(), personxs[i],

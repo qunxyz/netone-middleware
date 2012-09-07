@@ -26,7 +26,8 @@ public interface FrameService {
 	public static final String trackActionSpecialType1 = "trackActionSpecialType1";
 	/** ³­ÔÄ */
 	public static final String trackActionSpecialType2 = "trackActionSpecialType2";
-
+	/** ¹éµµ²¢³­ÔÄ */
+	public static final String trackActionSpecialType4 = "trackActionSpecialType4";
 	/** ·Ö²¼Ê½ÔÄ¶Á */
 	public static final String trackActionSpecialType3 = "trackActionSpecialType3";
 

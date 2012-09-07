@@ -997,13 +997,14 @@ public class FrameAction extends AbstractAction {
 			request.setAttribute("processList", result);
 			return "onShowEndView";
 		} else if (filteractiveids != null
-				&& filteractiveids
-						.contains(FrameService.trackActionSpecialTypeEND)) {// 归档
+				&& (filteractiveids
+						.contains(FrameService.trackActionSpecialTypeEND) || filteractiveids
+						.contains(FrameService.trackActionSpecialType4))) {// 归档
 			request.setAttribute("helpTip", "帮助提示: 流程结束,请点击完成,结束流程。");
 			request.setAttribute("processEndTip", "流程结束。");
 			request.setAttribute("processTitle", "归档");
-			result.addAll(listTrackActionEnd("归档"));
-			result.addAll(listTrackAction2("0"));// 抄阅
+			// result.addAll(listTrackActionEnd("归档"));
+			result.addAll(listTrackAction4("0"));// 抄阅
 			request.setAttribute("processList", result);
 			request.setAttribute("isend", "true");
 			return "onShowEndView";
@@ -1083,15 +1084,15 @@ public class FrameAction extends AbstractAction {
 				if (AppHandleIfc._PARTICIPANT_MODE_CREATER.equals(active
 						.getParticipantmode())
 						&& StringUtils.isEmpty(filteractiveids) && isEnd) {
-					result.addAll(listTrackActionEnd("归档"));
-					result.addAll(listTrackAction2("0"));// 抄阅
+					// result.addAll(listTrackActionEnd("归档"));
+					result.addAll(listTrackAction4("0"));// 抄阅
 				}
 			} else {
 				request.setAttribute("helpTip", "帮助提示: 流程结束,请点击完成,结束流程。");
 				request.setAttribute("processEndTip", "流程结束。");
 				request.setAttribute("processTitle", "归档");
-				result.addAll(listTrackActionEnd("归档"));
-				result.addAll(listTrackAction2("0"));// 抄阅
+				// result.addAll(listTrackActionEnd("归档"));
+				result.addAll(listTrackAction4("0"));// 抄阅
 				request.setAttribute("processList", result);
 				request.setAttribute("isend", "true");
 				return "onShowEndView";
@@ -1449,6 +1450,27 @@ public class FrameAction extends AbstractAction {
 		tempMap.put("singleman", false);
 		tempMap.put("autoroute", false);
 		tempMap.put("activeids", FrameService.trackActionSpecialType3);
+		list.add(tempMap);
+		return list;
+	}
+
+	/**
+	 * 显示特殊节点 归档并抄阅
+	 * 
+	 * @param node
+	 * @return
+	 */
+	private List listTrackAction4(String node) {
+		List list = new ArrayList();
+		Map tempMap = new HashMap();
+		tempMap.put("name", "归档");
+		tempMap.put("type", AppHandleIfc._PARTICIPANT_MODE_DEPT);
+		tempMap.put("pmode", AppHandleIfc._PARTICIPANT_MODE_DEPT);
+		tempMap.put("needsync", false);
+		tempMap.put("value", node);
+		tempMap.put("singleman", false);
+		tempMap.put("autoroute", false);
+		tempMap.put("activeids", FrameService.trackActionSpecialType4);
 		list.add(tempMap);
 		return list;
 	}

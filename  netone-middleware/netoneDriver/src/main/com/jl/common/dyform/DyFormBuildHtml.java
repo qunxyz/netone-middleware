@@ -1667,7 +1667,7 @@ public final class DyFormBuildHtml {
 		htmlall
 				.append(eventListenScripts.toString()
 						+ "<div style=\"overflow-x:auto; overflow-y:hidden; width:900px;\">"
-						+ html_ + html_btn + "</div>");
+						+ html_ + html_btn + "</div><script>if($.browser.version==6.0 || $.browser.version==7.0) $('table#"+formcode+"').append('<tr><td>&nbsp;</td></tr>');</script>");
 		return htmlall.toString();
 	}
 

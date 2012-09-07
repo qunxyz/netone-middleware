@@ -8,7 +8,7 @@
 	</select>
 	
 	<!-- 动态SQL -->
-	<select id="select_wf_info" parameterClass="string" resultClass="java.util.HashMap" remapResults="true">
+	<select id="select_wf_info" parameterClass="string" resultClass="java.util.LinkedHashMap" remapResults="true">
 	$SQL$
 	</select>
 	

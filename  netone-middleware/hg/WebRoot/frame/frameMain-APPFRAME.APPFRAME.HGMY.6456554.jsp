@@ -70,7 +70,7 @@ function $select(o,url){
 				        index,
 						cb,
 						${columns}
-						,{header: "操作",dataIndex: "", sortable: false, renderer: 
+						,{header: "操作",dataIndex: "",width:200, sortable: false, renderer: 
 						function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) { 
 							var lsh = store.getAt(rowIndex).get('lsh') ; 
 							var runtimeid = store.getAt(rowIndex).get('runtimeid') ; 

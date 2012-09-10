@@ -629,10 +629,19 @@ public class DepartmentServiceImpl extends BaseService implements
 					user.setCancelDate(null);
 					user.setStatus("1");
 
-					// 同步组件目录API
-					if (enableSyncComponent) {
+					
+					Collection<String> userIdStrs = commonDAO.select(
+							"User.selectUserByPID", departmentId);
+					for (String ids : userIdStrs) {
+						User userx = (User) BeanUtils.cloneBean(user);
+						userx.setUserId(ids);
+						commonDAO.update("User.updateUserStatus", userx);
+						// 同步组件目录API
+						if (enableSyncComponent) {
+							getSecurityAPI(request).recoveryAccount(ids);
+						}
 					}
-
+					
 					tips = "开启成功,需要手动启用人员权限!";
 				} else if ("0".equals(s)) {// 禁用
 					client.setCancelTime(new Date());

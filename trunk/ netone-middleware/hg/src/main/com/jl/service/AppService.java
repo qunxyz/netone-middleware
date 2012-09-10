@@ -52,4 +52,12 @@ public interface AppService {
 	public void exportPartAndProduct(HttpServletRequest request,
 			HttpServletResponse response);
 
+	/**
+	 * 查询销售出库明细
+	 * @param request
+	 * @param response
+	 */
+	public void querySellOutStorageDetail(HttpServletRequest request,
+			HttpServletResponse response);
+	
 }

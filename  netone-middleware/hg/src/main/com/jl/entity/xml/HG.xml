@@ -186,14 +186,14 @@
 		select 
 			* 
 		from t_emp
-		where FDeleted=0 and FDepartmentID  in  (
+		where /**FDeleted=0 and**/ FDepartmentID  in  (
 			select FItemID from t_department where FNumber=#deptcode#
 		)
 	</select>
 	
 	<!-- 根据职员代码查找职员信息 -->
 	<select id="selectEmpByNumber" parameterClass="string" resultClass="java.util.HashMap">
-		select * from t_emp where FShortNumber=#code# and FDeleted=0
+		select * from t_emp where FShortNumber=#code# /**and FDeleted=0**/
 	</select>
 	
 	<!-- 根据父ID查找部门 -->
@@ -204,6 +204,32 @@
 	<!-- 根据父ID查找部门 -->
 	<select id="selectParentDeptInfo" parameterClass="int" resultClass="java.util.HashMap">
 		select * from t_item where FItemClassID=2 and FDeleted=0 and FItemID=#FParentID#
+	</select>
+	
+	<!-- 销售出库明细查询 -->
+	<select id="querySellOutStorageDetail" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	SELECT 
+	[FInterID], [FEntryID], [Fdate], [FCheck], [FCancellation], [FBillNo], [FSaleStyleName], [FSupplyIDName], 
+	[FDCStockIDName], [FItemIDName], [FFullNumber], [FItemName], [FItemModel], [FUnitIDName], [FBatchNo], [Fauxqty], 
+	[Fauxprice], [Famount], [FFManagerIDName], [FSManagerIDName], [FuserName], [FCheckerName], [FVoucherStatus], [FNote], 
+	[FVoucherNumber], [FHookStatus], [FReStatus], [FMarketingStyleName], [FPOOrdBillNo], [FAllHookQTY], [FUNHookQTY], 
+	[FCurrentHookQTY], [FOrderBillNo], [FContractBillNo], [FSourceBillNo], [FSourceTranType], [FDeptIDName], 
+	[FEmpIDName], [FManagerIDName], [FExplanation], [FFetchAdd], [FCheckDate], [FAuxPropIDName], 
+	[FAuxPropIDNumber], [FHasSplitBill], [FAuxQtyInvoice], [FQtyInvoice], [FBaseUnitID], [FBaseQty], 
+	[FAuxQtyMust], [FBaseQtyMust], [FAuxPlanPrice], [FPlanAmount], [FCUUnitName], [FCUUnitQty], [FSPName],
+	 [FKFPeriod], [FKFDate], [FPeriodDate], [FZPBillNo], [FMapName], [FMapNumber], [FConsignPrice], 
+	[FConsignAmount], [FRelateBrIDName], [FBrID], [FDCStockIDNumber], [FSecUnitName], [FSecCoefficient], 
+	[FSecQty], [FVIPCardId], [FVIPScore], [FDiscountRate], [FDiscountAmount], [FHolisticDiscountRate],
+	 [FPOSName], [FNumber], [FHeadSelfB0144], [FHeadSelfB0145], [FHeadSelfB0146], [FHeadSelfB0147],
+	 [FHeadSelfB0148], [FHeadSelfB0149], [FHeadSelfB0150], [FHeadSelfB0151], [FHeadSelfB0152], [FHeadSelfB0153], 
+	[FHeadSelfB0154], [FHeadSelfB0155], [FHeadSelfB0156], [FHeadSelfB0157], [FHeadSelfB0158], [FHeadSelfB0159], 
+	[FHeadSelfB0160], [FHeadSelfB0161], [FHeadSelfB0162], [FHeadSelfB0163], [FHeadSelfB0164], [FHeadSelfB0165], 
+	[FHeadSelfB0166], [FHeadSelfB0167], [FHeadSelfB0168], [FHeadSelfB0169], [FHeadSelfB0170], [FHeadSelfB0171], 
+	[FHeadSelfB0172], [FHeadSelfB0173], [FHeadSelfB0174], [FHeadSelfB0175], [FHeadSelfB0176], [FHeadSelfB0177], 
+	[FHeadSelfB0178], [FEntrySelfB0155], [FEntrySelfB0156], [FEntrySelfB0157], [FEntrySelfB0158], [FEntrySelfB0159],
+	 [FEntrySelfB0160], [FEntrySelfB0161], [FEntrySelfB0162], [FEntrySelfB0163], [FEntrySelfB0164], [FEntrySelfB0165],
+	 [FEntrySelfB0166], [FEntrySelfB0167], [FEntrySelfB0168], [FEntrySelfB0169] 
+	FROM [vwICBill_8]
 	</select>
 	
 </sqlMap>

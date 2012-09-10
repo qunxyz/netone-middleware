@@ -25,7 +25,6 @@ import org.apache.log4j.Logger;
 import com.jl.common.JSONUtil2;
 import com.jl.common.MD5Util;
 import com.jl.common.SpringBeanUtilHg;
-import com.jl.common.TimeUtil;
 import com.jl.dao.CommonDAO;
 import com.jl.entity.User;
 import com.jl.service.BaseService;
@@ -306,6 +305,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 							.get("FDepartmentID");
 					Integer orders = (Integer) object2.get("F_102");
 					String FName = (String) object2.get("FName");
+					Integer FDeleted = (Integer) object2.get("FDeleted");
 
 					User user = new User();
 					user.setUserCode(FShortNumber);
@@ -313,9 +313,11 @@ public class UserServiceImpl extends BaseService implements UserService {
 					user.setUserName(FName);
 					user.setDepartmentId(departmentId);
 					user.setPhone(FPhone);
+					if (StringUtils.isNotEmpty(FPhone)) {
+						user.setEmail(FPhone + "@139.com");
+					}
 					user.setTypes("x");
 					user.setAccounttypes(1);
-					user.setStatus("1");
 					/**
 					 * 男 1068 女 1069
 					 */
@@ -326,24 +328,46 @@ public class UserServiceImpl extends BaseService implements UserService {
 
 					Map extAttribute = new HashMap();
 					extAttribute.put("orders", user.getOrders());
+					if (StringUtils.isNotEmpty(FPhone)) {
+						extAttribute.put("mail", FPhone + "@139.com");
+						extAttribute.put("phoneNO", FPhone);
+					}
 					if (exists > 0) {// 保存
-						user.setStatus("1");
+						user.setStatus((FDeleted == 0) ? "1" : "0");
 						String userid = (String) commonDAO.findForObject(
 								"Part.findUserInfoByCode", user.getUserCode());
 						user.setUserId(userid);
 						user = (User) commonDAO.update("User.updateUser", user);
+						user = (User) commonDAO.update("User.updateUserStatus",
+								user);
 						if (enableSyncComponent) {
 							getSecurityAPI(request).editAccount(
 									user.getDepartmentId(), user.getUserCode(),
 									user.getUserName(), extAttribute);
+							if (FDeleted == 0) {
+								getSecurityAPI(request).recoveryAccount(
+										user.getUserCode());
+							} else {
+								getSecurityAPI(request).fobidAccount(
+										user.getUserCode());
+							}
 						}
 					} else {// 创建
-						user.setStatus("1");
+						user.setStatus((FDeleted == 0) ? "1" : "0");
 						user = (User) commonDAO.insert("User.insertUser", user);
+						user = (User) commonDAO.update("User.updateUserStatus",
+								user);
 						if (enableSyncComponent) {
 							getSecurityAPI(request).newAccount(
 									user.getDepartmentId(), user.getUserCode(),
 									user.getUserName(), extAttribute);
+							if (FDeleted == 0) {
+								getSecurityAPI(request).recoveryAccount(
+										user.getUserCode());
+							} else {
+								getSecurityAPI(request).fobidAccount(
+										user.getUserCode());
+							}
 						}
 					}
 

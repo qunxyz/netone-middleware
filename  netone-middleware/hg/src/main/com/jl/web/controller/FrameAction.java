@@ -243,7 +243,8 @@ public class FrameAction extends AbstractAction {
 		formcode = app.getDyformCode_();
 
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
-		String columns = DyFormBuildHtml.buildExtColumns(dyform, "1", true);
+		String columns = DyFormBuildHtml.buildExtCustomColumns(dyform, "0",
+				true);
 		String fields = DyFormBuildHtml.buildExtFields(dyform);
 		request.setAttribute("columns", columns);
 		request.setAttribute("fields", fields);
@@ -428,7 +429,7 @@ public class FrameAction extends AbstractAction {
 					clientId = group.getParticipant();
 				}
 
-				String runtimeid = WfEntry.iv().getSession(lsh,naturalname);
+				String runtimeid = WfEntry.iv().getSession(lsh, naturalname);
 				if (runtimeid != null && StringUtils.isNotEmpty(runtimeid)) {
 
 					TWfRuntime runtime = WfEntry.iv().useCoreView()
@@ -669,7 +670,7 @@ public class FrameAction extends AbstractAction {
 			Map subformmode = act.getSubformmode();
 			// if (StringUtils.isNotEmpty(lsh) &&
 			// StringUtils.isNotEmpty(formcode)) {
-			
+
 			formhtml = ins.load(workcode, naturalname, dyform, lsh, isedit,
 					subformmode, user.getNLevelName() + "/"
 							+ user.getUserName() + "," + user.getNLevelName(),

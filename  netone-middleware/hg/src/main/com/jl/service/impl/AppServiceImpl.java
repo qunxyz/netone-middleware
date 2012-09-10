@@ -377,6 +377,84 @@ public class AppServiceImpl extends BaseService implements AppService {
 
 	}
 
+	public void querySellOutStorageDetail(HttpServletRequest request,
+			HttpServletResponse response) {
+		String format = request.getParameter("format");
+		Map map = new HashMap();
+		try {
+
+			List list = (List) getHgDAO().select(
+					"HG.querySellOutStorageDetail", map);
+
+			// 获得原始数据表格
+			Table t = new Table();
+
+			List<TableCell> headerSet1 = new ArrayList();
+
+			headerSet1.add(new TableCell("数量"));
+			headerSet1.add(new TableCell("总重"));
+			headerSet1.add(new TableCell("金重"));
+			headerSet1.add(new TableCell("主石(ct/p)"));
+			headerSet1.add(new TableCell("副石(ct/p)"));
+			headerSet1.add(new TableCell("进货成本"));
+			headerSet1.add(new TableCell("真实成本"));
+			headerSet1.add(new TableCell("入库市场成本"));
+			headerSet1.add(new TableCell("入库售价"));
+
+			ReportExt reportExt = new ReportExt();
+
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				Map object = (Map) iterator.next();
+				String pm = object.get("pm").toString();
+				String gysname = object.get("gysname").toString();
+				String zsh = object.get("zsh").toString();
+				String fsh = object.get("fsh").toString();
+				String rkno = object.get("rkno").toString();
+				String sl = object.get("sl").toString();
+				String zz = object.get("zz").toString();
+				String jz = object.get("jz").toString();
+				String zs = object.get("zs").toString();
+				String fs = object.get("fs").toString();
+				String jhcb = object.get("jhcb").toString();
+				String zscb = object.get("zscb").toString();
+				String rksccb = object.get("rksccb").toString();
+				String rksj = object.get("rksj").toString();
+				String gys = object.get("gys").toString();
+
+				TableRow tr = new TableRow();
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(sl),
+						Rectangle.ALIGN_RIGHT));
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(zz),
+						Rectangle.ALIGN_RIGHT));
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(jz),
+						Rectangle.ALIGN_RIGHT));
+				tr.addCell(new TableCell(zs));
+				tr.addCell(new TableCell(fs));
+
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(jhcb),
+						Rectangle.ALIGN_RIGHT));
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(zscb),
+						Rectangle.ALIGN_RIGHT));
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(rksccb),
+						Rectangle.ALIGN_RIGHT));
+				tr.addCell(new TableCell("" + MathHelper.moneyFormat(rksj),
+						Rectangle.ALIGN_RIGHT));
+				t.addRow(tr);
+			}
+			Report report = reportExt.setSimpleColHeader(t, headerSet1);
+			reportExt.setTitleHeader(report, "首饰入库统计表", null, null);
+			Long currentTimeMillis = System.currentTimeMillis();
+			GroupReport groupReport = new GroupReport();
+			response.reset();
+			groupReport.format(format, "首饰入库统计表" + currentTimeMillis, report,
+					response);
+
+		} catch (Exception e) {
+			log.error("加载出错!", e);
+		}
+
+	}
+
 	private String buildCategoriesJsonStr(Collection col) {
 		List jSonSet = new ArrayList();
 

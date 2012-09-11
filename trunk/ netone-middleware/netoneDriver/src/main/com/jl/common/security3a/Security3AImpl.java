@@ -168,9 +168,9 @@ public final class Security3AImpl implements Security3AIfc {
 			return this.OPE_TIP_ERROR + "¶ªÊ§ÕÊ»§" + clientId;
 		}
 		clerk.setName(displayname);
-		if (extAttribute != null && extAttribute.containsKey("orders")) {
-			clerk.setRemark(((Integer) extAttribute.get("orders")).toString());
-		}
+//		if (extAttribute != null && extAttribute.containsKey("orders")) {
+//			clerk.setRemark(((Integer) extAttribute.get("orders")).toString());
+//		}
 		if (extAttribute.containsKey("mail")) {
 			clerk.setEmail(extAttribute.get("mail").toString());
 		}

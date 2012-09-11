@@ -340,6 +340,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 						user = (User) commonDAO.update("User.updateUser", user);
 						user = (User) commonDAO.update("User.updateUserStatus",
 								user);
+						extAttribute.remove("mail");// ²»¸üĞÂÓÊÏä
 						if (enableSyncComponent) {
 							getSecurityAPI(request).editAccount(
 									user.getDepartmentId(), user.getUserCode(),

@@ -187,4 +187,25 @@ public class AppAction extends AbstractAction {
 		super.writeJsonStr(response, json.toString());
 	}
 
+	// 查询销售透视图页面
+	public ActionForward querySellPivotTableView(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String forward = "/app/querySellPivotTableView.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 查询销售透视图
+	public void querySellPivotTable(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.querySellPivotTable(request, response);
+	}
+
 }

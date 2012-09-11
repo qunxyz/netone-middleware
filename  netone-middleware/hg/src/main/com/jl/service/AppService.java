@@ -60,4 +60,11 @@ public interface AppService {
 	public void querySellOutStorageDetail(HttpServletRequest request,
 			HttpServletResponse response);
 	
+	/**
+	 * 查询销售透视图
+	 * @param request
+	 * @param response
+	 */
+	public void querySellPivotTable(HttpServletRequest request,
+			HttpServletResponse response);
 }

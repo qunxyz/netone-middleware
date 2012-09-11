@@ -57,9 +57,9 @@
 								onclick="javascript:_delete();" />
 							<input id="saveBtn_1" type="button" value=" 保 存 " class="btn"
 								onclick="javascript:_save();" />
-							</c:if>
 							<input id="nextBtn_1" type="button" value=" 下一步 " class="btn"
 								onclick="javascript:_auditNext_1();" />
+							</c:if>
 							<input id="cannelBtn_1" type="button" value=" 取 消 " class="btn"
 								onclick="javascript:window.close();" />
 						</div>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="App">
+	
+	<!-- 动态SQL -->
+	<select id="selectDySql" parameterClass="string" resultClass="java.util.HashMap" remapResults="true">
+		$sql$
+	</select>
+	
+	<select id="selectNetpoint" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+	
+		SELECT 
+			t.lsh lsh,
+			ifnull(t.column12,'') createDate,
+			ifnull(t.column13,'') createPerson,
+			ifnull(t.column16,'') as point,
+			ifnull(t3.column4,'') ppname,
+			ifnull(t2.column5,'') netName,
+			ifnull(files.address,'') address
+		FROM dyform.DY_211340244752515 t
+		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
+		LEFT JOIN dyform.DY_171345119981583 t3 ON t3.column3=t.column15
+		LEFT JOIN iss.t_file files ON files.d_unid=t.lsh
+		where 1=1
+		<isNotEmpty prepend="and" property="beginDate">
+			date(t.column12) &gt;= #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			date(t.column12) &lt;= #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="netName">
+			t2.column5 like '%$netName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ppname">
+			t3.column4 like '%$ppname$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createPerson">
+			t.column13 like '%createPerson%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point">
+			t.column16 = #point#
+		</isNotEmpty>
+		limit #startIndex#,#pageSize#
+	</select>
+	
+	<select id="selectNetpointCount" parameterClass="java.util.Map" resultClass="int">
+	
+		SELECT 
+			IFNULL(count(*),0) as v
+		FROM dyform.DY_211340244752515 t
+		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
+		LEFT JOIN dyform.DY_171345119981583 t3 ON t3.column3=t.column15
+		LEFT JOIN iss.t_file files ON files.d_unid=t.lsh
+		where 1=1
+		<isNotEmpty prepend="and" property="beginDate">
+			date(t.column12) &gt;= #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			date(t.column12) &lt;= #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="netName">
+			t2.column5 like '%$netName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ppname">
+			t3.column4 like '%$ppname$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createPerson">
+			t.column13 like '%createPerson%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point">
+			t.column16 = #point#
+		</isNotEmpty>
+	</select>
+	
+	<!-- 更新网点理货评分 -->
+	<update id="updateNetPoint" parameterClass="java.util.Map">
+		update dyform.DY_211340244752515 set column16=#point# where LSH=#lsh#
+	</update>
+	
+	<!-- 导出手机理货分析 -->
+	<select id="export_PH" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+		SELECT
+			lsh576,ywybm,ywyname,wdmc,px,pxm,
+			SUM(week1) w1,SUM(fz1) f1,SUM(week2) w2,SUM(fz2) f2,SUM(week3) w3,SUM(fz3) f3,
+			SUM(week4) w4,SUM(fz4) f4,SUM(week5) w5,SUM(fz5) f5,SUM(week6) w6,SUM(fz6) f6,
+			SUM(week7) w7,SUM(fz7) f7,COUNT(times) totalx, 
+			(SUM(fz1)+SUM(fz2)+SUM(fz3)+SUM(fz4)+SUM(fz5)+SUM(fz6)+SUM(fz7) ) totalf
+		FROM (
+			SELECT
+				t.lsh lsh576,t.column5 wdmc,IFNULL(us.name,'') ywyname,IFNULL(t1.PARTICIPANT,'') ywybm,IFNULL(t1.column15,'') px,
+				IFNULL(t2.column4,'') pxm,IFNULL(t1.timex,'') times,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=2 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week1,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=3 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week2,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=4 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week3,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=5 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week4,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=6 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week5,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=7 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week6,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=1 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week7,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=2 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz1,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=3 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz2,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=4 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz3,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=5 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz4,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=6 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz5,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=7 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz6,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=1 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz7
+			FROM dyform.DY_961338295639576 t
+			LEFT JOIN dyform.DY_211340244752515 t1 ON t.LSH = t1.FATHERLSH
+			LEFT JOIN dyform.DY_171345119981583 t2 ON t1.column15 = t2.column3
+			LEFT JOIN netone.t_cs_user us ON t1.PARTICIPANT = us.USERCODE
+			WHERE 1=1 
+				<isNotEmpty property="beginDate" prepend="and">
+			 		DATE(t1.TIMEX) >= #beginDate#
+			 	</isNotEmpty>
+			 	<isNotEmpty property="endDate" prepend="and">
+			 		DATE(t1.TIMEX) &lt;= #endDate#
+			 	</isNotEmpty>
+			 	<isNotEmpty property="wdms" prepend="and">
+			 		t.lsh =#wdms#
+			 	</isNotEmpty> 
+			 	<isNotEmpty property="clientId" prepend="and">
+			 		t1.PARTICIPANT =#clientId#
+			 	</isNotEmpty> 
+			 	<isNotEmpty property="px" prepend="and">
+			 		t1.column15 =#px#
+			 	</isNotEmpty> 
+			GROUP BY ywybm,lsh576,px,DATE(t1.TIMEX)
+			ORDER BY ywybm,lsh576,px,t1.TIMEX DESC 
+		) lhgn
+		GROUP BY $sb$
+		ORDER BY ywybm,lsh576,px,times DESC
+	</select>
+		
+</sqlMap>

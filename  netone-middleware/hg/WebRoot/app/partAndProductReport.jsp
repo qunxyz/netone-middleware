@@ -545,7 +545,7 @@ html.VIE7 .form_fieldinput {
 			});
 			
 			//产品联想
-			$('#productName').autocomplete('<c:url value="/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.PRODUCT"/>', {
+			$('#productName').autocomplete('<c:url value="/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.ALLPRODUCT"/>', {
 				multiple: true,
 				dataType: "json",
 				autoFill: false,

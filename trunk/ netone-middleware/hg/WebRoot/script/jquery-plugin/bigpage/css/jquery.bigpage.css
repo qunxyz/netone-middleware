@@ -1,0 +1,40 @@
+.bigpage{
+	line-height:18px;
+	color: #333333;
+	margin: 5px 0px;
+	font-size: 12px;
+}
+.bigpage a{
+    display: inline-block;
+    border: 1px solid #AAAAEE;
+    color: #1155BB !important;
+    text-decoration: none;	
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 0.1em 0.4em;
+}
+
+.bigpage a:hover {
+	border: 1px solid #FF5500;
+	color: #FF5500 !important;
+}
+
+.bigpage .current {
+    display: inline-block;
+    background: none repeat scroll 0 0 #2266BB;
+    border: 1px solid #AAAAEE;
+    color: #FFFFFF;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 0.1em 0.4em;    
+}
+.bigpage .current.prev, .bigpage .current.next {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #999999 !important;
+    color: #999999 !important;
+    cursor: text;
+}
+
+.bigpage-ajax-loading{
+	background:url("../images/ajax-loader.gif") no-repeat scroll center center transparent;
+}

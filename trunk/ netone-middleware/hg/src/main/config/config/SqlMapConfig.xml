@@ -32,4 +32,5 @@
 	<sqlMap resource="com/jl/entity/xml/Product.xml" />
 	<sqlMap resource="com/jl/entity/xml/HG.xml" />
 	<sqlMap resource="com/jl/entity/xml/Dic.xml" />
+	<sqlMap resource="com/jl/entity/xml/App.xml" />
 </sqlMapConfig>

@@ -239,7 +239,7 @@
 	
 	<!-- 获取列字符SQL -->
 	<select id="getRowColumnSql" parameterClass="java.util.Map" resultClass="string">
-		select '$function$(case  $column$ when '+quotename($column$,'''')+' then isnull(convert($datatype$,$value$),0) else 0 end) as ' + quotename($column$)+', '  from ($table$) as t group by $column$
+		select '$function$(case  $column$ when '+quotename($column$,'''')+' then isnull(convert($datatype$,$value$),0) else 0 end) as ' + quotename($column$)+', '  from ($table$) as t group by $column$ order by quotename($column$) 
 	</select>
 	
 </sqlMap>

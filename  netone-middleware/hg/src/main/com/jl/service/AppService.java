@@ -26,8 +26,7 @@ public interface AppService {
 
 	public void findProductSetByPC(HttpServletRequest request,
 			HttpServletResponse response);
-	
-	
+
 	public void findProductSetByParentId(HttpServletRequest request,
 			HttpServletResponse response);
 
@@ -54,17 +53,46 @@ public interface AppService {
 
 	/**
 	 * 查询销售出库明细
+	 * 
 	 * @param request
 	 * @param response
 	 */
 	public void querySellOutStorageDetail(HttpServletRequest request,
 			HttpServletResponse response);
-	
+
 	/**
 	 * 查询销售透视图
+	 * 
 	 * @param request
 	 * @param response
 	 */
 	public void querySellPivotTable(HttpServletRequest request,
 			HttpServletResponse response);
+
+	/**
+	 * 查询网点图片管理
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void queryNetPointManage(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 更新网点理货评分
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void updateNetPoint(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	public void queryHGReport(HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
 }

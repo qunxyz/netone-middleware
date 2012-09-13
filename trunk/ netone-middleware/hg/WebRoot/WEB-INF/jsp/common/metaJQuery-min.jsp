@@ -9,6 +9,18 @@
 <link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
 <script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/autocomplete/jquery.autocomplete.min.js"></script>
 
+
+<link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/bigpage/css/jquery.bigpage.css" rel="stylesheet" />
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/bigpage/js/jquery.bigpage.js"></script>
+
+<!--  
+<link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/colorbox/colorbox.css" rel="stylesheet" />
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/colorbox/jquery.colorbox-min.js"></script>
+-->
+
+<link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/jquery-lightbox/css/lightbox.css" rel="stylesheet" />
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jquery-lightbox/jquery.lightbox.js"></script> 
+ 
  <!-- 
 <link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/jquery-ui-1.8/themes/cupertino/jquery-ui-1.8.22.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jquery-ui-1.8/ui/jquery-ui-1.8.22.custom.js"></script>

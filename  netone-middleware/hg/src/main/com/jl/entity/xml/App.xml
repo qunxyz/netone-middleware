@@ -18,7 +18,8 @@
 			ifnull(t.column16,'') as point,
 			ifnull(t3.column4,'') ppname,
 			ifnull(t2.column5,'') netName,
-			ifnull(files.address,'') address
+			ifnull(files.address,'') address,
+			files.unid as fileunid
 		FROM dyform.DY_211340244752515 t
 		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
 		LEFT JOIN dyform.DY_171345119981583 t3 ON t3.column3=t.column15
@@ -37,7 +38,7 @@
 			t3.column4 like '%$ppname$%'
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="createPerson">
-			t.column13 like '%createPerson%'
+			t.column13 like '%$createPerson$%'
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="point">
 			t.column16 = #point#
@@ -67,7 +68,7 @@
 			t3.column4 like '%$ppname$%'
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="createPerson">
-			t.column13 like '%createPerson%'
+			t.column13 like '%$createPerson$%'
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="point">
 			t.column16 = #point#

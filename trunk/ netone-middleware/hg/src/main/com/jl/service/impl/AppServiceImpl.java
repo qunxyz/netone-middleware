@@ -3,6 +3,7 @@
  */
 package com.jl.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -759,7 +760,28 @@ public class AppServiceImpl extends BaseService implements AppService {
 					for (Iterator iterator2 = object.keySet().iterator(); iterator2
 							.hasNext();) {
 						String key = (String) iterator2.next();
-						row.addCell(new TableCell("" + object.get(key)));
+						if ("实发数量".equalsIgnoreCase(key)
+								|| "基本单位实发数量".equalsIgnoreCase(key)
+								|| "常用单位数量".equalsIgnoreCase(key)
+								|| "销售金额".equalsIgnoreCase(key)
+								|| "销售单价".equalsIgnoreCase(key)
+								|| "出厂单价".equalsIgnoreCase(key)
+								|| "出厂金额".equalsIgnoreCase(key)) {
+							BigDecimal v = new BigDecimal("0");
+							if (object.get(key) instanceof BigDecimal) {
+								v = (BigDecimal) object.get(key);
+							} else if (object.get(key) instanceof String) {
+								String x = (String) object.get(key);
+								x = x == null ? "" : x;
+								v = BigDecimal.valueOf(Double.valueOf(x));
+							}
+
+							row.addCell(new TableCell(""
+									+ MathHelper.round3(v, 2)));
+						} else {
+							row.addCell(new TableCell("" + object.get(key)));
+						}
+
 					}
 					t.addRow(row);
 				}
@@ -968,30 +990,26 @@ public class AppServiceImpl extends BaseService implements AppService {
 				String createDate = (String) info.get("createDate");
 				String point_ = (String) info.get("point");
 				String lsh = (String) info.get("lsh");
+				String fileunid = (String) info.get("fileunid");
 
 				cache.append("<div  style='backgroud:#F7F7F7'>");
 
 				if (StringUtils.isNotEmpty(address)) {
 
-					if (StringUtils.contains(address, "appdata\\files")) {
-						String addr = path
-								+ "\\appdata\\files"
-								+ StringUtils.substringAfter(address,
-										"appdata\\files");
-						addr = addr.replace("\\", "/");
-						String title = "";
-						if (StringUtils.isNotEmpty(createPerson_)
-								|| StringUtils.isNotEmpty(createDate)) {
-							title = info.get("createPerson") + "于"
-									+ info.get("createDate") + "创建";
-						}
-
-						cache.append("<div><a class='imagex' href='" + addr
-								+ "' title='" + title
-								+ "'><img width=138 height=143 src='" + addr
-								+ "' /></a></div>");
-
+					String addr = path
+							+ "/file.do?method=onDownLoadFile&isOnLine=0&unid="
+							+ fileunid;
+					String title = "";
+					if (StringUtils.isNotEmpty(createPerson_)
+							|| StringUtils.isNotEmpty(createDate)) {
+						title = info.get("createPerson") + "于"
+								+ info.get("createDate") + "创建";
 					}
+
+					cache.append("<div><a class='imagex' href='" + addr
+							+ "' title='" + title
+							+ "'><img width=138 height=143 src='" + addr
+							+ "' /></a></div>");
 
 				} else {
 					String addr = path + "/images/no_picture.jpg";
@@ -1091,23 +1109,23 @@ public class AppServiceImpl extends BaseService implements AppService {
 		}
 
 	}
-	
+
 	/**
 	 * 航港手机理货分析统计表
 	 */
 	public void queryHGReport(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		
+
 		String format = request.getParameter("format");
 		String beginDate = request.getParameter("beginDate");
 		String endDate = request.getParameter("endDate");
-		String wdms = request.getParameter("wdmc");//网点名称 
-		String clientId = request.getParameter("clientId"); //业务员
-		String px = request.getParameter("px");//品项
-		String wdmc_check = request.getParameter("wdmc_check");//网点名称
-		String lhy_check = request.getParameter("lhy_check");//理货员
-		String pp_check = request.getParameter("pp_check");//品牌
-		
+		String wdms = request.getParameter("wdmc");// 网点名称
+		String clientId = request.getParameter("clientId"); // 业务员
+		String px = request.getParameter("px");// 品项
+		String wdmc_check = request.getParameter("wdmc_check");// 网点名称
+		String lhy_check = request.getParameter("lhy_check");// 理货员
+		String pp_check = request.getParameter("pp_check");// 品牌
+
 		Map map = new HashMap();
 		if (StringUtils.isNotEmpty(beginDate)) {
 			map.put("beginDate", beginDate.trim());
@@ -1124,37 +1142,37 @@ public class AppServiceImpl extends BaseService implements AppService {
 		if (StringUtils.isNotEmpty(px)) {
 			map.put("px", px.trim());
 		}
-		String splitx="";
-		StringBuffer sb= new StringBuffer();
-		if(lhy_check.equals("1")){
-			sb.append(splitx+"ywybm");
-			splitx=",";
-		} 
-		if(wdmc_check.equals("1")){
-			sb.append(splitx+"lsh576");
-			splitx=",";
-		} 
-		if(pp_check.equals("1")){
-			sb.append(splitx+"px");
-			splitx=",";
+		String splitx = "";
+		StringBuffer sb = new StringBuffer();
+		if (lhy_check.equals("1")) {
+			sb.append(splitx + "ywybm");
+			splitx = ",";
 		}
-		map.put("sb",sb.toString());
-		List<Map> list1 = (List<Map>) commonDAO.select("App.export_PH",map);
+		if (wdmc_check.equals("1")) {
+			sb.append(splitx + "lsh576");
+			splitx = ",";
+		}
+		if (pp_check.equals("1")) {
+			sb.append(splitx + "px");
+			splitx = ",";
+		}
+		map.put("sb", sb.toString());
+		List<Map> list1 = (List<Map>) commonDAO.select("App.export_PH", map);
 		// 获得原始数据表格
 		Table t = new Table();
 
 		List<TableCell> headerSet1 = new ArrayList();
-		
-		if(wdmc_check.equals("1")){
+
+		if (wdmc_check.equals("1")) {
 			headerSet1.add(new TableCell("网点名称"));
-		} 
-		if(lhy_check.equals("1")){
+		}
+		if (lhy_check.equals("1")) {
 			headerSet1.add(new TableCell("业务员"));
-		} 
-		if(pp_check.equals("1")){
+		}
+		if (pp_check.equals("1")) {
 			headerSet1.add(new TableCell("品牌"));
 		}
-		
+
 		headerSet1.add(new TableCell("频率（次）/分值"));
 		headerSet1.add(new TableCell("频率（次）/分值"));
 		headerSet1.add(new TableCell("频率（次）/分值"));
@@ -1171,18 +1189,18 @@ public class AppServiceImpl extends BaseService implements AppService {
 		headerSet1.add(new TableCell("频率（次）/分值"));
 		headerSet1.add(new TableCell("汇总"));
 		headerSet1.add(new TableCell("汇总"));
-		
+
 		List<TableCell> headerSet2 = new ArrayList();
-		if(wdmc_check.equals("1")){
+		if (wdmc_check.equals("1")) {
 			headerSet2.add(new TableCell("网点名称"));
-		} 
-		if(lhy_check.equals("1")){
+		}
+		if (lhy_check.equals("1")) {
 			headerSet2.add(new TableCell("业务员"));
-		} 
-		if(pp_check.equals("1")){
+		}
+		if (pp_check.equals("1")) {
 			headerSet2.add(new TableCell("品牌"));
 		}
-		
+
 		headerSet2.add(new TableCell("周一"));
 		headerSet2.add(new TableCell("周一"));
 		headerSet2.add(new TableCell("周二"));
@@ -1202,16 +1220,15 @@ public class AppServiceImpl extends BaseService implements AppService {
 
 		ReportExt reportExt = new ReportExt();
 
-	
 		List list = list1;
 		int[] tmpdata = new int[16];
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
 			String wdmc = object.get("wdmc").toString();// 网点名称
-			String ywybm = object.get("ywybm").toString();//业务员编号
+			String ywybm = object.get("ywybm").toString();// 业务员编号
 			String ywyname = object.get("ywyname").toString();// 业务员姓名
 			String pxm = object.get("pxm").toString();// 品牌
-			
+
 			String w1 = object.get("w1").toString();// 周一
 			String f1 = object.get("f1").toString();// 分值1
 			String w2 = object.get("w2").toString();// 周二
@@ -1226,60 +1243,60 @@ public class AppServiceImpl extends BaseService implements AppService {
 			String f6 = object.get("f6").toString();// 分值6
 			String w7 = object.get("w7").toString();// 周日
 			String f7 = object.get("f7").toString();// 分值7
-			String totalx = object.get("totalx").toString();//频率统计
-			String totalf = object.get("totalf").toString();//分值统计
-			
+			String totalx = object.get("totalx").toString();// 频率统计
+			String totalf = object.get("totalf").toString();// 分值统计
+
 			TableRow tr = new TableRow();
-			if(wdmc_check.equals("1")){
+			if (wdmc_check.equals("1")) {
 				tr.addCell(new TableCell(wdmc));
-			} 
-			if(lhy_check.equals("1")){
-				tr.addCell(new TableCell(ywybm+"/"+ywyname));
-			} 
-			if(pp_check.equals("1")){
+			}
+			if (lhy_check.equals("1")) {
+				tr.addCell(new TableCell(ywybm + "/" + ywyname));
+			}
+			if (pp_check.equals("1")) {
 				tr.addCell(new TableCell(pxm));
 			}
-			
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w1)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f1)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w2)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f2)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w3)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f3)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w4)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f4)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w5)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f5)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w6)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f6)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w7)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f7)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			
-			tr.addCell(new TableCell(totalFont(format, (Double.valueOf(totalx)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(totalFont(format, (Double.valueOf(totalf)).intValue()),
-					Rectangle.ALIGN_RIGHT));
-			
+
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w1))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f1))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w2))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f2))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w3))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f3))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w4))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f4))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w5))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f5))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w6))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f6))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w7))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f7))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+
+			tr.addCell(new TableCell(totalFont(format, (Double.valueOf(totalx))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(totalFont(format, (Double.valueOf(totalf))
+					.intValue()), Rectangle.ALIGN_RIGHT));
+
 			t.addRow(tr);
 
 			// 合计
@@ -1304,69 +1321,71 @@ public class AppServiceImpl extends BaseService implements AppService {
 		// 扩展
 		List<TableCell> totalTrData = new ArrayList<TableCell>();
 
-		if(wdmc_check.equals("1")){
-			totalTrData.add(new TableCell(""));// 
-		} 
-		if(lhy_check.equals("1")){
-			totalTrData.add(new TableCell(""));// 
-		} 
-		if(pp_check.equals("1")){
+		if (wdmc_check.equals("1")) {
 			totalTrData.add(new TableCell(""));// 
 		}
-		
-		totalTrData.add(new TableCell("" + tmpdata[0],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[1],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[2],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[3],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[4],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[5],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[6],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[7],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[8],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[9],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[10],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[11],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[12],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[13],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[14],Rectangle.ALIGN_RIGHT));// 
-		totalTrData.add(new TableCell("" + tmpdata[15],Rectangle.ALIGN_RIGHT));// 
-	
+		if (lhy_check.equals("1")) {
+			totalTrData.add(new TableCell(""));// 
+		}
+		if (pp_check.equals("1")) {
+			totalTrData.add(new TableCell(""));// 
+		}
+
+		totalTrData.add(new TableCell("" + tmpdata[0], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[1], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[2], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[3], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[4], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[5], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[6], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[7], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[8], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[9], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[10], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[11], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[12], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[13], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[14], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[15], Rectangle.ALIGN_RIGHT));// 
+
 		totalTrData.set(0, new TableCell("合计"));
 		TableRow tr = reportExt.getOneTableRow(totalTrData);
 		tr.setType(Report.GROUP_TOTAL_TYPE);
 		t.addRow(tr);
-		
-		Report report = reportExt.setComplexColHeader(t, headerSet1, headerSet2,true);
-		String[] dateTitle = { beginDate + "至" + endDate,TimeUtil.formatDate(new Date()) };
+
+		Report report = reportExt.setComplexColHeader(t, headerSet1,
+				headerSet2, true);
+		String[] dateTitle = { beginDate + "至" + endDate,
+				TimeUtil.formatDate(new Date()) };
 		reportExt.setTitleHeader(report, "理货分析统计表", dateTitle, null);
-	
+
 		Long currentTimeMillis = System.currentTimeMillis();
 		GroupReport groupReport = new GroupReport();
 		response.reset();
 		groupReport.format(format, "理货分析统计表" + currentTimeMillis, report,
 				response);
 	}
-	
-	//周一-周日 颜色调协
-	public String fontColor(String format,int wk) {
-		String week= "";
-		if(format.equals("html")&& wk>=1){
-			week = "<font color='green'>" + wk +"</font>" ;
-		}else{
-			week= "" + wk ;
+
+	// 周一-周日 颜色调协
+	public String fontColor(String format, int wk) {
+		String week = "";
+		if (format.equals("html") && wk >= 1) {
+			week = "<font color='green'>" + wk + "</font>";
+		} else {
+			week = "" + wk;
 		}
 		return week;
 	}
+
 	// 统计
-	public String totalFont(String format,int tl){
-		String total= "";
-		if(format.equals("html")&& tl>=1){
-			total = "<font color='blue'>" + tl +"</font>" ;
-		}else{
-			total= "<font color='red'>" + tl +"</font>" ;
+	public String totalFont(String format, int tl) {
+		String total = "";
+		if (format.equals("html") && tl >= 1) {
+			total = "<font color='blue'>" + tl + "</font>";
+		} else {
+			total = "" + tl;
 		}
 		return total;
 	}
-
 
 }

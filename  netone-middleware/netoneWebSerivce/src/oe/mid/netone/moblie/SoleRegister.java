@@ -46,7 +46,7 @@ public class SoleRegister extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		String str = request.getParameter("identifying");
-		String sqlstr = "SELECT usercode,name FROM netone.t_cs_user WHERE otherinfo='"
+		String sqlstr = "SELECT usercode,name FROM netone.t_cs_user WHERE ids='"
 				+ str + "'";
 		List list = DbTools.queryData(sqlstr);
 		if(list.size()==1){

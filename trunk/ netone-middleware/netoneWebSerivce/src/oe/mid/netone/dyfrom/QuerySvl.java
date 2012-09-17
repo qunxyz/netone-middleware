@@ -1,7 +1,6 @@
 package oe.mid.netone.dyfrom;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,19 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import oe.cav.bean.logic.column.TCsColumn;
+import oe.frame.web.WebCache;
 import oe.midware.dyform.service.DyFormDesignService;
 import oe.rmi.client.RmiEntry;
-import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.app.AppEntry;
-import com.jl.common.app.impl2.AnalysisAppFirst;
-import com.jl.common.app.impl2.AppFirst;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyFormData;
-import com.jl.common.netone.UmsProtecte;
 
 public class QuerySvl extends HttpServlet {
 
@@ -66,8 +62,22 @@ public class QuerySvl extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-
+		String cache=request.getParameter("cache");
+		String init=request.getParameter("init");
 		String appname = request.getParameter("appname");
+		if("yes".equals(init)){
+			WebCache.removeCache("MI_"+appname);
+		}
+		
+		if("yes".equals(cache)){
+			if(WebCache.containCache("MI_"+appname)){
+				List list=(List)WebCache.getCache("MI_"+appname);
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print(JSONArray.fromObject(list).toString());
+				return;
+			}
+		}
+
 		String parentId = request.getParameter("parentId");
 		String ext = request.getParameter("ext");
 		String lsh = request.getParameter("lsh");
@@ -113,8 +123,24 @@ public class QuerySvl extends HttpServlet {
 			}
 		
 			List list = DyEntry.iv().queryData(dydata, 0, 100, ext);
+			List dataFinal=new ArrayList();
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				DyFormData object = (DyFormData) iterator.next();
+				Map map=new HashMap();
+				for (Iterator iterator2 = listz.iterator(); iterator2.hasNext();) {
+					TCsColumn objectx = (TCsColumn) iterator2.next();
+					String code=objectx.getColumncode().toLowerCase();
+					Object value=BeanUtils.getProperty(object, code);
+					map.put(code, value);
+				}
+				dataFinal.add(map);
+			}
+			if("yes".equals(cache)){
+				WebCache.setCache("MI_"+appname, dataFinal, null);
+			}
+			
 			response.setContentType("text/html;charset=utf-8");
-			response.getWriter().print(JSONArray.fromObject(list).toString());
+			response.getWriter().print(JSONArray.fromObject(dataFinal).toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

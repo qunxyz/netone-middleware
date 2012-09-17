@@ -108,6 +108,10 @@ public class AddSvl extends HttpServlet {
 						}
 					}
 				}
+				String belongx=request.getParameter("belongx");
+				if(StringUtils.isNotEmpty(belongx)){
+					dydata.setBelongx(belongx);
+				}
 				String str = DyEntry.iv().addData(formcode, dydata);
 				response.getWriter().print(str);
 			} catch (Exception e2) {

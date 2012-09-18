@@ -41,9 +41,22 @@
 	　				});
 		}
 		
+		
 $(document).ready(function(){
  	
- 	
+ 	$('#tooltip').mouseover(function(e){
+		$("#tooltip").show();
+	})
+	$('#tooltip').find('#rotateBtn').bind("click",function(){
+		var rel = $('#tooltiprel').val();
+		if($('#'+rel)) $('#'+rel).rotateRight();
+	})
+	$('#tooltip').find('#oriBtn').bind("click",function(){
+		var rel = $('#tooltiprel').val();
+		
+		window.open('<c:url value="/file.do?method=onDownLoadFile&isOnLine=0&unid=" />'+rel.replace('imagesouce',''));
+	})
+	
     var bigpage1 = $("#table1").bigPage({position:"both",<c:if test="${!empty param.pagesize}">pageSize:${param.pagesize},</c:if>ajaxData:{url:"<c:url value='/app.do?method=queryNetpoint&rowsize=${param.rowsize}' />"},cssWidgetIds:["ajaxpageBar2"]
 	    ,callback:function($table){   
 		    $("a.imagex").each(function(){
@@ -58,13 +71,50 @@ $(document).ready(function(){
 		    		var point = obj.val();
 					updatePoint(lsh,point);
 				})
+				
+				/**
+				$(this).each(function(){
+					var $caption = $(this).find('span.boxcaption');
+					var pheight = $(this).height();
+					$caption.css('top', pheight );
+					
+					$(this).hover(
+						function(){
+							$caption.stop(1);
+							$caption.animate({ top: pheight - $caption.height() });
+						},
+						function(){
+							$caption.stop(1);
+							$caption.animate({ top: pheight	})
+						}
+					)
+				});
+				**/
 
-		    	
+		    	$(this).find('#imagediv').mouseover(function(e){
+					$("#tooltip").css({
+						"top": $(this).offset().top + "px",
+						"left": $(this).offset().left + "px"
+					}).show();
+					if($(this).find('img').attr('id')) $("#tooltiprel").val($(this).find('img').attr('id'));
+				}).mouseout(function(){
+					//$("#tooltiprel").val('');
+					$("#tooltip").hide();
+		 		}).mousemove(function(){
+		 			if($(this).find('img').attr('id')) $("#tooltiprel").val($(this).find('img').attr('id'));
+		 			$("#tooltip").css({
+						"top": $(this).offset().top + "px",
+						"left": $(this).offset().left + "px"
+					}).show();
+		 		})
+				
+				
+				
+				
 		    })
 	    }
     
     });  
-    
     
     $("#searchBtn").click(function(){
        bigpage1.search({
@@ -80,6 +130,28 @@ $(document).ready(function(){
 })
 </script>
 <style type="text/css">
+/** */
+
+.imagediv {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-bottom-color: rgba(51, 152, 182, 0.9);
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+    border-top-color: rgba(51, 152, 182, 0.9);
+    border-top-style: solid;
+    border-top-width: 3px;
+    border-left-color: rgba(51, 152, 182, 0.9);
+    border-left-style: solid;
+    border-left-width: 3px;
+    border-right-color: rgba(51, 152, 182, 0.9);
+    border-right-style: solid;
+    border-right-width: 3px;
+}
+/** */
+
 	
 	.whitefont,.whitefont a:hover,.whitefont a:visited,.whitefont a:link{color:#FFF; font:10px "宋体";}
 body{font-size:9pt;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;color:#3E3C20;height:100%}
@@ -317,11 +389,57 @@ html.VIE7 .form_fieldinput
 }
 	
 	
+	
+	.LockRow /*固定行的样式*/
+{ 
+    position: relative; 
+    /*top: expression(this.parentElement.parentElement.parentElement.scrollTop);*/
+    top:0px; 
+    z-index:2; 
+} 
+.LockCell /*固定列的样式*/
+{ 
+    position: relative;  
+    /*left: expression(this.parentElement.parentElement.parentElement.parentElement.scrollLeft);*/
+    left:0px; 
+    z-index:0; 
+} 
+.LockCross /*行列交叉处样式*/
+{  
+    z-index:3; 
+} 
+.divBoxing /*外出div样式*/
+{ 
+    clear:both; 
+    overflow: scroll; 
+    position:relative; 
+} 
+.tbLock /*设置单元格间隙的样式*/
+{ 
+    border-collapse:collapse; 
+} 
+.lockRowBg 
+{ 
+    background-color:#CFF; 
+} 
+.lockColumnBg 
+{ 
+    background-color:#CFF; 
+}
+	
 	</style>
 	<script>function $WdatePicker(t){if (t==1){		WdatePicker({isShowClear:true,dateFmt:"yyyy-MM-dd HH:mm:ss"});	} else if(t==2){		WdatePicker({isShowClear:true,dateFmt:"yyyy-MM-dd"});	} else if(t=3){		WdatePicker({isShowClear:true,dateFmt:"HH:mm:ss"});	}}</script>
 		<title></title>
+		<!-- Include the VML behavior -->
+	<style>v\:image { behavior:url(#default#VML); display:inline-block }</style>
+	<!-- Declare the VML namespace -->
+	<xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v" />
 	</head>
 	<body>
+	<input type="hidden" id="tooltiprel" />
+	<div id="tooltip" style="display: none;position: absolute;"><input id="rotateBtn" type="button" value="旋转" />
+	<input id="oriBtn" type="button" value="原图" />
+	</div>
 	<center>
 	<form id="form1">
 	<table id="xreport" name="xreport" class="table_form" width="392"

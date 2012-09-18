@@ -94,6 +94,8 @@
 			            } else {
 			            	if(result.yinjian!="" && result.yinjian!=null && result.yinjian != 'undefined'){
 			            		yijian.innerHTML=result.yinjian;
+			            	} else {
+			            		yijian.innerHTML="同意。"
 			            	}
 			            }
 			        },

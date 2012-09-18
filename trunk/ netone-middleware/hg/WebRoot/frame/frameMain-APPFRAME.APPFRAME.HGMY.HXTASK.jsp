@@ -14,6 +14,7 @@
 		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-min.jsp"></jsp:include>
         <jsp:include page="/WEB-INF/jsp/common/metaJQuery-ui-dialog.jsp"/>
 		<script language="javascript" type="text/javascript" src="<%=path%>/My97DatePicker/WdatePicker.js" charset="gb2312"></script>
+		${datecompFunc}
 		<title>应用</title>
 	</head>
 	<body>

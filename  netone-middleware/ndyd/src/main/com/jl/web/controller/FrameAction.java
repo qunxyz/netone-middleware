@@ -365,8 +365,6 @@ public class FrameAction extends AbstractAction {
 		EnvService env = (EnvService) RmiEntry.iv("envinfo");
 		if (StringUtils.isNotEmpty(urltemplate)) {
 			urltemplate = "&nbsp;&nbsp;<a target='_blank' href='"
-					+ env.fetchEnvValue("WEBSER_FCK")
-					+ "/PagelistViewSvl?pagename=simplefcklist&chkid="
 					+ urltemplate
 					+ "'  ><font size='3' color='red'>¹¤µ¥ÌîÐ´ÐëÖª</font></a>";
 			request.setAttribute("helptext", (urltemplate == null ? ""

@@ -230,8 +230,8 @@ public final class DyFormComp {
 	 */
 	public static String getTextarea(String id, String value, String style,
 			String classname, boolean readonly, String extvalue) {
-		if (readonly)
-			id = "";// 只读不show column ID
+		// if (readonly)
+		// id = "";// 只读不show column ID
 		String hiddenInput = getHiddenInput(id, value);
 		String $id = "textarea" + id;
 		String changescript = " onchange=javascript:" + "$(this).siblings(\"#"
@@ -269,8 +269,16 @@ public final class DyFormComp {
 			extValue = " onFocus=\"" + WdatePickerFunc + "(" + dateformattype
 					+ ");\" ";
 		}
+		classname = "Wdate_blue";
+		
+		if (StringUtils.isEmpty(value)) {
+			classname = (readonly == true) ?"Wdate":"Wdate_blue";
+		} else {
+			classname = (readonly == true) ?"Wdate":"Wdate_blue";
+		}
+		
 		return getComp("<input type=\"text\" ", " />", id, valuestr, style,
-				"Wdate", readonly, extValue);
+				classname, readonly, extValue);
 	}
 
 	private static final String WdatePickerFunc = "$WdatePicker";
@@ -564,6 +572,54 @@ public final class DyFormComp {
 					+ getComp("<input type=\"radio\" ", clickscript + checkstr
 							+ " />", id + "_radio" + radioid, "", "", "",
 							readonly == true ? 1 : 0, ""));
+			comp.append(" ");
+		}
+
+		return comp.toString();
+	}
+
+	/**
+	 * 获取radio组
+	 * 
+	 * @param id
+	 * @param value
+	 * @param style
+	 * @param classname
+	 * @param readonly
+	 * @param selectedvalue
+	 * @return
+	 */
+	public static String getGroupRadio2(String id, String value, String style,
+			String classname, boolean readonly, String selectedvalue) {
+		StringBuffer comp = new StringBuffer();
+		String checkstr = "";
+
+		String valuelist = selectedvalue;
+		String[] v = valuelist.split(",");
+
+		comp.append(getHiddenInput(id, value));
+
+		String radioid = DyFormBuildHtml.uuid();
+		for (int i = 0; i < v.length; i++) {
+			String key_ = v[i].split("-")[0];
+			String value_ = v[i].split("-")[1];
+
+			if (key_.equals(value)) {
+				checkstr = " checked=\"checked\" ";
+			} else {
+				checkstr = " ";
+			}
+
+			String clickscript = " onclick=\"javascript:";
+			clickscript += " var o=$(this).siblings(&quot;#" + id + "&quot;);";
+			clickscript += " var v=o.val();";
+			clickscript += "  if ($(this).attr(&quot;checked&quot;) == true) {";
+			clickscript += "   o.val(&quot;" + key_ + "&quot;);";
+			clickscript += "  }\" ";
+			comp.append(getComp("<input type=\"radio\" ", clickscript
+					+ checkstr + " />", id + "_radio" + radioid, "", "", "",
+					readonly == true ? 1 : 0, "")
+					+ value_);
 			comp.append(" ");
 		}
 

@@ -97,7 +97,7 @@ public final class DyFormBuildHtml {
 		if (StringUtils.isEmpty(value)) {
 			value = defaultValue;
 		}
-
+		value = value == null ? "" : value;
 		String[][] arr = DyFormConsoleIfc._HTML_LIST;
 		if (readonly)
 			extvalue += " onfocus=\"this.blur()\" ";
@@ -133,7 +133,8 @@ public final class DyFormBuildHtml {
 			// return DyFormComp.getText(id, value, style, classname, readonly,
 			// extvalue);
 			return DyFormComp.getTextarea(id, value, style + "height:100px;",
-					classname, readonly, extvalue);
+					classname, readonly, extvalue).replaceAll("color:#D6D4D3;",
+					"color:#000;");
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			return null;
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
@@ -233,6 +234,7 @@ public final class DyFormBuildHtml {
 			value = defaultValue;
 		}
 
+		value = value == null ? "" : value;
 		String[][] arr = DyFormConsoleIfc._HTML_LIST;
 		if (arr[0][0].equals(htmltype)) {// 00:通用
 			return DyFormComp.getText(id, value, style, classname, readonly,
@@ -435,6 +437,7 @@ public final class DyFormBuildHtml {
 	 */
 	protected static String routeAppointValue(String htmltype, String value,
 			String selectedvalue, String type) {
+		value = value == null ? "" : value;
 		String[][] arr = DyFormConsoleIfc._HTML_LIST;
 		if (arr[0][0].equals(htmltype)) {// 00:通用
 			if ("ext".equals(type)) {
@@ -535,7 +538,7 @@ public final class DyFormBuildHtml {
 				return null;
 			}
 			value = htmEncode2(value);
-			return value;
+			return value ;
 		} else if (arr[18][0].equals(htmltype)) {// 22:组织人员单选
 			if ("ext".equals(type)) {
 				return null;
@@ -1667,7 +1670,11 @@ public final class DyFormBuildHtml {
 		htmlall
 				.append(eventListenScripts.toString()
 						+ "<div style=\"overflow-x:auto; overflow-y:hidden; width:900px;\">"
-						+ html_ + html_btn + "</div><script>if($.browser.version==6.0 || $.browser.version==7.0) $('table#"+formcode+"').append('<tr><td>&nbsp;</td></tr>');</script>");
+						+ html_
+						+ html_btn
+						+ "</div><script>if($.browser.version==6.0 || $.browser.version==7.0) $('table#"
+						+ formcode
+						+ "').append('<tr><td>&nbsp;</td></tr>');</script>");
 		return htmlall.toString();
 	}
 

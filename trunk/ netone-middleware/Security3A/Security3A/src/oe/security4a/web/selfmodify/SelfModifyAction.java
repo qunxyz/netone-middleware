@@ -4,9 +4,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import oe.frame.orm.util.IdServer;
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
+import oe.midware.workflow.service.WorkflowConsole;
+import oe.midware.workflow.service.WorkflowView;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -127,6 +133,7 @@ public class SelfModifyAction extends Action {
 							}
 						}
 					}
+					request.setAttribute("clerk", clerk);
 					request.setAttribute("usergroups", usergroups);
 					request.setAttribute("task", "second");
 					return mapping.findForward("permission");
@@ -135,6 +142,7 @@ public class SelfModifyAction extends Action {
 					clerk = rmi.loadClerk(code, loginName);
 					String truenamex = clerk.getName();
 					String outemail = clerk.getEmail();// 外部邮箱
+					request.setAttribute("clerk", clerk);
 					request.setAttribute("truenamex", truenamex);
 					request.setAttribute("outemail", outemail);
 					request.setAttribute("flag", request.getParameter("flag"));
@@ -142,6 +150,8 @@ public class SelfModifyAction extends Action {
 					// 进入密码修改界面后，要以xecel导出相关的个人信息
 					change(code, loginName, rmi, cupmRmi, response);
 				} else if ("modify".equals(task.trim())) {
+					
+					String types=reqmap.getParameter("types");
 					// 进入密码修改界面后，提交修改密码的信息
 					clerk = (Clerk) RequestUtil.mappingReqParam(Clerk.class,
 							request);
@@ -149,6 +159,17 @@ public class SelfModifyAction extends Action {
 					String oldpass = reqmap.getParameter("oldpass");
 					String newpass = reqmap.getParameter("newpass");
 					String pass = reqmap.getParameter("pass");
+				
+					if(StringUtils.isEmpty(oldpass)&&StringUtils.isEmpty(newpass)&&StringUtils.isEmpty(pass)){
+						//有时用户可以不用去修改密码或邮件
+						Clerk newclerk = rmi.loadClerk(code, loginName);
+						newclerk.setTypes(types);
+						rmi.updateClerk(code, newclerk);
+						reqmap.setAlertMsg("个人信息修改成功！");
+						OperationLog.info(request, "个人信息修改",
+								 "个人信息修改成功！", true);
+					}else{
+
 					String truenamex = reqmap.getParameter("truenamex");
 					String outemail = reqmap.getParameter("outemail");
 					if (StringUtils.isNotEmpty(oldpass)
@@ -163,8 +184,10 @@ public class SelfModifyAction extends Action {
 										newpass));// 修改密码
 								clerk.setName(truenamex);// 修改真实名称
 								clerk.setEmail(outemail);// 修改邮件
+								clerk.setTypes(types);
 								if (rmi.updateClerk(code, clerk)) {
 									try {
+																				
 										cupmRmi.initCacheUser(clerk
 												.getDescription());
 										// 修改密码时,自动同步帐号
@@ -200,8 +223,12 @@ public class SelfModifyAction extends Action {
 						OperationLog.info(request, "个人信息修改", truenamex
 								+ "信息输入不完整,个人信息修改失败！", false);
 					}
-					Clerk newclerk = new Clerk();
-					newclerk = rmi.loadClerk(code, loginName);
+					
+
+					
+					}
+					Clerk newclerk = rmi.loadClerk(code, loginName);
+					request.setAttribute("clerk", clerk);
 					request.setAttribute("truenamex", newclerk.getName());
 					request.setAttribute("outemail", newclerk.getEmail());
 					request.setAttribute("flag", "pass");

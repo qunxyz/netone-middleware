@@ -4,6 +4,8 @@ import java.security.cert.X509Certificate;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * <p>
  * Title:
@@ -39,10 +41,16 @@ public class Certificate {
 			certArray = (X509Certificate[]) request
 					.getAttribute("javax.servlet.request.X509Certificate");
 			cert = certArray[0];
-		
 			String dn = cert.getSubjectDN().toString();
+			System.out.println("dn:"+dn);
 			this.cn = dn.substring(dn.lastIndexOf('=') + 1, dn.length());
+			System.out.println("cn:"+cn);
 			this.serialNumber = cert.getSerialNumber().toString();
+			System.out.println("serialNumber:"+serialNumber);
+			if(this.cn!=null&&this.cn.length()!=11){
+				this.cn = StringUtils.substringBetween(dn, "CN=",",");
+				System.out.println("newCN:"+this.cn);
+			}
 		} catch (Exception e) {
 			throw e;
 		}

@@ -555,7 +555,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				runtimeidpre=runtimeid;
 				dataClear.add(object);
 			}
-			if(dataClear.size()>20){
+			if(dataClear.size()>size){
 				dataClear=dataClear.subList(0, size);
 			}
 		}

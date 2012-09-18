@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import oe.midware.workflow.service.WorkflowConsole;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -43,20 +44,24 @@ public class HumanDelAction extends Action {
 				ResourceRmi rsrmi = (ResourceRmi) RmiEntry.iv("resource");
 				CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 				if ("passreset".equals(reqmap.getParameter("task"))) {
+					
 					for (int i = 0; i < str.length; i++) {
+						String info = "";
 						Clerk clerk = rsrmi.loadClerk(code, str[i]);
 						// 帐户禁用，通过一个任意密码去混淆密码，后期可通过密码重置来恢复
 						if ("yes".equals(reqmap.getParameter("passConfus"))) {
-							clerk.setPassword("9$9$");
+							WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+							console.coreSqlhandle("update t_cs_user set passwordx='9$9$' where usercode='"+clerk.getNaturalname()+"'");
+							
 						} else {
 
 							
 							clerk.setPassword(cupmRmi
 									.fetchConfig("initpassword"));
+							
+							rsrmi.resetPassword(code, clerk);
 						}
 
-						String info = "";
-						rsrmi.resetPassword(code, clerk);
 						// 密码重置时,自动同步帐号
 						rsrmi.SyncUser(SyncUserUtil._PARAM_OPE_MOD, code,
 								str[i]);

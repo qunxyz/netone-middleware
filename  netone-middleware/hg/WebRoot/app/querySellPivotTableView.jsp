@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>	
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -485,7 +486,7 @@ html.VIE7 .form_fieldinput {
 		
 		function $selectUser(ids,values,texts){
 			document.getElementById('partName').value=texts;
-			document.getElementById('partId').value=ids;
+			document.getElementById('partId').value=values;
 		}
 		
 		function openproductselect(){
@@ -494,7 +495,7 @@ html.VIE7 .form_fieldinput {
 		
 		function $selectProduct(ids,values,texts){
 			document.getElementById('productName').value=texts;
-			document.getElementById('productId').value=ids;
+			document.getElementById('productId').value=values;
 		}
 		
 		$(function() {
@@ -539,7 +540,8 @@ html.VIE7 .form_fieldinput {
 			})
 			.result(function(e, item) {
 				if(item!=null){
-					$('#partId').val(item.FItemID);
+					alert(item.FFullNumber);
+					$('#partId').val(item.FNumber);
 					$('#partName').val(item.FName);
 				} else {
 					$('#partId').val('');
@@ -574,7 +576,7 @@ html.VIE7 .form_fieldinput {
 			})
 			.result(function(e, item) {
 				if(item!=null){
-					$('#productId').val(item.FItemID);
+					$('#productId').val(item.FNumber);
 					$('#productName').val(item.FName);
 				} else {
 					$('#productId').val('');
@@ -880,26 +882,15 @@ html.VIE7 .form_fieldinput {
 											<div class="form_fieldinput" style="width: 332px;"
 												align="left">
 												<select id="funcKey" name="funcKey" >
-													<option value="FMonth">月份</option>
-													<option value="Fdate">日期</option>
-													<option value="FBillNo">单据编号</option>
-													<option value="FTypeName">系统</option>
-													<option value="FSupplyIDName">购货单位</option>
-													<option value="FItemName">产品名称</option>
-													<option value="FItemModel">规格型号</option>
-													<option value="FUnitIDName">单位</option>
 													<option value="Fauxqty">实发数量</option>
-													<option value="FNote">备注</option>
-													<option value="FDeptIDName">部门</option>
-													<option value="FEmpIDName">业务员</option>
-													<option value="FBaseUnitID">基本单位</option>
 													<option value="FBaseQty" selected="selected">基本单位实发数量</option>
-													<option value="FCUUnitName">常用单位</option>
 													<option value="FCUUnitQty">常用单位数量</option>
 													<option value="FConsignPrice">销售单价</option>
 													<option value="FConsignAmount">销售金额</option>
+													<rs:permission action="7" resource="BUSSENV.BUSSENV.SECURITY.ROLE.HG.FACTORYPRICE">
 													<option value="FStockPrice">出厂单价</option>
 													<option value="FStockAmount">出厂金额</option>
+													</rs:permission>
 												</select>
 												
 												<select id="funcValue" name="funcValue" >
@@ -999,8 +990,10 @@ html.VIE7 .form_fieldinput {
 										<option value="FCUUnitQty">常用单位数量</option>
 										<option value="FConsignPrice">销售单价</option>
 										<option value="FConsignAmount">销售金额</option>
+										<rs:permission action="7" resource="BUSSENV.BUSSENV.SECURITY.ROLE.HG.FACTORYPRICE">
 										<option value="FStockPrice">出厂单价</option>
 										<option value="FStockAmount">出厂金额</option>
+										</rs:permission>
 										
 									</select>
 								</div>	

@@ -427,7 +427,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</c:choose>
 			</div>
 			<div id="noticeBox" align="left">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="notice" id="notice" type="checkbox" value="1" />流转状态变化时不发送短信
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="notice" id="notice" type="checkbox" value="1" checked="checked" />流转状态变化时不发送短信
 			</div>
     </div>
     </center>

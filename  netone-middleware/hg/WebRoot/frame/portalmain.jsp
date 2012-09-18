@@ -220,7 +220,7 @@ if($.browser.msie){//IE
 	 function(jsonx){
 	  var html = jsonx.result;
 	  countx = jsonx.count;
-	  if (html!=''){
+	  if (html!='' && countx>0){
 	  		$('#countx').html('('+countx+')');
 	  		$('#messager').html(html);
 		    $("#messager").dialog({ 
@@ -244,7 +244,7 @@ function showmessager(){
 	 function(jsonx){
 	  var html = jsonx.result;
 	  countx = jsonx.count;
-	  if (html!=''){
+	  if (html!='' && countx>0){
 	  		if ($('#countx')) $('#countx').html('('+countx+')');
 	  		if ($("#messager")){
 	  			$('#messager').html(html);

@@ -10,6 +10,7 @@
 	</head>
 	<body>
 		<input type="hidden" id="node" name="node" value="${nodeid}" />
+		<input type="hidden" id="nodecode" name="nodecode"  />
 		<input type="hidden" id="nodename" name="nodename"  />
 		
 	</body>
@@ -74,6 +75,7 @@ var parentnodeid='0';
 				  options=options||{}; 
 				  options.params = options.params||{}; 
 				  options.params.id = Ext.get('node').dom.value;
+				  //options.params.code = Ext.get('nodecode').dom.value;
 				  options.params.condition = Ext.get('condition').dom.value;
 				  return true;
 		  });
@@ -169,10 +171,12 @@ Buss.Layout.Viewport =  Ext.extend(Ext.Viewport, {
 						click : function(node,e){
 						   if(node.attributes.id != nodeid){
 						   	   Ext.get('node').dom.value = node.attributes.id;
+						   	   Ext.get('nodecode').dom.value = node.attributes.code;
 						   	   Ext.get('nodename').dom.value = node.attributes.text;
 						       refresh();
 						   } else {
 						   	   Ext.get('node').dom.value='0';
+						   	   Ext.get('nodecode').dom.value = '';
 						   	   Ext.get('nodename').dom.value='';
 						   	   Ext.getCmp('BussGrid').store.removeAll();
 						   }

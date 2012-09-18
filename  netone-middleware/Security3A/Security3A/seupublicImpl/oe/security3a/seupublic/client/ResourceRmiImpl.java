@@ -216,12 +216,13 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 				env = (EnvService) RmiEntry.iv("envinfo");
 				String source1=env.fetchEnvValue("source1");
 				String source2=env.fetchEnvValue("source2");
+				if(StringUtils.isNotEmpty(source1)&&StringUtils.isNotEmpty(source2)){
 				String actionurl=upo.getActionurl();
 				if(upo.getNaturalname().startsWith("FRAMEPG.FRAMEPG")&&StringUtils.isNotEmpty(actionurl)){
 					actionurl=StringUtils.replace(actionurl, source1, source2);
 					upo.setActionurl(actionurl);
 				}
-
+				}
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -254,10 +255,13 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 				env = (EnvService) RmiEntry.iv("envinfo");
 				String source1=env.fetchEnvValue("source1");
 				String source2=env.fetchEnvValue("source2");
-				String actionurl=upo.getActionurl();
-				if(upo.getNaturalname().startsWith("FRAMEPG.FRAMEPG")&&StringUtils.isNotEmpty(actionurl)){
-					actionurl=StringUtils.replace(actionurl, source1, source2);
-					upo.setActionurl(actionurl);
+				if(StringUtils.isNotEmpty(source1)&&StringUtils.isNotEmpty(source2)){
+					String actionurl=upo.getActionurl();
+					if(upo.getNaturalname().startsWith("FRAMEPG.FRAMEPG")&&StringUtils.isNotEmpty(actionurl)){
+						actionurl=StringUtils.replace(actionurl, source1, source2);
+						upo.setActionurl(actionurl);
+					}
+
 				}
 
 			}catch(Exception e){
@@ -539,6 +543,7 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 				env = (EnvService) RmiEntry.iv("envinfo");
 				String source1=env.fetchEnvValue("source1");
 				String source2=env.fetchEnvValue("source2");
+				if(StringUtils.isNotEmpty(source1)&&StringUtils.isNotEmpty(source2)){
 				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 					UmsProtectedobject object = (UmsProtectedobject) iterator.next();
 					String actionurl=object.getActionurl();
@@ -546,6 +551,7 @@ public class ResourceRmiImpl extends UnicastRemoteObject implements ResourceRmi 
 						actionurl=StringUtils.replace(actionurl, source1, source2);
 						object.setActionurl(actionurl);
 					}
+				}
 				}
 			}catch(Exception e){
 				e.printStackTrace();

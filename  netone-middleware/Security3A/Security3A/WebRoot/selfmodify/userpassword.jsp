@@ -43,6 +43,7 @@
 			<input type="text" name="outemail" value="${requestScope.outemail }" class="textinput_td">
 		</td>
 	</tr>
+
 	<tr>
 		<td width="20%">
 			旧密码
@@ -66,6 +67,14 @@
 		</td>
 		<td>
 			<input type="password" name="pass" value="" class="textinput_td">
+		</td>
+	</tr>
+		<tr>
+		<td width="20%">
+			短信提醒
+		</td>
+		<td>
+			<input type="checkbox" name="types" value='1' <c:if test="${clerk.types==1}">checked</c:if>/> 不需要短信提醒
 		</td>
 	</tr>
 </table>

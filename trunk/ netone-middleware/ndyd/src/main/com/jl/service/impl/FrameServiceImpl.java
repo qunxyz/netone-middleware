@@ -17,6 +17,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import oe.cav.bean.logic.bus.TCsBus;
@@ -1261,35 +1265,77 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		if (StringUtils.isNotEmpty(sql)) {
 			list = (List) commonDAO.select("Dyform.select_wf_info", sql);
 		}
+		// List<TableCell> headerList = new ArrayList<TableCell>();
+		// Map field = (LinkedHashMap) list.get(0);
+		// for (Iterator iterator2 = field.keySet().iterator(); iterator2
+		// .hasNext();) {
+		// String key = (String) iterator2.next();
+		// headerList.add(new TableCell(""
+		// + new String(key.getBytes("GBK"), "UTF-8")));
+		// }
+		//
+		// Table t = new Table();
+		// ReportExt reportExt = new ReportExt();
+		//
+		// for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+		// Map object = (LinkedHashMap) iterator.next();
+		// TableRow row = new TableRow();
+		// for (Iterator iterator2 = object.keySet().iterator(); iterator2
+		// .hasNext();) {
+		// String key = (String) iterator2.next();
+		// row.addCell(new TableCell("" + object.get(key)));
+		// }
+		// t.addRow(row);
+		// }
+		//
+		// Report reportX = reportExt.setSimpleColHeader(t, headerList);
+		// Long currentTimeMillis = System.currentTimeMillis();
+		// GroupReport groupReport = new GroupReport();
+		// response.reset();
+		// groupReport
+		// .format("excel", "报表" + currentTimeMillis, reportX, response);
+		Long currentTimeMillis = System.currentTimeMillis();
+		response.setHeader("Content-Disposition", "attachment; filename="
+				+ "report" + currentTimeMillis + ".xls");
+		response.setContentType("application/vnd.ms-excel");
+		// 输出流
+		java.io.OutputStream os = response.getOutputStream();
+
+		WritableWorkbook wwb = Workbook.createWorkbook(os);
+		WritableSheet sheet = wwb.createSheet("Report", 0);
+
 		List<TableCell> headerList = new ArrayList<TableCell>();
 		Map field = (LinkedHashMap) list.get(0);
+		int i = 0;
 		for (Iterator iterator2 = field.keySet().iterator(); iterator2
 				.hasNext();) {
 			String key = (String) iterator2.next();
-			headerList.add(new TableCell(""
-					+ new String(key.getBytes("GBK"), "UTF-8")));
+
+			sheet.addCell(new Label(i, 0, new String(key.getBytes("GBK"),
+					"UTF-8")));
+			i++;
 		}
 
-		Table t = new Table();
-		ReportExt reportExt = new ReportExt();
-
+		int index = 1;
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (LinkedHashMap) iterator.next();
 			TableRow row = new TableRow();
+
+			int colindex = 0;
 			for (Iterator iterator2 = object.keySet().iterator(); iterator2
 					.hasNext();) {
 				String key = (String) iterator2.next();
-				row.addCell(new TableCell("" + object.get(key)));
+				sheet.addCell(new Label(colindex, index, "" + (object.get(key)==null?"":object.get(key))));
+				colindex++;
 			}
-			t.addRow(row);
+			index++;
 		}
 
-		Report reportX = reportExt.setSimpleColHeader(t, headerList);
-		Long currentTimeMillis = System.currentTimeMillis();
-		GroupReport groupReport = new GroupReport();
-		response.reset();
-		groupReport
-				.format("excel", "报表" + currentTimeMillis, reportX, response);
+		wwb.write();
+		wwb.close();
+		os.flush();
+		os.close();
+
 		return null;
 	}
 

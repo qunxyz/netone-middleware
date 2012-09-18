@@ -20,7 +20,9 @@
 
 <link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/jquery-lightbox/css/lightbox.css" rel="stylesheet" />
 <script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jquery-lightbox/jquery.lightbox.js"></script> 
- 
+
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jQueryRotate.js"></script> 
+
  <!-- 
 <link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/jquery-ui-1.8/themes/cupertino/jquery-ui-1.8.22.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jquery-ui-1.8/ui/jquery-ui-1.8.22.custom.js"></script>

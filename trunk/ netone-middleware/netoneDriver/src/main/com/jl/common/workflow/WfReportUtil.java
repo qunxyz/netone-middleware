@@ -45,7 +45,6 @@ public class WfReportUtil {
 				}
 			}
 			if(but.length()>0){
-				
 				String sql="SELECT t1.lsh lsh,t1.appname appname,t1.d0 formtitle,t2.runtimeid runid,t2.workcode workcode,t2.ACTIVITYID actid,t2.starttime starttime,t3.username username FROM netone.t_wf_relevantvar_tmp t1, netone.t_wf_worklist t2,netone.t_wf_participant t3 WHERE t3.types='01' and t1.runtimeid=t2.runtimeid and t2.workcode=t3.workcode and t1.runtimeid in("
 					+but.substring(1)+")  ORDER BY t2.runtimeid,t2.STARTTIME DESC";
 				//System.out.println("sql:"+sql);
@@ -68,13 +67,24 @@ public class WfReportUtil {
 					String appname=(String)object.get("appname");
 					String actid=(String)object.get("actid");
 					
-					UmsProtectedobject upo=rs.loadResourceByNatural(appname+"."+actid.toUpperCase());
-					object.put("actname", upo.getName());
-					
-					UmsProtectedobject upo2=rs.loadResourceByNatural(appname);
-					object.put("appnameext", upo2.getName());
-
+					try{
+						UmsProtectedobject upo2=rs.loadResourceByNatural(appname);
+						object.put("appnameext", upo2.getName());
+						
+						UmsProtectedobject upo=rs.loadResourceByNatural(appname+"."+actid.toUpperCase());
+						if(upo!=null){
+							object.put("actname", upo.getName());
+						}else{
+							object.put("actname", "未知节点");
+						}
+						
+						
+					}catch(Exception e){
+						e.printStackTrace();
+						object.put("actname", "未知节点");
+					}
 					ltdata.add(object);
+
 				}
 			}
 		}

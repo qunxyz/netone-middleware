@@ -23,6 +23,7 @@ function modify(){
 		alert("邮箱名格式错误");
 		return;
 		}
+	if(oldpass!=""||pass!=""||newpass!=""){//可以不修改密码
 	if(oldpass==""){
 		alert("旧密码不能为空");
 		return;
@@ -41,6 +42,9 @@ function modify(){
 	} else if(oldpass!="" && newpass!="" && newpass==pass){
 		form1.submit();
 	}
+	}else{
+		form1.submit();
+	}	
 }
 
 var preTabId = null;

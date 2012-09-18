@@ -355,6 +355,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 
 		StringBuffer jsonBuf = new StringBuffer();
 		String id = request.getParameter("id");// 获取产品分类号
+		String code = request.getParameter("code");
 		String condition = request.getParameter("condition");// 模糊查询条件
 		try {
 			String split = "";
@@ -363,8 +364,9 @@ public class AppServiceImpl extends BaseService implements AppService {
 			if (StringUtils.isNotEmpty(condition)) {
 				map.put("condition", condition.trim());
 			}
+			// map.put("categoriesCode",code);
 
-			List list = (List) getHgDAO().select("HG.findProductSetByPC", map);
+			List list = (List) getHgDAO().select("HG.findProductSetByPCX", map);
 			// 遍历并构造json字符串
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				Map pInfo = (Map) iterator.next();
@@ -822,10 +824,9 @@ public class AppServiceImpl extends BaseService implements AppService {
 
 	private String getVwICBill_8(Map conditionMap) {
 		StringBuffer vwICBill_8 = new StringBuffer();
-
 		// t_sub FTypeName 客户分类
 		vwICBill_8
-				.append(" Select *,isnull(convert(decimal(22,2),FBaseQty*FStockPrice),0) as FStockAmount From  ( Select isnull(t_sub.FName,'') as FTypeName,t14.F_104 as FStockPrice,v1.FInterID AS FInterID,u1.FEntryID AS FEntryID,(DATENAME(Year,v1.Fdate)+'-'+DATENAME(Month,v1.Fdate)+'-'+DATENAME(Day,v1.Fdate)) AS Fdate,month(v1.FDate) as FMonth,case  when v1.FCheckerID>0 then 'Y' when v1.FCheckerID<0 then 'Y' else '' end AS FCheck,case when v1.FCancellation=1 then 'Y' else '' end AS FCancellation,v1.FBillNo AS FBillNo,t7.FName AS FSaleStyleName,t4.FName AS FSupplyIDName,t8.FName AS FDCStockIDName,t14.FShortNumber AS FItemIDName,t14.FNumber AS FFullNumber,t14.Fname AS FItemName,t14.Fmodel AS FItemModel,t17.FName AS FUnitIDName,u1.FBatchNo AS FBatchNo,u1.Fauxqty AS Fauxqty,u1.Fauxprice AS Fauxprice,u1.Famount AS Famount,t9.FName AS FFManagerIDName,t10.FName AS FSManagerIDName,t11.FName AS FuserName,t24.FName AS FCheckerName,case  when v1.FVchInterID>0 then 'Y' when v1.FVchInterID<0 then 'Y' else '' end AS FVoucherStatus,u1.FNote AS FNote,(SELECT (SELECT FName FROM t_VoucherGroup WHERE FGroupID=t_Voucher.FGroupID)+'-'+CONVERT(Varchar(30),FNumber)   FROM  t_Voucher  WHERE  FVoucherid=v1.FVchInterID)  AS FVoucherNumber,CASE WHEN v1.FHookStatus=1 THEN 'P' WHEN V1.FHookStatus=2 THEN 'Y' ELSE '' END  AS FHookStatus,left('Y',v1.FChildren) AS FReStatus,t40.FName AS FMarketingStyleName,v1.FPOOrdBillNo AS FPOOrdBillNo,u1.FAllHookQTY AS FAllHookQTY,(u1.FQty-u1.FAllHookQTY) AS FUNHookQTY,u1.FCurrentHookQTY AS FCurrentHookQTY,u1.FOrderBillNo AS FOrderBillNo,u1.FContractBillNo AS FContractBillNo,u1.FSourceBillNo AS FSourceBillNo,t70.FName AS FSourceTranType,t105.FName AS FDeptIDName,t106.FName AS FEmpIDName,t107.FName AS FManagerIDName,v1.FExplanation AS FExplanation,v1.FFetchAdd AS FFetchAdd,v1.FCheckDate AS FCheckDate, (CASE t112.FName WHEN '*' THEN '' ELSE t112.FName END)  AS FAuxPropIDName,t112.FNumber AS FAuxPropIDNumber,case when (v1.FOrgBillInterID <> 0) then 'Y' else null  end AS FHasSplitBill,u1.FAuxQtyInvoice AS FAuxQtyInvoice,u1.FQtyInvoice AS FQtyInvoice,t30.FName AS FBaseUnitID,u1.FQty AS FBaseQty,u1.FAuxQtyMust AS FAuxQtyMust,u1.FQtyMust AS FBaseQtyMust,u1.FAuxPlanPrice AS FAuxPlanPrice,u1.FPlanAmount AS FPlanAmount,Case WHEN t14.FStoreUnitID=0 THEN '' Else  t500.FName end AS FCUUnitName,Case WHEN t14.FStoreUnitID=0 THEN '' Else  u1.FQty/t500.FCoefficient end AS FCUUnitQty, (CASE t510.FName WHEN '*' THEN '' ELSE t510.FName END)  AS FSPName,u1.FKFPeriod AS FKFPeriod,u1.FKFDate AS FKFDate,u1.FPeriodDate AS FPeriodDate,t523.FBillNo AS FZPBillNo,u1.FMapName AS FMapName,u1.FMapNumber AS FMapNumber,u1.FConsignPrice AS FConsignPrice,u1.FConsignAmount AS FConsignAmount, (CASE t550.FName WHEN '*' THEN '' ELSE t550.FName END)  AS FRelateBrIDName,(CASE v1.FBrID WHEN 0 THEN NULL ELSE t560.FName END) AS FBrID,t8.FNumber AS FDCStockIDNumber,t552.FName AS FSecUnitName,u1.FSecCoefficient AS FSecCoefficient,u1.FSecQty AS FSecQty,T650.FName AS FVIPCardId,v1.FVIPScore AS FVIPScore,u1.FDiscountRate AS FDiscountRate,u1.FDiscountAmount AS FDiscountAmount,v1.FHolisticDiscountRate AS FHolisticDiscountRate,v1.FPOSName AS FPOSName,t651.FNumber AS FNumber,t3156.FPHONE AS FHeadSelfB0144,t3157.FADDRESS AS FHeadSelfB0145,t3158.FPHONE AS FHeadSelfB0146,v1.FHeadSelfB0147 AS FHeadSelfB0147,v1.FHeadSelfB0148 AS FHeadSelfB0148,v1.FHeadSelfB0149 AS FHeadSelfB0149,v1.FHeadSelfB0150 AS FHeadSelfB0150,v1.FHeadSelfB0151 AS FHeadSelfB0151,v1.FHeadSelfB0152 AS FHeadSelfB0152,v1.FHeadSelfB0153 AS FHeadSelfB0153,v1.FHeadSelfB0154 AS FHeadSelfB0154,t3167.F_109 AS FHeadSelfB0155,v1.FHeadSelfB0156 AS FHeadSelfB0156,v1.FHeadSelfB0157 AS FHeadSelfB0157,v1.FHeadSelfB0158 AS FHeadSelfB0158,v1.FHeadSelfB0159 AS FHeadSelfB0159,v1.FHeadSelfB0160 AS FHeadSelfB0160,v1.FHeadSelfB0161 AS FHeadSelfB0161,v1.FHeadSelfB0162 AS FHeadSelfB0162,v1.FHeadSelfB0163 AS FHeadSelfB0163,v1.FHeadSelfB0164 AS FHeadSelfB0164,v1.FHeadSelfB0165 AS FHeadSelfB0165,v1.FHeadSelfB0166 AS FHeadSelfB0166,v1.FHeadSelfB0167 AS FHeadSelfB0167,v1.FHeadSelfB0168 AS FHeadSelfB0168,v1.FHeadSelfB0169 AS FHeadSelfB0169,v1.FHeadSelfB0170 AS FHeadSelfB0170,v1.FHeadSelfB0171 AS FHeadSelfB0171,v1.FHeadSelfB0172 AS FHeadSelfB0172,v1.FHeadSelfB0173 AS FHeadSelfB0173,v1.FHeadSelfB0174 AS FHeadSelfB0174,v1.FHeadSelfB0175 AS FHeadSelfB0175,v1.FHeadSelfB0176 AS FHeadSelfB0176,v1.FHeadSelfB0177 AS FHeadSelfB0177,t3190.F_113 AS FHeadSelfB0178,u1.FEntrySelfB0155 AS FEntrySelfB0155,t3192.F_103 AS FEntrySelfB0156,u1.FEntrySelfB0157 AS FEntrySelfB0157,t3194.F_106 AS FEntrySelfB0158,u1.FEntrySelfB0159 AS FEntrySelfB0159,u1.FEntrySelfB0160 AS FEntrySelfB0160,u1.FEntrySelfB0161 AS FEntrySelfB0161,u1.FEntrySelfB0162 AS FEntrySelfB0162,u1.FEntrySelfB0163 AS FEntrySelfB0163,u1.FEntrySelfB0164 AS FEntrySelfB0164,t3201.F_105 AS FEntrySelfB0165,u1.FEntrySelfB0166 AS FEntrySelfB0166,u1.FEntrySelfB0167 AS FEntrySelfB0167,u1.FEntrySelfB0168 AS FEntrySelfB0168,t3205.F_113 AS FEntrySelfB0169");
+				.append(" Select *,isnull(convert(decimal(22,2),FBaseQty*FStockPrice),0) as FStockAmount From  ( Select isnull(t_sub.FName,'') as FTypeName,isnull(convert(decimal(22,2),t14.F_104),0) as FStockPrice,v1.FInterID AS FInterID,u1.FEntryID AS FEntryID,(DATENAME(Year,v1.Fdate)+'-'+DATENAME(Month,v1.Fdate)+'-'+DATENAME(Day,v1.Fdate)) AS Fdate,month(v1.FDate) as FMonth,case  when v1.FCheckerID>0 then 'Y' when v1.FCheckerID<0 then 'Y' else '' end AS FCheck,case when v1.FCancellation=1 then 'Y' else '' end AS FCancellation,v1.FBillNo AS FBillNo,t7.FName AS FSaleStyleName,t4.FName AS FSupplyIDName,t8.FName AS FDCStockIDName,t14.FShortNumber AS FItemIDName,t14.FNumber AS FFullNumber,t14.Fname AS FItemName,t14.Fmodel AS FItemModel,t17.FName AS FUnitIDName,u1.FBatchNo AS FBatchNo,u1.Fauxqty AS Fauxqty,u1.Fauxprice AS Fauxprice,u1.Famount AS Famount,t9.FName AS FFManagerIDName,t10.FName AS FSManagerIDName,t11.FName AS FuserName,t24.FName AS FCheckerName,case  when v1.FVchInterID>0 then 'Y' when v1.FVchInterID<0 then 'Y' else '' end AS FVoucherStatus,u1.FNote AS FNote,(SELECT (SELECT FName FROM t_VoucherGroup WHERE FGroupID=t_Voucher.FGroupID)+'-'+CONVERT(Varchar(30),FNumber)   FROM  t_Voucher  WHERE  FVoucherid=v1.FVchInterID)  AS FVoucherNumber,CASE WHEN v1.FHookStatus=1 THEN 'P' WHEN V1.FHookStatus=2 THEN 'Y' ELSE '' END  AS FHookStatus,left('Y',v1.FChildren) AS FReStatus,t40.FName AS FMarketingStyleName,v1.FPOOrdBillNo AS FPOOrdBillNo,u1.FAllHookQTY AS FAllHookQTY,(u1.FQty-u1.FAllHookQTY) AS FUNHookQTY,u1.FCurrentHookQTY AS FCurrentHookQTY,u1.FOrderBillNo AS FOrderBillNo,u1.FContractBillNo AS FContractBillNo,u1.FSourceBillNo AS FSourceBillNo,t70.FName AS FSourceTranType,t105.FName AS FDeptIDName,t106.FName AS FEmpIDName,t107.FName AS FManagerIDName,v1.FExplanation AS FExplanation,v1.FFetchAdd AS FFetchAdd,v1.FCheckDate AS FCheckDate, (CASE t112.FName WHEN '*' THEN '' ELSE t112.FName END)  AS FAuxPropIDName,t112.FNumber AS FAuxPropIDNumber,case when (v1.FOrgBillInterID <> 0) then 'Y' else null  end AS FHasSplitBill,u1.FAuxQtyInvoice AS FAuxQtyInvoice,u1.FQtyInvoice AS FQtyInvoice,t30.FName AS FBaseUnitID,u1.FQty AS FBaseQty,u1.FAuxQtyMust AS FAuxQtyMust,u1.FQtyMust AS FBaseQtyMust,u1.FAuxPlanPrice AS FAuxPlanPrice,u1.FPlanAmount AS FPlanAmount,Case WHEN t14.FStoreUnitID=0 THEN '' Else  t500.FName end AS FCUUnitName,Case WHEN t14.FStoreUnitID=0 THEN '' Else  u1.FQty/t500.FCoefficient end AS FCUUnitQty, (CASE t510.FName WHEN '*' THEN '' ELSE t510.FName END)  AS FSPName,u1.FKFPeriod AS FKFPeriod,u1.FKFDate AS FKFDate,u1.FPeriodDate AS FPeriodDate,t523.FBillNo AS FZPBillNo,u1.FMapName AS FMapName,u1.FMapNumber AS FMapNumber,u1.FConsignPrice AS FConsignPrice,u1.FConsignAmount AS FConsignAmount, (CASE t550.FName WHEN '*' THEN '' ELSE t550.FName END)  AS FRelateBrIDName,(CASE v1.FBrID WHEN 0 THEN NULL ELSE t560.FName END) AS FBrID,t8.FNumber AS FDCStockIDNumber,t552.FName AS FSecUnitName,u1.FSecCoefficient AS FSecCoefficient,u1.FSecQty AS FSecQty,T650.FName AS FVIPCardId,v1.FVIPScore AS FVIPScore,u1.FDiscountRate AS FDiscountRate,u1.FDiscountAmount AS FDiscountAmount,v1.FHolisticDiscountRate AS FHolisticDiscountRate,v1.FPOSName AS FPOSName,t651.FNumber AS FNumber,t3156.FPHONE AS FHeadSelfB0144,t3157.FADDRESS AS FHeadSelfB0145,t3158.FPHONE AS FHeadSelfB0146,v1.FHeadSelfB0147 AS FHeadSelfB0147,v1.FHeadSelfB0148 AS FHeadSelfB0148,v1.FHeadSelfB0149 AS FHeadSelfB0149,v1.FHeadSelfB0150 AS FHeadSelfB0150,v1.FHeadSelfB0151 AS FHeadSelfB0151,v1.FHeadSelfB0152 AS FHeadSelfB0152,v1.FHeadSelfB0153 AS FHeadSelfB0153,v1.FHeadSelfB0154 AS FHeadSelfB0154,t3167.F_109 AS FHeadSelfB0155,v1.FHeadSelfB0156 AS FHeadSelfB0156,v1.FHeadSelfB0157 AS FHeadSelfB0157,v1.FHeadSelfB0158 AS FHeadSelfB0158,v1.FHeadSelfB0159 AS FHeadSelfB0159,v1.FHeadSelfB0160 AS FHeadSelfB0160,v1.FHeadSelfB0161 AS FHeadSelfB0161,v1.FHeadSelfB0162 AS FHeadSelfB0162,v1.FHeadSelfB0163 AS FHeadSelfB0163,v1.FHeadSelfB0164 AS FHeadSelfB0164,v1.FHeadSelfB0165 AS FHeadSelfB0165,v1.FHeadSelfB0166 AS FHeadSelfB0166,v1.FHeadSelfB0167 AS FHeadSelfB0167,v1.FHeadSelfB0168 AS FHeadSelfB0168,v1.FHeadSelfB0169 AS FHeadSelfB0169,v1.FHeadSelfB0170 AS FHeadSelfB0170,v1.FHeadSelfB0171 AS FHeadSelfB0171,v1.FHeadSelfB0172 AS FHeadSelfB0172,v1.FHeadSelfB0173 AS FHeadSelfB0173,v1.FHeadSelfB0174 AS FHeadSelfB0174,v1.FHeadSelfB0175 AS FHeadSelfB0175,v1.FHeadSelfB0176 AS FHeadSelfB0176,v1.FHeadSelfB0177 AS FHeadSelfB0177,t3190.F_113 AS FHeadSelfB0178,u1.FEntrySelfB0155 AS FEntrySelfB0155,t3192.F_103 AS FEntrySelfB0156,u1.FEntrySelfB0157 AS FEntrySelfB0157,t3194.F_106 AS FEntrySelfB0158,u1.FEntrySelfB0159 AS FEntrySelfB0159,u1.FEntrySelfB0160 AS FEntrySelfB0160,u1.FEntrySelfB0161 AS FEntrySelfB0161,u1.FEntrySelfB0162 AS FEntrySelfB0162,u1.FEntrySelfB0163 AS FEntrySelfB0163,u1.FEntrySelfB0164 AS FEntrySelfB0164,t3201.F_105 AS FEntrySelfB0165,u1.FEntrySelfB0166 AS FEntrySelfB0166,u1.FEntrySelfB0167 AS FEntrySelfB0167,u1.FEntrySelfB0168 AS FEntrySelfB0168,t3205.F_113 AS FEntrySelfB0169");
 		vwICBill_8
 				.append("   from ICStockBill v1 Inner Join ICStockBillEntry u1 on v1.FInterID=u1.FInterID");
 		vwICBill_8
@@ -844,6 +845,8 @@ public class AppServiceImpl extends BaseService implements AppService {
 				.append("  Inner Join t_User t11 on v1.FBillerID=t11.FUserID");
 		vwICBill_8
 				.append("  Inner Join t_ICItem t14 on u1.FItemID=t14.FItemID");
+		vwICBill_8
+				.append("  Inner Join t_item t14000 on u1.FItemID=t14000.FItemID");
 		vwICBill_8
 				.append("  Inner Join t_MeasureUnit t17 on u1.FUnitID=t17.FItemID");
 		vwICBill_8
@@ -914,12 +917,25 @@ public class AppServiceImpl extends BaseService implements AppService {
 					+ "' ");
 		}
 		if (conditionMap.containsKey("partId")) {
-			vwICBill_8.append(" and t4.FItemID in ("
-					+ conditionMap.get("partId") + ") ");
+			String partId = (String) conditionMap.get("partId");
+			String[] partcodeStrs = partId.split(",");
+			vwICBill_8.append(" and ( 1=0 ");
+			for (int i = 0; i < partcodeStrs.length; i++) {
+				vwICBill_8.append(" or t4.FNumber like '" + partcodeStrs[i]
+						+ "%' ");
+			}
+			vwICBill_8.append(" ) ");
+
 		}
 		if (conditionMap.containsKey("productId")) {
-			vwICBill_8.append(" and t14.FItemID in ("
-					+ conditionMap.get("productId") + ") ");
+			String productId = (String) conditionMap.get("productId");
+			String[] productcodeStrs = productId.split(",");
+			vwICBill_8.append(" and ( 1=0 ");
+			for (int i = 0; i < productcodeStrs.length; i++) {
+				vwICBill_8.append(" or t14000.FFullNumber like '"
+						+ productcodeStrs[i] + "%' ");
+			}
+			vwICBill_8.append(" ) ");
 		}
 		if (conditionMap.containsKey("FBillNo")) {
 			vwICBill_8.append(" and v1.FBillNo like '%"
@@ -942,6 +958,8 @@ public class AppServiceImpl extends BaseService implements AppService {
 		String toPage = request.getParameter("toPage");
 		String pageSize = request.getParameter("pageSize");
 		String rowsize_ = request.getParameter("rowsize");
+		String width = "138";
+		String height = "143";
 		try {
 			Integer rowsize = 5;
 			if (StringUtils.isNotEmpty(rowsize_)) {
@@ -997,8 +1015,12 @@ public class AppServiceImpl extends BaseService implements AppService {
 				if (StringUtils.isNotEmpty(address)) {
 
 					String addr = path
-							+ "/file.do?method=onDownLoadFile&isOnLine=0&unid="
+							+ "/file.do?method=onDownLoadOptFile&width="
+							+ width + "&height=" + height + "&isOnLine=0&unid="
 							+ fileunid;
+					String addr_scale = path
+							+ "/file.do?method=onDownLoadOptFile&scale=" + 2
+							+ "&isOnLine=0&unid=" + fileunid;
 					String title = "";
 					if (StringUtils.isNotEmpty(createPerson_)
 							|| StringUtils.isNotEmpty(createDate)) {
@@ -1006,21 +1028,21 @@ public class AppServiceImpl extends BaseService implements AppService {
 								+ info.get("createDate") + "创建";
 					}
 
-					cache.append("<div><a class='imagex' href='" + addr
-							+ "' title='" + title
-							+ "'><img width=138 height=143 src='" + addr
+					cache.append("<div id='imagediv'><a class='imagex' href='"
+							+ addr_scale + "' title='" + title
+							+ "'><img id='imagesouce" + lsh + "' width="
+							+ width + " height=" + height + " src='" + addr
 							+ "' /></a></div>");
 
 				} else {
 					String addr = path + "/images/no_picture.jpg";
-					cache.append("<div><img width=138 height=143 src='" + addr
-							+ "' /></div>");
+					cache.append("<div><img width=" + width + " height="
+							+ height + " src='" + addr + "' /></div>");
 				}
-
-				cache.append("<div>网点:" + info.get("netName") + "</div>");
+				cache.append("<div><div>网点:" + info.get("netName") + "</div>");
 				cache.append("<div>理货员:" + info.get("createPerson") + "</div>");
 				cache.append("<div>理货时间:" + info.get("createDate") + "</div>");
-				cache.append("<div>品牌:" + info.get("ppname") + "</div>");
+				cache.append("<div>品牌:" + info.get("ppname") + "</div></div>");
 				boolean readonly = false;
 				if (StringUtils.isNotEmpty(point_)) {
 					readonly = true;

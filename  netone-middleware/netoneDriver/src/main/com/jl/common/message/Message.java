@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import oe.frame.web.util.WebStr;
 import oe.mid.soa.bean.BeanService;
 import oe.mid.soa.bean.SoaBean;
+import oe.midware.workflow.service.WorkflowView;
 import oe.rmi.client.RmiEntry;
 import oe.rmi.message.SendMail;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -42,10 +44,33 @@ public final class Message {
 			}
 		}
 	}
+	
+	private static boolean msgAvail(String loginName){
+		String sql="select types from  netone.t_cs_user where usercode='"+loginName+"' and (types is null or types='0')";
+		try {
+			WorkflowView view = (WorkflowView) RmiEntry.iv("wfview");
+			List list=view.coreSqlview(sql);
+			if(list.size()>0){
+				return true;
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 
 	public static String toMessageByUser(String toUser, String context) {
-
+		    if(!msgAvail(toUser)){
+		    	return "fail";
+		    }
 			ResourceRmi rs = null;
 			try {
 				rs = (ResourceRmi) RmiEntry.iv("resource");
@@ -70,14 +95,18 @@ public final class Message {
 	}
 
 	public static String toMessageByUser(List<String[]> info) {
-
+			
 			List listinfo = new ArrayList();
 			ResourceRmi rs = null;
 			try {
 				rs = (ResourceRmi) RmiEntry.iv("resource");
 				for (Iterator iterator = info.iterator(); iterator.hasNext();) {
 					String[] infox = (String[]) iterator.next();
+				    if(!msgAvail(infox[0])){
+				    	continue;
+				    }
 					Clerk touserObj = rs.loadClerk("0000", infox[0]);
+
 					if (touserObj == null) {
 						System.err.println("lose user:" + infox[0]);
 					} else {
@@ -169,21 +198,29 @@ public final class Message {
 			e.printStackTrace();
 		}
 		for (int i=0;i<mobile.length;i++) {
-			if(isemail){
-				Clerk clerk=new Clerk();
-				clerk.setPhoneNO(mobile[i]);
-				try {
-					List list=rs.queryObjectsClerk("0000", clerk, null, 0, 1);
-					if(list.size()==1){
-						Clerk clerkx=(Clerk)list.get(0);
-						String email=clerkx.getEmail();
-						toMessageCoreEmail(email, context);
-					}
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			Clerk clerk=new Clerk();
+			clerk.setPhoneNO(mobile[i]);
+			Clerk clerkx=null;
+			try {
+				List list=rs.queryObjectsClerk("0000", clerk, null, 0, 1);
+				if(list.size()==1){
+					clerkx=(Clerk)list.get(0);
+				    if(!msgAvail(clerkx.getNaturalname())){
+				    	continue;
+				    }
 				}
-				
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		    if(!msgAvail(clerkx.getNaturalname())){
+		    	return "fail";
+		    }
+			
+			if(isemail){
+				String email=clerkx.getEmail();
+				toMessageCoreEmail(email, context);
 			}else{
 				toMessageCoreSMS(mobile[i], context);
 			}

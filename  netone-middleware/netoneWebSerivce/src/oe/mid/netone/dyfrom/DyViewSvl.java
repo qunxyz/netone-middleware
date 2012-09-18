@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jl.common.workflow.DbTools;
+import com.sun.xml.internal.bind.v2.runtime.output.Encoded;
+
 import net.sf.json.JSONArray;
 /**
  * 表单视图服务类，用于展示表单使用
@@ -54,12 +57,11 @@ public class DyViewSvl extends HttpServlet {
 
 		String tablename=request.getParameter("tablename");
 		String columns=request.getParameter("columns");// 传入的字段可能是逗号隔开
-		
-		List list=null;
-		
+		String condition = new String(request.getParameter("condition").getBytes("8859_1"));
+		String sql = "select " + columns +" from " + tablename + " where 1 = 1 and " + condition;
+		List list = DbTools.queryData(sql);
 		String jsonString=JSONArray.fromObject(list).toString();  
    		response.getWriter().print(jsonString);
-	
 	}
 
 }

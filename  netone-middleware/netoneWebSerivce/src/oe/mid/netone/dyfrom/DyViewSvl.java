@@ -1,7 +1,9 @@
 package oe.mid.netone.dyfrom;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +14,7 @@ import com.jl.common.workflow.DbTools;
 import com.sun.xml.internal.bind.v2.runtime.output.Encoded;
 
 import net.sf.json.JSONArray;
+import net.sf.json.util.NewBeanInstanceStrategy;
 /**
  * 表单视图服务类，用于展示表单使用
  * @author robanco
@@ -38,8 +41,7 @@ public class DyViewSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		doGet(request, response);
+		doPost(request, response);
 	}
 
 	/**
@@ -54,14 +56,17 @@ public class DyViewSvl extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=utf-8");
 		String tablename=request.getParameter("tablename");
 		String columns=request.getParameter("columns");// 传入的字段可能是逗号隔开
-		String condition = new String(request.getParameter("condition").getBytes("8859_1"));
-		String sql = "select " + columns +" from " + tablename + " where 1 = 1 and " + condition;
+		String condition = new String(request.getParameter("condition").getBytes("ISO-8859-1"),"utf-8");
+		if("".equals(condition) || condition == null)
+			condition = " 1 = 1 ";
+		String sql = "select " + columns +" from " + tablename + " where " + condition;
 		List list = DbTools.queryData(sql);
-		String jsonString=JSONArray.fromObject(list).toString();  
+		String jsonString=JSONArray.fromObject(list).toString();
    		response.getWriter().print(jsonString);
 	}
-
 }

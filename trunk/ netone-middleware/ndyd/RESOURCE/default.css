@@ -124,6 +124,7 @@ html.VIE7 .form_fieldinput
 	margin:0px 0px 0px 0px;
 	overflow:hidden;
 	border-bottom:1px solid #ddd;
+	white-space:normal;display:block;word-break:break-all;
 }
 html.VIE7 .form_fieldinput_read
 {
@@ -132,6 +133,7 @@ html.VIE7 .form_fieldinput_read
 	margin:0px 0px 0px 0px;
 	overflow:hidden;
 	border-bottom:1px solid #ddd;
+	white-space:normal;display:block;word-break:break-all;
 }
 
 

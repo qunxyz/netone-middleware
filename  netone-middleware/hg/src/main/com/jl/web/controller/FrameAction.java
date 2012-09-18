@@ -270,7 +270,7 @@ public class FrameAction extends AbstractAction {
 				.getNaturalname();
 		request.setAttribute("naturalname_dyform", naturalname_dyform);
 		// end 按钮控制
-
+		request.setAttribute("datecompFunc", DyFormComp.getInitFuncScript());
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
 		File file = new File(path + "/frame/frameMain-" + naturalname + ".jsp");
 		String forward = "/frame/frameMain.jsp";

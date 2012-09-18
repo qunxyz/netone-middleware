@@ -144,9 +144,34 @@
 			<isNotEmpty property="categoriesId" prepend="and">
 				FParentID = #categoriesId#
 			</isNotEmpty>
+			<isNotEmpty property="categoriesCode" prepend="and">
+				FNumber like '$categoriesCode$%'
+			</isNotEmpty>
 			<isNotEmpty property="condition" prepend="and">
-				(FShortNumber like '%$condition$%' or
+				(FNumber like '%$condition$%' or
 				FName like '%$condition$%')
+			</isNotEmpty>
+	</select>
+	
+	<!-- 查找所有产品的名称和产品的ID号  -->
+	<select id="findProductSetByPCX" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+		   t.FItemID productId,
+		   t.FFullNumber productCode,
+		   t.FName productName,
+		   '' productLSH/**条型码*/
+		FROM t_item t
+		LEFT JOIN t_item tt on t.FParentID = tt.FItemID
+		WHERE t.FDeleted=0  and tt.FDeleted=0
+			<isNotEmpty property="categoriesId" prepend="and">
+				t.FParentID = #categoriesId#
+			</isNotEmpty>
+			<isNotEmpty property="categoriesCode" prepend="and">
+				t.FFullNumber like '$categoriesCode$%'
+			</isNotEmpty>
+			<isNotEmpty property="condition" prepend="and">
+				(t.FFullNumber like '%$condition$%' or
+				t.FFullNumber like '%$condition$%')
 			</isNotEmpty>
 	</select>
 	
@@ -160,7 +185,7 @@
 				FParentID = #categoriesId#
 			</isNotEmpty>
 			<isNotEmpty property="condition" prepend="and">
-				(FShortNumber like '%$condition$%' or
+				(FNumber like '%$condition$%' or
 				FName like '%$condition$%')
 			</isNotEmpty>
 			<!-- 排除已关联类别的产品 -->

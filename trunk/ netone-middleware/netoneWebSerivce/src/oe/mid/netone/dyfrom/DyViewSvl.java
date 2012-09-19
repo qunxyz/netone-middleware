@@ -61,9 +61,12 @@ public class DyViewSvl extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		String tablename=request.getParameter("tablename");
 		String columns=request.getParameter("columns");// 传入的字段可能是逗号隔开
-		String condition = new String(request.getParameter("condition").getBytes("ISO-8859-1"),"utf-8");
-		if("".equals(condition) || condition == null)
+		String condition = request.getParameter("condition");
+		if("".equals(condition) || condition == null){
 			condition = " 1 = 1 ";
+		} else {
+			condition = new String(request.getParameter("condition").getBytes("ISO-8859-1"),"utf-8");
+		}
 		String sql = "select " + columns +" from " + tablename + " where " + condition;
 		List list = DbTools.queryData(sql);
 		String jsonString=JSONArray.fromObject(list).toString();

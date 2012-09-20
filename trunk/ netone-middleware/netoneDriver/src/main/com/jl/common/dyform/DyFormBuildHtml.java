@@ -1046,10 +1046,11 @@ public final class DyFormBuildHtml {
 				// .getJqueryFunctionScript("$(\"table#" + formcode
 				// + "\").find(\"#textarea" + column.getColumnid()
 				// + "\").autogrow();");
+				//overflow:hidden;
 				_value = _value2
 						+ routeAppointComp(column.getViewtype(), column
 								.getColumnid(), "" + value,
-								"overflow:hidden;width:" + _width_input, "",
+								"width:" + _width_input, "",
 								true, column.getValuelist(), "", userinfo,
 								parameter, column.getDefaultValue()) + _N;
 			} else {

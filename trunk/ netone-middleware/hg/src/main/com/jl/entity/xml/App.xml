@@ -126,7 +126,7 @@
 		<isNotEmpty prepend="and" property="point">
 			t.column16 = #point#
 		</isNotEmpty>
-		order by netName,
+		order by netName,createDate,ppname
 		limit #startIndex#,#pageSize#
 	</select>
 	

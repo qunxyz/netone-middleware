@@ -30,7 +30,7 @@
 			src="<%=path%>/tiny_mce/jquery.tinymce.js"></script>
 		<!-- 样式文件 -->
 		<!-- 时间控件脚本 -->
-		<script>function $WdatePicker(t){if (t==1){		WdatePicker({dateFmt:"yyyy-MM-dd HH:mm:ss"});	} else if(t==2){		WdatePicker({dateFmt:"yyyy-MM-dd"});	} else if(t=3){		WdatePicker({dateFmt:"HH:mm:ss"});	}}</script>
+		<script>function $WdatePicker(t){if (t==1){		WdatePicker({isShowWeek:true,dateFmt:"yyyy-MM-dd HH:mm:ss"});	} else if(t==2){		WdatePicker({isShowWeek:true,dateFmt:"yyyy-MM-dd"});	} else if(t=3){		WdatePicker({isShowWeek:true,dateFmt:"HH:mm:ss"});	}}</script>
 
 		<script type="text/javascript">
 		var selectObjVar = null;//全局变量 存放需要选择资源返回值的对象

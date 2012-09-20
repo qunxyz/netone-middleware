@@ -1969,7 +1969,7 @@ public class FrameAction extends AbstractAction {
 		request.setAttribute("accordhtml", html);
 	}
 
-	//动态报表
+	// 动态报表
 	public ActionForward queryDyReportView(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -1980,7 +1980,7 @@ public class FrameAction extends AbstractAction {
 		return af;
 	}
 
-	//动态报表
+	// 动态报表
 	public void queryDyReport(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -1989,18 +1989,19 @@ public class FrameAction extends AbstractAction {
 				.getBean("frameService");
 		ins.queryDyReport(request, response);
 	}
-	
-	//获取帮助信息
-	private void printHelpText(String urltemplate,HttpServletRequest request) throws Exception{
+
+	// 获取帮助信息
+	private void printHelpText(String urltemplate, HttpServletRequest request)
+			throws Exception {
 		EnvService env = (EnvService) RmiEntry.iv("envinfo");
 		if (StringUtils.isNotEmpty(urltemplate)) {
-			urltemplate = "&nbsp;&nbsp;<a target='_blank' href='"
+			String urltemplates = "&nbsp;&nbsp;<a target='_blank' href='"
 					+ env.fetchEnvValue("WEBSER_FCK")
 					+ "/PagelistViewSvl?pagename=simplefcklist&chkid="
 					+ urltemplate
 					+ "'  ><font size='3' color='red'>工单填写须知</font></a>";
-			request.setAttribute("helptext", (urltemplate == null ? ""
-					: urltemplate));
+			request.setAttribute("helptext", (urltemplates == null ? ""
+					: urltemplates));
 		}
 	}
 

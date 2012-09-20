@@ -9,22 +9,57 @@
 		$sql$
 	</select>
 	
-	<select id="selectNetpoint" parameterClass="java.util.Map" resultClass="java.util.HashMap">
-	
+	<!-- 查询所有网点 -->
+	<select id="selectNetpointInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
 		SELECT 
+			lsh lsh,
+			ifnull(column5,'') netName
+		FROM dyform.DY_961338295639576 t
+		where 1=1
+		<isNotEmpty prepend="and" property="netName">
+			column5 like '%$netName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createPerson">
+			t.column13 like '%$createPerson$%'
+		</isNotEmpty>
+		order by column5
+	</select>
+	
+	<!-- 查询某个网点 按时间点 -->
+	<select id="selectNetpointDate" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			DISTINCT DATE(t.column12) createDate,
 			t.lsh lsh,
-			ifnull(t.column12,'') createDate,
-			ifnull(t.column13,'') createPerson,
-			ifnull(t.column16,'') as point,
-			ifnull(t3.column4,'') ppname,
-			ifnull(t2.column5,'') netName,
-			ifnull(files.address,'') address,
-			files.unid as fileunid
+			IFNULL(t.column13,'') createPerson,
+			IFNULL(t.column16,'') AS POINT,
+			IFNULL(t2.column5,'') netName,
+			COUNT(*) AS total
+		FROM dyform.DY_211340244752515 t
+		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
+		where 1=1 and t.column12 IS NOT NULL and t.fatherlsh = #fatherlsh#
+		<isNotEmpty prepend="and" property="beginDate">
+			date(t.column12) &gt;= #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			date(t.column12) &lt;= #endDate#
+		</isNotEmpty>
+		group by netName,createDate
+		order by netName,createDate desc
+	</select>
+	
+	<!-- 查询某个网点 按品牌 -->
+	<select id="selectNetpointPP" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			ifnull(t3.column3,'') ppid,
+			ifnull(t3.column4,'') ppname
 		FROM dyform.DY_211340244752515 t
 		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
 		LEFT JOIN dyform.DY_171345119981583 t3 ON t3.column3=t.column15
-		LEFT JOIN iss.t_file files ON files.d_unid=t.lsh
-		where 1=1
+		where 1=1 and t.column12 IS NOT NULL 
+		
+		<isNotEmpty prepend="and" property="fatherlsh">
+			t.fatherlsh = #fatherlsh#
+		</isNotEmpty>
 		<isNotEmpty prepend="and" property="beginDate">
 			date(t.column12) &gt;= #beginDate#
 		</isNotEmpty>
@@ -43,9 +78,59 @@
 		<isNotEmpty prepend="and" property="point">
 			t.column16 = #point#
 		</isNotEmpty>
+		group by ppname
+		order by ppname
+	</select>
+	
+	<!-- 查询网点理货信息 -->
+	<select id="selectNetpoint" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			t.lsh lsh,
+			ifnull(t.column12,'') createDate,
+			ifnull(t.column13,'') createPerson,
+			ifnull(t.column16,'') as point,
+			ifnull(t3.column4,'') ppname,
+			ifnull(t2.column5,'') netName,
+			ifnull(files.address,'') address,
+			files.unid as fileunid
+		FROM dyform.DY_211340244752515 t
+		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
+		LEFT JOIN dyform.DY_171345119981583 t3 ON t3.column3=t.column15
+		LEFT JOIN iss.t_file files ON files.d_unid=t.lsh
+		where 1=1
+		<isNotEmpty prepend="and" property="queryDate">
+			date(t.column12) = #queryDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fatherlsh">
+			t2.lsh = #fatherlsh#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ppid">
+			t3.column3 = #ppid#
+		</isNotEmpty>
+		
+		<isNotEmpty prepend="and" property="beginDate">
+			date(t.column12) &gt;= #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			date(t.column12) &lt;= #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="netName">
+			t2.column5 like '%$netName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ppname">
+			t3.column4 like '%$ppname$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createPerson">
+			t.column13 like '%$createPerson$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point">
+			t.column16 = #point#
+		</isNotEmpty>
+		order by netName,
 		limit #startIndex#,#pageSize#
 	</select>
 	
+	<!-- 查询网点理货信息 计数-->
 	<select id="selectNetpointCount" parameterClass="java.util.Map" resultClass="int">
 	
 		SELECT 
@@ -55,6 +140,16 @@
 		LEFT JOIN dyform.DY_171345119981583 t3 ON t3.column3=t.column15
 		LEFT JOIN iss.t_file files ON files.d_unid=t.lsh
 		where 1=1
+		<isNotEmpty prepend="and" property="queryDate">
+			date(t.column12) = #queryDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="fatherlsh">
+			t2.lsh = #fatherlsh#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ppid">
+			t3.column3 = #ppid#
+		</isNotEmpty>
+		
 		<isNotEmpty prepend="and" property="beginDate">
 			date(t.column12) &gt;= #beginDate#
 		</isNotEmpty>
@@ -132,5 +227,118 @@
 		GROUP BY $sb$
 		ORDER BY ywybm,lsh576,px,times DESC
 	</select>
+	
+	
+	<!-- 网点配置 -->
+	<!-- 加载品牌信息 -->
+	<select id="findProInfo"  resultClass="java.util.HashMap">
+		SELECT lsh lshId,column3 proCode,column4 proName 
+		FROM  dyform.DY_171345119981583
+		ORDER BY column3 desc
+	</select>
+	
+	<!-- 加载网点、理货员、频率 -->
+	<select id="findOutletSetByLshId" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT t.lsh tallId,
+			t.outletsId outletsId,wd.column5 outletsName,
+			t.brandId brandId,px.column4 brandName,
+			t.usercode userCode,uc.userName userName,
+			t.times times,t.status statusx,concat(t.createdDate,'') creadDate,t.note note,t.operate operate
+		FROM iss.t_tallyconfig t
+		LEFT JOIN dyform.DY_961338295639576 wd ON t.outletsId = wd.lsh
+		LEFT JOIN dyform.DY_171345119981583 px ON t.brandId = px.lsh
+		LEFT JOIN iss.t_user uc ON t.usercode = uc.userCode
+		WHERE 1=1
+			<isNotEmpty property="lshId" prepend="and">
+				brandId = #lshId#
+			</isNotEmpty>
+			<isNotEmpty property="condition" prepend="and">
+				(wd.column5 like '%$condition$%' or
+				px.column4 like '%$condition$%'
+				or t.times like '%$condition$%' )
+				<!-- 
+				 or
+				t.note like '%$condition$%' or
+				t.createdDate like '%$condition$%' or
+				t.operate like '%$condition$%'
+				 -->
+			</isNotEmpty>	
+	</select>
+
+	<!-- 加载未选择网点信息 -->
+	<select id="findUnChooseOutLetsByLshId" parameterClass="string" resultClass="java.util.HashMap">
+		SELECT lsh outId,column5 outName
+		FROM dyform.DY_961338295639576
+		WHERE lsh NOT IN(
+			SELECT outletsId
+			FROM iss.t_tallyconfig 
+			WHERE brandId=#lshId#
+		)
+	</select>
+	<!-- 插入网点 次数 备注 等信息 -->
+	<insert id="insertBatchOutletsTimes" parameterClass="java.util.Map">
+		<selectKey resultClass="java.lang.String" keyProperty="lsh" type="pre">
+			SELECT REPLACE(UUID(),'-','') as lsh
+		</selectKey>
+			INSERT INTO iss.t_tallyconfig(lsh,outletsId,brandId,times,status,createdDate,note,operate)
+			VALUES(
+				#lsh#,
+				#outletsId#,
+				#brandId#,
+				#times#,
+				#statusx#,
+				#createdDate#,
+				#note#,
+				#operate#
+				)
+	</insert>
+	
+	<!-- 更新频率 单个 -->
+	<update id="updateOutletsTimes" parameterClass="java.util.Map">
+			UPDATE iss.t_tallyconfig  SET
+			<isNotEmpty property="times">
+				times=#times#,
+			</isNotEmpty>	
+			<isNotEmpty property="note">
+				note=#note#,
+			</isNotEmpty>
+				createdDate=#createdDate#,
+				operate=#operate#
+			WHERE lsh=#tallId#
+	</update>
+	
+	<!-- 批量删除网点信息 -->
+	<delete id="deleteOutlets" parameterClass="java.lang.String">
+      	DELETE FROM iss.t_tallyconfig WHERE lsh=#tallId#
+	</delete>
+	
+	<!-- 导出网点配置信息 -->
+	<select id="export_outlets" resultClass="java.util.HashMap">
+		SELECT t.lsh tallId,
+			t.outletsId outletsId,IFNULL(wd.column5,'') outletsName,
+			t.brandId brandId,IFNULL(px.column4,'') brandName,
+			t.usercode userCode,uc.userName userName,
+			IFNULL(t.times,0) times,
+			CASE WHEN t.status = 1 THEN '启用' ELSE '禁用' END statusx,
+			t.createdDate creadDate,
+			IFNULL(t.note,'') note,
+			t.operate operate
+		FROM iss.t_tallyconfig t
+		LEFT JOIN dyform.DY_961338295639576 wd ON t.outletsId = wd.lsh
+		LEFT JOIN dyform.DY_171345119981583 px ON t.brandId = px.lsh
+		LEFT JOIN iss.t_user uc ON t.usercode = uc.userCode
+		WHERE 1=1
+		<isNotEmpty property="lshId" prepend="and">
+		 t.brandId = #lshId#
+		</isNotEmpty>
 		
+		<isNotEmpty prepend="and" property="tallId">
+			 t.lsh  in 
+			<iterate property="tallId" open="(" close=")" conjunction=",">
+				#tallId[]#
+			</iterate>
+		</isNotEmpty>
+		ORDER BY brandId,creadDate 
+	</select>
+	
 </sqlMap>

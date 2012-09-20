@@ -79,6 +79,24 @@ public interface AppService {
 			HttpServletResponse response);
 
 	/**
+	 * 查询网点图片管理2
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void queryNetPointManage2(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 查询网点下品牌
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void queryNetpointPP(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
 	 * 更新网点理货评分
 	 * 
 	 * @param request
@@ -95,4 +113,76 @@ public interface AppService {
 	 */
 	public void queryHGReport(HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
+
+	/**
+	 * 查询网点
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void queryNetPoint(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 加载 品牌信息，以树级方式展示
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void findProTree(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 点击品牌，加载相应网点、理货员、频率等信息
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void findOutletSetByLshId(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 加载未选择网点信息。
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void loadOutletsInfo(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 保存网点关联信息 根据 品牌ID 和 网点ID
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void saveOutlets(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 更新网点配置信息 根据tallId 配置表ID
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void updateTimes(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 删除网点配置信息 根据 tallId 配置表ID
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void deleteOutlets(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 导出网点配置信息表
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void exportAppOBR(HttpServletRequest request,
+			HttpServletResponse response);
 }

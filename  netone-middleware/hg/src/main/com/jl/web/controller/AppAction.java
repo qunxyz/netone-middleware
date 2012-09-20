@@ -221,6 +221,13 @@ public class AppAction extends AbstractAction {
 	public ActionForward queryNetpointView(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.queryNetpointPP(request, response);
+		request.setAttribute("beginDate", TimeUtil.formatDate(new Date(),
+		"yyyy-MM")
+		+ "-01");
 		String forward = "/app/netpoint.jsp";
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -238,6 +245,32 @@ public class AppAction extends AbstractAction {
 		service.queryNetPointManage(request, response);
 	}
 
+	// 查询网点管理2
+	public ActionForward queryNetpointView2(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.queryNetpointPP(request, response);
+
+		String forward = "/app/netpoint2.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 查询网点管理2
+	public void queryNetpoint2(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.queryNetPointManage2(request, response);
+	}
+
 	// 评分
 	public void updateNetPoint(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -248,18 +281,16 @@ public class AppAction extends AbstractAction {
 		service.updateNetPoint(request, response);
 	}
 
-	
-	
 	public ActionForward querymain(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		TimesTool tt = new TimesTool();  
+		TimesTool tt = new TimesTool();
 		request.setAttribute("beginTime", tt.getMondayOFWeek());
 		request.setAttribute("endTime", tt.getCurrentWeekday());
-		request.setAttribute("curTime", tt.getNowTime("yyyy-MM-dd"));//当天日期
-		request.setAttribute("curWeeks", tt.getCurWeeks());//当前周
-		
-		this.queryTJ(request);//调用查询条件展示
+		request.setAttribute("curTime", tt.getNowTime("yyyy-MM-dd"));// 当天日期
+		request.setAttribute("curWeeks", tt.getCurWeeks());// 当前周
+
+		this.queryTJ(request);// 调用查询条件展示
 
 		String forward = "/xreport/xreportLH.jsp";
 		ActionForward af = new ActionForward(forward);
@@ -268,37 +299,158 @@ public class AppAction extends AbstractAction {
 		return af;
 	}
 
-	/*******------------------------航港手机------------------------------------********/
+	/** *****------------------------航港手机------------------------------------******* */
 	// 航港 手机理货分析统计表
 	public void query(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		AppService service = (AppService) WebApplicationContextUtils
-		.getRequiredWebApplicationContext(servlet.getServletContext())
-		.getBean("appService");
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
 		service.queryHGReport(request, response);
 	}
-	
-	//公用参数
-	private  void queryTJ(HttpServletRequest request) throws Exception{
+
+	// 公用参数
+	private void queryTJ(HttpServletRequest request) throws Exception {
 		// 网点名称
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT DISTINCT lsh, column5 wdmc FROM dyform.DY_961338295639576 ORDER BY lsh");
-		List list = (List) getCommonDAO().select("App.selectDySql", sb.toString());
+		sb
+				.append("SELECT DISTINCT lsh, column5 wdmc FROM dyform.DY_961338295639576 ORDER BY lsh");
+		List list = (List) getCommonDAO().select("App.selectDySql",
+				sb.toString());
 		request.setAttribute("list", list);
-		//理货员
+		// 理货员
 		StringBuffer sb1 = new StringBuffer();
-		sb1.append(" SELECT DISTINCT t.PARTICIPANT ywybm,IFNULL(t1.NAME,'') ywyname ");
+		sb1
+				.append(" SELECT DISTINCT t.PARTICIPANT ywybm,IFNULL(t1.NAME,'') ywyname ");
 		sb1.append(" FROM dyform.DY_211340244752515 t  ");
-		sb1.append(" LEFT JOIN netone.t_cs_user t1 ON t.PARTICIPANT = t1.USERCODE ");
+		sb1
+				.append(" LEFT JOIN netone.t_cs_user t1 ON t.PARTICIPANT = t1.USERCODE ");
 		sb1.append(" ORDER BY  t.PARTICIPANT ");
-		List list1 =(List) getCommonDAO().select("App.selectDySql",sb1.toString());
+		List list1 = (List) getCommonDAO().select("App.selectDySql",
+				sb1.toString());
 		request.setAttribute("ywy", list1);
-		//品牌
+		// 品牌
 		StringBuffer sb2 = new StringBuffer();
-		sb2.append("SELECT column3 px,column4 pxm FROM  dyform.DY_171345119981583");
-		List list2 = (List) getCommonDAO().select("App.selectDySql",sb2.toString());
+		sb2
+				.append("SELECT column3 px,column4 pxm FROM  dyform.DY_171345119981583");
+		List list2 = (List) getCommonDAO().select("App.selectDySql",
+				sb2.toString());
 		request.setAttribute("px", list2);
-		
+
 	}
+
+	// 查询网点管理
+	public ActionForward queryNetPointView(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.queryNetPoint(request, response);
+
+		String forward = "/app/netpointManage.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 理货频率配置主界面
+	public ActionForward onAppOBRelationMain(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		String forward = "/app/appOBRelation.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 理货员树级展示
+	public void onFindProTree(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.findProTree(request, response);
+	}
+
+	// 根据品牌查询相应网点、频率、理货员等信息
+	public void onFindOutletSet(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.findOutletSetByLshId(request, response);
+	}
+
+	// 理货频率配置新增
+	public ActionForward onEditView(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String lshId = request.getParameter("lshId");
+		request.setAttribute("lshId", lshId);
+
+		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
+		String forward = "/app/editOBRelation.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 根据品牌编号 加载未选择网点信息
+	public void onLoadOutletsInfo(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.loadOutletsInfo(request, response);
+	}
+
+	// 保存选择结果
+	public void onSaveOutlets(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.saveOutlets(request, response);
+	}
+
+	// 更新频率信息
+	public void onUpdateTimes(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.updateTimes(request, response);
+	}
+
+	// 删除网点频率配置信息 (批量)
+	public void onDeleteOT(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.deleteOutlets(request, response);
+	}
+
+	// 导出excel 频率配置
+	public void onExportAppOBR(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.exportAppOBR(request, response);
+	}
+
 }

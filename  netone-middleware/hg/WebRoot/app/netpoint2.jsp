@@ -41,7 +41,7 @@
 	　				});
 		}
 		
-var bigpage1 = null;		
+var bigpage1 = null;
 $(document).ready(function(){
  	
  	$('#tooltip').mouseover(function(e){
@@ -57,7 +57,15 @@ $(document).ready(function(){
 		window.open('<c:url value="/file.do?method=onDownLoadFile&isOnLine=0&unid=" />'+rel.replace('imagesouce',''));
 	})
 	
-    bigpage1 = $("#table1").bigPage({position:"both",<c:if test="${!empty param.pagesize}">pageSize:${param.pagesize},</c:if>ajaxData:{url:"<c:url value='/app.do?method=queryNetpoint&rowsize=${param.rowsize}' />"},cssWidgetIds:["ajaxpageBar2"]
+    bigpage1 = $("#table1").bigPage({position:"both",<c:if test="${!empty param.pagesize}">pageSize:${param.pagesize},</c:if>
+    	ajaxData:{
+    		url:"<c:url value='/app.do?method=queryNetpoint2&rowsize=${param.rowsize}' />"
+    		,params:{
+    			queryDate:'${param.queryDate}',
+    			fatherlsh:'${param.fatherlsh}'
+    		}
+    	},
+    	cssWidgetIds:["ajaxpageBar2"]
 	    ,callback:function($table){   
 		    $("a.imagex").each(function(){
 		    	$(this).lightbox();
@@ -72,25 +80,6 @@ $(document).ready(function(){
 					updatePoint(lsh,point);
 				})
 				
-				/**
-				$(this).each(function(){
-					var $caption = $(this).find('span.boxcaption');
-					var pheight = $(this).height();
-					$caption.css('top', pheight );
-					
-					$(this).hover(
-						function(){
-							$caption.stop(1);
-							$caption.animate({ top: pheight - $caption.height() });
-						},
-						function(){
-							$caption.stop(1);
-							$caption.animate({ top: pheight	})
-						}
-					)
-				});
-				**/
-
 		    	$(this).find('#imagediv').mouseover(function(e){
 					$("#tooltip").css({
 						"top": $(this).offset().top + "px",
@@ -109,8 +98,6 @@ $(document).ready(function(){
 		 		})
 				
 				
-				
-				
 		    })
 	    }
     
@@ -123,56 +110,55 @@ $(document).ready(function(){
        	"netName":$("#netName").val(),
        	"createPerson":$("#createPerson").val(),
        	"ppname":$("#ppname").val(),
-       	"point":$('#point').val()
+       	"fatherlsh":"",
+       	"queryDate":"",
+       	"ppid":""
        });
     });
-    
 })
-
-function ppclick(ppname){
-		$('#ppname').val(ppname);
+    function ppclick(ppid){
      	bigpage1.search({
-       	"beginDate":$("#beginDate").val(),
-       	"endDate":$("#endDate").val(),
-       	"netName":$("#netName").val(),
-       	"createPerson":$("#createPerson").val(),
-       	"ppname":$("#ppname").val(),
-       	"point":$('#point').val()
+       	"ppid":ppid,
+       	"queryDate":"${param.queryDate}",
+       	"fatherlsh":"${param.fatherlsh}"
        });
     }
 </script>
-<style type="text/css">
-/** */
-table {
-    background-color: #F2F4F6;
-    border-color: #C1C8D2;
-    border-style: solid;
-    border-width: 1px;
-    padding-top: 0;
-}
-
-table th {
-    background-color: #F2F4F6;
-    border-bottom-color: #C1C8D2;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    padding-top: 0;
-}
-table td {
-	border-bottom-color: #E3E6EB;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-
-	border-left-color: #E3E6EB;
-    border-left-style: solid;
-    border-left-width: 1px;
-    
-    clear: both;
-    font-weight: normal;
-    height: 24px;
-}
-
-.imagediv {
+	<script>function $WdatePicker(t){if (t==1){		WdatePicker({isShowClear:true,dateFmt:"yyyy-MM-dd HH:mm:ss"});	} else if(t==2){		WdatePicker({isShowClear:true,dateFmt:"yyyy-MM-dd"});	} else if(t=3){		WdatePicker({isShowClear:true,dateFmt:"HH:mm:ss"});	}}</script>
+		<title></title>
+		<!-- Include the VML behavior -->
+	<style>v\:image { behavior:url(#default#VML); display:inline-block }
+	
+	table {
+	    background-color: #F2F4F6;
+	    border-color: #C1C8D2;
+	    border-style: solid;
+	    border-width: 1px;
+	    padding-top: 0;
+	}
+	
+	table th {
+	    background-color: #F2F4F6;
+	    border-bottom-color: #C1C8D2;
+	    border-bottom-style: solid;
+	    border-bottom-width: 1px;
+	    padding-top: 0;
+	}
+	table td {
+		border-bottom-color: #E3E6EB;
+	    border-bottom-style: solid;
+	    border-bottom-width: 1px;
+	
+		border-left-color: #E3E6EB;
+	    border-left-style: solid;
+	    border-left-width: 1px;
+	    
+	    clear: both;
+	    font-weight: normal;
+	    height: 24px;
+    }
+	
+	.imagediv {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
@@ -468,126 +454,116 @@ html.VIE7 .form_fieldinput
 }
 	
 	</style>
-	<script>function $WdatePicker(t){if (t==1){		WdatePicker({isShowClear:true,dateFmt:"yyyy-MM-dd HH:mm:ss"});	} else if(t==2){		WdatePicker({isShowClear:true,dateFmt:"yyyy-MM-dd"});	} else if(t=3){		WdatePicker({isShowClear:true,dateFmt:"HH:mm:ss"});	}}</script>
-		<title></title>
-		<!-- Include the VML behavior -->
-	<style>v\:image { behavior:url(#default#VML); display:inline-block }</style>
 	<!-- Declare the VML namespace -->
 	<xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v" />
 	</head>
 	<body>
+	<input type="hidden" id="ppid" />
 	<input type="hidden" id="tooltiprel" />
 	<div id="tooltip" style="display: none;position: absolute;"><input id="rotateBtn" type="button" value="旋转" />
 	<input id="oriBtn" type="button" value="原图" />
 	</div>
+	
 	<center>
-	<form id="form1">
-	<table id="xreport" name="xreport" class="table_form" width="392"
-								bgcolor="white" cellspacing="0" cellpadding="0" align="center"
-								border="0" >
-								
-				<tr class="form_tr" >
-					<td class="form_td" nowrap="nowrap" align="center">
-						<div class="form_fieldcontent" style="width: 392px">
-							<div class="form_fieldcaption" align="right" title="理货日期"
-								style="width: 60px;">
-								理货日期:
+		<form id="form1" style="display: none;">
+		<table id="xreport" name="xreport" class="table_form" width="392"
+									bgcolor="white" cellspacing="0" cellpadding="0" align="center"
+									border="0" >
+									
+					<tr class="form_tr" >
+						<td class="form_td" nowrap="nowrap" align="center">
+							<div class="form_fieldcontent" style="width: 392px">
+								<div class="form_fieldcaption" align="right" title="理货日期"
+									style="width: 60px;">
+									理货日期:
+								</div>
+								<div class="form_fieldinput" style="width: 332px;"
+									align="left">
+									<input type="text" id="beginDate"
+										name="beginDate" style="width: 137.5px" class="Wdate"
+										onFocus="$WdatePicker(2);" value="${beginDate}" />
+									至
+									<input type="text" id="endDate" name="endDate"
+										style="width: 137.5px" class="Wdate"
+										onFocus="$WdatePicker(2);" value="${endDate}" />
+								</div>
 							</div>
-							<div class="form_fieldinput" style="width: 332px;"
-								align="left">
-								<input type="text" id="beginDate"
-									name="beginDate" style="width: 137.5px" class="Wdate"
-									onFocus="$WdatePicker(2);" value="${beginDate}" />
-								至
-								<input type="text" id="endDate" name="endDate"
-									style="width: 137.5px" class="Wdate"
-									onFocus="$WdatePicker(2);" value="${endDate}" />
+						</td>
+					</tr>
+					
+					
+					<tr class="form_tr" >
+						<td class="form_td" nowrap="nowrap" align="center">
+							<div class="form_fieldcontent" style="width: 392px">
+								<div class="form_fieldcaption" align="right" title="网点"
+									style="width: 60px;">
+									网点:
+								</div>
+								<div class="form_fieldinput" style="width: 332px;"
+									align="left">
+									<input id="netName" name="netName" style="width: 307.0px" />
+								</div>
 							</div>
-						</div>
-					</td>
-				</tr>
-				
-				
-				<tr class="form_tr" >
-					<td class="form_td" nowrap="nowrap" align="center">
-						<div class="form_fieldcontent" style="width: 392px">
-							<div class="form_fieldcaption" align="right" title="网点"
-								style="width: 60px;">
-								网点:
+						</td>
+					</tr>
+					<tr class="form_tr" >
+						<td class="form_td" nowrap="nowrap" align="center">
+							<div class="form_fieldcontent" style="width: 392px">
+								<div class="form_fieldcaption" align="right" title="理货员"
+									style="width: 60px;">
+									理货员:
+								</div>
+								<div class="form_fieldinput" style="width: 332px;"
+									align="left">
+									<input id="createPerson" name="createPerson" style="width: 307.0px" />
+								</div>
 							</div>
-							<div class="form_fieldinput" style="width: 332px;"
-								align="left">
-								<input id="netName" name="netName" style="width: 307.0px" />
+						</td>
+					</tr>
+					<tr class="form_tr" >
+						<td class="form_td" nowrap="nowrap" align="center">
+							<div class="form_fieldcontent" style="width: 392px">
+								<div class="form_fieldcaption" align="right" title="品牌"
+									style="width: 60px;">
+									品牌:
+								</div>
+								<div class="form_fieldinput" style="width: 332px;"
+									align="left">
+									<input id="ppname" name="ppname" style="width: 307.0px" />
+								</div>
 							</div>
-						</div>
-					</td>
-				</tr>
-				<tr class="form_tr" >
-					<td class="form_td" nowrap="nowrap" align="center">
-						<div class="form_fieldcontent" style="width: 392px">
-							<div class="form_fieldcaption" align="right" title="理货员"
-								style="width: 60px;">
-								理货员:
+						</td>
+					</tr>
+					<tr class="form_tr" >
+						<td class="form_td" nowrap="nowrap" align="center">
+							<div class="form_fieldcontent" style="width: 392px">
+								<input type="button" id="searchBtn" value="查询"/>
+								<input type="button" id="resetBtn" value="重置" onclick="javascript:document.getElementById('form1').reset();" />
+								<input type="button" id="hideBtn" value="隐藏" onclick="$('#form1').hide();$('#showBtn').show();" />
 							</div>
-							<div class="form_fieldinput" style="width: 332px;"
-								align="left">
-								<input id="createPerson" name="createPerson" style="width: 307.0px" />
-							</div>
-						</div>
-					</td>
-				</tr>
-				<tr class="form_tr" >
-					<td class="form_td" nowrap="nowrap" align="center">
-						<div class="form_fieldcontent" style="width: 392px">
-							<div class="form_fieldcaption" align="right" title="品牌"
-								style="width: 60px;">
-								品牌:
-							</div>
-							<div class="form_fieldinput" style="width: 332px;"
-								align="left">
-								<input id="ppname" name="ppname" style="width: 307.0px" />
-							</div>
-						</div>
-					</td>
-				</tr>
-				<tr class="form_tr" >
-					<td class="form_td" nowrap="nowrap" align="center">
-						<div class="form_fieldcontent" style="width: 392px">
-							<div class="form_fieldcaption" align="right" title="评分"
-								style="width: 60px;">
-								评分:
-							</div>
-							<div class="form_fieldinput" style="width: 332px;"
-								align="left">
-								<select id="point" name="point" style="width: 307.0px" >
-									<option value="">所有</option>
-									<option value="1">合格</option>
-									<option value="0">不合格</option>
-									<option value="2">无效</option>
-								</select>
-							</div>
-						</div>
-					</td>
-				</tr>
-				<tr class="form_tr" >
-					<td class="form_td" nowrap="nowrap" align="center">
-						<div class="form_fieldcontent" style="width: 392px">
-							<input type="button" id="searchBtn" value="查询"/>
-							<input type="button" id="resetBtn" value="重置" onclick="javascript:document.getElementById('form1').reset();" />
-							<input type="button" id="hideBtn" value="隐藏" onclick="$('#form1').hide();$('#showBtn').show();" />
-						</div>
-					</td>
-				</tr>
-								
-	</table>
-	</form>
-	<input type="button" id="showBtn" value="显示" onclick="$('#form1').show();$('#showBtn').hide();" style="display: none;"/>
-	品牌: <span><a href='javascript:void(0)' style="" onclick="ppclick('')">所有</a></span>
+						</td>
+					</tr>
+		</table>
+		</form>
+		<BR>
+			<input type="button" id="showBtn" value="显示高级查询" onclick="$('#form1').show();$('#showBtn').hide();" style="display: display;"/>
+			
+			 品牌: <span><a href='javascript:void(0)' style="" onclick="ppclick('')">所有</a></span>
 			<c:forEach var="list" items="${pplist}">
-				<span><a href='javascript:void(0)' style="color: red;" onclick="ppclick('${list.ppname}')" >${list.ppname}</a></span>
+				<span><a href='javascript:void(0)' style="color: red;" onclick="ppclick('${list.ppid}')" >${list.ppname}</a></span>
 			</c:forEach>
-	<BR>
-		<table id="table1" border="0" cellspacing="5" cellpadding="5" align="center">     
+		
+		
+		<table id="table1" width="80%" border="0" cellspacing="5" cellpadding="5" align="center" bordercolor="blue">
+		<thead>
+			<tr>
+				<th width="150">图片</th>
+				<th>网点</th>
+				<th>理货员</th>
+				<th>理货时间</th>
+				<th>品牌</th>
+			</tr>
+		</thead>
 		<tbody></tbody> 
 		</table> 
      </center>  

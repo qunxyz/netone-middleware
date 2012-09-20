@@ -77,7 +77,7 @@
 		}
 		
 		function selecthis(id,name,inclusion,parent,path){
-		 	var valuex=name+'[<portal:envget envkey="WEBSER_FCK"/>'+'/PagelistViewSvl?pagename=simplefcklist&chkid='+id+"]";
+		 	var valuex=name+'['+id+']';
 		 	document.getElementById("description_").value=valuex;
 		 	document.getElementById("description").value=valuex;
 		}

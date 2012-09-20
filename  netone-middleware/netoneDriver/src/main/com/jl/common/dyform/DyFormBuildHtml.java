@@ -538,7 +538,7 @@ public final class DyFormBuildHtml {
 				return null;
 			}
 			value = htmEncode2(value);
-			return value ;
+			return value;
 		} else if (arr[18][0].equals(htmltype)) {// 22:组织人员单选
 			if ("ext".equals(type)) {
 				return null;
@@ -1040,10 +1040,12 @@ public final class DyFormBuildHtml {
 			String _value = "";
 			boolean isMultiDoc2 = checkMultiDoc2(column.getViewtype());
 			if (isMultiDoc2) {
-				String _value2 = DyFormComp
-						.getJqueryFunctionScript("$(\"table#" + formcode
-								+ "\").find(\"#textarea" + column.getColumnid()
-								+ "\").autogrow();");
+				String _value2 = "";
+				/** 2012-9-20取消大文本框自动撑开 */
+				// _value2 = DyFormComp
+				// .getJqueryFunctionScript("$(\"table#" + formcode
+				// + "\").find(\"#textarea" + column.getColumnid()
+				// + "\").autogrow();");
 				_value = _value2
 						+ routeAppointComp(column.getViewtype(), column
 								.getColumnid(), "" + value,
@@ -1067,9 +1069,10 @@ public final class DyFormBuildHtml {
 
 			String _value2 = "";
 			if (isMultiDoc) {
-				_value2 = DyFormComp.getJqueryFunctionScript("$(\"table#"
-						+ formcode + "\").find(\"#textarea"
-						+ column.getColumnid() + "\").autogrow();");
+				/** 2012-9-20取消大文本框自动撑开 */
+				// _value2 = DyFormComp.getJqueryFunctionScript("$(\"table#"
+				// + formcode + "\").find(\"#textarea"
+				// + column.getColumnid() + "\").autogrow();");
 			}
 
 			String _value = _value2

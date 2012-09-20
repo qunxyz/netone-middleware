@@ -36,5 +36,6 @@
 }
 
 .bigpage-ajax-loading{
+	z-index:99999;
 	background:url("../images/ajax-loader.gif") no-repeat scroll center center transparent;
 }

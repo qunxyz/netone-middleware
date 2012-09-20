@@ -4,6 +4,7 @@
 package com.jl.service.impl;
 
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -29,6 +30,7 @@ import com.jl.common.dyform.DyFormComp;
 import com.jl.common.report.GroupReport;
 import com.jl.common.report.ReportExt;
 import com.jl.dao.CommonDAO;
+import com.jl.entity.User;
 import com.jl.service.AppService;
 import com.jl.service.BaseService;
 import com.lucaslee.report.model.Rectangle;
@@ -1030,7 +1032,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 
 					cache.append("<div id='imagediv'><a class='imagex' href='"
 							+ addr_scale + "' title='" + title
-							+ "'><img id='imagesouce" + lsh + "' width="
+							+ "'><img id='imagesouce" + fileunid + "' width="
 							+ width + " height=" + height + " src='" + addr
 							+ "' /></a></div>");
 
@@ -1085,6 +1087,157 @@ public class AppServiceImpl extends BaseService implements AppService {
 					cache = new StringBuffer();
 				}
 
+			}
+
+			super.writeJsonStr(response, buildJsonStr2(total, jsonBuffer
+					.toString()));
+		} catch (Exception e) {
+			log.error("出错了", e);
+		}
+	}
+
+	public void queryNetPointManage2(HttpServletRequest request,
+			HttpServletResponse response) {
+		String beginDate = request.getParameter("beginDate");
+		String endDate = request.getParameter("endDate");
+		String netName = request.getParameter("netName");
+		String ppname = request.getParameter("ppname");
+		String createPerson = request.getParameter("createPerson");
+		String point = request.getParameter("point");
+
+		String fatherlsh = request.getParameter("fatherlsh");
+		String queryDate = request.getParameter("queryDate");
+		String ppid = request.getParameter("ppid");
+
+		String toPage = request.getParameter("toPage");
+		String pageSize = request.getParameter("pageSize");
+		String rowsize_ = request.getParameter("rowsize");
+		String width = "138";
+		String height = "143";
+		try {
+			Integer rowsize = 5;
+			if (StringUtils.isNotEmpty(rowsize_)) {
+				rowsize = Integer.parseInt(rowsize_);
+			}
+
+			Map map = new LinkedHashMap();
+			map.put("startIndex", (Integer.parseInt(toPage) - 1)
+					* Integer.parseInt(pageSize));
+			map.put("pageSize", pageSize);
+			if (StringUtils.isNotEmpty(beginDate)) {
+				map.put("beginDate", beginDate.trim());
+			}
+			if (StringUtils.isNotEmpty(endDate)) {
+				map.put("endDate", endDate.trim());
+			}
+			if (StringUtils.isNotEmpty(netName)) {
+				map.put("netName", netName.trim());
+			}
+			if (StringUtils.isNotEmpty(ppname)) {
+				map.put("ppname", ppname.trim());
+			}
+			if (StringUtils.isNotEmpty(createPerson)) {
+				map.put("createPerson", createPerson.trim());
+			}
+			if (StringUtils.isNotEmpty(point)) {
+				map.put("point", point.trim());
+			}
+
+			if (StringUtils.isNotEmpty(queryDate)) {
+				map.put("queryDate", queryDate.trim());
+			}
+			if (StringUtils.isNotEmpty(fatherlsh)) {
+				map.put("fatherlsh", fatherlsh.trim());
+			}
+			if (StringUtils.isNotEmpty(ppid)) {
+				map.put("ppid", ppid.trim());
+			}
+
+			List result = (List) commonDAO.select("App.selectNetpoint", map);
+			Integer total = (Integer) commonDAO.findForObject(
+					"App.selectNetpointCount", map);
+
+			String pointList = "1-合格,0-不合格,2-无效";
+
+			StringBuffer jsonBuffer = new StringBuffer();
+			String split = "";
+			String path = request.getContextPath();
+			for (int i = 0; i < result.size(); i++) {
+				Map info = (Map) result.get(i);
+
+				String address = (String) info.get("address");
+				String createPerson_ = (String) info.get("createPerson");
+				String createDate = (String) info.get("createDate");
+				String point_ = (String) info.get("point");
+				String lsh = (String) info.get("lsh");
+				String fileunid = (String) info.get("fileunid");
+
+				jsonBuffer.append(split + "[\"");
+				jsonBuffer.append("<div  style='backgroud:#F7F7F7'>");
+
+				if (StringUtils.isNotEmpty(address)) {
+
+					String addr = path
+							+ "/file.do?method=onDownLoadOptFile&width="
+							+ width + "&height=" + height + "&isOnLine=0&unid="
+							+ fileunid;
+					String addr_scale = path
+							+ "/file.do?method=onDownLoadOptFile&scale=" + 2
+							+ "&isOnLine=0&unid=" + fileunid;
+					String title = "";
+					if (StringUtils.isNotEmpty(createPerson_)
+							|| StringUtils.isNotEmpty(createDate)) {
+						title = info.get("createPerson") + "于"
+								+ info.get("createDate") + "创建";
+					}
+
+					jsonBuffer
+							.append("<div id='imagediv'><a class='imagex' href='"
+									+ addr_scale
+									+ "' title='"
+									+ title
+									+ "'><img id='imagesouce"
+									+ fileunid
+									+ "' width="
+									+ width
+									+ " height="
+									+ height
+									+ " src='" + addr + "' /></a></div>");
+
+				} else {
+					String addr = path + "/images/no_picture.jpg";
+					jsonBuffer.append("<div><img width=" + width + " height="
+							+ height + " src='" + addr + "' /></div>");
+				}
+				jsonBuffer.append("</div>");
+				jsonBuffer.append("\",");
+
+				jsonBuffer.append("\"");
+				jsonBuffer.append("<div>" + info.get("netName") + "</div>");
+				jsonBuffer.append("\",");
+
+				jsonBuffer.append("\"");
+				jsonBuffer
+						.append("<div>" + info.get("createPerson") + "</div>");
+				jsonBuffer.append("\",");
+
+				jsonBuffer.append("\"");
+				jsonBuffer.append("<div>" + info.get("createDate") + "</div>");
+				jsonBuffer.append("\",");
+
+				jsonBuffer.append("\"");
+				jsonBuffer
+						.append("<div>" + info.get("ppname") + "</div></div>");
+				jsonBuffer.append("\"]");
+				// boolean readonly = false;
+				// if (StringUtils.isNotEmpty(point_)) {
+				// readonly = true;
+				// }
+				// jsonBuffer.append("<div>评分:"
+				// + DyFormComp.getGroupRadio2(lsh, point_, "", "",
+				// readonly, pointList).replaceAll("\"", "\'")
+				// + "</div>");
+				split = ",";
 			}
 
 			super.writeJsonStr(response, buildJsonStr2(total, jsonBuffer
@@ -1408,6 +1561,393 @@ public class AppServiceImpl extends BaseService implements AppService {
 			total = "" + tl;
 		}
 		return total;
+	}
+
+	public void queryNetPoint(HttpServletRequest request,
+			HttpServletResponse response) {
+		String naturalurl = request.getParameter("naturalurl");
+		List<Map<String, String>> jsonList = new ArrayList<Map<String, String>>();
+		User user = getOnlineUser(request);
+		String usercode = user.getUserCode();
+
+		try {
+			Map conditionmap = new HashMap();
+			List<Map> list = (List) commonDAO.select("App.selectNetpointInfo",
+					conditionmap);
+			String path = request.getContextPath();
+			StringBuilder str = new StringBuilder();
+			for (Map data : list) {
+
+				str.append("{");
+				str.append("\"id\"");
+				str.append(":\"");
+				str.append(data.get("lsh") + "|");
+				str.append("\",");
+
+				str.append("\"text\"");
+				str.append(":\"");
+				str.append(data.get("netName"));
+				str.append("\",");
+
+				str.append("\"attributes\":{");
+				str.append("	\"linkurl\":\"" + path
+						+ "/app.do?method=queryNetpointView2&fatherlsh="
+						+ data.get("lsh") + "\"");
+				str.append("},");
+
+				str.append("\"showcheck\":true,\"isexpand\": " + false
+						+ ", \"complete\": true");
+
+				Map condition = new HashMap();
+				condition.put("fatherlsh", data.get("lsh"));
+				List set = (List) commonDAO.select("App.selectNetpointDate",
+						condition);
+
+				if (set.size() > 0) {
+
+					// 二级
+					StringBuffer jsonx = new StringBuffer();
+					for (Iterator iterator = set.iterator(); iterator.hasNext();) {
+						Map object = (Map) iterator.next();
+
+						jsonx.append("{");
+						jsonx.append("\"id\"");
+						jsonx.append(":\"");
+						jsonx.append(data.get("lsh") + "|"
+								+ object.get("createDate"));
+						jsonx.append("\",");
+
+						jsonx.append("\"text\"");
+						jsonx.append(":\"");
+						jsonx.append(object.get("createDate"));
+						jsonx.append("\",");
+
+						jsonx.append("\"attributes\":{");
+						jsonx
+								.append("	\"linkurl\":\""
+										+ path
+										+ "/app.do?method=queryNetpointView2&fatherlsh="
+										+ data.get("lsh") + "&queryDate="
+										+ object.get("createDate") + "\"");
+						jsonx.append("},");
+
+						jsonx.append("\"showcheck\":true,\"isexpand\": "
+								+ false + ", \"complete\": true");
+
+						jsonx.append(",\"hasChildren\"");
+						jsonx.append(":");
+						jsonx.append("false");
+						jsonx.append(",\"children\":null");
+						jsonx.append("},");
+					}
+
+					str.append(",\"state\":" + (false ? false : "\"closed\""));
+
+					str.append(",\"hasChildren\"");
+					str.append(":");
+					str.append("true");
+
+					str.append(",\"children\":[");
+					str.append(jsonx.toString().substring(0,
+							jsonx.toString().length() - 1));
+					str.append("]},");
+				} else {
+					// 一级
+					str.append(",\"hasChildren\"");
+					str.append(":");
+					str.append("false");
+					str.append(",\"children\":null");
+					str.append("},");
+				}
+
+			}
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("title", "网点管理");
+			String json = "";
+			if (StringUtils.isNotEmpty(str.toString())) {
+				json = str.substring(0, str.length() - 1);
+			}
+			map.put("json", "[" + json + "]");
+
+			jsonList.add(map);
+
+			String html = DyFormComp.getEasyuiAccordionTree(jsonList);
+			request.setAttribute("accordhtml", html);
+
+		} catch (Exception e) {
+			log.error("查询网点失败!", e);
+		}
+	}
+
+	public void queryNetpointPP(HttpServletRequest request,
+			HttpServletResponse response) {
+		String fatherlsh = request.getParameter("fatherlsh");
+		String beginDate = request.getParameter("beginDate");
+		String endDate = request.getParameter("endDate");
+		String netName = request.getParameter("netName");
+		String ppname = request.getParameter("ppname");
+		String createPerson = request.getParameter("createPerson");
+		String point = request.getParameter("point");
+		Map conditionMap = new HashMap();
+		if (StringUtils.isNotEmpty(beginDate)) {
+			conditionMap.put("beginDate", beginDate.trim());
+		}
+		if (StringUtils.isNotEmpty(endDate)) {
+			conditionMap.put("endDate", endDate.trim());
+		}
+		if (StringUtils.isNotEmpty(netName)) {
+			conditionMap.put("netName", netName.trim());
+		}
+		if (StringUtils.isNotEmpty(ppname)) {
+			conditionMap.put("ppname", ppname.trim());
+		}
+		if (StringUtils.isNotEmpty(createPerson)) {
+			conditionMap.put("createPerson", createPerson.trim());
+		}
+		if (StringUtils.isNotEmpty(point)) {
+			conditionMap.put("point", point.trim());
+		}
+		if (StringUtils.isNotEmpty(fatherlsh)) {
+			conditionMap.put("fatherlsh", fatherlsh);
+		}
+		try {
+			List list = (List) commonDAO.select("App.selectNetpointPP",
+					conditionMap);
+			request.setAttribute("pplist", list);
+		} catch (Exception e) {
+			log.error("出错了!", e);
+		}
+
+	}
+
+	public void findProTree(HttpServletRequest request,
+			HttpServletResponse response) {
+		String node = request.getParameter("node");
+		try {
+			if ("0".equals(node)) {// 根节点
+				Collection coll = commonDAO.select("App.findProInfo", node);
+				String categoriesJsonStr = buildProJsonStr(coll);
+				super.writeJsonStr(response, categoriesJsonStr);
+			}
+		} catch (Exception e) {
+			log.error("出错", e);
+		}
+
+	}
+
+	public void findOutletSetByLshId(HttpServletRequest request,
+			HttpServletResponse response) {
+		StringBuffer jsonBuf = new StringBuffer();
+		String lshId = request.getParameter("id");// 获取产品分类号
+		String condition = request.getParameter("condition");// 模糊查询条件
+		try {
+			String split = "";
+			Map map = new HashMap();
+			map.put("lshId", lshId);
+			if (StringUtils.isNotEmpty(condition)) {
+				map.put("condition", condition.trim());
+			}
+			List list = (List) commonDAO
+					.select("App.findOutletSetByLshId", map);
+			// 遍历并构造json字符串
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				Map pInfo = (Map) iterator.next();
+
+				String jsonStr = JSONObject.fromObject(pInfo).toString();
+				jsonBuf.append(split + jsonStr);
+				split = ",";
+			}
+		} catch (Exception e) {
+			log.error("加载出错!", e);
+		} finally {
+			super.writeJsonStr(response, "{info:[" + jsonBuf + "]}");
+		}
+	}
+
+	public void loadOutletsInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		String related = request.getParameter("related");// 1.已关联 0.未关联
+		String type = request.getParameter("type");
+		try {
+			Collection infoResult = new ArrayList();
+
+			String lshId = request.getParameter("id").trim();
+
+			infoResult = commonDAO.select("App.findUnChooseOutLetsByLshId",
+					lshId);
+
+			String[] properties = { "outId", "outName" };
+			StringBuffer jsonBuffer = new StringBuffer();
+			String split = "";
+			for (Iterator iterator = infoResult.iterator(); iterator.hasNext();) {
+				Map map = (Map) iterator.next();
+
+				String jsonStr = JSONUtil2.fromBean(map, properties, null,
+						"yyyy-MM-dd HH:mm").toString();
+				jsonBuffer.append(split);
+				jsonBuffer.append(jsonStr);
+				split = ",";
+			}
+			StringBuilder store = new StringBuilder();
+			store.append("{info:[");
+			store.append(jsonBuffer.toString());
+			store.append("]}");
+
+			super.writeJsonStr(response, store.toString());
+
+		} catch (Exception e) {
+			log.error("出错了!", e);
+		}
+	}
+
+	private String buildProJsonStr(Collection col) {
+		List jSonSet = new ArrayList();
+		for (Iterator itr = col.iterator(); itr.hasNext();) {
+			Map pc2 = (Map) itr.next();
+			String str = "{id: \"" + pc2.get("lshId") + "\",code: \""
+					+ pc2.get("proCode") + "\", text:\"" + pc2.get("proName")
+					+ "\"}";
+
+			jSonSet.add(str);
+		}
+
+		String str = StringUtils.join(jSonSet.iterator(), ",");
+		str = "[" + str + "]";
+		return str;
+	}
+
+	public void saveOutlets(HttpServletRequest request,
+			HttpServletResponse response) {
+		String outId = request.getParameter("outIdStr");
+		String brandId = request.getParameter("lshId");
+		String times = request.getParameter("times");
+		String note = request.getParameter("note");
+		String statusx = request.getParameter("statusx");
+		String tip = "新增成功!";
+		List list = new ArrayList();
+		Map conditionMap = null;
+		try {
+			// 获取当前操作者
+			User user = getOnlineUser(request);
+			String[] outIdArr = outId.split(",");
+			for (int i = 0; i < outIdArr.length; i++) {
+				conditionMap = new HashMap();
+				conditionMap.put("outletsId", outIdArr[i]);
+				conditionMap.put("brandId", brandId);
+				conditionMap.put("times", times);
+				conditionMap.put("note", note);
+				conditionMap.put("statusx", statusx);
+				conditionMap.put("operate", user.getUserName());
+				conditionMap.put("createdDate", TimeUtil.parseDateTime(TimeUtil
+						.formatDateTime(new Date())));
+				list.add(conditionMap);
+			}
+			commonDAO.insertBatch("App.insertBatchOutletsTimes", list);
+
+		} catch (Exception e) {
+			tip = "新增失败！";
+			log.error("新增加失败！", e);
+		} finally {
+			tip = "{tip:\"" + tip + "\"}";
+			super.writeJsonStr(response, tip);
+		}
+	}
+
+	public void updateTimes(HttpServletRequest request,
+			HttpServletResponse response) {
+		String tip = "";
+		String tallId = request.getParameter("tallId");
+		String outletsId = request.getParameter("outletsId");
+		String brandId = request.getParameter("brandId");
+		String times = request.getParameter("times");
+		String note1 = request.getParameter("note");
+
+		User user = getOnlineUser(request);
+
+		Map conditionMap = new HashMap();
+		try {
+			String note = URLDecoder.decode(note1, "UTF-8");// 去除中文乱码
+			conditionMap.put("tallId", tallId);
+			if (StringUtils.isNotEmpty(times)) {
+				conditionMap.put("times", times);
+			}
+			if (StringUtils.isNotEmpty(note)) {
+				conditionMap.put("note", note);
+			}
+			conditionMap.put("operate", user.getUserName());
+			conditionMap.put("createdDate", TimeUtil.parseDateTime(TimeUtil
+					.formatDateTime(new Date())));
+			commonDAO.update("App.updateOutletsTimes", conditionMap);
+		} catch (Exception e) {
+			tip = "更新频率失败！";
+			log.error("更新频率失败！", e);
+		} finally {
+			tip = "{tip:\"" + tip + "\"}";
+			super.writeJsonStr(response, tip);
+		}
+	}
+
+	public void deleteOutlets(HttpServletRequest request,
+			HttpServletResponse response) {
+		JSONObject json = new JSONObject();
+		String tallIdStr = request.getParameter("tallIdStr");// 获取数据字典编号
+		String[] tallIdStrArr = tallIdStr.split(",");
+		List tallIdList = new ArrayList();
+		try {
+			for (int i = 0; i < tallIdStrArr.length; i++) {
+				tallIdList.add(tallIdStrArr[i]);
+			}
+			commonDAO.deleteBatch("App.deleteOutlets", tallIdList);// 删除
+			json.put("tip", "删除网点配置信息成功!");
+		} catch (Exception e) {
+			json.put("tip", "删除失败，请与管理员联系!");
+			json.put("error", "yes");
+			log.error("删除失败，请与管理员联系!", e);
+		} finally {
+			super.writeJsonStr(response, json.toString());
+		}
+	}
+
+	public void exportAppOBR(HttpServletRequest request,
+			HttpServletResponse response) {
+		String format = request.getParameter("format");
+		String t = request.getParameter("t");
+
+		try {
+			GroupReport groupReport = new GroupReport();
+
+			String lshId = request.getParameter("lshId");
+			String tallIdStr = request.getParameter("tallIdStr");
+			Map map = new HashMap();
+			if (StringUtils.isNotEmpty(lshId)) {
+				map.put("lshId", lshId.trim());
+			}
+			if (StringUtils.isNotEmpty(tallIdStr)) {
+				map.put("tallId", tallIdStr.trim().split(","));
+			}
+			Long currentTimeMillis = System.currentTimeMillis();
+			groupReport.format(format, "理货频率配置" + currentTimeMillis,
+					getReport_outletsByPx(map), response);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("导出信息出错!", e);
+		}
+	}
+
+	private Report getReport_outletsByPx(Map map) throws Exception {// 根据品牌导出
+		Collection result = commonDAO.select("App.export_outlets", map);
+		String[] dataHeaderSet = { "brandName", "outletsName", "times", "note",
+				"statusx", "creadDate", "operate" };
+		String[] headerSet = { "品牌", "网点名称", "每周几次", "备注", "状态", "创建时间", "录单人" };
+		Map<String, Integer> position = new HashMap();
+		position.put("times", Rectangle.ALIGN_RIGHT);
+		ReportExt reportExt = new ReportExt();
+		Report report = reportExt.getReportList(result, dataHeaderSet,
+				headerSet, position);
+
+		reportExt.setSimpleTitleFooter(report, "理货频率配置");
+		return report;
 	}
 
 }

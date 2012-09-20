@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -362,14 +363,7 @@ public class FrameAction extends AbstractAction {
 		String isadd = request.getParameter("isadd");
 
 		String urltemplate = app.getDescription();
-		EnvService env = (EnvService) RmiEntry.iv("envinfo");
-		if (StringUtils.isNotEmpty(urltemplate)) {
-			urltemplate = "&nbsp;&nbsp;<a target='_blank' href='"
-					+ urltemplate
-					+ "'  ><font size='3' color='red'>工单填写须知</font></a>";
-			request.setAttribute("helptext", (urltemplate == null ? ""
-					: urltemplate));
-		}
+		printHelpText(urltemplate, request);
 
 		if (StringUtils.isNotEmpty(urltemplate) && !"03".equals(operatemode)) {
 			// 针对新增的模板
@@ -944,6 +938,7 @@ public class FrameAction extends AbstractAction {
 		String linkcss = DyFormComp.getStyle(getURL(dyform.getStyleinfourl_()));
 		request.setAttribute("linkcss", linkcss);
 		request.setAttribute("htmltitleinfo", app.getFormtitle());
+		printHelpText(app.getDescription(), request);
 		return mapping.findForward("onAuditView");
 	}
 
@@ -1010,7 +1005,7 @@ public class FrameAction extends AbstractAction {
 
 		AppObj app = AppEntry.iv().loadApp(naturalname);
 		String processid = app.getWorkflowCode_();
-
+		printHelpText(app.getDescription(), request);
 		String[] filteractiveids_ = null;
 		if (StringUtils.isNotEmpty(filteractiveids)) {
 			filteractiveids_ = filteractiveids.split(",");
@@ -1993,6 +1988,20 @@ public class FrameAction extends AbstractAction {
 				.getRequiredWebApplicationContext(servlet.getServletContext())
 				.getBean("frameService");
 		ins.queryDyReport(request, response);
+	}
+	
+	//获取帮助信息
+	private void printHelpText(String urltemplate,HttpServletRequest request) throws Exception{
+		EnvService env = (EnvService) RmiEntry.iv("envinfo");
+		if (StringUtils.isNotEmpty(urltemplate)) {
+			urltemplate = "&nbsp;&nbsp;<a target='_blank' href='"
+					+ env.fetchEnvValue("WEBSER_FCK")
+					+ "/PagelistViewSvl?pagename=simplefcklist&chkid="
+					+ urltemplate
+					+ "'  ><font size='3' color='red'>工单填写须知</font></a>";
+			request.setAttribute("helptext", (urltemplate == null ? ""
+					: urltemplate));
+		}
 	}
 
 }

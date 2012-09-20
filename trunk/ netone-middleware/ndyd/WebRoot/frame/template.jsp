@@ -365,7 +365,7 @@
 		
 		
 		<c:if test="${!empty helptext}">
-				$('#btn_nd').each(function(){
+				$('body').find('#btn_nd').each(function(){
 					$(this).append($('#helptext').html());
 				});
 		</c:if>

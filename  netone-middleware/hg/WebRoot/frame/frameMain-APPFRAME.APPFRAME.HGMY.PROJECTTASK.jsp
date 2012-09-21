@@ -70,11 +70,24 @@ function $select(o,url){
 				        index,
 						cb,
 						${columns}
-						,{header: "操作",dataIndex: "", sortable: false, renderer: 
+						,{header: "核销状态",dataIndex: "statusinfo", width:80,sortable: false, renderer: 
+						function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) { 
+								var statusinfo = store.getAt(rowIndex).get('statusinfo') ; 
+								if (statusinfo=='01'){
+									return '<font color="green">待核销</font>';
+								} else if (statusinfo=='02'){
+									return '<font color="blue">已核销</font>';
+								} else {
+									return '<font color="red">未核销</font>';
+								}
+							}
+						}
+						,{header: "操作",dataIndex: "",width:200, sortable: false, renderer: 
 						function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) { 
 							var lsh = store.getAt(rowIndex).get('lsh') ; 
 							var runtimeid = store.getAt(rowIndex).get('runtimeid') ; 
 							var RUN = store.getAt(rowIndex).get('run') ; 
+							var statusinfo = store.getAt(rowIndex).get('statusinfo') ; 
 							var value = "";value += "&nbsp;<a href='javascript:void(0)' onclick=$query('"+lsh+"','"+runtimeid+"','true'); >查看</a>&nbsp;";
 							<rs:permission action="7" resource="${naturalname_dyform}.HX">
 							if (statusinfo=='01'){

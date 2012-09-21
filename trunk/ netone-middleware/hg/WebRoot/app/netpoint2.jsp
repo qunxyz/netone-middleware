@@ -13,117 +13,6 @@
 		<script language="javascript" type="text/javascript"
 			src="<%=path%>/My97DatePicker/WdatePicker.js" charset="gb2312"></script>
 		
-		<script type="text/javascript">
-		function updatePoint(lsh,point){
-			var msgTip = Ext.MessageBox.show({
-								title:'系统提示',
-								width : 200,
-								msg:'正在保存信息请稍后......'
-	  		         });
-              Ext.Ajax.request({
-						url :"<c:url value='/app.do?method=updateNetPoint' />",//请求的服务器地址
-						method : 'POST',
-						params:{lsh:lsh,point:point},
-						success : function(response,options){
-							msgTip.hide();
-							var result = Ext.util.JSON.decode(response.responseText);
-							if(result.error==null){
-								Ext.ux.Toast.msg("", result.tip);
-							} else {
-								Ext.MessageBox.alert('提示',result.tip);
-							}
-						},
-						failure : function(response,options){
-							checkAjaxStatus(response);
-							var result = Ext.util.JSON.decode(response.responseText);
-							Ext.MessageBox.alert('提示',result.tip);
-						}
-	　				});
-		}
-		
-var bigpage1 = null;
-$(document).ready(function(){
- 	
- 	$('#tooltip').mouseover(function(e){
-		$("#tooltip").show();
-	})
-	$('#tooltip').find('#rotateBtn').bind("click",function(){
-		var rel = $('#tooltiprel').val();
-		if($('#'+rel)) $('#'+rel).rotateRight();
-	})
-	$('#tooltip').find('#oriBtn').bind("click",function(){
-		var rel = $('#tooltiprel').val();
-		
-		window.open('<c:url value="/file.do?method=onDownLoadFile&isOnLine=0&unid=" />'+rel.replace('imagesouce',''));
-	})
-	
-    bigpage1 = $("#table1").bigPage({position:"both",<c:if test="${!empty param.pagesize}">pageSize:${param.pagesize},</c:if>
-    	ajaxData:{
-    		url:"<c:url value='/app.do?method=queryNetpoint2&rowsize=${param.rowsize}' />"
-    		,params:{
-    			queryDate:'${param.queryDate}',
-    			fatherlsh:'${param.fatherlsh}'
-    		}
-    	},
-    	cssWidgetIds:["ajaxpageBar2"]
-	    ,callback:function($table){   
-		    $("a.imagex").each(function(){
-		    	$(this).lightbox();
-		    })
-		    $table.find("td").attr("nowrap","nowrap");
-		    
-		    $table.find("td").each(function(){
-		    	$(this).find('input[type=radio]').bind("click",function(){
-		    		var obj = $(this).siblings("input[type=hidden]");
-		    		var lsh = obj.attr('id');
-		    		var point = obj.val();
-					updatePoint(lsh,point);
-				})
-				
-		    	$(this).find('#imagediv').mouseover(function(e){
-					$("#tooltip").css({
-						"top": $(this).offset().top + "px",
-						"left": $(this).offset().left + "px"
-					}).show();
-					if($(this).find('img').attr('id')) $("#tooltiprel").val($(this).find('img').attr('id'));
-				}).mouseout(function(){
-					//$("#tooltiprel").val('');
-					$("#tooltip").hide();
-		 		}).mousemove(function(){
-		 			if($(this).find('img').attr('id')) $("#tooltiprel").val($(this).find('img').attr('id'));
-		 			$("#tooltip").css({
-						"top": $(this).offset().top + "px",
-						"left": $(this).offset().left + "px"
-					}).show();
-		 		})
-				
-				
-		    })
-	    }
-    
-    });  
-    
-    $("#searchBtn").click(function(){
-       bigpage1.search({
-       	"beginDate":$("#beginDate").val(),
-       	"endDate":$("#endDate").val(),
-       	"netName":$("#netName").val(),
-       	"createPerson":$("#createPerson").val(),
-       	"ppname":$("#ppname").val(),
-       	"fatherlsh":"",
-       	"queryDate":"",
-       	"ppid":""
-       });
-    });
-})
-    function ppclick(ppid){
-     	bigpage1.search({
-       	"ppid":ppid,
-       	"queryDate":"${param.queryDate}",
-       	"fatherlsh":"${param.fatherlsh}"
-       });
-    }
-</script>
 	<script>function $WdatePicker(t){if (t==1){		WdatePicker({isShowClear:true,dateFmt:"yyyy-MM-dd HH:mm:ss"});	} else if(t==2){		WdatePicker({isShowClear:true,dateFmt:"yyyy-MM-dd"});	} else if(t=3){		WdatePicker({isShowClear:true,dateFmt:"HH:mm:ss"});	}}</script>
 		<title></title>
 		<!-- Include the VML behavior -->
@@ -548,11 +437,9 @@ html.VIE7 .form_fieldinput
 		<BR>
 			<input type="button" id="showBtn" value="显示高级查询" onclick="$('#form1').show();$('#showBtn').hide();" style="display: display;"/>
 			
-			 品牌: <span><a href='javascript:void(0)' style="" onclick="ppclick('')">所有</a></span>
-			<c:forEach var="list" items="${pplist}">
-				<span><a href='javascript:void(0)' style="color: red;" onclick="ppclick('${list.ppid}')" >${list.ppname}</a></span>
-			</c:forEach>
-		
+			<div id="extentInfo" style="width: 900px;text-align: left">
+	
+			</div>
 		
 		<table id="table1" width="80%" border="0" cellspacing="5" cellpadding="5" align="center" bordercolor="blue">
 		<thead>
@@ -569,3 +456,145 @@ html.VIE7 .form_fieldinput
      </center>  
 	</body>
 </html>
+<script type="text/javascript">
+	function updatePoint(lsh,point){
+		var msgTip = Ext.MessageBox.show({
+							title:'系统提示',
+							width : 200,
+							msg:'正在保存信息请稍后......'
+  		         });
+             Ext.Ajax.request({
+					url :"<c:url value='/app.do?method=updateNetPoint' />",//请求的服务器地址
+					method : 'POST',
+					params:{lsh:lsh,point:point},
+					success : function(response,options){
+						msgTip.hide();
+						var result = Ext.util.JSON.decode(response.responseText);
+						if(result.error==null){
+							Ext.ux.Toast.msg("", result.tip);
+						} else {
+							Ext.MessageBox.alert('提示',result.tip);
+						}
+					},
+					failure : function(response,options){
+						checkAjaxStatus(response);
+						var result = Ext.util.JSON.decode(response.responseText);
+						Ext.MessageBox.alert('提示',result.tip);
+					}
+　				});
+	}
+		
+var bigpage1 = null;
+$(document).ready(function(){
+ 	
+ 	$('#tooltip').mouseover(function(e){
+		$("#tooltip").show();
+	})
+	$('#tooltip').find('#rotateBtn').bind("click",function(){
+		var rel = $('#tooltiprel').val();
+		if($('#'+rel)) $('#'+rel).rotateRight();
+	})
+	$('#tooltip').find('#oriBtn').bind("click",function(){
+		var rel = $('#tooltiprel').val();
+		
+		window.open('<c:url value="/file.do?method=onDownLoadFile&isOnLine=0&unid=" />'+rel.replace('imagesouce',''));
+	})
+	
+    bigpage1 = $("#table1").bigPage({position:"both",<c:if test="${!empty param.pagesize}">pageSize:${param.pagesize},</c:if>
+    	ajaxData:{
+    		url:"<c:url value='/app.do?method=queryNetpoint2&rowsize=${param.rowsize}' />"
+    		,params:{
+    			queryDate:'${param.queryDate}',
+    			fatherlsh:'${param.fatherlsh}'
+    		}
+    	},
+    	cssWidgetIds:["ajaxpageBar2"]
+	    ,callback:function($table){   
+		    $("a.imagex").each(function(){
+		    	$(this).lightbox();
+		    })
+		    $table.find("td").attr("nowrap","nowrap");
+		    
+		    $table.find("td").each(function(){
+		    	$(this).find('input[type=radio]').bind("click",function(){
+		    		var obj = $(this).siblings("input[type=hidden]");
+		    		var lsh = obj.attr('id');
+		    		var point = obj.val();
+					updatePoint(lsh,point);
+				})
+				
+		    	$(this).find('#imagediv').mouseover(function(e){
+					$("#tooltip").css({
+						"top": $(this).offset().top + "px",
+						"left": $(this).offset().left + "px"
+					}).show();
+					if($(this).find('img').attr('id')) $("#tooltiprel").val($(this).find('img').attr('id'));
+				}).mouseout(function(){
+					//$("#tooltiprel").val('');
+					$("#tooltip").hide();
+		 		}).mousemove(function(){
+		 			if($(this).find('img').attr('id')) $("#tooltiprel").val($(this).find('img').attr('id'));
+		 			$("#tooltip").css({
+						"top": $(this).offset().top + "px",
+						"left": $(this).offset().left + "px"
+					}).show();
+		 		})
+				
+				
+		    })
+	    }
+    
+    });  
+    //searchExtentInfo();
+    $("#searchBtn").click(function(){
+       search();
+    });
+})
+// 查询扩展信息
+function searchExtentInfo(){
+	$.ajax({
+	   type: "POST",
+	   url: "<c:url value='/app.do?method=queryNetpointExtendInfo' />",
+	   data: {
+	    "beginDate":$("#beginDate").val(),
+       	"endDate":$("#endDate").val(),
+       	"netName":$("#netName").val(),
+       	"createPerson":$("#createPerson").val(),
+       	"ppname":$("#ppname").val(),
+       	"point":$('#point').val()
+	   },
+	   dataType:"html",
+	   success: function(result){
+	   		$('#extentInfo').html(result);
+	   }
+	}); 
+}
+
+function search(){
+     	bigpage1.search({
+       	"beginDate":$("#beginDate").val(),
+       	"endDate":$("#endDate").val(),
+       	"netName":$("#netName").val(),
+       	"createPerson":$("#createPerson").val(),
+       	"ppname":$("#ppname").val(),
+       	"point":$('#point').val(),
+       	"fatherlsh":"",
+       	"queryDate":""
+       });
+       searchExtentInfo();
+}
+
+function ppclick(ppname){
+		$('#ppname').val(ppname);
+		search();
+}
+function timeclick(times){
+		$('#beginDate').val(times);
+		$('#endDate').val(times);
+		search();
+}
+function netclick(netName){
+		$('#netName').val(netName);
+		search();
+}    
+</script>

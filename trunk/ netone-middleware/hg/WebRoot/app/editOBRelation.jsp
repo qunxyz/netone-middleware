@@ -10,6 +10,7 @@ String lshId = (String) request.getAttribute("lshId");
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<jsp:include page="/WEB-INF/jsp/common/metaExt.jsp"></jsp:include>
+		<jsp:include page="/WEB-INF/jsp/common/metaJQuery-min.jsp"></jsp:include>
 		<title>网点频率配置新增</title>
 	</head>
 	<body>
@@ -24,17 +25,11 @@ String lshId = (String) request.getAttribute("lshId");
 			<tr>
 				<td>
 					<fieldset>
-						<select id="select" name="select" multiple="multiple" size="15"
+						<select id="select" name="select" multiple="multiple" size="18"
 							style="width: 250px;" ondblclick="moveSelected1();">
 						</select>
 					</fieldset>
-					<input type="text" id="findCode" name="findCode"
-									style="width: 250px;font:12px/14px arial;color:#999;" 
-									title="请输入网点名称(可输入多个网点名称以逗号隔开)" 
-									value="请输入网点名称" 
-									onfocus="if(this.value=='请输入网点名称') {this.value=''}" 
-									onblur="if(this.value=='') this.value='请输入网点名称'"/>
-					<input type="button" name="querySelectCode" id="querySelectCode" value="查询" onclick="findByCode(this.id)" class="btn" />
+					
 				</td>
 				<td>
 					<div>
@@ -55,24 +50,24 @@ String lshId = (String) request.getAttribute("lshId");
 					</div>
 				</td>
 				<td>
+				<input type="text" id="Jmytext" name="Jmytext"
+									style="width: 250px;font:12px/14px arial;color:#999;" 
+									value="" 
+									title="请输入网点名称"
+									/>
 					<fieldset>
-						<select id="unselect" name="unselect" multiple="multiple"
+						<select id="unselect" name="unselect" multiple="multiple" class="search_locate"
 							size="15" style="width: 250px;" ondblclick="moveSelected();">
+							
 						</select>
 					</fieldset>
-					<input type="text" id="findCodeU" name="findCodeU"
-									style="width: 250px;font:12px/14px arial;color:#999;" 
-									value="请输入网点名称" 
-									title="请输入网点名称(可输入多个网点名称以逗号隔开)"
-									onfocus="if(this.value=='请输入网点名称') {this.value=''}" 
-									onblur="if(this.value=='') this.value='请输入网点名称'"/>
-					<input type="button" name="queryUnSelectCode" id="queryUnSelectCode" value="查询" onclick="findByCode(this.id)" class="btn" />
+					
 				</td>
 			</tr>
 			<tr></tr>
 			<tr>
 				<td colspan="4" align="center">
-					<font color="red" size="2">每周几次<font color="red">*</font>:</font>
+					<font color="red" size="2">每周几次*:</font>
 					<input type="text" id="times" name="times">
 					备注:<input type="text" id="note" name="note">
 				</td>
@@ -152,7 +147,7 @@ function loadAndClearAll(obj){//全选
      }
 }
 
-function findByCode(obj){//根据关键字查询
+/*function findByCode(obj){//根据关键字查询
     var setObj = '';
     var code = '';
     if(obj=='queryUnSelectCode'){//未选择
@@ -192,8 +187,9 @@ function findByCode(obj){//根据关键字查询
 	    	}
     	}
     }
-}
-
+}*/
+//声明两个全局的变量分别存放左与右侧的数据
+var leftSelectData = [];
 /**
 * 加载未分配网点
 * @param related 1.已关联 0.未关联
@@ -224,6 +220,7 @@ function loadOutletInfo(related,o,id){
 				text = outName;
 				value = outId;
 				document.getElementById(o).options.add(new Option(text, value));
+				leftSelectData.push("<option value='"+value+"'>"+text+"</option>"); 
 			}
 		},
 		failure: function (response, options) {
@@ -231,7 +228,76 @@ function loadOutletInfo(related,o,id){
 		}
 	});
 }
-Ext.onReady(function(){
+
+String.prototype.Trim = function() { 
+   return this.replace(/(^\s*)|(\s*$)/g, ""); 
+}
+
+
+//var leftSelectData = new Array(); 
+
+$(document).ready(function () {
+	var id = '${param.lshId}';
+	if (id != ''){
+		loadOutletInfo('0','unselect',id);//加载
+	} else {
+		Ext.MessageBox.alert('提示','请选择网点!');
+	}
+	if(navigator.userAgent.indexOf("MSIE")>0){ 
+		document.getElementById('Jmytext').attachEvent("onpropertychange",txChange); 
+		//document.getElementById('Jothertext').attachEvent("onpropertychange",txChange2); 
+	}else{
+		document.getElementById('Jmytext').addEventListener("input",txChange,false);
+		///document.getElementById('Jothertext').addEventListener("input",txChange2,false);
+	}
+});
+  
+function txChange(){ 
+		var content = $("#Jmytext").val().Trim();
+		//先清空掉原来的数据		
+		$("#unselect").empty();  
+		//判断如果关键字为空的话就提取全部
+		var oSourceSel=document.getElementById('select');
+		if(content==''){	
+			$.each(leftSelectData,function(n,value) {
+				//$("#unselect").append('<option value="'+value+'">'+value+'</option>');
+				 
+				 var pass = false;
+				 for(var i=0; i<oSourceSel.options.length; i++){//存储源列表框中所有的数据到缓存中，并建立value和选中option的对应关系
+			             var valuex = oSourceSel.options[i].value;
+			             var textx = oSourceSel.options[i].text;
+			             var vv = "<option value='"+valuex+"'>"+textx+"</option>";
+			             if (vv==value){
+			             	pass=true;
+			             	return;
+			             }
+			     }
+			     if(pass==false) $("#unselect").append(value);
+	 		});
+		} else {
+			//如果不为空就通过关键字重新搜索
+			var reg = new RegExp(content,'i');	
+			$.each(leftSelectData,function(n,value) {
+				if(reg.test(value)){
+					//$("#unselect").append('<option value="'+value+'">'+value+'</option>');
+					var pass = false;
+					for(var i=0; i<oSourceSel.options.length; i++){//存储源列表框中所有的数据到缓存中，并建立value和选中option的对应关系
+			             var valuex = oSourceSel.options[i].value;
+			             var textx = oSourceSel.options[i].text;
+			             var vv = "<option value='"+valuex+"'>"+textx+"</option>";
+			             if (vv==value){
+			             	pass=true;
+			             	return;
+			             }
+			     	}
+			     	if(pass==false) $("#unselect").append(value);
+				}
+	 		});
+		}
+	} 
+
+
+/*Ext.onReady(function(){
 	document.getElementById('unselect').options.length=0;
 	var id = '${param.lshId}';
 	if (id != ''){
@@ -239,6 +305,8 @@ Ext.onReady(function(){
 	} else {
 		Ext.MessageBox.alert('提示','请选择网点!');
 	}
-	
-});
+
+});*/
+
+
 </script>

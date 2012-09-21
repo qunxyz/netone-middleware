@@ -334,9 +334,11 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 					if (submode != null
 							&& submode.getClass().getName().equals(
 									"java.lang.Boolean")) {
-						issubedit = true;
+						//旧版本配置的做法
+						issubedit = (Boolean)submode;
 						issubhidden = false;
 					} else {
+						//新版本配置的做法
 						String submodex = (String) subformmode.get(i);
 						if ("0".equals(submodex)) {// 编辑
 							issubedit = true;

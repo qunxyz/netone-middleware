@@ -282,6 +282,15 @@
 				trArray.push("</tr>");
 				trsArray.push(trArray.join(""));
 			}
+			if (subData.length==0){
+				var trArray =[];
+				trArray.push("<tr>");
+					trArray.push("<td>");
+					trArray.push("查找不到数据!");
+					trArray.push("</td>");
+				trArray.push("</tr>");
+				trsArray.push(trArray.join(""));
+			}
 			$tBody.html(trsArray.join(""));
 		}
 	});

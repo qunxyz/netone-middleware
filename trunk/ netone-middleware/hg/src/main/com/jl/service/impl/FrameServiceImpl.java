@@ -3,9 +3,7 @@
  */
 package com.jl.service.impl;
 
-import java.lang.reflect.Method;
 import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,27 +30,19 @@ import com.jl.common.dyform.DyAnalysisXml;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormBuildHtml;
-import com.jl.common.dyform.DyFormColumn;
 import com.jl.common.dyform.DyFormComp;
 import com.jl.common.dyform.DyFormData;
-import com.jl.common.report.GroupReport;
-import com.jl.common.report.ReportExt;
 import com.jl.common.resource.Resource;
 import com.jl.common.resource.ResourceNode;
 import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfConsoleIfc;
-import com.jl.common.workflow.TWfParticipant;
 import com.jl.common.workflow.WfEntry;
 import com.jl.dao.CommonDAO;
 import com.jl.entity.User;
 import com.jl.service.BaseService;
 import com.jl.service.FrameService;
 import com.jl.web.controller.FrameAction;
-import com.lucaslee.report.model.Report;
-import com.lucaslee.report.model.Table;
-import com.lucaslee.report.model.TableCell;
-import com.lucaslee.report.model.TableRow;
 import com.sun.org.apache.commons.beanutils.BeanUtils;
 
 public class FrameServiceImpl extends BaseService implements FrameService {
@@ -358,7 +348,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 
 				if (issubedit == null)
 					issubedit = true;
-				
+
 				// 特殊处理
 				if (isedit == false)
 					issubedit = false;
@@ -409,7 +399,11 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 
 		boolean reuseform = false;
 		// 流程共用一个表单特殊处理
+
+		// 促销核销
 		if ("APPFRAME.APPFRAME.HGMY.HXTASK".equals(naturalname)) {
+			reuseform = true;
+		} else if ("APPFRAME.APPFRAME.HGMY.PROJECTHXTASK".equals(naturalname)) {// 项目方案核销
 			reuseform = true;
 		}
 

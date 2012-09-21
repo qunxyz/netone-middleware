@@ -93,7 +93,7 @@ public interface AppService {
 	 * @param request
 	 * @param response
 	 */
-	public void queryNetpointPP(HttpServletRequest request,
+	public void queryNetpointExtendInfo(HttpServletRequest request,
 			HttpServletResponse response);
 
 	/**

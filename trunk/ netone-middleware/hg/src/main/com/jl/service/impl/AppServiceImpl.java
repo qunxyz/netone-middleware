@@ -1320,15 +1320,15 @@ public class AppServiceImpl extends BaseService implements AppService {
 		String splitx = "";
 		StringBuffer sb = new StringBuffer();
 		if (lhy_check.equals("1")) {
-			sb.append(splitx + "ywybm");
+			sb.append(splitx + "tt.ywybm");
 			splitx = ",";
 		}
 		if (wdmc_check.equals("1")) {
-			sb.append(splitx + "lsh576");
+			sb.append(splitx + "hh.outletsId");
 			splitx = ",";
 		}
 		if (pp_check.equals("1")) {
-			sb.append(splitx + "px");
+			sb.append(splitx + "hh.brandId");
 			splitx = ",";
 		}
 		map.put("sb", sb.toString());
@@ -1348,20 +1348,21 @@ public class AppServiceImpl extends BaseService implements AppService {
 			headerSet1.add(new TableCell("品牌"));
 		}
 
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
-		headerSet1.add(new TableCell("频率（次）/分值"));
+		headerSet1.add(new TableCell("周一"));
+		headerSet1.add(new TableCell("周一"));
+		headerSet1.add(new TableCell("周二"));
+		headerSet1.add(new TableCell("周二"));
+		headerSet1.add(new TableCell("周三"));
+		headerSet1.add(new TableCell("周三"));
+		headerSet1.add(new TableCell("周四"));
+		headerSet1.add(new TableCell("周四"));
+		headerSet1.add(new TableCell("周五"));
+		headerSet1.add(new TableCell("周五"));
+		headerSet1.add(new TableCell("周六"));
+		headerSet1.add(new TableCell("周六"));
+		headerSet1.add(new TableCell("周日"));
+		headerSet1.add(new TableCell("周日"));
+		headerSet1.add(new TableCell("汇总"));
 		headerSet1.add(new TableCell("汇总"));
 		headerSet1.add(new TableCell("汇总"));
 
@@ -1376,33 +1377,35 @@ public class AppServiceImpl extends BaseService implements AppService {
 			headerSet2.add(new TableCell("品牌"));
 		}
 
-		headerSet2.add(new TableCell("周一"));
-		headerSet2.add(new TableCell("周一"));
-		headerSet2.add(new TableCell("周二"));
-		headerSet2.add(new TableCell("周二"));
-		headerSet2.add(new TableCell("周三"));
-		headerSet2.add(new TableCell("周三"));
-		headerSet2.add(new TableCell("周四"));
-		headerSet2.add(new TableCell("周四"));
-		headerSet2.add(new TableCell("周五"));
-		headerSet2.add(new TableCell("周五"));
-		headerSet2.add(new TableCell("周六"));
-		headerSet2.add(new TableCell("周六"));
-		headerSet2.add(new TableCell("周日"));
-		headerSet2.add(new TableCell("周日"));
 		headerSet2.add(new TableCell("频率"));
+		headerSet2.add(new TableCell("分值"));
+		headerSet2.add(new TableCell("频率"));
+		headerSet2.add(new TableCell("分值"));
+		headerSet2.add(new TableCell("频率"));
+		headerSet2.add(new TableCell("分值"));
+		headerSet2.add(new TableCell("频率"));
+		headerSet2.add(new TableCell("分值"));
+		headerSet2.add(new TableCell("频率"));
+		headerSet2.add(new TableCell("分值"));
+		headerSet2.add(new TableCell("频率"));
+		headerSet2.add(new TableCell("分值"));
+		headerSet2.add(new TableCell("频率"));
+		headerSet2.add(new TableCell("分值"));
+
+		headerSet2.add(new TableCell("频率"));
+		headerSet2.add(new TableCell("参考"));
 		headerSet2.add(new TableCell("分值"));
 
 		ReportExt reportExt = new ReportExt();
 
 		List list = list1;
-		int[] tmpdata = new int[16];
+		int[] tmpdata = new int[17];
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
-			String wdmc = object.get("wdmc").toString();// 网点名称
+			String wdmc = object.get("outletsName").toString();// 网点名称
 			String ywybm = object.get("ywybm").toString();// 业务员编号
 			String ywyname = object.get("ywyname").toString();// 业务员姓名
-			String pxm = object.get("pxm").toString();// 品牌
+			String pxm = object.get("brandName").toString();// 品牌
 
 			String w1 = object.get("w1").toString();// 周一
 			String f1 = object.get("f1").toString();// 分值1
@@ -1418,7 +1421,9 @@ public class AppServiceImpl extends BaseService implements AppService {
 			String f6 = object.get("f6").toString();// 分值6
 			String w7 = object.get("w7").toString();// 周日
 			String f7 = object.get("f7").toString();// 分值7
+
 			String totalx = object.get("totalx").toString();// 频率统计
+			String timesx = object.get("timesx").toString();// 频率依据
 			String totalf = object.get("totalf").toString();// 分值统计
 
 			TableRow tr = new TableRow();
@@ -1426,51 +1431,59 @@ public class AppServiceImpl extends BaseService implements AppService {
 				tr.addCell(new TableCell(wdmc));
 			}
 			if (lhy_check.equals("1")) {
-				tr.addCell(new TableCell(ywybm + "/" + ywyname));
+				if (!ywybm.equals("")) {
+					tr.addCell(new TableCell(ywybm + "/" + ywyname));
+				} else {
+					tr.addCell(new TableCell());
+				}
 			}
 			if (pp_check.equals("1")) {
 				tr.addCell(new TableCell(pxm));
 			}
 
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w1))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f1))
-					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, w1, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, f1, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, w2, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, f2, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, w3, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, f3, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, w4, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, f4, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, w5, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, f5, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, w6, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, f6, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, w7, "week"),
+					Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(tabR(format, f7, "week"),
+					Rectangle.ALIGN_RIGHT));
 
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w2))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f2))
-					.intValue()), Rectangle.ALIGN_RIGHT));
+			if ((Integer.parseInt(timesx.trim())) > (Double.valueOf(totalx))
+					.intValue()) {
+				tr.addCell(new TableCell(fontColor(format, "total_", (Double
+						.valueOf(totalx)).intValue()), Rectangle.ALIGN_RIGHT));
+			} else {
+				tr.addCell(new TableCell(fontColor(format, "total", (Double
+						.valueOf(totalx)).intValue()), Rectangle.ALIGN_RIGHT));
+			}
 
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w3))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f3))
-					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(fontColor(format, "", (Integer
+					.parseInt(timesx.trim()))), Rectangle.ALIGN_CENTER));
 
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w4))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f4))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w5))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f5))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w6))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f6))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(w7))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(fontColor(format, (Double.valueOf(f7))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-
-			tr.addCell(new TableCell(totalFont(format, (Double.valueOf(totalx))
-					.intValue()), Rectangle.ALIGN_RIGHT));
-			tr.addCell(new TableCell(totalFont(format, (Double.valueOf(totalf))
-					.intValue()), Rectangle.ALIGN_RIGHT));
+			tr.addCell(new TableCell(fontColor(format, "total", (Double
+					.valueOf(totalf)).intValue()), Rectangle.ALIGN_RIGHT));
 
 			t.addRow(tr);
 
@@ -1489,8 +1502,10 @@ public class AppServiceImpl extends BaseService implements AppService {
 			tmpdata[11] += Double.valueOf(f6);
 			tmpdata[12] += Double.valueOf(w7);
 			tmpdata[13] += Double.valueOf(f7);
+
 			tmpdata[14] += Double.valueOf(totalx);
-			tmpdata[15] += Double.valueOf(totalf);
+			tmpdata[15] += Double.valueOf(timesx);
+			tmpdata[16] += Double.valueOf(totalf);
 		}
 
 		// 扩展
@@ -1522,6 +1537,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 		totalTrData.add(new TableCell("" + tmpdata[13], Rectangle.ALIGN_RIGHT));// 
 		totalTrData.add(new TableCell("" + tmpdata[14], Rectangle.ALIGN_RIGHT));// 
 		totalTrData.add(new TableCell("" + tmpdata[15], Rectangle.ALIGN_RIGHT));// 
+		totalTrData.add(new TableCell("" + tmpdata[16], Rectangle.ALIGN_RIGHT));// 
 
 		totalTrData.set(0, new TableCell("合计"));
 		TableRow tr = reportExt.getOneTableRow(totalTrData);
@@ -1541,37 +1557,69 @@ public class AppServiceImpl extends BaseService implements AppService {
 				response);
 	}
 
-	// 周一-周日 颜色调协
-	public String fontColor(String format, int wk) {
-		String week = "";
-		if (format.equals("html") && wk >= 1) {
-			week = "<font color='green'>" + wk + "</font>";
+	// 取值
+	public String tabR(String format, String wf, String info) {
+		String str = "";
+		if ((Double.valueOf(wf)).intValue() == 0) {
+			str = "";
 		} else {
-			week = "" + wk;
+			str = fontColor(format, "week", (Double.valueOf(wf)).intValue());
 		}
-		return week;
+		return str;
 	}
 
-	// 统计
-	public String totalFont(String format, int tl) {
-		String total = "";
-		if (format.equals("html") && tl >= 1) {
-			total = "<font color='blue'>" + tl + "</font>";
+	// 频率 颜色调协
+	public String fontColor(String format, String type, int inf) {
+		String info = "";
+		if (type.equals("week")) {
+			if (format.equals("html") && inf >= 1) {
+				info = "<font color='blue'>" + inf + "</font>";
+			} else {
+				info = "" + inf;
+			}
+		} else if (type.equals("total")) {
+			if (format.equals("html") && inf >= 1) {
+				info = "<font color='blue' style='font-weight: bold;'>" + inf
+						+ "</font>";
+			} else {
+				info = "" + inf;
+			}
+		} else if (type.equals("total_")) {
+			if (format.equals("html")) {
+				if (inf >= 1) {
+					info = "<font style='font-weight: bold;background-color: yellow' color='red'>"
+							+ inf + "</font>";
+				} else {
+					info = "<font style='background-color: yellow'>" + inf
+							+ "</font>";
+				}
+
+			} else {
+				info = "" + inf;
+			}
 		} else {
-			total = "" + tl;
+			if (format.equals("html")) {
+				info = "<font color='red'>" + inf + "</font>";
+			} else {
+				info = "" + inf;
+			}
 		}
-		return total;
+		return info;
 	}
 
 	public void queryNetPoint(HttpServletRequest request,
 			HttpServletResponse response) {
 		String naturalurl = request.getParameter("naturalurl");
+		String condition = request.getParameter("condition");
 		List<Map<String, String>> jsonList = new ArrayList<Map<String, String>>();
 		User user = getOnlineUser(request);
 		String usercode = user.getUserCode();
-
+		String json = "";
 		try {
 			Map conditionmap = new HashMap();
+			if (StringUtils.isNotEmpty(condition)) {
+				conditionmap.put("netName", condition.trim());
+			}
 			List<Map> list = (List) commonDAO.select("App.selectNetpointInfo",
 					conditionmap);
 			String path = request.getContextPath();
@@ -1589,19 +1637,20 @@ public class AppServiceImpl extends BaseService implements AppService {
 				str.append(data.get("netName"));
 				str.append("\",");
 
-				str.append("\"attributes\":{");
+				// str.append("\"attributes\":{");
 				str.append("	\"linkurl\":\"" + path
 						+ "/app.do?method=queryNetpointView2&fatherlsh="
 						+ data.get("lsh") + "\"");
-				str.append("},");
+				// str.append("}");
+				str.append(",");
 
 				str.append("\"showcheck\":true,\"isexpand\": " + false
 						+ ", \"complete\": true");
 
-				Map condition = new HashMap();
-				condition.put("fatherlsh", data.get("lsh"));
+				Map conditionMap = new HashMap();
+				conditionMap.put("fatherlsh", data.get("lsh"));
 				List set = (List) commonDAO.select("App.selectNetpointDate",
-						condition);
+						conditionMap);
 
 				if (set.size() > 0) {
 
@@ -1622,17 +1671,22 @@ public class AppServiceImpl extends BaseService implements AppService {
 						jsonx.append(object.get("createDate"));
 						jsonx.append("\",");
 
-						jsonx.append("\"attributes\":{");
+						// jsonx.append("\"attributes\":{");
 						jsonx
 								.append("	\"linkurl\":\""
 										+ path
 										+ "/app.do?method=queryNetpointView2&fatherlsh="
 										+ data.get("lsh") + "&queryDate="
 										+ object.get("createDate") + "\"");
-						jsonx.append("},");
+						// str.append("}");
+						jsonx.append(",");
 
 						jsonx.append("\"showcheck\":true,\"isexpand\": "
 								+ false + ", \"complete\": true");
+
+						jsonx.append(",\"leaf\"");
+						jsonx.append(":");
+						jsonx.append("true");
 
 						jsonx.append(",\"hasChildren\"");
 						jsonx.append(":");
@@ -1647,12 +1701,20 @@ public class AppServiceImpl extends BaseService implements AppService {
 					str.append(":");
 					str.append("true");
 
+					str.append(",\"leaf\"");
+					str.append(":");
+					str.append("false");
+
 					str.append(",\"children\":[");
 					str.append(jsonx.toString().substring(0,
 							jsonx.toString().length() - 1));
 					str.append("]},");
 				} else {
 					// 一级
+					str.append(",\"leaf\"");
+					str.append(":");
+					str.append("true");
+
 					str.append(",\"hasChildren\"");
 					str.append(":");
 					str.append("false");
@@ -1663,7 +1725,6 @@ public class AppServiceImpl extends BaseService implements AppService {
 			}
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("title", "网点管理");
-			String json = "";
 			if (StringUtils.isNotEmpty(str.toString())) {
 				json = str.substring(0, str.length() - 1);
 			}
@@ -1672,14 +1733,17 @@ public class AppServiceImpl extends BaseService implements AppService {
 			jsonList.add(map);
 
 			String html = DyFormComp.getEasyuiAccordionTree(jsonList);
-			request.setAttribute("accordhtml", html);
+			// request.setAttribute("accordhtml", html);
+			// request.setAttribute("treejson", "[" + json + "]");
 
 		} catch (Exception e) {
 			log.error("查询网点失败!", e);
+		} finally {
+			super.writeJsonStr(response, "[" + json + "]");
 		}
 	}
 
-	public void queryNetpointPP(HttpServletRequest request,
+	public void queryNetpointExtendInfo(HttpServletRequest request,
 			HttpServletResponse response) {
 		String fatherlsh = request.getParameter("fatherlsh");
 		String beginDate = request.getParameter("beginDate");
@@ -1713,7 +1777,13 @@ public class AppServiceImpl extends BaseService implements AppService {
 		try {
 			List list = (List) commonDAO.select("App.selectNetpointPP",
 					conditionMap);
+			List list2 = (List) commonDAO.select("App.selectNetpointTime",
+					conditionMap);
+			List list3 = (List) commonDAO.select("App.selectNetpointNet",
+					conditionMap);
 			request.setAttribute("pplist", list);
+			request.setAttribute("timelist", list2);
+			request.setAttribute("netlist", list3);
 		} catch (Exception e) {
 			log.error("出错了!", e);
 		}
@@ -1768,13 +1838,19 @@ public class AppServiceImpl extends BaseService implements AppService {
 			HttpServletResponse response) {
 		String related = request.getParameter("related");// 1.已关联 0.未关联
 		String type = request.getParameter("type");
+		String name = request.getParameter("name");
 		try {
 			Collection infoResult = new ArrayList();
 
 			String lshId = request.getParameter("id").trim();
 
+			Map condition = new HashMap();
+			if (StringUtils.isNotEmpty(name)) {
+				condition.put("name", name.trim());
+			}
+			condition.put("lshId", lshId);
 			infoResult = commonDAO.select("App.findUnChooseOutLetsByLshId",
-					lshId);
+					condition);
 
 			String[] properties = { "outId", "outName" };
 			StringBuffer jsonBuffer = new StringBuffer();

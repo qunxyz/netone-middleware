@@ -777,7 +777,7 @@ $('table#eed24806997411e192f721ec7b3aba82_').find("#column5").autocomplete('/ndy
 	$('table#eed24806997411e192f721ec7b3aba82_').find("#column9").attr("value",'');
 	$('table#eed24806997411e192f721ec7b3aba82_').find("#column8").val('');
 	$('table#eed24806997411e192f721ec7b3aba82_').find("#column10").val('');
-	$('table#eed24806997411e192f721ec7b3aba82_').find("#column11").val('');	
+	$('table#eed24806997411e192f721ec7b3aba82_').find("#column11").val('');
 	}
 });
 

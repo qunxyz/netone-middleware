@@ -55,7 +55,7 @@
 		FROM dyform.DY_211340244752515 t
 		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
 		LEFT JOIN dyform.DY_171345119981583 t3 ON t3.column3=t.column15
-		where 1=1 and t.column12 IS NOT NULL 
+		where 1=1 and t.column12 IS NOT NULL and t3.column4 is not null
 		
 		<isNotEmpty prepend="and" property="fatherlsh">
 			t.fatherlsh = #fatherlsh#
@@ -80,6 +80,74 @@
 		</isNotEmpty>
 		group by ppname
 		order by ppname
+	</select>
+	
+	<!-- 查询某个网点 按时间 -->
+	<select id="selectNetpointTime" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			ifnull(date(t.column12),'') times
+		FROM dyform.DY_211340244752515 t
+		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
+		LEFT JOIN dyform.DY_171345119981583 t3 ON t3.column3=t.column15
+		where 1=1 and t.column12 IS NOT NULL 
+		
+		<isNotEmpty prepend="and" property="fatherlsh">
+			t.fatherlsh = #fatherlsh#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate">
+			date(t.column12) &gt;= #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			date(t.column12) &lt;= #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="netName">
+			t2.column5 like '%$netName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ppname">
+			t3.column4 like '%$ppname$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createPerson">
+			t.column13 like '%$createPerson$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point">
+			t.column16 = #point#
+		</isNotEmpty>
+		group by times
+		order by times
+	</select>
+	
+	<!-- 查询某个网点 按网点 -->
+	<select id="selectNetpointNet" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			ifnull(t2.column5,'') netname
+		FROM dyform.DY_211340244752515 t
+		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
+		LEFT JOIN dyform.DY_171345119981583 t3 ON t3.column3=t.column15
+		where 1=1 and t.column12 IS NOT NULL 
+		
+		<isNotEmpty prepend="and" property="fatherlsh">
+			t.fatherlsh = #fatherlsh#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="beginDate">
+			date(t.column12) &gt;= #beginDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="endDate">
+			date(t.column12) &lt;= #endDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="netName">
+			t2.column5 like '%$netName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="ppname">
+			t3.column4 like '%$ppname$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createPerson">
+			t.column13 like '%$createPerson$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="point">
+			t.column16 = #point#
+		</isNotEmpty>
+		group by netname
+		order by netname
 	</select>
 	
 	<!-- 查询网点理货信息 -->
@@ -175,18 +243,30 @@
 		update dyform.DY_211340244752515 set column16=#point# where LSH=#lsh#
 	</update>
 	
-	<!-- 导出手机理货分析 -->
+<!-- 导出手机理货分析  -->
 	<select id="export_PH" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
-		SELECT
-			lsh576,ywybm,ywyname,wdmc,px,pxm,
-			SUM(week1) w1,SUM(fz1) f1,SUM(week2) w2,SUM(fz2) f2,SUM(week3) w3,SUM(fz3) f3,
-			SUM(week4) w4,SUM(fz4) f4,SUM(week5) w5,SUM(fz5) f5,SUM(week6) w6,SUM(fz6) f6,
-			SUM(week7) w7,SUM(fz7) f7,COUNT(times) totalx, 
-			(SUM(fz1)+SUM(fz2)+SUM(fz3)+SUM(fz4)+SUM(fz5)+SUM(fz6)+SUM(fz7) ) totalf
-		FROM (
 			SELECT
+				hh.outletsId outletsId,
+				dy1.column5 outletsName,
+				hh.brandId brandId,
+				dy2.column4 brandName,
+				IFNULL(tt.ywybm,'') ywybm,
+				IFNULL(tt.ywyname,'') ywyname,
+				IFNULL(SUM(tt.week1),0) w1,IFNULL(SUM(tt.fz1),0) f1,
+				IFNULL(SUM(tt.week2),0) w2,IFNULL(SUM(tt.fz2),0) f2,
+				IFNULL(SUM(tt.week3),0) w3,IFNULL(SUM(tt.fz3),0) f3,
+				IFNULL(SUM(tt.week4),0) w4,IFNULL(SUM(tt.fz4),0) f4,
+				IFNULL(SUM(tt.week5),0) w5,IFNULL(SUM(tt.fz5),0) f5,
+				IFNULL(SUM(tt.week6),0) w6,IFNULL(SUM(tt.fz6),0) f6,
+				IFNULL(SUM(tt.week7),0) w7,IFNULL(SUM(tt.fz7),0) f7,
+				IFNULL(COUNT(tt.times),'') totalx, 
+				SUM(hh.times * (WEEK('$endDate$')-WEEK('$beginDate$')+1)) timesx,
+				IFNULL((SUM(tt.fz1)+SUM(tt.fz2)+SUM(tt.fz3)+SUM(tt.fz4)+SUM(tt.fz5)+SUM(tt.fz6)+SUM(tt.fz7) ),0) totalf
+				FROM iss.t_tallyconfig hh
+				LEFT JOIN (
+				SELECT
 				t.lsh lsh576,t.column5 wdmc,IFNULL(us.name,'') ywyname,IFNULL(t1.PARTICIPANT,'') ywybm,IFNULL(t1.column15,'') px,
-				IFNULL(t2.column4,'') pxm,IFNULL(t1.timex,'') times,
+				IFNULL(t2.column4,'') pxm,IFNULL(t1.timex,'') times,t2.lsh brandId,
 				CASE WHEN DAYOFWEEK(DATE(t1.timex))=2 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week1,
 				CASE WHEN DAYOFWEEK(DATE(t1.timex))=3 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week2,
 				CASE WHEN DAYOFWEEK(DATE(t1.timex))=4 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week3,
@@ -194,13 +274,13 @@
 				CASE WHEN DAYOFWEEK(DATE(t1.timex))=6 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week5,
 				CASE WHEN DAYOFWEEK(DATE(t1.timex))=7 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week6,
 				CASE WHEN DAYOFWEEK(DATE(t1.timex))=1 THEN COUNT(DISTINCT DATE(t1.TIMEX))ELSE '' END week7,
-				CASE WHEN DAYOFWEEK(DATE(t1.timex))=2 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz1,
-				CASE WHEN DAYOFWEEK(DATE(t1.timex))=3 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz2,
-				CASE WHEN DAYOFWEEK(DATE(t1.timex))=4 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz3,
-				CASE WHEN DAYOFWEEK(DATE(t1.timex))=5 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz4,
-				CASE WHEN DAYOFWEEK(DATE(t1.timex))=6 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz5,
-				CASE WHEN DAYOFWEEK(DATE(t1.timex))=7 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz6,
-				CASE WHEN DAYOFWEEK(DATE(t1.timex))=1 and IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz7
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=2 AND IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz1,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=3 AND IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz2,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=4 AND IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz3,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=5 AND IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz4,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=6 AND IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz5,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=7 AND IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz6,
+				CASE WHEN DAYOFWEEK(DATE(t1.timex))=1 AND IFNULL(t1.column16,0)='1' THEN IFNULL(t1.column16,0) ELSE 0 END fz7
 			FROM dyform.DY_961338295639576 t
 			LEFT JOIN dyform.DY_211340244752515 t1 ON t.LSH = t1.FATHERLSH
 			LEFT JOIN dyform.DY_171345119981583 t2 ON t1.column15 = t2.column3
@@ -223,11 +303,13 @@
 			 	</isNotEmpty> 
 			GROUP BY ywybm,lsh576,px,DATE(t1.TIMEX)
 			ORDER BY ywybm,lsh576,px,t1.TIMEX DESC 
-		) lhgn
+			) AS tt ON hh.outletsId = tt.lsh576 AND hh.brandId=tt.brandId
+			LEFT JOIN dyform.DY_961338295639576 dy1 ON dy1.LSH = hh.outletsId
+			LEFT JOIN dyform.DY_171345119981583 dy2 ON dy2.LSH = hh.brandId
 		GROUP BY $sb$
-		ORDER BY ywybm,lsh576,px,times DESC
+		ORDER BY hh.outletsId,hh.brandId DESC
 	</select>
-	
+
 	
 	<!-- 网点配置 -->
 	<!-- 加载品牌信息 -->
@@ -266,14 +348,14 @@
 	</select>
 
 	<!-- 加载未选择网点信息 -->
-	<select id="findUnChooseOutLetsByLshId" parameterClass="string" resultClass="java.util.HashMap">
+	<select id="findUnChooseOutLetsByLshId" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
 		SELECT lsh outId,column5 outName
 		FROM dyform.DY_961338295639576
 		WHERE lsh NOT IN(
 			SELECT outletsId
 			FROM iss.t_tallyconfig 
 			WHERE brandId=#lshId#
-		)
+		) and column5 like '%$name$%'
 	</select>
 	<!-- 插入网点 次数 备注 等信息 -->
 	<insert id="insertBatchOutletsTimes" parameterClass="java.util.Map">

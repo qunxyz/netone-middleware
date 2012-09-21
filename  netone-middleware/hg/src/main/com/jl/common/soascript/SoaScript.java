@@ -808,12 +808,13 @@ public class SoaScript extends OeScript {
 
 		db.execute(cons, sql111);
 		db.close(cons);
-		
 
 		/** 写流程审批信息 */
 		String userinfo = wf.get(runtimeid, "customer");
-		String usercode = org.apache.commons.lang.StringUtils.substringBetween(userinfo, "[", "]");
-		String username = org.apache.commons.lang.StringUtils.substringBefore(userinfo, "[");
+		String usercode = org.apache.commons.lang.StringUtils.substringBetween(
+				userinfo, "[", "]");
+		String username = org.apache.commons.lang.StringUtils.substringBefore(
+				userinfo, "[");
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
 				"yyyy-MM-dd HH:mm:ss");
 		String currdate = sdf.format(new java.util.Date());
@@ -825,7 +826,7 @@ public class SoaScript extends OeScript {
 				"BUSSFORM.BUSSFORM.BNHGYW.DY_991336361733786", bus, 0, 1, "");
 		for (Iterator iterator = listxxxx.iterator(); iterator.hasNext();) {
 			TCsBus object = (TCsBus) iterator.next();
-			dy.setIn("column15", username+"||"+currdate, object);
+			dy.setIn("column15", username + "||" + currdate, object);
 			dy.submit(object);
 		}
 	}
@@ -1035,11 +1036,12 @@ public class SoaScript extends OeScript {
 			System.err.print("bussid为空!");
 		}
 
-		
 		/** 写流程审批信息 */
 		String userinfo = wf.get(runtimeid, "customer");
-		String usercode = org.apache.commons.lang.StringUtils.substringBetween(userinfo, "[", "]");
-		String username = org.apache.commons.lang.StringUtils.substringBefore(userinfo, "[");
+		String usercode = org.apache.commons.lang.StringUtils.substringBetween(
+				userinfo, "[", "]");
+		String username = org.apache.commons.lang.StringUtils.substringBefore(
+				userinfo, "[");
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
 				"yyyy-MM-dd HH:mm:ss");
 		String currdate = sdf.format(new java.util.Date());
@@ -1239,29 +1241,49 @@ public class SoaScript extends OeScript {
 	// 检测核销时间 SOASCRIPT.SOASCRIPT.HG.CHECKTIMEJOB
 	public String CHECKTIMEJOB() {
 		Connection con = db.con("DATASOURCE.DATASOURCE.DYFORM");
-
+		List result = new ArrayList();
 		List list = db
 				.queryData(
 						con,
-						"select t2.column3,t2.lsh from DY_991336361733788 t left join DY_991336361733786 t2 on t.fatherlsh=t2.lsh where t2.STATUSINFO='00' and t.column9 is not null and DATE_SUB(DATE(t.column9),INTERVAL 3 DAY) <=  DATE(NOW())  ");
+						"select t2.column3 as name,t2.lsh from DY_991336361733788 t left join DY_991336361733786 t2 on t.fatherlsh=t2.lsh where t2.STATUSINFO='00' and t.column9 is not null and DATE_SUB(DATE(t.column9),INTERVAL 3 DAY) <=  DATE(NOW())  ");
+
+		List list2 = db
+				.queryData(
+						con,
+						"select t.column6 as name,t.lsh from DY_941347612434624 t where t.STATUSINFO='00' and DATE_SUB(DATE(column7),INTERVAL 3 DAY) <=  DATE(NOW())  ");
 
 		db.close(con);
+
+		result.addAll(list);
+		result.addAll(list2);
+
 		java.lang.StringBuffer jsonBuffer = new java.lang.StringBuffer();
 		jsonBuffer
 				.append("<div><a href='javascript:void(0)' onclick=$('#fronttips').toggle() >核销("
-						+ list.size() + ")条</a><div>");
+						+ result.size() + ")条</a><div>");
 		jsonBuffer.append("<div id='fronttips' style='display:none;'><ul>");
+		/** 促销方案核销 */
 		for (int i = 0; i < list.size(); i++) {
 			Map map = (Map) list.get(i);
 
 			jsonBuffer
-					.append("<li>[核销]<a href='frame.do?method=onEditViewMain&hx=1&naturalname=APPFRAME.APPFRAME.HGMY.HXTASK&lsh="
+					.append("<li>[促销核销]<a href='frame.do?method=onEditViewMain&hx=1&naturalname=APPFRAME.APPFRAME.HGMY.HXTASK&lsh="
 							+ map.get("lsh")
 							+ "' target='_blank'>"
-							+ map.get("column3") + "</a></li>");
+							+ map.get("name") + "</a></li>");
+		}
+		/** 项目方案核销 */
+		for (int i = 0; i < list2.size(); i++) {
+			Map map = (Map) list2.get(i);
+
+			jsonBuffer
+					.append("<li>[项目方案核销]<a href='frame.do?method=onEditViewMain&hx=1&naturalname=APPFRAME.APPFRAME.HGMY.PROJECTHXTASK&lsh="
+							+ map.get("lsh")
+							+ "' target='_blank'>"
+							+ map.get("name") + "</a></li>");
 		}
 		jsonBuffer.append("</ul></div>");
-		return "{\"count\":\"" + list.size() + "\",\"result\":\""
+		return "{\"count\":\"" + result.size() + "\",\"result\":\""
 				+ jsonBuffer.toString() + "\"}";
 	}
 

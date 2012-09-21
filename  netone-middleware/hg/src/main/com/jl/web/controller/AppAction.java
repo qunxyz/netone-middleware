@@ -221,13 +221,8 @@ public class AppAction extends AbstractAction {
 	public ActionForward queryNetpointView(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		AppService service = (AppService) WebApplicationContextUtils
-				.getRequiredWebApplicationContext(servlet.getServletContext())
-				.getBean("appService");
-		service.queryNetpointPP(request, response);
 		request.setAttribute("beginDate", TimeUtil.formatDate(new Date(),
-		"yyyy-MM")
-		+ "-01");
+		"yyyy-MM-dd"));
 		String forward = "/app/netpoint.jsp";
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -235,6 +230,21 @@ public class AppAction extends AbstractAction {
 		return af;
 	}
 
+	//显示网点扩展信息
+	public ActionForward queryNetpointExtendInfo(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.queryNetpointExtendInfo(request, response);
+		String forward = "/app/netpointExtend.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+	
 	// 查询网点管理
 	public void queryNetpoint(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -249,11 +259,6 @@ public class AppAction extends AbstractAction {
 	public ActionForward queryNetpointView2(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		AppService service = (AppService) WebApplicationContextUtils
-				.getRequiredWebApplicationContext(servlet.getServletContext())
-				.getBean("appService");
-		service.queryNetpointPP(request, response);
-
 		String forward = "/app/netpoint2.jsp";
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -344,17 +349,23 @@ public class AppAction extends AbstractAction {
 	public ActionForward queryNetPointView(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		AppService service = (AppService) WebApplicationContextUtils
-				.getRequiredWebApplicationContext(servlet.getServletContext())
-				.getBean("appService");
-		service.queryNetPoint(request, response);
-
-		String forward = "/app/netpointManage.jsp";
+		String forward = "/app/netpointManage2.jsp";
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
 		// true不使用转向,默认是false代表转向
 		return af;
 	}
+	
+	// 查询网点管理
+	public void queryNetPoint(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.queryNetPoint(request, response);
+	}
+	
 
 	// 理货频率配置主界面
 	public ActionForward onAppOBRelationMain(ActionMapping mapping,

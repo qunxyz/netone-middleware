@@ -259,7 +259,34 @@ $.fn.autogrow = function(options) {
 			   $('table#12299f74980d11e1b01667a74cfdf95c_').find('#column21_hidden').val(jsonx.FDepartmentID);
 			}
 		});
-	
+		
+		//客户编码联想 不强制
+		$('table#12299f74980d11e1b01667a74cfdf95c_').find("#column3").autocomplete('/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.CLIENT', {
+			multiple: false,
+			dataType: "json",
+			autoFill: false,
+			mustMatch: false,
+			matchContains: false,
+			cacheLength:100,
+			scrollHeight: 220,
+			parse: function(data) {
+				return $.map(data, function(row) {
+					return {
+						data: row,
+						value: row.FName,
+						result: row.FName
+					}
+				});
+			},
+			formatItem: function(item) {
+				return  item.FShortNumber+' '+item.FName;
+			},
+			formatResult: function(item) {
+				return item.FName;
+			}
+		
+		})
+		
 		//客户分类 初始化
 		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23').empty();
 		$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETSUBMESSAGEINFO&q=501",   function(jsonx){   

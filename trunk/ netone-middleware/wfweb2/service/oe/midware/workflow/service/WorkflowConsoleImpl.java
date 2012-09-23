@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,8 @@ import oe.midware.workflow.runtime.ormobj.TWfRuntime;
 import oe.midware.workflow.runtime.ormobj.TWfWorklist;
 import oe.midware.workflow.service.soatools.ActiveBindDao;
 import oe.midware.workflow.xpdl.model.activity.Activity;
+import oe.midware.workflow.xpdl.model.condition.Condition;
+import oe.midware.workflow.xpdl.model.transition.Transition;
 import oe.midware.workflow.xpdl.model.workflow.WorkflowProcess;
 
 /**
@@ -269,6 +272,8 @@ public class WorkflowConsoleImpl extends UnicastRemoteObject implements
 		return ""; // 什么都不执行
 
 	}
+	
+
 
 	public ProcessEngine getProcessEngine() {
 		return processEngine;
@@ -340,6 +345,13 @@ public class WorkflowConsoleImpl extends UnicastRemoteObject implements
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		return processEngine.exeScript(script,param);
+	}
+
+	@Override
+	public String exeScriptInFlow(String elogicExpress, String runtimeid,
+			String workcode) throws RemoteException {
+		// TODO Auto-generated method stub
+		return processEngine.exeScriptInFlow(elogicExpress,runtimeid,workcode);
 	}
 
 }

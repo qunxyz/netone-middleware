@@ -1,5 +1,6 @@
 package com.jl.common.workflow.worklist;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import java.util.Iterator;
@@ -493,7 +494,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		} else if ("02".equals(listType)) {
 			urlEnd = "&query=look&cuibang=true";
 			// 所有结束任务但未归档
-			loadworklist="select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,"+
+			loadworklist="select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,"+
 			"w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* "+
 
 			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
@@ -508,7 +509,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			// 所有结束任务且已经归档
 			urlEnd = "&query=look";
 			// 所有结束任务但未归档
-			loadworklist="select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,"+
+			loadworklist="select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,"+
 			"w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* "+
 
 			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
@@ -520,7 +521,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
 		} else {
 			// 所有个人任务
-			loadworklist="select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,"+
+			loadworklist="select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,"+
 			"w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* "+
 
 			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
@@ -531,7 +532,6 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition + " order by w1.runtimeid,w1.starttime desc limit "+from+","+(size+100);	
 			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
 		}
-		
 		
 		List list =null;
 		if("adminx".equals(clientId)){
@@ -577,6 +577,8 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			String runtimeid = (String) object.get("runtimeid");
 			String workcode = (String) object.get("workcode");
 			String startime = (String) object.get("starttime");
+			String donetime = (String) object.get("donetime");
+			String createtime = (String) object.get("createtime");
 			String userinfo = (String) object.get("userinfo");
 			String processidx = (String) object.get("processid");
 			String types = (String) object.get("types");
@@ -590,7 +592,8 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				act =new Activity();
 				act.setName("无知节点");
 			}
-
+			addTimeUse(createtime,donetime,act);
+			
 			// 获得流程的所有相关变量
 			List listRev = wfview.fetchRelevantVar((String) object
 					.get("runtimeid"));
@@ -802,6 +805,20 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		}
 		return listWorklist;
 
+	}
+	
+	public void addTimeUse(String starttime,String endtime,Activity act){
+		if(StringUtils.isEmpty(endtime)){
+			return;
+		}
+		try{
+		long starttimeV=Timestamp.valueOf(starttime).getTime();
+		long endtimeV=Timestamp.valueOf(endtime).getTime();
+		long use=(endtimeV-starttimeV)/(1000*60);
+		act.setName(act.getName()+"(使用"+use+"分)");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public int fetchQueryColumnIndex(String appname, String columnid)

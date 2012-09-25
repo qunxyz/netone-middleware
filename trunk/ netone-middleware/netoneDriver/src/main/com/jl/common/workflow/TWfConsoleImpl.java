@@ -949,9 +949,48 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 	public String nextByManual(String workcode, String actid, String clientId)
 			throws Exception {
 		try {
+			//需要检查是回退还是正常下一步，现在因为大部分是手工提交
+			List list=new ArrayList();
+			TWfWorklist worklist=this.loadWorklist(workcode);
+			findNext(worklist,list);
+			boolean isback=true;
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				Activity object = (Activity) iterator.next();
+				if(object.getId().equals(actid)){
+					isback=false;
+				}
+			}
+			if(isback){
+				//告诉工作流引擎，这时是回退不要执行当前节点结束后的事件
+				WebCache.setCache("WF_MODE_"+workcode, "back", null);
+			}
 			return nextCore(workcode, actid, clientId);
 		} catch (Exception e) {
 			return e.getMessage();
+		}
+	}
+	
+	private void findNext(TWfWorklist object, List listRouteAimActivity) {
+		Map map=null;
+		try {
+			map = this.loadProcess(object.getProcessid()).getActivity(object.getActivityid()).getEfferentTransitions();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		for (Iterator itr = map.values().iterator(); itr.hasNext();) {
+			Transition trans = (Transition) itr.next();
+			if (trans == null) {
+				continue;
+			}
+			Activity actNext = trans.getToActivity();
+			if (actNext.getImplementation() == null) {// 空节点忽略
+				Map mapx = actNext.getEfferentTransitions();
+				findNext(object, listRouteAimActivity);
+				continue;
+			}
+			listRouteAimActivity.add(actNext);
 		}
 	}
 

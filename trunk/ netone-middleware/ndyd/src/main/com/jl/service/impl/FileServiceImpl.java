@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
-import net.sf.json.util.JSONUtils;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
@@ -248,8 +247,8 @@ public class FileServiceImpl extends BaseService implements FileService {
 		}
 		path += "\\" + filename;// 保存的文件绝对路径
 
-		com.jl.entity.File files = saveFrameFile(id, usercode, userName, path, ""
-				+ formatKbSize(fileItem.getSize()), filetype, filename,
+		com.jl.entity.File files = saveFrameFile(id, usercode, userName, path,
+				"" + formatKbSize(fileItem.getSize()), filetype, filename,
 				activityid);
 
 		json = JSONObject.fromObject(JSONUtil2.fromBean(files,
@@ -294,16 +293,19 @@ public class FileServiceImpl extends BaseService implements FileService {
 		int len = 0;
 
 		response.reset(); // 非常重要
+		response.setCharacterEncoding("UTF-8");
+		String docName = java.net.URLEncoder
+				.encode(file.getFilename(), "UTF-8");
 		if (isOnLine) { // 在线打开方式
 			URL u = new URL("file:///" + filePath);
 			response.setContentType(u.openConnection().getContentType());
 			response.setHeader("Content-Disposition", "inline; filename="
-					+ f.getName());
+					+ docName);
 			// 文件名应该编码成UTF-8
 		} else { // 纯下载方式
-			response.setContentType("application/x-msdownload");
+			response.setContentType("application/x-msdownload;charset=UTF-8");
 			response.setHeader("Content-Disposition", "attachment; filename="
-					+ f.getName());
+					+ docName);
 			response.flushBuffer();
 		}
 		OutputStream out = response.getOutputStream();
@@ -349,7 +351,7 @@ public class FileServiceImpl extends BaseService implements FileService {
 		file = (com.jl.entity.File) commonDAO.insert("File.insert", file);
 		return file;
 	}
-	
+
 	private com.jl.entity.File saveFrameFile(String id, String userCode,
 			String userName, String address, String size, String type,
 			String filename, String wf_code) throws Exception {

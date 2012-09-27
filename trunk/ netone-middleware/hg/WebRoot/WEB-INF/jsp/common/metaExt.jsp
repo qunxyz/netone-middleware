@@ -4,6 +4,7 @@ pageEncoding="UTF-8" %>
 	String iconcssURL = request.getContextPath() + "/script";
 	String scriptsURL = request.getContextPath() + "/script";
 	String path = request.getContextPath();
+	response.setHeader("X-UA-Compatible","IE=EmulateIE8");
 %>
 <!--<script type="text/javascript" src="<%=scriptsURL %>/btn.js"></script>
  提示 JS 标签 -->
@@ -58,6 +59,18 @@ Ext.grid.GridPanel有一个重大缺陷，就是单元格的内容不能选中�
     
 </style>
 <script type="text/javascript">
+if ((typeof Range !== "undefined") && !Range.prototype.createContextualFragment)
+{
+	Range.prototype.createContextualFragment = function(html)
+	{
+		var frag = document.createDocumentFragment(), 
+		div = document.createElement("div");
+		frag.appendChild(div);
+		div.outerHTML = html;
+		return frag;
+	};
+}
+
 if  (!Ext.grid.GridView.prototype.templates) {   
     Ext.grid.GridView.prototype.templates = {};   
 }   

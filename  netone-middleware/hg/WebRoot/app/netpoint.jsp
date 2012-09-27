@@ -349,9 +349,17 @@ html.VIE7 .form_fieldinput
 	</head>
 	<body>
 	<input type="hidden" id="tooltiprel" />
-	<div id="tooltip" style="display: none;position: absolute;"><input id="rotateBtn" type="button" value="旋转" />
+	<input type="hidden" id="lightbox_tooltiprel" />
+	<div id="tooltip" style="display: none;z-index:999999;position: absolute;">
+	<!-- <input id="rotateBtn" type="button" value="旋转" /> -->
 	<input id="oriBtn" type="button" value="原图" />
 	</div>
+	
+	<div id="lightbox_tooltip" style="display: none;z-index:999999;position: absolute;">
+	<input id="rotateBtn" type="button" value="旋转" />
+	<!-- <input id="oriBtn" type="button" value="原图" /> -->
+	</div>
+	
 	<center>
 	<form id="form1">
 	<table id="xreport" name="xreport" class="table_form" width="392"
@@ -508,6 +516,38 @@ $(document).ready(function(){
 		window.open('<c:url value="/file.do?method=onDownLoadFile&isOnLine=0&unid=" />'+rel.replace('imagesouce',''));
 	})
 	
+	$('#lightbox_tooltip').mouseover(function(e){
+		$("#lightbox_tooltip").show();
+	})
+	$('#lightbox_tooltip').find('#rotateBtn').bind("click",function(){
+		var rel = $('#lightbox_tooltiprel').val();
+		$('#lightboxImage').rotateRight();
+	})
+	$('#lightbox_tooltip').find('#oriBtn').bind("click",function(){
+		var rel = $('#lightbox_tooltiprel').val();
+		
+		window.open('<c:url value="/file.do?method=onDownLoadFile&isOnLine=0&unid=" />'+rel.replace('imagesouce',''));
+	})
+	
+	$("#lightboxImage").live("mouseover", function(){
+		$("#lightbox_tooltip").css({
+			"top": $(this).offset().top + "px",
+			"left": $(this).offset().left + "px"
+		}).show();
+		$("#lightbox_tooltip").val($('#tooltiprel').val());
+	});
+	$("#lightboxImage").live("mouseout", function(){
+		//$("#tooltiprel").val('');
+		$("#lightbox_tooltip").hide();
+	});
+	$("#lightboxImage").live("mousemove", function(){
+		$("#lightbox_tooltip").val($('#tooltiprel').val());
+		$("#lightbox_tooltip").css({
+			"top": $(this).offset().top + "px",
+			"left": $(this).offset().left + "px"
+		}).show();
+	});
+	
     bigpage1 = $("#table1").bigPage({position:"both",<c:if test="${!empty param.pagesize}">pageSize:${param.pagesize},</c:if>
     	ajaxData:{
     		url:"<c:url value='/app.do?method=queryNetpoint&rowsize=${param.rowsize}' />",
@@ -523,7 +563,7 @@ $(document).ready(function(){
     	,cssWidgetIds:["ajaxpageBar2"]
 	    ,callback:function($table){   
 		    $("a.imagex").each(function(){
-		    	$(this).lightbox();
+		    	$(this).lightbox({navbarOnTop:true});
 		    })
 		    $table.find("td").attr("nowrap","nowrap");
 		    

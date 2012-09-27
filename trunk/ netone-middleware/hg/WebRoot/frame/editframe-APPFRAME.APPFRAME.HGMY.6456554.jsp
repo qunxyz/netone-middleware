@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
 <%
 	String path = request.getContextPath();
+	response.setHeader("X-UA-Compatible","IE=EmulateIE8");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -279,7 +280,7 @@ $.fn.autogrow = function(options) {
 				});
 			},
 			formatItem: function(item) {
-				return  item.FShortNumber+' '+item.FName;
+				return  item.FNumber+' '+item.FName;
 			},
 			formatResult: function(item) {
 				return item.FName;
@@ -287,6 +288,7 @@ $.fn.autogrow = function(options) {
 		
 		})
 		
+		/**
 		//客户分类 初始化
 		$('table#12299f74980d11e1b01667a74cfdf95c_').find('#column23').empty();
 		$.getJSON("/ndyd/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.HG.GETSUBMESSAGEINFO&q=501",   function(jsonx){   
@@ -345,6 +347,7 @@ $.fn.autogrow = function(options) {
 				}   
 			}); 
 		}); 
+		**/
 		
 	});
 	/** 结束脚本 */

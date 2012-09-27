@@ -5,6 +5,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String path = request.getContextPath();
+response.setHeader("X-UA-Compatible","IE=EmulateIE8");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -104,7 +105,8 @@ function $select(o,url){
 							}
 						}
 				],
-				viewConfig:{forceFit:true},
+				//viewConfig:{forceFit:true},
+				autoScroll:true,
 				loadMask:true	
 		   }
 		   

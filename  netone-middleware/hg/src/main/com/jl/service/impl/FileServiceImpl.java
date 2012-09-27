@@ -294,16 +294,19 @@ public class FileServiceImpl extends BaseService implements FileService {
 		int len = 0;
 
 		response.reset(); // 非常重要
+		response.setCharacterEncoding("UTF-8");
+		String docName = java.net.URLEncoder
+				.encode(file.getFilename(), "UTF-8");
 		if (isOnLine) { // 在线打开方式
 			URL u = new URL("file:///" + filePath);
 			response.setContentType(u.openConnection().getContentType());
 			response.setHeader("Content-Disposition", "inline; filename="
-					+ f.getName());
+					+ docName);
 			// 文件名应该编码成UTF-8
 		} else { // 纯下载方式
-			response.setContentType("application/x-msdownload");
+			response.setContentType("application/x-msdownload;charset=UTF-8");
 			response.setHeader("Content-Disposition", "attachment; filename="
-					+ f.getName());
+					+ docName);
 			response.flushBuffer();
 		}
 		OutputStream out = response.getOutputStream();
@@ -319,9 +322,9 @@ public class FileServiceImpl extends BaseService implements FileService {
 		com.jl.entity.File file = (com.jl.entity.File) commonDAO.findForObject(
 				"File.selectFileById", unid);
 
-		String prex = "(" + (width == null ? "0"
-				: width) + "_" + (height == null ? "0"
-						: height) + "_" + (scale == null ? "0" : scale) + ")";
+		String prex = "(" + (width == null ? "0" : width) + "_"
+				+ (height == null ? "0" : height) + "_"
+				+ (scale == null ? "0" : scale) + ")";
 		String filePath = file.getAddress();
 
 		File f = new File(filePath);
@@ -353,16 +356,19 @@ public class FileServiceImpl extends BaseService implements FileService {
 		int len = 0;
 
 		response.reset(); // 非常重要
+		response.setCharacterEncoding("UTF-8");
+		String docName = java.net.URLEncoder
+				.encode(file.getFilename(), "UTF-8");
 		if (isOnLine) { // 在线打开方式
 			URL u = new URL("file:///" + filePath);
 			response.setContentType(u.openConnection().getContentType());
 			response.setHeader("Content-Disposition", "inline; filename="
-					+ f.getName());
+					+ docName);
 			// 文件名应该编码成UTF-8
 		} else { // 纯下载方式
-			response.setContentType("application/x-msdownload");
+			response.setContentType("application/x-msdownload;charset=UTF-8");
 			response.setHeader("Content-Disposition", "attachment; filename="
-					+ f.getName());
+					+ docName);
 			response.flushBuffer();
 		}
 		OutputStream out = response.getOutputStream();

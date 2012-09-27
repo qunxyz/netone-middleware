@@ -222,7 +222,7 @@ public class AppAction extends AbstractAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setAttribute("beginDate", TimeUtil.formatDate(new Date(),
-		"yyyy-MM-dd"));
+				"yyyy-MM-dd"));
 		String forward = "/app/netpoint.jsp";
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -230,7 +230,7 @@ public class AppAction extends AbstractAction {
 		return af;
 	}
 
-	//显示网点扩展信息
+	// 显示网点扩展信息
 	public ActionForward queryNetpointExtendInfo(ActionMapping mapping,
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -244,7 +244,7 @@ public class AppAction extends AbstractAction {
 		// true不使用转向,默认是false代表转向
 		return af;
 	}
-	
+
 	// 查询网点管理
 	public void queryNetpoint(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -355,17 +355,37 @@ public class AppAction extends AbstractAction {
 		// true不使用转向,默认是false代表转向
 		return af;
 	}
-	
+
 	// 查询网点管理
-	public void queryNetPoint(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public void queryNetPoint(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		AppService service = (AppService) WebApplicationContextUtils
 				.getRequiredWebApplicationContext(servlet.getServletContext())
 				.getBean("appService");
 		service.queryNetPoint(request, response);
 	}
-	
+
+	// 查询网点管理Grid
+	public ActionForward queryNetPointGridView(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String forward = "/app/netpointManageGrid.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 查询网点管理Grid
+	public void queryNetPointGrid(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.queryNetPointGrid(request, response);
+	}
 
 	// 理货频率配置主界面
 	public ActionForward onAppOBRelationMain(ActionMapping mapping,

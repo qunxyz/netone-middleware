@@ -122,6 +122,15 @@ public interface AppService {
 	 */
 	public void queryNetPoint(HttpServletRequest request,
 			HttpServletResponse response);
+	
+	/**
+	 * 查询网点
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void queryNetPointGrid(HttpServletRequest request,
+			HttpServletResponse response);
 
 	/**
 	 * 加载 品牌信息，以树级方式展示

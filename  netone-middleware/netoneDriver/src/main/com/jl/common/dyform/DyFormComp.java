@@ -427,7 +427,6 @@ public final class DyFormComp {
 						+ x[1] + "</option>");
 			}
 		}
-		style +="width:50px;";
 		if (readonly) {// Ö»¶Á½ûÓÃ
 			return getHiddenInput(id, value)
 					+ getComp("<select ", ">" + valuestr + "</select>", id

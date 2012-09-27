@@ -10,6 +10,36 @@
 	</select>
 	
 	<!-- 查询所有网点 -->
+	<select id="selectNetpointInfoPage" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT 
+			*
+		FROM dyform.DY_961338295639576 
+		where 1=1
+		<isNotEmpty prepend="and" property="netName">
+			column5 like '%$netName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createPerson">
+			column13 like '%$createPerson$%'
+		</isNotEmpty>
+		$sortCondition$
+		limit #startIndex#,#pageSize#
+	</select>
+	
+	<!-- 查询所有网点 -->
+	<select id="selectNetpointInfoPageCount" parameterClass="java.util.Map" resultClass="int">
+		SELECT 
+			ifnull(count(*),0) as count
+		FROM dyform.DY_961338295639576
+		where 1=1
+		<isNotEmpty prepend="and" property="netName">
+			column5 like '%$netName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="createPerson">
+			column13 like '%$createPerson$%'
+		</isNotEmpty>
+	</select>
+	
+	<!-- 查询所有网点 -->
 	<select id="selectNetpointInfo" parameterClass="java.util.Map" resultClass="java.util.HashMap">
 		SELECT 
 			lsh lsh,

@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import oe.serialize.dao.PageInfo;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -1740,6 +1742,44 @@ public class AppServiceImpl extends BaseService implements AppService {
 			log.error("查询网点失败!", e);
 		} finally {
 			super.writeJsonStr(response, "[" + json + "]");
+		}
+	}
+
+	public void queryNetPointGrid(HttpServletRequest request,
+			HttpServletResponse response) {
+		String condition = request.getParameter("condition");
+		List<Map<String, String>> jsonList = new ArrayList<Map<String, String>>();
+		User user = getOnlineUser(request);
+		String start = request.getParameter("start");// 开始索引
+		String limit = request.getParameter("limit");// 开始索引
+		PageInfo obj = new PageInfo();
+		String usercode = user.getUserCode();
+		Map conditionmap = new HashMap();
+		if (StringUtils.isNotEmpty(condition)) {
+			conditionmap.put("netName", condition.trim());
+		}
+		conditionmap.put("startIndex", start);
+		conditionmap.put("pageSize", limit);
+
+		try {
+			obj = commonDAO.selectForPage("App.selectNetpointInfoPageCount",
+					"App.selectNetpointInfoPage", conditionmap, obj);
+			int total = obj.getTotalRows();
+			List result = obj.getResultList();
+			StringBuffer jsonBuffer = new StringBuffer();
+			String split = "";
+			for (Iterator iterator = result.iterator(); iterator.hasNext();) {
+				Map info = (Map) iterator.next();
+
+				String jsonStr = JSONUtil2.fromBean(info).toString();
+				jsonBuffer.append(split);
+				jsonBuffer.append(jsonStr);
+				split = ",";
+			}
+			super.writeJsonStr(response, super.buildJsonStr(total, jsonBuffer
+					.toString()));
+		} catch (Exception e) {
+			log.error("查询网点失败!", e);
 		}
 	}
 

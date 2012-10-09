@@ -521,15 +521,15 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
 		} else {
 			// 所有个人任务
-			loadworklist="select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,"+
+			loadworklist="select w4.statusnow statusx, w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,"+
 			"w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* "+
 
-			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
+			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3,netone.t_wf_runtime w4 "+
 
 			"where w1.RUNTIMEID in("+
 			"select runtimeid from netone.t_wf_runtime where runtimeid in(select distinct runtimeid from netone.t_wf_worklist where workcode in("+
 			"select workcode from netone.t_wf_participant where USERCODE='"+clientId+"')))"+
-			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid "+ processidStr + condition + " order by w1.runtimeid,w1.starttime desc limit "+from+","+(size+100);	
+			"and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid and w1.runtimeid=w4.runtimeid "+ processidStr + condition + " order by w1.runtimeid,w1.starttime desc limit "+from+","+(size+100);	
 			loadworklist_detail=StringUtils.replace(loadworklist, " USERCODE='"+clientId+"'", " 1=1 ");
 		}
 		
@@ -582,6 +582,14 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			String userinfo = (String) object.get("userinfo");
 			String processidx = (String) object.get("processid");
 			String types = (String) object.get("types");
+			String statusinfo=(String) object.get("statusx");
+			if("01".equals(statusinfo)){
+				statusinfo="|处理中";
+			}else if("02".equals(statusinfo)){
+				statusinfo="|已归档";
+			}else{
+				statusinfo="";
+			}
 			boolean sync = "1".equals((String) object.get("sync"));
 
 			TWfWorklistExt wfext = new TWfWorklistExt();
@@ -590,7 +598,9 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 					actid);
 			if(act==null){
 				act =new Activity();
-				act.setName("无知节点");
+				act.setName("未知节点"+statusinfo);
+			}else{
+				act.setName(act.getName()+statusinfo);
 			}
 			addTimeUse(createtime,donetime,act);
 			

@@ -42,7 +42,7 @@ public interface WorklistViewIfc {
 	 * @param from
 	 * @param size
 	 * @param listtype
-	 *            任务类型、01 待办、02已办但未归档 、03 已办已归档
+	 *            任务类型、01 待办、02已办但未归档 、03 已办已归档，00 全部
 	 * @param query
 	 *            查询字段对象
 	 * @return 数值数组罗列所有对应的记录值

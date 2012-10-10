@@ -47,3 +47,16 @@ CREATE TABLE iss.`t_tallyconfig` (
   `operate` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`lsh`)
 ) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+
+/** 2012-10-10 历史记录表 */
+DROP TABLE IF EXISTS iss.`t_jsonstore`;
+CREATE TABLE iss.`t_jsonstore` (
+  `lsh` varchar(32) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `user` varchar(100) NOT NULL,
+  `json` text,
+  `type` varchar(100) NOT NULL,
+  `operatetime` datetime DEFAULT NULL,
+  PRIMARY KEY (`lsh`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+

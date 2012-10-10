@@ -1,0 +1,7 @@
+commit -m "出库情况表 新增历史记录存储" D:/dev_windows/workspace3/hg/src/main/com/jl/service/AppService.java D:/dev_windows/workspace3/hg/src/main/com/jl/entity/xml/App.xml D:/dev_windows/workspace3/hg/WebRoot/app/querySellPivotTableView.jsp D:/dev_windows/workspace3/hg/src/main/com/jl/web/controller/AppAction.java D:/dev_windows/workspace3/hg/src/main/com/jl/service/BaseService.java D:/dev_windows/workspace3/hg/src/main/com/jl/service/impl/AppServiceImpl.java
+    Sending        dev_windows/workspace3/hg/WebRoot/app/querySellPivotTableView.jsp
+    Sending        dev_windows/workspace3/hg/src/main/com/jl/entity/xml/App.xml
+    Sending        dev_windows/workspace3/hg/src/main/com/jl/service/AppService.java
+    Sending        dev_windows/workspace3/hg/src/main/com/jl/service/BaseService.java
+    Sending        dev_windows/workspace3/hg/src/main/com/jl/service/impl/AppServiceImpl.java
+    Sending        dev_windows/workspace3/hg/src/main/com/jl/web/controller/AppAction.java

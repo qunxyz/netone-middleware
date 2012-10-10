@@ -422,14 +422,358 @@ html.VIE7 .form_fieldinput {
 	border-top: 1px dashed #E3E3E3;
 }
 </style>
-		<script type="text/javascript">
+<script type="text/javascript">
+
+Ext.ns('Buss.Layout');
+var treeDataUrl = "<c:url value='/app.do?method=onQueryStoreJson' />";
+var nodeid='0';
+var nodename='历史';
+var nodecode='0';
+var parentnodeid='0';
+Buss.Layout.Viewport =  Ext.extend(Ext.Viewport, {
+
+   initComponent: function(){
+     var clientHeight = 0;
+	 if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+	    clientHeight = document.documentElement.clientHeight;
+	 } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+	    clientHeight = document.body.clientHeight;
+   }
+   
+   var config = {
+		 collapsible:true,
+		 autoWidth:true,
+		 border:false,
+		 layout:"border", 
+		 
+		 items:[{
+		 			id:'treepanel',
+		 			xtype:'treepanel',
+		 			region:"west",
+		 			width:180,
+		 			style:"padding:2px",
+		 			title:nodename,
+		 			iconCls:"flow_chartIcon",
+		 			split:true,
+		 			collapsible: true,//伸缩
+		 			rootVisible:false,     //隐藏根节点
+		 			split:true,
+		 			animCollapse :false,
+		 			animate :false,//去除动画
+　　　				autoScroll:true,
+					border : true, // 边框
+					useArrows :true,
+					tbar:new Ext.Toolbar([
+		       			    {xtype:'button',text:'新增',iconCls:'addIcon',handler:function(){
+		       			    	openWindow('add');
+		       			    }},
+		       			    {xtype:'button',text:'修改',iconCls:'editIcon',handler:function(){
+		       			    	openWindow('update');
+		       			    }},
+		       			    {xtype:'button',text:'删除',iconCls:'deleteIcon',handler:function(){
+		       			    	deleteStoreJson();
+		       			    }}
+					]),
+				    loader: new Ext.tree.TreeLoader({dataUrl: treeDataUrl}),
+		       	 	root : new Ext.tree.AsyncTreeNode({id:'0',text:'历史'}),
+		       	 	listeners : {
+						click : function(node,e){
+							Ext.get('selectednode').dom.value = node.attributes.id;
+							buildQueryForm(node.attributes.id);
+						},
+						beforeload : function(loader, node) {
+					       this.body.mask('加载中...');//tree为TreePanel对象 
+					    },
+					    load : function() {   
+					       this.body.unmask();//tree为TreePanel对象   
+					    } 
+						
+					}
+              	},{
+              		id:'_grid',
+		            region:"center",
+		            xtype:'panel',
+					border:false,
+					hideBorders:true,
+	            	autoScroll:true,
+	            	buttonAlign :'center',
+	        		contentEl:'querydiv'
+			  }
+		 	]
+	}
+	Ext.apply(this, Ext.apply(this.initialConfig, config));
+	Buss.Layout.Viewport.superclass.initComponent.apply(this, arguments);
+   }
+});
+
+function buildQueryForm(lsh){
+	var msgTip = Ext.MessageBox.show({
+			title:'系统提示',
+			width : 250,
+			msg:'正在执行操作请稍后......'
+		});
+	Ext.Ajax.request({
+				url : '<c:url value="/app.do?method=onLoadStoreJson" />',
+				params:{lsh:lsh},
+				method : 'POST',
+				success : function(response,options){
+				msgTip.hide();
+				var result = Ext.util.JSON.decode(response.responseText);
+				if(result.error==null){
+					$('#partId').val(result.partId);
+					$('#partName').val(result.partName);
+					$('#funcKey').val(result.funcKey);
+					$('#beginDate').val(result.beginDate);
+					$('#endDate').val(result.endDate);
+					$('#format').val(result.format);
+					$('#FBillNo').val(result.FBillNo);
+					$('#productId').val(result.productId);
+					$('#productName').val(result.productName);
+					$('#funcValue').val(result.funcValue);
+					
+					var arrSelRow = new Array();//建立存储value和text的缓存数组
+		    		var arrSelCol = new Array();
+		    		
+		    		var arrSel = new Array();
+		    		
+		    		var rowcolumnArr = result.rowcolumnStrs.split(',');
+		    		var colcolumnArr = result.colcolumnStrs.split(',');
+		    		
+		    		for(var i=0; i<rowcolumnArr.length; i++){
+		    			arrSelRow[i]=rowcolumnArr[i];
+		    		}
+		    		for(var i=0; i<colcolumnArr.length; i++){
+		    			arrSelCol[i]=colcolumnArr[i];
+		    		}
+		    		
+		    		$('#rowselect').empty();
+		    		$('#colselect').empty();
+		    		$('#unselect').empty();
+		    		
+		    		var oSourceSel = document.getElementById('cachelist');
+		    		var rowselectSource = document.getElementById('rowselect');
+		    		var colselectSource = document.getElementById('colselect');
+		    		var unselectSource = document.getElementById('unselect');
+		    		
+		    		var index=0;
+		    		for(var i=0; i<oSourceSel.options.length; i++){//存储源列表框中所有的数据到缓存中，并建立value和选中option的对应关系
+		    			for(var j=0; j<arrSelRow.length; j++){
+		    				if (arrSelRow[j]==oSourceSel.options[i].value){
+		    					rowselectSource.options.add(new Option(oSourceSel.options[i].text,oSourceSel.options[i].value));
+		    					arrSel[index]=arrSelRow[j];
+		    					index++;
+		    				}
+		    			}
+		    			for(var j=0; j<arrSelCol.length; j++){
+		    				if (arrSelCol[j]==oSourceSel.options[i].value){
+		    					colselectSource.options.add(new Option(oSourceSel.options[i].text,oSourceSel.options[i].value));
+		    					arrSel[index]=arrSelCol[j];
+		    					index++;
+		    				}
+		    			}
+				    }
+				    for(var i=0; i<oSourceSel.options.length; i++){
+				    	unselectSource.options.add(new Option(oSourceSel.options[i].text,oSourceSel.options[i].value));
+					    for(var j=0; j<arrSel.length; j++){
+					    	if (arrSel[j]==oSourceSel.options[i].value){
+					    		$("#unselect option[value='"+arrSel[j]+"']").remove();
+					    	}
+					    }
+		    		}
+				}else{
+					Ext.MessageBox.alert('提示',result.tip);
+				}
+		},
+		failure : function(response,options){
+				msgTip.hide();
+				checkAjaxStatus(response);
+				Ext.MessageBox.alert('提示','请求失败！');
+		}
+	});
+}
+
+function openWindow(ttype){
+var selNode = Ext.getCmp('treepanel').getSelectionModel().getSelectedNode();
+var name='';var title='';
+if (selNode!=null) {
+	if (ttype=='update'){
+		name=selNode.text;
+	}
+} else {
+	if (ttype=='update'){
+		alert('请选择要修改的记录!');return;
+	}
+}
+if (ttype=='update'){
+title='修改历史';
+} else if (ttype=='add'){
+title='新增历史';
+}
+var _window = new Ext.Window({
+      title:title,
+      width:300,
+      height:130,
+      layout:'form',
+      animCollapse: true,
+      buttonAlign:"center",
+      labelAlign:'right',
+      labelWidth:65,
+      resizable:false,
+      modal:true,
+      closeAction :'close',
+      defaults:{xtype:"textfield",width:150},
+      bodyStyle:"padding:3px",//bodyStyle：设置当前主窗口的样式
+      items:[{//items：指定包含在面板中的组件的配置数组
+        value:name,fieldLabel:"&nbsp;名称<span style='color:red'>*</span>",id:'name',name:'name',valueField:"value",displayField:"text"
+        }
+	  ],  
+      buttons:[{//buttons：定包含在面板中的按钮的配置数组
+        text:"确 定",handler:function(){
+        	if (ttype=='update'){
+			var pass = updateStoreJson();
+			if(pass) _window.close();
+			} else if (ttype=='add'){
+			var pass = addStoreJson();
+			if(pass) _window.close();
+			}
+        	
+        }},{
+        text:"取 消",handler:function(){
+        	_window.close();
+        }
+      }]
+   });
+   _window.show();
+}
+
+function addStoreJson(){
+if (Ext.get('name').getValue()==''){alert('名称不能为空!');return false;}
+refreshdata();
+	var msgTip = Ext.MessageBox.show({
+				title:'系统提示',
+				width : 250,
+				msg:'正在执行操作请稍后......'
+			});
+	Ext.Ajax.request({
+				url : '<c:url value="/app.do?method=onSaveOrUpdateStoreJson" />',
+				params:{name:Ext.get('name').getValue()},
+				form:'_xreport_form',
+				method : 'POST',
+				success : function(response,options){
+				msgTip.hide();
+				var result = Ext.util.JSON.decode(response.responseText);
+				if(result.error==null){
+					Ext.ux.Toast.msg("", result.tip);
+					_reloadTree('');
+				}else{
+					Ext.MessageBox.alert('提示',result.tip);
+				}
+		},
+		failure : function(response,options){
+				msgTip.hide();
+				checkAjaxStatus(response);
+				Ext.MessageBox.alert('提示','保存信息请求失败！');
+		}
+	});
+	return true;
+}
+function updateStoreJson(){
+if (Ext.get('name').getValue()==''){alert('名称不能为空!');return false;}
+refreshdata();	    
+	var selectednode = Ext.get('selectednode').getValue();
+	if (selectednode=='') {alert('请选择要更新的记录!');return;}
+	var msgTip = Ext.MessageBox.show({
+				title:'系统提示',
+				width : 250,
+				msg:'正在执行操作请稍后......'
+			});
+	Ext.Ajax.request({
+				url : '<c:url value="/app.do?method=onSaveOrUpdateStoreJson" />',
+				params : {lsh:selectednode,name:Ext.get('name').getValue()},
+				form:'_xreport_form',
+				method : 'POST',
+				success : function(response,options){
+				msgTip.hide();
+				var result = Ext.util.JSON.decode(response.responseText);
+				if(result.error==null){
+					Ext.ux.Toast.msg("", result.tip);
+					_reloadTree('');
+				}else{
+					Ext.MessageBox.alert('提示',result.tip);
+				}
+		},
+		failure : function(response,options){
+				msgTip.hide();
+				checkAjaxStatus(response);
+				Ext.MessageBox.alert('提示','保存信息请求失败！');
+		}
+	});
+	return true;
+}
+function deleteStoreJson(){
+	var selectednode = Ext.get('selectednode').getValue();
+	var selNode = Ext.getCmp('treepanel').getSelectionModel().getSelectedNode();
+	if (selNode==null) {alert('请选择要删除的记录!');return;}
+	var msgTip = Ext.MessageBox.show({
+				title:'系统提示',
+				width : 250,
+				msg:'正在执行操作请稍后......'
+			});
+	Ext.Ajax.request({
+				url : '<c:url value="/app.do?method=onDeleteStoreJson" />',
+				params : {lsh:selectednode},
+				method : 'POST',
+				success : function(response,options){
+				msgTip.hide();
+				var result = Ext.util.JSON.decode(response.responseText);
+				if(result.error==null){
+					Ext.ux.Toast.msg("", result.tip);
+					_reloadTree('');
+				}else{
+					Ext.MessageBox.alert('提示',result.tip);
+				}
+		},
+		failure : function(response,options){
+				msgTip.hide();
+				checkAjaxStatus(response);
+				Ext.MessageBox.alert('提示','新增信息请求失败！');
+		}
+	});
+
+}
+function _reloadTree(pid){
+	var node=Ext.getCmp('treepanel').getNodeById(0);//id  是被刷新的结点编号
+	node.reload();
+}
+
+Ext.onReady(function(){
+	
+	var viewport =  new Buss.Layout.Viewport();
+	
+    //Ext.getCmp('treepanel').expandAll();//树默认全部展开
+    Ext.getCmp('treepanel').getRootNode().expand();//树展开第一级
+    //Ext.getCmp('treepanel').getRootNode().select();
+    
+    
+});
 		var format = "excel";
-		function query(){
+		function refreshdata(){
 			$('#rowcolumnStrs').val(getSelectedValueStr(document.getElementById('rowselect')));
 		    $('#rowcolumnNameStrs').val(getSelectedTextStr(document.getElementById('rowselect')));
 		    $('#colcolumnStrs').val(getSelectedValueStr(document.getElementById('colselect')));
 		    $('#functionValueStrs').val("{'"+$('#funcKey').val()+"':'"+$('#funcValue').val()+"'}");
-		
+		    if ($('#productName').val()==''){
+					$('#productId').val('');
+					$('#productName').val('');
+			}
+			if ($('#partName').val()==''){
+					$('#partId').val('');
+					$('#partName').val('');
+			}
+		}
+		function query(){
+			
+			refreshdata();
 			var rowcolumnStrs = $('#rowcolumnStrs').val();
 			if (rowcolumnStrs==''){
 				alert('数据透视表字段行区域不能为空！');
@@ -445,14 +789,6 @@ html.VIE7 .form_fieldinput {
 		        msg: '正在搜索请稍候......'
 		    });
 		    **/
-		    if ($('#productName').val()==''){
-					$('#productId').val('');
-					$('#productName').val('');
-			}
-			if ($('#partName').val()==''){
-					$('#partId').val('');
-					$('#partName').val('');
-			}
 		    
 		    var formatstr = "&format="+$('#format').val();
 		    
@@ -771,14 +1107,16 @@ html.VIE7 .form_fieldinput {
 	</head>
 
 	<body>
-		<center>
+		
 
 			<!-- S HEADER -->
 			<!-- E HEADER -->
 
 			<!-- S CENTER -->
-
-			<div align="center" style="width: 440px">
+			<input id="selectednode" type="hidden" />
+		<div id="querydiv">
+			<center>
+			<div  align="center" style="width: 440px">
 				<div id="tabs" style="height: 100%;">
 					<ul>
 						<li>
@@ -996,6 +1334,31 @@ html.VIE7 .form_fieldinput {
 										</rs:permission>
 										
 									</select>
+									
+									<select id="cachelist" name="cachelist" multiple="multiple" style="display: none;">
+										<option value="FMonth">月份</option>
+										<option value="Fdate">日期</option>
+										<option value="FBillNo">单据编号</option>
+										<option value="FTypeName">系统</option>
+										<option value="FSupplyIDName">购货单位</option>
+										<option value="FItemName">产品名称</option>
+										<option value="FItemModel">规格型号</option>
+										<option value="FUnitIDName">单位</option>
+										<option value="Fauxqty">实发数量</option>
+										<option value="FNote">备注</option>
+										<option value="FDeptIDName">部门</option>
+										<option value="FEmpIDName">业务员</option>
+										<option value="FBaseUnitID">基本单位</option>
+										<option value="FBaseQty">基本单位实发数量</option>
+										<option value="FCUUnitName">常用单位</option>
+										<option value="FCUUnitQty">常用单位数量</option>
+										<option value="FConsignPrice">销售单价</option>
+										<option value="FConsignAmount">销售金额</option>
+										<rs:permission action="7" resource="BUSSENV.BUSSENV.SECURITY.ROLE.HG.FACTORYPRICE">
+										<option value="FStockPrice">出厂单价</option>
+										<option value="FStockAmount">出厂金额</option>
+										</rs:permission>
+									</select>
 								</div>	
 							</div>
 						</center>
@@ -1009,12 +1372,13 @@ html.VIE7 .form_fieldinput {
 
 				</div>
 			</div>
-
+			</center>
+		</div>
 			<!-- E CENTER -->
 
 			<!-- S FOOTER -->
 			<!-- E FOOTER -->
 
-		</center>
+		
 	</body>
 </html>

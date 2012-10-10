@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
-
 import oe.serialize.dao.PageInfo;
 
 import org.apache.commons.lang.StringUtils;
@@ -485,6 +484,22 @@ public class AppServiceImpl extends BaseService implements AppService {
 		return str;
 	}
 
+	private String buildStoreJsonStr(Collection col) {
+		List jSonSet = new ArrayList();
+
+		for (Iterator itr = col.iterator(); itr.hasNext();) {
+			Map pc2 = (Map) itr.next();
+			String str = "{leaf:true,id: \"" + pc2.get("lsh") + "\", text:\""
+					+ pc2.get("name") + "\"}";
+
+			jSonSet.add(str);
+		}
+		String str = StringUtils.join(jSonSet.iterator(), ",");
+		str = "[" + str + "]";
+
+		return str;
+	}
+
 	private String buildPartJsonStr(Collection col) {
 		List jSonSet = new ArrayList();
 
@@ -632,6 +647,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 		String FBillNo = request.getParameter("FBillNo");
 		String partId = request.getParameter("partId");
 		String productId = request.getParameter("productId");
+		// JSONObject json = setRequestJSON(request);
 		// String rowcolumnNameStrs =
 		// "业务员,购货单位,产品名称,规格型号,FStockPrice,FStockAmount";
 		// String rowcolumnStrs =
@@ -2046,7 +2062,6 @@ public class AppServiceImpl extends BaseService implements AppService {
 					getReport_outletsByPx(map), response);
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error("导出信息出错!", e);
 		}
 	}
@@ -2064,6 +2079,92 @@ public class AppServiceImpl extends BaseService implements AppService {
 
 		reportExt.setSimpleTitleFooter(report, "理货频率配置");
 		return report;
+	}
+
+	public void deleteStoreJson(HttpServletRequest request,
+			HttpServletResponse response) {
+		String lsh = request.getParameter("lsh");
+		JSONObject json = new JSONObject();
+		try {
+			if (StringUtils.isNotEmpty(lsh)) {
+				commonDAO.delete("App.deleteStoreJson", lsh);
+				json.put("tip", "删除成功!");
+			}
+		} catch (Exception e) {
+			json.put("tip", "删除失败!");
+			json.put("error", "yes");
+			log.error("出错了", e);
+		} finally {
+			super.writeJsonStr(response, json.toString());
+		}
+	}
+
+	public void loadStoreJson(HttpServletRequest request,
+			HttpServletResponse response) {
+		String lsh = request.getParameter("lsh");
+		String json = "";
+		try {
+			Map map = (Map) commonDAO.findForObject("App.selectStoreJsonByLsh",
+					lsh);
+			json = (String) map.get("json");
+		} catch (Exception e) {
+			log.error("出错了", e);
+		} finally {
+			super.writeJsonStr(response, json.toString());
+		}
+	}
+
+	public void queryStoreJson(HttpServletRequest request,
+			HttpServletResponse response) {
+		String node = request.getParameter("node");
+		String type = "outstorageReport";
+		try {
+
+			User user = getOnlineUser(request);
+			Map map = new HashMap();
+			map.put("user", user.getUserId());
+			map.put("type", type);
+			Collection coll = new ArrayList();
+			if ("0".equals(node)) {
+				coll = commonDAO.select("App.selectStoreJson", map);
+			}
+			String categoriesJsonStr = buildStoreJsonStr(coll);
+			super.writeJsonStr(response, categoriesJsonStr);
+		} catch (Exception e) {
+			log.error("出错", e);
+		}
+
+	}
+
+	public void saveOrUpdateStoreJson(HttpServletRequest request,
+			HttpServletResponse response) {
+		String name = request.getParameter("name");
+		String lsh = request.getParameter("lsh");
+		String type = "outstorageReport";
+		JSONObject json = new JSONObject();
+		try {
+			User user = getOnlineUser(request);
+			Map map = new HashMap();
+			map.put("user", user.getUserId());
+			map.put("name", name);
+			map.put("type", type);
+			JSONObject jsonstr = setRequestJSON(request);
+			map.put("json", jsonstr);
+			if (StringUtils.isNotEmpty(lsh)) {
+				map.put("lsh", lsh);
+				commonDAO.update("App.updateStoreJson", map);
+			} else {
+				commonDAO.insert("App.insertStoreJson", map);
+			}
+			json.put("tip", "保存成功!");
+		} catch (Exception e) {
+			json.put("tip", "保存失败!");
+			json.put("error", "yes");
+			log.error("出错了", e);
+		} finally {
+			super.writeJsonStr(response, json.toString());
+		}
+
 	}
 
 }

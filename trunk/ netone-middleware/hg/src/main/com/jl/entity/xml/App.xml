@@ -453,4 +453,51 @@
 		ORDER BY brandId,creadDate 
 	</select>
 	
+	<!-- 插入json数据 -->
+	<insert id="insertStoreJson" parameterClass="java.util.Map">
+		<selectKey resultClass="java.lang.String" keyProperty="lsh" type="pre">
+				SELECT REPLACE(UUID(),'-','') as lsh
+		</selectKey>
+		INSERT INTO t_jsonstore 
+		(lsh, name, user, json, operatetime,type)
+		VALUES
+		(#lsh#, #name#, #user#, '$json$', date(now()),#type#)
+	</insert>
+	
+	<!-- 更新json数据 -->
+	<update id="updateStoreJson" parameterClass="java.util.Map">
+		UPDATE t_jsonstore
+		SET
+		name = #name# , 
+		user = #user# , 
+		type = #type# , 
+		json = '$json$' , 
+		operatetime = date(now())
+		WHERE lsh = #lsh# ;
+	</update>
+	
+	<!-- 删除json数据 -->
+	<delete id="deleteStoreJson" parameterClass="string">
+		delete from t_jsonstore where lsh=#lsh#
+	</delete>
+	
+	<!-- 查询JSON -->
+	<select id="selectStoreJson" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		select * from t_jsonstore
+		where 1=1
+		<isNotEmpty prepend="and" property="user">
+			user=#user#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="type">
+			type=#type#
+		</isNotEmpty>
+		order by operatetime asc
+	</select>
+	
+	<!-- 根据查询JSON -->
+	<select id="selectStoreJsonByLsh" parameterClass="string" resultClass="java.util.HashMap">
+		select * from t_jsonstore
+		where lsh=#lsh#
+	</select>
+	
 </sqlMap>

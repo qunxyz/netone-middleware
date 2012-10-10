@@ -122,7 +122,7 @@ public interface AppService {
 	 */
 	public void queryNetPoint(HttpServletRequest request,
 			HttpServletResponse response);
-	
+
 	/**
 	 * 查询网点
 	 * 
@@ -193,5 +193,41 @@ public interface AppService {
 	 * @param response
 	 */
 	public void exportAppOBR(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 保存或更新
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void saveOrUpdateStoreJson(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 删除
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void deleteStoreJson(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 查询
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void queryStoreJson(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 根据LSH加载
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void loadStoreJson(HttpServletRequest request,
 			HttpServletResponse response);
 }

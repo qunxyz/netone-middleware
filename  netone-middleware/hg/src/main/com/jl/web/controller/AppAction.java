@@ -484,4 +484,43 @@ public class AppAction extends AbstractAction {
 		service.exportAppOBR(request, response);
 	}
 
+	// ±£¥Ê
+	public void onSaveOrUpdateStoreJson(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.saveOrUpdateStoreJson(request, response);
+	}
+
+	// …æ≥˝
+	public void onDeleteStoreJson(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.deleteStoreJson(request, response);
+	}
+
+	// ≤È—Ø
+	public void onQueryStoreJson(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.queryStoreJson(request, response);
+	}
+
+	// º”‘ÿ
+	public void onLoadStoreJson(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.loadStoreJson(request, response);
+	}
 }

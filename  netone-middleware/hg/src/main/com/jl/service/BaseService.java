@@ -13,9 +13,11 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
 import oe.frame.web.WebCache;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -160,6 +162,42 @@ public abstract class BaseService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 设置请求对象封装成String对象 以‘&’分隔
+	 * 
+	 * @author Don
+	 * @param request
+	 *            请求对象
+	 * @param obj
+	 */
+	public JSONObject setRequestJSON(HttpServletRequest request) {
+		JSONObject json = new JSONObject();
+		Enumeration paramNameSet = request.getParameterNames();
+		try {
+			while (paramNameSet.hasMoreElements()) {
+				String paramName = (String) paramNameSet.nextElement();
+				String[] values = request.getParameterValues(paramName);
+				if (values != null && values.length == 1) {
+					json.put(paramName, htmEncode2(values[0]));
+				} else if (values != null && values.length > 1) {
+					json.put(paramName, htmEncode2(values.toString()));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	protected static String htmEncode2(String s) {
+		// System.out.println("多彩文档转换前:" + s);
+		if (StringUtils.isNotEmpty(s)) {
+			s = StringEscapeUtils.unescapeHtml(s);
+		}
+		// System.out.println("多彩文档转换后:" + s);
+		return s;
 	}
 
 	/**
@@ -483,7 +521,6 @@ public abstract class BaseService {
 		return department;
 	}
 
-	
 	/**
 	 * UUID生产器
 	 * 

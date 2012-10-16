@@ -109,6 +109,11 @@ public class ProcessEngineImp implements ProcessEngine {
 		return ruleEngine.rule(elogicExpress, runtimeid, null);
 	}
 
+	public String exeScriptInFlow(String elogicExpress, String runtimeid,String workcode) {
+		
+		return ruleEngine.todo(elogicExpress, runtimeid, workcode);
+	}
+	
 	public String exeScript(String elogicExpress, String runtimeid) {
 		
 		return ruleEngine.todo(elogicExpress, runtimeid, null);

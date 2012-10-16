@@ -15,6 +15,7 @@ import oe.frame.bus.workflow.ProcessEngine;
 import oe.frame.bus.workflow.RuntimeMonitor;
 import oe.frame.orm.OrmerEntry;
 import oe.frame.orm.util.DbTools;
+import oe.frame.web.WebCache;
 import oe.midware.workflow.client.Session;
 import oe.midware.workflow.client.SoaObj;
 import oe.midware.workflow.runtime.RuntimeProcessRef;
@@ -265,9 +266,13 @@ public class WorkflowConsoleImpl extends UnicastRemoteObject implements
 		System.out.println(listParam.getActivity().isSync() + ","
 				+ worklist.isDone());
 		if (!listParam.getActivity().isSync() && worklist.isRunning()) {// 异步模式，在激活节点的时候先执行脚本
-			return exeScript(scriptinfo, runtimeid);
+			return exeScriptInFlow(scriptinfo, runtimeid,workcode);
 		} else if (listParam.getActivity().isSync() && worklist.isDone()) {// 同步模式，必须等节点结束后才去执行
-			return exeScript(scriptinfo, runtimeid);
+			Object needBack=WebCache.getCache("WF_MODE_"+workcode);
+			//如果是回退流程那么，不应该执行同步脚本
+			if(needBack==null){
+				return exeScriptInFlow(scriptinfo, runtimeid,workcode);
+			}
 		}
 		return ""; // 什么都不执行
 

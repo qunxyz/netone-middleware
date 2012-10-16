@@ -92,5 +92,18 @@ public interface WfScriptFunction extends ScriptFunction {
 	 * @return
 	 */
 	String getext(String id,String paramname,String extname);
+	
+	/**
+	 * 根据workcode获得当前用户
+	 * @param workcode
+	 * @return
+	 */
+	String[] getUser(String workcode);
+	/**
+	 * 获得流程节点的提交者
+	 * @param workcode
+	 * @return
+	 */
+	String getCommiter(String workcode);
 
 }

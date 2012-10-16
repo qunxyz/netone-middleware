@@ -132,9 +132,10 @@ public interface ProcessEngine {
 	 *            List
 	 * @return boolean
 	 */
-	public String exeScript(String elogicExpress, String runtimeid)
+	public String exeScriptInFlow(String elogicExpress, String runtimeid,String workcode)
 			throws RemoteException;
-	
+	public String exeScript(String elogicExpress, String runtimeid)
+			throws RemoteException;	
 	
 	public Object exeScript(String eLogicExp)throws RemoteException;
 	

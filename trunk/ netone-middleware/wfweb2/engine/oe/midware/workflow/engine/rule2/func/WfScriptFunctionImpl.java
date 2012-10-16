@@ -1,16 +1,11 @@
 package oe.midware.workflow.engine.rule2.func;
 
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import oe.frame.bus.workflow.RuntimeInfo;
 import oe.frame.bus.workflow.rule.WfScriptFunction;
 import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
 import oe.midware.workflow.service.WorkflowConsole;
@@ -18,6 +13,10 @@ import oe.midware.workflow.service.WorkflowView;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * 基于工作流的脚本服务
@@ -410,6 +409,42 @@ public class WfScriptFunctionImpl implements WfScriptFunction {
 			_log.error(e.getMessage());
 		}
 
+	}
+
+	@Override
+	public String[] getUser(String workcode) {
+		WorkflowView view = null;
+		try {
+			view = (WorkflowView) RmiEntry.iv("wfview");
+			String sqlparticipant="select concat(username,'[',usercode,']') userinfo from netone.t_wf_participant where workcode='"+workcode+"' order by donetime desc";
+
+			List list=view.coreSqlview(sqlparticipant);
+			List newlist=new ArrayList();
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				
+				Map object = (Map) iterator.next();
+
+				String usercode=(String)object.get("userinfo");
+
+				newlist.add(usercode);
+			}
+			return (String[])newlist.toArray(new String[0]);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			_log.error(e.getMessage());
+		}
+		return null;
+	}
+
+	@Override
+	public String getCommiter(String workcode) {
+		// TODO Auto-generated method stub
+		String []user= getUser(workcode);
+		if(user!=null&&user.length>0){
+			return user[0];
+		}
+		return null;
 	}
 
 }

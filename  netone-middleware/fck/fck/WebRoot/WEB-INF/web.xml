@@ -46,10 +46,11 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<!-- com.fredck.FCKeditor.uploader.SimpleUploaderServlet -->
 	<servlet>
 		<servlet-name>SimpleUploader</servlet-name>
 		<servlet-class>
-			com.fredck.FCKeditor.uploader.SimpleUploaderServlet
+			oe.product.fck.common.SimpleUploaderServlet
 		</servlet-class>
 		<init-param>
 			<param-name>baseDir</param-name>

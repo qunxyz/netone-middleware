@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1647,7 +1648,18 @@ public class FrameAction extends AbstractAction {
 				String donetime = object.getDonetime();
 				donetime = donetime == null || "".equals(donetime) ? "&nbsp;"
 						: donetime.substring(0, 16);
+				//时间计算
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				 java.util.Date start = df.parse(createtime);
+				 java.util.Date end = df.parse(donetime);
+				 long l=end.getTime()-start.getTime();
+				 long day=l/(24*60*60*1000);
+				 long hour=(l/(60*60*1000)-day*24);
+				 long min=((l/(60*1000))-day*24*60-hour*60);
+				 long s=(l/1000-day*24*60*60-hour*60*60-min*60);
 
+
+				
 				if ("04".equals(object.getTypes())) {// 阶段性回复
 					donetime = createtime;
 				}
@@ -1662,6 +1674,7 @@ public class FrameAction extends AbstractAction {
 						+ "<td nowrap=\"nowrap\" width=\"40%\"  class=\"label_nd_2\">"
 						+ opemodeX
 						+ object.getActname()
+						+ "(用时" + day + "天" + hour + "小时" + min + "分" + ")" 
 						+ "</td>"
 						+ "<td nowrap=\"nowrap\" width=\"20%\"  class=\"label_nd_2\">"
 						+ object.getUsername()

@@ -561,6 +561,9 @@ public final class Security3AImpl implements Security3AIfc {
 		}
 
 		String parentid = upopar.getParentdir();
+		if("0".equals(parentid)||StringUtils.isEmpty(parentid)){
+			return "";
+		}
 		String parentName = null;
 		try {
 			parentName = rs.loadResourceById(parentid).getNaturalname();

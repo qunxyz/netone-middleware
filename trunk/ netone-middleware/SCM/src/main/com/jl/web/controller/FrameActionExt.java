@@ -3686,14 +3686,21 @@ public class FrameActionExt extends AbstractAction {
 					}
 					String rejson = "[" + jsonBuffer_1.toString() + "]";
 					loopEach = loop;
-					loopEach = StringUtils.replace(loopEach, "$(loop.XXDY)", "<td colspan=\"5\" width=\"441\">" + reSell(selljson, rejson) + "</td>");
-					loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)",String.valueOf(sum) + "元");
+					loopEach = StringUtils.replace(loopEach, "$(loop.XXDY)",
+							"<td colspan=\"5\" width=\"441\">"
+									+ reSell(selljson, rejson) + "</td>");
+					loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)",
+							String.valueOf(sum) + "元");
 					but.append(loopEach);
 					flag_roop = false;
 					continue;
 				}
 			}
-			loopEach = StringUtils.replace(loopEach, "$(loop.XXDY)", "<td width=\"206\" valign=\"bottom\">$(loop.HH) $(loop.PM)</td><td colspan=\"4\" width=\"235\" valign=\"bottom\">$(loop.JZ) $(loop.DRJJ) $(loop.SZ) $(loop.GF) $(loop.JPGF) $(loop.SJ)</td>");
+			loopEach = StringUtils
+					.replace(
+							loopEach,
+							"$(loop.XXDY)",
+							"<td width=\"206\" valign=\"bottom\">$(loop.HH) $(loop.PM)</td><td colspan=\"4\" width=\"235\" valign=\"bottom\">$(loop.JZ) $(loop.DRJJ) $(loop.SZ) $(loop.GF) $(loop.JPGF) $(loop.SJ)</td>");
 			loopEach = StringUtils.replace(loopEach, "$(loop.PM)", object
 					.getColumn4() == null ? "" : object.getColumn4());
 			loopEach = StringUtils.replace(loopEach, "$(loop.JZ)", (object
@@ -3703,14 +3710,10 @@ public class FrameActionExt extends AbstractAction {
 			if (object.getColumn19() != null
 					&& ("dl001".equals(object.getColumn19().toString()) || "dl004"
 							.equals(object.getColumn19().toString()))) {
-				loopEach = StringUtils
-						.replace(
-								loopEach,
-								"$(loop.SZ)",
-								(object.getColumn24() == null || "0.00"
-										.equals(object.getColumn24().toString())) ? ""
-										: (object.getColumn24().toString()
-												.replace(".00", "") + "ct"));
+				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", (object
+						.getColumn24() == null || "0.00".equals(object
+						.getColumn24().toString())) ? "" : (object
+						.getColumn24().toString().replace(".00", "") + "ct"));
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SZ)", "");
 			}
@@ -3733,7 +3736,8 @@ public class FrameActionExt extends AbstractAction {
 			if (!flag) {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", object
 						.getColumn15() == null ? "" : (object.getColumn15()
-						.toString()).replace(".00", "") + "元");
+						.toString()).replace(".00", "")
+						+ "元");
 			} else {
 				loopEach = StringUtils.replace(loopEach, "$(loop.SSJ)", "");
 			}
@@ -3741,7 +3745,7 @@ public class FrameActionExt extends AbstractAction {
 					.getColumn23() == null ? "" : object.getColumn23());
 			but.append(loopEach);
 		}
-		info = StringUtils.replace(info, "$(sum)", sum.toString()+"元");
+		info = StringUtils.replace(info, "$(sum)", sum.toString() + "元");
 		info = StringUtils.replace(info, "$(shy)", shy);
 		info = StringUtils.replace(info, "$(loop-)" + loop + "$(-loop)", but
 				.toString());
@@ -5244,6 +5248,34 @@ public class FrameActionExt extends AbstractAction {
 		response.setContentType("text/html;charset=UTF-8");
 		try {
 			response.getWriter().write(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// 新增分页数据
+	public void buildPaperData(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String formcode = request.getParameter("formcode");
+		String fatherlsh = request.getParameter("fatherlsh");
+		String pageIndex = request.getParameter("PageIndex");
+		String pageSize = request.getParameter("PageSize");
+		String url = request.getParameter("url");
+		User user = getOnlineUser(request);// 获取当前用户
+		String userinfo = user.getNLevelName() + "/" + user.getUserName() + ","
+				+ user.getNLevelName() + "/";
+
+		Integer startindex = (Integer.parseInt(pageIndex)-1)*Integer.parseInt(pageSize)+1;
+		String data = "";
+		
+		data = DyFormBuildHtmlExt.buildPaperData(formcode, fatherlsh,
+				true, userinfo, url, startindex, Integer.parseInt(pageSize));
+		
+		response.setContentType("text/html;charset=UTF-8");
+		try {
+			response.getWriter().write(""+data+"");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

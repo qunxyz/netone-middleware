@@ -2798,6 +2798,44 @@ $.jgrid.extend({
 		});
 		return resall ? resall: res;
 	},
+	hiddenRowData : function(rowid) {
+		var success = false, rowInd, ia, ri;
+		this.each(function() {
+			var $t = this;
+			rowInd = $t.rows.namedItem(rowid);
+			if(!rowInd) {return false;}
+			else {
+				ri = rowInd.rowIndex;
+				$(rowInd).hide();
+				$(rowInd).attr('id','_DEL_'+rowid);
+				$t.p.records--;
+				$t.p.reccount--;
+				$t.updatepager(true,false);
+				success=true;
+				if($t.p.multiselect) {
+					ia = $.inArray(rowid,$t.p.selarrrow);
+					if(ia != -1) { $t.p.selarrrow.splice(ia,1);}
+				}
+				if(rowid == $t.p.selrow) {$t.p.selrow=null;}
+			}
+			if($t.p.datatype == 'local') {
+				var id = $.jgrid.stripPref($t.p.idPrefix, rowid),
+				pos = $t.p._index[id];
+				if(typeof(pos) != 'undefined') {
+					$t.p.data.splice(pos,1);
+					$t.refreshIndex();
+				}
+			}
+			if( $t.p.altRows === true && success ) {
+				var cn = $t.p.altclass;
+				$($t.rows).each(function(i){
+					if(i % 2 ==1) { $(this).addClass(cn); }
+					else { $(this).removeClass(cn); }
+				});
+			}
+		});
+		return success;
+	},
 	delRowData : function(rowid) {
 		var success = false, rowInd, ia, ri;
 		this.each(function() {
@@ -12124,11 +12162,13 @@ jQuery(selector).each(function() {
 	jQuery('tbody > tr', jQuery(this)).each(function() {
 		var row = {};
 		var rowPos = 0;
+		var trid = jQuery(this).attr("id");
 		jQuery('td', jQuery(this)).each(function() {
 			if (rowPos === 0 && selectable) {
 				var input = jQuery('input', jQuery(this));
 				var rowId = input.attr("value");
-				rowIds.push(rowId || data.length);
+				//rowIds.push(rowId || data.length);
+				rowIds.push(trid);
 				if (input.is(":checked")) {
 					rowChecked.push(rowId);
 				}
@@ -12169,7 +12209,7 @@ jQuery(selector).each(function() {
 			var S4 = function () {
 		        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 		    };
-			id = 'uid'+(S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+			//id = 'uid'+(S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 			
 			if (id && id.replace) {
 				// We have to do this since the value of a checkbox

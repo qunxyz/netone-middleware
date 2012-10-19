@@ -132,14 +132,14 @@
 			}
 			
 			//提醒
-			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTTIPS&sr_participant=<rs:logininfo />", 
+			$.getJSON("/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTTIPS&sr_participant=<rs:logininfo />", 
 			 function(jsonx){
 			  var html = '';
 			  $.each(jsonx, function(ii,itemx){
 			  	if (itemx!=null){
 			  		html+="<div id='"+itemx.column5+"'>";
 			  		
-			  		html+="<a target='_blank' href='http://42.120.40.204:83/scm/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.ZHUBAO2.SSXS&lsh="+itemx.column4+"'>"+itemx.column5+"</a>";
+			  		html+="<a target='_blank' href='/scm/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.ZHUBAO2.SSXS&lsh="+itemx.column4+"'>"+itemx.column5+"</a>";
 			  		
 			  		html+="&nbsp;&nbsp;&nbsp;&nbsp;";
 			  		
@@ -165,7 +165,7 @@
 		
 		//取消提醒
 		function UPDATEPRODUCTTIPS(pcode){
-			$.getJSON('http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.UPDATEPRODUCTTIPS&sr_participant=<rs:logininfo />&q='+pcode, 
+			$.getJSON('/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.UPDATEPRODUCTTIPS&sr_participant=<rs:logininfo />&q='+pcode, 
 			 function(jsonx){
 			 	if ($('div#'+pcode)) {$('div#'+pcode).remove();}
 			 	alert(jsonx.tips);
@@ -175,14 +175,14 @@
 		
 		function showmessager(){
 		
-			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTTIPS&sr_participant=<rs:logininfo />", 
+			$.getJSON("/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTTIPS&sr_participant=<rs:logininfo />", 
 			 function(jsonx){
 			  var html = '';
 			  $.each(jsonx, function(ii,itemx){
 			  	if (itemx!=null){
 			  		html+="<div id='"+itemx.column5+"'>";
 			  		
-			  		html+="<a target='_blank' href='http://42.120.40.204:83/scm/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.ZHUBAO2.SSXS&lsh="+itemx.column4+"'>"+itemx.column5+"</a>";
+			  		html+="<a target='_blank' href='/scm/frame.do?method=onEditViewMain&naturalname=APPFRAME.APPFRAME.ZHUBAO2.SSXS&lsh="+itemx.column4+"'>"+itemx.column5+"</a>";
 			  		
 			  		html+="&nbsp;&nbsp;&nbsp;&nbsp;";
 			  		

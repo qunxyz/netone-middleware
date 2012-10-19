@@ -14,6 +14,11 @@
 <link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/autocomplete/jquery.autocomplete.css" rel="stylesheet" />
 <script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/autocomplete/jquery.autocomplete.pack.js"></script>
 
+
+<link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/jpaper/jpaper.css" rel="stylesheet" />
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jpaper/jpaper.js"></script>
+
+
 <script>
 function makeUUID() {
     var S4 = function () {

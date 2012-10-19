@@ -4,10 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * 
@@ -282,6 +278,19 @@ public class TimeUtil {
 	}
 
 	/**
+	 * 取得周
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static int getWeek(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int day = calendar.get(Calendar.DAY_OF_WEEK);
+		return day;
+	}
+
+	/**
 	 * 判断是否符合时间格式
 	 * 
 	 * @param str
@@ -304,12 +313,13 @@ public class TimeUtil {
 	}
 
 	public static void main(String args[]) {
-		
-		Date tdDate = TimeUtil.parseDate("20100101","yyyyMMdd");
-		System.out.println(tdDate);
-		String tdNumber = "TD20101201";
-		tdNumber = StringUtils.substring(tdNumber, 2,10);
-		System.out.println(tdNumber.length());
-		System.out.println(TimeUtil.isDate("20100152","yyyyMMdd"));
+
+		Date tdDate = TimeUtil.parseDate("2012-02-01", "yyyy-MM-dd");
+		// System.out.println(tdDate);
+		// String tdNumber = "TD20101201";
+		// tdNumber = StringUtils.substring(tdNumber, 2,10);
+		// System.out.println(tdNumber.length());
+		// System.out.println(TimeUtil.isDate("20100152","yyyyMMdd"));
+		System.out.println(TimeUtil.getWeek(tdDate));
 	}
 }

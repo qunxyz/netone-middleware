@@ -151,7 +151,7 @@
 		//return true;
 		}
 		
-		function $todo(thisObj,formcode,jsonStr){
+		function $todo(thisObj,formcode,jsonStr,lsh){
 			var deliter = '';
 			if (jsonStr!='')  deliter = ',';
 			var column1,column2,column3,column4,column5,column6,column7,column8,column9,column10;
@@ -162,7 +162,8 @@
 			var column51,column52,column53,column54,column55,column56,column57,column58,column59,column60;
 			var column61,column62,column63,column64,column65,column66,column67,column68,column69,column70;
 			var column71,column72,column73,column74,column75,column76,column77,column78,column79,column80;
-			var column81,column82,column83,column84,column85,column86,column87,column88,column89,column90;
+		 	
+		 	var column81,column82,column83,column84,column85,column86,column87,column88,column89,column90;
 		 	var column91,column92,column93,column94,column95,column96,column97,column98,column99,column100;
 		 	
 		 	var len = 0;
@@ -183,6 +184,7 @@
 			    
 			 var w = {
 				formcode : formcode,
+				lsh : lsh,
 				column1 : column1,column2 : column2,column3 : column3,column4 : column4,column5 : column5,
 				column6 : column6,column7 : column7,column8 : column8,column9 : column9,column10 : column10,
 				column11 : column11,column12 : column12,column13 : column13,column14 : column14,column15 : column15,
@@ -204,6 +206,7 @@
 				column91 : column91,column92 : column92,column93 : column93,column94 : column94,column95 : column95,
 				column96 : column96,column97 : column97,column98 : column98,column99 : column99,column100 : column100
 				
+				
 			};
 			var json___ = Ext.util.JSON.encode(w);
 			if (json___.indexOf('column')>0 && len!=100){
@@ -212,8 +215,7 @@
 			}
 			return jsonStr;
 		}
-
-function $todo2(thisObj,formcode,jsonStr){
+		function $todo2(thisObj,formcode,jsonStr){
 			var deliter = '';
 			if (jsonStr!='')  deliter = ',';
 			var column1,column2,column3,column4,column5,column6,column7,column8,column9,column10;
@@ -290,23 +292,23 @@ function $todo2(thisObj,formcode,jsonStr){
 				    
 				    
 				    var $isnull = false;
-				     var jsonStr = ''; $("body").find("table").each(function(){   
+				     var jsonStr = ''; 
+				     $("body").find("table").each(function(){   
 						if ($(this).attr('id')!='${formcode}')
 						{
 						  var formcode = $(this).attr('id');
 						  if (formcode!=''){
 						 
-						  	$(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
+						  	$(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr,null);});
 						  	//集成展示 子表单
 
 							var ids = jQuery("table#"+formcode).jqGrid('getDataIDs');   
 						    for(var i=0;i < ids.length;i++){   
 						        var cl = ids[i];   
-						        $(this).each(function(){jsonStr=$todo($('#'+cl),formcode,jsonStr);});
+						        $(this).each(function(){jsonStr=$todo($('#'+cl),formcode,jsonStr,cl);});
 						    }
 
-							$(this).filter(".table_form").each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
-						  
+						  $(this).filter(".table_form").each(function(){jsonStr=$todo($(this),formcode,jsonStr,null);});
 						  }
 						  
 						}//end if
@@ -378,11 +380,11 @@ function $todo2(thisObj,formcode,jsonStr){
 								**/
 									//打印销售单
 									/**
-									$.getJSON('http://42.120.40.204:83/scm/reportx18.do?method=query&lsh='+result.lsh, 
+									$.getJSON('/scm/reportx18.do?method=query&lsh='+result.lsh, 
 									 function(jsonx){
 									});
 									**/
-									//window.open('http://42.120.40.204:83/scm/reportx18.do?method=query&lsh='+result.lsh);
+									//window.open('/scm/reportx18.do?method=query&lsh='+result.lsh);
 					            }
 				            	
 				            	var paramlsh = result.lsh;
@@ -404,119 +406,6 @@ function $todo2(thisObj,formcode,jsonStr){
 				    });
 		    
 			  }
-		}
-		function _auditNext_1(){
-			if(validateForm()){	
-					var msgTip = Ext.MessageBox.show({
-				        title: '提示',
-				        width: 250,
-				        closable:false,
-				        msg: '正在跳转请稍候......'
-				    });
-				    $disabledall();
-				    var $isnull = false;
-				     var jsonStr = '';
-				    $("body").find("table").each(function(){   
-						if ($(this).attr('id')!='${formcode}')
-						{
-						  var formcode = $(this).attr('id');
-						  $(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
-						  //集成展示 子表单
-						  if ($(this).attr("class")=='table_form')
-						  $(this).each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
-						}//end if
-					});
-					if ($isnull == true) {
-						//$enableall();
-				        //Ext.MessageBox.alert('提示', '子表单不能为空!');
-				        //return;
-				    }
-				    /**
-				     * - 保存信息及明细
-				     */
-				    jsonStr = '[' + jsonStr + ']';
-				    Ext.Ajax.request({
-				        url: "<c:url value='/frame.do?method=onSavaOrUpdate' />",
-				        // 请求的服务器地址
-				        form: '_FRAME_FORM_ID_',
-				        // 指定要提交的表单id
-				        method: 'POST',
-				        sync: true,
-				        params: {
-				            subform: jsonStr
-				        },
-				        success: function (response, options) {
-				            //msgTip.hide();
-				            var result = Ext.util.JSON.decode(response.responseText);
-				            var auditing_ = true;
-				
-				            if (result.error != null) {
-				            	$enableall();
-				                Ext.MessageBox.alert('提示', result.tip);
-				            } else {
-				            	if (result.lsh!=null){
-				            		//激活作废按钮
-				            		document.getElementById('lsh').value=result.lsh;
-				            		document.getElementById('unid').value=result.lsh;
-				            		//document.getElementById('fileMainFrame').contentWindow.updateFile(result.lsh);
-					            }
-					            
-					            var paramlsh = result.lsh;
-				                //Ext.ux.Toast.msg("", result.tip);
-				                /** 获取部门值 */
-				            	Ext.Ajax.request({
-							        url: "<c:url value='/frame.do?method=onGetWfNode' />",
-							        // 请求的服务器地址
-							        form: '_FRAME_FORM_ID_',
-							        params:{
-							        	lsh:paramlsh,
-							        	runtimeid:'${param.runtimeid}'
-							        },
-							        // 指定要提交的表单id
-							        method: 'POST',
-							        //sync: true,
-							        success: function (response, options) {
-							            msgTip.hide();
-							            var result_ = Ext.util.JSON.decode(response.responseText);
-							            if (result_.error != null) {
-							            	$enableall();
-							                Ext.MessageBox.alert('提示', result_.tip);
-							            } else {
-											//$hideall();
-											//$show('new_2');
-											document.getElementById('runtimeid').value=result_.runtimeid;
-											document.getElementById('workcode').value=result_.workcode;
-											
-											if (result_.ismultinode==true || result_.ismultinode=='true'){
-												var url="<%=path%>/frame.do?method=onAuditView&commiter="+result_.commiter+"&naturalname=${param.naturalname}&lsh="+paramlsh+"&workcode="+result_.workcode+"&operatemode=${param.operatemode}&chooseresult=0&filteractiveids_=${param.filteractiveids_}";
-												window.location.href=url+'&page=audit_2&pagenew=1';
-											} else {
-												var url_ ='<%=path%>/frame.do?method=onShowView&naturalname=${param.naturalname}&chooseresult=0'+"&lsh="+paramlsh+"&workcode="+result_.workcode+"&runtimeid="+result_.runtimeid+"&flowppage=2&filteractiveids_=${param.filteractiveids_}";
-												window.location.href=url_+'&page=new_2';
-											}
-							            }
-							        },
-							        failure: function (response, options) {
-							            msgTip.hide();
-							            $enableall();
-							            checkAjaxStatus(response);
-							            var result_ = Ext.util.JSON.decode(response.responseText);
-							            Ext.MessageBox.alert('提示', result_.tip);
-							        }
-							    });
-				               	
-				            }
-				        },
-				        failure: function (response, options) {
-				            msgTip.hide();
-				            $enableall();
-				            checkAjaxStatus(response);
-				            var result = Ext.util.JSON.decode(response.responseText);
-				            Ext.MessageBox.alert('提示', result.tip);
-				        }
-				    });
-		    
-			  }	
 		}
 		
 		function _print(){
@@ -586,94 +475,6 @@ function $todo2(thisObj,formcode,jsonStr){
 		    }
 		}
 		
-		function onAuditNext(chooseresult){
-			<c:choose>
-				<c:when test="true">
-				var $pass = validateForm();
-				if (chooseresult=='3' || chooseresult=='1') $pass=true;
-				if($pass){	
-							var msgTip = Ext.MessageBox.show({
-						        title: '提示',
-						        width: 250,
-						        closable:false,
-						        msg: '正在跳转请稍候......'
-						    });
-						    
-						    
-						    var $isnull = false;
-						     var jsonStr = '';
-						    $("body").find("table").each(function(){   
-								if ($(this).attr('id')!='${formcode}')
-								{
-								  var formcode = $(this).attr('id');
-								  $(this).find('tr.table_tr_content').each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
-								  //集成展示 子表单
-								  if ($(this).attr("class")=='table_form')
-								  $(this).each(function(){jsonStr=$todo($(this),formcode,jsonStr);});
-								  
-								}//end if
-							});
-							if ($isnull == true) {
-						        //Ext.MessageBox.alert('提示', '子表单不能为空!');
-						        //return;
-						    }
-						    /**
-						     * - 保存信息及明细
-						     */
-						    jsonStr = '[' + jsonStr + ']';
-						    Ext.Ajax.request({
-						        url: "<c:url value='/frame.do?method=onSavaOrUpdate' />",
-						        // 请求的服务器地址
-						        form: '_FRAME_FORM_ID_',
-						        // 指定要提交的表单id
-						        method: 'POST',
-						        sync: true,
-						        params: {
-						            subform: jsonStr
-						        },
-						        success: function (response, options) {
-						            msgTip.hide();
-						            var result = Ext.util.JSON.decode(response.responseText);
-						            var auditing_ = true;
-						
-						            if (result.error != null) {
-						            	$enableall();
-						                Ext.MessageBox.alert('提示', result.tip);
-						            } else {
-						            	$disabledall();
-										//$hideall();
-										//$show('audit_2');
-										var url="<%=path%>/frame.do?method=onAuditView&commiter=${param.commiter}&naturalname=${param.naturalname}&lsh=${param.lsh}&workcode=${param.workcode}&operatemode=${param.operatemode}&chooseresult="+ chooseresult+"&filteractiveids_=${param.filteractiveids_}";
-										window.location.href=url+'&page=audit_2&pagenew=${param.pagenew}';
-						            }
-						        },
-						        failure: function (response, options) {
-						            msgTip.hide();
-						            $enableall();
-						            checkAjaxStatus(response);
-						            var result = Ext.util.JSON.decode(response.responseText);
-						            Ext.MessageBox.alert('提示', result.tip);
-						        }
-						    });
-				    
-					  }		
-				</c:when>
-				<c:otherwise>
-					var $tips = Ext.MessageBox.show({
-				        title: '提示',
-				        width: 250,
-				        closable:false,
-				        msg: '正在跳转请稍候......'
-				    });
-					$disabledall();
-					//$hideall();
-					//$show('audit_2');
-					var url="<%=path%>/frame.do?method=onAuditView&commiter=${param.commiter}&naturalname=${param.naturalname}&lsh=${param.lsh}&workcode=${param.workcode}&operatemode=${param.operatemode}&chooseresult="+ chooseresult+"&filteractiveids_=${param.filteractiveids_}";
-					window.location.href=url+'&page=audit_2';
-				</c:otherwise>
-			</c:choose>
-		
-		}
 		
 		function HTMLEncode(html) 
 		{ 
@@ -715,7 +516,7 @@ function $todo2(thisObj,formcode,jsonStr){
 			</rs:permission>
 			if ('${param.lsh}'==''){
 			
-				$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETFCLIENTBYUSER&sr_participant=<rs:logininfo />", 
+				$.getJSON("/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETFCLIENTBYUSER&sr_participant=<rs:logininfo />", 
 				 function(jsonx){
 				  if(jsonx!=null){
 				  	var obj=$('table#8a606025a84f11e19b54fb13b166e993_').find('#column8');
@@ -756,7 +557,7 @@ function $todo2(thisObj,formcode,jsonStr){
 
 
 			Ext.Ajax.request({
-							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
+							        url: "/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
 							        // 请求的服务器地址
 							        //form: '_FRAME_FORM_ID_',
 							        // 指定要提交的表单id
@@ -871,7 +672,7 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 			jsonStr2__2 = '[' + jsonStr2__2 + ']';			
 			
 			Ext.Ajax.request({
-							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
+							        url: "/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
 							        // 请求的服务器地址
 							        //form: '_FRAME_FORM_ID_',
 							        // 指定要提交的表单id
@@ -910,7 +711,7 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 			
 			
 			//破损
-			$.getJSON("http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETDAMAGE", 
+			$.getJSON("/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETDAMAGE", 
 				 function(jsonx){
 				  if(jsonx!=null){
 				  	var obj=$('#damage');
@@ -964,7 +765,7 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 			jsonStr2__2 = '[' + jsonStr2__2 + ']';			
 			
 			Ext.Ajax.request({
-							        url: "http://42.120.40.204:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
+							        url: "/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
 							        // 请求的服务器地址
 							        //form: '_FRAME_FORM_ID_',
 							        // 指定要提交的表单id

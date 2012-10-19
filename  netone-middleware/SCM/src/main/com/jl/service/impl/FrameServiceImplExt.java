@@ -125,9 +125,24 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 				BeanUtils.copyProperties(subdata, obj);
 				subdata.setParticipant(participant);
 				subdata.setFatherlsh(id);
-				result.add(subdata);
 
-				formcodeMap.put(subdata.getFormcode(), subdata.getFormcode());
+				if (obj.containsKey("lsh")) {
+					String $$lsh = subdata.getLsh();
+					if ($$lsh.contains("_NEW_")) {// 新增
+						String d = $$lsh.replace("_NEW_", "");
+						DyEntry.iv().addData(subdata.getFormcode(), subdata);
+					} else if ($$lsh.contains("_DEL_")) {// 删除
+						String d = $$lsh.replace("_DEL_", "");
+						DyEntry.iv().deleteData(subdata.getFormcode(), d);
+					} else if ("null".equalsIgnoreCase($$lsh)) {// 删除所有 再新增
+						result.add(subdata);
+						formcodeMap.put(subdata.getFormcode(), subdata
+								.getFormcode());
+					} else {// 修改
+						DyEntry.iv().modifyData(subdata.getFormcode(), subdata);
+					}
+				}
+
 			}
 
 			// 保存表单

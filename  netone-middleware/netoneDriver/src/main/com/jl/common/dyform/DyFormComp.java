@@ -2392,6 +2392,34 @@ public final class DyFormComp {
 		return script.toString();
 	}
 
+	public static String hiddenRow_(String tableid,
+			String onclickAddFunctionname) {
+		StringBuffer script = new StringBuffer();
+
+		script.append("var gr =jQuery('#" + tableid
+				+ "').jqGrid('getGridParam','selrow'); \n");
+		script.append("if( gr == null ) {alert('请选择行删除!');return;} \n");
+
+		script.append("var arr=new Array();\n");
+		script.append("	var selectedRowIds = $('#" + tableid
+				+ "').jqGrid('getGridParam','selarrrow');");
+		script.append("		for(var xx = 0;xx < selectedRowIds.length;xx++) {");
+		script.append("		arr.push(selectedRowIds[xx]);");
+		script.append("		} \n");
+
+		script.append("$.each(arr, function(index,callback){");
+		script.append("	$('#" + tableid
+				+ "').jqGrid('hiddenRowData', arr[index]);");
+		script.append(" }); \n");
+
+		// 若无记录 添加新记录
+		script.append("if ($('#" + tableid + " tr').size()==1){");
+		script.append(onclickAddFunctionname + "();");
+		script.append("}");
+
+		return script.toString();
+	}
+	
 	public static String deleteRow_(String tableid,
 			String onclickAddFunctionname) {
 		StringBuffer script = new StringBuffer();

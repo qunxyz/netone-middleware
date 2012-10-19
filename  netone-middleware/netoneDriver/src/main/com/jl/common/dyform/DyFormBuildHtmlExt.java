@@ -53,6 +53,7 @@ public final class DyFormBuildHtmlExt {
 	// 测试换行
 	private static final String _N = "";
 
+	private static final int pagesize =20;
 	/** */
 	public static final String TABLE_FORM = "table_form";
 
@@ -940,6 +941,46 @@ public final class DyFormBuildHtmlExt {
 			}
 		}
 		datas.append("}");
+
+		return datas.toString();
+	}
+	
+	protected static String buildDatas(DyFormData data,
+			DyFormColumn[] _formx, Map<String, DyFormColumn> columnmap,
+			Map<String, DyFormColumn> columnmapx, boolean isedit,
+			String userinfo, String parameter) throws Exception {
+		data = data == null ? new DyFormData() : data;
+		StringBuffer datas = new StringBuffer();
+		String split = "";
+		for (int i = 0; i < _formx.length; i++) {
+			String _col = _formx[i].getColumnid();
+			if (_formx[i].isHidden() == false) {
+
+				String value = BeanUtils.getProperty(data, _col);
+				value = value == null ? "" : value;
+				value = "null".equals(value) ? "" : value;
+				DyFormColumn column = columnmapx.get(_col);
+				Double wpercent = column.getWpercent();
+
+				if (isedit == false) {
+					datas.append(split
+							+ "'"
+							+ routeAppointValue(column.getViewtype(), ""
+									+ value + "'", column.getValuelist()));
+					split = ",";
+				} else {
+
+					String comp = routeAppointComp(column.getViewtype(), column
+							.getColumnid(), "" + value, "width:98%;", "",
+							column.isReadonly(), column.getValuelist(), "",
+							userinfo, parameter, column.getDefaultValue());
+					datas.append(split + "'&nbsp;" + column.getColumname()
+							+ "':'" + comp + "'");
+					split = ",";
+
+				}
+			}
+		}
 
 		return datas.toString();
 	}
@@ -2119,13 +2160,14 @@ public final class DyFormBuildHtmlExt {
 		dydata.setFatherlsh(fatherlsh);
 		List list = new ArrayList();
 		// if (StringUtils.isNotEmpty(fatherlsh)) {
-		list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
+		int sum = DyEntry.iv().queryDataNum(dydata, "");
+		list = DyEntry.iv().queryData(dydata, 0, pagesize, "");//分页
 		// }
 
 		if (list.size() > 0) {// 有记录
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				DyFormData data = (DyFormData) iterator.next();
-				html.append(buildTr(uuid(), formcode, false, data, _formx,
+				html.append(buildTr(data.getLsh(), formcode, false, data, _formx,
 						columnmap, columnmapx, isedit, userinfo, parameter));
 			}
 		} else {// 无记录
@@ -2169,9 +2211,9 @@ public final class DyFormBuildHtmlExt {
 				+ onclickAddFunctionname
 				+ "(){var datas_config = $buildNullData('" + formcode
 				+ "') ;$('#" + formcode
-				+ "').jqGrid('addRowData',makeUUID(), datas_config);}");
+				+ "').jqGrid('addRowData','_NEW_'+makeUUID(), datas_config);}");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");
-		btnstr.append(DyFormComp.deleteRow_(formcode, onclickAddFunctionname));
+		btnstr.append(DyFormComp.hiddenRow_(formcode, onclickAddFunctionname));
 		btnstr.append("}");
 		btnstr.append("</script>");
 
@@ -2182,6 +2224,14 @@ public final class DyFormBuildHtmlExt {
 						+ theadhtml.toString() + "</thead>" + "<tbody>"
 						+ html.toString() + "</tbody>", dyform.getStyleinfo_(),
 						"", 0, TableExtProperties_) + "</div>";
+
+		if (sum > pagesize) {
+			html_ += "<div id=\"pager\" class=\"jpaper\"></div>";
+			html_ += DyFormComp
+					.getJqueryFunctionScript("PageClick('"+formcode+"','"+projectname+"/frame.do?method=buildPaperData&fatherlsh="+fatherlsh+"',1, "
+							+ sum + ", 3,"+pagesize+");");
+		}
+
 		String html_btn = "";
 		if (isedit) {
 			String btnstr_ = DyFormComp.getTr("", DyFormComp.getTd("", btnstr
@@ -2315,6 +2365,69 @@ public final class DyFormBuildHtmlExt {
 				columnmap, columnmapx, isedit, userinfo, parameter);
 
 		return datas_config;
+	}
+
+	/**
+	 * 动态新增行
+	 * 
+	 * @param formcode
+	 * @param isedit
+	 * @param userinfo
+	 * @param parameter
+	 * @return
+	 * @throws Exception
+	 */
+	public static String buildPaperData(String formcode, String fatherlsh,
+			boolean isedit, String userinfo, String parameter,
+			int startIndex, int pageSize) throws Exception {
+		DyForm dyform = DyEntry.iv().loadForm(formcode);
+		
+		// 展示表单字段-针对表单中的相关字段
+		DyFormColumn _formx[] = dyform.getAllColumn_();
+		Arrays.sort(_formx, getFormComparator());// 排序
+		Map<String, DyFormColumn> columnmapx = getDyFormColumnById(_formx);// 映射
+
+		Map<String, DyFormColumn> columnmap = new HashMap<String, DyFormColumn>();
+
+		for (int i = 0; i < _formx.length; i++) {
+			DyFormColumn _qc1 = _formx[i];
+			// 字段ID 除了默认字段外，所有的设计字段都为 columnN的模式
+			String columnid = _qc1.getColumnid();
+			// 字段名（中文）
+			String columnname = _qc1.getColumname();
+
+			// 是否隐蔽
+			boolean hidden = _qc1.isHidden();
+
+			if (hidden == false) {
+				columnmap.put(columnid, _qc1);
+
+			}
+		}
+		DyFormData dydata = new DyFormData();
+		dydata.setFormcode(formcode);
+		dydata.setFatherlsh(fatherlsh);
+		List list = new ArrayList();
+		// if (StringUtils.isNotEmpty(fatherlsh)) {
+		int sum = DyEntry.iv().queryDataNum(dydata, "");
+		list = DyEntry.iv().queryData(dydata, startIndex-1, startIndex+pageSize-1, "");
+		// }
+
+		StringBuffer datas_config = new StringBuffer();
+		StringBuffer ids_config = new StringBuffer();
+		String split = "";
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			DyFormData object = (DyFormData) iterator.next();
+			datas_config.append(split);
+			datas_config.append(buildDatas(object, _formx, columnmap,
+					columnmapx, isedit, userinfo, parameter));
+			
+			ids_config.append(split);
+			ids_config.append(object.getLsh());
+			split = "|~~|";
+		}
+
+		return datas_config.toString()+"|__|"+ids_config.toString();
 	}
 
 	public static String buildSubForm(DyForm subdyform, String fatherlsh,
@@ -2738,7 +2851,7 @@ public final class DyFormBuildHtmlExt {
 		} else {
 			_formx = dyform.getAllColumn_();
 		}
-
+		Arrays.sort(_formx, getFormComparator());
 		JSONObject jsonobj = JSONObject.fromObject(json);
 
 		for (int i = 0; i < _formx.length; i++) {
@@ -3222,7 +3335,7 @@ public final class DyFormBuildHtmlExt {
 	}
 
 	public static String uuid() {
-		return UUID.randomUUID().toString().replaceAll("-", "");
+		return "_NEW_"+UUID.randomUUID().toString().replaceAll("-", "");
 	}
 
 	/**

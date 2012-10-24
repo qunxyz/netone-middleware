@@ -116,7 +116,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 	private List flowTop5(String deptid){
 		//通过sql查询出所有的流程
 		String sql="select NATURALNAME from ums_protectedobject where PARENTDIR in(select id from ums_protectedobject where NATURALNAME='BUSSWF.BUSSWF.NDYD') and"+
-		"NATURALNAME!='BUSSWF.BUSSWF.NDYD.NRSP'";
+		"NATURALNAME!='BUSSWF.BUSSWF.NDYD.NRSP' and active='1'";
 		List list=DbTools.queryData(sql);
 		
 		//从后台cache中获得所有流程的总代办工作量

@@ -459,19 +459,7 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<servlet>
-		<description>
-			This is the description of my J2EE component
-		</description>
-		<display-name>
-			This is the display name of my J2EE component
-		</display-name>
-		<servlet-name>InitOuCache</servlet-name>
-		<servlet-class>
-			com.jl.common.security3a.InitOuCache
-		</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+
 	<servlet>
 		<description>
 			This is the description of my J2EE component
@@ -525,13 +513,28 @@
     <servlet-name>TestLeaderView</servlet-name>
     <servlet-class>com.jl.scheduler.job.TestLeaderView</servlet-class>
   </servlet>
+
+
+
+	<servlet>
+		<description>
+			This is the description of my J2EE component
+		</description>
+		<display-name>
+			This is the display name of my J2EE component
+		</display-name>
+		<servlet-name>InitOuCache</servlet-name>
+		<servlet-class>
+			com.jl.common.security3a.InitOuCache
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InitOuCache</servlet-name>
+		<url-pattern>/servlet/InitOuCache</url-pattern>
+	</servlet-mapping>
+
 -->
-
-
-
-
-
-
 
 
 
@@ -539,10 +542,7 @@
 		<servlet-name>dwr-invoker</servlet-name>
 		<url-pattern>/dwr/*</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>InitOuCache</servlet-name>
-		<url-pattern>/servlet/InitOuCache</url-pattern>
-	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>SSOSvl</servlet-name>
 		<url-pattern>/SSOSvl</url-pattern>
@@ -659,6 +659,8 @@
     <servlet-name>Soasvl</servlet-name>
     <servlet-class>com.jl.common.Soasvl</servlet-class>
   </servlet>
+
+
   <servlet-mapping>
     <servlet-name>Soasvl</servlet-name>
     <url-pattern>/Soasvl</url-pattern>
@@ -682,6 +684,120 @@
     <servlet-name>dyinfofull</servlet-name>
     <url-pattern>/dyinfofull</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ExcelInsertSvl</servlet-name>
+    <servlet-class>com.jl.common.ExcelInsertSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ToMessageSvl</servlet-name>
+    <servlet-class>com.jl.common.message.ToMessageSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SinglePicSvl</servlet-name>
+    <servlet-class>com.jl.common.dyform.SinglePicSvl</servlet-class>
+  </servlet>
+  
+    <servlet-mapping>
+    <servlet-name>SinglePicSvl</servlet-name>
+    <url-pattern>/SinglePicSvl</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RemoveAllCacheSvl</servlet-name>
+    <servlet-class>com.jl.common.dyform.RemoveAllCacheSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>InitDataSvl</servlet-name>
+    <servlet-class>com.jl.common.app.InitDataSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LeaderViewSvl</servlet-name>
+    <servlet-class>com.jl.common.workflow.LeaderViewSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LeaderViewDetailSvl</servlet-name>
+    <servlet-class>com.jl.common.workflow.LeaderViewDetailSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LeaderViewTotalSvl</servlet-name>
+    <servlet-class>com.jl.common.workflow.LeaderViewTotalSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LeaderViewOrderSvl</servlet-name>
+    <servlet-class>com.jl.common.workflow.LeaderViewOrderSvl</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>TestInfoSvl</servlet-name>
+    <servlet-class>com.jl.common.workflow.TestInfoSvl</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>LeaderViewTotalSvl</servlet-name>
+    <url-pattern>/LeaderViewTotalSvl</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet-mapping>
+    <servlet-name>LeaderViewSvl</servlet-name>
+    <url-pattern>/LeaderViewSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InitDataSvl</servlet-name>
+    <url-pattern>/InitDataSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RemoveAllCacheSvl</servlet-name>
+    <url-pattern>/RemoveAllCacheSvl</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ToMessageSvl</servlet-name>
+    <url-pattern>/toMessageSvl</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ExcelInsertSvl</servlet-name>
+    <url-pattern>/ExcelInsertSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LeaderViewDetailSvl</servlet-name>
+    <url-pattern>/LeaderViewDetailSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LeaderViewOrderSvl</servlet-name>
+    <url-pattern>/servlet/LeaderViewOrderSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestInfoSvl</servlet-name>
+    <url-pattern>/servlet/TestInfoSvl</url-pattern>
+  </servlet-mapping>
+
+
+
+
+
+
 
 
 </web-app>

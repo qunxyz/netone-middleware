@@ -1046,13 +1046,13 @@ public final class DyFormBuildHtml {
 				// .getJqueryFunctionScript("$(\"table#" + formcode
 				// + "\").find(\"#textarea" + column.getColumnid()
 				// + "\").autogrow();");
-				//overflow:hidden;
+				// overflow:hidden;
 				_value = _value2
 						+ routeAppointComp(column.getViewtype(), column
-								.getColumnid(), "" + value,
-								"width:" + _width_input, "",
-								true, column.getValuelist(), "", userinfo,
-								parameter, column.getDefaultValue()) + _N;
+								.getColumnid(), "" + value, "width:"
+								+ _width_input, "", true,
+								column.getValuelist(), "", userinfo, parameter,
+								column.getDefaultValue()) + _N;
 			} else {
 				_startDiv = "<div class=\"" + FORM_FIELD_INPUT_READ
 						+ "\" style=\"width:" + _width + ";" + hiddenstyle
@@ -1674,11 +1674,13 @@ public final class DyFormBuildHtml {
 		htmlall
 				.append(eventListenScripts.toString()
 						+ "<div style=\"overflow-x:auto; overflow-y:hidden; width:900px;\">"
-						+ html_
-						+ html_btn
-						+ "</div><script>if($.browser.version==6.0 || $.browser.version==7.0) $('table#"
-						+ formcode
-						+ "').append('<tr><td>&nbsp;</td></tr>');</script>");
+						+ html_ + html_btn + "</div>");
+		// htmlall
+		// .append("<script>if($.browser.version==6.0 || $.browser.version==7.0)
+		// $('table#"
+		// + formcode
+		// + "').append('<tr><td>&nbsp;</td></tr>');</script>");
+
 		return htmlall.toString();
 	}
 

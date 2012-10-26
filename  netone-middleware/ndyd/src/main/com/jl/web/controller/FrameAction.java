@@ -1651,13 +1651,14 @@ public class FrameAction extends AbstractAction {
 				//时间计算
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				 java.util.Date start = df.parse(createtime);
-				 java.util.Date end = df.parse(donetime);
-				 long l=end.getTime()-start.getTime();
+				 long l=0;
+				 if(!"&nbsp;".equals(donetime)){
+					 java.util.Date end = df.parse(donetime);
+					 l=end.getTime()-start.getTime();
+				 }
 				 long day=l/(24*60*60*1000);
 				 long hour=(l/(60*60*1000)-day*24);
 				 long min=((l/(60*1000))-day*24*60-hour*60);
-				 long s=(l/1000-day*24*60*60-hour*60*60-min*60);
-
 
 				
 				if ("04".equals(object.getTypes())) {// 阶段性回复

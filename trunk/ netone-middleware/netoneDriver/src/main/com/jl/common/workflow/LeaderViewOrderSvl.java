@@ -58,6 +58,10 @@ public class LeaderViewOrderSvl extends HttpServlet {
 			//获得流程工作量最大的前5个
 			list=this.flowTop5(rootname);
 		}else{
+			list=new ArrayList();
+			Map find=new HashMap();
+			find.put("value", "0");
+			find.put("name", "错误参数调度");
 			list=this.flowTop5(rootname);
 		}
 		
@@ -68,7 +72,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 	}
 	
 	private List menTop5(String deptid){
-		String sql="select username name,count(*) value from t_wf_participant where STATUSNOW='01' group by usercode order by value desc limit 5";
+		String sql="select username name,count(*) value from t_wf_participant where STATUSNOW='01' group by usercode order by value desc limit 0,5";
 		return DbTools.queryData(sql);
 	}
 	
@@ -107,6 +111,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 					find.put("value", value);
 					find.put("name", object.get("deptname"));
 					listMaxTaskDept.add(find);
+					break;
 				}
 			}
 		}
@@ -145,6 +150,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 					find.put("value", doing);
 					find.put("name",key);
 					procemaxFinal.add(find);
+					break;
 				}
 			}
 		}

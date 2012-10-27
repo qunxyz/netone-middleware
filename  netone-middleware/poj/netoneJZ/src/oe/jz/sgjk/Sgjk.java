@@ -36,6 +36,7 @@ public class Sgjk extends OeScript{
 		java.text.SimpleDateFormat dateformat=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String a1=dateformat.format(new java.util.Date());
 		dy.set("$(lsh)"+":"+"$(formcode)","column6" , a1);
+
 	}
 
 }

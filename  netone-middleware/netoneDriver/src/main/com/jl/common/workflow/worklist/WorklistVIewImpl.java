@@ -584,9 +584,9 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			String types = (String) object.get("types");
 			String statusinfo=(String) object.get("statusx");
 			if("01".equals(statusinfo)){
-				statusinfo="|处理中";
+				statusinfo="【处理中】";
 			}else if("02".equals(statusinfo)){
-				statusinfo="|已归档";
+				statusinfo="【已归档】";
 			}else{
 				statusinfo="";
 			}

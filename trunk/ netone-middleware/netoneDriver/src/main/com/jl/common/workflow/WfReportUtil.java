@@ -135,7 +135,9 @@ public class WfReportUtil {
 		List listdata=new ArrayList();
 		if(dept==null){
 			String rsid=rs.loadResourceByNatural(rootname).getId();
-			dept=rs.subResource(rsid);
+			UmsProtectedobject upo=new UmsProtectedobject();
+			upo.setParentdir(rsid);
+			dept=rs.queryObjectProtectedObj(upo, null, 0, 1000, " order by reference desc");
 		}
 		long time=System.currentTimeMillis();
 		for (Iterator iterator = dept.iterator(); iterator.hasNext();) {

@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import com.jl.common.app.AppEntry;
 import com.jl.common.app.impl2.AnalysisAppFirst;
 import com.jl.common.app.impl2.AppFirst;
+import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyFormColumn;
 import com.jl.common.netone.UmsProtecte;
 
@@ -59,29 +60,20 @@ public class Queryform extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		String formcode = null;
 		String appname = request.getParameter("appname");
-
+		List<DyFormColumn> listx=null;
 		try {
 			formcode = AppEntry.iv().loadApp(appname).getDyformCode_();
+			listx=DyEntry.iv().fetchColumnList(formcode);
 		} catch (Exception e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
+		
+		
 
-		DyFormDesignService dys = null;
-
-		TCsColumn busForm = new TCsColumn();
-		busForm.setFormcode(formcode);
-
-		try {
-			dys = (DyFormDesignService) RmiEntry.iv("dydesign");
-		} catch (NotBoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		List listmame = dys.queryObjects(busForm);
 		List list = new ArrayList();
-		for (Iterator iterator = listmame.iterator(); iterator.hasNext();) {
-			TCsColumn tCsColumn = (TCsColumn) iterator.next();
+		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
+			DyFormColumn tCsColumn = (DyFormColumn) iterator.next();
 
 			Map map = new HashMap();
 			if (tCsColumn.getColumnid().toUpperCase().equals("BELONGX")

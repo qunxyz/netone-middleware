@@ -678,7 +678,8 @@ public class SoaScript extends OeScript {
 	// 促销写入K3 价格策略
 	public static void CX_manage() {
 		String runtimeid = "297ea5d037992ca601379cfc336500a8";
-
+		String workcode = "";
+		
 		String bussid = wf.get(runtimeid, "bussid");
 		if (!"".equals(bussid)) {
 			String formcode = "BUSSFORM.BUSSFORM.BNHGYW.DY_991336361733786";
@@ -740,8 +741,8 @@ public class SoaScript extends OeScript {
 									.getColumn9().toString())
 							+ Double.valueOf(object.getColumn20() == null ? "0"
 									: object.getColumn20().toString());
-					// Double v5 =
-					// Double.valueOf(object.getColumn14().toString());
+					/** Double v5 =
+					Double.valueOf(object.getColumn14().toString());**/
 					Double v6 = Double
 							.valueOf(object.getColumn16() == null ? "0"
 									: object.getColumn16().toString());
@@ -808,13 +809,11 @@ public class SoaScript extends OeScript {
 
 		db.execute(cons, sql111);
 		db.close(cons);
+		
 
 		/** 写流程审批信息 */
-		String userinfo = wf.get(runtimeid, "customer");
-		String usercode = org.apache.commons.lang.StringUtils.substringBetween(
-				userinfo, "[", "]");
-		String username = org.apache.commons.lang.StringUtils.substringBefore(
-				userinfo, "[");
+		String userinfo = wf.getCommiter(workcode);
+		String username = org.apache.commons.lang.StringUtils.substringBefore(userinfo, "[");
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
 				"yyyy-MM-dd HH:mm:ss");
 		String currdate = sdf.format(new java.util.Date());
@@ -826,7 +825,7 @@ public class SoaScript extends OeScript {
 				"BUSSFORM.BUSSFORM.BNHGYW.DY_991336361733786", bus, 0, 1, "");
 		for (Iterator iterator = listxxxx.iterator(); iterator.hasNext();) {
 			TCsBus object = (TCsBus) iterator.next();
-			dy.setIn("column15", username + "||" + currdate, object);
+			dy.setIn("column15", username+"||"+currdate, object);
 			dy.submit(object);
 		}
 	}

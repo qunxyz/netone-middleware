@@ -1086,9 +1086,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 					split = ",";
 
 					cache = new StringBuffer();
-				}
-
-				if (result.size() == (i + 1)) {
+				} else if (result.size() == (i + 1)) {
 					jsonBuffer.append(split);
 					jsonBuffer.append("[");
 

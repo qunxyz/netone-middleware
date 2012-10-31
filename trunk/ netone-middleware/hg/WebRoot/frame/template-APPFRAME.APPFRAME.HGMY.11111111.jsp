@@ -60,9 +60,9 @@
 								onclick="javascript:_save();" />
 							<input id="nextBtn_1" type="button" value=" 下一步 " class="btn"
 								onclick="javascript:_auditNext_1();" />
-							</c:if>		
+							</c:if>
+							<!-- 
                             <c:if test="${param.hx=='1'}">
-                            <!-- 
 							<input id="hxBtn_1" type="button" value=" 核 销 " class="btn"
 								onclick="javascript:$$hx('${param.lsh}');" />	
 							</c:if>

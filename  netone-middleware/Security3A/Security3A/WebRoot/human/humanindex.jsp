@@ -103,7 +103,12 @@
 							${getCol.faxNO}
 						</td>
 						<td height="21">
-							${getCol.company}
+								<c:if test="${getCol.password == '9$9$'||getCol.password=='8846D8C4493431BDF845BF8CCB5F23FA'}">
+                                                                 禁用
+                                                                </c:if>
+								<c:if test="${getCol.password!= '9$9$'&&getCol.password!='8846D8C4493431BDF845BF8CCB5F23FA'}">
+                                                                 正常
+                                                                </c:if>
 						</td>
 						<td height="21">
 							<a href=javascript:link("${getCol.description}")>查看1</a>

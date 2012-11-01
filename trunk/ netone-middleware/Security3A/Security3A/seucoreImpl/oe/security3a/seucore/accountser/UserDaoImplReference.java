@@ -45,7 +45,8 @@ public class UserDaoImplReference {
 					clerk.setRemark(BeanUtils.getProperty(user, "otherinfo"));// 备注
 					clerk.setExtendattribute(BeanUtils.getProperty(user, "extendinfo"));// 部门Naturalname
 					clerk.setDeptment(BeanUtils.getProperty(user, "systemid"));// 组织单位
-					
+					clerk.setIds(BeanUtils.getProperty(user, "ids"));
+					clerk.setTypes(BeanUtils.getProperty(user, "types"));
 //					clerk.setOfficeNO(BeanUtils.getProperty(user, "ids"));//设置隶属于  即四位代码
 					
 				} catch (Exception e1) {
@@ -101,6 +102,8 @@ public class UserDaoImplReference {
 					BeanUtils.setProperty(user, "otherinfo", clerk.getRemark());
 					BeanUtils.setProperty(user, "systemid",clerk.getDeptment() );
 					BeanUtils.setProperty(user, "extendinfo",clerk.getExtendattribute() );
+					BeanUtils.setProperty(user, "ids",clerk.getIds() );
+					BeanUtils.setProperty(user, "types",clerk.getTypes() );
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -187,7 +190,10 @@ public class UserDaoImplReference {
 		// clerk.getCity();
 
 		BeanUtils.setProperty(user, "statusinfo", UserDao._USER_STATUS_OK);
-
+		
+		BeanUtils.setProperty(user, "ids", clerk.getIds());
+		BeanUtils.setProperty(user, "types", clerk.getTypes());
+		
 		if (map != null) {
 			map.put("extendinfo", (String) map.get("extendattribute"));
 		}

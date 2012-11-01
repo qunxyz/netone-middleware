@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import oe.frame.orm.util.IdServer;
+import oe.frame.web.WebCache;
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
 import oe.midware.workflow.service.WorkflowConsole;
@@ -61,13 +62,16 @@ public class SelfModifyAction extends Action {
 		RequestParamMap reqmap = RequestUtil.setParamMapToRequest(request);
 		OnlineUserMgr olmgr = getOnlineUserMgr();
 		OnlineUser oluser = olmgr.getOnlineUser(request);
+		
+		String loginName =null;
 		try {
 			ResourceRmi rmi = (ResourceRmi) RmiEntry.iv("resource");
 			CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
 			Clerk clerk = null;
 
 			if (oluser != null) {
-				String loginName = oluser.getLoginname();
+				loginName = oluser.getLoginname();
+				
 				String code = oluser.getBelongto();
 				String flag = "";
 				flag = request.getParameter("flag");
@@ -136,6 +140,7 @@ public class SelfModifyAction extends Action {
 					request.setAttribute("clerk", clerk);
 					request.setAttribute("usergroups", usergroups);
 					request.setAttribute("task", "second");
+					WebCache.removeCache("USERX_"+loginName);
 					return mapping.findForward("permission");
 				} else if (flag != null && "pass".equals(flag.trim())) {
 					// 进入修改密码的界面，需要获得用户的相关基本信息，默认显示在修改页面上。
@@ -241,6 +246,7 @@ public class SelfModifyAction extends Action {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		WebCache.removeCache("USERX_"+loginName);
 		return mapping.findForward("index");
 	}
 

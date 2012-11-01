@@ -276,7 +276,7 @@ public class LoginSvl extends HttpServlet
     if ("md5".equalsIgnoreCase(this.encryptionMode))
     {
       String passwordx = MD5Util.MD5_UTF16LE(password);
-
+      WebCache.removeCache("USERX_"+username);
       Clerk user = rsrmi.loadClerk("0000", username);
       if (user == null) {
         return null;

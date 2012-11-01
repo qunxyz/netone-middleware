@@ -172,7 +172,6 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		} else if ("03".equals(listType)) {
 			// 所有结束任务且已经归档
 			urlEnd = "&query=look";
-			// 所有结束任务但未归档
 			loadworklist="select distinct w1.runtimeid "+
 
 			"from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 "+
@@ -508,7 +507,6 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		} else if ("03".equals(listType)) {
 			// 所有结束任务且已经归档
 			urlEnd = "&query=look";
-			// 所有结束任务但未归档
 			loadworklist="select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,"+
 			"w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* "+
 
@@ -602,7 +600,6 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			}else{
 				act.setName(act.getName()+statusinfo);
 			}
-			addTimeUse(createtime,donetime,act);
 			
 			// 获得流程的所有相关变量
 			List listRev = wfview.fetchRelevantVar((String) object

@@ -189,12 +189,12 @@ public class HumanIndexAction extends Action {
 					}
 					// 将密码明文读到，写到密码中，用于在页面上确认是否为禁用帐户
 					// 禁用帐户的密码为 9$9$
-					String pass = cl.getPassword();
-					String key = cupmRmi.fetchConfig("EncrypKey");
-					if (pass == null) {
-						pass = "00";
-					}
-					cl.setPassword(Encryption.encry(pass, key, false));// 修改密码1
+//					String pass = cl.getPassword();
+//					String key = cupmRmi.fetchConfig("EncrypKey");
+//					if (pass == null) {
+//						pass = "00";
+//					}
+//					cl.setPassword(Encryption.encry(pass, key, false));// 修改密码1
 					//判断用户是否在线
 					Object online=WebCache.getCache(clerk.getNaturalname());
 					if(online!=null){

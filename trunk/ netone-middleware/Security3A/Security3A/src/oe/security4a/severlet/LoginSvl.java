@@ -188,9 +188,10 @@ public class LoginSvl extends HttpServlet
           }
           else if (user != null) {
             String passxx = "A1813E88CA979EB80D8209C34930BFEB";
+            String passxy = "9$9$";
             ResourceRmi rsrmi = (ResourceRmi)RmiEntry.iv("resource");
             Clerk userx = rsrmi.loadClerk("0000", username);
-            if (userx.getPassword().equals(passxx)) {
+            if (userx.getPassword().equals(passxx)||userx.getPassword().equals(passxy)) {
               cupm.log("login", reqip, username, 
                 "forbid account!", "");
 

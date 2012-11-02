@@ -72,7 +72,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 	}
 	
 	private List menTop5(String deptid){
-		String sql="select username name,count(*) value from t_wf_participant where STATUSNOW='01' group by usercode order by value desc limit 0,5";
+		String sql="select username name,count(*) value from netone.t_wf_participant where STATUSNOW='01' group by usercode order by value desc limit 0,5";
 		return DbTools.queryData(sql);
 	}
 	
@@ -120,7 +120,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 	
 	private List flowTop5(String deptid){
 		//通过sql查询出所有的流程
-		String sql="select NATURALNAME from ums_protectedobject where PARENTDIR in(select id from ums_protectedobject where NATURALNAME='BUSSWF.BUSSWF.NDYD') and"+
+		String sql="select NATURALNAME from netone.ums_protectedobject where PARENTDIR in(select id from netone.ums_protectedobject where NATURALNAME='BUSSWF.BUSSWF.NDYD') and "+
 		"NATURALNAME!='BUSSWF.BUSSWF.NDYD.NRSP' and active='1'";
 		List list=DbTools.queryData(sql);
 		

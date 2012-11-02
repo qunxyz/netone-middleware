@@ -98,7 +98,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		Arrays.sort(deptMa);
 		// 找出工作量最大的前5个部门，也就是top5
 		List listMaxTaskDept=new ArrayList();
-		for (int i = 1; i <=5; i++) {
+		for (int i = 1; i <=5 && deptMa.length >= i ; i++) {
 			int valuepre=deptMa[deptMa.length-i];
 			for (Iterator iterator = data.iterator(); iterator.hasNext();) {
 				Map object = (Map) iterator.next();

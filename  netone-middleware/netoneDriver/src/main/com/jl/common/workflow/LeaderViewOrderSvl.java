@@ -139,7 +139,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		Long []procMa=(Long[])procemax.toArray(new Long[0]);
 		Arrays.sort(procMa);
 		List procemaxFinal=new ArrayList();
-		for (int i = 1; i <=5; i++) {
+		for (int i = 1; i <=5 && i<= procMa.length; i++) {
 			long valuepre=procMa[procMa.length-i];
 			for (Iterator iterator = procecmax_tmp.keySet().iterator(); iterator.hasNext();) {
 				String key = (String) iterator.next();

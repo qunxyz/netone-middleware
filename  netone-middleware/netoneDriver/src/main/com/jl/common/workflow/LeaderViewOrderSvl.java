@@ -123,7 +123,6 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		String sql="select NATURALNAME from netone.ums_protectedobject where PARENTDIR in(select id from netone.ums_protectedobject where NATURALNAME='BUSSWF.BUSSWF.NDYD') and "+
 		"NATURALNAME!='BUSSWF.BUSSWF.NDYD.NRSP' and active='1'";
 		List list=DbTools.queryData(sql);
-		
 		//从后台cache中获得所有流程的总代办工作量
 		Map procecmax_tmp=new HashMap();
 		List procemax=new ArrayList();

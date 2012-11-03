@@ -130,11 +130,12 @@ public class LeaderViewOrderSvl extends HttpServlet {
 			Map object = (Map) iterator.next();
 			String key1=(String)object.get("NATURALNAME");
 			Map data1=(Map)WebCache.getCache("lv_proc"+key1);
+			if(data1==null)continue;
 			Long value=(Long)data1.get("doing");
 			procecmax_tmp.put(key1, value);
 			procemax.add(procecmax_tmp);
 		}
-		
+		System.out.print("size:------"+procemax.size());
 		Long []procMa=(Long[])procemax.toArray(new Long[0]);
 		Arrays.sort(procMa);
 		List procemaxFinal=new ArrayList();
@@ -143,7 +144,6 @@ public class LeaderViewOrderSvl extends HttpServlet {
 			for (Iterator iterator = procecmax_tmp.keySet().iterator(); iterator.hasNext();) {
 				String key = (String) iterator.next();
 				long doing=(Long)procecmax_tmp.get(key);
-
 				if(doing==valuepre){
 					Map find=new HashMap();
 					find.put("value", doing);

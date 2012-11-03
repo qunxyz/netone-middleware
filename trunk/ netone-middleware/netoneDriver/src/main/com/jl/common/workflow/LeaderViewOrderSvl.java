@@ -133,7 +133,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 			if(data1==null)continue;
 			Long value=(Long)data1.get("doing");
 			procecmax_tmp.put(key1, value);
-			procemax.add(procecmax_tmp);
+			procemax.add(value);
 		}
 		System.out.print("size:------"+procemax.size());
 		Long []procMa=(Long[])procemax.toArray(new Long[0]);

@@ -120,7 +120,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 	
 	private List flowTop5(String deptid){
 		//通过sql查询出所有的流程
-		String sql="select NATURALNAME from netone.ums_protectedobject where PARENTDIR in(select id from netone.ums_protectedobject where NATURALNAME='BUSSWF.BUSSWF.NDYD') and "+
+		String sql="select concat(NATURALNAME,'#',name) nax from netone.ums_protectedobject where PARENTDIR in(select id from netone.ums_protectedobject where NATURALNAME='BUSSWF.BUSSWF.NDYD') and "+
 		"NATURALNAME!='BUSSWF.BUSSWF.NDYD.NRSP' and active='1'";
 		List list=DbTools.queryData(sql);
 		//从后台cache中获得所有流程的总代办工作量
@@ -128,11 +128,12 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		List procemax=new ArrayList();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
-			String key1=(String)object.get("NATURALNAME");
-			Map data1=(Map)WebCache.getCache("lv_proc"+key1);
+			String keyx=(String)object.get("nax");
+			String key=StringUtils.substringBefore(keyx, "#");
+			Map data1=(Map)WebCache.getCache("lv_proc"+key);
 			if(data1==null)continue;
 			Long value=(Long)data1.get("doing");
-			procecmax_tmp.put(key1, value);
+			procecmax_tmp.put(keyx, value);
 			procemax.add(value);
 		}
 		System.out.print("size:------"+procemax.size());
@@ -147,7 +148,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 				if(doing==valuepre){
 					Map find=new HashMap();
 					find.put("value", doing);
-					find.put("name",key);
+					find.put("name",StringUtils.substringAfter(key, "#"));
 					procemaxFinal.add(find);
 					break;
 				}

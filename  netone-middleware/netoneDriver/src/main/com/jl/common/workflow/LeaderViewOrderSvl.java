@@ -106,6 +106,8 @@ public class LeaderViewOrderSvl extends HttpServlet {
 				//doing数据格式中#后面是具体的工作量值
 				String num=StringUtils.substringAfter(doing, "#");
 				int value=Integer.parseInt(num);
+				if(value == 0)
+					continue;
 				if(value==valuepre){
 					Map find=new HashMap();
 					find.put("value", value);
@@ -145,6 +147,8 @@ public class LeaderViewOrderSvl extends HttpServlet {
 			for (Iterator iterator = procecmax_tmp.keySet().iterator(); iterator.hasNext();) {
 				String key = (String) iterator.next();
 				long doing=(Long)procecmax_tmp.get(key);
+				if(doing == 0)
+					continue;
 				if(doing==valuepre){
 					Map find=new HashMap();
 					find.put("value", doing);

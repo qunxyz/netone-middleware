@@ -21,8 +21,6 @@ import com.sun.org.apache.commons.collections.SequencedHashMap;
 
 public class WfReportUtil {
 	
-	static List dept=null;
-	static Map dept_people=new Hashtable();
 	
 	/**
 	 * 领导视图明细展示(领导视图php页面会传递过来流程id)
@@ -133,12 +131,12 @@ public class WfReportUtil {
 	private static List leaderViewCacheCore(String rootname,String processid,ResourceRmi rs)throws Exception{
 		
 		List listdata=new ArrayList();
-		if(dept==null){
+		
 			String rsid=rs.loadResourceByNatural(rootname).getId();
 			UmsProtectedobject upo=new UmsProtectedobject();
 			upo.setParentdir(rsid);
-			dept=rs.queryObjectProtectedObj(upo, null, 0, 1000, " order by reference desc");
-		}
+			List dept=rs.queryObjectProtectedObj(upo, null, 0, 1000, " order by reference desc");
+			Map dept_people=new HashMap();
 		long time=System.currentTimeMillis();
 		for (Iterator iterator = dept.iterator(); iterator.hasNext();) {
 			UmsProtectedobject object = (UmsProtectedobject) iterator.next();

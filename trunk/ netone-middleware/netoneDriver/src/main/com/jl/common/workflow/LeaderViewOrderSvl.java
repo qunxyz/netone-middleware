@@ -72,7 +72,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 	}
 	
 	private List menTop5(String deptid){
-		String sql="select username name,count(*) value from netone.t_wf_participant where STATUSNOW='01' group by usercode order by value desc limit 0,5";
+		String sql="select username name,count(*) value from netone.t_wf_participant where STATUSNOW='01' and username != 'adminx' group by usercode order by value desc limit 0,5";
 		return DbTools.queryData(sql);
 	}
 	

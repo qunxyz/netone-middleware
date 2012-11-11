@@ -1,7 +1,6 @@
 package oe.mid.netone.dyfrom;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,6 +18,7 @@ import com.jl.common.app.AppEntry;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormData;
+import com.jl.common.workflow.DbTools;
 
 public class AddSvl extends HttpServlet {
 
@@ -84,6 +84,17 @@ public class AddSvl extends HttpServlet {
 					}
 				}
 				String str = DyEntry.iv().addData(formcode, dydata);
+				String lsh=request.getParameter("lsh");
+				if(StringUtils.isNotEmpty(lsh)&&lsh.length()==32){
+					String tablename=DyEntry.iv().loadForm(formcode).getTablename();
+					String sql="update dyform."+tablename+" set lsh='"+lsh+"' where lsh='"+str+"'";
+					int rs=DbTools.execute(sql);
+					if(rs==1){
+						str=lsh;
+					}else{
+						str=null;
+					}
+				}
 				response.getWriter().print(str);
 			} catch (Exception e2) {
 				// TODO Auto-generated catch block

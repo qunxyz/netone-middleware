@@ -382,9 +382,12 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		WorkflowView wfview;
 		try {
 			wfview = (WorkflowView) RmiEntry.iv("wfview");
+			//participant='error'是针对可能出现的因为重置导致的runtimeid重复的问题，这个问题通过手工检测
+			//使用该 update t_wf_relevantvar set participant='error' where RUNTIMEID not in(select RUNTIMEID from t_wf_runtime)处理
 			List list = wfview
 					.coreSqlview("select RUNTIMEID from t_wf_relevantvar where VALUENOW='"
-							+ key + "'");
+							+ key + "' and participant is null");
+		
 			if (list.size() > 0) {
 				// 可能查到多个数据，特别是重置后，由于业务系统继续保留使用之前业务数据的ID，
 				// 所以会出现多个相同的相关变量数据，实属正常现象，在这里通过修改条件适应即可

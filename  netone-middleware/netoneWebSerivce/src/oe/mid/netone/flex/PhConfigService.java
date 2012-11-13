@@ -101,6 +101,7 @@ public class PhConfigService extends HttpServlet {
 			if("1".equals(object.getInclusion())){
 				phobj.setImagename("dir.png");
 				phobj.setTypes(object.getObjecttype());
+				phobj.setExtendattribute(object.getExtendattribute());
 			}else	if ("0".equals(object.getInclusion())) {
 				//如果是应用程序时的处理
 				String mobileAppName=object.getObjecttype();

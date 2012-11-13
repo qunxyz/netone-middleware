@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.jl.common.workflow.DbTools;
 import com.sun.xml.internal.bind.v2.runtime.output.Encoded;
 
@@ -61,8 +63,11 @@ public class DyViewSvl extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		String tablename=request.getParameter("tablename");
 		String columns=request.getParameter("columns");
+		if(StringUtils.isEmpty(columns)){
+			columns="*";
+		}
 		String condition = request.getParameter("condition");
-		if("".equals(condition) || condition == null){
+		if(StringUtils.isEmpty(condition)){
 			condition = " 1 = 1 ";
 		} else {
 			condition = new String(condition.getBytes("ISO-8859-1"),"utf-8");

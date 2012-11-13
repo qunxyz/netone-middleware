@@ -105,6 +105,7 @@ public class SuperAnaSvl extends HttpServlet {
 				double gpy2=(Double)object.get("gpy2");
 				double gpy3=(Double)object.get("gpy3");
 				String name=(String)object.get("name");
+				//»ùÕ¾ÃèÍ¼ 
 				but1.append(gpx1+","+gpy1+","+gpx2+","+gpy2+","+gpx3+","+gpy3+";");
 				but2.append(gpx1+","+gpy1+","+name+";");
 				for (Iterator iterator2 = list2.iterator(); iterator2.hasNext();) {
@@ -113,6 +114,10 @@ public class SuperAnaSvl extends HttpServlet {
 					double poffy=(Double)object.get("poffy");
 					if("1".equals(mode)){
 						
+					}else if("2".equals(mode)){
+						
+					}else{
+						but2.append(poffx+","+poffy+","+",url;");
 					}
 				}
 			}

@@ -346,6 +346,24 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				+ RuntimeWorklistRef.STATUS_QUASH[0] + "' where runtimeid='"
 				+ runtimeid + "' and EXECUTESTATUS='"
 				+ RuntimeWorklistRef.STATUS_RUNNING[0] + "'");
+		
+		String sql="select valuenow vx from t_wf_relevantvar where runtimeid='"+runtimeid+"' and DATAFIELDID='bussid'";
+		List list=DbTools.queryData(sql);
+		if(list.size()>0){
+			Map map=(Map)list.get(0);
+			String appope=getSessionx((String)map.get("vx"));
+			// 撤销流程
+			console.coreSqlhandle("update t_wf_runtime set statusnow='"
+					+ RuntimeProcessRef.STATUS_QUASH[0] + "' where runtimeid in("
+					+ appope + ")");
+			// 撤销的活动
+			console.coreSqlhandle("update t_wf_worklist set EXECUTESTATUS='"
+					+ RuntimeWorklistRef.STATUS_QUASH[0] + "' where runtimeid in("
+					+ appope + ") and EXECUTESTATUS='"
+					+ RuntimeWorklistRef.STATUS_RUNNING[0] + "'");
+			
+		}
+		
 		return this.OPE_TIP_SUCCESS;
 
 	}
@@ -361,6 +379,18 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		// 撤销的活动
 		console.coreSqlhandle("delete from t_wf_worklist where runtimeid='"
 				+ runtimeid + "'");
+		
+		String sql="select valuenow vx from t_wf_relevantvar where runtimeid='"+runtimeid+"' and DATAFIELDID='bussid'";
+		List list=DbTools.queryData(sql);
+		if(list.size()>0){
+			Map map=(Map)list.get(0);
+			String appope=getSessionx((String)map.get("vx"));
+			// 撤销流程
+			console.coreSqlhandle("delete from t_wf_runtime where runtimeid in("+appope+")");
+			// 撤销的活动
+			console.coreSqlhandle("delete from t_wf_worklist where runtimeid in("+appope+")");
+			
+		}
 		return this.OPE_TIP_SUCCESS;
 	}
 
@@ -399,6 +429,36 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private String getSessionx(String key) {
+		WorkflowView wfview;
+		try {
+			wfview = (WorkflowView) RmiEntry.iv("wfview");
+			//participant='error'是针对可能出现的因为重置导致的runtimeid重复的问题，这个问题通过手工检测
+			//使用该 update t_wf_relevantvar set participant='error' where RUNTIMEID not in(select RUNTIMEID from t_wf_runtime)处理
+			List list = wfview
+					.coreSqlview("select RUNTIMEID runid from t_wf_relevantvar where VALUENOW='"
+							+ key + "' and participant is null");
+		
+			if (list.size() > 0) {
+				// 可能查到多个数据，特别是重置后，由于业务系统继续保留使用之前业务数据的ID，
+				// 所以会出现多个相同的相关变量数据，实属正常现象，在这里通过修改条件适应即可
+				StringBuffer but=new StringBuffer();
+				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+					Map object = (Map) iterator.next();
+					String runid=(String)object.get("runid");
+					but.append(",'"+runid+"'");
+				}
+				if(but.length()>0){
+					return but.substring(1);
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 	
 	public String getSession(String key,String appname) {

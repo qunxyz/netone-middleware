@@ -103,7 +103,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 							+ "'";
 				}
 				if (!totime.trim().equals("")) {
-					condition = " and " + query.getId() + "<='" + totime + "'";
+					condition = condition + " and " + query.getId() + "<='" + totime + "'";
 				}
 			}
 		}
@@ -437,7 +437,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 							+ "'";
 				}
 				if (!totime.trim().equals("")) {
-					condition = " and " + query.getId() + "<='" + totime + "'";
+					condition = condition + " and " + query.getId() + "<='" + totime + "'";
 				}
 			}
 		}

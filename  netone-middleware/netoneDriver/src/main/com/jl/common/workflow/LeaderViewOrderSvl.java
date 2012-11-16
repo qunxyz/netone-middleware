@@ -98,7 +98,9 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		Arrays.sort(deptMa);
 		// 找出工作量最大的前5个部门，也就是top5
 		List listMaxTaskDept=new ArrayList();
-		for (int i = 1; i <=5 && deptMa.length >= i ; i++) {
+		
+		Map map=new HashMap();
+		for (int i = 1; i <=10 && deptMa.length >= i ; i++) {
 			int valuepre=deptMa[deptMa.length-i];
 			for (Iterator iterator = data.iterator(); iterator.hasNext();) {
 				Map object = (Map) iterator.next();
@@ -109,15 +111,22 @@ public class LeaderViewOrderSvl extends HttpServlet {
 				if(value == 0)
 					continue;
 				if(value==valuepre){
+					String key=(String)object.get("deptname");
+					if(map.containsKey(key)){
+						continue;
+					}
 					Map find=new HashMap();
 					find.put("value", value);
-					find.put("name", object.get("deptname"));
+					find.put("name", key);
 					listMaxTaskDept.add(find);
 					break;
 				}
 			}
 		}
-		return listMaxTaskDept;
+
+
+		
+		return listMaxTaskDept.subList(0, 5);
 	}
 	
 	private List flowTop5(String deptid){

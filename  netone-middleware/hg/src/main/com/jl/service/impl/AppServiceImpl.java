@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import com.jl.common.JSONUtil2;
 import com.jl.common.MathHelper;
 import com.jl.common.SpringBeanUtilHg;
+import com.jl.common.SpringBeanUtilHgTest;
 import com.jl.common.TimeUtil;
 import com.jl.common.dyform.DyFormComp;
 import com.jl.common.report.GroupReport;
@@ -59,6 +60,13 @@ public class AppServiceImpl extends BaseService implements AppService {
 
 	private CommonDAO getHgDAO() {
 		CommonDAO dao = (CommonDAO) SpringBeanUtilHg.getInstance().getBean(
+				"commonDAO");
+		return dao;
+	}
+
+	// 测试
+	private CommonDAO getHgTestDAO() {
+		CommonDAO dao = (CommonDAO) SpringBeanUtilHgTest.getInstance().getBean(
 				"commonDAO");
 		return dao;
 	}
@@ -2161,6 +2169,536 @@ public class AppServiceImpl extends BaseService implements AppService {
 			log.error("出错了", e);
 		} finally {
 			super.writeJsonStr(response, json.toString());
+		}
+
+	}
+
+	public void saveIcsale(HttpServletRequest request,
+			HttpServletResponse response) {
+		request.setAttribute("ErrorJson", "Yes");// Json出错提示
+		JSONObject json = new JSONObject();
+		String FInterID = request.getParameter("FInterID");
+		try {
+			CommonDAO dao = getHgTestDAO();
+			Map icstockbill = (Map) dao.findForObject(
+					"HG.selectIcstockbillInfo", Integer.parseInt(FInterID));
+			List<Map> icstockbillentry = new ArrayList();
+			if (icstockbill != null) {
+				Integer FInterIDx = Integer.parseInt(icstockbill
+						.get("FInterID").toString());
+				icstockbillentry = (List<Map>) dao.select(
+						"HG.selectIcstockbillentry", FInterIDx);
+			}
+
+			if (icstockbillentry.size() > 0) {
+				Map icsaleData = insertIcsale(icstockbill, dao);
+				insertICSaleEntry(icsaleData, icstockbill, icstockbillentry,
+						dao);
+
+				Integer hookid = insertICHookRelations(icstockbill, icsaleData,
+						icstockbillentry, dao);
+
+				updateIcstockbill(hookid, Integer.parseInt(icsaleData.get(
+						"FInterID").toString()), icstockbill, dao);
+
+				updateIcstockbillentry(icstockbillentry, dao);
+
+				updateICSale(hookid, icsaleData, dao);
+				json.put("tip", "生成销售发票成功!");
+			} else {
+				json.put("error", "yes");
+				json.put("tip", "生成销售发票失败!");
+			}
+
+		} catch (Exception e) {
+			json.put("tip", "生成销售发票失败!");
+			json.put("error", "yes");
+			log.error("出错了", e);
+			throw new RuntimeException("生成销售发票失败!");
+		} finally {
+			super.writeJsonStr(response, json.toString());
+		}
+
+	}
+
+	public void saveAllIcsale(HttpServletRequest request,
+			HttpServletResponse response) {
+		request.setAttribute("ErrorJson", "Yes");// Json出错提示
+		JSONObject json = new JSONObject();
+		String FInterID = request.getParameter("FInterID");
+		try {
+			CommonDAO dao = getHgTestDAO();
+			List icstockbilllist = (List) dao.select(
+					"HG.selectAllIcstockbillInfo", null);
+			for (Iterator iterator = icstockbilllist.iterator(); iterator
+					.hasNext();) {
+				Map icstockbill = (Map) iterator.next();
+				List<Map> icstockbillentry = new ArrayList();
+				if (icstockbill != null) {
+					Integer FInterIDx = Integer.parseInt(icstockbill.get(
+							"FInterID").toString());
+					icstockbillentry = (List<Map>) dao.select(
+							"HG.selectIcstockbillentry", FInterIDx);
+				}
+
+				if (icstockbillentry.size() > 0) {
+					Map icsaleData = insertIcsale(icstockbill, dao);
+					insertICSaleEntry(icsaleData, icstockbill,
+							icstockbillentry, dao);
+
+					Integer hookid = insertICHookRelations(icstockbill,
+							icsaleData, icstockbillentry, dao);
+
+					updateIcstockbill(hookid, Integer.parseInt(icsaleData.get(
+							"FInterID").toString()), icstockbill, dao);
+
+					updateIcstockbillentry(icstockbillentry, dao);
+
+					updateICSale(hookid, icsaleData, dao);
+				}
+
+			}
+			json.put("tip", "生成销售发票成功!");
+		} catch (Exception e) {
+			json.put("tip", "生成销售发票失败!");
+			json.put("error", "yes");
+			log.error("出错了", e);
+			throw new RuntimeException("生成销售发票失败!");
+		} finally {
+			super.writeJsonStr(response, json.toString());
+		}
+
+	}
+
+	/**
+	 * 1.生成发票
+	 * 
+	 * @param data
+	 * @param dao
+	 * @return
+	 * @throws Exception
+	 */
+	private Map insertIcsale(Map data, CommonDAO dao) throws Exception {
+		Map map = new HashMap();
+		map.put("FBrNo", 0);
+
+		map.put("FBillNo", data.get("FBillNo"));
+		map.put("FTranType", 86);
+		map.put("FDate", data.get("FDate"));
+		map.put("FCustID", data.get("FSupplyID"));
+		map.put("FNote", "OA生成销售发票(普通)");
+
+		map.put("FCurrencyID", 1);
+		map.put("FPayStyleID", null);
+		map.put("FTransportStyle", null);
+		map.put("FDeptID", data.get("FDeptID"));
+		map.put("FEmpID", data.get("FEmpID"));
+		map.put("FHookInterID", null);// 暂为空
+		map.put("FVchInterID", 0);
+
+		map.put("FBillerID", 1);// 管理员
+		map.put("FCheckerID", 1);// 管理员
+		map.put("FPosterID", null);
+		map.put("FManagerID", data.get("FManagerID"));
+		map.put("FPosted", 0);
+		map.put("FClosed", 0);
+		map.put("FSettleID", 0);
+		map.put("FROB", 1);
+
+		map.put("FRSCBillNo", null);
+		map.put("FExchangeRate", 1.0);
+		map.put("FStatus", 0);
+		map.put("FCompactNo", "");
+		map.put("FCancellation", data.get("FCancellation"));
+		map.put("FSaleStyle", data.get("FSaleStyle"));
+		map.put("FAcctID", 0);
+		map.put("FMultiCheckLevel1", data.get("FMultiCheckLevel1"));
+		map.put("FMultiCheckLevel2", data.get("FMultiCheckLevel2"));
+		map.put("FMultiCheckLevel3", data.get("FMultiCheckLevel3"));
+		map.put("FMultiCheckLevel4", data.get("FMultiCheckLevel4"));
+
+		map.put("FMultiCheckLevel5", data.get("FMultiCheckLevel5"));
+		map.put("FMultiCheckLevel6", data.get("FMultiCheckLevel6"));
+		map.put("FMultiCheckDate1", data.get("FMultiCheckDate1"));
+		map.put("FMultiCheckDate2", data.get("FMultiCheckDate2"));
+		map.put("FMultiCheckDate3", data.get("FMultiCheckDate3"));
+		map.put("FMultiCheckDate4", data.get("FMultiCheckDate4"));
+		map.put("FMultiCheckDate5", data.get("FMultiCheckDate5"));
+		map.put("FMultiCheckDate6", data.get("FMultiCheckDate6"));
+		map.put("FCurCheckLevel", data.get("FCurCheckLevel"));
+		map.put("FYearPeriod", TimeUtil.formatDate((Date) data.get("FDate"),
+				"yyyy-MM"));
+		map.put("FYtdIntRate", 0);
+		map.put("FOrgBillInterID", 0);
+
+		map.put("FUUID", "newid()");
+		map.put("FOperDate", "(cast(getdate() as timestamp))");
+		map.put("FImport", data.get("FImport"));
+		map.put("FSystemType", 1);
+		map.put("FArApStatus", 0);// 生成为0 审核为1
+		map.put("FYear", TimeUtil.getYear((Date) data.get("FDate")));
+		map.put("FPeriod", TimeUtil.getMonth((Date) data.get("FDate")));
+		map.put("FSubSystemID", 0);
+		map.put("FFincDate", data.get("FDate"));
+		map.put("FInvoicer", 0);
+		map.put("FAccount", null);
+		map.put("FTaxNum", null);
+
+		map.put("FHookerID", 0);// 初始为0 审核后更新新值
+		map.put("FTranStatus", data.get("FTranStatus"));
+		map.put("FOuterID", 0);
+		map.put("FClassTypeID", "1000000");
+		map.put("FItemClassID", 1);
+		map.put("finterestrate", 0.0);
+		map.put("FCOMINVID", null);
+		map.put("FTaskID", 0);
+		map.put("FOrderID", 0);
+		map.put("FResourceID", 0);
+
+		map.put("FBudgetAmountFor", 0);
+		map.put("FOrderAmountFor", 0);
+		map.put("FFreeItem1", null);
+		map.put("FFreeItem2", null);
+		map.put("FFreeItem3", null);
+		map.put("FFreeItem4", null);
+		map.put("FAddress", null);
+		map.put("FBank", null);
+		map.put("FCheckDate", TimeUtil.formatDate(new Date()));
+
+		map.put("FExplanation", "");
+		map.put("FPayStyle", 0);
+		map.put("FAdjustExchangeRate", 1);
+		map.put("FAdjustAmount", 0);
+		map.put("FSelTranType", 21);
+		map.put("FChildren", 0);// 0=>1
+		map.put("FHookStatus", 2);// 勾稽状态 提交已勾稽
+		map.put("FActPriceVchTplID", data.get("FActPriceVchTplID"));
+
+		map.put("FPlanPriceVchTplID", data.get("FPlanPriceVchTplID"));
+		map.put("FActualVchTplID", data.get("FActualVchTplID"));
+		map.put("FPlanVchTplID", data.get("FPlanVchTplID"));
+		map.put("FBrID", data.get("FBrID"));
+		map.put("FCussentAcctID", 1347);// 往来科目 默认应收账款
+		map.put("FCheckStatus", 0);
+		map.put("fconnectflag", 0);
+		map.put("FCheckAmount", 0);
+		map.put("FCheckAmountFor", 0);
+		map.put("FRemainAmount", 0);
+		map.put("FRemainAmountFor", 0);
+
+		map.put("FDC", 1);
+		map.put("FGUID", "newid()");// 数据库生成
+		map.put("FPOOrdBillNo", "");
+		map.put("FRelateBrID", null);
+
+		map = (Map) dao.insert("HG.insertIcsale", map);
+		return map;
+	}
+
+	/**
+	 * 1.生成发票子表单
+	 * 
+	 * @param form
+	 * @param sourceform
+	 * @param datas
+	 * @param dao
+	 * @throws Exception
+	 */
+	private void insertICSaleEntry(Map form, Map sourceform, List<Map> datas,
+			CommonDAO dao) throws Exception {
+		List list = new ArrayList();
+		for (int i = 0; i < datas.size(); i++) {
+			Map data = datas.get(i);
+
+			Map map = new HashMap();
+			map.put("FBrNo", 0);
+
+			map.put("FInterID", form.get("FInterID"));
+			map.put("FEntryID", data.get("FEntryID"));
+			// map.put("FDetailID", null);
+			map.put("FItemID", data.get("FItemID"));
+			map.put("FQty", data.get("FQty"));
+			map.put("FPrice", data.get("FEntrySelfB0167"));
+			map.put("FAmount", data.get("FConsignAmount"));
+			map.put("FTaxRate", 0);
+			map.put("FTaxAmount", 0);
+
+			map.put("FCommitQty", 0);
+			map.put("FUnitID", data.get("FUnitID"));
+			map.put("FAuxCommitQty", 0);
+			map.put("FAuxPrice", data.get("FConsignPrice"));
+			map.put("FAuxQty", data.get("FAuxQty"));
+			map.put("FTaxPrice", data.get("FEntrySelfB0167"));
+			map.put("FAuxTaxPrice", data.get("FConsignPrice"));
+			map.put("FSourceEntryID", data.get("FEntryID"));
+			map.put("FDiscountRate", 0);
+			map.put("FMapNumber", data.get("FMapNumber"));
+
+			map.put("FMapName", data.get("FMapName"));
+			map.put("FOrgBillEntryID", 0);
+			map.put("FOrderPrice", 0);
+			map.put("FAuxOrderPrice", 0);
+			map.put("FNote", "OA生成销售发票(普通)");
+			map.put("FStdAmount", data.get("FConsignAmount"));
+			map.put("FStdTaxAmount", 0);
+			map.put("FAmountincludetax", data.get("FConsignAmount"));
+			map.put("FStdAmountincludetax", data.get("FConsignAmount"));
+			map.put("fauxqty_base", 0);
+			map.put("FBatchNo", data.get("FBatchNo"));
+
+			map.put("FCOMINVID", null);
+			map.put("FEntryID_SRC", 0);
+			map.put("FClassID_SRC", 21);// 关联合同号 关联源单类型
+			map.put("FFreeItem1", null);
+			map.put("FFreeItem2", null);
+			map.put("FFreeItem3", null);
+			map.put("FFreeItem4", null);
+			map.put("FAuxPropID", data.get("FAuxPropID"));
+			map.put("FAmtDiscount", 0);
+
+			map.put("FStdAmtDiscount", 0);
+			map.put("FKFDate", null);
+			map.put("FKFperiod", 0);
+			map.put("FPeriodDate", data.get("FPeriodDate"));
+			map.put("FPriceDiscount", data.get("FEntrySelfB0167"));
+			map.put("FAuxPriceDiscount", data.get("FConsignPrice"));
+			map.put("FsecCoefficient", 0);
+			map.put("FSecQty", data.get("FSecQty"));
+			map.put("FQuantityReceive_Commit", 0);
+			map.put("FQuantityPayApply_Commit", 0);
+
+			map.put("FSecUnitID", 0);
+			map.put("FAmountFor_Commit", 0);
+			map.put("FAmount_Commit", 0);
+			map.put("FAllAmount", 0);
+			map.put("FStdAllAmount", 0);
+			map.put("FSecCommitQty", data.get("FSecCommitQty"));
+			map.put("FSourceTranType", 21);// 源单类型
+			map.put("FSourceInterId", sourceform.get("FInterID"));// 源单内码
+			map.put("FSourceBillNo", sourceform.get("FBillNo"));
+			map.put("FContractInterID", data.get("FContractInterID"));
+
+			map.put("FContractEntryID", data.get("FContractEntryID"));
+			map.put("FContractBillNo", data.get("FContractBillNo"));
+			map.put("FOrderInterID", data.get("FOrderInterID"));
+			map.put("FOrderEntryID", data.get("FOrderEntryID"));
+			map.put("FOrderBillNo", data.get("FOrderBillNo"));
+			map.put("FAllHookQTY", data.get("FQty"));
+			map.put("FAllHookAmount", data.get("FConsignAmount"));
+			map.put("FCurrentHookQTY", data.get("FCurrentHookQTY"));
+			map.put("FCurrentHookAmount", data.get("FCurrentHookAmount"));
+			map.put("FStdAllHookAmount", data.get("FConsignAmount"));
+			map.put("FStdCurrentHookAmount", data.get("FStdCurrentHookAmount"));
+			map.put("FSplitSecQty", data.get("FSplitSecQty"));
+
+			map.put("FPurchaseCommitQty", 0);
+			map.put("FPurchaseSecCommitQty", 0);
+			map.put("FCheckQty", 0);
+			map.put("FRemainQty", data.get("FAuxQty"));
+			map.put("FRemainAmount", data.get("FConsignAmount"));
+			map.put("FCheckAmount", 0);
+			map.put("FRemainAmountFor", data.get("FConsignAmount"));
+			map.put("FCheckAmountFor", 0);
+			map.put("FLinkCheckAmountFor", 0);
+			map.put("FLinkCheckAmount", 0);
+			map.put("FLinkCheckQty", 0);
+			map.put("FGUID", "newid()");
+
+			list.add(map);
+		}
+		dao.insertBatch("HG.insertICSaleEntry", list);
+	}
+
+	/**
+	 * 2.生成销售与发票关系
+	 * 
+	 * @param icstockbillData
+	 * @param icsaleData
+	 * @param datas
+	 * @param dao
+	 * @return
+	 * @throws Exception
+	 */
+	private Integer insertICHookRelations(Map icstockbillData, Map icsaleData,
+			List<Map> datas, CommonDAO dao) throws Exception {
+		Integer fgroupno = (Integer) dao.findForObject(
+				"HG.selectMaxICHookRelations", "");
+		List list = new ArrayList();
+		// 销售出库
+		for (int i = 0; i < datas.size(); i++) {
+			Map data = datas.get(i);
+			Map map = new HashMap();
+			map.put("FGroupNo", fgroupno);
+			map.put("FHookType", 1);
+			map.put("FBrNo", 0);
+			map.put("FIBTag", 1);
+			map.put("FIBInterID", icstockbillData.get("FInterID"));
+			map.put("FIBNo", icstockbillData.get("FBillNo"));
+			map.put("FNowCheck", "X");
+			map.put("FPeriod", TimeUtil.getMonth((Date) icstockbillData
+					.get("FDate")));
+			map.put("FYear", TimeUtil.getYear((Date) icstockbillData
+					.get("FDate")));
+			map.put("FEquityHook", 0);
+			map.put("FDate", icstockbillData.get("FDate"));
+			map.put("FEntryID", i + 1);
+			map.put("FItemID", data.get("FItemID"));
+			map.put("FAuxPropID", data.get("FAuxPropID"));
+			map.put("FHookQty", data.get("FQty"));
+			map.put("FCustID", icstockbillData.get("FSupplyID"));
+			map.put("FSupplyID", 0);
+			map.put("FHookerID", 1);// 操作者 填写管理员
+			map.put("FPOStyle", 0);
+			map.put("FSaleStyle", icstockbillData.get("FSaleStyle"));
+			map.put("FHookAmount", 0);
+			map.put("FTranType", 21);
+			map.put("FHookOperateType", 0);
+			list.add(map);
+		}
+		// 发票
+		for (int i = 0; i < datas.size(); i++) {
+			Map data = datas.get(i);
+			Map map = new HashMap();
+			map.put("FGroupNo", fgroupno);
+			map.put("FHookType", 1);
+			map.put("FBrNo", 0);
+			map.put("FIBTag", 0);
+			map.put("FIBInterID", icsaleData.get("FInterID"));
+			map.put("FIBNo", icsaleData.get("FBillNo"));
+			map.put("FNowCheck", "X");
+			map.put("FPeriod", TimeUtil
+					.getMonth((Date) icsaleData.get("FDate")));
+			map.put("FYear", TimeUtil.getYear((Date) icsaleData.get("FDate")));
+			map.put("FEquityHook", 0);
+			map.put("FDate", icsaleData.get("FDate"));
+			map.put("FEntryID", i + 1);
+			map.put("FItemID", data.get("FItemID"));
+			map.put("FAuxPropID", data.get("FAuxPropID"));
+			map.put("FHookQty", data.get("FQty"));
+			map.put("FCustID", icstockbillData.get("FSupplyID"));
+			map.put("FSupplyID", 0);
+			map.put("FHookerID", 1);// 操作者 填写管理员
+			map.put("FPOStyle", 0);
+			map.put("FSaleStyle", icstockbillData.get("FSaleStyle"));
+			map.put("FHookAmount", data.get("FConsignAmount"));
+			map.put("FTranType", 86);
+			map.put("FHookOperateType", 0);
+			list.add(map);
+		}
+		dao.insertBatch("HG.insertICHookRelations", list);
+		return fgroupno;
+	}
+
+	/**
+	 * 更新销售出库状态
+	 * 
+	 * @param FHookInterID
+	 * @param FRelateInvoiceID
+	 * @param icstockbillData
+	 * @param dao
+	 * @throws Exception
+	 */
+	private void updateIcstockbill(int FHookInterID, int FRelateInvoiceID,
+			Map icstockbillData, CommonDAO dao) throws Exception {
+		icstockbillData.put("FHookInterID", FHookInterID);
+		icstockbillData.put("FRelateInvoiceID", FRelateInvoiceID);
+		// icstockbillData.put("FOperDate", "(cast(getdate() as timestamp))");
+		icstockbillData.put("FChildren", 1);
+		icstockbillData.put("FHookStatus", 2);
+		dao.update("HG.updateIcstockbill", icstockbillData);
+	}
+
+	/**
+	 * 更新销售出库子表单信息
+	 * 
+	 * @param icstockbillentrydata
+	 * @param dao
+	 * @throws Exception
+	 */
+	private void updateIcstockbillentry(List<Map> datas, CommonDAO dao)
+			throws Exception {
+		List list = new ArrayList();
+		for (int i = 0; i < datas.size(); i++) {
+			Map data = datas.get(i);
+
+			data.put("FQtyInvoice", data.get("FQty"));
+			data.put("FAllHookQTY", data.get("FQty"));
+			data.put("FAuxQtyInvoice", data.get("FAuxQty"));
+			list.add(data);
+		}
+
+		dao.updateBatch("HG.updateIcstockbillentry", list);
+	}
+
+	/**
+	 * 更新发票状态
+	 * 
+	 * @param FHookInterID
+	 * @param icsaleData
+	 * @param dao
+	 * @throws Exception
+	 */
+	private void updateICSale(int FHookInterID, Map icsaleData, CommonDAO dao)
+			throws Exception {
+		icsaleData.put("FStatus", 1);
+		icsaleData.put("FHookInterID", FHookInterID);
+		icsaleData.put("FHookerID", 1);// 管理员
+		icsaleData.put("FCheckerID", 1);// 管理员
+		icsaleData.put("FArApStatus", 1);
+		// icsaleData.put("FYearPeriod", "");
+		dao.update("HG.updateICSale", icsaleData);
+	}
+
+	public void queryIcsale(HttpServletRequest request,
+			HttpServletResponse response) {
+		String condition = request.getParameter("condition");
+		JSONObject paramJson = null;
+		if (StringUtils.isNotEmpty(condition)) {
+			paramJson = JSONObject.fromObject(condition);
+		}
+		String start = request.getParameter("start");// 开始索引
+		String limit = request.getParameter("limit");// 页码
+		PageInfo obj = new PageInfo();
+		Map conditionMap = new HashMap();
+		conditionMap.put("startIndex", start);
+		conditionMap.put("pageSize", limit);
+		String FBillNo = request.getParameter("FBillNo");
+		String FStartDate = request.getParameter("FStartDate");
+		String FEndDate = request.getParameter("FEndDate");
+		String sale = request.getParameter("sale");
+		if (StringUtils.isNotEmpty(FBillNo)) {
+			conditionMap.put("FBillNo", FBillNo.trim());
+		}
+		if (StringUtils.isNotEmpty(FStartDate)) {
+			conditionMap.put("FStartDate", FStartDate.trim());
+		}
+		if (StringUtils.isNotEmpty(FEndDate)) {
+			conditionMap.put("FEndDate", FEndDate.trim());
+		}
+		if (StringUtils.isNotEmpty(sale)) {
+			conditionMap.put("sale", sale.trim());
+		}
+		CommonDAO dao = getHgTestDAO();
+		try {
+			obj = dao.selectForPage("HG.selectIcstockbillByCount",
+					"HG.selectIcstockbill", conditionMap, obj);
+
+			int total = obj.getTotalRows();
+			List result = obj.getResultList();
+			StringBuffer jsonBuffer = new StringBuffer();
+			String split = "";
+			for (Iterator iterator = result.iterator(); iterator.hasNext();) {
+				Map data = (Map) iterator.next();
+				data.put("FDate", data.get("FDate").toString());
+				String jsonStr = JSONUtil2.fromBean(data).toString();
+				jsonBuffer.append(split);
+				jsonBuffer.append(jsonStr);
+				split = ",";
+			}
+			super.writeJsonStr(response, super.buildJsonStr(total, jsonBuffer
+					.toString()));
+		} catch (Exception e) {
+			log.error("出错了", e);
 		}
 
 	}

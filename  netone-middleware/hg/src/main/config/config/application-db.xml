@@ -52,15 +52,6 @@
 		<property name="username" value="${log.user}" />
 		<property name="password" value="${log.password}" />
 	 </bean>
-	 	<!-- 领导视图Mysql镜像数据配置 -->
-	<bean id="dataSource3"
-		class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="${mirror.driver}" />
-		<property name="url" value="${mirror.url}" />
-		<property name="username" value="${mirror.user}" />
-		<property name="password" value="${mirror.password}" />
-	</bean>
 	 
 	<!-- 数据源的 
 		<bean id="ds1"
@@ -88,16 +79,6 @@
 		</property>
 		<property name="dataSource" ref="dataSource2" />
 	</bean>
-	<!-- ibatis map client3 领导视图mysql镜像配置 (未配置事务) -->
-	<!--  -->
-	<bean id="sqlMapClient3"
-		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-		<property name="configLocation"
-			value="classpath:/config/SqlMapConfig.xml">
-		</property>
-		<property name="dataSource" ref="dataSource3" />
-	</bean>
-	
 	 
 	<!-- 事务Bean  -->
 	<bean id="transactionManager"

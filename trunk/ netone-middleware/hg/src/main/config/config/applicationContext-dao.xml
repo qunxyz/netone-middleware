@@ -13,10 +13,6 @@
 	<bean id="commonDAO" class="com.jl.dao.impl.CommonDAOImpl">
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
-		<!-- 领导视图mysql镜像数据源配置 -->
-	<bean id="commonDAOMirror" class="com.jl.dao.impl.CommonDAOImpl">
-		<property name="sqlMapClient" ref="sqlMapClient3" />
-	</bean>
 	<!-- 操作日志管理 -->
 	<bean id="logDAO"
 		class="com.jl.dao.impl.LogDAOImpl">

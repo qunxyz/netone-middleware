@@ -523,4 +523,47 @@ public class AppAction extends AbstractAction {
 				.getBean("appService");
 		service.loadStoreJson(request, response);
 	}
+
+	// 查询销售或销售发票列表
+	public ActionForward onQueryIcsaleMain(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		request.setAttribute("limit", 20);
+		String forward = "/app/saleMain.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+
+	// 查询销售或销售发票列表
+	public void onQueryIcsale(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.queryIcsale(request, response);
+	}
+
+	// 生成发票
+	public void onSaveIcsale(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.saveIcsale(request, response);
+	}
+
+	// 一键生成发票
+	public void onSaveAllIcsale(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.saveAllIcsale(request, response);
+	}
+
 }

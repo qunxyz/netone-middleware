@@ -94,14 +94,6 @@
 			<ref bean="commonDAO" />
 		</property>
 	</bean>
-	<!-- 定期执行领导视图计数 -->
-	<bean id="LeaderViewService"
-		class="com.jl.service.impl.LeaderViewServiceImpl">
-		<property name="commonDAOMirror">
-			<ref bean="commonDAOMirror" />
-		</property>
-	</bean>
-	
 	
 	<!-- 地图 -->
 	<bean id="mapService"

@@ -230,4 +230,28 @@ public interface AppService {
 	 */
 	public void loadStoreJson(HttpServletRequest request,
 			HttpServletResponse response);
+	
+	/**
+	 * 生成销售发票（普通）
+	 * @param request
+	 * @param response
+	 */
+	public void saveIcsale(HttpServletRequest request,
+			HttpServletResponse response);
+	
+	/**
+	 * 一键生成所有销售发票（普通）
+	 * @param request
+	 * @param response
+	 */
+	public void saveAllIcsale(HttpServletRequest request,
+			HttpServletResponse response);
+	
+	/**
+	 * 销售发票查询
+	 * @param request
+	 * @param response
+	 */
+	public void queryIcsale(HttpServletRequest request,
+			HttpServletResponse response);
 }

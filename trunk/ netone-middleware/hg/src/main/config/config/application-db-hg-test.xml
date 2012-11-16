@@ -33,17 +33,11 @@
 	<bean id="hgds"
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="${sqlserverjdbc.driver}" />
-		<property name="url" value="${sqlserverjdbc.url}" />
-		<property name="username" value="${sqlserverjdbc.user}" />
-		<property name="password" value="${sqlserverjdbc.password}" />
-		<property name="maxActive" value="${pool.maxActive}"></property>
-		<property name="maxIdle" value="${pool.maxIdle}"></property>
-		<property name="maxWait" value="${pool.maxWait}"></property>
-		<property name="removeAbandoned" value="${pool.removeA}"></property>
-		<property name="removeAbandonedTimeout" value="${pool.removeATimeOut}"></property>
+		<property name="driverClassName" value="${sqlserverjdbc_test.driver}" />
+		<property name="url" value="${sqlserverjdbc_test.url}" />
+		<property name="username" value="${sqlserverjdbc_test.user}" />
+		<property name="password" value="${sqlserverjdbc_test.password}" />
 	</bean>
-	
 	
 	 <bean id="dataSource2"
 		class="org.apache.commons.dbcp.BasicDataSource"
@@ -54,14 +48,6 @@
 		<property name="password" value="${log.password}" />
 	 </bean>
 	 
-	<!-- 数据源的 
-		<bean id="ds1"
-		class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName">
-			<value>java:/IssDS</value>
-		</property>
-		</bean>
-	-->
 	<!-- ibatis map client 默认数据源配置 -->
 	<bean id="sqlMapClient"
 		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
@@ -80,7 +66,6 @@
 		</property>
 		<property name="dataSource" ref="dataSource2" />
 	</bean>
-	 
 	<!-- 事务Bean  -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -115,11 +100,4 @@
 			pointcut-ref="interceptorPointCuts" />
 	</aop:config>
 
-	<!-- 
-		<bean id="msqDialect" class="oe.serialize.dao.MSSqlDialect" />
-		<bean id="sqlExecutor"
-		class="oe.serialize.dao.MSSqlExecutor">
-		<property name="dialect" ref="msqDialect" />
-		</bean>
-	-->
 </beans>

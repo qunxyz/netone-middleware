@@ -267,4 +267,146 @@
 		select '$function$(case  $column$ when '+quotename($column$,'''')+' then isnull(convert($datatype$,$value$),0) else 0 end) as ' + quotename($column$)+', '  from ($table$) as t group by $column$ order by quotename($column$) 
 	</select>
 	
+	<!-- 销售出库单查询条件 -->
+	<sql id="selectIcstockbillCondition">
+		<isNotEmpty prepend="and" property="FBillNo">
+			FBillNo like '%$FBillNo$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="FStartDate">
+			FDate &gt;= #FStartDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="FEndDate">
+			FDate &lt;= #FEndDate#
+		</isNotEmpty>
+		<!-- sale=1 已生成发票 -->
+		<isEqual prepend="and" property="sale" compareValue="1">
+			FRelateInvoiceID is not null and FHookStatus=2
+		</isEqual>
+		<!-- sale=0 未生成发票 -->
+		<isEqual prepend="and" property="sale" compareValue="0">
+			FRelateInvoiceID = 0 and FHookStatus!=2
+			and (select sum(FConsignAmount) from icstockbillentry where icstockbillentry.FInterID=icstockbill.FInterID)>0
+		</isEqual>
+	</sql>
+	
+	<!-- 销售出库单 -->
+	<select id="selectIcstockbill" parameterClass="java.util.Map" resultClass="java.util.HashMap">
+		SELECT TOP $pageSize$ *,(select FName from  t_Organization where FItemID=FSupplyID) as FSupplyName,
+			(select sum(FConsignAmount) from icstockbillentry where icstockbillentry.FInterID=icstockbill.FInterID) as sumamount
+		FROM icstockbill
+		WHERE FTranType=21 and (FInterID NOT IN
+		          (SELECT TOP $startIndex$ FInterID
+		         FROM icstockbill 
+		         where FTranType=21
+		         <include refid="selectIcstockbillCondition"/>
+		         ORDER BY FInterID desc))
+		   <include refid="selectIcstockbillCondition"/>
+		ORDER BY FInterID desc
+	</select>
+	<!-- 销售出库单 统计总数 -->
+	<select id="selectIcstockbillByCount" parameterClass="java.util.Map" resultClass="int">
+		SELECT count(*)
+		FROM icstockbill
+		WHERE FTranType=21
+	   	<include refid="selectIcstockbillCondition"/>
+	</select>	
+	
+	<!-- 销售出库单根据CODE 未开票 -->
+	<select id="selectIcstockbillInfo" parameterClass="int" resultClass="java.util.HashMap">
+		/**
+		基本单位开票数量=0
+		销售金额！=0
+		**/
+		select * from icstockbill
+		where FTranType=21 and FInterID=#FInterID#  and FInterID in (
+			select t.FInterID from icstockbill t
+			left join icstockbillentry t2 on t.FInterID=t2.FInterID
+			where t.FTranType=21 and t.FInterID=#FInterID# 
+			and t.FRelateInvoiceID = 0 and t.FHookStatus!=2
+			and t2.FQtyInvoice=0
+			and t2.FConsignAmount!=0
+		)
+		and FRelateInvoiceID = 0 and FHookStatus!=2
+	</select>
+	<!-- 销售出库单 未开票 -->
+	<select id="selectAllIcstockbillInfo" parameterClass="int" resultClass="java.util.HashMap">
+		/**
+		基本单位开票数量=0
+		销售金额！=0
+		**/
+		select * from icstockbill
+		where FTranType=21 and FInterID in (
+			select t.FInterID from icstockbill t
+			left join icstockbillentry t2 on t.FInterID=t2.FInterID
+			where t.FTranType=21 
+			and t.FRelateInvoiceID = 0 and t.FHookStatus!=2
+			and t2.FQtyInvoice=0
+			and t2.FConsignAmount!=0
+		)
+		and FRelateInvoiceID = 0 and FHookStatus!=2
+	</select>
+	<!-- 销售出库单明细 未开票 -->
+	<select id="selectIcstockbillentry" parameterClass="int" resultClass="java.util.HashMap">
+		select * from icstockbillentry where FInterID = #FInterID#
+			and FQtyInvoice=0 
+			and FConsignAmount!=0
+	</select>
+	<!-- 更新销售出库单部分信息 - 生成发票使用 -->
+	<update id="updateIcstockbill" parameterClass="java.util.Map">
+		update icstockbill set 
+			FHookInterID=#FHookInterID#,
+			FRelateInvoiceID=#FRelateInvoiceID#,
+			/**FOperDate=$FOperDate$,**/
+			FChildren=#FChildren#,
+			FHookStatus=#FHookStatus#
+		where FBillNo=#FBillNo#
+	</update>
+	<!-- 更新销售出库子表单部分信息 - 生成发票使用 -->
+	<update id="updateIcstockbillentry" parameterClass="java.util.Map">
+		update icstockbillentry set 
+			FQtyInvoice=#FQtyInvoice#,
+			FAllHookQTY=#FAllHookQTY#,
+			FAuxQtyInvoice=#FAuxQtyInvoice#
+		where FDetailID=#FDetailID#
+	</update>	
+	
+	<!-- 生成销售发票 -->
+	<insert id="insertIcsale" parameterClass="java.util.HashMap">
+		<selectKey resultClass="int" keyProperty="FInterID"
+			type="pre">
+			SELECT (max(FInterID)+1) as FInterID from Icsale
+		</selectKey>
+		insert into Icsale(FBrNo,FInterID,FBillNo,FTranType,FDate,FCustID,FNote,FCurrencyID,FPayStyleID,FTransportStyle,FDeptID,FEmpID,FHookInterID,FVchInterID,FBillerID,FCheckerID,FPosterID,FManagerID,FPosted,FClosed,FSettleID,FROB,FRSCBillNo,FExchangeRate,FStatus,FCompactNo,FCancellation,FSaleStyle,FAcctID,FMultiCheckLevel1,FMultiCheckLevel2,FMultiCheckLevel3,FMultiCheckLevel4,FMultiCheckLevel5,FMultiCheckLevel6,FMultiCheckDate1,FMultiCheckDate2,FMultiCheckDate3,FMultiCheckDate4,FMultiCheckDate5,FMultiCheckDate6,FCurCheckLevel,FYearPeriod,FYtdIntRate,FOrgBillInterID,FUUID,FOperDate,FImport,FSystemType,FArApStatus,FYear,FPeriod,FSubSystemID,FFincDate,FInvoicer,FAccount,FTaxNum,FHookerID,FTranStatus,FOuterID,FClassTypeID,FItemClassID,finterestrate,FCOMINVID,FTaskID,FOrderID,FResourceID,FBudgetAmountFor,FOrderAmountFor,FFreeItem1,FFreeItem2,FFreeItem3,FFreeItem4,FAddress,FBank,FCheckDate,FExplanation,FPayStyle,FAdjustExchangeRate,FAdjustAmount,FSelTranType,FChildren,FHookStatus,FActPriceVchTplID,FPlanPriceVchTplID,FActualVchTplID,FPlanVchTplID,FBrID,FCussentAcctID,FCheckStatus,fconnectflag,FCheckAmount,FCheckAmountFor,FRemainAmount,FRemainAmountFor,FDC,FGUID,FPOOrdBillNo,FRelateBrID)
+		values (#FBrNo#,#FInterID#,#FBillNo#,#FTranType#,#FDate#,#FCustID#,#FNote#,#FCurrencyID#,#FPayStyleID#,#FTransportStyle#,#FDeptID#,#FEmpID#,#FHookInterID#,#FVchInterID#,#FBillerID#,#FCheckerID#,#FPosterID#,#FManagerID#,#FPosted#,#FClosed#,#FSettleID#,#FROB#,#FRSCBillNo#,#FExchangeRate#,#FStatus#,#FCompactNo#,#FCancellation#,#FSaleStyle#,#FAcctID#,#FMultiCheckLevel1#,#FMultiCheckLevel2#,#FMultiCheckLevel3#,#FMultiCheckLevel4#,#FMultiCheckLevel5#,#FMultiCheckLevel6#,#FMultiCheckDate1#,#FMultiCheckDate2#,#FMultiCheckDate3#,#FMultiCheckDate4#,#FMultiCheckDate5#,#FMultiCheckDate6#,#FCurCheckLevel#,#FYearPeriod#,#FYtdIntRate#,#FOrgBillInterID#,$FUUID$,null,#FImport#,#FSystemType#,#FArApStatus#,#FYear#,#FPeriod#,#FSubSystemID#,#FFincDate#,#FInvoicer#,#FAccount#,#FTaxNum#,#FHookerID#,#FTranStatus#,#FOuterID#,#FClassTypeID#,#FItemClassID#,#finterestrate#,#FCOMINVID#,#FTaskID#,#FOrderID#,#FResourceID#,#FBudgetAmountFor#,#FOrderAmountFor#,#FFreeItem1#,#FFreeItem2#,#FFreeItem3#,#FFreeItem4#,#FAddress#,#FBank#,#FCheckDate#,#FExplanation#,#FPayStyle#,#FAdjustExchangeRate#,#FAdjustAmount#,#FSelTranType#,#FChildren#,#FHookStatus#,#FActPriceVchTplID#,#FPlanPriceVchTplID#,#FActualVchTplID#,#FPlanVchTplID#,#FBrID#,#FCussentAcctID#,#FCheckStatus#,#fconnectflag#,#FCheckAmount#,#FCheckAmountFor#,#FRemainAmount#,#FRemainAmountFor#,#FDC#,$FGUID$,#FPOOrdBillNo#,#FRelateBrID#)
+	</insert>
+	<!-- 生成销售发票子表单 -->
+	<insert id="insertICSaleEntry"  parameterClass="java.util.HashMap">
+		<selectKey resultClass="int" keyProperty="FDetailID"
+			type="post">
+			SELECT @@IDENTITY AS FDetailID
+		</selectKey>
+		insert into ICSaleEntry(FBrNo,FInterID,FEntryID,FItemID,FQty,FPrice,FAmount,FTaxRate,FTaxAmount,FCommitQty,FUnitID,FAuxCommitQty,FAuxPrice,FAuxQty,FTaxPrice,FAuxTaxPrice,FSourceEntryID,FDiscountRate,FMapNumber,FMapName,FOrgBillEntryID,FOrderPrice,FAuxOrderPrice,FNote,FStdAmount,FStdTaxAmount,FAmountincludetax,FStdAmountincludetax,fauxqty_base,FBatchNo,FCOMINVID,FEntryID_SRC,FClassID_SRC,FFreeItem1,FFreeItem2,FFreeItem3,FFreeItem4,FAuxPropID,FAmtDiscount,FStdAmtDiscount,FKFDate,FKFperiod,FPeriodDate,FPriceDiscount,FAuxPriceDiscount,FsecCoefficient,FSecQty,FQuantityReceive_Commit,FQuantityPayApply_Commit,FSecUnitID,FAmountFor_Commit,FAmount_Commit,FAllAmount,FStdAllAmount,FSecCommitQty,FSourceTranType,FSourceInterId,FSourceBillNo,FContractInterID,FContractEntryID,FContractBillNo,FOrderInterID,FOrderEntryID,FOrderBillNo,FAllHookQTY,FAllHookAmount,FCurrentHookQTY,FCurrentHookAmount,FStdAllHookAmount,FStdCurrentHookAmount,FSplitSecQty,FPurchaseCommitQty,FPurchaseSecCommitQty,FCheckQty,FRemainQty,FRemainAmount,FCheckAmount,FRemainAmountFor,FCheckAmountFor,FLinkCheckAmountFor,FLinkCheckAmount,FLinkCheckQty,FGUID)
+		values (#FBrNo#,#FInterID#,#FEntryID#,#FItemID#,#FQty#,#FPrice#,#FAmount#,#FTaxRate#,#FTaxAmount#,#FCommitQty#,#FUnitID#,#FAuxCommitQty#,#FAuxPrice#,#FAuxQty#,#FTaxPrice#,#FAuxTaxPrice#,#FSourceEntryID#,#FDiscountRate#,#FMapNumber#,#FMapName#,#FOrgBillEntryID#,#FOrderPrice#,#FAuxOrderPrice#,#FNote#,#FStdAmount#,#FStdTaxAmount#,#FAmountincludetax#,#FStdAmountincludetax#,#fauxqty_base#,#FBatchNo#,#FCOMINVID#,#FEntryID_SRC#,#FClassID_SRC#,#FFreeItem1#,#FFreeItem2#,#FFreeItem3#,#FFreeItem4#,#FAuxPropID#,#FAmtDiscount#,#FStdAmtDiscount#,#FKFDate#,#FKFperiod#,#FPeriodDate#,#FPriceDiscount#,#FAuxPriceDiscount#,#FsecCoefficient#,#FSecQty#,#FQuantityReceive_Commit#,#FQuantityPayApply_Commit#,#FSecUnitID#,#FAmountFor_Commit#,#FAmount_Commit#,#FAllAmount#,#FStdAllAmount#,#FSecCommitQty#,#FSourceTranType#,#FSourceInterId#,#FSourceBillNo#,#FContractInterID#,#FContractEntryID#,#FContractBillNo#,#FOrderInterID#,#FOrderEntryID#,#FOrderBillNo#,#FAllHookQTY#,#FAllHookAmount#,#FCurrentHookQTY#,#FCurrentHookAmount#,#FStdAllHookAmount#,#FStdCurrentHookAmount#,#FSplitSecQty#,#FPurchaseCommitQty#,#FPurchaseSecCommitQty#,#FCheckQty#,#FRemainQty#,#FRemainAmount#,#FCheckAmount#,#FRemainAmountFor#,#FCheckAmountFor#,#FLinkCheckAmountFor#,#FLinkCheckAmount#,#FLinkCheckQty#,$FGUID$)
+	</insert>
+	<!-- 更新发票部分信息 - 生成发票使用 -->
+	<update id="updateICSale" parameterClass="java.util.Map">
+		update Icsale set 
+			FHookInterID=#FHookInterID#,
+			FHookerID=#FHookerID#,
+			FCheckerID=#FCheckerID#,
+			FStatus=#FStatus#,
+			FArApStatus=#FArApStatus#
+		where FBillNo=#FBillNo#
+	</update>
+	
+	<!-- 创建销售发票与销售出库关系 -->
+	<insert id="insertICHookRelations" parameterClass="java.util.HashMap">
+		insert into ICHookRelations(FGroupNo,FHookType,FBrNo,FIBTag,FIBInterID,FIBNo,FNowCheck,FPeriod,FYear,FEquityHook,FDate,FEntryID,FItemID,FAuxPropID,FHookQty,FCustID,FSupplyID,FHookerID,FPOStyle,FSaleStyle,FHookAmount,FTranType,FHookOperateType)
+		values (#FGroupNo#,#FHookType#,#FBrNo#,#FIBTag#,#FIBInterID#,#FIBNo#,#FNowCheck#,#FPeriod#,#FYear#,#FEquityHook#,#FDate#,#FEntryID#,#FItemID#,#FAuxPropID#,#FHookQty#,#FCustID#,#FSupplyID#,#FHookerID#,#FPOStyle#,#FSaleStyle#,#FHookAmount#,#FTranType#,#FHookOperateType#)
+	</insert>
+	<!-- 销售发票与销售出库关系最大ID -->
+	<select id="selectMaxICHookRelations" parameterClass="string" resultClass="int">
+		select (max(FGroupNo)+1) as groupno from ICHookRelations 
+	</select>
+	
 </sqlMap>

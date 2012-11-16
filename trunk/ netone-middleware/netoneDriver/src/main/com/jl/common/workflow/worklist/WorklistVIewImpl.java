@@ -800,7 +800,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				dataid.add("w2.actname");
 				String usercode=StringUtils.substringBetween(userinfo, "[","]");
 				
-				data.add(StringUtils.substringBefore(userinfo, "[")+getUserPhone(usercode));
+				data.add(StringUtils.substringBefore(userinfo, "["));
 				dataid.add("w2.commitername");
 				data.add(StringUtils.substring(startime, 0, 19));
 				dataid.add("w1.starttime");

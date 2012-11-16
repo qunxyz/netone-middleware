@@ -93,6 +93,9 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			if (!query.isTime()) {
 				condition = " and " + query.getId() + " like '%"
 						+ query.getValue() + "%' ";
+				if("w2.actname".equals(query.getId())){
+					condition = condition + " and w2.statusnow = '01'";
+				}
 			} else {
 				String fromtime = StringUtils.substringBefore(query.getValue(),
 						"_");

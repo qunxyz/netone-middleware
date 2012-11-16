@@ -22,6 +22,7 @@ import com.jl.common.app.AppEntry;
 import com.jl.common.app.AppHandleIfc;
 import com.jl.common.app.AppObj;
 import com.jl.common.security3a.SecurityEntry;
+import com.jl.common.workflow.DbTools;
 import com.jl.common.workflow.TWfRelevant;
 import com.jl.common.workflow.TWfWorklistExt;
 import com.jl.common.workflow.WfEntry;
@@ -582,9 +583,9 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			String types = (String) object.get("types");
 			String statusinfo=(String) object.get("statusx");
 			if("01".equals(statusinfo)){
-				statusinfo="【处理中】";
+				statusinfo="[处理中]";
 			}else if("02".equals(statusinfo)){
-				statusinfo="【已归档】";
+				statusinfo="[已归档]";
 			}else{
 				statusinfo="";
 			}
@@ -594,11 +595,12 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			dataX.setExt(wfext);
 			Activity act = WfEntry.iv().loadProcess(processidx).getActivity(
 					actid);
+			String timeuse=this.timeUse(workcode);
 			if(act==null){
 				act =new Activity();
-				act.setName("未知节点"+statusinfo);
+				act.setName("未知节点"+statusinfo+":"+timeuse+"天");
 			}else{
-				act.setName(act.getName()+statusinfo);
+				act.setName(act.getName()+statusinfo+":"+timeuse+"天");
 			}
 			
 			// 获得流程的所有相关变量
@@ -790,10 +792,14 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			} else {
 				data.add(act.getName() + operateMode);
 				dataid.add("w2.actname");
-				data.add(StringUtils.substringBefore(userinfo, "["));
+				String usercode=StringUtils.substringBetween(userinfo, "[","]");
+				
+				data.add(StringUtils.substringBefore(userinfo, "[")+getUserPhone(usercode));
 				dataid.add("w2.commitername");
 				data.add(StringUtils.substring(startime, 0, 19));
 				dataid.add("w1.starttime");
+//				data.add(statusinfo);
+//				dataid.add("w1.status");
 			}
 
 			dataX.setData((String[]) data.toArray(new String[0]));
@@ -810,8 +816,23 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			listWorklist.add(dataX);// 添加符合条件的活动任务
 
 		}
+		
+		for (Iterator iterator = listWorklist.iterator(); iterator.hasNext();) {
+			DataObj object = (DataObj) iterator.next();
+			object.getId();
+		}
 		return listWorklist;
 
+	}
+	
+	private String getUserPhone(String usercode){
+		try{
+		List list=DbTools.queryData("select phone phone from netone.t_cs_user where usercode='"+usercode+"'");
+		return ((Map)list.get(0)).get("phone").toString();
+		}catch(Exception e){
+			e.printStackTrace();
+			return "";
+		}
 	}
 	
 	public void addTimeUse(String starttime,String endtime,Activity act){
@@ -861,6 +882,20 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		int index = wf.fetchQueryColumnIndex("APPFRAME.APPFRAME.NDYD",
 				"participant");
 		System.out.println(index);
+	}
+	
+	private String timeUse(String workcode){
+		String sql="select starttime stx,endtime enx from netone.t_wf_runtime where runtimeid in(select runtimeid from netone.t_wf_worklist where workcode='"+workcode+"')";
+		List list=DbTools.queryData(sql);
+		Map map=(Map)list.get(0);
+		String stx=(String)map.get("stx");
+		String enx=(String)map.get("enx");
+		long time1=Timestamp.valueOf(stx).getTime();
+		long time2=System.currentTimeMillis();
+		if(enx!=null){
+			time2=Timestamp.valueOf(enx).getTime();
+		}
+		return String.valueOf((time2-time1)/(1000*60*60*24));
 	}
 
 

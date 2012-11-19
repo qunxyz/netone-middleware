@@ -114,6 +114,8 @@ public class LeaderViewOrderSvl extends HttpServlet {
 					String key=(String)object.get("deptname");
 					if(map.containsKey(key)){
 						continue;
+					} else {
+						map.put(key, "");
 					}
 					Map find=new HashMap();
 					find.put("value", value);

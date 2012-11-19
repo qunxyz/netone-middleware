@@ -127,11 +127,10 @@ public class SuperAnaSvl extends HttpServlet {
 							"		<td>"+ in +"</td>" +
 							"		<td>"+ tol +"</td>" +
 							"		<td>" +
-							"			包含逻辑选择：" +
 						    "<select name='mode' id='mode'>"+
-			    	"<option value='0'>全部</option>"+
-			    	"<option value='1'>包含</option>"+
-			    	"<option value='2'>不包含</option>"+
+			    	"<option value='0'>全部节点</option>"+
+			    	"<option value='1'>扇区内节点</option>"+
+			    	"<option value='2'>扇区外节点</option>"+
 			    "</select>" +
 							"		</td>" +
 							"		<td><button onclick=\"javascript:window.open('http://42.120.52.168:8080/ndyd/servlet/SuperAnaSvl?disp=gis&id="+ (String)object.get("id") +"&mode='+$(this).parent().parent().find('#mode').val());\">查看</button></td>" +
@@ -184,7 +183,6 @@ public class SuperAnaSvl extends HttpServlet {
 				but1.append("," + sq2.getX() + "," + sq2.getY());
 				PointDx sq3 = getPoint(sq,sq2,zk*Math.PI/180);
 				but1.append("," + sq3.getX() + "," + sq3.getY());
-				System.out.println(getAngle(sq2,sq,sq3));
 				for(int i = 1;i<zk;i++)
 					but1.append("," + getPoint(sq,sq2,i*Math.PI/180).getX() + "," + getPoint(sq,sq2,i*Math.PI/180).getY());
 				but1.append("\n");

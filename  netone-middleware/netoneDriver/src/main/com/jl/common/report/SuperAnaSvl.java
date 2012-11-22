@@ -182,9 +182,9 @@ public class SuperAnaSvl extends HttpServlet {
 				PointDx sq2 = getPoint(sq,sq1,pz*Math.PI/180);
 				but1.append("," + sq2.getX() + "," + sq2.getY());
 				PointDx sq3 = getPoint(sq,sq2,zk*Math.PI/180);
-				but1.append("," + sq3.getX() + "," + sq3.getY());
 				for(int i = 1;i<zk;i++)
 					but1.append("," + getPoint(sq,sq2,i*Math.PI/180).getX() + "," + getPoint(sq,sq2,i*Math.PI/180).getY());
+				but1.append("," + sq3.getX() + "," + sq3.getY());
 				but1.append("\n");
 				//»ùÕ¾ÃèÍ¼ 
 				but2.append(sq.getX()+","+sq.getY()+","+sq.getName()+"\n");

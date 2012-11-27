@@ -638,13 +638,17 @@ public class FrameActionExt extends AbstractAction {
 			throws Exception {
 		String naturalname = request.getParameter("naturalname");
 		String fatherlsh = request.getParameter("fatherlsh");
+		String start = request.getParameter("start");// ¿ªÊ¼Ë÷Òý
+		String limit = request.getParameter("limit");// Ò³Âë
 		try {
 			AppObj app = AppEntry.iv().loadApp(naturalname);
 			String formcode = app.getDyformCode_();
 			DyForm dyform = DyEntry.iv().loadForm(formcode);
-
+			Integer from_ = Integer.parseInt(start);
+			Integer limit_ = Integer.parseInt(limit);
+			Integer to_ = from_ + limit_ - 1;
 			List list = new ArrayList();
-
+			int count = 0 ;
 			if (dyform.getSubform_() != null) {
 				DyForm subdyform = dyform.getSubform_()[0];
 
@@ -653,7 +657,8 @@ public class FrameActionExt extends AbstractAction {
 				dydata.setFatherlsh(fatherlsh);
 
 				if (StringUtils.isNotEmpty(fatherlsh)) {
-					list = DyEntry.iv().queryData(dydata, 0, 9999999, "");
+					list = DyEntry.iv().queryData(dydata, from_, limit_, "");
+					count = DyEntry.iv().queryDataNum(dydata, "");
 				}
 			}
 
@@ -668,7 +673,7 @@ public class FrameActionExt extends AbstractAction {
 				jsonBuffer.append(jsonStr);
 				split = ",";
 			}
-			super.writeJsonStr(response, super.buildJsonStr(9999999, jsonBuffer
+			super.writeJsonStr(response, super.buildJsonStr(count, jsonBuffer
 					.toString()));
 		} catch (Exception e) {
 			e.printStackTrace();

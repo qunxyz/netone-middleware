@@ -304,7 +304,15 @@ function $select(o,url){
 		   
 		   // apply config
 		  Ext.apply(this, Ext.apply(this.initialConfig, config));
-	 
+	      
+	      this.bbar = new Ext.PagingToolbar({
+			 store:this.store,
+		     displayInfo:true,
+		     pageSize:20,
+		     displayMsg : '第 {0} 条到 {1} 条，一共 {2} 条',
+			 emptyMsg : "没有记录"
+		  });
+	      
 		  // call parent
 		  Plan2.Data.PlanGrid.superclass.initComponent.apply(this, arguments);
 		  
@@ -323,7 +331,7 @@ function $select(o,url){
 		   // load the store at the latest possible moment
 		  this.on({
 			 beforeshow : {scope:this, single:true, fn:function() {
-				   this.store.load();
+				   this.store.load({params:{start:0, limit:20}});
 			 }}
 		  });
 	  }
@@ -685,7 +693,7 @@ Ext.onReady(function () { //页面加载时候触发事件
 	    PlanGrid.getSelectionModel().each(function(rec){      
 	    	//alert(rec.get("lsh")); //fieldName，记录中的字段名
 	    	document.getElementById('fatherlsh').value=rec.get("lsh");
-	    	Ext.getCmp('PlanGrid2').store.load(); //刷新当前页面
+	    	Ext.getCmp('PlanGrid2').store.load({params: {start: 0,limit: 20}}); //刷新当前页面
 	    });
 	}
 

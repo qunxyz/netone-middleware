@@ -119,8 +119,8 @@
         <ref bean="cronJobTask3"/>
       </property>
       <property name="cronExpression">
-        <value>0 0/60 * * * ?</value><!-- 每半小时 --> 
-        <!-- 0 0 7 * * ?每天早上7点  0 0/60 * * * ?
+        <value>0 0/5 * * * ?</value><!-- 每半小时 --> 
+        <!-- 0 0 7 * * ?每天早上7点
         	 0 0/1 * * * ? 每一分钟
              1.秒 0-59 
              2.分钟 0-59   
@@ -149,6 +149,14 @@
         -->
       </property>
    </bean>
-
+   <!-- 启动调度 -->
+   <bean id="start" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+     <property name="triggers">
+       <list>
+    	<!-- 领导试图定期执行 -->
+    	<ref bean="leaderView"/>
+       </list>
+     </property>
+   </bean>
     
 </beans>  

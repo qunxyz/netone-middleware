@@ -2,6 +2,7 @@ package com.jl.common.report;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.rmi.NotBoundException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
+import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import oracle.net.aso.i;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.record.formula.functions.Db;
 import org.apache.poi.hssf.record.formula.functions.Int;
 
 import com.jl.common.workflow.DbTools;
@@ -69,10 +74,42 @@ public class SuperAnaSvl extends HttpServlet {
 				table2_col="*";
 			}
 			
-			String sql1=" select "+table1_col+" from dyform."+table1+" where " +table1_con;
-			String sql2=" select "+table2_col+" from dyform."+table2+" where " +table2_con;
-			List list1=DbTools.queryData(sql1);
-			List list2=DbTools.queryData(sql2);
+
+			
+			String sql1="";
+			String sql2="";
+			List list1=null;
+			List list2=null;
+			String dbsource=request.getParameter("sour");
+			if("oracle".equals(dbsource)){
+				
+				try {
+					ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+					UmsProtectedobject upo=(UmsProtectedobject)rs.loadResourceByNatural(form1);
+					String referenceString=upo.getReference();
+					//tablename@table1,url@localhost,driver@com.orcele,username@roosd,pasword@sdfds
+					StringUtils.split(",");
+					
+					sql1=" select "+table1_col+" from dyform."+table1+" where " +table1_con;
+					sql2=" select "+table2_col+" from dyform."+table2+" where " +table2_con;
+					list1=DbTools.queryData(sql1);
+					list2=DbTools.queryData(sql2);
+					
+				} catch (NotBoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+
+			}else{
+				sql1=" select "+table1_col+" from dyform."+table1+" where " +table1_con;
+				sql2=" select "+table2_col+" from dyform."+table2+" where " +table2_con;
+				list1=DbTools.queryData(sql1);
+				list2=DbTools.queryData(sql2);
+			}
+			
+
 			request.getSession().setAttribute("list1", list1);
 			request.getSession().setAttribute("list2", list2);
 			StringBuffer but1=new StringBuffer();

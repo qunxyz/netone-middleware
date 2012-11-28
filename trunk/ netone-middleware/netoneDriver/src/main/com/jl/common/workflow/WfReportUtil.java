@@ -2,18 +2,17 @@ package com.jl.common.workflow;
 
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
+import com.jl.common.ComparatorDept;
 import oe.frame.web.WebCache;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
-
 
 import org.apache.commons.lang.StringUtils;
 
@@ -136,6 +135,8 @@ public class WfReportUtil {
 			UmsProtectedobject upo=new UmsProtectedobject();
 			upo.setParentdir(rsid);
 			List dept=rs.queryObjectProtectedObj(upo, null, 0, 1000, " order by reference desc");
+			ComparatorDept comparator=new ComparatorDept();
+			Collections.sort(dept, comparator);
 			Map dept_people=new HashMap();
 		long time=System.currentTimeMillis();
 		for (Iterator iterator = dept.iterator(); iterator.hasNext();) {

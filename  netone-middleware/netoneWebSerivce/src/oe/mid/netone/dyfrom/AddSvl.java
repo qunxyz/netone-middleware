@@ -84,17 +84,7 @@ public class AddSvl extends HttpServlet {
 					}
 				}
 				String str = DyEntry.iv().addData(formcode, dydata);
-				String lsh=request.getParameter("lsh");
-				if(StringUtils.isNotEmpty(lsh)&&lsh.length()==32){
-					String tablename=DyEntry.iv().loadForm(formcode).getTablename();
-					String sql="update dyform."+tablename+" set lsh='"+lsh+"' where lsh='"+str+"'";
-					int rs=DbTools.execute(sql);
-					if(rs==1){
-						str=lsh;
-					}else{
-						str=null;
-					}
-				}
+				str=modifyLsh(request,formcode,str);
 				response.getWriter().print(str);
 			} catch (Exception e2) {
 				// TODO Auto-generated catch block
@@ -123,13 +113,26 @@ public class AddSvl extends HttpServlet {
 				if(StringUtils.isNotEmpty(belongx)){
 					dydata.setBelongx(belongx);
 				}
+				
 				String str = DyEntry.iv().addData(formcode, dydata);
+				str=modifyLsh(request,formcode,str);
 				response.getWriter().print(str);
 			} catch (Exception e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
 		}
+	}
+	
+	private String modifyLsh(HttpServletRequest request,String formcode,String str)throws Exception{
+		String lsh=request.getParameter("lsh");
+		if(StringUtils.isNotEmpty(lsh)&&lsh.length()==32){
+			String tablename=DyEntry.iv().loadForm(formcode).getTablename();
+			String sql="update dyform."+tablename+" set lsh='"+lsh+"' where lsh='"+str+"'";
+			int rs=DbTools.execute(sql);
+
+		}
+		return lsh;
 	}
 
 	/**

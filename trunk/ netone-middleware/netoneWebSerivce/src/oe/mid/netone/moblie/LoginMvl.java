@@ -64,21 +64,19 @@ public class LoginMvl extends HttpServlet {
  			Clerk clerk = resourceRmi.loadClerk("0000", loginname);
  			String pass = clerk.getPassword();
  			passwordto = MD5Util.MD5_UTF16LE(passwordto);
- 			String rs ="false";
+ 			
  			if (StringUtils.isNotEmpty(passwordto) && passwordto.equals(pass)) {// 该账户已被禁止登录
  				map.put("usercode", loginname);
  				map.put("name", clerk.getName());
  				list.add(map);
  				response.getWriter().print(JSONArray.fromObject(list).toString());
- 			}else{
- 				response.getWriter().print(rs);
  			}
  			
  		} catch (Exception e) {
  			// TODO Auto-generated catch block
  			e.printStackTrace();
  		}
-
+ 		response.getWriter().print("false");
 	}
 
 	/**

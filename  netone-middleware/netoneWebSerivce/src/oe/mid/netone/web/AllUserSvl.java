@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import net.sf.json.JSONArray;
 
 import oe.rmi.client.RmiEntry;
@@ -48,8 +50,15 @@ public class AllUserSvl extends HttpServlet {
 			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
 			String naturalname=request.getParameter("naturalname");
 			String systemid=rs.loadResourceByNatural(naturalname).getId();
-			String sql="select usercode,name from netone.t_cs_user where systemid='"+systemid+"'";
-			List user=DbTools.queryData(sql);
+			List user=null;
+			if(StringUtils.isNotEmpty(systemid)){
+				String sql="select usercode,name from netone.t_cs_user where systemid='"+systemid+"'";
+				user=DbTools.queryData(sql);
+			}else{
+				String sql="select usercode,name from netone.t_cs_user limit 0,100";
+				user=DbTools.queryData(sql);
+			}
+
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print(JSONArray.fromObject(user).toString());
 		} catch (NotBoundException e) {

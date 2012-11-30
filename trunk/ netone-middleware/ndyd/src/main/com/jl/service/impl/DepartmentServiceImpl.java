@@ -29,9 +29,9 @@ import org.apache.log4j.Logger;
 import com.jl.common.CommonUploadUtil;
 import com.jl.common.JSONUtil2;
 import com.jl.common.JxlUtilsTemplate;
+import com.jl.common.app.SpringBeanUtilExam;
 import com.jl.dao.CommonDAO;
 import com.jl.entity.Client;
-import com.jl.entity.ClientPriceLevel;
 import com.jl.entity.Department;
 import com.jl.entity.DepartmentLevel;
 import com.jl.entity.User;
@@ -53,6 +53,9 @@ public class DepartmentServiceImpl extends BaseService implements
 	private final Logger log = Logger.getLogger(DepartmentServiceImpl.class);
 
 	private final boolean enableSyncComponent = true;// 是否同步组件
+
+	private final boolean enableSyncExam = ("yes".equalsIgnoreCase(config
+			.getString("syncexam"))) ? true : false;
 
 	private CommonDAO commonDAO;
 
@@ -221,6 +224,9 @@ public class DepartmentServiceImpl extends BaseService implements
 					getSecurityAPI(request).editOrganization(pDeptId_, deptId_,
 							deptName, extAttribute);
 
+				if (enableSyncExam)
+					SpringBeanUtilExam.getInstance().updateStudentGroup(dept);
+
 				// 同步帐号信息
 				// if (BussVar.BUSSTYPE_4.equals(dept.getLevel())) {// 客户
 				// // if (findUserCodeIsExist(deptCode)) {
@@ -297,6 +303,10 @@ public class DepartmentServiceImpl extends BaseService implements
 					if (enableSyncComponent)
 						getSecurityAPI(request).newOrganization(pDeptId_,
 								deptId_, deptName, extAttribute);
+
+					if (enableSyncExam)
+						SpringBeanUtilExam.getInstance().insertStudentGroup(
+								dept);
 
 					// // 同步帐号信息
 					// if (BussVar.BUSSTYPE_4.equals(_dept.getLevel())) {// 客户
@@ -389,6 +399,15 @@ public class DepartmentServiceImpl extends BaseService implements
 				}
 				getSecurityAPI(request).deleteOrganization(departmentId);
 			}
+
+			if (enableSyncExam) {
+				for (String userCode : deleteList) {
+					SpringBeanUtilExam.getInstance().deleteStudent(userCode);
+				}
+				SpringBeanUtilExam.getInstance().deleteStudentGroup(
+						departmentId);
+			}
+
 			json.put("tip", "删除信息成功!");
 		} catch (Exception e) {
 			json.put("tip", "删除失败,存在关联信息无法删除!");

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Exam">
+
+	<!-- 查询所有用户 -->
+	<select id="selectAllUser" parameterClass="string" resultClass="com.jl.entity.User">
+		SELECT 	
+			userId,
+			userCode,
+			userName,
+			departmentId,
+			sex,
+			phone,
+			email
+		FROM t_user 
+	</select>
+	
+	<!-- ======================================================================== -->
+	<!--                   start insert update delete                             -->
+	<!-- ======================================================================== -->
+	<!-- 添加学生 -->
+	<insert id="insertStudent" parameterClass="java.util.HashMap">
+		<selectKey resultClass="java.lang.Integer"
+			keyProperty="studentId" type="post">
+			<![CDATA[
+				SELECT @@IDENTITY AS studentId 
+		 	]]>
+		</selectKey>
+		<![CDATA[
+		   INSERT INTO t_student
+		   (StudentCode,StudentName,MajorID,GradeID,ClassID,
+		   StudentGroupID,Passwords,Sex,Telphone,Cellphone,Email,
+		   Status,Note,Operate,OperateTime,photo)
+		   VALUES
+		   (#userId:VARCHAE#,#userName:VAECHAR#,#majorID:INT#,#gradeID:INT#,
+		   #stuClassID:INT#,#studentGroupId:INT#,#password:VARCHAR#,#sex:VARCHAE#,
+		   #telphone:VARCHAE#,#cellphone:VARCHAR#,#email:VARCHAR#,#status:INT#,#note:VARCHAR#,#operate:VARCHAR#,#operateTime:DATETIME#,#photo#)
+		]]>
+	</insert>
+
+	<!-- 修改学生 -->
+	<update id="updateStudent" parameterClass="java.util.HashMap">
+		<![CDATA[
+		UPDATE t_student SET StudentCode=#userId#,StudentName=#userName:VAECHAR#,MajorID=#majorID:INT#,
+		GradeID=#gradeID:INT#,ClassID=#stuClassID:INT#,StudentGroupID=#studentGroupId:INT#,Sex=#sex:VARCHAE#,Telphone=#telphone:VARCHAE#,Cellphone=#cellphone:VARCHAR#,
+		Email=#email:VARCHAR#,Status=#status:INT#,Note=#note:VARCHAR#,Operate=#operate:VARCHAR#,OperateTime=#operateTime:DATETIME#, photo=#photo#
+		WHERE StudentCode=#userId#
+		]]>
+	</update>
+
+	<delete id="deleteStudent" parameterClass="string">
+		<![CDATA[
+	      DELETE  FROM t_student  WHERE  StudentCode=#studentCode#
+	   ]]>
+	</delete>
+	
+	<!-- 获取学生ID -->
+	<select id="getStuId" parameterClass="string" resultClass="int">
+		select top 1 studentId from t_student where StudentCode=#userId#
+	</select>
+	
+	<!-- ========================  学生组  =============================== -->
+	<!-- 插入一个学生组 -->
+	<insert id="insertStudentGroup" parameterClass="java.util.HashMap">
+		<selectKey resultClass="java.lang.Integer"
+			keyProperty="studentGroupId" type="post">
+			<![CDATA[SELECT @@IDENTITY AS studentGroupId]]>
+		</selectKey>
+		<![CDATA[
+		   INSERT INTO t_studentGroup(studentGroupCode, studentGroupName,serialNO,parentStudentGroupId) 
+		   VALUES (#studentGroupCode:VARCHAR#, #studentGroupName#,#serialNo:INT#,#parentStudentGroupId:INT#)
+		 ]]>
+	</insert>
+	<!-- 修改一个学生组 -->
+	<update id="updateStudentGroup" parameterClass="java.util.HashMap">
+		<![CDATA[
+		   UPDATE t_studentGroup SET studentGroupCode=#studentGroupCode:VARCHAR#, studentGroupName=#studentGroupName#,
+		   serialNO=#serialNo:INT#,parentStudentGroupId=#parentStudentGroupId:INT#
+		   WHERE studentGroupCode=#studentGroupCode:VARCHAR#
+		 ]]>
+	</update>
+	<!-- 删除一个学生组 -->
+	<delete id="deleteStudentGroup" parameterClass="string">
+		<![CDATA[
+		   DELETE FROM t_studentGroup WHERE  studentGroupCode=#studentGroupCode#
+	    ]]>
+	</delete>
+	<!-- 获取学生组ID -->
+	<select id="getStuGroupId" parameterClass="string" resultClass="int">
+		select top 1 studentGroupId from t_studentGroup where studentGroupCode=#studentGroupCode#
+	</select>
+		
+</sqlMap>

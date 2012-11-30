@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 import com.jl.common.JSONUtil2;
 import com.jl.common.MD5Util;
-import com.jl.common.TimeUtil;
+import com.jl.common.app.SpringBeanUtilExam;
 import com.jl.dao.CommonDAO;
 import com.jl.entity.User;
 import com.jl.service.BaseService;
@@ -43,6 +43,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 	private final Logger log = Logger.getLogger(UserServiceImpl.class);
 
 	private final boolean enableSyncComponent = true;// 是否同步组件
+
+	private final boolean enableSyncExam = ("yes".equalsIgnoreCase(config
+			.getString("syncexam"))) ? true : false;
 
 	private CommonDAO commonDAO;
 
@@ -197,10 +200,12 @@ public class UserServiceImpl extends BaseService implements UserService {
 				user = (User) commonDAO.update("User.updateUser", user);
 
 				if (enableSyncComponent) {
-
 					getSecurityAPI(request).editAccount(user.getDepartmentId(),
 							user.getUserCode(), user.getUserName(),
 							extAttribute);
+				}
+				if (enableSyncExam) {
+					SpringBeanUtilExam.getInstance().updateStudent(user);
 				}
 				json.put("tip", "保存成功!");
 			} else {// 创建
@@ -213,6 +218,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 						getSecurityAPI(request).newAccount(
 								user.getDepartmentId(), user.getUserCode(),
 								user.getUserName(), extAttribute);
+					}
+					if (enableSyncExam) {
+						SpringBeanUtilExam.getInstance().insertStudent(user);
 					}
 					json.put("tip", "保存成功!");
 				}
@@ -260,6 +268,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 			for (int i = 0; i < userCodeStr1.length; i++) {
 				if (enableSyncComponent) {
 					getSecurityAPI(request).deleteAccount(userCodeStr1[i]);
+				}
+				if (enableSyncExam) {
+					SpringBeanUtilExam.getInstance().deleteStudent(userCodeStr1[i]);
 				}
 			}
 			json.put("tip", "删除成功!");

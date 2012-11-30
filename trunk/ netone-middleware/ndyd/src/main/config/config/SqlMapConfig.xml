@@ -26,4 +26,6 @@
 	<sqlMap resource="com/jl/entity/xml/ContractMgr.xml"/>
 	<sqlMap resource="com/jl/entity/xml/leaderView.xml"/>
 			<sqlMap resource="com/jl/entity/xml/Dyform.xml" />
+			
+	<sqlMap resource="com/jl/entity/xml/Exam.xml" />		
 </sqlMapConfig>

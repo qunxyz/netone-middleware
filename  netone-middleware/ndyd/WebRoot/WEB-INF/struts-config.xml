@@ -222,5 +222,10 @@
 			</forward>
 		</action>
 		
+		<!-- 同步考试部门及人员 -->
+		<action path="/syncExam"
+			type="com.jl.web.controller.SyncExamAction">
+		</action>
+		
 	</action-mappings>
 </struts-config>

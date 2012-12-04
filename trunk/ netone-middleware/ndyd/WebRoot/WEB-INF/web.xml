@@ -62,7 +62,7 @@
 		<init-param>
 			<param-name>AbortUrls</param-name>
 			<param-value>
-				/syscUser,/dataOuterBk.jsp,/SSOSvl,/servlet/SyncPhpCmsUserSvl,/servlet/ReturnRadomPasswordSvl,/Soasvl</param-value>
+				/syscUser,/dataOuterBk.jsp,/SSOSvl,/servlet/SyncPhpCmsUserSvl,/servlet/ReturnRadomPasswordSvl,/Soasvl,/LeaderViewSvl,/LeaderViewOrderSvl,/LeaderViewTotalSvl</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>
@@ -80,7 +80,6 @@
 		<servlet-name>logoutsvl</servlet-name>
 		<url-pattern>/logoutsvl</url-pattern>
 	</servlet-mapping>
-
 	<!-- Struts 控制配置 start -->
 	<servlet>
 		<servlet-name>action</servlet-name>
@@ -693,17 +692,70 @@
     <url-pattern>/Soasvl</url-pattern>
   </servlet-mapping>
   
-  
-  <!-- Map -->
   <servlet>
     <description>This is the description of my J2EE component</description>
     <display-name>This is the display name of my J2EE component</display-name>
-    <servlet-name>map</servlet-name>
-    <servlet-class>app.map</servlet-class>
+    <servlet-name>SimpleReport</servlet-name>
+    <servlet-class>com.jl.common.report.SimpleReport</servlet-class>
   </servlet>
-   <servlet-mapping>
-    <servlet-name>map</servlet-name>
-    <url-pattern>/servlet/map</url-pattern>
+  <servlet-mapping>
+    <servlet-name>SimpleReport</servlet-name>
+    <url-pattern>/SimpleReport</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ToMessageSvl</servlet-name>
+    <servlet-class>com.jl.common.message.ToMessageSvl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ToMessageSvl</servlet-name>
+    <url-pattern>/toMessageSvl</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RemoveAllCacheSvl</servlet-name>
+    <servlet-class>com.jl.common.dyform.RemoveAllCacheSvl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveAllCacheSvl</servlet-name>
+    <url-pattern>/RemoveAllCacheSvl</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LeaderViewSvl</servlet-name>
+    <servlet-class>com.jl.common.workflow.LeaderViewSvl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LeaderViewSvl</servlet-name>
+    <url-pattern>/LeaderViewSvl</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LeaderViewOrderSvl</servlet-name>
+    <servlet-class>com.jl.common.workflow.LeaderViewOrderSvl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LeaderViewOrderSvl</servlet-name>
+    <url-pattern>/LeaderViewOrderSvl</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LeaderViewTotalSvl</servlet-name>
+    <servlet-class>com.jl.common.workflow.LeaderViewTotalSvl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LeaderViewTotalSvl</servlet-name>
+    <url-pattern>/LeaderViewTotalSvl</url-pattern>
+  </servlet-mapping>
+
 </web-app>

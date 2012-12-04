@@ -17,6 +17,7 @@ import oe.security3a.seucore.obj.db.UmsProtectedobject;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.jl.common.security3a.Client3A;
 import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
 import com.jl.common.workflow.TWfConsoleIfc;
@@ -391,7 +392,7 @@ public final class AppHandleImpl implements AppHandleIfc {
 		}
 		if(StringUtils.isNotEmpty(commiter)){
 		//追加人员工作量
-			String addWorkItemParticipant=countWorkItem(actx.getParticipant());
+			String addWorkItemParticipant=addUserAppendInfo(actx.getParticipant(),2);
 			actx.setParticipant(addWorkItemParticipant);
 		}
 		// 无论是选部门、角色、组还是流程角色最终都表现为人的选择
@@ -469,7 +470,7 @@ public final class AppHandleImpl implements AppHandleIfc {
 		return actx;
 	}
 	
-	private String countWorkItem(String particiapntArr){
+	private String addWorkItemCount(String particiapntArr){
 		if(StringUtils.isEmpty(particiapntArr)){
 			return particiapntArr;
 		}
@@ -490,6 +491,38 @@ public final class AppHandleImpl implements AppHandleIfc {
 		}
 
 		return particiapntArr;
+	}
+	
+	
+	private String addUserPhone(String particiapntArr){
+		if(StringUtils.isEmpty(particiapntArr)){
+			return particiapntArr;
+		}
+		String []datax=StringUtils.split(particiapntArr,",");
+		
+		for (int i = 0; i < datax.length; i++) {
+			String info=StringUtils.substringBetween(datax[i],"[","]");
+		try{
+			Client3A client=SecurityEntry.iv().loadUser(info);
+			String deptname=client.getDeptname();
+			String phone=client.getMobile();
+			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(/部门:"+deptname+"/手机:"+phone);
+	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		}
+
+		return particiapntArr;
+	}
+	
+	private String addUserAppendInfo(String particiapntArr,int mode){
+		if(mode==1){
+			return this.addWorkItemCount(particiapntArr);
+		}else if(mode==2){
+			return this.addUserPhone(particiapntArr);
+		}
+		return this.addWorkItemCount(particiapntArr);
 	}
 
 	public boolean canCreate(String natrualname, String userid)

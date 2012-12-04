@@ -46,6 +46,7 @@
 		}
 		
 		function selectpagex(){
+		
 			var typex=document.getElementById("objecttype").value;
 			
 			if(typex=='human'){
@@ -57,7 +58,7 @@
 			if(typex=='team'){
 				selectpage('department','SYSTEMTEAM');
 			}
-			if(typex=='role'||typex=='flowrole'){
+			if(typex=='role'||typex=='flowrole'||typex=='flowrolecreater'){
 				selectpage('role','SYSROLE');
 			}
 		}
@@ -79,6 +80,8 @@
 			var neededit=document.getElementById("needcheck");
 			var forbidzb=document.getElementById("forbidzb");
 			var columnedit=document.getElementById("columnedit").value;
+			var subformmode=document.getElementById("needchecksub").value;
+			var syncto=document.getElementById("syncto");
 			if(description==null||description==''){
 				description='0';
 			}
@@ -99,7 +102,19 @@
 			}else{
 				description=description+"@0%";
 			}
+			if(subformmode!=''){
+				description=description+"+"+subformmode+"!";
+			}
+
+			
 			description=description+columnedit;
+			
+			if(syncto.checked){
+				description=description+"^1^";
+			}else{
+				description=description+"^0^";
+			}
+			
 			document.getElementById("description").value=description;
 			
 			document.forms[0].submit();
@@ -182,7 +197,7 @@
 						</td>
 						<td>
 							<input type="text" name="name" value="${upo.name}"
-								class="textinput_td"/>
+								class="textinput_td" readonly="readonly" />
 						</td>
 					</tr>
 					<tr>
@@ -302,6 +317,24 @@
 							<input type='checkbox' value='1' id='needcheck' name='needcheck' <c:if test="${fn:substring(upo.description,4,5)==1}">checked</c:if>/>
 							是否需要编辑
 							<div id='DivBlock'></div>
+						</td>
+					</tr>
+					<tr>
+						<td width="15%">
+							子表单模式
+						</td>
+						<td>
+							<input type='text' value='${fn:substringBefore(fn:substringAfter(upo.description,"+"),"!")}' id='needchecksub' name='needchecksub' />
+							比如 10 表示第一个子表单需要编辑第二个不需要
+						</td>
+					</tr>
+					<tr>
+						<td width="15%">
+							分布式控制
+						</td>
+						<td>
+							<input type='checkbox' value='1' id='syncto' name='syncto' <c:if test="${fn:substringBefore(fn:substringAfter(upo.description,'^'),'^')==1}">checked</c:if>/>
+							是否需要分布式提交
 						</td>
 					</tr>
 				</table>

@@ -43,6 +43,7 @@ import com.jl.common.app.AppHandleIfc;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyFormData;
 import com.jl.common.message.Message;
+import com.jl.common.security3a.SecurityEntry;
 
 /**
  * 面向审批人员选择人员业务的 工作流应用驱动
@@ -64,7 +65,6 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		}
 
 		return worklistCore(loadworklist);
-
 	}
 
 	public List<TWfWorklistExt> worklistDone(String customer) throws Exception {
@@ -416,7 +416,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			//使用该 update t_wf_relevantvar set participant='error' where RUNTIMEID not in(select RUNTIMEID from t_wf_runtime)处理
 			List list = wfview
 					.coreSqlview("select RUNTIMEID from t_wf_relevantvar where VALUENOW='"
-							+ key + "' and participant is null");
+							+ key + "'");
 		
 			if (list.size() > 0) {
 				// 可能查到多个数据，特别是重置后，由于业务系统继续保留使用之前业务数据的ID，
@@ -1884,6 +1884,83 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public String[] errorProcess(String fromTime, String endTime) {
+		String sql="select runtimeid,workcode from t_wf_worklist where workcode not in(select workcode from t_wf_participant) where executestatus='01' and starttime>'"+fromTime+"' and starttime<'"+fromTime+"'";
+		List list=DbTools.queryData(sql);
+		List listdata=new ArrayList();
+		for (Iterator iterator = listdata.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			String runtid=(String)object.get("runtimeid");
+			String workcode=(String)object.get("workcode");
+			listdata.add(runtid+","+workcode);
+		}
+		return (String[])listdata.toArray(new String[0]);
+	}
+
+	@Override
+	public int repairErrorProcess(String workcode, String commitercode,
+			String operatercode) {
+		WorkflowConsole console = null;
+		WorkflowView wfview = null;
+		try {
+			wfview = (WorkflowView) RmiEntry.iv("wfview");
+			console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+			String uuid=UUID.randomUUID().toString().replaceAll("-", "");
+			TWfWorklist wok=wfview.loadWorklist(workcode);
+			String actid=wok.getActivityid();
+			String processid=wok.getProcessid();
+			String actname=wfview.loadProcess(processid).getActivity(actid).getName();
+			String commitername=SecurityEntry.iv().loadUser(commitercode).getName();
+			String operatername=SecurityEntry.iv().loadUser(operatercode).getName();
+			String starttime=wok.getStarttime();
+			String sql="insert into t_wf_participant(lsh,workcode,username,usercode,types,statusnow,sync,commitername,commitercode,"+
+			"auditnode,createtime,limitime,opemode,actname,actid,msg)values('"+uuid+"','"+workcode+"','"+operatername+"','"+operatercode+"','01','01','0','"+commitername+"','"+commitercode+"','同意','"+starttime+"',72,'01','"+actname+"','"+actid+"','0')";
+			
+			return console.coreSqlhandle(sql);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int rollbackErrorProcess(String runtimeid,String workcode,String reActId) {
+		WorkflowConsole console = null;
+		WorkflowView wfview = null;
+		try {
+			wfview = (WorkflowView) RmiEntry.iv("wfview");
+			console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+			console.updateWorklistStatus(workcode, "02");
+			
+			List list=wfview.fetchWorkList(runtimeid, reActId);
+			if(list.size()>0){
+				TWfWorklist wokx=(TWfWorklist)list.get(0);//可能有多个节点因为流程可以回退，但是由于系统已经倒序过了取缔一个就是最后运行过的 
+				console.updateWorklistStatus(wokx.getWorkcode(), "01");//重新恢复为启动状态 
+				String sql="update t_wf_participant set statusnow='01' where workcode='"+wokx.getWorkcode()+"'";
+				return console.coreSqlhandle(sql);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public boolean checkFinalAct(String workcode) throws Exception {
+		TWfWorklist wf = this.loadWorklist(workcode);
+		Activity act = this.loadProcess(wf.getProcessid()).getActivity(
+				wf.getActivityid());
+		if(act!=null){
+			return act.isExitActivity();
+		}
+		return false;
 	}
 
 }

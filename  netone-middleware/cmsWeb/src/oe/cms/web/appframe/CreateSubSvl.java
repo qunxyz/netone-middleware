@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -69,10 +70,7 @@ public class CreateSubSvl extends HttpServlet {
 					processid = StringUtils.substringBetween(obj[0], "[", "]");
 				}
 			}
-		
-
 			WorkflowView wfview = null;
-
 			try {
 				wfview = (WorkflowView) RmiEntry.iv("wfview");
 
@@ -83,8 +81,27 @@ public class CreateSubSvl extends HttpServlet {
 
 			WorkflowProcess list = wfview.fetchWorkflowProcess(processid);
 			
-			
 			Activity[] act = list.getActivity();
+			//如果原先已经有参与节点配置
+			List sub=resourceRmi.subResource(id);
+			for (Iterator iterator = sub.iterator(); iterator.hasNext();) {
+				UmsProtectedobject object = (UmsProtectedobject) iterator.next();
+				boolean isUseful=false;
+				for(int i=0;i<act.length;i++){
+					String key=StringUtils.substringAfterLast(object.getNaturalname(), ".");
+					if(key.equalsIgnoreCase(act[i].getId())){
+						isUseful=true;
+						object.setName(act[i].getName());
+					}
+				}
+				if(!isUseful){
+					resourceRmi.dropResource(object.getId());
+				}else{
+					//更新名字
+					resourceRmi.updateResource(object);
+				}
+			}
+			
 			for (int i = 0; i < act.length; i++) {
 				if (act[i].getImplementation() != null) {// 空节点不需要进入
 					UmsProtectedobject upobj = new UmsProtectedobject();

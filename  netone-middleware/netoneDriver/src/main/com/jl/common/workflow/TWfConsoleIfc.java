@@ -633,6 +633,14 @@ public interface TWfConsoleIfc {
 			throws Exception;
 
 	/**
+	 * 检查是否为尾节点
+	 * 
+	 * @param workcode
+	 * @return
+	 */
+	public boolean checkFinalAct(String workcode) throws Exception;
+	
+	/**
 	 * 检查是否为首节点
 	 * 
 	 * @param workcode
@@ -662,5 +670,30 @@ public interface TWfConsoleIfc {
 	 * @param workcode
 	 */
 	public void WakeUpProcess(String runtimeid)throws Exception;
+	
+	/**
+	 * 寻找所有异常的流程(工作流引擎是异步工作，在操作过过程中可能会出现活动的参与者分配丢失的情况)
+	 * @param fromTime 开始时间
+	 * @param endTime 结束时间
+	 * @return
+	 */
+	public String[] errorProcess(String fromTime,String endTime);
+	
+    /**
+     * 回滚失效的操作
+
+     * @param runtimeid 流程id
+     * @param workcode 当前活动节点
+     * @param actid 需要回滚到的节点，由用户在流程轨迹界面自行选定 
+     * @return
+     */
+	public int rollbackErrorProcess(String runtimeid,String workcode,String actid);
+	
+	/**
+	 * 修复失效的操作
+	 * @param runtimeid 流程ID
+	 * @return
+	 */
+	public int repairErrorProcess(String runtimeid,String commitercode,String operatercode);
 
 }

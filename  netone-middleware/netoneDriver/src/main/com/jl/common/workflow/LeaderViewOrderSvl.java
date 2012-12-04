@@ -72,7 +72,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 	}
 	
 	private List menTop5(String deptid){
-		String sql="select username name,count(*) value from netone.t_wf_participant where STATUSNOW='01' and username != 'adminx' group by usercode order by value desc limit 0,5";
+		String sql="select username name,convert(count(*),char) value from netone.t_wf_participant where STATUSNOW='01' and username != 'adminx' group by usercode order by value desc limit 0,5";
 		return DbTools.queryData(sql);
 	}
 	
@@ -118,17 +118,14 @@ public class LeaderViewOrderSvl extends HttpServlet {
 						map.put(key, "");
 					}
 					Map find=new HashMap();
-					find.put("value", value);
+					find.put("value", value+"");
 					find.put("name", key);
 					listMaxTaskDept.add(find);
 					break;
 				}
 			}
 		}
-
-
-		
-		return listMaxTaskDept.subList(0, 5);
+		return listMaxTaskDept.subList(0, listMaxTaskDept.size()>=5?5:listMaxTaskDept.size());
 	}
 	
 	private List flowTop5(String deptid){
@@ -162,7 +159,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 					continue;
 				if(doing==valuepre){
 					Map find=new HashMap();
-					find.put("value", doing);
+					find.put("value", doing+"");
 					find.put("name",StringUtils.substringAfter(key, "#"));
 					procemaxFinal.add(find);
 					break;

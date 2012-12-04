@@ -14,5 +14,4 @@ public class ComparatorDept implements Comparator {
 		else 
 			return 1;
 	}
-
 }

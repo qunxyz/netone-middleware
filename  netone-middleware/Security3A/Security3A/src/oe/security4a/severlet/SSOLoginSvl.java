@@ -51,7 +51,6 @@ public class SSOLoginSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
 		EnvService env = null;
 
 
@@ -68,7 +67,6 @@ public class SSOLoginSvl extends HttpServlet {
 			String cookies[] = CookiesOpe.readCookiex(request);
 			if (cookies == null || cookies.length < 4) {
 				System.err.println("cookies==null||cookies.length<4");
-
 				response.sendRedirect(securityahead + "/sso/impl/login.jsp");
 				return;
 			}

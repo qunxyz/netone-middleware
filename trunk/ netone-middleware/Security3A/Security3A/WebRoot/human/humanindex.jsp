@@ -103,15 +103,15 @@
 							${getCol.faxNO}
 						</td>
 						<td height="21">
-								<c:if test="${getCol.password == '9$9$'||getCol.password=='8846D8C4493431BDF845BF8CCB5F23FA'}">
+								<c:if test="${getCol.password == '9$9$'}">
                                                                  禁用
                                                                 </c:if>
-								<c:if test="${getCol.password!= '9$9$'&&getCol.password!='8846D8C4493431BDF845BF8CCB5F23FA'}">
+								<c:if test="${getCol.password!= '9$9$'}">
                                                                  正常
                                                                 </c:if>
 						</td>
 						<td height="21">
-							<a href=javascript:link("${getCol.description}")>查看1</a>
+							<a href=javascript:link("${getCol.description}")>查看</a>
 						</td>
 					</tr>
 				</c:forEach>

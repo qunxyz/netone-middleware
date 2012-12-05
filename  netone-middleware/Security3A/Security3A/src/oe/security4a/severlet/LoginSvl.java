@@ -200,6 +200,7 @@ public class LoginSvl extends HttpServlet
                 oe.security3a.sso.LoginInfo._ERROR_9[0]);
               request.getRequestDispatcher("sso/login.jsp")
                 .forward(request, response);
+              return;
             } else {
               cupm.log("login", reqip, username, 
                 "password error!", "");

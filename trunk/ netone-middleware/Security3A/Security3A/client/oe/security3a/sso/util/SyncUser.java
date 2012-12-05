@@ -29,11 +29,13 @@ public class SyncUser {
 		URL rul = null;
 		InputStream input = null;
 		try {
+			System.out.println("start sync:"+url);
 			rul = new URL(url);
 			URLConnection urlc = rul.openConnection();
 			input = urlc.getInputStream();
 			byte[] bytex = new byte[input.available()];
 			int num = input.read(bytex);
+			System.out.println("sync done:"+num);
 			return new String(bytex, 0, num);
 
 		} catch (Exception e) {

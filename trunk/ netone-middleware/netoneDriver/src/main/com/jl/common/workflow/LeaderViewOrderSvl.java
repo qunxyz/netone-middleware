@@ -118,7 +118,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 						map.put(key, "");
 					}
 					Map find=new HashMap();
-					find.put("value", value+"");
+					find.put("value", String.valueOf(value));
 					find.put("name", key);
 					listMaxTaskDept.add(find);
 					break;
@@ -159,7 +159,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 					continue;
 				if(doing==valuepre){
 					Map find=new HashMap();
-					find.put("value", doing+"");
+					find.put("value", String.valueOf(doing));
 					find.put("name",StringUtils.substringAfter(key, "#"));
 					procemaxFinal.add(find);
 					break;

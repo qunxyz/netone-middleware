@@ -54,6 +54,8 @@ gotourl=gotourl==null?"":gotourl;
 		errorinfo = LoginInfo._ERROR_7[1];
 	}	else if(LoginInfo._ERROR_8[0].equals(errormsg)) {
 		errorinfo = LoginInfo._ERROR_8[1];
+	}else if(LoginInfo._ERROR_9[0].equals(errormsg)) {
+		errorinfo = LoginInfo._ERROR_9[1];
 	}
 
 %>

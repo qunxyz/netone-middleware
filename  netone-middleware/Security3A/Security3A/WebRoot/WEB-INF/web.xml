@@ -24,7 +24,7 @@
 	
 		<init-param>
 			<param-name>AbortUrls</param-name>
-			<param-value>/mod/LoginMvl,/mod/RegeditMvl,/SSOLoginSvl</param-value>
+			<param-value>/mod/LoginMvl,/mod/RegeditMvl,/SSOLoginSvl,/SyncUserTest</param-value>
 		</init-param>
 		<init-param>
 			<param-name>AbortUrlType</param-name>
@@ -530,8 +530,19 @@
 		<servlet-name>SSOLoginSvl</servlet-name>
 		<servlet-class>oe.security4a.severlet.SSOLoginSvl</servlet-class>
 	</servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>SyncUserTest</servlet-name>
+    <servlet-class>oe.security3a.sso.util.SyncUserTest</servlet-class>
+  </servlet>
+
 	<servlet-mapping>
 		<servlet-name>SSOLoginSvl</servlet-name>
 		<url-pattern>/SSOLoginSvl</url-pattern>
 	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SyncUserTest</servlet-name>
+    <url-pattern>/SyncUserTest</url-pattern>
+  </servlet-mapping>
 </web-app>

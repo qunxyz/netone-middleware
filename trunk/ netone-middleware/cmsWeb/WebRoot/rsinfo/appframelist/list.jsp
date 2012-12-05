@@ -126,6 +126,8 @@
 							    <c:if test="${list.objecttype=='flowrole'}">流程角色</c:if>
 
 								<c:if test="${list.objecttype=='creater'}">创建者</c:if>
+								<c:if test="${list.objecttype=='flowrolecreater'}">流程创建者角色</c:if>							
+								
 							</td>
 							<td nowrap>
 								<c:if test="${list.active=='1'}">

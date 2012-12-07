@@ -290,6 +290,7 @@ public class FrameAction extends AbstractAction {
 
 			boolean isFormEdit = active.isFormEdit();
 			boolean isFirstAct = WfEntry.iv().checkFirstAct(workcode);
+			boolean checkFinalAct = WfEntry.iv().checkFinalAct(workcode);
 			if (isFormEdit) {
 				ispermission = true;
 				isedit = true;
@@ -297,7 +298,7 @@ public class FrameAction extends AbstractAction {
 				isedit = false;
 				ispermission = false;
 			}
-			if (isFirstAct) {// 退回创建者 开启修改表单功能
+			if (isFirstAct || checkFinalAct) {// 退回创建者 开启修改表单功能
 				ispermission = true;
 				isedit = true;
 				request.setAttribute("isFirstAct", isFirstAct);

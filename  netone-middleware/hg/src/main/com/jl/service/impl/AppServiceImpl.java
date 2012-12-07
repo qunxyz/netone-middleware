@@ -2125,7 +2125,6 @@ public class AppServiceImpl extends BaseService implements AppService {
 		String node = request.getParameter("node");
 		String type = "outstorageReport";
 		try {
-
 			User user = getOnlineUser(request);
 			Map map = new HashMap();
 			map.put("user", user.getUserId());
@@ -2281,10 +2280,15 @@ public class AppServiceImpl extends BaseService implements AppService {
 	private Map insertIcsale(Map data, CommonDAO dao) throws Exception {
 		Map map = new HashMap();
 		map.put("FBrNo", 0);
+		String FBillNo = (String) data.get("FBillNo");
+		String fdatestr = StringUtils.substring(FBillNo, 2, 6) + "-"
+				+ StringUtils.substring(FBillNo, 6, 8) + "-"
+				+ StringUtils.substring(FBillNo, 8, 10);
+		Date fdate = TimeUtil.parseDate(fdatestr);
 
 		map.put("FBillNo", data.get("FBillNo"));
 		map.put("FTranType", 86);
-		map.put("FDate", data.get("FDate"));
+		map.put("FDate", fdate);
 		map.put("FCustID", data.get("FSupplyID"));
 		map.put("FNote", "OA生成销售发票(普通)");
 
@@ -2296,8 +2300,8 @@ public class AppServiceImpl extends BaseService implements AppService {
 		map.put("FHookInterID", null);// 暂为空
 		map.put("FVchInterID", 0);
 
-		map.put("FBillerID", 1);// 管理员
-		map.put("FCheckerID", 1);// 管理员
+		map.put("FBillerID", 16409);// 管理员 16409陈晓燕
+		map.put("FCheckerID", 16409);// 管理员 16409陈晓燕
 		map.put("FPosterID", null);
 		map.put("FManagerID", data.get("FManagerID"));
 		map.put("FPosted", 0);
@@ -2326,8 +2330,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 		map.put("FMultiCheckDate5", data.get("FMultiCheckDate5"));
 		map.put("FMultiCheckDate6", data.get("FMultiCheckDate6"));
 		map.put("FCurCheckLevel", data.get("FCurCheckLevel"));
-		map.put("FYearPeriod", TimeUtil.formatDate((Date) data.get("FDate"),
-				"yyyy-MM"));
+		map.put("FYearPeriod", TimeUtil.formatDate(fdate, "yyyy-MM"));
 		map.put("FYtdIntRate", 0);
 		map.put("FOrgBillInterID", 0);
 
@@ -2336,10 +2339,10 @@ public class AppServiceImpl extends BaseService implements AppService {
 		map.put("FImport", data.get("FImport"));
 		map.put("FSystemType", 1);
 		map.put("FArApStatus", 0);// 生成为0 审核为1
-		map.put("FYear", TimeUtil.getYear((Date) data.get("FDate")));
-		map.put("FPeriod", TimeUtil.getMonth((Date) data.get("FDate")));
+		map.put("FYear", TimeUtil.getYear(fdate));
+		map.put("FPeriod", TimeUtil.getMonth(fdate));
 		map.put("FSubSystemID", 0);
-		map.put("FFincDate", data.get("FDate"));
+		map.put("FFincDate", fdate);
 		map.put("FInvoicer", 0);
 		map.put("FAccount", null);
 		map.put("FTaxNum", null);
@@ -2547,7 +2550,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 			map.put("FHookQty", data.get("FQty"));
 			map.put("FCustID", icstockbillData.get("FSupplyID"));
 			map.put("FSupplyID", 0);
-			map.put("FHookerID", 1);// 操作者 填写管理员
+			map.put("FHookerID", 16409);// 操作者 填写管理员 16409陈晓燕
 			map.put("FPOStyle", 0);
 			map.put("FSaleStyle", icstockbillData.get("FSaleStyle"));
 			map.put("FHookAmount", 0);
@@ -2558,6 +2561,13 @@ public class AppServiceImpl extends BaseService implements AppService {
 		// 发票
 		for (int i = 0; i < datas.size(); i++) {
 			Map data = datas.get(i);
+
+			String FBillNo = (String) icsaleData.get("FBillNo");
+			String fdatestr = StringUtils.substring(FBillNo, 2, 6) + "-"
+					+ StringUtils.substring(FBillNo, 6, 8) + "-"
+					+ StringUtils.substring(FBillNo, 8, 10);
+			Date fdate = TimeUtil.parseDate(fdatestr);
+
 			Map map = new HashMap();
 			map.put("FGroupNo", fgroupno);
 			map.put("FHookType", 1);
@@ -2566,18 +2576,17 @@ public class AppServiceImpl extends BaseService implements AppService {
 			map.put("FIBInterID", icsaleData.get("FInterID"));
 			map.put("FIBNo", icsaleData.get("FBillNo"));
 			map.put("FNowCheck", "X");
-			map.put("FPeriod", TimeUtil
-					.getMonth((Date) icsaleData.get("FDate")));
-			map.put("FYear", TimeUtil.getYear((Date) icsaleData.get("FDate")));
+			map.put("FPeriod", TimeUtil.getMonth(fdate));
+			map.put("FYear", TimeUtil.getYear(fdate));
 			map.put("FEquityHook", 0);
-			map.put("FDate", icsaleData.get("FDate"));
+			map.put("FDate", fdate);
 			map.put("FEntryID", i + 1);
 			map.put("FItemID", data.get("FItemID"));
 			map.put("FAuxPropID", data.get("FAuxPropID"));
 			map.put("FHookQty", data.get("FQty"));
 			map.put("FCustID", icstockbillData.get("FSupplyID"));
 			map.put("FSupplyID", 0);
-			map.put("FHookerID", 1);// 操作者 填写管理员
+			map.put("FHookerID", 16409);// 操作者 填写管理员 16409陈晓燕
 			map.put("FPOStyle", 0);
 			map.put("FSaleStyle", icstockbillData.get("FSaleStyle"));
 			map.put("FHookAmount", data.get("FConsignAmount"));
@@ -2642,8 +2651,8 @@ public class AppServiceImpl extends BaseService implements AppService {
 			throws Exception {
 		icsaleData.put("FStatus", 1);
 		icsaleData.put("FHookInterID", FHookInterID);
-		icsaleData.put("FHookerID", 1);// 管理员
-		icsaleData.put("FCheckerID", 1);// 管理员
+		icsaleData.put("FHookerID", 16409);// 管理员 16409陈晓燕
+		icsaleData.put("FCheckerID", 16409);// 管理员 16409陈晓燕
 		icsaleData.put("FArApStatus", 1);
 		// icsaleData.put("FYearPeriod", "");
 		dao.update("HG.updateICSale", icsaleData);

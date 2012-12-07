@@ -1662,13 +1662,18 @@ public final class DyFormBuildHtml {
 					"align=\"left\" colspan=\"" + colspan + "\""), "",
 					TABLE_TR_TITLE, "align=\"left\"");// °´Å¥²Ëµ¥
 
-			String btnstr_null = DyFormComp.getTr("", DyFormComp.getTd("",
-					"&nbsp;", "", "", "align=\"left\" colspan=\"" + colspan
-							+ "\""), "", "", "align=\"left\"");// null
+			String btnstr_null = DyFormComp.getTr("newnulltr" + formcode,
+					DyFormComp.getTd("", "&nbsp;", "", "",
+							"align=\"left\" colspan=\"" + colspan + "\""), "",
+					"", "align=\"left\"");// null
 
 			html_btn = DyFormComp.getTable(formcode + "btn", btnstr_
 					+ btnstr_null, dyform.getStyleinfo_(), "", 0,
 					TableExtProperties);
+			html_btn += DyFormComp
+					.getJqueryFunctionScript("/** **/if ($.browser.msie && ($.browser.version != '7.0')) { $('#newnulltr"
+							+ formcode + "').hide()} if ($.browser.mozilla) { $('#newnulltr"
+							+ formcode + "').hide()}  $('table#"+formcode+"btn').width($('table#"+formcode+"').width());  ");
 		}
 
 		htmlall

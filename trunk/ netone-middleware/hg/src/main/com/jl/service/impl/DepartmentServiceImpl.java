@@ -638,7 +638,7 @@ public class DepartmentServiceImpl extends BaseService implements
 						commonDAO.update("User.updateUserStatus", userx);
 						// 同步组件目录API
 						if (enableSyncComponent) {
-							getSecurityAPI(request).recoveryAccount(ids);
+							//getSecurityAPI(request).recoveryAccount(ids);
 						}
 					}
 					
@@ -656,7 +656,7 @@ public class DepartmentServiceImpl extends BaseService implements
 						commonDAO.update("User.updateUserStatus", userx);
 						// 同步组件目录API
 						if (enableSyncComponent) {
-							getSecurityAPI(request).fobidAccount(ids);
+							//getSecurityAPI(request).fobidAccount(ids);
 						}
 					}
 
@@ -673,7 +673,7 @@ public class DepartmentServiceImpl extends BaseService implements
 					user.setStatus("1");
 					// 同步组件目录API
 					if (enableSyncComponent) {
-						getSecurityAPI(request).recoveryAccount(userId);
+						//getSecurityAPI(request).recoveryAccount(userId);
 					}
 					tips = "开启成功!";
 				} else if ("0".equals(s)) {// 禁用
@@ -681,7 +681,7 @@ public class DepartmentServiceImpl extends BaseService implements
 					user.setStatus("0");
 					// 同步组件目录API
 					if (enableSyncComponent) {
-						getSecurityAPI(request).fobidAccount(userId);
+						//getSecurityAPI(request).fobidAccount(userId);
 					}
 					tips = "禁用成功!";
 				}

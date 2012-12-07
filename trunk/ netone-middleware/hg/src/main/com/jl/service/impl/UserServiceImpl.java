@@ -346,11 +346,11 @@ public class UserServiceImpl extends BaseService implements UserService {
 									user.getDepartmentId(), user.getUserCode(),
 									user.getUserName(), extAttribute);
 							if (FDeleted == 0) {
-								getSecurityAPI(request).recoveryAccount(
-										user.getUserCode());
+								// getSecurityAPI(request).recoveryAccount(
+								// user.getUserCode());
 							} else {
-								getSecurityAPI(request).fobidAccount(
-										user.getUserCode());
+								// getSecurityAPI(request).fobidAccount(
+								// user.getUserCode());
 							}
 						}
 					} else {// ´´½¨
@@ -363,11 +363,11 @@ public class UserServiceImpl extends BaseService implements UserService {
 									user.getDepartmentId(), user.getUserCode(),
 									user.getUserName(), extAttribute);
 							if (FDeleted == 0) {
-								getSecurityAPI(request).recoveryAccount(
-										user.getUserCode());
+								// getSecurityAPI(request).recoveryAccount(
+								// user.getUserCode());
 							} else {
-								getSecurityAPI(request).fobidAccount(
-										user.getUserCode());
+								// getSecurityAPI(request).fobidAccount(
+								// user.getUserCode());
 							}
 						}
 					}

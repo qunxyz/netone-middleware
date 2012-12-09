@@ -11,6 +11,7 @@ import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
 import oe.midware.workflow.service.WorkflowConsole;
 import oe.midware.workflow.service.WorkflowView;
 import oe.midware.workflow.xpdl.model.activity.Activity;
+import oe.midware.workflow.xpdl.model.data.DataField;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 
@@ -610,15 +611,17 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			}
 			
 			// 获得流程的所有相关变量
-			List listRev = wfview.fetchRelevantVar((String) object
-					.get("runtimeid"));
+//			List listRev = wfview.fetchRelevantVar((String) object
+//					.get("runtimeid"));
+			Map map=wfview.fetchRelevantvarMap(runtimeid);
 
 			// 针对默认的流程关键变量设置参数
 			List linkToDyColumn = new ArrayList();
 			if (!multiAppname) {
-				for (Iterator iterator3 = listRev.iterator(); iterator3
-						.hasNext();) {
-					TWfRelevantvar name = (TWfRelevantvar) iterator3.next();
+				
+				DataField []datax=wfview.loadProcess(processidx).getDataField();
+				for(int j=0;j<datax.length;j++){
+					TWfRelevantvar name = (TWfRelevantvar)map.get(datax[j].getId());
 					String filedid = name.getDatafieldid();
 					boolean iskey = false;
 					for (int i = 0; i < AppHandleIfc._CORE_KEY_VAR.length; i++) {
@@ -652,15 +655,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 									}
 								
 								}
-								// else {
-								// if (StringUtils.isNotEmpty(valuenow)) {
-								// if (valuenow.length() > 10) {
-								// valuenow = StringUtils.substring(
-								// valuenow, 0, 10)
-								// + "...";
-								// }
-								// }
-								// }
+
 							}
 						}
 						if(!name.getDatafieldid().startsWith("r_")){
@@ -670,6 +665,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 					}
 
 				}
+
 			} else {
 				TWfRelevantvar name = null;
 

@@ -27,7 +27,6 @@ import com.jl.common.workflow.DbTools;
 import com.jl.common.workflow.TWfRelevant;
 import com.jl.common.workflow.TWfWorklistExt;
 import com.jl.common.workflow.WfEntry;
-import com.jl.entity.User;
 
 public final class WorklistVIewImpl implements WorklistViewIfc {
 
@@ -87,23 +86,20 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		// 获得所有许可的代办任务
 		String loadworklist = "";
 		String loadworklist_detail="";//根据权限提供显示流程所有工单
-		String condition = "";
+		String condition = " and w2.statusnow = '01'";
 		boolean flag = false;
 		if (query != null && !query.getValue().equals("")) {
 			flag=true;
 			if (!query.isTime()) {
-				condition = " and " + query.getId() + " like '%"
+				condition = condition + " and " + query.getId() + " like '%"
 						+ query.getValue() + "%' ";
-				if("w2.actname".equals(query.getId())){
-					condition = condition + " and w2.statusnow = '01'";
-				}
 			} else {
 				String fromtime = StringUtils.substringBefore(query.getValue(),
 						"_");
 				String totime = StringUtils.substringAfter(query.getValue(),
 						"_");
 				if (!fromtime.trim().equals("")) {
-					condition = " and " + query.getId() + ">='" + fromtime
+					condition = condition + " and " + query.getId() + ">='" + fromtime
 							+ "'";
 				}
 				if (!totime.trim().equals("")) {

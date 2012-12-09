@@ -232,11 +232,12 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		
 		for (int i = 0; i < datax.length; i++) {
 			String info=StringUtils.substringBetween(datax[i],"[","]");
+			String replace=StringUtils.substringBefore(datax[i], "[");
 		try{
 			Client3A client=SecurityEntry.iv().loadUser(info);
 			String deptname=client.getDeptname();
 			String phone=client.getMobile();
-			particiapntArr=StringUtils.replace(particiapntArr, "["+info+"]", "(/部门:"+deptname+"/手机:"+phone);
+			particiapntArr=StringUtils.replace(particiapntArr, replace+"[", replace+phone+"/"+deptname+"[");
 	
 		}catch(Exception e){
 			e.printStackTrace();

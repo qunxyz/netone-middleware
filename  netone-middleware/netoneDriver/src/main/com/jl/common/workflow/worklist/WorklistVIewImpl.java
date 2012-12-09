@@ -663,8 +663,10 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 								// }
 							}
 						}
+						if(!name.getDatafieldid().startsWith("r_")){
 						data.add(valuenow);
 						dataid.add(name.getDatafieldid());
+						}
 					}
 
 				}

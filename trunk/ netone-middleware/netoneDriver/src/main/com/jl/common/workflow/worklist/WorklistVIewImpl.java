@@ -621,7 +621,11 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				
 				DataField []datax=wfview.loadProcess(processidx).getDataField();
 				for(int j=0;j<datax.length;j++){
-					TWfRelevantvar name = (TWfRelevantvar)map.get(datax[j].getId());
+					Object info=map.get(datax[j].getId());
+					if(info==null){
+						continue;
+					}
+					TWfRelevantvar name = (TWfRelevantvar)info;
 					String filedid = name.getDatafieldid();
 					boolean iskey = false;
 					for (int i = 0; i < AppHandleIfc._CORE_KEY_VAR.length; i++) {

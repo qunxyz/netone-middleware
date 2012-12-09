@@ -68,7 +68,8 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		response.setContentType("text/html;charset=gbk");
 		String info=JSONArray.fromObject(list).toString();
 		response.getWriter().print(info);
-
+		response.getWriter().flush();
+		response.getWriter().close();
 	}
 	
 	private List menTop5(String deptid){

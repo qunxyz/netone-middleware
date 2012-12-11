@@ -58,10 +58,10 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 
 	public List<TWfWorklistExt> worklist(String customer) throws Exception {
 		// 获得所有许可的代办任务
-		String loadworklist = "select  w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,concat(w2.username,'[',w2.usercode,']') userinfo,w2.types,w2.sync  from t_wf_worklist w1 left join t_wf_participant w2 on  w1.workcode=w2.WORKCODE where w1.EXECUTESTATUS='01' and w2.usercode='"
+		String loadworklist = "select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,concat(w2.username,'[',w2.usercode,']') userinfo,w2.types,w2.sync  from t_wf_worklist w1 left join t_wf_participant w2 on  w1.workcode=w2.WORKCODE where w1.EXECUTESTATUS='01' and w2.usercode='"
 				+ customer + "' and w2.statusnow='01'";
 		if("adminx".equals(customer)){
-			loadworklist = "select  w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,concat(w2.username,'[',w2.usercode,']') userinfo,w2.types,w2.sync  from t_wf_worklist w1 left join t_wf_participant w2 on  w1.workcode=w2.WORKCODE where w1.EXECUTESTATUS='01'  and w2.statusnow='01'";
+			loadworklist = "select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,concat(w2.username,'[',w2.usercode,']') userinfo,w2.types,w2.sync  from t_wf_worklist w1 left join t_wf_participant w2 on  w1.workcode=w2.WORKCODE where w1.EXECUTESTATUS='01'  and w2.statusnow='01'";
 		}
 
 		return worklistCore(loadworklist);
@@ -1204,7 +1204,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		 + (new Timestamp(System.currentTimeMillis()))
 		 .toString()
 		 + "' where runtimeid='"
-		 + wl.getRuntimeid() + "' and STATUSNOW='01'");
+		 + wl.getRuntimeid() + "' and EXECUTESTATUS='01'");
 		 
 		 console
 		 .coreSqlhandle("update t_wf_runtime set STATUSNOW='02' where runtimeid='"
@@ -1885,7 +1885,6 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		return true;
 	}
 
-	@Override
 	public String[] errorProcess(String fromTime, String endTime) {
 		String sql="select runtimeid,workcode from t_wf_worklist where workcode not in(select workcode from t_wf_participant) where executestatus='01' and starttime>'"+fromTime+"' and starttime<'"+fromTime+"'";
 		List list=DbTools.queryData(sql);
@@ -1899,7 +1898,6 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		return (String[])listdata.toArray(new String[0]);
 	}
 
-	@Override
 	public int repairErrorProcess(String workcode, String commitercode,
 			String operatercode) {
 		WorkflowConsole console = null;
@@ -1927,7 +1925,6 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		return 0;
 	}
 
-	@Override
 	public int rollbackErrorProcess(String runtimeid,String workcode,String reActId) {
 		WorkflowConsole console = null;
 		WorkflowView wfview = null;
@@ -1951,7 +1948,6 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		return 0;
 	}
 
-	@Override
 	public boolean checkFinalAct(String workcode) throws Exception {
 		TWfWorklist wf = this.loadWorklist(workcode);
 		Activity act = this.loadProcess(wf.getProcessid()).getActivity(

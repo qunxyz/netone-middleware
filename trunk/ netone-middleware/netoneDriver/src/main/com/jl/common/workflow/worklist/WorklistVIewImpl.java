@@ -86,7 +86,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		// 获得所有许可的代办任务
 		String loadworklist = "";
 		String loadworklist_detail="";//根据权限提供显示流程所有工单
-		String condition = " and w2.statusnow = '01'";
+		String condition = "";
 		boolean flag = false;
 		if (query != null && !query.getValue().equals("")) {
 			flag=true;
@@ -136,7 +136,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				loadworklist_detail=StringUtils.replace(loadworklist, "w2.usercode='"+clientId+"'", " 1=1 ");
 
 			} else if (opemode.equals("('04')")) {// 阅读
-				loadworklist = "select  distinct w1.runtimeid  from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='"
+				loadworklist = "select distinct w1.runtimeid  from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='"
 						+ clientId
 						+ "' and w2.statusnow in ('01')"
 						+ processidStr
@@ -425,7 +425,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		if (query != null && !query.getValue().equals("")) {
 			flag=true;
 			if (!query.isTime()) {
-				condition = " and " + query.getId() + " like '%"
+				condition = condition + " and " + query.getId() + " like '%"
 						+ query.getValue() + "%' ";
 				if("w2.actname".equals(query.getId())){
 					condition = condition + " and w2.statusnow = '01'";
@@ -436,7 +436,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				String totime = StringUtils.substringAfter(query.getValue(),
 						"_");
 				if (!fromtime.trim().equals("")) {
-					condition = " and " + query.getId() + ">='" + fromtime
+					condition = condition + " and " + query.getId() + ">='" + fromtime
 							+ "'";
 				}
 				if (!totime.trim().equals("")) {
@@ -963,7 +963,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		if (query != null && !query.getValue().equals("")) {
 			flag=true;
 			if (!query.isTime()) {
-				condition = " and " + query.getId() + " like '%"
+				condition = condition + " and " + query.getId() + " like '%"
 						+ query.getValue() + "%' ";
 			} else {
 				String fromtime = StringUtils.substringBefore(query.getValue(),
@@ -971,11 +971,11 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				String totime = StringUtils.substringAfter(query.getValue(),
 						"_");
 				if (!fromtime.trim().equals("")) {
-					condition = " and " + query.getId() + ">='" + fromtime
+					condition = condition + " and " + query.getId() + ">='" + fromtime
 							+ "'";
 				}
 				if (!totime.trim().equals("")) {
-					condition = " and " + query.getId() + "<='" + totime + "'";
+					condition = condition + " and " + query.getId() + "<='" + totime + "'";
 				}
 			}
 		}
@@ -1152,7 +1152,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		if (query != null && !query.getValue().equals("")) {
 			flag=true;
 			if (!query.isTime()) {
-				condition = " and " + query.getId() + " like '%"
+				condition = condition + " and " + query.getId() + " like '%"
 						+ query.getValue() + "%' ";
 			} else {
 				String fromtime = StringUtils.substringBefore(query.getValue(),
@@ -1160,11 +1160,11 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 				String totime = StringUtils.substringAfter(query.getValue(),
 						"_");
 				if (!fromtime.trim().equals("")) {
-					condition = " and " + query.getId() + ">='" + fromtime
+					condition = condition + " and " + query.getId() + ">='" + fromtime
 							+ "'";
 				}
 				if (!totime.trim().equals("")) {
-					condition = " and " + query.getId() + "<='" + totime + "'";
+					condition = condition + " and " + query.getId() + "<='" + totime + "'";
 				}
 			}
 		}

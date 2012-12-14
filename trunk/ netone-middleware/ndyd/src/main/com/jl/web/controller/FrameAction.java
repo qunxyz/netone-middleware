@@ -996,20 +996,20 @@ public class FrameAction extends AbstractAction {
 						.contains(FrameService.trackActionSpecialTypeEND) || filteractiveids
 						.contains(FrameService.trackActionSpecialType4))) {// ¹éµµ
 			request.setAttribute("helpTip", "°ïÖúÌáÊ¾: Á÷³Ì½áÊø,Çëµã»÷Íê³É,½áÊøÁ÷³Ì¡£");
-			request.setAttribute("processEndTip", "Á÷³Ì½áÊø¡£");
+			request.setAttribute("processEndTip", "");
 			request.setAttribute("processTitle", "¹éµµ");
 			// result.addAll(listTrackActionEnd("¹éµµ"));
 			
+			if ( FrameService.trackActionSpecialType4.equalsIgnoreCase(filteractiveids)){
+				result.addAll(listTrackAction4("0"));//¹éµµ
+			}
 			if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
 				result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 				request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
 			}
-			if ( FrameService.trackActionSpecialType4.equalsIgnoreCase(filteractiveids)){
-				result.addAll(listTrackAction4("0"));//¹éµµ
-			}
 			if (filteractiveids==null) {
-				result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 				result.addAll(listTrackAction4("0"));//¹éµµ
+				result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 			}
 			request.setAttribute("processList", result);
 			request.setAttribute("isend", "true");
@@ -1091,32 +1091,32 @@ public class FrameAction extends AbstractAction {
 						.getParticipantmode())
 						&& StringUtils.isEmpty(filteractiveids) && isEnd) {
 					// result.addAll(listTrackActionEnd("¹éµµ"));
-					if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
-						result.addAll(listTrackAction2_2("0"));//³­ÔÄ
-					}
 					if ( FrameService.trackActionSpecialType4.equalsIgnoreCase(filteractiveids)){
 						result.addAll(listTrackAction4("0"));//¹éµµ
 					}
-					if (filteractiveids==null) {
+					if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
 						result.addAll(listTrackAction2_2("0"));//³­ÔÄ
+					}
+					if (filteractiveids==null) {
 						result.addAll(listTrackAction4("0"));//¹éµµ
+						result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 					}
 				}
 			} else {
 				request.setAttribute("helpTip", "°ïÖúÌáÊ¾: Á÷³Ì½áÊø,Çëµã»÷Íê³É,½áÊøÁ÷³Ì¡£");
-				request.setAttribute("processEndTip", "Á÷³Ì½áÊø¡£");
+				request.setAttribute("processEndTip", "");
 				request.setAttribute("processTitle", "¹éµµ");
 				// result.addAll(listTrackActionEnd("¹éµµ"));
+				if ( FrameService.trackActionSpecialType4.equalsIgnoreCase(filteractiveids)){
+					result.addAll(listTrackAction4("0"));//¹éµµ
+				}
 				if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
 					result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 					request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
 				}
-				if ( FrameService.trackActionSpecialType4.equalsIgnoreCase(filteractiveids)){
-					result.addAll(listTrackAction4("0"));//¹éµµ
-				}
 				if (filteractiveids==null) {
-					result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 					result.addAll(listTrackAction4("0"));//¹éµµ
+					result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 				}
 				
 				request.setAttribute("processList", result);

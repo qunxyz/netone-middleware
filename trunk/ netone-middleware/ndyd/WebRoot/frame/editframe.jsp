@@ -599,6 +599,7 @@ function _delete(t){
 	                Ext.ux.Toast.msg("", result.tip);
 	            	if (t!=null && t==0){//归档
 	            		$disabledall();
+	            		alert(result.tip);
 	            		_refreshOpenerWin();
 		            	window.open("","_self");
 		            	window.opener=null;

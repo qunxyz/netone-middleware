@@ -134,9 +134,9 @@ public class WfReportUtil {
 			String rsid=rs.loadResourceByNatural(rootname).getId();
 			UmsProtectedobject upo=new UmsProtectedobject();
 			upo.setParentdir(rsid);
-			List dept=rs.queryObjectProtectedObj(upo, null, 0, 1000, " order by reference desc");
-			ComparatorDept comparator=new ComparatorDept();
-			Collections.sort(dept, comparator);
+			List dept=rs.queryObjectProtectedObj(upo, null, 0, 1000, " ORDER BY CONVERT(reference,SIGNED) desc");
+			//ComparatorDept comparator=new ComparatorDept();
+			//Collections.sort(dept, comparator);
 			Map dept_people=new HashMap();
 		long time=System.currentTimeMillis();
 		for (Iterator iterator = dept.iterator(); iterator.hasNext();) {

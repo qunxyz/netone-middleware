@@ -1015,7 +1015,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			//需要检查是回退还是正常下一步，现在因为大部分是手工提交
 			List list=new ArrayList();
 			TWfWorklist worklist=this.loadWorklist(workcode);
-			findNext(worklist,list);
+			findNext(worklist,list,2);
 			boolean isback=true;
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				Activity object = (Activity) iterator.next();
@@ -1033,7 +1033,11 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		}
 	}
 	
-	private void findNext(TWfWorklist object, List listRouteAimActivity) {
+	private void findNext(TWfWorklist object, List listRouteAimActivity,int loop) {
+		loop--;//防止递归死循环，最多允许递归3次
+		if(loop<0){
+			return;
+		}
 		Map map=null;
 		try {
 			map = this.loadProcess(object.getProcessid()).getActivity(object.getActivityid()).getEfferentTransitions();
@@ -1050,7 +1054,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			Activity actNext = trans.getToActivity();
 			if (actNext.getImplementation() == null) {// 空节点忽略
 				Map mapx = actNext.getEfferentTransitions();
-				findNext(object, listRouteAimActivity);
+				findNext(object, listRouteAimActivity,loop);
 				continue;
 			}
 			listRouteAimActivity.add(actNext);

@@ -1,12 +1,9 @@
 package com.jl.common.workflow.worklist;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
 import oe.midware.workflow.service.WorkflowConsole;
 import oe.midware.workflow.service.WorkflowView;
@@ -14,11 +11,8 @@ import oe.midware.workflow.xpdl.model.activity.Activity;
 import oe.midware.workflow.xpdl.model.data.DataField;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
-
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
-
 import com.jl.common.app.AppEntry;
 import com.jl.common.app.AppHandleIfc;
 import com.jl.common.app.AppObj;

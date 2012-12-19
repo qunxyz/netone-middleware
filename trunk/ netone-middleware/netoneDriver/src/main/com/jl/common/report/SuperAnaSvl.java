@@ -3,6 +3,7 @@ package com.jl.common.report;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.NotBoundException;
+import java.sql.Connection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
-import oracle.net.aso.i;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.record.formula.functions.Db;
-import org.apache.poi.hssf.record.formula.functions.Int;
 
 import com.jl.common.workflow.DbTools;
 import com.jl.entity.PointDx;
@@ -82,26 +79,30 @@ public class SuperAnaSvl extends HttpServlet {
 			List list2=null;
 			String dbsource=request.getParameter("sour");
 			if("oracle".equals(dbsource)){
-				
 				try {
 					ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
 					UmsProtectedobject upo=(UmsProtectedobject)rs.loadResourceByNatural(form1);
 					String referenceString=upo.getReference();
 					//tablename@table1,url@localhost,driver@com.orcele,username@roosd,pasword@sdfds
-					StringUtils.split(",");
-					
+					//test,jdbc:oracle:thin:@127.0.0.1:1521:ORCL,oracle.jdbc.driver.OracleDriver,FJCRNOP,orcl
+					String[] par = StringUtils.split(referenceString,",");
+					String tablename = par[0];
+					String url = par[1];
+					String driver = par[2];
+					String name = par[3];
+					String password = par[4];
+					Connection con = DbTools.getOuterCon(driver, url, name, password);
 					sql1=" select "+table1_col+" from dyform."+table1+" where " +table1_con;
-					sql2=" select "+table2_col+" from dyform."+table2+" where " +table2_con;
+					sql2=" select "+table2_col+" from "+ name + "." +tablename+" where " +table2_con;
 					list1=DbTools.queryData(sql1);
-					list2=DbTools.queryData(sql2);
-					
+					list2=DbTools.queryData(sql2,con);			
 				} catch (NotBoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
-				
-
 			}else{
 				sql1=" select "+table1_col+" from dyform."+table1+" where " +table1_con;
 				sql2=" select "+table2_col+" from dyform."+table2+" where " +table2_con;

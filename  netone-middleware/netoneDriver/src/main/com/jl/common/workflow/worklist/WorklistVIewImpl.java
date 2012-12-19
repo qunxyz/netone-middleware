@@ -55,7 +55,6 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		int sizecolumn = 0;
 		Map wf2dycfg = null;
 		if (StringUtils.isNotEmpty(appname)) {
-
 			String appnameall[] = appname.split(",");
 			if (appnameall.length > 1) {
 				multiAppname = true;
@@ -65,7 +64,6 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 					sizecolumn = columnx.size();
 					wf2dycfg = AppEntry.iv().wf2dyformBindCfg2(appname);
 				}
-
 			}
 			StringBuffer but = new StringBuffer();
 			for (int i = 0; i < appnameall.length; i++) {
@@ -427,9 +425,6 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			if (!query.isTime()) {
 				condition = condition + " and " + query.getId() + " like '%"
 						+ query.getValue() + "%' ";
-				if("w2.actname".equals(query.getId())){
-					condition = condition + " and w2.statusnow = '01'";
-				}
 			} else {
 				String fromtime = StringUtils.substringBefore(query.getValue(),
 						"_");
@@ -601,9 +596,9 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 			String timeuse=this.timeUse(workcode);
 			if(act==null){
 				act =new Activity();
-				act.setName("未知节点"+statusinfo+":"+timeuse+"天");
+				act.setName("未知节点"+statusinfo+":"+timeuse+"小时");
 			}else{
-				act.setName(act.getName()+statusinfo+":"+timeuse+"天");
+				act.setName(act.getName()+statusinfo+":"+timeuse+"小时");
 			}
 			
 			// 获得流程的所有相关变量
@@ -899,7 +894,7 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		if(enx!=null){
 			time2=Timestamp.valueOf(enx).getTime();
 		}
-		return String.valueOf((time2-time1)/(1000*60*60*24));
+		return String.valueOf((time2-time1)/(1000*60*60));
 	}
 
 

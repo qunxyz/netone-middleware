@@ -237,7 +237,7 @@ public class AppHandleImpl2 implements AppHandleIfc {
 			Client3A client=SecurityEntry.iv().loadUser(info);
 			String deptname=client.getDeptname();
 			String phone=client.getMobile();
-			particiapntArr=StringUtils.replace(particiapntArr, replace+"[", replace+phone+"/"+deptname+"[");
+			particiapntArr=StringUtils.replace(particiapntArr, replace+"[", replace+ " " +deptname+"/"+phone+"[");
 	
 		}catch(Exception e){
 			e.printStackTrace();

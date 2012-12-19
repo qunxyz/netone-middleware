@@ -1724,7 +1724,7 @@ public class FrameAction extends AbstractAction {
 						+ createtime
 						+ "</td>"
 						+ "<td nowrap=\"nowrap\" width=\"20%\"  class=\"label_nd_2\">"
-						+ object.getCommitername()
+						+ StringUtils.substringBefore(object.getCommitername(), " ")
 						+ "</td>"
 						+ "<td nowrap=\"nowrap\" width=\"40%\"  class=\"label_nd_2\">"
 						+ opemodeX

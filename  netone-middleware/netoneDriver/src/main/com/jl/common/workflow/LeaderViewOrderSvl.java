@@ -1,6 +1,9 @@
 package com.jl.common.workflow;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,10 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
-
 import net.sf.json.JSONArray;
 import oe.frame.web.WebCache;
+import oe.rmi.client.RmiEntry;
+import oe.security3a.client.rmi.ResourceRmi;
+
+import org.apache.commons.lang.StringUtils;
 
 public class LeaderViewOrderSvl extends HttpServlet {
 
@@ -137,6 +142,21 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		//从后台cache中获得所有流程的总代办工作量
 		Map procecmax_tmp=new HashMap();
 		List procemax=new ArrayList();
+		String deptname=null;
+		try {
+			ResourceRmi rsrmi=(ResourceRmi)RmiEntry.iv("resource");
+			deptname=rsrmi.loadResourceById(deptid).getNaturalname();
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			Map object = (Map) iterator.next();
 			String keyx=(String)object.get("nax");
@@ -144,14 +164,15 @@ public class LeaderViewOrderSvl extends HttpServlet {
 //			Map data1=(Map)WebCache.getCache("lv_proc"+key);
 //			if(data1==null)continue;
 //			Long value=(Long)data1.get("doing");
-			String keyfordata=deptid+key;
+			String keyfordata=deptname+key;
 			List data1=(List)WebCache.getCache(keyfordata);
-			int value=0;
+			long value=0;
+			if(data1==null)continue;
 			for (Iterator iterator2 = data1.iterator(); iterator2.hasNext();) {
 				Map object2 = (Map) iterator2.next();
 				String rsx=(String)object2.get("this_doing");
 				String size=StringUtils.substringAfter(rsx, "#");
-				int sizevalue=0;
+				long sizevalue=0;
 				try{
 					sizevalue=Integer.parseInt(size);
 				}catch(Exception e){

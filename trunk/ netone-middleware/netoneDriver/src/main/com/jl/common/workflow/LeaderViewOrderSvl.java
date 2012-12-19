@@ -73,7 +73,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 	}
 	
 	private List menTop5(String deptid){
-		String sql="select username name,convert(count(*),char) value from netone.t_wf_participant where STATUSNOW='01' and username != 'adminx' group by usercode order by count(*) desc limit 0,5";
+		String sql="select w1.username name,convert(count(*),char) value,count(*) value1 from netone.t_wf_participant w1,netone.t_wf_worklist w2 where w2.WORKCODE=w1.workcode and w1.STATUSNOW='01' and w2.EXECUTESTATUS='01' and w1.username != 'adminx' group by w1.usercode order by value1 desc limit 0,5";
 		return DbTools.queryData(sql);
 	}
 	
@@ -141,13 +141,29 @@ public class LeaderViewOrderSvl extends HttpServlet {
 			Map object = (Map) iterator.next();
 			String keyx=(String)object.get("nax");
 			String key=StringUtils.substringBefore(keyx, "#");
-			Map data1=(Map)WebCache.getCache("lv_proc"+key);
-			if(data1==null)continue;
-			Long value=(Long)data1.get("doing");
+//			Map data1=(Map)WebCache.getCache("lv_proc"+key);
+//			if(data1==null)continue;
+//			Long value=(Long)data1.get("doing");
+			String keyfordata=deptid+key;
+			List data1=(List)WebCache.getCache(keyfordata);
+			int value=0;
+			for (Iterator iterator2 = data1.iterator(); iterator2.hasNext();) {
+				Map object2 = (Map) iterator2.next();
+				String rsx=(String)object2.get("this_doing");
+				String size=StringUtils.substringAfter(rsx, "#");
+				int sizevalue=0;
+				try{
+					sizevalue=Integer.parseInt(size);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				value+=sizevalue;
+			}
+			
 			procecmax_tmp.put(keyx, value);
 			procemax.add(value);
 		}
-		System.out.print("size:------"+procemax.size());
+		
 		Long []procMa=(Long[])procemax.toArray(new Long[0]);
 		Arrays.sort(procMa);
 		List procemaxFinal=new ArrayList();

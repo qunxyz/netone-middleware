@@ -23,6 +23,8 @@ import oe.security3a.client.rmi.ResourceRmi;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
 public class LeaderViewOrderSvl extends HttpServlet {
 
 	/**
@@ -143,6 +145,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		Map procecmax_tmp=new HashMap();
 		List procemax=new ArrayList();
 		String deptname=null;
+		if(!deptid.startsWith("DEPT.DEPT")){
 		try {
 			ResourceRmi rsrmi=(ResourceRmi)RmiEntry.iv("resource");
 			deptname=rsrmi.loadResourceById(deptid).getNaturalname();
@@ -155,6 +158,9 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		} catch (NotBoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+		}else{
+			deptname=deptid;
 		}
 
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {

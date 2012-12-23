@@ -92,6 +92,7 @@ public class CreateSubSvl extends HttpServlet {
 					if(key.equalsIgnoreCase(act[i].getId())){
 						isUseful=true;
 						object.setName(act[i].getName());
+						break;
 					}
 				}
 				if(!isUseful){

@@ -81,7 +81,7 @@ public class SuperAnaSvl extends HttpServlet {
 			if("oracle".equals(dbsource)){
 				try {
 					ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
-					UmsProtectedobject upo=(UmsProtectedobject)rs.loadResourceByNatural(form1);
+					UmsProtectedobject upo=(UmsProtectedobject)rs.loadResourceByNatural(form2);
 					String referenceString=upo.getReference();
 					//tablename@table1,url@localhost,driver@com.orcele,username@roosd,pasword@sdfds
 					//test,jdbc:oracle:thin:@127.0.0.1:1521:ORCL,oracle.jdbc.driver.OracleDriver,FJCRNOP,orcl
@@ -91,6 +91,7 @@ public class SuperAnaSvl extends HttpServlet {
 					String driver = par[2];
 					String name = par[3];
 					String password = par[4];
+					System.out.println(tablename + "_" + url + "_" + driver + "_" + name + "_" + password);
 					Connection con = DbTools.getOuterCon(driver, url, name, password);
 					sql1=" select "+table1_col+" from dyform."+table1+" where " +table1_con;
 					sql2=" select "+table2_col+" from "+ name + "." +tablename+" where " +table2_con;
@@ -235,18 +236,18 @@ public class SuperAnaSvl extends HttpServlet {
 					sqx.setY(((java.math.BigDecimal)object2.get("poffy")).longValue());
 					if("1".equals(mode)){
 						if(isInclude(sqx, sq2, sq, sq3, jl))
-							but2.append(sqx.getX()+","+sqx.getY()+",,"+"http://42.120.52.168:82/mapapp/images/mark.gif,\n");
+							but2.append(sqx.getX()+","+sqx.getY()+",,"+"http://127.0.0.1:8001/ndyd/images/mark.gif,\n");
 					} else if ("2".equals(mode)){
 						if(!isInclude(sqx, sq2, sq, sq3, jl))
-							but2.append(sqx.getX()+","+sqx.getY()+",,"+"http://42.120.52.168:82/mapapp/images/mark.gif,\n");
+							but2.append(sqx.getX()+","+sqx.getY()+",,"+"http://127.0.0.1:8001/ndyd/images/mark.gif,\n");
 					} else {
-						but2.append(sqx.getX()+","+sqx.getY()+",,"+"http://42.120.52.168:82/mapapp/images/mark.gif,\n");
+						but2.append(sqx.getX()+","+sqx.getY()+",,"+"http://127.0.0.1:8001/ndyd/images/mark.gif,\n");
 					}
 				}
 			}
 			request.setAttribute("coords", but1.toString());
 			request.setAttribute("mappoint", but2.toString());
-			request.setAttribute("picurl", "http://pic1.sc.chinaz.com/files/pic/pic9/201210/xpic8159.jpg");
+			request.setAttribute("picurl", "http://127.0.0.1:8001/ndyd/images/images_fz.jpg");
 			request.getRequestDispatcher("/map.jsp").forward(request, response);
 		}
 	}

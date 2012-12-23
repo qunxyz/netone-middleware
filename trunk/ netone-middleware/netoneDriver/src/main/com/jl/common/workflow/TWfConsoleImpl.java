@@ -347,7 +347,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				+ runtimeid + "' and EXECUTESTATUS='"
 				+ RuntimeWorklistRef.STATUS_RUNNING[0] + "'");
 		
-		String sql="select valuenow vx from t_wf_relevantvar where runtimeid='"+runtimeid+"' and DATAFIELDID='bussid'";
+		String sql="select valuenow vx from netone.t_wf_relevantvar where runtimeid='"+runtimeid+"' and DATAFIELDID='bussid'";
 		List list=DbTools.queryData(sql);
 		if(list.size()>0){
 			Map map=(Map)list.get(0);
@@ -380,7 +380,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		console.coreSqlhandle("delete from t_wf_worklist where runtimeid='"
 				+ runtimeid + "'");
 		
-		String sql="select valuenow vx from t_wf_relevantvar where runtimeid='"+runtimeid+"' and DATAFIELDID='bussid'";
+		String sql="select valuenow vx from netone.t_wf_relevantvar where runtimeid='"+runtimeid+"' and DATAFIELDID='bussid'";
 		List list=DbTools.queryData(sql);
 		if(list.size()>0){
 			Map map=(Map)list.get(0);
@@ -1890,7 +1890,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 	}
 
 	public String[] errorProcess(String fromTime, String endTime) {
-		String sql="select runtimeid,workcode from t_wf_worklist where workcode not in(select workcode from t_wf_participant) where executestatus='01' and starttime>'"+fromTime+"' and starttime<'"+fromTime+"'";
+		String sql="select runtimeid,workcode from netone.t_wf_worklist where workcode not in(select workcode from netone.t_wf_participant) where executestatus='01' and starttime>'"+fromTime+"' and starttime<'"+fromTime+"'";
 		List list=DbTools.queryData(sql);
 		List listdata=new ArrayList();
 		for (Iterator iterator = listdata.iterator(); iterator.hasNext();) {

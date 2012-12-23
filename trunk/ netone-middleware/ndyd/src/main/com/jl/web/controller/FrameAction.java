@@ -1004,8 +1004,8 @@ public class FrameAction extends AbstractAction {
 				result.addAll(listTrackAction4("0"));//¹éµµ
 			}
 			if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
-				//result.addAll(listTrackAction2_2("0"));//³­ÔÄ
-				//request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
+				result.addAll(listTrackAction2_2("0"));//³­ÔÄ
+				request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
 			}
 			if (filteractiveids==null) {
 				result.addAll(listTrackAction4("0"));//¹éµµ
@@ -1111,8 +1111,8 @@ public class FrameAction extends AbstractAction {
 					result.addAll(listTrackAction4("0"));//¹éµµ
 				}
 				if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
-					//result.addAll(listTrackAction2_2("0"));//³­ÔÄ
-					//request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
+					result.addAll(listTrackAction2_2("0"));//³­ÔÄ
+					request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
 				}
 				if (filteractiveids==null) {
 					result.addAll(listTrackAction4("0"));//¹éµµ
@@ -1635,7 +1635,7 @@ public class FrameAction extends AbstractAction {
 						string += "<div style=\"padding:10px\">"
 								+ object.getAuditnode()
 								+ "</div><div style=\"text-align:center;border-bottom:1px solid #58b4f0;\"><B>"
-								+ object.getUsername() + "</B>  " + donetime
+								+ StringUtils.substringBefore(object.getUsername(), " ") + "</B>  " + donetime
 								+ "</div>";
 					}
 				}
@@ -1732,7 +1732,7 @@ public class FrameAction extends AbstractAction {
 						+ "(ÓÃÊ±" + day + "Ìì" + hour + "Ð¡Ê±" + min + "·Ö" + ")" 
 						+ "</td>"
 						+ "<td nowrap=\"nowrap\" width=\"20%\"  class=\"label_nd_2\">"
-						+ object.getUsername()
+						+ StringUtils.substringBefore(object.getUsername(), " ")
 						+ opemode
 						+ sync
 						+ "</td>"

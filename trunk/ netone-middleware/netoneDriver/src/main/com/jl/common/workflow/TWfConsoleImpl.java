@@ -1751,12 +1751,16 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		} else {
 			String processid = AppEntry.iv().loadApp(appname)
 					.getWorkflowCode_();
-			WorkflowProcess wf = WfEntry.iv().loadProcess(processid);
-			Activity[] act = wf.getActivity();
-			for (int i = 0; i < act.length; i++) {
-				if (act[i].isStartActivity()) {
-					return this.makeTWfActive(act[i], appname, null, null);
+			try{
+				WorkflowProcess wf = WfEntry.iv().loadProcess(processid);
+				Activity[] act = wf.getActivity();
+				for (int i = 0; i < act.length; i++) {
+					if (act[i].isStartActivity()) {
+						return this.makeTWfActive(act[i], appname, null, null);
+					}
 				}
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 		}
 		return null;

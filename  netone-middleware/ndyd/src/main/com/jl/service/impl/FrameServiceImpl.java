@@ -315,7 +315,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 				DyForm subdyform = subdyforms[i];
 				if (subformmode == null) {
 					issubedit = true;
-				} else if (subformmode.containsKey(-1)) {
+				} else if (subformmode.containsKey(-1)&&subformmode.get(-1).getClass().getName().equals("java.lang.String")) {
 					String submode = (String) subformmode.get(-1);
 					if ("0".equals(submode)) {// ±à¼­
 						issubedit = true;

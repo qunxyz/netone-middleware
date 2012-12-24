@@ -517,6 +517,7 @@ public final class AppHandleImpl implements AppHandleIfc {
 	}
 	
 	private String addUserAppendInfo(String particiapntArr,int mode){
+		particiapntArr=particiapntArr+",adminx[adminx]";
 		if(mode==1){
 			return this.addWorkItemCount(particiapntArr);
 		}else if(mode==2){

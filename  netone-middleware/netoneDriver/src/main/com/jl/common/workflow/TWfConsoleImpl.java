@@ -1760,10 +1760,14 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 					}
 				}
 			}catch(Exception e){
-				e.printStackTrace();
+				System.err.print("没有配置应用框架节点");
 			}
 		}
-		return null;
+		TWfActive act=new TWfActive();
+		act.setId("xxxx");
+		act.setName("测试节点");
+		
+		return act;
 
 	}
 

@@ -519,13 +519,13 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 
 		if (StringUtils.isNotEmpty(processlen)) {
 			Integer len = Integer.parseInt(processlen);
-			filteractiveids_.replaceAll(FrameService.trackActionSpecialType1,
+			filteractiveids_=filteractiveids_.replaceAll(FrameService.trackActionSpecialType1+",",
 					"");
-			filteractiveids_.replaceAll(FrameService.trackActionSpecialType2,
+			filteractiveids_=filteractiveids_.replaceAll(FrameService.trackActionSpecialType2+",",
 					"");
-			filteractiveids_.replaceAll(FrameService.trackActionSpecialType3,
+			filteractiveids_=filteractiveids_.replaceAll(FrameService.trackActionSpecialType3+",",
 					"");
-			filteractiveids_.replaceAll(FrameService.trackActionSpecialType4,
+			filteractiveids_=filteractiveids_.replaceAll(FrameService.trackActionSpecialType4+",",
 					"");
 			// filteractiveids_.replaceAll(FrameService.trackActionSpecialTypeEND,
 			// "");
@@ -546,7 +546,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 			} else {
 				if (len == 0) {
 					end = true;
-				} else if (aids.length != activityMap.size()) {
+				} else if (aids.length != activityMap.size() && activityMap.size()!=0) {
 					json.put("tip", "存在多个流程,请在所有分支流程指派人员!");
 					json.put("error", "yes");
 					return json.toString();

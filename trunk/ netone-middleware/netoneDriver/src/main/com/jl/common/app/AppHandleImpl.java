@@ -338,8 +338,7 @@ public final class AppHandleImpl implements AppHandleIfc {
 		Activity act = wf.getActivity(actid);
 
 		TWfActive actx= loadCfgActiveCore(act, commiter, upo, runtimeid);
-		long time=System.currentTimeMillis() + 1800000L;
-		Date dateinfo = new Date(time);
+	
 		//WebCache.setCache(key, actx,dateinfo );
 		return actx;
 		
@@ -466,7 +465,7 @@ public final class AppHandleImpl implements AppHandleIfc {
 		actx.setFormEdit(formedit);
 		actx.setEditcolumn(perssiomcolumn);
 		actx.setFobitzb(fobitzb);
-
+		
 		return actx;
 	}
 	

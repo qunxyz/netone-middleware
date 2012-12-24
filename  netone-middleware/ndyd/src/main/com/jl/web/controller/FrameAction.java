@@ -488,8 +488,13 @@ public class FrameAction extends AbstractAction {
 			} else {
 				request.setAttribute("processid", processid);
 			}
-			request.setAttribute("ValidateScript", DyFormBuildHtml
-					.buildValidateScript(dyform));
+			if (permission) {
+				request.setAttribute("ValidateScript", DyFormBuildHtml
+						.buildValidateScript(dyform));
+				}else{
+					request.setAttribute("ValidateScript"," return true;");	
+				}
+
 			request
 					.setAttribute("datecompFunc", DyFormComp
 							.getInitFuncScript());
@@ -804,7 +809,6 @@ public class FrameAction extends AbstractAction {
 					}
 				}
 			}
-
 		} catch (Exception e) {
 			json.put("tip", "Ê§°Ü!");
 			json.put("error", "yes");

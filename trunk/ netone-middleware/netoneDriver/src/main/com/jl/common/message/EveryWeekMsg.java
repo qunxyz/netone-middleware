@@ -35,7 +35,7 @@ public final class EveryWeekMsg {
 				String usercode = (String) object.get("usercode");
 				String context = "";
 				if (countx > 1) {
-					context = "友情提醒："+Message.msg_head + countx
+					context = Message.msg_app+"友情提醒："+Message.msg_head + countx
 							+ "条未处理工单，"+Message.msg_end;
 					String[] info = { usercode, context };
 					msgTo.add(info);

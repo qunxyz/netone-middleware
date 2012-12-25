@@ -240,7 +240,7 @@ public class WfReportUtil {
 		if(!"all".equals(processid)&&StringUtils.isNotEmpty(processid)){
 			condition=" processid='"+processid+"'";
 		}else{
-			condition=" and processid in (SELECT  naturalname FROM netone.ums_protectedobject WHERE PARENTDIR IN(SELECT id "+
+			condition=" processid in (SELECT  naturalname FROM netone.ums_protectedobject WHERE PARENTDIR IN(SELECT id "+
                    "FROM netone.ums_protectedobject"+
                    "WHERE NATURALNAME = 'BUSSWF.BUSSWF.NDYD') and active='1')";
 		}

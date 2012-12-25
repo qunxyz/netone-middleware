@@ -241,8 +241,8 @@ public class WfReportUtil {
 			condition=" processid='"+processid+"'";
 		}else{
 			condition=" processid in (SELECT  naturalname FROM netone.ums_protectedobject WHERE PARENTDIR IN(SELECT id "+
-                   "FROM netone.ums_protectedobject"+
-                   "WHERE NATURALNAME = 'BUSSWF.BUSSWF.NDYD') and active='1')";
+                   "FROM netone.ums_protectedobject "+
+                   " WHERE NATURALNAME = 'BUSSWF.BUSSWF.NDYD') and active='1')";
 		}
 		String sql_doing="select count(*) cou from netone.t_wf_runtime where statusnow='01' and "+condition;
 		String sql_all="select count(*) cou from netone.t_wf_runtime where statusnow in('01','02') and "+condition;

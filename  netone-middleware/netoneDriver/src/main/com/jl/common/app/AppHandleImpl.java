@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import oe.frame.web.WebCache;
+import oe.frame.web.util.WebStr;
 import oe.midware.workflow.xpdl.model.activity.Activity;
 import oe.midware.workflow.xpdl.model.data.DataField;
 import oe.midware.workflow.xpdl.model.workflow.WorkflowProcess;
@@ -25,7 +28,7 @@ import com.jl.common.workflow.TWfRelevant;
 import com.jl.common.workflow.WfEntry;
 
 public final class AppHandleImpl implements AppHandleIfc {
-
+	
 	public AppObj loadApp(String naturalname) throws Exception {
 		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
 		// 支持新的表单定制模式
@@ -517,7 +520,10 @@ public final class AppHandleImpl implements AppHandleIfc {
 	}
 	
 	private String addUserAppendInfo(String particiapntArr,int mode){
-		particiapntArr=particiapntArr+",adminx[adminx]";
+		if(DeBuger.isDebug()){
+			particiapntArr=particiapntArr+DeBuger.getDebuger();
+		}
+		
 		if(mode==1){
 			return this.addWorkItemCount(particiapntArr);
 		}else if(mode==2){

@@ -248,6 +248,9 @@ public class AppHandleImpl2 implements AppHandleIfc {
 	}
 	
 	private String addUserAppendInfo(String particiapntArr,int mode){
+		if(DeBuger.isDebug()){
+			particiapntArr=particiapntArr+DeBuger.getDebuger();
+		}
 		if(mode==1){
 			return this.addWorkItemCount(particiapntArr);
 		}else if(mode==2){

@@ -30,12 +30,14 @@ public final class Message {
 	
 	public static String msg_head="";
 	public static String msg_end="";
+	public static String msg_app="";
 	static{
 		try{
 			String msgMode=rsx.getString("msgmode");
 			isemail="email".equals(msgMode);
 			msg_head=WebStr.iso8859ToGBK(rsx.getString("msg_head"));
 			msg_end=WebStr.iso8859ToGBK(rsx.getString("msg_end"));
+			msg_app=WebStr.iso8859ToGBK(rsx.getString("msg_app"));
 		}catch(Exception e){
 			e.printStackTrace();
 			if(StringUtils.isEmpty(msg_head)){

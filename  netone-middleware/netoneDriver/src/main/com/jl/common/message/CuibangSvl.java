@@ -72,7 +72,7 @@ public final class CuibangSvl extends HttpServlet {
 				String noticetitle = revtemp != null ? revtemp.getValuenow()
 						: "";
 
-				String context = "[催办提醒]"+Message.msg_head+"文件标题:"+ noticetitle+"("+appnametip+")";
+				String context = Message.msg_app+"催办提醒:"+Message.msg_head+appnametip+"待办任务.文件标题:"+ noticetitle;
 				request.setAttribute("context", context);
 				request.setAttribute("workcode", workcode);
 				request.setAttribute("username", ", 发送人:" + username + Message.msg_end);

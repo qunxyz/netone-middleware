@@ -96,8 +96,10 @@ public class CreateSubSvl extends HttpServlet {
 					}
 				}
 				if(!isUseful){
-					resourceRmi.dropResource(object.getId());
+					//System.out.println("del:"+object.getId());
+					//resourceRmi.dropResource(object.getId());
 				}else{
+					System.out.println("update:"+object.getId());
 					//¸üÐÂÃû×Ö
 					resourceRmi.updateResource(object);
 				}

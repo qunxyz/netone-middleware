@@ -134,7 +134,9 @@ public class WfReportUtil {
 			String rsid=rs.loadResourceByNatural(rootname).getId();
 			UmsProtectedobject upo=new UmsProtectedobject();
 			upo.setParentdir(rsid);
+			System.out.println("dept total:");
 			List dept=rs.queryObjectProtectedObj(upo, null, 0, 1000, " ORDER BY CONVERT(reference,SIGNED) desc");
+			System.out.println(dept.size());
 			//ComparatorDept comparator=new ComparatorDept();
 			//Collections.sort(dept, comparator);
 			Map dept_people=new HashMap();
@@ -145,7 +147,9 @@ public class WfReportUtil {
 			if(!dept_people.containsKey(naturalname)){
 				String people_sql="SELECT usercode FROM netone.t_cs_user WHERE systemid IN(SELECT id FROM netone.ums_protectedobject"+ 
 						" WHERE naturalname LIKE '"+naturalname+"%' )";
+				System.out.println("people in dept:");
 				List listx=DbTools.queryData(people_sql);
+				System.out.println(listx.size());
 				StringBuffer butuser=new StringBuffer();
 				for (Iterator iterator2 = listx.iterator(); iterator2.hasNext();) {
 					Map object2 = (Map) iterator2.next();
@@ -168,8 +172,9 @@ public class WfReportUtil {
 			}else{
 				sql_this_week=StringUtils.replace(sql_this_week, "$processid$","processid='"+processid+"' and ");
 			}
-
+			System.out.println("this week:");
 			List this_week=DbTools.queryData(sql_this_week);
+			System.out.println(this_week.size());
 			StringBuffer this_week_but=new StringBuffer();
 			for (Iterator iterator2 = this_week.iterator(); iterator2
 					.hasNext();) {
@@ -190,8 +195,9 @@ public class WfReportUtil {
 			}else{
 				sql_doing=StringUtils.replace(sql_doing, "$processid$","processid='"+processid+"' and ");
 			}
-
+			System.out.println("处理中:");
 			List this_doingArr=DbTools.queryData(sql_doing);
+			System.out.println(this_doingArr.size());
 			StringBuffer this_doingbut=new StringBuffer();
 			for (Iterator iterator2 = this_doingArr.iterator(); iterator2
 					.hasNext();) {
@@ -212,8 +218,9 @@ public class WfReportUtil {
 			}else{
 				sql_over48=StringUtils.replace(sql_over48, "$processid$","processid='"+processid+"' and ");
 			}
-			
+			System.out.println("超48小时:");
 			List this_over48Arr=DbTools.queryData(sql_over48);
+			System.out.println(this_over48Arr.size());
 			StringBuffer this_over48But=new StringBuffer();
 			for (Iterator iterator2 = this_over48Arr.iterator(); iterator2
 					.hasNext();) {

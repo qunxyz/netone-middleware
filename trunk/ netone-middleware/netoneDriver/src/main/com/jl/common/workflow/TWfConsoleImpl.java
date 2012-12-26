@@ -805,8 +805,8 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			String noticetitle = revtemp != null ? revtemp.getValuenow() : "";
 			String appnametip = AppEntry.iv().loadApp(appname).getName();
 			
-			String context = Message.msg_head+",文件标题:" + noticetitle + "("
-					+ appnametip + "), 发送人:" + fromUserObj.getName()
+			String context = "您好!您在"+Message.msg_head+"新的"+appnametip+"待办任务.文件标题:" + noticetitle
+					+  ", 发送人:" + fromUserObj.getName()
 					+ Message.msg_end;
 			System.out.println(context);
 			Message.toMessageByUser(touser, context);
@@ -1245,9 +1245,8 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 					timeOver = 0;
 				if (timeOver > 0) {
 
-					String context = Message.msg_head + ","+commitername
-							+ "发给您的待处理任务:" + tip + "(" + appnametip
-							+ ") 已经超出最后办理时限:" + timeOver / (3600 * 1000)
+					String context = Message.msg_app+"友情提醒:"+commitername
+							+ "发给您的"+appnametip+"待处理任务:" + tip + "已经超出最后办理时限:" + timeOver / (3600 * 1000)
 							+ "小时,"+Message.msg_end;
 
 					String rs = Message.toMessageByUser(usercode, context);

@@ -76,7 +76,7 @@ public class CreateDySubSvl extends HttpServlet {
 					processid = StringUtils.substringBetween(obj[0], "[", "]");
 				}
 			}
-
+			String naturalname=upo.getNaturalname();
 			WorkflowView wfview = null;
 
 			try {
@@ -104,6 +104,9 @@ public class CreateDySubSvl extends HttpServlet {
 					continue;
 				if (fileid.startsWith("r_")) {
 					// 说明是内部路由变量忽略
+					continue;
+				}
+				if(resourceRmi.checkExist(naturalname+"."+fileid)){
 					continue;
 				}
 				UmsProtectedobject upobj = new UmsProtectedobject();

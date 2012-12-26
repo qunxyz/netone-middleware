@@ -805,7 +805,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			String noticetitle = revtemp != null ? revtemp.getValuenow() : "";
 			String appnametip = AppEntry.iv().loadApp(appname).getName();
 			
-			String context = "您好!您在"+Message.msg_head+"新的"+appnametip+"待办任务.文件标题:" + noticetitle
+			String context = "您好!"+Message.msg_head+"新的"+appnametip+"待办任务.文件标题:" + noticetitle
 					+  ", 发送人:" + fromUserObj.getName()
 					+ Message.msg_end;
 			System.out.println(context);

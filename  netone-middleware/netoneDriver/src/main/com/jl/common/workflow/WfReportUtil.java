@@ -172,10 +172,9 @@ public class WfReportUtil {
 			}else{
 				sql_this_week=StringUtils.replace(sql_this_week, "$processid$","processid='"+processid+"' and ");
 			}
-			System.out.println("this week:");
-			System.out.println(sql_this_week);
+
 			List this_week=DbTools.queryData(sql_this_week);
-			System.out.println(this_week.size());
+			
 			StringBuffer this_week_but=new StringBuffer();
 			for (Iterator iterator2 = this_week.iterator(); iterator2
 					.hasNext();) {
@@ -196,10 +195,9 @@ public class WfReportUtil {
 			}else{
 				sql_doing=StringUtils.replace(sql_doing, "$processid$","processid='"+processid+"' and ");
 			}
-			System.out.println("处理中:");
-			System.out.println(sql_doing);
+
 			List this_doingArr=DbTools.queryData(sql_doing);
-			System.out.println(this_doingArr.size());
+			
 			StringBuffer this_doingbut=new StringBuffer();
 			for (Iterator iterator2 = this_doingArr.iterator(); iterator2
 					.hasNext();) {
@@ -220,10 +218,9 @@ public class WfReportUtil {
 			}else{
 				sql_over48=StringUtils.replace(sql_over48, "$processid$","processid='"+processid+"' and ");
 			}
-			System.out.println("超48小时:");
-			System.out.println(sql_over48);
+
 			List this_over48Arr=DbTools.queryData(sql_over48);
-			System.out.println(this_over48Arr.size());
+			
 			StringBuffer this_over48But=new StringBuffer();
 			for (Iterator iterator2 = this_over48Arr.iterator(); iterator2
 					.hasNext();) {

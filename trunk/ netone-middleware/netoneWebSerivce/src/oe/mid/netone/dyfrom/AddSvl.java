@@ -128,11 +128,13 @@ public class AddSvl extends HttpServlet {
 		String lsh=request.getParameter("lsh");
 		if(StringUtils.isNotEmpty(lsh)&&lsh.length()==32){
 			String tablename=DyEntry.iv().loadForm(formcode).getTablename();
-			String sql="update dyform."+tablename+" set lsh='"+lsh+"' where lsh='"+str+"'";
+			String sql="update dyform."+tablename+" set lsh='"+lsh+"',hit=9 where lsh='"+str+"'";
 			int rs=DbTools.execute(sql);
-
+			return lsh;
+		}else{
+			return str;
 		}
-		return lsh;
+		
 	}
 
 	/**

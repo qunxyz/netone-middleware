@@ -36,6 +36,11 @@ public class MsgSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=utf-8");
+		
 		String userid=request.getParameter("userid");
 		String type=request.getParameter("type");
 		String firsttime=request.getParameter("firsttime");
@@ -43,7 +48,7 @@ public class MsgSvl extends HttpServlet {
 		String lsh=request.getParameter("lsh");
 		
 		List list=new ArrayList();
-		String sql="select timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525";
+		String sql="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 ";
 		String sqlapp="";
 		if("01".equals(type)){// 返回所有用户消息
 			sql+="where column3='"+userid+"' or column3='' order by timex desc limit 0,30";
@@ -76,11 +81,12 @@ public class MsgSvl extends HttpServlet {
 			}
 		}else if("05".equals(type)){// 我的消息明细带评论
 			sql+= "where lsh='"+lsh+"'";
-			sqlapp="select column3 context,column4 atturl,timex,participant sendercode,column5 sendername from DY_391356510840526 where parentid= '"+lsh+"' order by timex  limit 0,30";
+			sqlapp="select concat('t',timex) timex, column3 context,column5 atturl,participant sendercode,column6 sendername from dyform.DY_391356510840526 where fatherlsh= '"+lsh+"' order by timex  limit 0,30";
 			if(StringUtils.isNotEmpty(lasttime)){
-				sqlapp="select column3 context,column4 atturl,timex,participant sendercode,column5 sendername from DY_391356510840526 where parentid= '"+lsh+"' and timex>'"+lasttime+"' order by timex   limit 0,30";
+				sqlapp="select concat('t',timex) timex, column3 context,column5 atturl,participant sendercode,column6 sendername from dyform.DY_391356510840526 where fatherlsh= '"+lsh+"' and timex>'"+lasttime+"' order by timex   limit 0,30";
 			}			
 		}
+	
 		list=DbTools.queryData(sql);
 		if(StringUtils.isNotEmpty(sqlapp)){
 			list.addAll(DbTools.queryData(sqlapp));

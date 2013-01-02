@@ -3,6 +3,7 @@ package oe.mid.netone.msg;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.jl.common.workflow.DbTools;
 
 import net.sf.json.JSONArray;
 
@@ -41,35 +46,35 @@ public class MyGroupSvl extends HttpServlet {
 		
 		String userid=request.getParameter("userid");
 		
+		String sql="select column3,column4,lsh from dyform.DY_251356887574360 where participant='"+userid+"'";
+		List list=DbTools.queryData(sql);
 		
-		List list=new ArrayList();
-		Map  map1=new HashMap();
-		map1.put("groupid", "01");
-		map1.put("groupname", "群组1");
-		List listmen=new ArrayList();
-		listmen.add("adminx[管理员]");
-		listmen.add("cuicui[翠翠]");
-		listmen.add("liming[黎民]");
-		map1.put("people", listmen);
-		list.add(map1);
-		
-		Map  map2=new HashMap();
-		map2.put("groupid", "02");
-		map2.put("groupname", "群组2");
-		List listmen2=new ArrayList();
-		listmen2.add("adminx[管理员2]");
-		listmen2.add("cuicui[翠翠2]");
-		listmen2.add("liming[黎民2]");
-		map2.put("people", listmen2);
-		list.add(map2);
-		
-		Map  map3=new HashMap();
-		map3.put("groupid", "03");
-		map3.put("groupname", "群组3");
-		map3.put("people", "adminx[管理员2],cuicui[翠翠2],liming[黎民2]");
-		list.add(map3);
-		
-		String jsonString=JSONArray.fromObject(list).toString();
+		List listall=new ArrayList();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			String groupid=(String)object.get("lsh");
+			String groupname=(String)object.get("column3");
+			String users=(String)object.get("column4");
+			
+			
+			Map data=new HashMap();
+			data.put("groupid", groupid);
+			data.put("groupname", groupname);
+			
+			String []strx=StringUtils.split(users,",");
+			if(strx!=null){
+				List userpre=new ArrayList();
+				for (int i = 0; i < strx.length; i++) {
+					Map map=new HashMap();
+					map.put("id", StringUtils.substringBefore(strx[i], "["));
+					map.put("name", StringUtils.substringBetween(strx[i], "[","]"));
+					userpre.add(map);
+				}
+				data.put("people", userpre);
+			}
+			listall.add(data);
+		}
+		String jsonString=JSONArray.fromObject(listall).toString();
    		response.getWriter().print(jsonString);
 
 	}

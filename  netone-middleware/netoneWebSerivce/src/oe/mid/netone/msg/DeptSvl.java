@@ -41,6 +41,9 @@ public class DeptSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=utf-8");
 		//获得根部门，这里 部门只支持2级
 		String rootname=request.getParameter("rootname");
 		try {
@@ -55,16 +58,20 @@ public class DeptSvl extends HttpServlet {
 				map.put("naturalname", object.getNaturalname());
 				map.put("name", object.getName());
 				List next=rmi.subResource(object.getId());
-				StringBuffer but=new StringBuffer();
+				
+				List nextx=new ArrayList();
 				for (Iterator iterator2 = next.iterator(); iterator2.hasNext();) {
 					UmsProtectedobject object2 = (UmsProtectedobject) iterator2.next();
-					but.append(","+object2.getNaturalname()+":"+object2.getName());
+					Map mapx=new HashMap();
+					mapx.put("naturalname", object2.getNaturalname());
+					mapx.put("name", object2.getName());
+					nextx.add(mapx);
 				}
-				if(but.length()>0){
-					map.put("sub",but.substring(1) );
-				}
+				
+				map.put("sub",nextx );
+
 				info.add(map);
-				String jsonString=JSONArray.fromObject(list).toString();
+				String jsonString=JSONArray.fromObject(info).toString();
 		   		response.getWriter().print(jsonString);
 			}
 		} catch (NotBoundException e) {

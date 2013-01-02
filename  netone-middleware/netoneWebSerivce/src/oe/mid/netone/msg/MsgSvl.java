@@ -2,7 +2,10 @@ package oe.mid.netone.msg;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,53 +51,118 @@ public class MsgSvl extends HttpServlet {
 		String lsh=request.getParameter("lsh");
 		
 		List list=new ArrayList();
-		String sql="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 ";
-		String sqlapp="";
-		if("01".equals(type)){// 返回所有用户消息
-			sql+="where column3='"+userid+"' or column3='' order by timex desc limit 0,30";
+
+		if("01".equals(type)){// 返回公开和定向消息
+			String sql="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 ";
+			sql+="where participant!='"+userid+"' and  column3='"+userid+"' or column3='' order by timex desc limit 0,30";
 			if(StringUtils.isNotEmpty(firsttime)){
-				sql+=" where column3='"+userid+"' or column3=''  timex>'"+firsttime+"' order by timex desc  limit 0,30";
+				sql+="where participant!='"+userid+"' and column3='"+userid+"' or column3=''  timex>'"+firsttime+"' order by timex desc  limit 0,30";
 			}else if(StringUtils.isNotEmpty(lasttime)){
-				sql+=" where column3='"+userid+"' or column3=''  timex<'"+lasttime+"' order by timex desc  limit 0,30";
+				sql+="where participant!='"+userid+"' and column3='"+userid+"' or column3=''  timex<'"+lasttime+"' order by timex desc  limit 0,30";
 			}
-			
+			list=DbTools.queryData(sql);
 		}else if("02".equals(type)){//返回公开的用户信息
-			sql+="where column3='' order by timex desc  limit 0,30";
+			String sql="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 ";
+
+			sql+="where participant!='"+userid+"' and column3='' order by timex desc  limit 0,30";
 			if(StringUtils.isNotEmpty(firsttime)){
-				sql+=" where column3=''  timex>'"+firsttime+"' order by timex desc  limit 0,30";
+				sql+="where participant!='"+userid+"' and column3=''  timex>'"+firsttime+"' order by timex desc  limit 0,30";
 			}else if(StringUtils.isNotEmpty(lasttime)){
-				sql+=" where column3=''  timex<'"+lasttime+"' order by timex desc  limit 0,30";
+				sql+="where participant!='"+userid+"' and column3=''  timex<'"+lasttime+"' order by timex desc  limit 0,30";
 			}
+			list=DbTools.queryData(sql);
 		}else if("03".equals(type)){//返回针对我的消息
+			String sql="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 ";
+
 			sql+="where column3='"+userid+"' order by timex desc  limit 0,30";
 			if(StringUtils.isNotEmpty(firsttime)){
 				sql+=" where column3='"+userid+"' timex>'"+firsttime+"' order by timex desc  limit 0,30";
 			}else if(StringUtils.isNotEmpty(lasttime)){
 				sql+=" where column3='"+userid+"'  timex<'"+lasttime+"' order by timex desc limit 0,30";
 			}
+			list=DbTools.queryData(sql);
 		}else if("04".equals(type)){//我的消息被关注的列表
-			sql+="where participant='"+userid+"' order by column9 desc limit 0,30";
+			String sql="select column3 lshx,column4 rellsh,column5 types from dyform.DY_251356887574361 ";
 			if(StringUtils.isNotEmpty(firsttime)){
-				sql+=" where column3='"+userid+"' timex>'"+firsttime+"' order by timex desc limit 0,30";
+				sql+=" where column3='"+userid+"' timex>'"+firsttime+"'";
 			}else if(StringUtils.isNotEmpty(lasttime)){
-				sql+=" where column3='"+userid+"'  timex<'"+lasttime+"' order by timex desc limit 0,30";
+				sql+=" where column3='"+userid+"'  timex<'"+lasttime+"'";
+			}
+			sql+=" order by timex desc limit 0,30";
+			List listtmp=DbTools.queryData(sql);
+			
+			for (Iterator iterator = listtmp.iterator(); iterator.hasNext();) {
+				Map object = (Map) iterator.next();
+				String typex=(String)object.get("types");
+				String rellsh=(String)object.get("rellsh");
+				String lshx=(String)object.get("lshx");
+				if("01".equals(typex)){
+					//获得主消息的内容
+					String sqlF="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 where lsh='"+lshx+"'";
+					List listTmp1=DbTools.queryData(sqlF);
+					Map data=new HashMap();
+					if(listTmp1!=null&&listTmp1.size()==1){
+						data= (Map)listTmp1.get(0);
+					}					
+					
+					String sql_rp="select concat('t',timex) timex, column3 context,column5 atturl,participant sendercode,column6 sendername from dyform.DY_391356510840526 where lsh='"+rellsh+"'";
+					List listTmpx=DbTools.queryData(sql_rp);
+					if(listTmpx!=null&&listTmpx.size()==1){
+						data.put("rel", listTmpx.get(0));
+					}
+					list.add(data);
+				}else if("02".equals(typex)){
+					//获得主消息的内容(转发)
+					String sqlF="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 where lsh='"+lshx+"'";
+					List listTmp1=DbTools.queryData(sqlF);
+					Map data=new HashMap();
+					if(listTmp1!=null&&listTmp1.size()==1){
+						data= (Map)listTmp1.get(0);
+					}
+					
+					String sql_rt="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 where lsh='"+rellsh+"'";
+					List listTmpx=DbTools.queryData(sql_rt);
+					if(listTmpx!=null&&listTmpx.size()==1){
+						data.put("rel", listTmpx.get(0));
+					}
+					list.add(data);
+				}else if("03".equals(typex)){
+					//获得主消息的内容（评论的评论模式）
+					String sqlF="select concat('t',timex) timex, column3 context,column5 atturl,participant sendercode,column6 sendername from dyform.DY_391356510840526 where lsh='"+lshx+"'";
+					List listTmp1=DbTools.queryData(sqlF);
+					Map data=new HashMap();
+					if(listTmp1!=null&&listTmp1.size()==1){
+						data= (Map)listTmp1.get(0);
+					}
+					
+					String sql_rp="select concat('t',timex) timex, column3 context,column5 atturl,participant sendercode,column6 sendername from dyform.DY_391356510840526 where lsh='"+rellsh+"'";
+					List listTmpx=DbTools.queryData(sql_rp);
+					if(listTmpx!=null&&listTmpx.size()==1){
+						data.put("rel", listTmpx.get(0));
+					}
+					list.add(data);
+				}
 			}
 		}else if("05".equals(type)){// 我的消息明细带评论
+			String sql="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rpnum,column8 rtnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 ";
+
 			sql+= "where lsh='"+lsh+"'";
-			sqlapp="select concat('t',timex) timex, column3 context,column5 atturl,participant sendercode,column6 sendername from dyform.DY_391356510840526 where fatherlsh= '"+lsh+"' order by timex  limit 0,30";
+			String sqlapp="select concat('t',timex) timex, column3 context,column5 atturl,participant sendercode,column6 sendername from dyform.DY_391356510840526 where fatherlsh= '"+lsh+"' order by timex  limit 0,30";
 			if(StringUtils.isNotEmpty(lasttime)){
 				sqlapp="select concat('t',timex) timex, column3 context,column5 atturl,participant sendercode,column6 sendername from dyform.DY_391356510840526 where fatherlsh= '"+lsh+"' and timex>'"+lasttime+"' order by timex   limit 0,30";
-			}			
+			}		
+			list=DbTools.queryData(sql);
+			if(StringUtils.isNotEmpty(sqlapp)){
+				list.addAll(DbTools.queryData(sqlapp));
+			}
 		}
-	
-		list=DbTools.queryData(sql);
-		if(StringUtils.isNotEmpty(sqlapp)){
-			list.addAll(DbTools.queryData(sqlapp));
-		}
+
 		String jsonString=JSONArray.fromObject(list).toString();
    		response.getWriter().print(jsonString);
 
 	}
+	
+
 
 	/**
 	 * The doPost method of the servlet. <br>

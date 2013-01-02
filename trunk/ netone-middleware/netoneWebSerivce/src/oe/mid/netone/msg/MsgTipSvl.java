@@ -38,6 +38,10 @@ public class MsgTipSvl extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=utf-8");
+		
 		String appname=request.getParameter("appname");
 		String lsh=request.getParameter("lsh");
 		String type=request.getParameter("type");

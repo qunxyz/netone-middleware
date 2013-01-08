@@ -1644,7 +1644,7 @@ public final class DyFormBuildHtml {
 				+ "\");var nulltr=$('#htmlcache"
 				+ htmlcacheid
 				+ "').html();nulltr=nulltr.replace('_TR_UUID_',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
-		btnstr.append("<script> $('body').append('<div id=\"htmlcache"
+		btnstr.append("<script defer='defer'> $('body').append('<div id=\"htmlcache"
 				+ htmlcacheid + "\" style=\"display:none;\"></div>');function "
 				+ onclickAddFunctionname + "(){" + xhtml + " $('#" + formcode
 				+ "').append(nulltr);} ");
@@ -1681,7 +1681,7 @@ public final class DyFormBuildHtml {
 						+ "<div style=\"overflow-x:auto; overflow-y:hidden; width:900px;\">"
 						+ html_ + html_btn + "</div>");
 		// htmlall
-		// .append("<script>if($.browser.version==6.0 || $.browser.version==7.0)
+		// .append("<script defer='defer'>if($.browser.version==6.0 || $.browser.version==7.0)
 		// $('table#"
 		// + formcode
 		// + "').append('<tr><td>&nbsp;</td></tr>');</script>");
@@ -1792,7 +1792,7 @@ public final class DyFormBuildHtml {
 				+ "\");var nulltr=$('#htmlcache"
 				+ htmlcacheid
 				+ "').html();nulltr=nulltr.replace('_TR_UUID_',new Date().getTime());nulltr=nulltr.replace('_BTN_UUID',new Date().getTime());";
-		btnstr.append("<script> $('body').append('<div id=\"htmlcache"
+		btnstr.append("<script defer='defer'> $('body').append('<div id=\"htmlcache"
 				+ htmlcacheid + "\" style=\"display:none;\"></div>');function "
 				+ onclickAddFunctionname + "(){" + xhtml + " $('#" + formcode
 				+ "').append(nulltr);} ");

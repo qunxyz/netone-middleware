@@ -2206,7 +2206,7 @@ public final class DyFormBuildHtmlExt {
 				+ "\");var nulltr=$('#htmlcache"
 				+ htmlcacheid
 				+ "').html();nulltr=nulltr.replace('_TR_UUID_',makeUUID());nulltr=nulltr.replace('_BTN_UUID',makeUUID());";
-		btnstr.append("<script> $('body').append('<div id=\"htmlcache"
+		btnstr.append("<script  defer='defer'> $('body').append('<div id=\"htmlcache"
 				+ htmlcacheid + "\" style=\"display:none;\"></div>');function "
 				+ onclickAddFunctionname
 				+ "(){var datas_config = $buildNullData('" + formcode
@@ -2539,7 +2539,7 @@ public final class DyFormBuildHtmlExt {
 		String xhtml = "var nulltr='"
 				+ nulltr
 				+ "';nulltr=nulltr.replace('$TR_UUID$',makeUUID());nulltr=nulltr.replace('_BTN_UUID',makeUUID());";
-		btnstr.append("<script> function " + onclickAddFunctionname + "(){"
+		btnstr.append("<script defer='defer'> function " + onclickAddFunctionname + "(){"
 				+ xhtml + " $('#" + formcode + "').append(nulltr);} ");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");
 		btnstr.append(DyFormComp.deleteRow(formcode, onclickAddFunctionname));

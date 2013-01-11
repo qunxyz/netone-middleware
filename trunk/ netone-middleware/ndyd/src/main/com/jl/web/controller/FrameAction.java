@@ -1008,12 +1008,12 @@ public class FrameAction extends AbstractAction {
 				result.addAll(listTrackAction4("0"));//¹éµµ
 			}
 			if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
-				result.addAll(listTrackAction2_2("0"));//³­ÔÄ
-				request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
+				//result.addAll(listTrackAction2_2("0"));//³­ÔÄ
+				//request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
 			}
 			if (filteractiveids==null) {
 				result.addAll(listTrackAction4("0"));//¹éµµ
-				result.addAll(listTrackAction2_2("0"));//³­ÔÄ
+				//result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 			}
 			request.setAttribute("processList", result);
 			request.setAttribute("isend", "true");
@@ -1099,11 +1099,11 @@ public class FrameAction extends AbstractAction {
 						result.addAll(listTrackAction4("0"));//¹éµµ
 					}
 					if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
-						result.addAll(listTrackAction2_2("0"));//³­ÔÄ
+						//result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 					}
 					if (filteractiveids==null) {
 						result.addAll(listTrackAction4("0"));//¹éµµ
-						result.addAll(listTrackAction2_2("0"));//³­ÔÄ
+						//result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 					}
 				}
 			} else {
@@ -1116,11 +1116,11 @@ public class FrameAction extends AbstractAction {
 				}
 				if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
 					result.addAll(listTrackAction2_2("0"));//³­ÔÄ
-					request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
+					//request.setAttribute("processTitle", "³­ÔÄ²¢¹éµµ");
 				}
 				if (filteractiveids==null) {
 					result.addAll(listTrackAction4("0"));//¹éµµ
-					result.addAll(listTrackAction2_2("0"));//³­ÔÄ
+					//result.addAll(listTrackAction2_2("0"));//³­ÔÄ
 				}
 				
 				request.setAttribute("processList", result);

@@ -21,6 +21,41 @@
 		${linkcss}
 		<!-- 时间控件脚本 -->
 		${datecompFunc}
+		<script type="text/javascript">
+		$(function() {
+		
+			<c:if test="${!empty permission && permission=='false'}">
+				$disabledall();
+				$hideall();
+				/**
+				Ext.MessageBox.show({
+			        title: '提示',
+			        width: 250,
+			        closable:false,
+			        msg: '对不起！您无权创建。'
+			    });
+			    **/
+				alert('该业务无权创建该工单');
+				window.open("","_self");window.opener=null;
+				window.close();
+				$disabledall();
+				$hideall();
+			</c:if>
+			
+			$("#tabs").tabs();
+			$('#tabs').tabs('select', "tabs-3");
+			
+		    if($.browser.msie&&$.browser.version=="6.0"&&$("html")[0].scrollHeight>$("html").height()){
+		        $("html").css("overflowY","scroll");
+		    }
+		    loadInfo2();
+			loadinfo3();
+			
+			<c:if test="${!empty helptext}">
+			//$("#helptext").floatdiv("rightmiddle");
+			</c:if>
+		});
+		</script>
 		<title><c:choose><c:when test="${!empty htmltitleinfo}">${htmltitleinfo} - ${activityName}</c:when><c:otherwise>${activityName}</c:otherwise></c:choose></title>
 	</head>
 	<body>
@@ -163,7 +198,7 @@
 		</center>
 	</body>
 </html>
-<script>
+<script defer="defer">
 /*
 Auto-growing textareas; technique ripped from Facebook
 (Textarea need set style "overflow:hidden" under IE)
@@ -214,40 +249,6 @@ $.fn.autogrow = function(options) {
 }
 })(jQuery);
 
-	$(function() {
-		
-		<c:if test="${!empty permission && permission=='false'}">
-			$disabledall();
-			$hideall();
-			/**
-			Ext.MessageBox.show({
-		        title: '提示',
-		        width: 250,
-		        closable:false,
-		        msg: '对不起！您无权创建。'
-		    });
-		    **/
-			alert('该业务无权创建该工单');
-			window.open("","_self");window.opener=null;
-			window.close();
-			$disabledall();
-			$hideall();
-		</c:if>
-		
-		$("#tabs").tabs();
-		$('#tabs').tabs('select', "tabs-3");
-		
-	    if($.browser.msie&&$.browser.version=="6.0"&&$("html")[0].scrollHeight>$("html").height()){
-	        $("html").css("overflowY","scroll");
-	    }
-	    loadInfo2();
-		loadinfo3();
-		
-		<c:if test="${!empty helptext}">
-		//$("#helptext").floatdiv("rightmiddle");
-		</c:if>
-	});
-	
 	var selectObjVar = null;//全局变量 存放需要选择资源返回值的对象
 	function $select(o,url){
 		selectObjVar=o;

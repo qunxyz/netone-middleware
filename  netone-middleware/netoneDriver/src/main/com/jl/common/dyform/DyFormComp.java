@@ -270,13 +270,13 @@ public final class DyFormComp {
 					+ ");\" ";
 		}
 		classname = "Wdate_blue";
-		
+
 		if (StringUtils.isEmpty(value)) {
-			classname = (readonly == true) ?"Wdate":"Wdate_blue";
+			classname = (readonly == true) ? "Wdate" : "Wdate_blue";
 		} else {
-			classname = (readonly == true) ?"Wdate":"Wdate_blue";
+			classname = (readonly == true) ? "Wdate" : "Wdate_blue";
 		}
-		
+
 		return getComp("<input type=\"text\" ", " />", id, valuestr, style,
 				classname, readonly, extValue);
 	}
@@ -416,16 +416,21 @@ public final class DyFormComp {
 			valuestr.append("<option value=\"\" " + "selected=\"selected\""
 					+ " >" + "«Î—°‘Ò" + "</option>");
 		}
+		boolean isvalue = true;
 		for (int i = 0; i < v.length; i++) {
 			String[] x = v[i].split("-");
 			if (x != null && x.length == 2) {
 				String sele = "";
 				if (x[0].equals(value) || x[0] == value) {
 					sele = " selected=\"selected\" ";
+					isvalue = false;
 				}
 				valuestr.append("<option value=\"" + x[0] + "\" " + sele + " >"
 						+ x[1] + "</option>");
 			}
+		}
+		if (isvalue) {
+			value = "";
 		}
 		if (readonly) {// ÷ª∂¡Ω˚”√
 			return getHiddenInput(id, value)
@@ -481,7 +486,7 @@ public final class DyFormComp {
 				}
 			}
 		}
-		return value;
+		return "";
 	}
 
 	/**
@@ -2419,7 +2424,7 @@ public final class DyFormComp {
 
 		return script.toString();
 	}
-	
+
 	public static String deleteRow_(String tableid,
 			String onclickAddFunctionname) {
 		StringBuffer script = new StringBuffer();

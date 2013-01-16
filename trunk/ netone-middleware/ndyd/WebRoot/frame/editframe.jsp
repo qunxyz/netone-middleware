@@ -48,8 +48,6 @@
 		    if($.browser.msie&&$.browser.version=="6.0"&&$("html")[0].scrollHeight>$("html").height()){
 		        $("html").css("overflowY","scroll");
 		    }
-		    loadInfo2();
-			loadinfo3();
 			
 			<c:if test="${!empty helptext}">
 			//$("#helptext").floatdiv("rightmiddle");
@@ -301,6 +299,11 @@ $.fn.autogrow = function(options) {
 			}
 		});
 	}
+
+$(function() {
+	loadInfo2();
+	loadinfo3();
+});
 
 function validateForm(){//验证
 ${ValidateScript}

@@ -52,7 +52,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		
 		String rootname=request.getParameter("rootname");
 		String type=request.getParameter("type");
-		
+		String jsonpcallback=request.getParameter("jsonpcallback");
 		List list=null;
 		
 		if("1".equals(type)){
@@ -72,9 +72,9 @@ public class LeaderViewOrderSvl extends HttpServlet {
 			list=this.flowTop5(rootname);
 		}
 		
-		response.setContentType("text/html;charset=gbk");
+		response.setContentType("text/json;charset=gbk");
 		String info=JSONArray.fromObject(list).toString();
-		response.getWriter().print(info);
+		response.getWriter().write(jsonpcallback + "(" + info + ")");
 		response.getWriter().flush();
 		response.getWriter().close();
 	}

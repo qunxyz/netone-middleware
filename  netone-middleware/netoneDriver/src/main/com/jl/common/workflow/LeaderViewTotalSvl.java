@@ -38,19 +38,18 @@ public class LeaderViewTotalSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Pragma", "no-cache");
-		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Expires", "0");
+
 		String processid=request.getParameter("processid");
-		
 		Object data=WebCache.getCache("lv_proc"+processid);
+		String jsonpcallback=request.getParameter("jsonpcallback");
 		if(data==null){
 			data="";
 		}
+		response.setContentType("text/json;charset=gbk");
 		String info=JSONArray.fromObject(data).toString();
-		System.out.println("data:"+info);
-		response.getWriter().print(info);
-
+		response.getWriter().write(jsonpcallback + "(" + info + ")");
+		response.getWriter().flush();
+		response.getWriter().close();
 	}
 
 	/**

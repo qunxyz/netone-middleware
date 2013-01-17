@@ -1038,10 +1038,10 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				.iv()
 				.useCoreView()
 				.coreSqlview(
-						"select workcode from t_wf_participant where usercode='"
+						"select t1.workcode workcode from t_wf_participant t1,t_wf_worklist t2 where t1.workcode=t2.workcode and t1.usercode='"
 								+ participant
-								+ "' and STATUSNOW='01' and workcode in( select workcode from t_wf_worklist where RUNTIMEID='"
-								+ runtimeid + "')");
+								+ "' and t1.STATUSNOW='01' and  t2.RUNTIMEID='"
+								+ runtimeid + "'");
 
 		if (list != null && list.size() > 0) {
 			return true;

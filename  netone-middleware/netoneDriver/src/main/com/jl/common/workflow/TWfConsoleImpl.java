@@ -721,13 +721,13 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			boolean onlyDone) throws Exception {
 		String extcondition = "";
 		if (onlyDone) {
-			extcondition = " and statusnow='02' order by donetime";
+			extcondition = " and t1.statusnow='02' order by t1.donetime";
 		} else {
-			extcondition = " order by createtime";
+			extcondition = " order by t1.createtime";
 
 		}
-		String sql = "select * from t_wf_participant where workcode in (select workcode from t_wf_worklist where runtimeid='"
-				+ runtimeid + "')" + extcondition;
+		String sql = "select t1.* from t_wf_participant t1,t_wf_worklist t2 where t1.workcode=t2.workcode and  t2.runtimeid='"
+				+ runtimeid + "'" + extcondition;
 		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
 		List list = wfview.coreSqlview(sql);
 		List listrt = new ArrayList();
@@ -756,8 +756,8 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 
 	public TWfParticipant loadParticipantinfo(String workcode,
 			String participant) throws Exception {
-		String sql = "select * from t_wf_participant where workcode in (select workcode from t_wf_worklist where workcode='"
-				+ workcode + "' and usercode='" + participant + "')";
+		String sql = "select * from t_wf_participant where workcode='"
+				+ workcode + "' and usercode='" + participant + "'";
 		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
 		List list = wfview.coreSqlview(sql);
 		if (list.size() == 1) {

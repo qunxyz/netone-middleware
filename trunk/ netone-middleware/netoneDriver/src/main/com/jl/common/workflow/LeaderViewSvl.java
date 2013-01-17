@@ -46,21 +46,23 @@ public class LeaderViewSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setHeader("Pragma", "no-cache");
-		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Expires", "0");
+
 		
 		String rootname=request.getParameter("rootname");
 		String processid=request.getParameter("processid");
+		String jsonpcallback=request.getParameter("jsonpcallback");
+		
 		
 		Object obj=WebCache.getCache(rootname+processid);
 		List data=new ArrayList();
 		if(obj!=null){
 			data=(List)obj;
 		}
-		response.setContentType("text/html;charset=gbk");
+		response.setContentType("text/json;charset=gbk");
 		String info=JSONArray.fromObject(data).toString();
-		response.getWriter().print(info);
+		response.getWriter().write(jsonpcallback + "(" + info + ")");
+		response.getWriter().flush();
+		response.getWriter().close();
 	}
 
 	/**

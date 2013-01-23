@@ -156,19 +156,30 @@ public final class WorklistVIewImpl implements WorklistViewIfc {
 		        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition;
 
 		      loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
+			  if(StringUtils.isEmpty(condition)){
+					loadworklist_detail=StringUtils.replace(loadworklist_detail, ",netone.t_wf_relevantvar_tmp w3", " ");			
+					loadworklist=StringUtils.replace(loadworklist, ",netone.t_wf_relevantvar_tmp w3", " ");			
+			  }
 		} else if ("03".equals(listType)) {//已办且归档
 		      urlEnd = "&query=look";
 		      loadworklist = "select distinct w1.runtimeid from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where STATUSNOW='02' and runtimeid in(select runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where STATUSNOW='02' and USERCODE='" + 
 		        clientId + "')))" + 
 		        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition;
 		      loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
+			  if(StringUtils.isEmpty(condition)){
+					loadworklist_detail=StringUtils.replace(loadworklist_detail, ",netone.t_wf_relevantvar_tmp w3", " ");			
+					loadworklist=StringUtils.replace(loadworklist, ",netone.t_wf_relevantvar_tmp w3", " ");			
+			  }
 		} else {
 			// 所有个人任务
 		      loadworklist = "select distinct w1.runtimeid from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where runtimeid in(select runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where USERCODE='" + 
 		        clientId + "')))" + 
 		        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition;
 		      loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
-
+			  if(StringUtils.isEmpty(condition)){
+					loadworklist_detail=StringUtils.replace(loadworklist_detail, ",netone.t_wf_relevantvar_tmp w3", " ");			
+					loadworklist=StringUtils.replace(loadworklist, ",netone.t_wf_relevantvar_tmp w3", " ");			
+			  }
 		}
 		
 		

@@ -269,6 +269,7 @@
 	
 	<!-- 销售出库单查询条件 -->
 	<sql id="selectIcstockbillCondition">
+		and FCancellation=0
 		<isNotEmpty prepend="and" property="FBillNo">
 			FBillNo like '%$FBillNo$%'
 		</isNotEmpty>
@@ -285,7 +286,7 @@
 		<!-- sale=0 未生成发票 -->
 		<isEqual prepend="and" property="sale" compareValue="0">
 			FRelateInvoiceID = 0 and FHookStatus!=2
-			and (select sum(FConsignAmount) from icstockbillentry where icstockbillentry.FInterID=icstockbill.FInterID)>0
+			and (select sum(FConsignAmount) from icstockbillentry where icstockbillentry.FInterID=icstockbill.FInterID)!=0
 		</isEqual>
 	</sql>
 	
@@ -326,6 +327,7 @@
 			and t2.FQtyInvoice=0
 			and t2.FConsignAmount!=0
 		)
+		and FCancellation=0
 		and FRelateInvoiceID = 0 and FHookStatus!=2
 	</select>
 	<!-- 销售出库单 未开票 -->
@@ -343,6 +345,7 @@
 			and t2.FQtyInvoice=0
 			and t2.FConsignAmount!=0
 		)
+		and FCancellation=0
 		and FRelateInvoiceID = 0 and FHookStatus!=2
 	</select>
 	<!-- 销售出库单明细 未开票 -->
@@ -374,10 +377,12 @@
 	<insert id="insertIcsale" parameterClass="java.util.HashMap">
 		<selectKey resultClass="int" keyProperty="FInterID"
 			type="pre">
-			SELECT (max(FInterID)+1) as FInterID from Icsale
+			declare @P1 int
+			exec GetICMaxNum 'ICSale', @P1 output
+			select @P1 as FInterID
 		</selectKey>
-		insert into Icsale(FBrNo,FInterID,FBillNo,FTranType,FDate,FCustID,FNote,FCurrencyID,FPayStyleID,FTransportStyle,FDeptID,FEmpID,FHookInterID,FVchInterID,FBillerID,FCheckerID,FPosterID,FManagerID,FPosted,FClosed,FSettleID,FROB,FRSCBillNo,FExchangeRate,FStatus,FCompactNo,FCancellation,FSaleStyle,FAcctID,FMultiCheckLevel1,FMultiCheckLevel2,FMultiCheckLevel3,FMultiCheckLevel4,FMultiCheckLevel5,FMultiCheckLevel6,FMultiCheckDate1,FMultiCheckDate2,FMultiCheckDate3,FMultiCheckDate4,FMultiCheckDate5,FMultiCheckDate6,FCurCheckLevel,FYearPeriod,FYtdIntRate,FOrgBillInterID,FUUID,FOperDate,FImport,FSystemType,FArApStatus,FYear,FPeriod,FSubSystemID,FFincDate,FInvoicer,FAccount,FTaxNum,FHookerID,FTranStatus,FOuterID,FClassTypeID,FItemClassID,finterestrate,FCOMINVID,FTaskID,FOrderID,FResourceID,FBudgetAmountFor,FOrderAmountFor,FFreeItem1,FFreeItem2,FFreeItem3,FFreeItem4,FAddress,FBank,FCheckDate,FExplanation,FPayStyle,FAdjustExchangeRate,FAdjustAmount,FSelTranType,FChildren,FHookStatus,FActPriceVchTplID,FPlanPriceVchTplID,FActualVchTplID,FPlanVchTplID,FBrID,FCussentAcctID,FCheckStatus,fconnectflag,FCheckAmount,FCheckAmountFor,FRemainAmount,FRemainAmountFor,FDC,FGUID,FPOOrdBillNo,FRelateBrID)
-		values (#FBrNo#,#FInterID#,#FBillNo#,#FTranType#,#FDate#,#FCustID#,#FNote#,#FCurrencyID#,#FPayStyleID#,#FTransportStyle#,#FDeptID#,#FEmpID#,#FHookInterID#,#FVchInterID#,#FBillerID#,#FCheckerID#,#FPosterID#,#FManagerID#,#FPosted#,#FClosed#,#FSettleID#,#FROB#,#FRSCBillNo#,#FExchangeRate#,#FStatus#,#FCompactNo#,#FCancellation#,#FSaleStyle#,#FAcctID#,#FMultiCheckLevel1#,#FMultiCheckLevel2#,#FMultiCheckLevel3#,#FMultiCheckLevel4#,#FMultiCheckLevel5#,#FMultiCheckLevel6#,#FMultiCheckDate1#,#FMultiCheckDate2#,#FMultiCheckDate3#,#FMultiCheckDate4#,#FMultiCheckDate5#,#FMultiCheckDate6#,#FCurCheckLevel#,#FYearPeriod#,#FYtdIntRate#,#FOrgBillInterID#,$FUUID$,null,#FImport#,#FSystemType#,#FArApStatus#,#FYear#,#FPeriod#,#FSubSystemID#,#FFincDate#,#FInvoicer#,#FAccount#,#FTaxNum#,#FHookerID#,#FTranStatus#,#FOuterID#,#FClassTypeID#,#FItemClassID#,#finterestrate#,#FCOMINVID#,#FTaskID#,#FOrderID#,#FResourceID#,#FBudgetAmountFor#,#FOrderAmountFor#,#FFreeItem1#,#FFreeItem2#,#FFreeItem3#,#FFreeItem4#,#FAddress#,#FBank#,#FCheckDate#,#FExplanation#,#FPayStyle#,#FAdjustExchangeRate#,#FAdjustAmount#,#FSelTranType#,#FChildren#,#FHookStatus#,#FActPriceVchTplID#,#FPlanPriceVchTplID#,#FActualVchTplID#,#FPlanVchTplID#,#FBrID#,#FCussentAcctID#,#FCheckStatus#,#fconnectflag#,#FCheckAmount#,#FCheckAmountFor#,#FRemainAmount#,#FRemainAmountFor#,#FDC#,$FGUID$,#FPOOrdBillNo#,#FRelateBrID#)
+		insert into Icsale(FBrNo,FInterID,FBillNo,FTranType,FDate,FCustID,FNote,FCurrencyID,FPayStyleID,FTransportStyle,FDeptID,FEmpID,FHookInterID,FVchInterID,FBillerID,FCheckerID,FPosterID,FManagerID,FPosted,FClosed,FSettleID,FROB,FRSCBillNo,FExchangeRate,FStatus,FCompactNo,FCancellation,FSaleStyle,FAcctID,FMultiCheckLevel1,FMultiCheckLevel2,FMultiCheckLevel3,FMultiCheckLevel4,FMultiCheckLevel5,FMultiCheckLevel6,FMultiCheckDate1,FMultiCheckDate2,FMultiCheckDate3,FMultiCheckDate4,FMultiCheckDate5,FMultiCheckDate6,FCurCheckLevel,FYearPeriod,FYtdIntRate,FOrgBillInterID,FUUID,FOperDate,FImport,FSystemType,FArApStatus,FYear,FPeriod,FSubSystemID,FFincDate,FInvoicer,FAccount,FTaxNum,FHookerID,FTranStatus,FOuterID,FClassTypeID,FItemClassID,finterestrate,FCOMINVID,FTaskID,FOrderID,FResourceID,FBudgetAmountFor,FOrderAmountFor,FFreeItem1,FFreeItem2,FFreeItem3,FFreeItem4,FAddress,FBank,FCheckDate,FExplanation,FPayStyle,FAdjustExchangeRate,FAdjustAmount,FSelTranType,FChildren,FHookStatus,FActPriceVchTplID,FPlanPriceVchTplID,FActualVchTplID,FPlanVchTplID,FBrID,FCussentAcctID,FCheckStatus,fconnectflag,FCheckAmount,FCheckAmountFor,FRemainAmount,FRemainAmountFor,FDC,FPOOrdBillNo,FRelateBrID)
+		values (#FBrNo#,#FInterID#,#FBillNo#,#FTranType#,#FDate#,#FCustID#,#FNote#,#FCurrencyID#,#FPayStyleID#,#FTransportStyle#,#FDeptID#,#FEmpID#,#FHookInterID#,#FVchInterID#,#FBillerID#,#FCheckerID#,#FPosterID#,#FManagerID#,#FPosted#,#FClosed#,#FSettleID#,#FROB#,#FRSCBillNo#,#FExchangeRate#,#FStatus#,#FCompactNo#,#FCancellation#,#FSaleStyle#,#FAcctID#,#FMultiCheckLevel1#,#FMultiCheckLevel2#,#FMultiCheckLevel3#,#FMultiCheckLevel4#,#FMultiCheckLevel5#,#FMultiCheckLevel6#,#FMultiCheckDate1#,#FMultiCheckDate2#,#FMultiCheckDate3#,#FMultiCheckDate4#,#FMultiCheckDate5#,#FMultiCheckDate6#,#FCurCheckLevel#,#FYearPeriod#,#FYtdIntRate#,#FOrgBillInterID#,$FUUID$,null,#FImport#,#FSystemType#,#FArApStatus#,#FYear#,#FPeriod#,#FSubSystemID#,#FFincDate#,#FInvoicer#,#FAccount#,#FTaxNum#,#FHookerID#,#FTranStatus#,#FOuterID#,#FClassTypeID#,#FItemClassID#,#finterestrate#,#FCOMINVID#,#FTaskID#,#FOrderID#,#FResourceID#,#FBudgetAmountFor#,#FOrderAmountFor#,#FFreeItem1#,#FFreeItem2#,#FFreeItem3#,#FFreeItem4#,#FAddress#,#FBank#,#FCheckDate#,#FExplanation#,#FPayStyle#,#FAdjustExchangeRate#,#FAdjustAmount#,#FSelTranType#,#FChildren#,#FHookStatus#,#FActPriceVchTplID#,#FPlanPriceVchTplID#,#FActualVchTplID#,#FPlanVchTplID#,#FBrID#,#FCussentAcctID#,#FCheckStatus#,#fconnectflag#,#FCheckAmount#,#FCheckAmountFor#,#FRemainAmount#,#FRemainAmountFor#,#FDC#,#FPOOrdBillNo#,#FRelateBrID#)
 	</insert>
 	<!-- 生成销售发票子表单 -->
 	<insert id="insertICSaleEntry"  parameterClass="java.util.HashMap">
@@ -385,9 +390,14 @@
 			type="post">
 			SELECT @@IDENTITY AS FDetailID
 		</selectKey>
-		insert into ICSaleEntry(FBrNo,FInterID,FEntryID,FItemID,FQty,FPrice,FAmount,FTaxRate,FTaxAmount,FCommitQty,FUnitID,FAuxCommitQty,FAuxPrice,FAuxQty,FTaxPrice,FAuxTaxPrice,FSourceEntryID,FDiscountRate,FMapNumber,FMapName,FOrgBillEntryID,FOrderPrice,FAuxOrderPrice,FNote,FStdAmount,FStdTaxAmount,FAmountincludetax,FStdAmountincludetax,fauxqty_base,FBatchNo,FCOMINVID,FEntryID_SRC,FClassID_SRC,FFreeItem1,FFreeItem2,FFreeItem3,FFreeItem4,FAuxPropID,FAmtDiscount,FStdAmtDiscount,FKFDate,FKFperiod,FPeriodDate,FPriceDiscount,FAuxPriceDiscount,FsecCoefficient,FSecQty,FQuantityReceive_Commit,FQuantityPayApply_Commit,FSecUnitID,FAmountFor_Commit,FAmount_Commit,FAllAmount,FStdAllAmount,FSecCommitQty,FSourceTranType,FSourceInterId,FSourceBillNo,FContractInterID,FContractEntryID,FContractBillNo,FOrderInterID,FOrderEntryID,FOrderBillNo,FAllHookQTY,FAllHookAmount,FCurrentHookQTY,FCurrentHookAmount,FStdAllHookAmount,FStdCurrentHookAmount,FSplitSecQty,FPurchaseCommitQty,FPurchaseSecCommitQty,FCheckQty,FRemainQty,FRemainAmount,FCheckAmount,FRemainAmountFor,FCheckAmountFor,FLinkCheckAmountFor,FLinkCheckAmount,FLinkCheckQty,FGUID)
-		values (#FBrNo#,#FInterID#,#FEntryID#,#FItemID#,#FQty#,#FPrice#,#FAmount#,#FTaxRate#,#FTaxAmount#,#FCommitQty#,#FUnitID#,#FAuxCommitQty#,#FAuxPrice#,#FAuxQty#,#FTaxPrice#,#FAuxTaxPrice#,#FSourceEntryID#,#FDiscountRate#,#FMapNumber#,#FMapName#,#FOrgBillEntryID#,#FOrderPrice#,#FAuxOrderPrice#,#FNote#,#FStdAmount#,#FStdTaxAmount#,#FAmountincludetax#,#FStdAmountincludetax#,#fauxqty_base#,#FBatchNo#,#FCOMINVID#,#FEntryID_SRC#,#FClassID_SRC#,#FFreeItem1#,#FFreeItem2#,#FFreeItem3#,#FFreeItem4#,#FAuxPropID#,#FAmtDiscount#,#FStdAmtDiscount#,#FKFDate#,#FKFperiod#,#FPeriodDate#,#FPriceDiscount#,#FAuxPriceDiscount#,#FsecCoefficient#,#FSecQty#,#FQuantityReceive_Commit#,#FQuantityPayApply_Commit#,#FSecUnitID#,#FAmountFor_Commit#,#FAmount_Commit#,#FAllAmount#,#FStdAllAmount#,#FSecCommitQty#,#FSourceTranType#,#FSourceInterId#,#FSourceBillNo#,#FContractInterID#,#FContractEntryID#,#FContractBillNo#,#FOrderInterID#,#FOrderEntryID#,#FOrderBillNo#,#FAllHookQTY#,#FAllHookAmount#,#FCurrentHookQTY#,#FCurrentHookAmount#,#FStdAllHookAmount#,#FStdCurrentHookAmount#,#FSplitSecQty#,#FPurchaseCommitQty#,#FPurchaseSecCommitQty#,#FCheckQty#,#FRemainQty#,#FRemainAmount#,#FCheckAmount#,#FRemainAmountFor#,#FCheckAmountFor#,#FLinkCheckAmountFor#,#FLinkCheckAmount#,#FLinkCheckQty#,$FGUID$)
+		insert into ICSaleEntry(FBrNo,FInterID,FEntryID,FItemID,FQty,FPrice,FAmount,FTaxRate,FTaxAmount,FCommitQty,FUnitID,FAuxCommitQty,FAuxPrice,FAuxQty,FTaxPrice,FAuxTaxPrice,FSourceEntryID,FDiscountRate,FMapNumber,FMapName,FOrgBillEntryID,FOrderPrice,FAuxOrderPrice,FNote,FStdAmount,FStdTaxAmount,FAmountincludetax,FStdAmountincludetax,fauxqty_base,FBatchNo,FCOMINVID,FEntryID_SRC,FClassID_SRC,FFreeItem1,FFreeItem2,FFreeItem3,FFreeItem4,FAuxPropID,FAmtDiscount,FStdAmtDiscount,FKFDate,FKFperiod,FPeriodDate,FPriceDiscount,FAuxPriceDiscount,FsecCoefficient,FSecQty,FQuantityReceive_Commit,FQuantityPayApply_Commit,FSecUnitID,FAmountFor_Commit,FAmount_Commit,FAllAmount,FStdAllAmount,FSecCommitQty,FSourceTranType,FSourceInterId,FSourceBillNo,FContractInterID,FContractEntryID,FContractBillNo,FOrderInterID,FOrderEntryID,FOrderBillNo,FAllHookQTY,FAllHookAmount,FCurrentHookQTY,FCurrentHookAmount,FStdAllHookAmount,FStdCurrentHookAmount,FSplitSecQty,FPurchaseCommitQty,FPurchaseSecCommitQty,FCheckQty,FRemainQty,FRemainAmount,FCheckAmount,FRemainAmountFor,FCheckAmountFor,FLinkCheckAmountFor,FLinkCheckAmount,FLinkCheckQty)
+		values (#FBrNo#,#FInterID#,#FEntryID#,#FItemID#,#FQty#,#FPrice#,#FAmount#,#FTaxRate#,#FTaxAmount#,#FCommitQty#,#FUnitID#,#FAuxCommitQty#,#FAuxPrice#,#FAuxQty#,#FTaxPrice#,#FAuxTaxPrice#,#FSourceEntryID#,#FDiscountRate#,#FMapNumber#,#FMapName#,#FOrgBillEntryID#,#FOrderPrice#,#FAuxOrderPrice#,#FNote#,#FStdAmount#,#FStdTaxAmount#,#FAmountincludetax#,#FStdAmountincludetax#,#fauxqty_base#,#FBatchNo#,#FCOMINVID#,#FEntryID_SRC#,#FClassID_SRC#,#FFreeItem1#,#FFreeItem2#,#FFreeItem3#,#FFreeItem4#,#FAuxPropID#,#FAmtDiscount#,#FStdAmtDiscount#,#FKFDate#,#FKFperiod#,#FPeriodDate#,#FPriceDiscount#,#FAuxPriceDiscount#,#FsecCoefficient#,#FSecQty#,#FQuantityReceive_Commit#,#FQuantityPayApply_Commit#,#FSecUnitID#,#FAmountFor_Commit#,#FAmount_Commit#,#FAllAmount#,#FStdAllAmount#,#FSecCommitQty#,#FSourceTranType#,#FSourceInterId#,#FSourceBillNo#,#FContractInterID#,#FContractEntryID#,#FContractBillNo#,#FOrderInterID#,#FOrderEntryID#,#FOrderBillNo#,#FAllHookQTY#,#FAllHookAmount#,#FCurrentHookQTY#,#FCurrentHookAmount#,#FStdAllHookAmount#,#FStdCurrentHookAmount#,#FSplitSecQty#,#FPurchaseCommitQty#,#FPurchaseSecCommitQty#,#FCheckQty#,#FRemainQty#,#FRemainAmount#,#FCheckAmount#,#FRemainAmountFor#,#FCheckAmountFor#,#FLinkCheckAmountFor#,#FLinkCheckAmount#,#FLinkCheckQty#)
 	</insert>
+	
+	<procedure id="p_UpdateBillRelateData" parameterClass="int">
+		{call p_UpdateBillRelateData(86,#FInterID#)}
+	</procedure>
+	
 	<!-- 更新发票部分信息 - 生成发票使用 -->
 	<update id="updateICSale" parameterClass="java.util.Map">
 		update Icsale set 
@@ -409,4 +419,56 @@
 		select (max(FGroupNo)+1) as groupno from ICHookRelations 
 	</select>
 	
-</sqlMap>
+	<!-- 应收表 t_RP_Contact -->
+	<insert id="InsertT_RP_Contact" parameterClass="java.util.HashMap">
+		<selectKey resultClass="int" keyProperty="FID"
+			type="post">
+			SELECT (max(FID)) as FID from t_RP_Contact
+		</selectKey>
+		insert into t_RP_Contact (FYear,FPeriod,FRP,FType,FDate,FFincDate,FNumber,FCustomer,FDepartment,FEmployee,FCurrencyID,FExchangeRate,FAmount,FAmountFor,FRemainAmount,FRemainAmountFor,FContractNo,FInvoiceID,FRPBillID,FBillID,FBegID,FExpenseID,FBussinessDiscount,FCashDiscount,FRPDate,FSuperDays,FDirectSale,FSaleBackAmount,FSaleBackAmountFor,FDue,FIsBad,FBadReason,FVoucherID,FGroupID,FAccountID,FIsInit,FStatus,FPost,FToBal,FPre,FK3Import,FInterestRate,FCheckType,FBillType,FInvoiceType,FItemClassID,FExplanation,FSmInvID,FPreparer)
+		values (#FYear#,#FPeriod#,#FRP#,#FType#,#FDate#,#FFincDate#,#FNumber#,#FCustomer#,#FDepartment#,#FEmployee#,#FCurrencyID#,#FExchangeRate#,#FAmount#,#FAmountFor#,#FRemainAmount#,#FRemainAmountFor#,#FContractNo#,#FInvoiceID#,#FRPBillID#,#FBillID#,#FBegID#,#FExpenseID#,#FBussinessDiscount#,#FCashDiscount#,#FRPDate#,#FSuperDays#,#FDirectSale#,#FSaleBackAmount#,#FSaleBackAmountFor#,#FDue#,#FIsBad#,#FBadReason#,#FVoucherID#,#FGroupID#,#FAccountID#,#FIsInit#,#FStatus#,#FPost#,#FToBal#,#FPre#,#FK3Import#,#FInterestRate#,#FCheckType#,#FBillType#,#FInvoiceType#,#FItemClassID#,#FExplanation#,#FSmInvID#,#FPreparer#)
+	</insert>
+	<!-- 收款计划 t_RP_plan_ar -->
+	<insert id="insertT_RP_plan_ar" parameterClass="java.util.HashMap">
+		<selectKey resultClass="int" keyProperty="FDetailID"
+			type="post">
+			SELECT @@IDENTITY AS FDetailID
+		</selectKey>
+		insert into T_RP_plan_ar (FOrgID,FDate,FAmount,FAmountFor,FRemainAmount,FRemainAmountFor,FType,FExplanation,FInterID,FBillID,FEntryID,FRP,FIsInit)
+		values (#FOrgID#,#FDate#,#FAmount#,#FAmountFor#,#FRemainAmount#,#FRemainAmountFor#,#FType#,#FExplanation#,#FInterID#,#FBillID#,#FEntryID#,#FRP#,#FIsInit#)
+	</insert>
+	
+	<select id="selectLastTradeDateOrg" parameterClass="java.util.HashMap" resultClass="int">
+	select count(*) from t_organization where FLastTradeDate>#FLastTradeDate# and FItemID=#FItemID#
+	</select>
+	<update id="UpdateOrgLastTradeDateAndAmount" parameterClass="java.util.HashMap">
+ 	update t_organization set FLastTradeDate=#FLastTradeDate#, FLastTradeAmount=#FLastTradeAmount# where FItemID=#FItemID#
+	</update>
+	
+	<select id="selectCountT_RP_ContactBal" parameterClass="java.util.HashMap" resultClass="int">
+		select count(*) from t_RP_ContactBal 
+		where  FYear=#FYear# 
+		and  FPeriod=#FPeriod# 
+		and  FCurrencyID=1 
+		and  FCustomer=#FCustomer# 
+		and  FDepartment=#FDepartment# 
+		and  FEmployee =#FEmployee# 
+		and  FRP=1 
+		and  FAccountID =#FAccountID#
+	</select>
+	<update id="updateT_RP_ContactBal" parameterClass="java.util.HashMap">
+	update t_RP_ContactBal set  FDebit=FDebit+#Amount#,
+	 FDebitFor=FDebitFor+#Amount#,
+	  FYtdDebit=FYtdDebit+#Amount#,
+	   FYtdDebitFor=FYtdDebitFor+#Amount#,
+	    FEndBalanceFor=FEndBalanceFor+#Amount#, 
+	    FEndBalance=FEndBalance+#Amount# 
+	    where FYear=#FYear# and FPeriod=#FPeriod# and FCustomer=#FCustomer# and FDepartment=#FDepartment# and FEmployee=#FEmployee# and FCurrencyID=1 and FRP=1 and FAccountID=#FAccountID#
+	</update>
+	<insert id="insertT_RP_ContactBal" parameterClass="java.util.HashMap">
+	Insert into t_RP_ContactBal(FYear,FPeriod,FItemClassID,FCustomer,FDepartment, FEmployee,FAccountID,FCurrencyID,FBeginBalanceFor, FDebitFor,FCreditFor,FYtdDebitFor,FYtdCreditFor,FEndBalanceFor, FBeginBalance,FDebit,FCredit,FYtdDebit,FYtdCredit,FEndBalance,FRP) 
+	values
+	(#FYear#,#FPeriod#,1,#FCustomer#,#FDepartment#,#FEmployee#,#FAccountID#,1,0,#Amount#,0,#Amount#,0,#Amount#,0,#Amount#,0,#Amount#,0,#Amount#,1)
+	</insert>
+	
+</sqlMap>	

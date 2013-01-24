@@ -2191,8 +2191,11 @@ public class AppServiceImpl extends BaseService implements AppService {
 
 			if (icstockbillentry.size() > 0) {
 				Map icsaleData = insertIcsale(icstockbill, dao);
-				insertICSaleEntry(icsaleData, icstockbill, icstockbillentry,
-						dao);
+				BigDecimal FAmountSum = insertICSaleEntry(icsaleData,
+						icstockbill, icstockbillentry, dao);
+
+				p_UpdateBillRelateData(Integer.parseInt(icsaleData.get(
+						"FInterID").toString()), dao);
 
 				Integer hookid = insertICHookRelations(icstockbill, icsaleData,
 						icstockbillentry, dao);
@@ -2203,6 +2206,16 @@ public class AppServiceImpl extends BaseService implements AppService {
 				updateIcstockbillentry(icstockbillentry, dao);
 
 				updateICSale(hookid, icsaleData, dao);
+
+				Map contactMap = insertT_RP_Contact(icstockbill, Integer
+						.parseInt(icsaleData.get("FInterID").toString()),
+						FAmountSum, dao);
+				insertT_RP_plan_ar(contactMap, Integer.parseInt(icsaleData.get(
+						"FInterID").toString()), dao);
+				
+				updateOrgInfo(icsaleData, FAmountSum, dao);
+				updateT_RP_ContactBal(icsaleData, FAmountSum, dao);
+
 				json.put("tip", "生成销售发票成功!");
 			} else {
 				json.put("error", "yes");
@@ -2242,8 +2255,11 @@ public class AppServiceImpl extends BaseService implements AppService {
 
 				if (icstockbillentry.size() > 0) {
 					Map icsaleData = insertIcsale(icstockbill, dao);
-					insertICSaleEntry(icsaleData, icstockbill,
-							icstockbillentry, dao);
+					BigDecimal FAmountSum = insertICSaleEntry(icsaleData,
+							icstockbill, icstockbillentry, dao);
+
+					p_UpdateBillRelateData(Integer.parseInt(icsaleData.get(
+							"FInterID").toString()), dao);
 
 					Integer hookid = insertICHookRelations(icstockbill,
 							icsaleData, icstockbillentry, dao);
@@ -2254,6 +2270,15 @@ public class AppServiceImpl extends BaseService implements AppService {
 					updateIcstockbillentry(icstockbillentry, dao);
 
 					updateICSale(hookid, icsaleData, dao);
+
+					Map contactMap = insertT_RP_Contact(icstockbill, Integer
+							.parseInt(icsaleData.get("FInterID").toString()),
+							FAmountSum, dao);
+					insertT_RP_plan_ar(contactMap, Integer.parseInt(icsaleData
+							.get("FInterID").toString()), dao);
+					
+					updateOrgInfo(icsaleData, FAmountSum, dao);
+					updateT_RP_ContactBal(icsaleData, FAmountSum, dao);
 				}
 
 			}
@@ -2286,6 +2311,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 				+ StringUtils.substring(FBillNo, 8, 10);
 		Date fdate = TimeUtil.parseDate(fdatestr);
 
+		// map.put("FInterID", null);
 		map.put("FBillNo", data.get("FBillNo"));
 		map.put("FTranType", 86);
 		map.put("FDate", fdate);
@@ -2407,9 +2433,10 @@ public class AppServiceImpl extends BaseService implements AppService {
 	 * @param dao
 	 * @throws Exception
 	 */
-	private void insertICSaleEntry(Map form, Map sourceform, List<Map> datas,
-			CommonDAO dao) throws Exception {
+	private BigDecimal insertICSaleEntry(Map form, Map sourceform,
+			List<Map> datas, CommonDAO dao) throws Exception {
 		List list = new ArrayList();
+		BigDecimal FAmount = new BigDecimal("0");
 		for (int i = 0; i < datas.size(); i++) {
 			Map data = datas.get(i);
 
@@ -2425,6 +2452,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 			map.put("FAmount", data.get("FConsignAmount"));
 			map.put("FTaxRate", 0);
 			map.put("FTaxAmount", 0);
+			FAmount = FAmount.add((BigDecimal) data.get("FConsignAmount"));
 
 			map.put("FCommitQty", 0);
 			map.put("FUnitID", data.get("FUnitID"));
@@ -2510,6 +2538,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 			list.add(map);
 		}
 		dao.insertBatch("HG.insertICSaleEntry", list);
+		return FAmount;
 	}
 
 	/**
@@ -2656,6 +2685,145 @@ public class AppServiceImpl extends BaseService implements AppService {
 		icsaleData.put("FArApStatus", 1);
 		// icsaleData.put("FYearPeriod", "");
 		dao.update("HG.updateICSale", icsaleData);
+	}
+
+	private void p_UpdateBillRelateData(int FInterID, CommonDAO dao)
+			throws Exception {
+		dao.update("HG.p_UpdateBillRelateData", FInterID);
+	}
+
+	private void updateOrgInfo(Map data, BigDecimal FAmountSum, CommonDAO dao)
+			throws Exception {
+		String FBillNo = (String) data.get("FBillNo");
+		String fdatestr = StringUtils.substring(FBillNo, 2, 6) + "-"
+				+ StringUtils.substring(FBillNo, 6, 8) + "-"
+				+ StringUtils.substring(FBillNo, 8, 10);
+
+		Map d = new HashMap();
+		d.put("FLastTradeDate", fdatestr);
+		d.put("FItemID", data.get("FCustID"));
+		d.put("FLastTradeAmount", FAmountSum);
+		Integer s = (Integer) dao.findForObject("HG.selectLastTradeDateOrg", d);
+		if (s > 0) {
+			dao.update("HG.UpdateOrgLastTradeDateAndAmount", d);
+		}
+	}
+
+	private void updateT_RP_ContactBal(Map data, BigDecimal FAmountSum,
+			CommonDAO dao) throws Exception {
+		Map d = new HashMap();
+		d.put("FAccountID", 1347);// 科目
+		d.put("Amount", FAmountSum);
+		d.put("FYear", data.get("FYear"));
+		d.put("FPeriod", data.get("FPeriod"));
+		d.put("FCustomer", data.get("FCustID"));
+		d.put("FDepartment", data.get("FDeptID"));
+		d.put("FEmployee", data.get("FEmpID"));
+		Integer s = (Integer) dao.findForObject(
+				"HG.selectCountT_RP_ContactBal", d);
+		if (s > 0) {
+			dao.update("HG.updateT_RP_ContactBal", d);
+		} else {
+			dao.insert("HG.insertT_RP_ContactBal", d);
+		}
+	}
+
+	/**
+	 * 3.应收
+	 * 
+	 * @param icsaleData
+	 * @param dao
+	 * @return
+	 * @throws Exception
+	 */
+	private Map insertT_RP_Contact(Map data, Integer icsaleID,
+			BigDecimal FAmountSum, CommonDAO dao) throws Exception {
+		Map map = new HashMap();
+		String FBillNo = (String) data.get("FBillNo");
+		String fdatestr = StringUtils.substring(FBillNo, 2, 6) + "-"
+				+ StringUtils.substring(FBillNo, 6, 8) + "-"
+				+ StringUtils.substring(FBillNo, 8, 10);
+		Date fdate = TimeUtil.parseDate(fdatestr);
+		// map.put("FID", null);
+		map.put("FYear", TimeUtil.getYear(fdate));
+		map.put("FPeriod", TimeUtil.getMonth(fdate));
+		map.put("FRP", 1);
+		map.put("FType", 3);
+		map.put("FDate", fdate);
+		map.put("FFincDate", fdate);
+		map.put("FNumber", FBillNo);
+		map.put("FCustomer", data.get("FSupplyID"));
+		map.put("FDepartment", data.get("FDeptID"));
+		map.put("FEmployee", data.get("FEmpID"));
+		map.put("FCurrencyID", 1);
+		map.put("FExchangeRate", 1.0);
+		map.put("FAmount", FAmountSum);
+		map.put("FAmountFor", FAmountSum);
+		map.put("FRemainAmount", FAmountSum);
+		map.put("FRemainAmountFor", FAmountSum);
+		map.put("FContractNo", null);
+		map.put("FInvoiceID", icsaleID);
+
+		map.put("FRPBillID", 0);
+		map.put("FBillID", 0);
+		map.put("FBegID", 0);
+		map.put("FExpenseID", 0);
+		map.put("FBussinessDiscount", 0);
+		map.put("FCashDiscount", 0);
+		map.put("FRPDate", fdate);
+
+		map.put("FSuperDays", 0);
+		map.put("FDirectSale", 0);
+		map.put("FSaleBackAmount", 0);
+		map.put("FSaleBackAmountFor", 0);
+		map.put("FDue", 0);
+		map.put("FIsBad", 0);
+		map.put("FBadReason", null);
+
+		map.put("FVoucherID", 0);
+		map.put("FGroupID", 0);
+		map.put("FAccountID", 0);
+		map.put("FIsInit", 0);
+		map.put("FStatus", 1);
+		map.put("FPost", 0);
+		map.put("FToBal", 1);
+		map.put("FPre", 0);
+		map.put("FK3Import", 1);
+		map.put("FInterestRate", 0.0);
+		map.put("FCheckType", 0);
+		map.put("FBillType", 1);
+		map.put("FInvoiceType", 1);
+		map.put("FItemClassID", 1);
+		map.put("FExplanation", "");
+		map.put("FSmInvID", 0);
+		map.put("FPreparer", "16409");// 陈晓燕
+		// map.put("FModifyTime", "(cast(getdate() as timestamp))");
+		map.put("UUID", "newid()");
+
+		map = (Map) dao.insert("HG.InsertT_RP_Contact", map);
+		return map;
+	}
+
+	/**
+	 * 应收计划
+	 */
+	private void insertT_RP_plan_ar(Map RP_Contact_data, Integer icsaleID,
+			CommonDAO dao) throws Exception {
+		Map map = new HashMap();
+		map.put("FOrgID", RP_Contact_data.get("FID"));
+		map.put("FDate", RP_Contact_data.get("FDate"));
+		map.put("FAmount", RP_Contact_data.get("FAmount"));
+		map.put("FAmountFor", RP_Contact_data.get("FAmountFor"));
+		map.put("FRemainAmount", RP_Contact_data.get("FRemainAmount"));
+		map.put("FRemainAmountFor", RP_Contact_data.get("FRemainAmountFor"));
+		map.put("FType", 0);
+		map.put("FExplanation", null);
+		map.put("FInterID", icsaleID);
+		map.put("FBillID", 0);
+		map.put("FEntryID", 0);
+		map.put("FRP", 1);
+		map.put("FIsInit", 0);
+		dao.insert("HG.insertT_RP_plan_ar", map);
 	}
 
 	public void queryIcsale(HttpServletRequest request,

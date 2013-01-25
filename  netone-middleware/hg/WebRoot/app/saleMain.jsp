@@ -30,8 +30,8 @@
 		单据编号:<input id="FBillNo" name="FBillNo" />
 		类型:<select id="sale" name="sale">
 			<option value="1" >已生成发票</option>
-			<option value="0" >未生成发票</option>
-			<option value="-1" selected="selected">销售出库</option>
+			<option value="0" selected="selected">未生成发票</option>
+			<option value="-1" >销售出库</option>
 			</select>
 		<input type="button"  value="查询"   onclick='refresh();'   />
 		
@@ -86,8 +86,8 @@ function $select(o,url){
 						//{header: 'FRelateInvoiceID', dataIndex: 'FRelateInvoiceID', sortable: true,hidden:false},
 						//{header: 'FHookStatus', dataIndex: 'FHookStatus', sortable: true,hidden:false},
 						
-						{header: '购货单位', dataIndex: 'FSupplyName', sortable: true,hidden:false}
-						
+						{header: '购货单位', dataIndex: 'FSupplyName', sortable: true,hidden:false},
+						{header: '单据金额', dataIndex: 'sumamount', sortable: true,hidden:false}
 						,{header: "操作",dataIndex: "", sortable: false, renderer: 
 						function operateRend(value, cellmeta, record, rowIndex, columnIndex, store) { 
 							var FInterID = store.getAt(rowIndex).get('FInterID') ; 
@@ -95,7 +95,7 @@ function $select(o,url){
 							var FHookStatus = store.getAt(rowIndex).get('FHookStatus') ; 
 							var sumamount = store.getAt(rowIndex).get('sumamount') ; 
 							var value = "";
-							if (FRelateInvoiceID==0 && FHookStatus!=2 && sumamount>0){
+							if (FRelateInvoiceID==0 && FHookStatus!=2 && sumamount!=0){
 							value += "&nbsp;<a href='javascript:void(0)' onclick=$buildF('"+FInterID+"'); >生成普通发票</a>&nbsp;";
 							}
 							return value;

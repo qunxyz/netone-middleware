@@ -2178,7 +2178,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 		JSONObject json = new JSONObject();
 		String FInterID = request.getParameter("FInterID");
 		try {
-			CommonDAO dao = getHgTestDAO();
+			CommonDAO dao = getHgDAO();
 			Map icstockbill = (Map) dao.findForObject(
 					"HG.selectIcstockbillInfo", Integer.parseInt(FInterID));
 			List<Map> icstockbillentry = new ArrayList();
@@ -2239,7 +2239,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 		JSONObject json = new JSONObject();
 		String FInterID = request.getParameter("FInterID");
 		try {
-			CommonDAO dao = getHgTestDAO();
+			CommonDAO dao = getHgDAO();
 			List icstockbilllist = (List) dao.select(
 					"HG.selectAllIcstockbillInfo", null);
 			for (Iterator iterator = icstockbilllist.iterator(); iterator
@@ -2855,7 +2855,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 		if (StringUtils.isNotEmpty(sale)) {
 			conditionMap.put("sale", sale.trim());
 		}
-		CommonDAO dao = getHgTestDAO();
+		CommonDAO dao = getHgDAO();
 		try {
 			obj = dao.selectForPage("HG.selectIcstockbillByCount",
 					"HG.selectIcstockbill", conditionMap, obj);

@@ -1,19 +1,20 @@
 package com.jl.entity;
 
 public class PointDx {
-	private long x;
-	private long y;
+	private double x;
+	private double y;
 	private String name;
-	public long getX() {
+
+	public double getX() {
 		return x;
 	}
-	public void setX(long x) {
+	public void setX(double x) {
 		this.x = x;
 	}
-	public long getY() {
+	public double getY() {
 		return y;
 	}
-	public void setY(long y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 	public String getName() {

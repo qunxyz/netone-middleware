@@ -82,7 +82,8 @@ public class SuperAnaSvl extends HttpServlet {
 				try {
 					ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
 					UmsProtectedobject upo=(UmsProtectedobject)rs.loadResourceByNatural(form2);
-					String referenceString=upo.getReference();
+					//String referenceString=upo.getReference();
+					String referenceString="test,jdbc:oracle:thin:@127.0.0.1:1521:ORCL,oracle.jdbc.driver.OracleDriver,FJCRNOP,orcl";
 					//tablename@table1,url@localhost,driver@com.orcele,username@roosd,pasword@sdfds
 					//test,jdbc:oracle:thin:@127.0.0.1:1521:ORCL,oracle.jdbc.driver.OracleDriver,FJCRNOP,orcl
 					String[] par = StringUtils.split(referenceString,",");
@@ -94,7 +95,8 @@ public class SuperAnaSvl extends HttpServlet {
 					System.out.println(tablename + "_" + url + "_" + driver + "_" + name + "_" + password);
 					Connection con = DbTools.getOuterCon(driver, url, name, password);
 					sql1=" select "+table1_col+" from dyform."+table1+" where " +table1_con;
-					sql2=" select "+table2_col+" from "+ name + "." +tablename+" where " +table2_con;
+					System.out.println(sql1);
+					sql2=" select init_sector_id sid,F0039 cid,init_lon poffx,init_lat poffy from CDL_RAW_1X_10808_HWV6 where init_lon is not null and init_lat is not null";
 					list1=DbTools.queryData(sql1);
 					list2=DbTools.queryData(sql2,con);			
 				} catch (NotBoundException e) {
@@ -122,12 +124,12 @@ public class SuperAnaSvl extends HttpServlet {
 			for (Iterator iterator = list1.iterator(); iterator.hasNext();) {
 				StringBuffer but2=new StringBuffer("");
 				Map object = (Map) iterator.next();
-				Double gpx1=(((java.math.BigDecimal)object.get("gpx")).doubleValue())*1000000;
-				Double gpx2=(((java.math.BigDecimal)object.get("gpy")).doubleValue())*1000000;
+				Double gpx1=(((java.math.BigDecimal)object.get("gpx")).doubleValue());
+				Double gpx2=(((java.math.BigDecimal)object.get("gpy")).doubleValue());
 				PointDx sq = new PointDx();
 				PointDx sq1 = new PointDx();
 				double pz = ((java.math.BigDecimal)object.get("gppz")).doubleValue();
-				long jl = ((java.math.BigDecimal)object.get("gpjl")).longValue();
+				double jl = ((java.math.BigDecimal)object.get("gpjl")).longValue();
 				double zk = ((java.math.BigDecimal)object.get("gpzk")).doubleValue();
 				sq.setX(gpx1.longValue()%800);
 				sq.setY(gpx2.longValue()%800);
@@ -143,7 +145,8 @@ public class SuperAnaSvl extends HttpServlet {
 					PointDx sqx = new PointDx();
 					sqx.setX(((java.math.BigDecimal)object2.get("poffx")).longValue());
 					sqx.setY(((java.math.BigDecimal)object2.get("poffy")).longValue());
-					if(((String)object.get("id")).equals((String)object2.get("ssjz"))){
+					if(((String)object.get("CID")).equals((String)object2.get("CID"))&&((String)object.get("SID")).equals((String)object2.get("SID"))){
+						System.out.println(object2.get("poffx") + "_" +object2.get("poffy"));
 						if(isInclude(sqx, sq2, sq, sq3, jl))
 							in++;
 						tol++;
@@ -205,15 +208,15 @@ public class SuperAnaSvl extends HttpServlet {
 				Map object = (Map) iterator.next();
 				if(!id.equals((String)object.get("id")))
 					continue;
-				Double gpx1=(((java.math.BigDecimal)object.get("gpx")).doubleValue())*1000000;
-				Double gpx2=(((java.math.BigDecimal)object.get("gpy")).doubleValue())*1000000;
+				Double gpx1=(((java.math.BigDecimal)object.get("gpx")).doubleValue());
+				Double gpx2=(((java.math.BigDecimal)object.get("gpy")).doubleValue());
 				PointDx sq = new PointDx();
 				PointDx sq1 = new PointDx();
 				double pz = ((java.math.BigDecimal)object.get("gppz")).doubleValue();
 				long jl = ((java.math.BigDecimal)object.get("gpjl")).longValue();
 				double zk = ((java.math.BigDecimal)object.get("gpzk")).doubleValue();
-				sq.setX(gpx1.longValue()%800);
-				sq.setY(gpx2.longValue()%800);
+				sq.setX(gpx1.doubleValue());
+				sq.setY(gpx2.doubleValue());
 				sq.setName((String)object.get("name"));
 				sq1.setX(sq.getX());
 				sq1.setY(sq.getY() - jl);
@@ -286,7 +289,7 @@ public class SuperAnaSvl extends HttpServlet {
 		Double angleAMB = Math.acos(cosM) * 180 / Math.PI;  
 		return angleAMB.intValue();
 	}
-	public boolean isInclude(PointDx n,PointDx a,PointDx b,PointDx c,long jl){ 
+	public boolean isInclude(PointDx n,PointDx a,PointDx b,PointDx c,double jl){ 
 		double s = Math.sqrt((n.getX()-b.getX())*(n.getX()-b.getX()) + (n.getY()-b.getY())*(n.getY()-b.getY()));
 		if(s<=jl && getAngle(n, b, c) < getAngle(a, b, c) && getAngle(n, b, a) < getAngle(a, b, c))
 			return true;

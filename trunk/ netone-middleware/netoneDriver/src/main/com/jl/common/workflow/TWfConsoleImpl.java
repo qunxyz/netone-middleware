@@ -1969,4 +1969,16 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		return false;
 	}
 
+	@Override
+	public boolean checkUserworklist(String usercode, String workcode) {
+		String sql="select count(*) counx from t_wf_participant where workcode='"+workcode+"' and usercode='"+usercode+"'";
+		List list=DbTools.queryData(sql);
+		Map data=(Map)list.get(0);
+		Integer intx=(Integer)data.get("counx");
+		if(intx>0){
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -1,6 +1,8 @@
 package com.jl.common.workflow;
 
-public final class TWfRelevant {
+import java.io.Serializable;
+
+public final class TWfRelevant implements Serializable{
 	/**
 	 * ±íµ¥id
 	 */

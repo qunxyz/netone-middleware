@@ -696,4 +696,11 @@ public interface TWfConsoleIfc {
 	 */
 	public int repairErrorProcess(String runtimeid,String commitercode,String operatercode);
 
+	/**
+	 * 检查用户的待办任务
+	 * @param usercode
+	 * @param workcode
+	 * @return
+	 */
+	public boolean checkUserworklist(String usercode,String workcode);
 }

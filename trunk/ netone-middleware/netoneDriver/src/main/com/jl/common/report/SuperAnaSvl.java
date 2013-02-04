@@ -2,6 +2,8 @@ package com.jl.common.report;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.rmi.NotBoundException;
 import java.sql.Connection;
 import java.util.Iterator;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
+
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.workflow.DbTools;
@@ -83,7 +86,7 @@ public class SuperAnaSvl extends HttpServlet {
 					ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
 					UmsProtectedobject upo=(UmsProtectedobject)rs.loadResourceByNatural(form2);
 					//String referenceString=upo.getReference();
-					String referenceString="test,jdbc:oracle:thin:@127.0.0.1:1521:ORCL,oracle.jdbc.driver.OracleDriver,FJCRNOP,orcl";
+					String referenceString="CDL_RAW_1X_10808_HWV6,jdbc:oracle:thin:@127.0.0.1:1521:ORCL,oracle.jdbc.driver.OracleDriver,FJCRNOP,orcl";
 					//tablename@table1,url@localhost,driver@com.orcele,username@roosd,pasword@sdfds
 					//test,jdbc:oracle:thin:@127.0.0.1:1521:ORCL,oracle.jdbc.driver.OracleDriver,FJCRNOP,orcl
 					String[] par = StringUtils.split(referenceString,",");
@@ -92,11 +95,9 @@ public class SuperAnaSvl extends HttpServlet {
 					String driver = par[2];
 					String name = par[3];
 					String password = par[4];
-					System.out.println(tablename + "_" + url + "_" + driver + "_" + name + "_" + password);
 					Connection con = DbTools.getOuterCon(driver, url, name, password);
-					sql1=" select "+table1_col+" from dyform."+table1+" where " +table1_con;
-					System.out.println(sql1);
-					sql2=" select init_sector_id sid,F0039 cid,init_lon poffx,init_lat poffy from CDL_RAW_1X_10808_HWV6 where init_lon is not null and init_lat is not null";
+					sql1="select "+table1_col+" from dyform."+table1+" where " +table1_con;
+					sql2="select f0245,f0384,f0244,f0383,f0390,f0251,f0389,f0250,f0257,f0396,f0395,f0256,f0402,f0263,f0262,f0401,f0408,f0269,f0268,f0407,f0415,f0414,f0413,f0274,last_lon poffx,last_lat poffy from CDL_RAW_1X_10808_HWV6 where last_lon is not null and last_lat is not null";
 					list1=DbTools.queryData(sql1);
 					list2=DbTools.queryData(sql2,con);			
 				} catch (NotBoundException e) {
@@ -124,15 +125,15 @@ public class SuperAnaSvl extends HttpServlet {
 			for (Iterator iterator = list1.iterator(); iterator.hasNext();) {
 				StringBuffer but2=new StringBuffer("");
 				Map object = (Map) iterator.next();
-				Double gpx1=(((java.math.BigDecimal)object.get("gpx")).doubleValue());
-				Double gpx2=(((java.math.BigDecimal)object.get("gpy")).doubleValue());
+				Double gpx1=Double.valueOf(object.get("gpx").toString());
+				Double gpx2=Double.valueOf(object.get("gpy").toString());
 				PointDx sq = new PointDx();
 				PointDx sq1 = new PointDx();
-				double pz = ((java.math.BigDecimal)object.get("gppz")).doubleValue();
-				double jl = ((java.math.BigDecimal)object.get("gpjl")).longValue();
-				double zk = ((java.math.BigDecimal)object.get("gpzk")).doubleValue();
-				sq.setX(gpx1.longValue()%800);
-				sq.setY(gpx2.longValue()%800);
+				double pz = Double.valueOf(object.get("gppz").toString())*1.5;
+				double jl = 0.5;
+				double zk = Double.valueOf(object.get("gpzk").toString());
+				sq.setX(gpx1);
+				sq.setY(gpx2);
 				sq.setName((String)object.get("name"));
 				sq1.setX(sq.getX());
 				sq1.setY(sq.getY() - jl);
@@ -143,10 +144,9 @@ public class SuperAnaSvl extends HttpServlet {
 				for (Iterator iterator2 = list2.iterator(); iterator2.hasNext();) {
 					Map object2 = (Map) iterator2.next();
 					PointDx sqx = new PointDx();
-					sqx.setX(((java.math.BigDecimal)object2.get("poffx")).longValue());
-					sqx.setY(((java.math.BigDecimal)object2.get("poffy")).longValue());
-					if(((String)object.get("CID")).equals((String)object2.get("CID"))&&((String)object.get("SID")).equals((String)object2.get("SID"))){
-						System.out.println(object2.get("poffx") + "_" +object2.get("poffy"));
+					sqx.setX(Double.valueOf(object2.get("POFFX").toString()));
+					sqx.setY(Double.valueOf(object2.get("POFFY").toString()));
+					if((object.get("CID").toString()).equals(object2.get("F0274").toString())||(object.get("CID").toString()).equals(object2.get("F0413").toString())||(object.get("CID").toString()).equals(object2.get("F0407").toString())||(object.get("CID").toString()).equals(object2.get("F0268").toString())||(object.get("CID").toString()).equals(object2.get("F0401").toString())||(object.get("CID").toString()).equals(object2.get("F0262").toString())||(object.get("CID").toString()).equals(object2.get("F0256").toString())||(object.get("CID").toString()).equals(object2.get("F0395").toString())||(object.get("CID").toString()).equals(object2.get("F0250").toString())||(object.get("CID").toString()).equals(object2.get("F0389").toString())||(object.get("CID").toString()).equals(object2.get("F0383").toString())||(object.get("CID").toString()).equals(object2.get("F0244").toString())||(object.get("SID").toString()).equals(object2.get("F0245").toString())||(object.get("SID").toString()).equals(object2.get("F0384").toString())||(object.get("SID").toString()).equals(object2.get("F0390").toString())||(object.get("SID").toString()).equals(object2.get("F0251").toString())||(object.get("SID").toString()).equals(object2.get("F0257").toString())||(object.get("SID").toString()).equals(object2.get("F0396").toString())||(object.get("SID").toString()).equals(object2.get("F0402").toString())||(object.get("SID").toString()).equals(object2.get("F0263").toString())||(object.get("SID").toString()).equals(object2.get("F0408").toString())||(object.get("SID").toString()).equals(object2.get("F0269").toString())||(object.get("SID").toString()).equals(object2.get("F0415").toString())||(object.get("SID").toString()).equals(object2.get("F0414").toString())){
 						if(isInclude(sqx, sq2, sq, sq3, jl))
 							in++;
 						tol++;
@@ -162,7 +162,7 @@ public class SuperAnaSvl extends HttpServlet {
 //						flag++;
 //					}
 				}
-				if(in*100/tol<cond){
+				if(tol > 0 && in*100/tol<cond){
 					but1.append("<tr>" +
 							"		<td>"+ sq.getName() +"</td>" +
 							"		<td>"+ in*100/tol +"%</td>" +
@@ -175,7 +175,7 @@ public class SuperAnaSvl extends HttpServlet {
 			    	"<option value='2'>扇区外节点</option>"+
 			    "</select>" +
 							"		</td>" +
-							"		<td><button onclick=\"javascript:window.open('http://42.120.52.168:8080/ndyd/servlet/SuperAnaSvl?disp=gis&id="+ (String)object.get("id") +"&mode='+$(this).parent().parent().find('#mode').val());\">查看</button></td>" +
+							"		<td><button onclick=\"javascript:window.open('http://127.0.0.1:8001/ndyd/servlet/SuperAnaSvl?disp=gis&sid="+ object.get("SID").toString() +"&cid="+ object.get("CID").toString() +"&mode='+$(this).parent().parent().find('#mode').val());\">查看</button></td>" +
 							"	</tr>");
 				}
 			}
@@ -187,7 +187,7 @@ public class SuperAnaSvl extends HttpServlet {
 					.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
 			out.println("<HTML>");
 			out.println("  <HEAD><TITLE>分析结果</TITLE>" +
-					"<script type='text/javascript' src='http://42.120.52.168:8080/ndyd/script/jquery-1.3.2.min.js'></script>" +
+					"<script type='text/javascript' src='http://127.0.0.1:8001/ndyd/script/jquery-1.3.2.min.js'></script>" +
 					"</HEAD>");
 			out.println("  <BODY>");
 			out.print(but1.toString());
@@ -198,60 +198,107 @@ public class SuperAnaSvl extends HttpServlet {
 		}
 		
 		if("gis".equals(disp)){
+			response.setContentType("text/html");
+			response.setCharacterEncoding("utf-8");
+			PrintWriter out = response.getWriter();
+			out
+					.println("<!DOCTYPE html>");
+			out.println("<html>");
+			out.println("<head>" +
+					"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" +
+					"<style type=\"text/css\">" +
+					"body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;}" +
+					"#l-map{height:100%;width:78%;float:left;border-right:2px solid #bcbcbc;}" +
+					"#r-result{height:100%;width:20%;float:left;}" +
+					"</style>" +
+					"<script type=\"text/javascript\" src=\"http://api.map.baidu.com/api?v=1.4\"></script>" +
+					"<title>节点分布</title>" +
+					"</head>" +
+					"<body>" +
+					"<div id=\"allmap\"></div>" +
+					"</body>" +
+					"</html>" +
+					"<script type=\"text/javascript\">" +
+					"var map = new BMap.Map(\"allmap\");" +
+					"var polygon = new BMap.Polygon(["
+					);
+			boolean flag = true;
 			StringBuffer but1=new StringBuffer();
 			StringBuffer but2=new StringBuffer();
-			String id = request.getParameter("id");
+			String cid = request.getParameter("cid");
+			String sid = request.getParameter("sid");
 			String mode = request.getParameter("mode");
 			List list1 = (List)request.getSession().getAttribute("list1");
 			List list2 = (List)request.getSession().getAttribute("list2");
 			for (Iterator iterator = list1.iterator(); iterator.hasNext();) {
 				Map object = (Map) iterator.next();
-				if(!id.equals((String)object.get("id")))
+				if(!(cid.equals(object.get("CID").toString())&&sid.equals(object.get("SID").toString())))
 					continue;
 				Double gpx1=(((java.math.BigDecimal)object.get("gpx")).doubleValue());
 				Double gpx2=(((java.math.BigDecimal)object.get("gpy")).doubleValue());
 				PointDx sq = new PointDx();
 				PointDx sq1 = new PointDx();
-				double pz = ((java.math.BigDecimal)object.get("gppz")).doubleValue();
-				long jl = ((java.math.BigDecimal)object.get("gpjl")).longValue();
+				double pz = ((java.math.BigDecimal)object.get("gppz")).doubleValue()*1.5;
+				double jl = 0.5;
 				double zk = ((java.math.BigDecimal)object.get("gpzk")).doubleValue();
 				sq.setX(gpx1.doubleValue());
 				sq.setY(gpx2.doubleValue());
 				sq.setName((String)object.get("name"));
 				sq1.setX(sq.getX());
 				sq1.setY(sq.getY() - jl);
+				out.println("new BMap.Point(" + sq.getX() + "," + sq.getY() + "),");
 				but1.append("," + sq.getX() + "," + sq.getY());
 				PointDx sq2 = getPoint(sq,sq1,pz*Math.PI/180);
+				out.println("new BMap.Point(" + sq2.getX() + "," + sq2.getY() + "),");
 				but1.append("," + sq2.getX() + "," + sq2.getY());
 				PointDx sq3 = getPoint(sq,sq2,zk*Math.PI/180);
-				for(int i = 1;i<zk;i++)
+				for(int i = 1;i<zk;i++){
+					out.println("new BMap.Point(" + getPoint(sq,sq2,i*Math.PI/180).getX() + "," + getPoint(sq,sq2,i*Math.PI/180).getY() + "),");
 					but1.append("," + getPoint(sq,sq2,i*Math.PI/180).getX() + "," + getPoint(sq,sq2,i*Math.PI/180).getY());
+				}
+				out.println("new BMap.Point(" + sq3.getX() + "," + sq3.getY() + ")");
 				but1.append("," + sq3.getX() + "," + sq3.getY());
 				but1.append("\n");
+				out.println("], {strokeColor:\"blue\", strokeWeight:6, strokeOpacity:0.5});");
+				out.println("map.addOverlay(polygon);");
 				//基站描图 
 				but2.append(sq.getX()+","+sq.getY()+","+sq.getName()+"\n");
+				int k = 0;
 				for (Iterator iterator2 = list2.iterator(); iterator2.hasNext();) {
 					Map object2 = (Map) iterator2.next();
-					if(!id.equals((String)object2.get("ssjz")))
+					if(!((object.get("CID").toString()).equals(object2.get("F0274").toString())||(object.get("CID").toString()).equals(object2.get("F0413").toString())||(object.get("CID").toString()).equals(object2.get("F0407").toString())||(object.get("CID").toString()).equals(object2.get("F0268").toString())||(object.get("CID").toString()).equals(object2.get("F0401").toString())||(object.get("CID").toString()).equals(object2.get("F0262").toString())||(object.get("CID").toString()).equals(object2.get("F0256").toString())||(object.get("CID").toString()).equals(object2.get("F0395").toString())||(object.get("CID").toString()).equals(object2.get("F0250").toString())||(object.get("CID").toString()).equals(object2.get("F0389").toString())||(object.get("CID").toString()).equals(object2.get("F0383").toString())||(object.get("CID").toString()).equals(object2.get("F0244").toString())||(object.get("SID").toString()).equals(object2.get("F0245").toString())||(object.get("SID").toString()).equals(object2.get("F0384").toString())||(object.get("SID").toString()).equals(object2.get("F0390").toString())||(object.get("SID").toString()).equals(object2.get("F0251").toString())||(object.get("SID").toString()).equals(object2.get("F0257").toString())||(object.get("SID").toString()).equals(object2.get("F0396").toString())||(object.get("SID").toString()).equals(object2.get("F0402").toString())||(object.get("SID").toString()).equals(object2.get("F0263").toString())||(object.get("SID").toString()).equals(object2.get("F0408").toString())||(object.get("SID").toString()).equals(object2.get("F0269").toString())||(object.get("SID").toString()).equals(object2.get("F0415").toString())||(object.get("SID").toString()).equals(object2.get("F0414").toString())))
 						continue;
+					if(flag){
+						out.println("var point = new BMap.Point("+ object2.get("POFFX").toString() +", "+ object2.get("POFFY").toString() +");");
+						out.println("map.centerAndZoom(point, 15);");
+						out.println("function addMarker(point){");
+						out.println("var marker = new BMap.Marker(point);");
+						out.println("map.addOverlay(marker);");
+						out.println("}");
+						flag = false;
+					}
 					PointDx sqx = new PointDx();
-					sqx.setX(((java.math.BigDecimal)object2.get("poffx")).longValue());
-					sqx.setY(((java.math.BigDecimal)object2.get("poffy")).longValue());
+					sqx.setX(Double.valueOf(object2.get("POFFX").toString()));
+					sqx.setY(Double.valueOf(object2.get("POFFY").toString()));
 					if("1".equals(mode)){
-						if(isInclude(sqx, sq2, sq, sq3, jl))
-							but2.append(sqx.getX()+","+sqx.getY()+",,"+"http://127.0.0.1:8001/ndyd/images/mark.gif,\n");
+						if(isInclude(sqx, sq2, sq, sq3, jl)){
+							out.println("var point = new BMap.Point("+ sqx.getX() +", "+ sqx.getY() +");");
+							out.println("addMarker(point);");
+						}
 					} else if ("2".equals(mode)){
-						if(!isInclude(sqx, sq2, sq, sq3, jl))
-							but2.append(sqx.getX()+","+sqx.getY()+",,"+"http://127.0.0.1:8001/ndyd/images/mark.gif,\n");
+						if(!isInclude(sqx, sq2, sq, sq3, jl)){
+							out.println("var point = new BMap.Point("+ sqx.getX() +", "+ sqx.getY() +");");
+							out.println("addMarker(point);");
+						}
 					} else {
-						but2.append(sqx.getX()+","+sqx.getY()+",,"+"http://127.0.0.1:8001/ndyd/images/mark.gif,\n");
+						out.println("var point = new BMap.Point("+ sqx.getX() +", "+ sqx.getY() +");");
+						out.println("addMarker(point);");
 					}
 				}
 			}
-			request.setAttribute("coords", but1.toString());
-			request.setAttribute("mappoint", but2.toString());
-			request.setAttribute("picurl", "http://127.0.0.1:8001/ndyd/images/images_fz.jpg");
-			request.getRequestDispatcher("/map.jsp").forward(request, response);
+			out.println("</script>");
+			out.flush();
+			out.close();
 		}
 	}
 
@@ -273,11 +320,11 @@ public class SuperAnaSvl extends HttpServlet {
 	
 	public PointDx getPoint(PointDx p1,PointDx p2,double pz) {
 		PointDx p3 = new PointDx();
-		p3.setX(Math.round((p2.getX()-p1.getX())*Math.cos(-pz) + (p2.getY()-p1.getY())*Math.sin(-pz) + p1.getX()));
-		p3.setY(Math.round(-(p2.getX()-p1.getX())*Math.sin(-pz) + (p2.getY()-p1.getY())*Math.cos(-pz) + p1.getY()));
+		p3.setX((p2.getX()-p1.getX())*Math.cos(-pz) + (p2.getY()-p1.getY())*Math.sin(-pz) + p1.getX());
+		p3.setY(-(p2.getX()-p1.getX())*Math.sin(-pz) + (p2.getY()-p1.getY())*Math.cos(-pz) + p1.getY());
 	    return p3;
 	}
-	public int getAngle(PointDx a,PointDx b,PointDx c){
+	public double getAngle(PointDx a,PointDx b,PointDx c){
 		double ma_x = a.getX() - b.getX();  
 		double ma_y = a.getY() - b.getY();  
 		double mb_x = c.getX() - b.getX();  
@@ -287,11 +334,11 @@ public class SuperAnaSvl extends HttpServlet {
 		double mb_val = Math.sqrt(mb_x*mb_x + mb_y*mb_y);  
 		double cosM = v1 / (ma_val*mb_val);  
 		Double angleAMB = Math.acos(cosM) * 180 / Math.PI;  
-		return angleAMB.intValue();
+		return angleAMB.doubleValue();
 	}
 	public boolean isInclude(PointDx n,PointDx a,PointDx b,PointDx c,double jl){ 
 		double s = Math.sqrt((n.getX()-b.getX())*(n.getX()-b.getX()) + (n.getY()-b.getY())*(n.getY()-b.getY()));
-		if(s<=jl && getAngle(n, b, c) < getAngle(a, b, c) && getAngle(n, b, a) < getAngle(a, b, c))
+		if(getAngle(n, b, c) < getAngle(a, b, c) && getAngle(n, b, a) < getAngle(a, b, c))
 			return true;
 		return false;}
 }

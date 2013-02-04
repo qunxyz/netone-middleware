@@ -78,7 +78,7 @@ public final class WorklistVIewImpl
       multiAppname = true;
     }
 
-    String urlEnd = "";
+       String urlEnd = "";
 
     String loadworklist = "";
     String loadworklist_detail = "";
@@ -103,7 +103,7 @@ public final class WorklistVIewImpl
         }
       }
     }
-    String conditionx = null;
+
     if ((query != null) && (query.getOrder() != null) && 
       (!"".equals(query.getOrder()))) {
       String str = condition;
@@ -111,12 +111,6 @@ public final class WorklistVIewImpl
         str = "";
       }
       condition = str;
-      if (flag)
-        conditionx = str;
-      else {
-        conditionx = "";
-      }
-
     }
 
     if ("01".equals(listType))

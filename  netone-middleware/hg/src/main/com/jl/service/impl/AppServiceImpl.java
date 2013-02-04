@@ -2194,6 +2194,12 @@ public class AppServiceImpl extends BaseService implements AppService {
 				BigDecimal FAmountSum = insertICSaleEntry(icsaleData,
 						icstockbill, icstockbillentry, dao);
 
+				int r = FAmountSum.compareTo(BigDecimal.ZERO);
+				if (r == -1) {// 款小于0
+					dao.update("HG.updateIcsaleFROB-1", icsaleData
+							.get("FInterID"));
+				}
+
 				p_UpdateBillRelateData(Integer.parseInt(icsaleData.get(
 						"FInterID").toString()), dao);
 
@@ -2212,7 +2218,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 						FAmountSum, dao);
 				insertT_RP_plan_ar(contactMap, Integer.parseInt(icsaleData.get(
 						"FInterID").toString()), dao);
-				
+
 				updateOrgInfo(icsaleData, FAmountSum, dao);
 				updateT_RP_ContactBal(icsaleData, FAmountSum, dao);
 
@@ -2258,6 +2264,12 @@ public class AppServiceImpl extends BaseService implements AppService {
 					BigDecimal FAmountSum = insertICSaleEntry(icsaleData,
 							icstockbill, icstockbillentry, dao);
 
+					int r = FAmountSum.compareTo(BigDecimal.ZERO);
+					if (r == -1) {// 款小于0
+						dao.update("HG.updateIcsaleFROB-1", icsaleData
+								.get("FInterID"));
+					}
+
 					p_UpdateBillRelateData(Integer.parseInt(icsaleData.get(
 							"FInterID").toString()), dao);
 
@@ -2276,7 +2288,7 @@ public class AppServiceImpl extends BaseService implements AppService {
 							FAmountSum, dao);
 					insertT_RP_plan_ar(contactMap, Integer.parseInt(icsaleData
 							.get("FInterID").toString()), dao);
-					
+
 					updateOrgInfo(icsaleData, FAmountSum, dao);
 					updateT_RP_ContactBal(icsaleData, FAmountSum, dao);
 				}

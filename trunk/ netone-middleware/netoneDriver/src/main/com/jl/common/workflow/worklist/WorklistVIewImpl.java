@@ -52,6 +52,7 @@ public final class WorklistVIewImpl
     boolean multiAppname = false;
     int sizecolumn = 0;
     Map wf2dycfg = null;
+    boolean hasadminAble=false;
     if (StringUtils.isNotEmpty(appname)) {
       String[] appnameall = appname.split(",");
       if (appnameall.length > 1) {
@@ -63,6 +64,9 @@ public final class WorklistVIewImpl
         wf2dycfg = AppEntry.iv().wf2dyformBindCfg2(appname);
       }
 
+      if(!multiAppname){
+    	  hasadminAble=SecurityEntry.iv().permission(clientId, appname);
+      }
       StringBuffer but = new StringBuffer();
       for (int i = 0; i < appnameall.length; i++) {
         AppObj app = AppEntry.iv().loadApp(appnameall[i]);
@@ -174,7 +178,10 @@ public final class WorklistVIewImpl
 
     if ("adminx".equals(clientId)) {
       list = wfview.coreSqlview(loadworklist_detail);
-    } else {
+    } else if(hasadminAble&&listType.equals("00")){
+    	  list = wfview.coreSqlview(loadworklist_detail);
+    }
+    else {
       if (!multiAppname) {
         String workflowcode = AppEntry.iv().loadApp(appname).getWorkflowCode_();
         boolean admin = SecurityEntry.iv().permission(clientId, workflowcode);
@@ -351,6 +358,7 @@ public final class WorklistVIewImpl
     boolean multiAppname = false;
     int sizecolumn = 0;
     Map wf2dycfg = null;
+    boolean hasadminAble=false;
     if (StringUtils.isNotEmpty(appname))
     {
       String[] appnameall = appname.split(",");
@@ -376,6 +384,10 @@ public final class WorklistVIewImpl
         ")";
     } else {
       multiAppname = true;
+    }
+    
+    if(!multiAppname){
+  	  hasadminAble=SecurityEntry.iv().permission(clientId, appname);
     }
 
     String urlEnd = "";
@@ -477,8 +489,11 @@ public final class WorklistVIewImpl
     }
 
     List list = null;
-    if ("adminx".equals(clientId))
-      list = wfview.coreSqlview(loadworklist_detail);
+    if ("adminx".equals(clientId)){
+      list = wfview.coreSqlview(loadworklist_detail);}
+    else if(hasadminAble&&listType.equals("00")){
+	  list = wfview.coreSqlview(loadworklist_detail);
+    }
     else {
       list = wfview.coreSqlview(loadworklist);
     }

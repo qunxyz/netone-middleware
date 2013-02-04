@@ -104,6 +104,11 @@ public class AppHandleImpl2 implements AppHandleIfc {
 	}
 
 	public List wf2dyformBindCfg(String naturalname) throws Exception {
+		
+		if(WebCache.containCache("dyxbindnew"+naturalname)){
+			return (List)WebCache.getCache("dyxbindnew"+naturalname);
+		}
+		
 		String processidStr = "";
 		if (naturalname == null || naturalname.equals("")) {
 			return new ArrayList();
@@ -167,6 +172,10 @@ public class AppHandleImpl2 implements AppHandleIfc {
 
 			list.add(rev);
 		}
+		long time=System.currentTimeMillis() + 600000L;//10∑÷÷”ª∫¥Ê
+		Date dateinfo = new Date(time);
+		WebCache.setCache("dyxbindnew"+naturalname,list,dateinfo);
+
 		return list;
 	}
 

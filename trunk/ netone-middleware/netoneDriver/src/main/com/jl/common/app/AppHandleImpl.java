@@ -82,6 +82,10 @@ public final class AppHandleImpl implements AppHandleIfc {
 	}
 
 	public List wf2dyformBindCfg(String naturalname) throws Exception {
+		if(WebCache.containCache("dyxbind"+naturalname)){
+			return (List)WebCache.getCache("dyxbind"+naturalname);
+		}
+		
 		String processidStr = "";
 		if (naturalname == null || naturalname.equals("")) {
 			return new ArrayList();
@@ -180,10 +184,17 @@ public final class AppHandleImpl implements AppHandleIfc {
 			}
 			list.add(rev);
 		}
+		long time=System.currentTimeMillis() + 600000L;//10∑÷÷”ª∫¥Ê
+		Date dateinfo = new Date(time);
+		WebCache.setCache("dyxbind"+naturalname,list,dateinfo);
 		return list;
 	}
 
 	public Map wf2dyformBindCfg2(String naturalname) throws Exception {
+		if(WebCache.containCache("dyxbind2"+naturalname)){
+			return (Map)WebCache.getCache("dyxbind2"+naturalname);
+		}
+		
 		String processidStr = "";
 		if (naturalname == null || naturalname.equals("")) {
 			return new HashMap();
@@ -281,6 +292,9 @@ public final class AppHandleImpl implements AppHandleIfc {
 			}
 			map.put(fileid, rev);
 		}
+		long time=System.currentTimeMillis() + 600000L;//10∑÷÷”ª∫¥Ê
+		Date dateinfo = new Date(time);
+		WebCache.setCache("dyxbind2"+naturalname,map,dateinfo);
 		return map;
 	}
 

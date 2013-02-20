@@ -542,7 +542,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * ÌîĞ´ÉóÅúÒâ¼û
 	 */
-	public void saveAuditNote(String workcode, String participant, String note)
+	public Integer saveAuditNote(String workcode, String participant, String note)
 			throws Exception;
 
 	

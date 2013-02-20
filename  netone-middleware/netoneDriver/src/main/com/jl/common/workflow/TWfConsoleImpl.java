@@ -957,13 +957,13 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		return listWorklist;
 	}
 
-	public void saveAuditNote(String workcode, String participant, String note)
+	public Integer saveAuditNote(String workcode, String participant, String note)
 			throws Exception {
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
 		String sql_done = "update t_wf_participant set auditnode='" + note
 				+ "' where usercode='" + participant + "' and workcode='"
 				+ workcode + "' and statusnow='01'";
-		console.coreSqlhandle(sql_done);
+		return console.coreSqlhandle(sql_done);
 	}
 
 	public List<TWfWorklistExt> worklistDoneAndProcessDone(String customer)
@@ -1970,10 +1970,10 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 	}
 
 	public boolean checkUserworklist(String usercode, String workcode) {
-		String sql="select count(*) counx from t_wf_participant where workcode='"+workcode+"' and usercode='"+usercode+"'";
+		String sql="select ifnull(count(*),0) counx from netone.t_wf_participant where workcode='"+workcode+"' and usercode='"+usercode+"'";
 		List list=DbTools.queryData(sql);
 		Map data=(Map)list.get(0);
-		Integer intx=(Integer)data.get("counx");
+		Long intx=(Long)data.get("counx");
 		if(intx>0){
 			return true;
 		}

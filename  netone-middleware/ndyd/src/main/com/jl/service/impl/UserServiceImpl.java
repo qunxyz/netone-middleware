@@ -159,6 +159,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 		} else {
 			conditionMap.put("includedept", 0);
 		}
+		conditionMap.put("enabled", 1);
 		String start = request.getParameter("start");// 开始索引
 		String limit = request.getParameter("limit");// 开始索引
 		PageInfo obj = new PageInfo();

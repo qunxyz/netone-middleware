@@ -653,6 +653,10 @@ public class DepartmentServiceImpl extends BaseService implements
 							String usercode = (String) commonDAO.findForObject(
 									"User.selectUserCodeByUserId", userId);
 							getSecurityAPI(request).recoveryAccount(usercode);
+							if (enableSyncExam) {
+								user.setUserCode(usercode);
+								SpringBeanUtilExam.getInstance().updateStudentStatus(user);
+							}
 						}
 					}
 
@@ -673,6 +677,10 @@ public class DepartmentServiceImpl extends BaseService implements
 							String usercode = (String) commonDAO.findForObject(
 									"User.selectUserCodeByUserId", userId);
 							getSecurityAPI(request).fobidAccount(usercode);
+							if (enableSyncExam) {
+								user.setUserCode(usercode);
+								SpringBeanUtilExam.getInstance().updateStudentStatus(user);
+							}
 						}
 					}
 
@@ -692,6 +700,10 @@ public class DepartmentServiceImpl extends BaseService implements
 						String usercode = (String) commonDAO.findForObject(
 								"User.selectUserCodeByUserId", userId);
 						getSecurityAPI(request).recoveryAccount(usercode);
+						if (enableSyncExam) {
+							user.setUserCode(usercode);
+							SpringBeanUtilExam.getInstance().updateStudentStatus(user);
+						}
 					}
 					tips = "开启成功!";
 				} else if ("0".equals(s)) {// 禁用
@@ -702,6 +714,10 @@ public class DepartmentServiceImpl extends BaseService implements
 						String usercode = (String) commonDAO.findForObject(
 								"User.selectUserCodeByUserId", userId);
 						getSecurityAPI(request).fobidAccount(usercode);
+						if (enableSyncExam) {
+							user.setUserCode(usercode);
+							SpringBeanUtilExam.getInstance().updateStudentStatus(user);
+						}
 					}
 					tips = "禁用成功!";
 				}

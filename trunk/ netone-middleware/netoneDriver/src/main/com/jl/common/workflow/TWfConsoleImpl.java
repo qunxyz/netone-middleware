@@ -1964,7 +1964,16 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		Activity act = this.loadProcess(wf.getProcessid()).getActivity(
 				wf.getActivityid());
 		if(act!=null){
-			return act.isExitActivity();
+			if(act.isExitActivity())return true;
+		}
+		List list=this.listNextDesignActive(wf.getProcessid(), wf.getActivityid(), wf.getRuntimeid(), "");
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			TWfActive object = (TWfActive) iterator.next();
+			act = this.loadProcess(wf.getProcessid()).getActivity(
+					object.getId());
+			if(act.getImplementation()==null&&act.isExitActivity()){
+				return true;
+			}
 		}
 		return false;
 	}

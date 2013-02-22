@@ -737,8 +737,13 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 	public String saveYijian(HttpServletRequest request, String workcode,
 			String userCode, String yijian) throws Exception {
 		JSONObject json = new JSONObject();
-		WfEntry.iv().saveAuditNote(workcode, userCode, yijian);
-		json.put("tip", "意见填写成功");
+		Integer result = WfEntry.iv().saveAuditNote(workcode, userCode, yijian);
+		if (result>0){
+			json.put("tip", "意见填写成功!");
+		} else {
+			json.put("error", "yes");
+			json.put("tip", "保存意见失败，请先正常退出前一登陆账号，重新登录再进行相关操作！");
+		}
 		return json.toString();
 	}
 

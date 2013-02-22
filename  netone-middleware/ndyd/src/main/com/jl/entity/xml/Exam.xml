@@ -49,6 +49,14 @@
 		WHERE StudentCode=#userId#
 		]]>
 	</update>
+	
+	<!-- 修改学生状态 -->
+	<update id="updateStudentStatus" parameterClass="java.util.HashMap">
+		<![CDATA[
+		UPDATE t_student SET Status=#status:INT#
+		WHERE StudentCode=#userId#
+		]]>
+	</update>
 
 	<delete id="deleteStudent" parameterClass="string">
 		<![CDATA[

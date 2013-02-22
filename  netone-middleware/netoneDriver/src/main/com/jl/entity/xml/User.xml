@@ -69,6 +69,9 @@
 	 FROM t_user t
 	 LEFT JOIN t_department t2 ON t2.departmentId=t.departmentId
 	 where 1=1
+	 	<isEqual prepend="and" property="enabled" compareValue="1">
+	 		(t.status is null OR t.status = 1) 
+	 	</isEqual>
 		<isNotEmpty prepend="and" property="departmentId">
 		 	t.departmentId = #departmentId#
 		 </isNotEmpty>
@@ -116,6 +119,9 @@
 			 FROM t_user t
 			 LEFT JOIN t_department t2 ON t2.departmentId=t.departmentId
 			 where 1=1
+			 	<isEqual prepend="and" property="enabled" compareValue="1">
+			 		(t.status is null OR t.status = 1) 
+			 	</isEqual>
 				<isNotEmpty prepend="and" property="departmentId">
 				 	t.departmentId = #departmentId#
 				 </isNotEmpty>
@@ -160,6 +166,9 @@
 	 FROM t_user t
 	 LEFT JOIN t_department t2 ON t2.departmentId=t.departmentId
 	 where 1=1
+		<isEqual prepend="and" property="enabled" compareValue="1">
+	 		(t.status is null OR t.status = 1) 
+	 	</isEqual>
 		<isNotEmpty prepend="and" property="departmentId">
 		 	t.departmentId = #departmentId#
 		 </isNotEmpty>

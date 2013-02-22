@@ -188,7 +188,9 @@
 			        success: function (response, options) {
 			            var result = Ext.util.JSON.decode(response.responseText);
 			            if (result.error != null) {
-			                Ext.MessageBox.alert('提示', result.tip);
+			                alert(result.tip);
+			                window.open("","_self");window.opener=null;
+							window.close();
 			            } else {
 			                Ext.ux.Toast.msg("", result.tip);
 			            }
@@ -247,7 +249,9 @@
 						            var result = Ext.util.JSON.decode(response.responseText);
 						            if (result.error != null) {
 						            	$enableall();
-						                Ext.MessageBox.alert('提示', result.tip);
+						                alert(result.tip);
+						                window.open("","_self");window.opener=null;
+										window.close();
 						            } else {
 						                Ext.ux.Toast.msg("", result.tip);
 						                var lsh = document.getElementById('lsh').value;
@@ -323,7 +327,9 @@
 						            var result = Ext.util.JSON.decode(response.responseText);
 						            if (result.error != null) {
 						            	$enableall();
-						                Ext.MessageBox.alert('提示', result.tip);
+						                alert(result.tip);
+						                window.open("","_self");window.opener=null;
+										window.close();
 						            } else {
 						                Ext.ux.Toast.msg("", result.tip);
 						                var lsh = document.getElementById('lsh').value;

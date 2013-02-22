@@ -23,7 +23,7 @@
 		${datecompFunc}
 		<script type="text/javascript">
 		$(function() {
-		
+
 			<c:if test="${!empty permission && permission=='false'}">
 				$disabledall();
 				$hideall();
@@ -357,6 +357,38 @@ function $todo(thisObj,formcode,jsonStr){
 }
 
 function _save(){
+	//检查用户是否拥有工单处理权限 不属于自己的工单不允许操作
+	var $workcode = '${param.workcode}';
+	var $$pass =  true;
+	if ($workcode!=''){
+		Ext.Ajax.request({
+	        url: "<c:url value='/frame.do?method=onCheckUserworklist' />",
+	        // 请求的服务器地址
+	        form: '_FRAME_FORM_ID_',
+	        // 指定要提交的表单id
+	        method: 'POST',
+	        sync: true,
+	        params: {
+	            workcode:$workcode
+	        },
+	        success: function (response, options) {
+	            var result = Ext.util.JSON.decode(response.responseText);
+	            if (result.error != null) {
+	            	alert(result.tip);
+	            	$$pass=false;
+	            	return;
+	            }
+	        },
+	        failure: function (response, options) {
+	            checkAjaxStatus(response);
+	            var result = Ext.util.JSON.decode(response.responseText);
+	            Ext.MessageBox.alert('提示', result.tip);
+	            $$pass=false;
+	        }
+	    });
+    }
+    if ($$pass==false){return;}
+
 	 if(validateForm()){	
 			var msgTip = Ext.MessageBox.show({
 		        title: '提示',
@@ -572,6 +604,38 @@ function _auditNext_1(){
 }
 
 function _delete(t){
+	//检查用户是否拥有工单处理权限 不属于自己的工单不允许操作
+	var $workcode = '${param.workcode}';
+	var $$pass =  true;
+	if ($workcode!=''){
+		Ext.Ajax.request({
+	        url: "<c:url value='/frame.do?method=onCheckUserworklist' />",
+	        // 请求的服务器地址
+	        form: '_FRAME_FORM_ID_',
+	        // 指定要提交的表单id
+	        method: 'POST',
+	        sync: true,
+	        params: {
+	            workcode:$workcode
+	        },
+	        success: function (response, options) {
+	            var result = Ext.util.JSON.decode(response.responseText);
+	            if (result.error != null) {
+	            	alert(result.tip);
+	            	$$pass=false;
+	            	return;
+	            }
+	        },
+	        failure: function (response, options) {
+	            checkAjaxStatus(response);
+	            var result = Ext.util.JSON.decode(response.responseText);
+	            Ext.MessageBox.alert('提示', result.tip);
+	            $$pass=false;
+	        }
+	    });
+    }
+    if ($$pass==false){return;}
+    
 		var url = "<c:url value='/frame.do?method=onDelete' />";
 		if (t!=null && t==0){
 			url = "<c:url value='/frame.do?method=onLogicDelete' />";
@@ -636,6 +700,38 @@ function _refreshOpenerWin() {
 }
 
 function onAuditNext(chooseresult){
+	//检查用户是否拥有工单处理权限 不属于自己的工单不允许操作
+	var $workcode = '${param.workcode}';
+	var $$pass =  true;
+	if ($workcode!=''){
+		Ext.Ajax.request({
+	        url: "<c:url value='/frame.do?method=onCheckUserworklist' />",
+	        // 请求的服务器地址
+	        form: '_FRAME_FORM_ID_',
+	        // 指定要提交的表单id
+	        method: 'POST',
+	        sync: true,
+	        params: {
+	            workcode:$workcode
+	        },
+	        success: function (response, options) {
+	            var result = Ext.util.JSON.decode(response.responseText);
+	            if (result.error != null) {
+	            	alert(result.tip);
+	            	$$pass=false;
+	            	return;
+	            }
+	        },
+	        failure: function (response, options) {
+	            checkAjaxStatus(response);
+	            var result = Ext.util.JSON.decode(response.responseText);
+	            Ext.MessageBox.alert('提示', result.tip);
+	            $$pass=false;
+	        }
+	    });
+    }
+    if ($$pass==false){return;}
+    
 	<c:choose>
 		<c:when test="true">
 		var $pass = validateForm();

@@ -91,7 +91,7 @@ public class SpringBeanUtilExam {
 		map.put("telphone", data.getPhone());
 		map.put("cellphone", data.getPhone());
 		map.put("email", data.getEmail());
-		map.put("status", null);
+		map.put("status", "0".equals(data.getStatus())?"1":"0");
 		map.put("note", "");
 		map.put("operate", "");
 		map.put("operateTime", new Date());
@@ -100,6 +100,14 @@ public class SpringBeanUtilExam {
 		getExamDao().insert("Exam.insertStudent", map);
 	}
 
+	public void updateStudentStatus(User data) throws Exception {
+		Map map = new HashMap();
+		map.put("userId", data.getUserCode());
+		map.put("status", "0".equals(data.getStatus())?"1":"0");
+
+		getExamDao().update("Exam.updateStudentStatus", map);
+	}
+	
 	public void updateStudent(User data) throws Exception {
 		Map map = new HashMap();
 		map.put("userId", data.getUserCode());
@@ -113,17 +121,17 @@ public class SpringBeanUtilExam {
 		map.put("telphone", data.getPhone());
 		map.put("cellphone", data.getPhone());
 		map.put("email", data.getEmail());
-		map.put("status", null);
+		map.put("status", "0".equals(data.getStatus())?"1":"0");
 		map.put("note", "");
 		map.put("operate", "");
 		map.put("operateTime", new Date());
 		map.put("photo", null);
 
-		getExamDao().insert("Exam.updateStudent", map);
+		getExamDao().update("Exam.updateStudent", map);
 	}
 
 	public void deleteStudent(String code) throws Exception {
-		getExamDao().insert("Exam.deleteStudent", code);
+		getExamDao().delete("Exam.deleteStudent", code);
 	}
 
 	public void insertStudentGroup(Department data) throws Exception {
@@ -148,7 +156,7 @@ public class SpringBeanUtilExam {
 						.getParentDepartmentId() : getStuGroupId(data
 						.getParentDepartmentId()));
 
-		getExamDao().insert("Exam.updateStudentGroup", map);
+		getExamDao().update("Exam.updateStudentGroup", map);
 	}
 
 	public void deleteStudentGroup(String code) throws Exception {

@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -491,9 +490,9 @@ public class FrameAction extends AbstractAction {
 			if (permission) {
 				request.setAttribute("ValidateScript", DyFormBuildHtml
 						.buildValidateScript(dyform));
-				}else{
-					request.setAttribute("ValidateScript"," return true;");	
-				}
+			} else {
+				request.setAttribute("ValidateScript", " return true;");
+			}
 
 			request
 					.setAttribute("datecompFunc", DyFormComp
@@ -1003,17 +1002,19 @@ public class FrameAction extends AbstractAction {
 			request.setAttribute("processEndTip", "");
 			request.setAttribute("processTitle", "归档");
 			// result.addAll(listTrackActionEnd("归档"));
-			
-			if ( FrameService.trackActionSpecialType4.equalsIgnoreCase(filteractiveids)){
-				result.addAll(listTrackAction4("0"));//归档
+
+			if (FrameService.trackActionSpecialType4
+					.equalsIgnoreCase(filteractiveids)) {
+				result.addAll(listTrackAction4("0"));// 归档
 			}
-			if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
-				//result.addAll(listTrackAction2_2("0"));//抄阅
-				//request.setAttribute("processTitle", "抄阅并归档");
+			if (FrameService.trackActionSpecialType2
+					.equalsIgnoreCase(filteractiveids)) {
+				// result.addAll(listTrackAction2_2("0"));//抄阅
+				// request.setAttribute("processTitle", "抄阅并归档");
 			}
-			if (filteractiveids==null) {
-				result.addAll(listTrackAction4("0"));//归档
-				//result.addAll(listTrackAction2_2("0"));//抄阅
+			if (filteractiveids == null) {
+				result.addAll(listTrackAction4("0"));// 归档
+				// result.addAll(listTrackAction2_2("0"));//抄阅
 			}
 			request.setAttribute("processList", result);
 			request.setAttribute("isend", "true");
@@ -1095,15 +1096,17 @@ public class FrameAction extends AbstractAction {
 						.getParticipantmode())
 						&& StringUtils.isEmpty(filteractiveids) && isEnd) {
 					// result.addAll(listTrackActionEnd("归档"));
-					if ( FrameService.trackActionSpecialType4.equalsIgnoreCase(filteractiveids)){
-						result.addAll(listTrackAction4("0"));//归档
+					if (FrameService.trackActionSpecialType4
+							.equalsIgnoreCase(filteractiveids)) {
+						result.addAll(listTrackAction4("0"));// 归档
 					}
-					if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
-						//result.addAll(listTrackAction2_2("0"));//抄阅
+					if (FrameService.trackActionSpecialType2
+							.equalsIgnoreCase(filteractiveids)) {
+						// result.addAll(listTrackAction2_2("0"));//抄阅
 					}
-					if (filteractiveids==null) {
-						result.addAll(listTrackAction4("0"));//归档
-						//result.addAll(listTrackAction2_2("0"));//抄阅
+					if (filteractiveids == null) {
+						result.addAll(listTrackAction4("0"));// 归档
+						// result.addAll(listTrackAction2_2("0"));//抄阅
 					}
 				}
 			} else {
@@ -1111,20 +1114,22 @@ public class FrameAction extends AbstractAction {
 				request.setAttribute("processEndTip", "");
 				request.setAttribute("processTitle", "归档");
 				// result.addAll(listTrackActionEnd("归档"));
-				if ( FrameService.trackActionSpecialType4.equalsIgnoreCase(filteractiveids)){
-					result.addAll(listTrackAction4("0"));//归档
+				if (FrameService.trackActionSpecialType4
+						.equalsIgnoreCase(filteractiveids)) {
+					result.addAll(listTrackAction4("0"));// 归档
 				}
-				if ( FrameService.trackActionSpecialType2.equalsIgnoreCase(filteractiveids)){
-					result.addAll(listTrackAction2_2("0"));//抄阅
-					//request.setAttribute("processTitle", "抄阅并归档");
+				if (FrameService.trackActionSpecialType2
+						.equalsIgnoreCase(filteractiveids)) {
+					result.addAll(listTrackAction2_2("0"));// 抄阅
+					// request.setAttribute("processTitle", "抄阅并归档");
 				}
-				if (filteractiveids==null) {
-					result.addAll(listTrackAction4("0"));//归档
-					//result.addAll(listTrackAction2_2("0"));//抄阅
+				if (filteractiveids == null) {
+					result.addAll(listTrackAction4("0"));// 归档
+					// result.addAll(listTrackAction2_2("0"));//抄阅
 				}
-				
+
 				request.setAttribute("processList", result);
-				request.setAttribute("isend", "true");				
+				request.setAttribute("isend", "true");
 				return "onShowEndView";
 			}
 
@@ -1240,10 +1245,10 @@ public class FrameAction extends AbstractAction {
 				}
 			}
 			if (isNeedAssistant && isShowSpecialNode) {
-				result.addAll(listTrackAction1("0"));
+				// result.addAll(listTrackAction1("0"));
 			}
 			if (isNeedReader && isShowSpecialNode) {
-				result.addAll(listTrackAction2("0"));
+				// result.addAll(listTrackAction2("0"));
 			}
 			request.setAttribute("helpTip",
 					"帮助提示：这里主要是将表单退回到指定点，确认无误点击完成。如果需修改点击上一步，否取消。");
@@ -1462,7 +1467,7 @@ public class FrameAction extends AbstractAction {
 		list.add(tempMap);
 		return list;
 	}
-	
+
 	/**
 	 * 显示特殊节点
 	 * 
@@ -1521,7 +1526,7 @@ public class FrameAction extends AbstractAction {
 		tempMap.put("value", node);
 		tempMap.put("singleman", false);
 		tempMap.put("autoroute", false);
-		//tempMap.put("activeids", FrameService.trackActionSpecialType4);
+		// tempMap.put("activeids", FrameService.trackActionSpecialType4);
 		tempMap.put("activeids", FrameService.trackActionSpecialTypeEND);
 		list.add(tempMap);
 		return list;
@@ -1639,8 +1644,9 @@ public class FrameAction extends AbstractAction {
 						string += "<div style=\"padding:10px\">"
 								+ object.getAuditnode()
 								+ "</div><div style=\"text-align:center;border-bottom:1px solid #58b4f0;\"><B>"
-								+ StringUtils.substringBefore(object.getUsername(), " ") + "</B>  " + donetime
-								+ "</div>";
+								+ StringUtils.substringBefore(object
+										.getUsername(), " ") + "</B>  "
+								+ donetime + "</div>";
 					}
 				}
 				// }
@@ -1706,19 +1712,18 @@ public class FrameAction extends AbstractAction {
 				String donetime = object.getDonetime();
 				donetime = donetime == null || "".equals(donetime) ? "&nbsp;"
 						: donetime.substring(0, 16);
-				//时间计算
+				// 时间计算
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				 java.util.Date start = df.parse(createtime);
-				 long l=0;
-				 if(!"&nbsp;".equals(donetime)){
-					 java.util.Date end = df.parse(donetime);
-					 l=end.getTime()-start.getTime();
-				 }
-				 long day=l/(24*60*60*1000);
-				 long hour=(l/(60*60*1000)-day*24);
-				 long min=((l/(60*1000))-day*24*60-hour*60);
+				java.util.Date start = df.parse(createtime);
+				long l = 0;
+				if (!"&nbsp;".equals(donetime)) {
+					java.util.Date end = df.parse(donetime);
+					l = end.getTime() - start.getTime();
+				}
+				long day = l / (24 * 60 * 60 * 1000);
+				long hour = (l / (60 * 60 * 1000) - day * 24);
+				long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
 
-				
 				if ("04".equals(object.getTypes())) {// 阶段性回复
 					donetime = createtime;
 				}
@@ -1728,15 +1733,24 @@ public class FrameAction extends AbstractAction {
 						+ createtime
 						+ "</td>"
 						+ "<td nowrap=\"nowrap\" width=\"20%\"  class=\"label_nd_2\">"
-						+ StringUtils.substringBefore(object.getCommitername(), " ")
+						+ StringUtils.substringBefore(object.getCommitername(),
+								" ")
 						+ "</td>"
 						+ "<td nowrap=\"nowrap\" width=\"40%\"  class=\"label_nd_2\">"
 						+ opemodeX
 						+ object.getActname()
-						+ "(用时" + day + "天" + hour + "小时" + min + "分" + ")" 
+						+ "(用时"
+						+ day
+						+ "天"
+						+ hour
+						+ "小时"
+						+ min
+						+ "分"
+						+ ")"
 						+ "</td>"
 						+ "<td nowrap=\"nowrap\" width=\"20%\"  class=\"label_nd_2\">"
-						+ StringUtils.substringBefore(object.getUsername(), " ")
+						+ StringUtils
+								.substringBefore(object.getUsername(), " ")
 						+ opemode
 						+ sync
 						+ "</td>"
@@ -2077,4 +2091,29 @@ public class FrameAction extends AbstractAction {
 		}
 	}
 
+	// 检查用户是否拥有工单处理权限 不属于自己的工单不允许操作
+	public void onCheckUserworklist(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("ErrorJson", "Yes");// Json出错提示
+		JSONObject json = new JSONObject();
+		String workcode = request.getParameter("workcode");
+		try {
+			// 是否属于当前登录者待办
+			User user = getOnlineUser(request);
+			boolean userError = WfEntry.iv().checkUserworklist(
+					user.getUserCode(), workcode);
+			if (userError == false) {
+				json.put("tip", "操作失败，不能操作不属于您的工单，请重新登录!");
+				json.put("error", true);
+			} else {
+				json.put("tip", "通过");
+			}
+		} catch (Exception e) {
+			json.put("tip", "操作失败!");
+			json.put("error", "yes");
+			log.error("出错", e);
+		} finally {
+			super.writeJsonStr(response, json.toString());
+		}
+	}
 }

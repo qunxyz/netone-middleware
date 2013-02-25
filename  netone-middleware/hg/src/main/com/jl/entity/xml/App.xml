@@ -68,10 +68,10 @@
 		LEFT JOIN dyform.DY_961338295639576 t2 ON t2.lsh=t.fatherlsh
 		where 1=1 and t.column12 IS NOT NULL and t.fatherlsh = #fatherlsh#
 		<isNotEmpty prepend="and" property="beginDate">
-			date(t.column12) &gt;= #beginDate#
+			t.column12 &gt;= CONCAT(#beginDate#,' 00:00:00')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="endDate">
-			date(t.column12) &lt;= #endDate#
+			t.column12 &lt;= CONCAT(#endDate#,' 23:59:59')
 		</isNotEmpty>
 		group by netName,createDate
 		order by netName,createDate desc
@@ -91,10 +91,10 @@
 			t.fatherlsh = #fatherlsh#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="beginDate">
-			date(t.column12) &gt;= #beginDate#
+			t.column12 &gt;= CONCAT(#beginDate#,' 00:00:00')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="endDate">
-			date(t.column12) &lt;= #endDate#
+			t.column12 &lt;= CONCAT(#endDate#,' 23:59:59')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="netName">
 			t2.column5 like '%$netName$%'
@@ -125,10 +125,10 @@
 			t.fatherlsh = #fatherlsh#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="beginDate">
-			date(t.column12) &gt;= #beginDate#
+			t.column12 &gt;= CONCAT(#beginDate#,' 00:00:00')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="endDate">
-			date(t.column12) &lt;= #endDate#
+			t.column12 &lt;= CONCAT(#endDate#,' 23:59:59')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="netName">
 			t2.column5 like '%$netName$%'
@@ -159,10 +159,10 @@
 			t.fatherlsh = #fatherlsh#
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="beginDate">
-			date(t.column12) &gt;= #beginDate#
+			t.column12 &gt;= CONCAT(#beginDate#,' 00:00:00')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="endDate">
-			date(t.column12) &lt;= #endDate#
+			t.column12 &lt;= CONCAT(#endDate#,' 23:59:59')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="netName">
 			t2.column5 like '%$netName$%'
@@ -207,10 +207,10 @@
 		</isNotEmpty>
 		
 		<isNotEmpty prepend="and" property="beginDate">
-			date(t.column12) &gt;= #beginDate#
+			t.column12 &gt;= CONCAT(#beginDate#,' 00:00:00')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="endDate">
-			date(t.column12) &lt;= #endDate#
+			t.column12 &lt;= CONCAT(#endDate#,' 23:59:59')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="netName">
 			t2.column5 like '%$netName$%'
@@ -249,10 +249,10 @@
 		</isNotEmpty>
 		
 		<isNotEmpty prepend="and" property="beginDate">
-			date(t.column12) &gt;= #beginDate#
+			t.column12 &gt;= CONCAT(#beginDate#,' 00:00:00')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="endDate">
-			date(t.column12) &lt;= #endDate#
+			t.column12 &lt;= CONCAT(#endDate#,' 23:59:59')
 		</isNotEmpty>
 		<isNotEmpty prepend="and" property="netName">
 			t2.column5 like '%$netName$%'

@@ -83,9 +83,15 @@ public class AddSvl extends HttpServlet {
 						}
 					}
 				}
-				String str = DyEntry.iv().addData(formcode, dydata);
-				str=modifyLsh(request,formcode,str);
-				response.getWriter().print(str);
+				String belongx=request.getParameter("belongx");
+				if(StringUtils.isNotEmpty(belongx)){
+					dydata.setBelongx(belongx);
+				}
+				String lsh = DyEntry.iv().addData(formcode, dydata);
+				lsh=modifyLsh(request,formcode,lsh);
+				modifyTime(request,formcode,lsh);
+				response.getWriter().print(lsh);
+				
 			} catch (Exception e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
@@ -114,9 +120,10 @@ public class AddSvl extends HttpServlet {
 					dydata.setBelongx(belongx);
 				}
 				
-				String str = DyEntry.iv().addData(formcode, dydata);
-				str=modifyLsh(request,formcode,str);
-				response.getWriter().print(str);
+				String lsh = DyEntry.iv().addData(formcode, dydata);
+				lsh=modifyLsh(request,formcode,lsh);
+				modifyTime(request,formcode,lsh);
+				response.getWriter().print(lsh);
 			} catch (Exception e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
@@ -133,6 +140,17 @@ public class AddSvl extends HttpServlet {
 			return lsh;
 		}else{
 			return str;
+		}
+		
+	}
+	
+	private void modifyTime(HttpServletRequest request,String formcode,String lsh)throws Exception{
+		String timex=request.getParameter("timex");
+		if(StringUtils.isNotEmpty(timex)){
+			String tablename=DyEntry.iv().loadForm(formcode).getTablename();
+			String sql="update dyform."+tablename+" set timex='"+timex+"',created='"+timex+"' where lsh='"+lsh+"'";
+			int rs=DbTools.execute(sql);
+
 		}
 		
 	}

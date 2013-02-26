@@ -1974,7 +1974,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				continue;
 			}
 			Activity actNext = trans.getToActivity();
-			if(actNext.getImplementation()==null&&act.isExitActivity()){
+			if(actNext.getImplementation()==null&&actNext.isExitActivity()){
 				return true;
 			}
 		}

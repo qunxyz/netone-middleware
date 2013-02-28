@@ -1003,7 +1003,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 
 	public String nextByAuto(String workcode, String clientId) throws Exception {
 		try {
-			return nextCore(workcode, "", clientId);
+			return nextCore(workcode, "", clientId,false);
 		} catch (Exception e) {
 			return e.getMessage();
 		}
@@ -1027,7 +1027,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				//告诉工作流引擎，这时是回退不要执行当前节点结束后的事件
 				WebCache.setCache("WF_MODE_"+workcode, "back", null);
 			}
-			return nextCore(workcode, actid, clientId);
+			return nextCore(workcode, actid, clientId,false);
 		} catch (Exception e) {
 			return e.getMessage();
 		}
@@ -1061,7 +1061,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		}
 	}
 
-	private String nextCore(String workcode, String actid, String clientId)
+	private String nextCore(String workcode, String actid, String clientId,boolean isend)
 			throws Exception {
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
 
@@ -1105,6 +1105,8 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				return "";// 同步任务都未经执行完毕无法马上提交流程
 			}
 		}
+		
+		if(isend)return "";//归档了不在启动新节点
 
 		// 同步任务都已经执行完毕或者是 竞争者模式,可以继续提交流程了
 		if (StringUtils.isNotEmpty(actid)) {
@@ -1200,8 +1202,8 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		this.specifyParticipantByWorkcode(clientId, workcode, clientId, false,
 				"03");
 		// commitMyTask(usercode, workcode);
-
-		this.nextByAuto(workcode, usercode);
+		
+		this.nextCore(workcode, "", usercode,true);
 
 		 console
 		 .coreSqlhandle("update t_wf_worklist set EXECUTESTATUS='02',donetime='"

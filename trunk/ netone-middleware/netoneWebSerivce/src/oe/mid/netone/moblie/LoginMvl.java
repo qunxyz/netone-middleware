@@ -59,8 +59,7 @@ public class LoginMvl extends HttpServlet {
  		ResourceRmi resourceRmi;
  		try {
  			resourceRmi = (ResourceRmi) RmiEntry.iv("resource");
- 			CupmRmi cupmRmi = (CupmRmi) RmiEntry.iv("cupm");
-
+ 			
  			Clerk clerk = resourceRmi.loadClerk("0000", loginname);
  			String pass = clerk.getPassword();
  			passwordto = MD5Util.MD5_UTF16LE(passwordto);
@@ -70,6 +69,7 @@ public class LoginMvl extends HttpServlet {
  				map.put("name", clerk.getName());
  				list.add(map);
  				response.getWriter().print(JSONArray.fromObject(list).toString());
+ 				return;
  			}
  			
  		} catch (Exception e) {

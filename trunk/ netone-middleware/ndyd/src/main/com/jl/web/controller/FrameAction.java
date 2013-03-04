@@ -1088,9 +1088,9 @@ public class FrameAction extends AbstractAction {
 
 				boolean isfirst = WfEntry.iv().loadProcess(wlx.getProcessid())
 						.getActivity(wlx.getActivityid()).isStartActivity();
-
-				boolean isEnd = WfEntry.iv().loadProcess(wlx.getProcessid())
-						.getActivity(wlx.getActivityid()).isExitActivity();
+				// boolean isEnd = WfEntry.iv().loadProcess(wlx.getProcessid())
+				// .getActivity(wlx.getActivityid()).isExitActivity();
+				boolean isEnd = WfEntry.iv().checkFinalAct(workcode);
 				// 是否是创建者
 				if (AppHandleIfc._PARTICIPANT_MODE_CREATER.equals(active
 						.getParticipantmode())

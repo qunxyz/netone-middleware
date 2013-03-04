@@ -37,6 +37,7 @@ import com.jl.common.dyform.DyAnalysisXml;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormBuildHtml;
+import com.jl.common.dyform.DyFormBuildHtmlExt;
 import com.jl.common.dyform.DyFormColumn;
 import com.jl.common.dyform.DyFormComp;
 import com.jl.common.dyform.DyFormData;
@@ -298,6 +299,7 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		String hiddenid = DyFormComp.getHiddenInput("naturalname", naturalname);
 		String hiddenunid = DyFormComp.getHiddenInput("unid", lsh);
 		String hiddenlsh = DyFormComp.getHiddenInput("lsh", lsh);
+		String ids = "frame" + DyFormBuildHtmlExt.uuid();
 		if (!ishidden) {
 			html.append(DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
 					naturalname, lsh, false, false, parameter, hiddenid
@@ -311,6 +313,10 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 		if (subdyforms != null && subdyforms.length > 0) {
 			Boolean issubedit = true;// 是否可编辑
 			Boolean issubhidden = false;// 是否隐藏
+			
+			List<String> formname = new ArrayList<String>();
+			List<String> formlist = new ArrayList<String>();
+			
 			for (int i = 0; i < subdyforms.length; i++) {
 				DyForm subdyform = subdyforms[i];
 				if (subformmode == null) {
@@ -381,6 +387,18 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 						html.append(DyFormBuildHtml.buildForm(subdyform,
 								issubedit, userinfo, naturalname, lsh, true,
 								false, parameter, ""));
+				} else if ("7".equals(submode)) {// 7:集成展示-多条子表单记录(选项卡模式)
+					ids = subdyform.getFormcode();
+					formname.add(subdyform.getFormname());
+					formlist.add(DyFormBuildHtml.buildSubForm(subdyform,
+							lsh, issubedit, userinfo, parameter));
+				} else if ("8".equals(submode)) {// 8:集成展示-单条子表单记录(选项卡模式)
+					ids = "frame" + DyFormBuildHtmlExt.uuid();
+
+					formname.add(subdyform.getFormname());
+					formlist.add(DyFormBuildHtml.buildForm(subdyform,
+							issubedit, userinfo, naturalname, lsh, true,
+							false, parameter, ""));
 				} else if ("9".equals(submode)) {// 1+:集成展示-布局表单多条记录
 					if (!issubhidden)
 						html.append(DyFormBuildHtml.buildSubForms(subdyform,
@@ -390,6 +408,11 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 						html.append(DyFormBuildHtml.buildSubForm(subdyform,
 								lsh, issubedit, userinfo, parameter));
 				}
+			}
+			// 最终输出7,8 选项卡模式
+			if (formlist.size() > 0) {
+				ids = "frame" + DyFormBuildHtmlExt.uuid();
+				html.append("<div style='width:892px;padding:0px;margin:0px;'>"+DyFormComp.getTabs(formname, formlist)+"</div>");
 			}
 		}
 		return html.toString();
@@ -933,6 +956,15 @@ public class FrameServiceImpl extends BaseService implements FrameService {
 
 			}
 		}
+	}
+	
+	private Map getJsMap(String form, String id, String extjs, String mode) {
+		Map map = new HashMap();
+		map.put("form", "<div id=\"" + id + "_form\">" + form + "</div>");
+		map.put("id", id);
+		map.put("extjs", extjs);
+		map.put("mode", mode);
+		return map;
 	}
 
 	public String findResourceTree(String naturalname) throws Exception {

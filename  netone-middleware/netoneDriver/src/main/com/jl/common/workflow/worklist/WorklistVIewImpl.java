@@ -1,31 +1,32 @@
 package com.jl.common.workflow.worklist;
 
-import com.jl.common.app.AppEntry;
-import com.jl.common.app.AppHandleIfc;
-import com.jl.common.app.AppObj;
-import com.jl.common.security3a.Security3AIfc;
-import com.jl.common.security3a.SecurityEntry;
-import com.jl.common.workflow.DbTools;
-import com.jl.common.workflow.TWfConsoleIfc;
-import com.jl.common.workflow.TWfRelevant;
-import com.jl.common.workflow.TWfWorklistExt;
-import com.jl.common.workflow.WfEntry;
-import java.io.PrintStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
 import oe.midware.workflow.service.WorkflowConsole;
 import oe.midware.workflow.service.WorkflowView;
 import oe.midware.workflow.xpdl.model.activity.Activity;
 import oe.midware.workflow.xpdl.model.data.DataField;
-import oe.midware.workflow.xpdl.model.workflow.WorkflowProcess;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
+
+import com.jl.common.app.AppEntry;
+import com.jl.common.app.AppHandleIfc;
+import com.jl.common.app.AppObj;
+import com.jl.common.security3a.SecurityEntry;
+import com.jl.common.workflow.DbTools;
+import com.jl.common.workflow.TWfRelevant;
+import com.jl.common.workflow.TWfWorklistExt;
+import com.jl.common.workflow.WfEntry;
 
 public final class WorklistVIewImpl
   implements WorklistViewIfc
@@ -440,7 +441,7 @@ public final class WorklistVIewImpl
           processidStr + 
           " and w2.types in " + 
           opemode + 
-          condition + " order by w1.STARTTIME   limit " + from + "," + size;
+          condition + " order by w1.STARTTIME desc  limit " + from + "," + size;
         loadworklist_detail = StringUtils.replace(loadworklist, "w2.usercode='" + clientId + "'", "1=1");
       }
       else if (opemode.contains("'04'")) {
@@ -450,7 +451,7 @@ public final class WorklistVIewImpl
           processidStr + 
           " and w2.types in " + 
           opemode + 
-          condition + " order by w1.STARTTIME  limit " + from + "," + size;
+          condition + " order by w1.STARTTIME desc limit " + from + "," + size;
         loadworklist_detail = StringUtils.replace(loadworklist, "w2.usercode='" + clientId + "'", "1=1");
       }
       else
@@ -462,7 +463,7 @@ public final class WorklistVIewImpl
           processidStr + 
           " and w2.types in " + 
           opemode + 
-          condition + " order by w1.STARTTIME  limit " + from + "," + size;
+          condition + " order by w1.STARTTIME desc limit " + from + "," + size;
         loadworklist_detail = StringUtils.replace(loadworklist, "w2.usercode='" + clientId + "'", " 1=1 ");
       }
     } else if ("02".equals(listType)) {
@@ -764,11 +765,43 @@ public final class WorklistVIewImpl
       listWorklist.add(dataX);
     }
 
-    for (Iterator iterator = listWorklist.iterator(); iterator.hasNext(); ) {
-      DataObj object = (DataObj)iterator.next();
-      object.getId();
-    }
-    return listWorklist;
+    return reSortWorklist(listWorklist);
+  }
+  /**
+   * 先前做的流程节点合并需要先以runtimeid来排序，从而导致时间无法倒序，所以重新加个算法对待办列表进行二次按时间排序
+   */
+  private List reSortWorklist(List listWorklist ){
+	    List timegroup=new ArrayList();
+	    Map maptimeGroup=new HashMap();
+	    for (Iterator iterator = listWorklist.iterator(); iterator.hasNext(); ) {
+	      DataObj object = (DataObj)iterator.next();
+	      String starttime=object.getExt().getStarttime();
+	      long timeValue=0;
+	      try{
+	    	  timeValue=Timestamp.valueOf(starttime).getTime();
+	      }catch(Exception e){
+	    	  e.printStackTrace();
+	      }
+	      if(maptimeGroup.containsKey(timeValue)){
+	    	 for(int i=0;i<100;i++){//有可能两个节点的时间相同那么修改时间，为了安全起见最多循环100次
+	    		 timeValue=timeValue+1;
+	    		 if(!maptimeGroup.containsKey(timeValue)){
+	    			 break;
+	    		 }
+	    	 }
+	      }
+	      timegroup.add(timeValue);
+	      maptimeGroup.put(timegroup, object);
+	    }
+	    Arrays.sort((Long[])timegroup.toArray(new Long[0]));
+	    
+	    List newSort=new ArrayList();
+	    for (Iterator iterator = timegroup.iterator(); iterator.hasNext();) {
+			Long object = (Long) iterator.next();
+			Object obj=maptimeGroup.get(object);
+			newSort.add(obj);
+		}
+	    return newSort;
   }
 
   private String getUserPhone(String usercode)

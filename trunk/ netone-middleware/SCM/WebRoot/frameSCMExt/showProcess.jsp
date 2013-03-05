@@ -19,7 +19,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:include page="/WEB-INF/jsp/common/metaJQuery-min.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/metaJQuery-ui-tab.jsp" />
 	<script type="text/javascript" src="<%=path%>/script/jquery-plugin/jquery.highlight-3.js"></script>
-	</script>
 	<style type="text/css">
 	.highlight {
 		color: #0C76B6;

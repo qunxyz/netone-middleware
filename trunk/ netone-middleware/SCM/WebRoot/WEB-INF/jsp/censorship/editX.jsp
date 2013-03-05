@@ -467,8 +467,6 @@ html.VIE7 .form_fieldinput
 				<!--  -->
 								
 			</div>
-		</div>
-		</div>
 		<jsp:include page="footer.jsp"></jsp:include>
 		</center>
 	</body>

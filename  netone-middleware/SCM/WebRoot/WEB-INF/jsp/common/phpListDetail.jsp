@@ -75,8 +75,6 @@
             store.load({params:{start:0,limit:20}});                       
         });   
      </script>  
-		
-	</script> 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>

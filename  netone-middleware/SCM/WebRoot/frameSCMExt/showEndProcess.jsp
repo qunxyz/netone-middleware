@@ -19,7 +19,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:include page="/WEB-INF/jsp/common/metaExt.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/metaJQuery-min.jsp"></jsp:include>
 	<jsp:include page="/WEB-INF/jsp/common/metaJQuery-ui-tab.jsp" />
-	</script>
 	${linkcss}
 	<script type="text/javascript">
 	

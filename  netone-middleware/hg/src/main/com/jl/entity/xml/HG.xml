@@ -312,6 +312,53 @@
 	   	<include refid="selectIcstockbillCondition"/>
 	</select>	
 	
+	<!-- 导出出库单信息 -->
+	<select id="exportIcstockbillInfo" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT 
+		[FInterID], [FEntryID], [Fdate], [FCheck], [FCancellation], [FBillNo], [FSaleStyleName], [FSupplyIDName], 
+		[FDCStockIDName], [FItemIDName], [FFullNumber], [FItemName], [FItemModel], [FUnitIDName], [FBatchNo], [Fauxqty], 
+		[Fauxprice], [Famount], [FFManagerIDName], [FSManagerIDName], [FuserName], [FCheckerName], [FVoucherStatus], [FNote], 
+		[FVoucherNumber], [FHookStatus], [FReStatus], [FMarketingStyleName], [FPOOrdBillNo], [FAllHookQTY], [FUNHookQTY], 
+		[FCurrentHookQTY], [FOrderBillNo], [FContractBillNo], [FSourceBillNo], [FSourceTranType], [FDeptIDName], 
+		[FEmpIDName], [FManagerIDName], [FExplanation], [FFetchAdd], [FCheckDate], [FAuxPropIDName], 
+		[FAuxPropIDNumber], [FHasSplitBill], [FAuxQtyInvoice], [FQtyInvoice], [FBaseUnitID], [FBaseQty], 
+		[FAuxQtyMust], [FBaseQtyMust], [FAuxPlanPrice], [FPlanAmount], [FCUUnitName], [FCUUnitQty], [FSPName],
+		 [FKFPeriod], [FKFDate], [FPeriodDate], [FZPBillNo], [FMapName], [FMapNumber], [FConsignPrice], 
+		[FConsignAmount], [FRelateBrIDName], [FBrID], [FDCStockIDNumber], [FSecUnitName], [FSecCoefficient], 
+		[FSecQty], [FVIPCardId], [FVIPScore], [FDiscountRate], [FDiscountAmount], [FHolisticDiscountRate],
+		 [FPOSName], [FNumber], [FHeadSelfB0144], [FHeadSelfB0145], [FHeadSelfB0146], [FHeadSelfB0147],
+		 [FHeadSelfB0148], [FHeadSelfB0149], [FHeadSelfB0150], [FHeadSelfB0151], [FHeadSelfB0152], [FHeadSelfB0153], 
+		[FHeadSelfB0154], [FHeadSelfB0155], [FHeadSelfB0156], [FHeadSelfB0157], [FHeadSelfB0158], [FHeadSelfB0159], 
+		[FHeadSelfB0160], [FHeadSelfB0161], [FHeadSelfB0162], [FHeadSelfB0163], [FHeadSelfB0164], [FHeadSelfB0165], 
+		[FHeadSelfB0166], [FHeadSelfB0167], [FHeadSelfB0168], [FHeadSelfB0169], [FHeadSelfB0170], [FHeadSelfB0171], 
+		[FHeadSelfB0172], [FHeadSelfB0173], [FHeadSelfB0174], [FHeadSelfB0175], [FHeadSelfB0176], [FHeadSelfB0177], 
+		[FHeadSelfB0178], [FEntrySelfB0155], [FEntrySelfB0156], [FEntrySelfB0157], [FEntrySelfB0158], [FEntrySelfB0159],
+		 [FEntrySelfB0160], [FEntrySelfB0161], [FEntrySelfB0162], [FEntrySelfB0163], [FEntrySelfB0164], [FEntrySelfB0165],
+		 [FEntrySelfB0166], [FEntrySelfB0167], [FEntrySelfB0168], [FEntrySelfB0169] 
+		FROM [vwICBill_8]
+		where FCancellation!='Y'
+		<isNotEmpty prepend="and" property="FStartDate">
+			FDate &gt;= #FStartDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="FEndDate">
+			FDate &lt;= #FEndDate#
+		</isNotEmpty>
+		<!-- sale=1 已生成发票 -->
+		<isEqual prepend="and" property="sale" compareValue="1">
+			FHookStatus='Y'
+		</isEqual>
+		<!-- sale=0 未生成发票 -->
+		<isEqual prepend="and" property="sale" compareValue="0">
+			FHookStatus!='Y'
+		</isEqual>
+		<isNotEmpty prepend="and" property="FSupplyIDName">
+			FSupplyIDName like '%$FSupplyIDName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="FBillNo">
+			FBillNo like '%$FBillNo$%'
+		</isNotEmpty>
+	</select>
+	
 	<!-- 销售出库单根据CODE 未开票 -->
 	<select id="selectIcstockbillInfo" parameterClass="int" resultClass="java.util.HashMap">
 		/**
@@ -331,7 +378,7 @@
 		and FRelateInvoiceID = 0 and FHookStatus!=2
 	</select>
 	<!-- 销售出库单 未开票 -->
-	<select id="selectAllIcstockbillInfo" parameterClass="int" resultClass="java.util.HashMap">
+	<select id="selectAllIcstockbillInfo" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
 		/**
 		基本单位开票数量=0
 		销售金额！=0
@@ -347,6 +394,15 @@
 		)
 		and FCancellation=0
 		and FRelateInvoiceID = 0 and FHookStatus!=2
+		<isNotEmpty prepend="and" property="FBillNo">
+			FBillNo like '%$FBillNo$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="FStartDate">
+			FDate &gt;= #FStartDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="FEndDate">
+			FDate &lt;= #FEndDate#
+		</isNotEmpty>
 	</select>
 	<!-- 销售出库单明细 未开票 -->
 	<select id="selectIcstockbillentry" parameterClass="int" resultClass="java.util.HashMap">

@@ -775,7 +775,8 @@ public final class WorklistVIewImpl
 	    Map maptimeGroup=new HashMap();
 	    for (Iterator iterator = listWorklist.iterator(); iterator.hasNext(); ) {
 	      DataObj object = (DataObj)iterator.next();
-	      String starttime=object.getExt().getStarttime();
+	      String []datax=object.getData();
+	      String starttime=datax[datax.length-1];// 最后一位是时间字段
 	      long timeValue=0;
 	      try{
 	    	  timeValue=Timestamp.valueOf(starttime).getTime();

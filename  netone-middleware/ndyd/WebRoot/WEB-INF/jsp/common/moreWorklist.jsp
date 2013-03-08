@@ -113,7 +113,7 @@ A:visited {color: #928BA4;}
 			aoData.push( { "name": "did", "value": '${param.did}' } );
 			aoData.push( { "name": "total", "value": '${param.total}' } );
 			aoData.push( { "name": "type", "value": '${param.type}' } );
-			aoData.push( { "name": "listType", "value": '${param.listType}' } );
+			aoData.push( { "name": "listtype", "value": '${param.listtype}' } );
 			//alert(JSON.stringify(aoData))
 			$.post(sSource,{conditions:JSON.stringify(aoData)},function(data){fnCallback(data)});
 			/**

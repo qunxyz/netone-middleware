@@ -254,4 +254,12 @@ public interface AppService {
 	 */
 	public void queryIcsale(HttpServletRequest request,
 			HttpServletResponse response);
+	
+	/**
+	 * 导出销售信息
+	 * @param request
+	 * @param response
+	 */
+	public void exportsellinfo(HttpServletRequest request,
+			HttpServletResponse response);
 }

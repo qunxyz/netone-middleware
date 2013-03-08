@@ -3,6 +3,7 @@
  */
 package com.jl.service.impl;
 
+import java.io.BufferedOutputStream;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -2245,9 +2247,23 @@ public class AppServiceImpl extends BaseService implements AppService {
 		JSONObject json = new JSONObject();
 		String FInterID = request.getParameter("FInterID");
 		try {
+			Map conditionMap = new HashMap();
+			String FBillNo = request.getParameter("FBillNo");
+			String FStartDate = request.getParameter("FStartDate");
+			String FEndDate = request.getParameter("FEndDate");
+			if (StringUtils.isNotEmpty(FBillNo)) {
+				conditionMap.put("FBillNo", FBillNo.trim());
+			}
+			if (StringUtils.isNotEmpty(FStartDate)) {
+				conditionMap.put("FStartDate", FStartDate.trim());
+			}
+			if (StringUtils.isNotEmpty(FEndDate)) {
+				conditionMap.put("FEndDate", FEndDate.trim());
+			}
+
 			CommonDAO dao = getHgDAO();
 			List icstockbilllist = (List) dao.select(
-					"HG.selectAllIcstockbillInfo", null);
+					"HG.selectAllIcstockbillInfo", conditionMap);
 			for (Iterator iterator = icstockbilllist.iterator(); iterator
 					.hasNext();) {
 				Map icstockbill = (Map) iterator.next();
@@ -2888,6 +2904,67 @@ public class AppServiceImpl extends BaseService implements AppService {
 					.toString()));
 		} catch (Exception e) {
 			log.error("出错了", e);
+		}
+
+	}
+
+	public void exportsellinfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		String FBillNo = request.getParameter("FBillNo");
+		String FStartDate = request.getParameter("FStartDate");
+		String FEndDate = request.getParameter("FEndDate");
+		String sale = request.getParameter("sale");
+		String FSupplyIDName = request.getParameter("FSupplyIDName");
+		Map conditionMap = new HashMap();
+		if (StringUtils.isNotEmpty(FSupplyIDName)) {
+			conditionMap.put("FSupplyIDName", FSupplyIDName.trim());
+		}
+		if (StringUtils.isNotEmpty(FBillNo)) {
+			conditionMap.put("FBillNo", FBillNo.trim());
+		}
+		if (StringUtils.isNotEmpty(FStartDate)) {
+			conditionMap.put("FStartDate", FStartDate.trim());
+		}
+		if (StringUtils.isNotEmpty(FEndDate)) {
+			conditionMap.put("FEndDate", FEndDate.trim());
+		}
+		if (StringUtils.isNotEmpty(sale)) {
+			conditionMap.put("sale", sale.trim());
+		}
+		response.setContentType("text/plain");// 一下两行关键的设置
+		response.addHeader("Content-Disposition", "attachment;filename=sell"
+				+ FStartDate + "-" + FEndDate + ".txt");// filename指定默认的名字
+		BufferedOutputStream buff = null;
+		StringBuffer write = new StringBuffer();
+		String tab = "  ";
+		String enter = "\r\n";
+		ServletOutputStream outSTr = null;
+		CommonDAO dao = getHgDAO();
+		try {
+			List list = (List) dao.select("HG.exportIcstockbillInfo",
+					conditionMap);
+			outSTr = response.getOutputStream();// 建立
+			buff = new BufferedOutputStream(outSTr);
+			for (int i = 0; i < list.size(); i++) {
+				Map data = (Map) list.get(i);
+				write.append(data.get("FSupplyIDName") + "  ");
+				write.append(data.get("FItemName") + "  ");
+				write.append(data.get("FUnitIDName") + "  ");
+				write.append(data.get("Fauxqty") + "  ");
+				write.append(enter);
+			}
+			buff.write(write.toString().getBytes("UTF-8"));
+			buff.flush();
+			buff.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				buff.close();
+				outSTr.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

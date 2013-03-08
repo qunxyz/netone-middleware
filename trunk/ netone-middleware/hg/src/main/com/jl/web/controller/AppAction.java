@@ -565,5 +565,26 @@ public class AppAction extends AbstractAction {
 				.getBean("appService");
 		service.saveAllIcsale(request, response);
 	}
+	
+	// 查询导出销售信息
+	public ActionForward onExportsellMain(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String forward = "/app/exportsellmain.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+	
+	//导出
+	public void exportsellinfo(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.exportsellinfo(request, response);
+	}
 
 }

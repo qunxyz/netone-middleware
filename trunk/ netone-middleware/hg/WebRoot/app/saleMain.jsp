@@ -246,7 +246,12 @@ function $onkeybuildF(){
         // 请求的服务器地址
         // 指定要提交的表单id
         method: 'POST',
-        params:{},
+        params:{
+	        FBillNo : $('#FBillNo').val(),
+			FStartDate : $('#FStartDate').val(),
+			FEndDate : $('#FEndDate').val(),
+			sale : $('#sale').val()
+		},
         success: function (response, options) {
             msgTip.hide();
             var result = Ext.util.JSON.decode(response.responseText);

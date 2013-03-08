@@ -544,7 +544,7 @@ public final class WorklistVIewImpl
         statusinfo = "";
       }
       boolean sync = "1".equals((String)object.get("sync"));
-
+      dataX.setStarttime(startime);
       TWfWorklistExt wfext = new TWfWorklistExt();
       dataX.setExt(wfext);
       Activity act = WfEntry.iv().loadProcess(processidx).getActivity(
@@ -775,8 +775,7 @@ public final class WorklistVIewImpl
 	    Map maptimeGroup=new HashMap();
 	    for (Iterator iterator = listWorklist.iterator(); iterator.hasNext(); ) {
 	      DataObj object = (DataObj)iterator.next();
-	      String []datax=object.getData();
-	      String starttime=datax[datax.length-1];// 最后一位是时间字段
+	      String starttime=object.getStarttime();
 	      long timeValue=0;
 	      try{
 	    	  timeValue=Timestamp.valueOf(starttime).getTime();
@@ -792,16 +791,17 @@ public final class WorklistVIewImpl
 	    	 }
 	      }
 	      timegroup.add(timeValue);
-	      maptimeGroup.put(timegroup, object);
+	      maptimeGroup.put(timeValue, object);
 	    }
-	    Arrays.sort((Long[])timegroup.toArray(new Long[0]));
+	    Long [] timegroupArr=(Long[])timegroup.toArray(new Long[0]);
+	    Arrays.sort(timegroupArr);
 	    
 	    List newSort=new ArrayList();
-	    for (Iterator iterator = timegroup.iterator(); iterator.hasNext();) {
-			Long object = (Long) iterator.next();
-			Object obj=maptimeGroup.get(object);
+	    for (int i = timegroupArr.length-1; i >=0 ; i--) {
+			Object obj=maptimeGroup.get(timegroupArr[i]);
 			newSort.add(obj);
 		}
+
 	    return newSort;
   }
 

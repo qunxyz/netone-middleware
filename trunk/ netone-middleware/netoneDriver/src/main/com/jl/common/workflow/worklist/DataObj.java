@@ -1,6 +1,5 @@
 package com.jl.common.workflow.worklist;
 
-import java.util.List;
 
 import com.jl.common.workflow.TWfWorklistExt;
 
@@ -13,6 +12,16 @@ public final class DataObj {
 	TWfWorklistExt ext;
 
 	String url;
+	
+	String starttime;
+
+	public String getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(String starttime) {
+		this.starttime = starttime;
+	}
 
 	public String getUrl() {
 		return url;

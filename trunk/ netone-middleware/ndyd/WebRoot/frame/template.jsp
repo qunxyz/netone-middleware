@@ -49,9 +49,9 @@
 
 							<input id="cannelBtn_look" type="button" value=" 关 闭 " class="btn"
 								onclick="javascript:window.close();" />
-							<c:if test="param.query=='look'">
+							<c:if test="${param.query=='lookx'}">
 							<input id="cannelBtn_lookListxx" type="button" value=" 已 阅 " class="btn"
-								onclick="javascript:window.open('LookListOverSvl?workcode=${param.workcode}')" />
+								onclick="javascript:window.open('LookListOverSvl?workcode=${param.workcode}');window.opener.location.reload();window.close();" />
 							</c:if>
 							<c:if test="${param.cuibang=='true'}">	
 							<input id="cannelBtn_cuibang" type="button" value=" 催 办 " class="btn"

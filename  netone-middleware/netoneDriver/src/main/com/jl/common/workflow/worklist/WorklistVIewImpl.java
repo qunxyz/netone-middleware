@@ -340,11 +340,9 @@ public final class WorklistVIewImpl
   public List<DataObj> worklist(String clientId, String appname, boolean mode, int from, int size, String listType, QueryColumn query)
     throws Exception
   {
-    CupmRmi cupm = null;
     WorkflowView wfview = null;
     try {
       wfview = (WorkflowView)RmiEntry.iv("wfview");
-      cupm = (CupmRmi)RmiEntry.iv("cupm");
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -388,7 +386,8 @@ public final class WorklistVIewImpl
     }
     
     if(!multiAppname){
-  	  hasadminAble=SecurityEntry.iv().permission(clientId, appname);
+      String workflow=AppEntry.iv().loadApp(appname).getWorkflowCode_();
+  	  hasadminAble=SecurityEntry.iv().permission(clientId, workflow);
     }
 
     String urlEnd = "";

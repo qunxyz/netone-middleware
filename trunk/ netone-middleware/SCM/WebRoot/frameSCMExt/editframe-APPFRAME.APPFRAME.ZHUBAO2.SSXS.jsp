@@ -533,7 +533,9 @@
 				//售货员
 				//$('table#8a606025a84f11e19b54fb13b166e993_').find('#column10').val('<rs:logininfo />');
 			}//end if
-			
+
+//添加计算按钮		
+			$('#1dde2f9fa81711e19b54fb13b166e993_btn').find('.table_td_title').append('<input class="btn" type="button" value="计算" onclick="tototodo();" /> ');
 			
 			//手工费计算
 
@@ -541,21 +543,29 @@
 			var ooo= $(this);			
 			/*** 销售*/ 				
 			var jsonStr1___ = '';
-			$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
-			 jsonStr1___+=$todo2($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
-			});  
+			var ids1 = jQuery("table#1dde2f9fa81711e19b54fb13b166e993_").jqGrid('getDataIDs');   
+			var split1='';
+		    for(var i=0;i < ids1.length;i++){   
+		        var cl = ids1[i];   
+		        jsonStr1___+=split1+$todo2($('#'+cl),'1dde2f9fa81711e19b54fb13b166e993_','');
+				split1=',';
+		    }
 
 			
 			/***  回收2　*/
 			var jsonStr2__2 = '';
-			$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
-			 jsonStr2__2+=$todo2($(this),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__2);
-			});
+			var ids = jQuery("table#e17cb211a84911e19b54fb13b166e993_").jqGrid('getDataIDs');   
+			var split='';
+		    for(var i=0;i < ids.length;i++){   
+		        var cl = ids[i];   
+		        jsonStr2__2+=split+$todo2($('#'+cl),'e17cb211a84911e19b54fb13b166e993_','');
+				split=',';
+		    }
 			
 			jsonStr1___ = '[' + jsonStr1___ + ']';
 			jsonStr2__2 = '[' + jsonStr2__2 + ']';			
 
-
+/**
 			Ext.Ajax.request({
 							        url: "/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSHOUGONGFEI",
 							        // 请求的服务器地址
@@ -580,8 +590,8 @@
 							            
 							        }
 							    });
-							    
-			//reTodoPrice();	//修改销售  再次计算应收金额			    
+				**/			    
+			reTodoPrice();	//修改销售  再次计算应收金额			    
 							    
 							    
 			});
@@ -639,9 +649,11 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 			var ooo= $(this);
 			/*** 销售*/ 				
 			var jsonStr1___ = '';
-			//$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
-			// jsonStr1___+=$todo2($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
-			//}); 
+			/**
+			$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
+			 jsonStr1___+=$todo2($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
+			});
+			**/ 
 			var ids1 = jQuery("table#1dde2f9fa81711e19b54fb13b166e993_").jqGrid('getDataIDs');   
 			var split1='';
 		    for(var i=0;i < ids1.length;i++){   
@@ -657,9 +669,11 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 			//});
 			/***  回收2　*/
 			var jsonStr2__2 = '';
-			//$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
-			// jsonStr2__2+=$todo2($(this),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__2)
-			//});
+			/**
+			$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
+			 jsonStr2__2+=$todo2($(this),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__2)
+			});
+			**/
 			var ids = jQuery("table#e17cb211a84911e19b54fb13b166e993_").jqGrid('getDataIDs');   
 			var split='';
 		    for(var i=0;i < ids.length;i++){   
@@ -726,14 +740,24 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 			
 		});
 		
+		function tototodo(){
+			$("table#1dde2f9fa81711e19b54fb13b166e993_").find('#column3').each(function(){ 
+				//$(this).trigger('change');
+				$(this).autocomplete('http://192.168.1.107:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETPRODUCTBYFXJH'+'&sr_clientid='+$('table#8a606025a84f11e19b54fb13b166e993_').find('#column8').val(), {  multiple: false,  dataType: "json",  autoFill: true,  mustMatch: true,  matchContains: false,  scrollHeight: 220,  width:300,  parse: function(data) {   return $.map(data, function(row) {    return {     data: row,     value: row.column4,     result: row.column4    }   });  },  formatItem: function(item) {   return  item.column4+' '+item.column7;  },  formatResult: function(item) {   return item.column4;  }  }) .result(function(e, item) {      var o = $(this).parent().parent();      o.find('#column36').empty();    o.find('#column36').append("<option value=\"01\">积分</option>");    o.find('#column36').append("<option value=\"00\">不积分</option>");         if (item!=null){        $.getJSON("http://192.168.1.107:83/scm/Soasvl?datatype=json&sr_pcodecol=column3&naturalname=SOASCRIPT.SOASCRIPT.ZB.CHECKPRODUCTCODEISREPEAT&sr_lsh="+$('#lsh').val()+'&sr_table=DY_371337952339238'+'&sr_pcode='+$(this).val(),        function(jsonx2){         if (jsonx2!=null){         if (jsonx2.count>0){     Ext.ux.Toast.msg("", "条形码已存在！");     return;    }   }   });  /*** 产品大类 */o.find('#column19').val(item.bigcate);    o.find('#column19_tmp').val(item.bigcate);   /***精品工费***/ o.find('#column6').val(item.column89); /***工费单价***/ o.find('#column9').val(item.column59);     /** 产品名称  */  o.find('#column4').val(item.column7);     o.find('#column25').val(item.column27);    o.find('#column26').val(item.jinzhong);         /**售价  */  o.find('#column11').val(item.sellprice);       if(item.bigcate=='dl006' || item.bigcate=='dl007'){tempzk=98;}   o.find('#column28').val(item.column52);cs=o.find('#column28');o.find('#column28_tmp').val(item.column52);  if(item.bigcate=='dl006' || item.bigcate=='dl007' || item.bigcate=='dl013'){     o.find('#column33').attr("disabled","disabled");    }     /**款号 */  o.find('#column20').val(item.column11);      /** 证书号 */  o.find('#column21').val(item.column12);    /** 主石重 */  o.find('#column24').val(item.column37);    /** 副石数量 */  o.find('#column37').val(item.column96);    /** 寓意 */  o.find('#column29').val(item.column20);    /** 手寸 */  o.find('#column30').val(item.column24);    /** 颜色 */  o.find('#column31').val(item.column16);    /** 证书号 */  o.find('#column32').val(item.column17);     o.find('#column23').val(item.huohao);     o.find('#column27').val(item.zhushihao);      /***折扣信息**/  $.getJSON("http://192.168.1.107:83/scm/Soasvl?datatype=json&naturalname=SOASCRIPT.SOASCRIPT.ZB.GETSPECIALOFFERSINFOBYLEVEL&q="+$('table#8a606025a84f11e19b54fb13b166e993_').find('#column17').val(),    function(jsonx2){        if (jsonx2!=null){          var vs1 = Number(jsonx2.column10);          if(isNaN(vs1)){      vs1=0;    }         o.find('#column12').val(tempzk+'%');           var vs2 = Number(jsonx2.column9);          if(isNaN(vs2)){      vs2=10;    }          o.find('#column13').val((vs2/10*100)+'%');       o.find('#column14').val((vs2/10*tempzk)+'%');      o.find('#column15').val(((vs2*tempzk/100/10)*item.sellprice).toFixed(2));      $.getJSON("http://192.168.1.107:83/scm/dyinfo? lsh=&model=0&ext=&formcode=c3a1be02978f11e19d04e1f804e88ddd_&fatherlsh=ed05832cfb3346949deda75659f144a9",   function(json){  $.each(json, function(i,item_1){          if(item_1.column4==item.bigcate){              o.find('#column35').val(((vs2*tempzk/100/10)*item.sellprice*item_1.column5).toFixed(2));          }        });      });    } else {                 o.find('#column12').val(tempzk+'%');    o.find('#column13').val('100%'); o.find('#column14').val(tempzk+'%');o.find('#column15').val((tempzk/100*item.sellprice).toFixed(2));$.getJSON("http://192.168.1.107:83/scm/dyinfo? lsh=&model=0&ext=&formcode=c3a1be02978f11e19d04e1f804e88ddd_&fatherlsh=ed05832cfb3346949deda75659f144a9",   function(json){  $.each(json, function(i,item_1){   if(item_1.column4==item.bigcate){      o.find('#column35').val((tempzk/100*item.sellprice*item_1.column5).toFixed(2));   }  });  });}  }); } else {   o.find('#column3').val('');    o.find('#column4').val('');    o.find('#column5').val(0);        o.find('#column7').val(0);    o.find('#column9').val(0);    o.find('#column10').val(0);    o.find('#column11').val(0);    o.find('#column12').val(tempzk+'%');    o.find('#column13').val('100%');    o.find('#column14').val(tempzk+'%');    o.find('#column15').val(0);    o.find('#column16').val('');    o.find('#column19').val('');    o.find('#column20').val('');    o.find('#column21').val('');    o.find('#column22').val('');    o.find('#column23').val('');    o.find('#column24').val(0);    o.find('#column26').val(0);    o.find('#column27').val('');    o.find('#column28').val('');    o.find('#column29').val('');    o.find('#column30').val('');    o.find('#column31').val('');    o.find('#column32').val('');    o.find('#column33').val(0);    o.find('#column34').val(0);    o.find('#column35').val(0);    o.find('#column36').val('');    o.find('#column37').val(0);  } });$(this).unbind("focus");setTimeout(function(){$('table#8b6b6947a81411e19b54fb13b166e993_').find('#column3').trigger('change');try{cs.trigger('change');}catch(e){}}, 1000);
+			}); 
+			reTodoPrice();
+		}
+		
 		//修改销售  再次计算应收金额
 		function reTodoPrice(){
 		
 			/*** 销售*/ 				
 			var jsonStr1___ = '';
-			//$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
-			// jsonStr1___+=$todo2($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
-			//}); 
+			/**
+			$("table#1dde2f9fa81711e19b54fb13b166e993_").each(function(){   
+			 jsonStr1___+=$todo2($(this),'1dde2f9fa81711e19b54fb13b166e993_',jsonStr1___);
+			}); 
+			**/
 			var ids1 = jQuery("table#1dde2f9fa81711e19b54fb13b166e993_").jqGrid('getDataIDs');   
 			var split1='';
 		    for(var i=0;i < ids1.length;i++){   
@@ -741,7 +765,7 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 		        jsonStr1___+=split1+$todo2($('#'+cl),'1dde2f9fa81711e19b54fb13b166e993_','');
 				split1=',';
 		    }
-
+			
 			
 			/***  回收　*/
 			//var jsonStr2__ = '';
@@ -750,9 +774,11 @@ $("table#e17cb211a84911e19b54fb13b166e993_").find('#column29').live('change',fun
 			//});
 			/***  回收2　*/
 			var jsonStr2__2 = '';
-			//$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
-			// jsonStr2__2+=$todo2($(this),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__2)
-			//});
+			/**
+			$("table#e17cb211a84911e19b54fb13b166e993_").each(function(){   
+			 jsonStr2__2+=$todo2($(this),'e17cb211a84911e19b54fb13b166e993_',jsonStr2__2)
+			});
+			**/
 			var ids = jQuery("table#e17cb211a84911e19b54fb13b166e993_").jqGrid('getDataIDs');   
 			var split='';
 		    for(var i=0;i < ids.length;i++){   

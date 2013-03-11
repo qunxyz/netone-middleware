@@ -129,7 +129,7 @@ public class ReportX16Action extends AbstractAction {
 		if(StringUtils.isNotEmpty(repselect4))
 			sb.append("AND rkmx.column50 = '" + repselect4 + "' ");
 		if(StringUtils.isNotEmpty(repselect5))
-			sb.append("AND t1.column9 = '" + repselect5 + "' ");  
+			sb.append("AND t.column9 = '" + repselect5 + "' ");  
 		if(StringUtils.isNotEmpty(repselect6))
 			sb.append("AND rkmx.column48='" + repselect6 + "' ");
 		if(StringUtils.isNotEmpty(repselect7))

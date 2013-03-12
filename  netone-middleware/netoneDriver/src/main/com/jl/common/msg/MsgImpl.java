@@ -325,6 +325,36 @@ public class MsgImpl implements MsgIfc {
 		}
 	}
 
+	@Override
+	public boolean delComment(String lsh) {
+		String appname ="APPFRAME.APPFRAME.MSG.PL";
+
+		try {
+			String formcode = AppEntry.iv().loadApp(appname).getDyformCode_();
+			DyEntry.iv().deleteData(formcode, lsh);
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean delMsg(String lsh) {
+		String appname ="APPFRAME.APPFRAME.MSG.RZXT";
+
+		try {
+			String formcode = AppEntry.iv().loadApp(appname).getDyformCode_();
+			DyEntry.iv().deleteData(formcode, lsh);
+			return true;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 
 
 

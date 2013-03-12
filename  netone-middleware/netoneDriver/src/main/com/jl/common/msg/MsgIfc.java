@@ -15,6 +15,19 @@ public interface MsgIfc {
 	String newMsg(String sender,String msgto,String msgbody,boolean comment);
 	
 	/**
+	 * 删除消息
+	 * @param lsh
+	 * @return
+	 */
+	boolean delMsg(String lsh);
+	/**
+	 * 删除评论
+	 * @param lsh
+	 * @return
+	 */
+	boolean delComment(String lsh);
+	
+	/**
 	 * 转发消息
 	 * @param sender 发送者
 	 * @param msgto 消息定向发送

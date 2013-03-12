@@ -3,8 +3,6 @@
 	<classpathentry kind="src" path="src/main/config"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry excluding="common/|config/|products/" kind="src" path="src/main"/>
-	<classpathentry excluding="main/config/|test/java/|main/|report/" kind="src" path="src"/>
-	<classpathentry kind="src" path="src/report"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/acegi-security-0.8.2.jar"/>

@@ -8,7 +8,6 @@
 <%@ page import="java.lang.*"%>
 <%@ page import="java.math.BigDecimal"%>
 <%@ page import="java.text.DecimalFormat"%>
-<%@page import="yc.erp.zy.common.MathHelper"%>
 <%@page import="org.apache.commons.lang.StringUtils"%>
 <%@ include file="../common/taglibs.jsp"%>
 <%

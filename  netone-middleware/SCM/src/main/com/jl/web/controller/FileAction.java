@@ -90,7 +90,7 @@ public class FileAction extends AbstractAction {
 		request.setAttribute("list", result);
 		return mapping.findForward("onFrameFileMainView");
 	}
-	
+
 	public void delete(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -125,12 +125,17 @@ public class FileAction extends AbstractAction {
 			String path = request.getSession().getServletContext().getRealPath(
 					"/");// 应用服务器目录
 			String id = request.getParameter("id");
+			String ext = request.getParameter("ext");// 扩展字段
+			String filefield = "files";
+			if (StringUtils.isNotEmpty(ext)) {
+				filefield = ext;
+			}
 			String filetype = URLDecoder.decode(request.getParameter("f_type"),
 					"UTF-8");// 去除中文乱码;
 			String filename = URLDecoder.decode(request
 					.getParameter("filename"), "UTF-8");// 去除中文乱码;
 			CommonUploadUtil importS = new CommonUploadUtil(request);
-			FileItem fileItem = importS.getFileItem("files");// 获取页面传来的文件
+			FileItem fileItem = importS.getFileItem(filefield);// 获取页面传来的文件
 			User user = getOnlineUser(request);
 			String htmlx = service.save(request, id, filename, filetype, path,
 					user.getUserCode(), user.getUserName(), fileItem);
@@ -146,18 +151,18 @@ public class FileAction extends AbstractAction {
 			json.put("tip", "上传附件失败!");
 			json.put("error", "yes");
 			html = "";
-			e.printStackTrace();
+			log.error("上传附件失败!", e);
 		} finally {
 			// super.writeJsonStr(response, json.toString());
 			response.setContentType("text/html;charset=UTF-8");
 			try {
 				response.getWriter().write(html);
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.error("上传附件失败!", e);
 			}
 		}
 	}
-	
+
 	public void onUploadFrameFile(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -178,8 +183,8 @@ public class FileAction extends AbstractAction {
 			CommonUploadUtil importS = new CommonUploadUtil(request);
 			FileItem fileItem = importS.getFileItem("files");// 获取页面传来的文件
 			User user = getOnlineUser(request);
-			String htmlx = service.saveFrame(request, id, filename, filetype, path,
-					user.getUserCode(), user.getUserName(), fileItem);
+			String htmlx = service.saveFrame(request, id, filename, filetype,
+					path, user.getUserCode(), user.getUserName(), fileItem);
 			json = JSONObject.fromObject(htmlx);
 			html = json.getString("unid") + "(~|~|~)"
 					+ json.getString("filename") + "(~|~|~)"
@@ -432,6 +437,18 @@ public class FileAction extends AbstractAction {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	// 合同管理附件处理onContractMgr
+	public void onGetFilename(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		FileService service = (FileService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("fileSerivce");
+		String fid = request.getParameter("fid");
+		String filename = service.getFilename(fid);
+		super.writeJsonStr(response, filename);
 	}
 
 }

@@ -53,7 +53,7 @@ public final class DyFormBuildHtmlExt {
 	// 测试换行
 	private static final String _N = "";
 
-	private static final int pagesize =20;
+	private static final int pagesize = 20;
 	/** */
 	public static final String TABLE_FORM = "table_form";
 
@@ -151,7 +151,8 @@ public final class DyFormBuildHtmlExt {
 			return DyFormComp.getTextarea(id, value, style + "height:100px;",
 					classname, readonly, extvalue);
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
-			return null;
+			return DyFormComp.getFile(id, value, style, classname, readonly,
+					extvalue);
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
 			if (StringUtils.isNotEmpty(value)) {
 				return DyFormComp.getHref("管理", "管理", value, "", "_blank");
@@ -285,7 +286,8 @@ public final class DyFormBuildHtmlExt {
 			return DyFormComp.getText(id, value, style, classname, readonly,
 					extvalue);
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
-			return null;
+			return DyFormComp.getFile(id, value, style, classname, readonly,
+					extvalue);
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
 			if (StringUtils.isNotEmpty(value)) {
 				return DyFormComp.getHref("管理", "管理", value, "", "_blank");
@@ -521,10 +523,14 @@ public final class DyFormBuildHtmlExt {
 			return value;
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
 			if ("ext".equals(type)) {
-				return null;
+				if (StringUtils.isNotEmpty(value)) {
+					return DyFormComp.getJsFileText(value);
+				} else {
+					return "";
+				}
 			}
 			value = htmEncode(value);
-			return value;
+			return DyFormComp.getFileText("",value, false);
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
 			if ("ext".equals(type)) {
 				if (StringUtils.isNotEmpty(value)) {
@@ -944,9 +950,9 @@ public final class DyFormBuildHtmlExt {
 
 		return datas.toString();
 	}
-	
-	protected static String buildDatas(DyFormData data,
-			DyFormColumn[] _formx, Map<String, DyFormColumn> columnmap,
+
+	protected static String buildDatas(DyFormData data, DyFormColumn[] _formx,
+			Map<String, DyFormColumn> columnmap,
 			Map<String, DyFormColumn> columnmapx, boolean isedit,
 			String userinfo, String parameter) throws Exception {
 		data = data == null ? new DyFormData() : data;
@@ -1221,9 +1227,10 @@ public final class DyFormBuildHtmlExt {
 			hiddenunid = "";
 			hiddenlsh = "";
 		}
+		String description = getDescription(dyform.getDescription());
 		String html_2 = eventListenScripts.toString()
 				+ DyFormComp.getForm(_FORM_ID, hiddenid + hiddenunid
-						+ hiddenlsh + html_) + _N;
+						+ hiddenlsh + html_)+description + _N;
 		return html_2;
 	}
 
@@ -1232,7 +1239,6 @@ public final class DyFormBuildHtmlExt {
 			boolean isShowTitle, String parameter, User user) throws Exception {
 		String formcode = dyform.getFormcode();
 		StringBuffer html = new StringBuffer();
-
 		if (isShowTitle) {
 			html.append(DyFormComp.getTr("", DyFormComp.getTd("", "&nbsp;"
 					+ dyform.getFormname(), TableTdStyle2 + "width:100%;",
@@ -1339,8 +1345,9 @@ public final class DyFormBuildHtmlExt {
 				TableStyle, TABLE_FORM, 0, TableExtPropertiesExt);
 		// 输出文档普通字段内容结束
 
+		String description = getDescription(dyform.getDescription());
 		String html_2 = eventListenScripts.toString()
-				+ DyFormComp.getForm(_FORM_ID, html_) + _N;
+				+ DyFormComp.getForm(_FORM_ID, html_) +description+ _N;
 		return html_2;
 	}
 
@@ -1455,7 +1462,7 @@ public final class DyFormBuildHtmlExt {
 		String html_ = DyFormComp.getTable(formcode, html.toString(),
 				TableStyle, TABLE_FORM, 0, TableExtProperties);
 		// 输出文档普通字段内容结束
-
+		String description = getDescription(dyform.getDescription());
 		String html_2 = eventListenScripts.toString()
 				+ DyFormComp.getForm(_FORM_ID, html_) + _N;
 		return html_2;
@@ -2161,14 +2168,15 @@ public final class DyFormBuildHtmlExt {
 		List list = new ArrayList();
 		// if (StringUtils.isNotEmpty(fatherlsh)) {
 		int sum = DyEntry.iv().queryDataNum(dydata, "");
-		list = DyEntry.iv().queryData(dydata, 0, pagesize, "");//分页
+		list = DyEntry.iv().queryData(dydata, 0, pagesize, "");// 分页
 		// }
 
 		if (list.size() > 0) {// 有记录
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				DyFormData data = (DyFormData) iterator.next();
-				html.append(buildTr(data.getLsh(), formcode, false, data, _formx,
-						columnmap, columnmapx, isedit, userinfo, parameter));
+				html.append(buildTr(data.getLsh(), formcode, false, data,
+						_formx, columnmap, columnmapx, isedit, userinfo,
+						parameter));
 			}
 		} else {// 无记录
 			// for (int i = 0; i < 7; i++) {
@@ -2206,12 +2214,16 @@ public final class DyFormBuildHtmlExt {
 				+ "\");var nulltr=$('#htmlcache"
 				+ htmlcacheid
 				+ "').html();nulltr=nulltr.replace('_TR_UUID_',makeUUID());nulltr=nulltr.replace('_BTN_UUID',makeUUID());";
-		btnstr.append("<script  defer='defer'> $('body').append('<div id=\"htmlcache"
-				+ htmlcacheid + "\" style=\"display:none;\"></div>');function "
-				+ onclickAddFunctionname
-				+ "(){var datas_config = $buildNullData('" + formcode
-				+ "') ;$('#" + formcode
-				+ "').jqGrid('addRowData','_NEW_'+makeUUID(), datas_config);}");
+		btnstr
+				.append("<script  defer='defer'> $('body').append('<div id=\"htmlcache"
+						+ htmlcacheid
+						+ "\" style=\"display:none;\"></div>');function "
+						+ onclickAddFunctionname
+						+ "(){var datas_config = $buildNullData('"
+						+ formcode
+						+ "') ;$('#"
+						+ formcode
+						+ "').jqGrid('addRowData','_NEW_'+makeUUID(), datas_config);}");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");
 		btnstr.append(DyFormComp.hiddenRow_(formcode, onclickAddFunctionname));
 		btnstr.append("}");
@@ -2227,9 +2239,10 @@ public final class DyFormBuildHtmlExt {
 
 		if (sum > pagesize) {
 			html_ += "<div id=\"pager\" class=\"jpaper\"></div>";
-			html_ += DyFormComp
-					.getJqueryFunctionScript("PageClick('"+formcode+"','"+projectname+"/frame.do?method=buildPaperData&fatherlsh="+fatherlsh+"',1, "
-							+ sum + ", 3,"+pagesize+");");
+			html_ += DyFormComp.getJqueryFunctionScript("PageClick('"
+					+ formcode + "','" + projectname
+					+ "/frame.do?method=buildPaperData&fatherlsh=" + fatherlsh
+					+ "',1, " + sum + ", 3," + pagesize + ");");
 		}
 
 		String html_btn = "";
@@ -2315,9 +2328,10 @@ public final class DyFormBuildHtmlExt {
 						+ "').jqGrid('gridResize',{minWidth:350,maxWidth:2000,minHeight:80, maxHeight:1000});");
 
 		Map mapx = new HashMap();
+		String description = getDescription(dyform.getDescription());
 		mapx.put("html", DyFormComp
 				.getJqueryFunctionScript_(tablejs.toString())
-				+ htmlall.toString());
+				+ htmlall.toString()+description);
 		mapx.put("count", list.size());
 		mapx.put("js", "");
 
@@ -2378,10 +2392,10 @@ public final class DyFormBuildHtmlExt {
 	 * @throws Exception
 	 */
 	public static String buildPaperData(String formcode, String fatherlsh,
-			boolean isedit, String userinfo, String parameter,
-			int startIndex, int pageSize) throws Exception {
+			boolean isedit, String userinfo, String parameter, int startIndex,
+			int pageSize) throws Exception {
 		DyForm dyform = DyEntry.iv().loadForm(formcode);
-		
+
 		// 展示表单字段-针对表单中的相关字段
 		DyFormColumn _formx[] = dyform.getAllColumn_();
 		Arrays.sort(_formx, getFormComparator());// 排序
@@ -2410,7 +2424,8 @@ public final class DyFormBuildHtmlExt {
 		List list = new ArrayList();
 		// if (StringUtils.isNotEmpty(fatherlsh)) {
 		int sum = DyEntry.iv().queryDataNum(dydata, "");
-		list = DyEntry.iv().queryData(dydata, startIndex-1, startIndex+pageSize-1, "");
+		list = DyEntry.iv().queryData(dydata, startIndex - 1,
+				startIndex + pageSize - 1, "");
 		// }
 
 		StringBuffer datas_config = new StringBuffer();
@@ -2421,13 +2436,13 @@ public final class DyFormBuildHtmlExt {
 			datas_config.append(split);
 			datas_config.append(buildDatas(object, _formx, columnmap,
 					columnmapx, isedit, userinfo, parameter));
-			
+
 			ids_config.append(split);
 			ids_config.append(object.getLsh());
 			split = "|~~|";
 		}
 
-		return datas_config.toString()+"|__|"+ids_config.toString();
+		return datas_config.toString() + "|__|" + ids_config.toString();
 	}
 
 	public static String buildSubForm(DyForm subdyform, String fatherlsh,
@@ -2539,8 +2554,9 @@ public final class DyFormBuildHtmlExt {
 		String xhtml = "var nulltr='"
 				+ nulltr
 				+ "';nulltr=nulltr.replace('$TR_UUID$',makeUUID());nulltr=nulltr.replace('_BTN_UUID',makeUUID());";
-		btnstr.append("<script defer='defer'> function " + onclickAddFunctionname + "(){"
-				+ xhtml + " $('#" + formcode + "').append(nulltr);} ");
+		btnstr.append("<script defer='defer'> function "
+				+ onclickAddFunctionname + "(){" + xhtml + " $('#" + formcode
+				+ "').append(nulltr);} ");
 		btnstr.append("function " + onclickRemoveFunctionname + "(){");
 		btnstr.append(DyFormComp.deleteRow(formcode, onclickAddFunctionname));
 		btnstr.append("}");
@@ -2559,7 +2575,8 @@ public final class DyFormBuildHtmlExt {
 					.getStyleinfo_(), "", 0, TableExtProperties);
 		}
 
-		htmlall.append(eventListenScripts.toString() + html_ + html_btn);
+		String description = getDescription(dyform.getDescription());
+		htmlall.append(eventListenScripts.toString() + html_ + html_btn+description);
 		return htmlall.toString();
 	}
 
@@ -2717,8 +2734,8 @@ public final class DyFormBuildHtmlExt {
 		bbarjs.append("} ");
 
 		bbarjs.append(" }}])");
-
-		map.put("html", htmlall.toString());
+		String description = getDescription(dyform.getDescription());
+		map.put("html", htmlall.toString()+description);
 		map.put("count", list.size());
 		if (isedit) {
 			map.put("js", bbarjs.toString());
@@ -3335,7 +3352,7 @@ public final class DyFormBuildHtmlExt {
 	}
 
 	public static String uuid() {
-		return "_NEW_"+UUID.randomUUID().toString().replaceAll("-", "");
+		return "_NEW_" + UUID.randomUUID().toString().replaceAll("-", "");
 	}
 
 	/**
@@ -3357,6 +3374,14 @@ public final class DyFormBuildHtmlExt {
 		return false;
 	}
 
+	private static String getDescription(String description){
+		String descriptions = "";
+		if (StringUtils.isNotEmpty(description)){
+			descriptions = "<p>"+description+"</p>";
+		}
+		return descriptions;
+	}
+	
 	public static void main(String[] args) throws Exception {
 		String naturalname = "APPFRAME.APPFRAME.NDYD";
 		AppObj app = AppEntry.iv().loadApp(naturalname);

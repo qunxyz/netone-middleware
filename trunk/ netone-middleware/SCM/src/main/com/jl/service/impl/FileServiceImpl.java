@@ -433,4 +433,16 @@ public class FileServiceImpl extends BaseService implements FileService {
 				+ StringUtils.substringAfter(file.getAddress(), path_);
 		System.out.println(httpurl.replaceAll("\\\\", "\\/"));
 	}
+
+	public String getFilename(String fid) throws Exception {
+		com.jl.entity.File file = (com.jl.entity.File) commonDAO.findForObject("File.selectFileById",
+				fid);
+		String filename ="";
+		if (file!=null){
+			filename = file.getFilename();
+		} else {
+			filename = "Î´ÉÏ´«¸½¼þ";
+		}
+		return filename;
+	}
 }

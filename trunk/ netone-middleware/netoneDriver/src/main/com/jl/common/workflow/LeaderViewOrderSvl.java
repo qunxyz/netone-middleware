@@ -24,8 +24,6 @@ import oe.security3a.client.rmi.ResourceRmi;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
-
 public class LeaderViewOrderSvl extends HttpServlet {
 
 	/**

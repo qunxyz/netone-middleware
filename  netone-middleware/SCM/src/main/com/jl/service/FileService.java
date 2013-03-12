@@ -108,4 +108,12 @@ public interface FileService {
 	 */
 	public String deleteFileByUnidAndD_unid(HttpServletRequest request,String unid, String d_unid)
 			throws Exception;
+	
+	/**
+	 * 获取附件名称
+	 * @param fid
+	 * @return
+	 * @throws Exception
+	 */
+	public String getFilename(String fid)throws Exception;
 }

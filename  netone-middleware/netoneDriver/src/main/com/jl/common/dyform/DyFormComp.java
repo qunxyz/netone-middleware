@@ -7,6 +7,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.jl.common.SpringBeanUtil;
+import com.jl.dao.CommonDAO;
+import com.jl.entity.File;
+
 import sun.misc.BASE64Decoder;
 
 public final class DyFormComp {
@@ -122,6 +126,19 @@ public final class DyFormComp {
 	}
 
 	/**
+	 * 获取DATA FORM表单
+	 * 
+	 * @param id
+	 * @param value
+	 * @return
+	 */
+	public static String getDataForm(String id, String value) {
+		return getTag(
+				"<form method=\"POST\" enctype=\"multipart/form-data\" id=\""
+						+ id + "\">", "</form>", value);
+	}
+
+	/**
 	 * 获取FORM表单
 	 * 
 	 * @param id
@@ -216,6 +233,127 @@ public final class DyFormComp {
 			String classname, boolean readonly, String extvalue) {
 		return getComp("<input type=\"button\" ", " />", id, value, style,
 				classname, readonly, extvalue);
+	}
+
+	/**
+	 * 获取附件控件
+	 * 
+	 * @param id
+	 * @param value
+	 * @param style
+	 * @param classname
+	 * @param readonly
+	 * @param extvalue
+	 * @return
+	 */
+	public static String getFile(String id, String value, String style,
+			String classname, boolean readonly, String extvalue) {
+		StringBuffer fileform = new StringBuffer();
+		String uuid = DyFormBuildHtmlExt.uuid();
+		String hiddenInput = getHiddenInput(id, value);
+		String UUID_STR = uuid + "_" + id;
+		String displaycss = "";
+		String filetext=getFileText(UUID_STR, value, readonly);
+		if (StringUtils.isNotEmpty(value) && StringUtils.isNotEmpty(filetext)) {
+			displaycss = " style=\"display:none;\" ";
+		}
+		fileform.append(hiddenInput);
+		
+		if (StringUtils.isEmpty(filetext)){
+			fileform.append("<span id=\"filetext" + UUID_STR + "\">");
+			String hiddenFilename = getHiddenInput("filename" + UUID_STR, "");
+			String hiddenF_type = getHiddenInput("f_type" + UUID_STR, "");
+			fileform.append(hiddenFilename + hiddenF_type);
+			fileform.append("</span>");
+		}  else {
+			fileform.append(filetext);
+		}
+		
+		fileform.append("<span id=\"fileform" + UUID_STR + "\"" + displaycss
+				+ ">");
+
+		String hiddenF_ID = getHiddenInput("TMPID" + UUID_STR, id);
+
+		fileform.append(hiddenF_ID);
+
+		String selectbtn = getComp(
+				"<input type=\"button\" onclick=\"$uploadone('" + UUID_STR
+						+ "')\" ", "  />", "button" + UUID_STR, "上传", "",
+				classname, readonly, "");
+		fileform.append(getComp(
+				"<input type=\"file\" onchange=\"$getFileFullName('" + UUID_STR
+						+ "')\" ", "  />" + selectbtn, "files" + UUID_STR, "",
+				"", classname, readonly, ""));
+		fileform.append("</span>");
+
+		return fileform.toString();
+	}
+
+	public static String getJsFileText(String columnid) {
+
+		StringBuffer jshtml = new StringBuffer();
+		jshtml.append("var pre = store.getAt(rowIndex).get('" + columnid
+				+ "') ;");
+		
+		jshtml.append("var vv = $getFilename(pre);");
+		jshtml.append("return vv;");
+
+		return getTag(
+				"renderer:function todo(value, cellmeta, record, rowIndex, columnIndex, store){",
+				"}", jshtml.toString());
+	}
+	
+	public static String getFileText(String id, String value, boolean readonly) {
+		CommonDAO dao = (CommonDAO) SpringBeanUtil.getInstance().getBean(
+				"commonDAO");
+		StringBuffer returnValue = new StringBuffer();
+		
+		if (StringUtils.isNotEmpty(value)) {
+			
+			try {
+				File file = (File) dao.findForObject("File.selectFileById",
+						value);
+				String url = DyFormBuildHtmlExt.projectname+"/file.do?method=onDownLoadFile&isOnLine=0&unid="
+						+ value;
+
+				if (readonly) {
+					returnValue.append("<span id=\"filetext" + id + "\">");
+					returnValue.append(file.getFilename());
+					returnValue.append("</span>");
+				} else {
+					if (file != null) {
+						returnValue.append("<span id=\"filetext" + id + "\">");
+						String button = "";
+						String hiddenFilename = getHiddenInput("filename" + id,
+								file.getFilename());
+						String hiddenF_type = getHiddenInput("f_type" + id,
+								file.getF_type());
+						returnValue.append(hiddenFilename + hiddenF_type);
+						if (StringUtils.isNotEmpty(id)) {
+							button = getButton("", "删除", "", "", readonly,
+									"onclick=\"$deleteone('" + value + "','"
+											+ id + "')\"");
+						}
+						returnValue.append(getHref(file.getFilename(), file
+								.getFilename(), url, "", "_blank")
+								+ button);
+						returnValue.append("</span>");
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		} else {
+			returnValue.append("<span id=\"filetext" + id + "\">");
+			String hiddenFilename = getHiddenInput("filename" + id, "");
+			String hiddenF_type = getHiddenInput("f_type" + id, "");
+			returnValue.append(hiddenFilename + hiddenF_type);
+			returnValue.append("</span>");
+			// returnValue.append("未上传附件");
+		}
+		
+		return returnValue.toString();
 	}
 
 	/**

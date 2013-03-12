@@ -1,31 +1,18 @@
 package com.jl.common.msg;
 
-import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONArray;
-import oe.cav.bean.logic.column.TCsColumn;
 import oe.env.client.EnvService;
 import oe.rmi.client.RmiEntry;
-import oe.security3a.client.rmi.ResourceRmi;
-import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.app.AppEntry;
 import com.jl.common.dyform.DyEntry;
-import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormData;
 import com.jl.common.workflow.DbTools;
 

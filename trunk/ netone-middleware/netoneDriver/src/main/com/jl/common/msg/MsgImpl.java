@@ -1,31 +1,20 @@
 package com.jl.common.msg;
 
-import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-import oe.cav.bean.logic.column.TCsColumn;
 import oe.env.client.EnvService;
 import oe.rmi.client.RmiEntry;
-import oe.security3a.client.rmi.ResourceRmi;
-import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.app.AppEntry;
 import com.jl.common.dyform.DyEntry;
-import com.jl.common.dyform.DyForm;
+
 import com.jl.common.dyform.DyFormData;
 import com.jl.common.workflow.DbTools;
 
@@ -199,9 +188,9 @@ public class MsgImpl implements MsgIfc {
 			String sql="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rtnum,column8 rpnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 ";
 
 			sql+= "where lsh='"+lsh+"'";
-			String sqlapp="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rtnum,column8 rpnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 where lsh in(select colum4 from DY_251356887574361 where column3='"+lsh+"' and column5='02') order by timex  limit 0,30";
+			String sqlapp="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rtnum,column8 rpnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 where lsh in(select column4 from dyform.DY_251356887574361 where column3='"+lsh+"' and column5='02') order by timex  limit 0,30";
 			if(StringUtils.isNotEmpty(lasttime)){
-				sqlapp="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rtnum,column8 rpnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 where lsh in(select colum4 from DY_251356887574361 where column3='"+lsh+"' and column5='02') and timex<'"+lasttime+"' order by timex   limit 0,30";
+				sqlapp="select concat('t',timex) timex,participant sendercode,column11 sendername , '' myimgurl,lsh,column3 recivercode,column10 recivername,column4 context,column7 rtnum,column8 rpnum,column5 atturl,belongx rtsourcelsh,column13 rtusername,column12 canrp,column6 isrt from dyform.DY_391356510840525 where lsh in(select column4 from dyform.DY_251356887574361 where column3='"+lsh+"' and column5='02') and timex<'"+lasttime+"' order by timex   limit 0,30";
 			}		
 			list=DbTools.queryData(sql);
 			if(StringUtils.isNotEmpty(sqlapp)){
@@ -304,8 +293,36 @@ public class MsgImpl implements MsgIfc {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	
+		MsgIfc msg=new MsgImpl();
+		// adminx 用户给 msg1 用户发送了一条消息,允许评论
+		String lsh1=msg.newMsg("adminx", "msg1", "我的消息", true);
+		// msg2 评论了上一条消息
+		msg.commentMsg("msg2", lsh1, "不好");
+		// msg2 转发了上一条消息
+		msg.forwardMsg("msg2", "", "小学校", false, lsh1);
+		
+		// adminx展示其自己创建的群组和群组中的人员
+		List list=msg.myGroupAndMember("adminx");
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			String groupid=(String)object.get("groupid");
+			String groupname=(String)object.get("groupname");
+			List people=(List)object.get("people");
+			System.out.println(groupid+","+groupname+","+people.toString());
+		}
+		// msg1用户查看公共的消息
+		List list2=msg.msgList("msg1", "01", null, null, null);
+		for (Iterator iterator = list2.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			System.out.println(object.toString());
+		}
+		// msg1用户查看某消息的评论列表
+		List list3=msg.msgList("msg1", "05", null, null, lsh1);
+		for (Iterator iterator = list2.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			System.out.println(object.toString());
+		}
 	}
 
 

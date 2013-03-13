@@ -20,7 +20,6 @@ import com.jl.common.workflow.DbTools;
 
 public class MsgImpl implements MsgIfc {
 
-	@Override
 	public String commentMsg(String sender, String sourceMsgLsh, String msgbody) {
 		String appname ="APPFRAME.APPFRAME.MSG.PL";
 		
@@ -41,7 +40,6 @@ public class MsgImpl implements MsgIfc {
 		return lsh;
 	}
 
-	@Override
 	public String forwardMsg(String sender, String msgto, String msgbody,
 			boolean comment, String sourceMsgLsh) {
 		
@@ -71,7 +69,6 @@ public class MsgImpl implements MsgIfc {
 
 
 
-	@Override
 	public List msgList(String userid, String type, String firsttime,
 			String lasttime,String lsh) {
 
@@ -229,7 +226,6 @@ public class MsgImpl implements MsgIfc {
 		
 	}
 
-	@Override
 	public List myGroupAndMember(String userid) {
 		
 		String sql="select column3,column4,lsh from dyform.DY_251356887574360 where participant='"+userid+"'";
@@ -263,7 +259,6 @@ public class MsgImpl implements MsgIfc {
 		return listall;
 	}
 
-	@Override
 	public String newMsg(String sender, String msgto, String msgbody,
 			boolean comment) {
 	
@@ -325,7 +320,6 @@ public class MsgImpl implements MsgIfc {
 		}
 	}
 
-	@Override
 	public boolean delComment(String lsh) {
 		String appname ="APPFRAME.APPFRAME.MSG.PL";
 
@@ -340,7 +334,6 @@ public class MsgImpl implements MsgIfc {
 		return false;
 	}
 
-	@Override
 	public boolean delMsg(String lsh) {
 		String appname ="APPFRAME.APPFRAME.MSG.RZXT";
 

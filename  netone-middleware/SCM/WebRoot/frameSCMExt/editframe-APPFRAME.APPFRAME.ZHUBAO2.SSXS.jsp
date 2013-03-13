@@ -328,6 +328,7 @@
 				        form: '_FRAME_FORM_ID_',
 				        // 指定要提交的表单id
 				        method: 'POST',
+				        isUpload: false,
 				        sync: true,
 				        params: {
 				            subform: jsonStr

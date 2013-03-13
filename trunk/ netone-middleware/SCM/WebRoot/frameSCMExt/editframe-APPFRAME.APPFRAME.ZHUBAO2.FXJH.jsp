@@ -266,6 +266,7 @@
 				        // 指定要提交的表单id
 				        method: 'POST',
 				        sync: true,
+				        isUpload: false,
 				        params: {
 				            subform: jsonStr
 				        },

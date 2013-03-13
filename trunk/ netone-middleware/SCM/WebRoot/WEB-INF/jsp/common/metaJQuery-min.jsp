@@ -20,6 +20,7 @@
 <link type="text/css" href="<%=jqueryScriptPath%>/jquery-plugin/jpaper/jpaper.css" rel="stylesheet" />
 <script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/jpaper/jpaper.js"></script>
 
+<script type="text/javascript" src="<%=jqueryScriptPath%>/jquery-plugin/ajaxfileupload/ajaxfileupload.js"></script>
 
 <script>
 function makeUUID() {
@@ -114,32 +115,23 @@ function $uploadone(id){//上传
 		var filename = encodeURI(encodeURI(document.getElementById("filename"+id).value));
 		var filenamestr=document.getElementById("filename"+id).value;
 		var f_type = "file";
-		
 		var msgTip = Ext.MessageBox.show({
-			title:'系统提示',
-			width : 250,
-			closable:false,
-			msg:'正在上传文件请稍后......'
-		});
-		
-	  	Ext.Ajax.request({
-				url:"<%=request.getContextPath()%>/file.do?method=onUploadFile&ext=files"+id+"&id="+d_unid+"&filename="+filename+"&f_type="+f_type,//请求的服务器地址
-				form:'_FRAME_FORM_ID_',//指定要提交的表单id
-				method:'POST',
-				isUpload: true,
-				sync: true,
-				success : function(response,options){
-					//清除表单文件上传信息
-					$('#_FRAME_FORM_ID_').removeAttr('enctype');
-					$('#_FRAME_FORM_ID_').removeAttr('target');
-					$('#_FRAME_FORM_ID_').removeAttr('method');
-					$('#_FRAME_FORM_ID_').removeAttr('action');
-					
-					msgTip.hide();
-					if (response.responseText==null || response.responseText==''){
+				        title: '提示',
+				        width: 250,
+				        closable:false,
+				        msg: '正在保存信息请稍候......'
+				    });
+		 $.ajaxFileUpload({
+              url:"<%=request.getContextPath()%>/file.do?method=onUploadFile&ext=files"+id+"&id="+d_unid+"&filename="+filename+"&f_type="+f_type,
+              secureuri:false,
+              fileElementId:'files'+id,//与页面处理代码中file相对应的ID值
+              dataType: 'text',//返回数据类型:text，xml，json，html,scritp,jsonp五种
+              success: function (data, status){
+              		msgTip.hide();
+					if (data==null || data==''){
 						Ext.MessageBox.alert('提示', '上传附件失败');
 					} else {
-						var str = response.responseText;
+						var str = data;
 						var arr= str.split('(~|~|~)');
 						var tmpid = $('#fileform'+id).find('#TMPID'+id).val();
 	            		var $fileform = $('#fileform'+id);
@@ -154,12 +146,12 @@ function $uploadone(id){//上传
 	            		}
 						Ext.ux.Toast.msg("", '上传附件成功');
 					}
-				},
-				failure : function(response,options){
-					msgTip.hide();
-					checkAjaxStatus(response);
-				}
-		});
+              },
+              error: function (data, status, e){
+              	  msgTip.hide();
+                  Ext.MessageBox.alert('提示', '上传附件失败');
+              }
+          });
 	}
 </script>
 

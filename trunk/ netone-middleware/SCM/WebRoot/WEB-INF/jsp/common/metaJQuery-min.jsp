@@ -112,6 +112,7 @@ function $uploadone(id){//上传
 		
 		var d_unid = '';;
 		var filename = encodeURI(encodeURI(document.getElementById("filename"+id).value));
+		var filenamestr=document.getElementById("filename"+id).value;
 		var f_type = "file";
 		
 		var msgTip = Ext.MessageBox.show({
@@ -126,7 +127,6 @@ function $uploadone(id){//上传
 				form:'_FRAME_FORM_ID_',//指定要提交的表单id
 				method:'POST',
 				isUpload: true,
-				headers: {'Content-type':'multipart/form-data'},
 				sync: true,
 				success : function(response,options){
 					//清除表单文件上传信息
@@ -146,10 +146,10 @@ function $uploadone(id){//上传
 	            		if($fileform) {
 	            			$fileform.parent().parent().find('#'+tmpid).val(arr[0]);
 	            			$('#f_type'+id).val(f_type);
-	            			$('#filename'+id).val(filename);
+	            			$('#filename'+id).val(filenamestr);
 	            			$fileform.hide();
 	            			var btn = '<input type="button" onclick="$deleteone(\''+arr[0]+'\',\''+id+'\')" value="删除">';
-	            			$('#filetext'+id).html(filename+btn);
+	            			$('#filetext'+id).html(filenamestr+btn);
 	            			$('#filetext'+id).show();
 	            		}
 						Ext.ux.Toast.msg("", '上传附件成功');

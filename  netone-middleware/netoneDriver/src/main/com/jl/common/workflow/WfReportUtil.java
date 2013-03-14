@@ -27,7 +27,7 @@ public class WfReportUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List leaderViewDetail(String listkey)throws Exception{
+	public static List leaderViewDetail(String listkey,String usercode)throws Exception{
 		List ltdata=new ArrayList();
 		String runtimelist=(String)WebCache.getCache(listkey);
 		System.out.println("listkey:"+listkey+","+runtimelist);
@@ -43,8 +43,13 @@ public class WfReportUtil {
 			}
 			if(but.length()>0){
 				String sql="SELECT t1.lsh lsh,t1.appname appname,t1.d0 formtitle,t2.runtimeid runid,t2.workcode workcode,t2.ACTIVITYID actid,t2.starttime starttime,t3.username username FROM netone.t_wf_relevantvar_tmp t1, netone.t_wf_worklist t2,netone.t_wf_participant t3 WHERE t3.types='01' and t1.runtimeid=t2.runtimeid and t2.workcode=t3.workcode and t1.runtimeid in("
-					+but.substring(1)+")  ORDER BY t2.runtimeid,t2.STARTTIME DESC";
+					+but.substring(1)+") tttx111 ORDER BY t2.runtimeid,t2.STARTTIME DESC";
 				//System.out.println("sql:"+sql);
+				if(StringUtils.isNotEmpty(usercode)){
+					sql=StringUtils.replace(sql, "tttx111", " and usercode='"+usercode+"'");
+				}else{
+					sql=StringUtils.replace(sql, "tttx111", "");
+				}
 				List list=DbTools.queryData(sql);
 				ResourceRmi rs=null;
 				try {

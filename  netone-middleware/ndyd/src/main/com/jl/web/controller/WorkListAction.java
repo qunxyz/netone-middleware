@@ -157,7 +157,8 @@ public class WorkListAction extends AbstractAction {
 		}
 		String sql = null;
 		String count_sql = null;
-		String listtype = request.getParameter("listtype");
+		String listtype =(String)conditionMap.get("listtype");
+		System.out.println("listype:"+listtype);
 		if(StringUtils.isEmpty(listtype)){
 			listtype="01";
 		}
@@ -261,6 +262,8 @@ public class WorkListAction extends AbstractAction {
 		}
 		// System.out.println("SQL=" + sql + "\n" + "user=" +
 		// user.getUserCode());
+		
+		System.out.println("------------------------------"+sql);
 		List list = wfview.coreSqlview(sql);
 		List list_count = wfview.coreSqlview(count_sql);
 		int total = 0;
@@ -710,14 +713,45 @@ public class WorkListAction extends AbstractAction {
 				avail=true;
 			}
 		}
-		
-		ltdata=WfReportUtil.leaderViewDetail(listkey);
+
 		if(avail){
 			request.setAttribute("flag", "1");
+			ltdata=WfReportUtil.leaderViewDetail(listkey,"");
 		}else{
 			request.setAttribute("flag", "0");
+			ltdata=WfReportUtil.leaderViewDetail(listkey,client.getClientId());
 		}
 		request.setAttribute("ltdata", ltdata);
 		return mapping.findForward("phpListDetailMain");
+	}
+	
+	public static void main(String[] args) {
+		String sql = "SELECT"
+			+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
+			+ " FROM netone.t_wf_worklist w1 "
+			+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
+			+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
+			+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
+			+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
+			+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
+			+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS ='01'"
+			+ " AND w2.statusnow ='01' AND w2.types IN('01') and u.usercode='hongshunan'" 
+			+ " ORDER BY w1.starttime DESC";
+		
+		
+		String sql1 = "SELECT"
+			+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
+			+ " FROM netone.t_wf_worklist w1 "
+			+ " LEFT JOIN netone.t_wf_runtime wx ON w1.runtimeid = wx.runtimeid"
+			+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
+			+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
+			+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
+			+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
+			+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
+			+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
+			+ " AND w2.statusnow='02' AND w2.types IN('01') AND wx.statusnow='01' and u.usercode='hongshunan'"
+		+ " ORDER BY w1.starttime DESC";
+		
+		System.out.println(sql1);
 	}
 }

@@ -212,12 +212,16 @@ public class MsgImpl implements MsgIfc {
 			Map object = (Map) iterator.next();
 			boolean rs=object.containsKey("atturl");
 			if(rs){
-				String sql="select unid zzud from iss.t_file where d_unid='"+ lsh + "'";
+				String sql="select unid zzud from iss.t_file where f_type='image' and d_unid='"+ object.get("lsh") + "'";
 				List listx=DbTools.queryData(sql);
 				if(listx.size()>0){
-					object.put("atturl", headUrl+"/file.do?method=onDownLoadFile&isOnLine=0&unid="+((Map) listx.get(0)).get("zzud"));
-					object.put("atturlzip", headUrl+"/file.do?method=onDownLoadFile&isOnLine=0&unid="+((Map) listx.get(0)).get("zzud"));
-
+					object.put("atturl", headUrl+"/file.do?method=onDownLoadFile&isOnLine=1&unid="+((Map) listx.get(0)).get("zzud"));
+				}
+				
+				String sql2="select unid zzud from iss.t_file where f_type='file' and  d_unid='"+ object.get("lsh") + "'";
+				List listx2=DbTools.queryData(sql2);
+				if(listx2.size()>0){
+					object.put("atturlzip", headUrl+"/file.do?method=onDownLoadFile&isOnLine=0&unid="+((Map) listx2.get(0)).get("zzud"));
 				}
 			}
 		}

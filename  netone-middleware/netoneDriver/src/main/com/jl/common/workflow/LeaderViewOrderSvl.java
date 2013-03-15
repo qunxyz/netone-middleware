@@ -84,7 +84,7 @@ public class LeaderViewOrderSvl extends HttpServlet {
 
 	private List menTop5(String deptid) {
 		if (!WebCache.containCache("menTop5")) {
-			String sql = "select w1.username name,convert(count(*),char) value,count(*) value1 from netone.t_wf_participant w1,netone.t_wf_worklist w2 where w2.WORKCODE=w1.workcode and w1.STATUSNOW='01' and w2.EXECUTESTATUS='01' and w1.username != 'adminx' group by w1.usercode order by value1 desc limit 0,5";
+			String sql = "select w1.username name,count(*) value from netone.t_wf_participant w1,netone.t_wf_worklist w2 where w2.WORKCODE=w1.workcode and w1.STATUSNOW='01' and w2.EXECUTESTATUS='01' and w1.username != 'adminx' group by w1.usercode order by value desc limit 0,5";
 			List list = DbTools.queryData(sql);
 			long time = System.currentTimeMillis() + 1800000L;// 30∑÷÷”ª∫¥Ê
 			Date dateinfo = new Date(time);

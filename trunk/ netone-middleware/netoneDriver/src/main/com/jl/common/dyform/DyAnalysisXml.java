@@ -196,34 +196,43 @@ public class DyAnalysisXml {
 			}
 			if (!mxlstr.equals("") || mxlstr != null) {
 				String script = dyxml.readXML(mxlstr, mode);
-
-					DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
-
-					script = dealWithScrpit(script, "lsh", bus.getLsh());
-					Object obj = BeanUtils.getProperty(bus, "statusinfo");
-					script = dealWithScrpit(script, "statusinfo", obj);					
-					Object obj2 = BeanUtils.getProperty(bus, "participant");
-					script = dealWithScrpit(script, "participant", obj2);
-					Object obj3 = BeanUtils.getProperty(bus, "fatherlsh");
-					script = dealWithScrpit(script, "fatherlsh", obj3);
-					script = dealWithScrpit(script, "formcode", formid);
-					List list=dy.fetchColumnList(bus.getFormcode());
-					for (Iterator iterator = list.iterator(); iterator
-							.hasNext();) {
-						TCsColumn object = (TCsColumn) iterator.next();
-						String idx=object.getColumnid().toLowerCase();
-						Object obj5 = BeanUtils.getProperty(bus,idx);
-						if(obj5!=null){
-							script = dealWithScrpit(script, idx, obj5);
-						}	
-					}
-
-               if(StringUtils.isNotEmpty(script)){
-            	   return ScriptTools.todo(script);
-               }
+				return executeScript(script,bus);
 			}
 		}
 		return "";
+	}
+	
+	public Object executeScript(String script,TCsBus bus){
+		try{
+			
+		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
+
+		script = dealWithScrpit(script, "lsh", bus.getLsh());
+		Object obj = BeanUtils.getProperty(bus, "statusinfo");
+		script = dealWithScrpit(script, "statusinfo", obj);					
+		Object obj2 = BeanUtils.getProperty(bus, "participant");
+		script = dealWithScrpit(script, "participant", obj2);
+		Object obj3 = BeanUtils.getProperty(bus, "fatherlsh");
+		script = dealWithScrpit(script, "fatherlsh", obj3);
+		script = dealWithScrpit(script, "formcode", bus.getFormcode());
+		List list=dy.fetchColumnList(bus.getFormcode());
+		for (Iterator iterator = list.iterator(); iterator
+				.hasNext();) {
+			TCsColumn object = (TCsColumn) iterator.next();
+			String idx=object.getColumnid().toLowerCase();
+			Object obj5 = BeanUtils.getProperty(bus,idx);
+			if(obj5!=null){
+				script = dealWithScrpit(script, idx, obj5);
+			}	
+		}
+
+	   if(StringUtils.isNotEmpty(script)){
+		   return ScriptTools.todo(script);
+	   }
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	private String dealWithScrpit(String script, String column, Object value) {
 		if (StringUtils.isEmpty(script))

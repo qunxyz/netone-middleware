@@ -62,7 +62,7 @@
 		<init-param>
 			<param-name>AbortUrls</param-name>
 			<param-value>
-				/syscUser,/dataOuterBk.jsp,/SSOSvl,/servlet/SyncPhpCmsUserSvl,/servlet/ReturnRadomPasswordSvl,/dyinfo,/dyinfofull
+				/syscUser,/dataOuterBk.jsp,/SSOSvl,/servlet/SyncPhpCmsUserSvl,/servlet/ReturnRadomPasswordSvl,/dyinfo,/dyinfofull,/SinglePicSvl
 			</param-value>
 		</init-param>
 	</filter>
@@ -756,6 +756,13 @@
     <servlet-name>SuperAnaSvl</servlet-name>
     <servlet-class>com.jl.common.report.SuperAnaSvl</servlet-class>
   </servlet>
+  <servlet>
+    <description>scm use for extend button script</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ExtendFuncSvl</servlet-name>
+    <servlet-class>com.jl.common.dyform.ExtendFuncSvl</servlet-class>
+  </servlet>
+
 
 
 
@@ -802,6 +809,10 @@
   <servlet-mapping>
     <servlet-name>SuperAnaSvl</servlet-name>
     <url-pattern>/servlet/SuperAnaSvl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ExtendFuncSvl</servlet-name>
+    <url-pattern>/ExtendFuncSvl</url-pattern>
   </servlet-mapping>
 
 

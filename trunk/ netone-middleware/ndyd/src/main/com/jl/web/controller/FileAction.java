@@ -145,15 +145,17 @@ public class FileAction extends AbstractAction {
 			String path = request.getSession().getServletContext().getRealPath(
 					"/");// 应用服务器目录
 			String id = request.getParameter("id");
+			String ext = request.getParameter("ext");// 扩展字段
+			String filefield = "files";
+			if (StringUtils.isNotEmpty(ext)) {
+				filefield = ext;
+			}
 			String filetype = URLDecoder.decode(request.getParameter("f_type"),
 					"UTF-8");// 去除中文乱码;
-			System.out.println(request
-					.getParameter("filename"));
 			String filename = URLDecoder.decode(request
 					.getParameter("filename").replace(" ", "%2B"), "UTF-8");// 去除中文乱码;
-			System.out.println(filename);
 			CommonUploadUtil importS = new CommonUploadUtil(request);
-			FileItem fileItem = importS.getFileItem("files");// 获取页面传来的文件
+			FileItem fileItem = importS.getFileItem(filefield);// 获取页面传来的文件
 			User user = getOnlineUser(request);
 			String htmlx = service.save(request, id, filename, filetype, path,
 					user.getUserCode(), user.getUserName(), fileItem);

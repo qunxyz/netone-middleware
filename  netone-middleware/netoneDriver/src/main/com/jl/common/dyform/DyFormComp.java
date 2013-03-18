@@ -7,11 +7,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import sun.misc.BASE64Decoder;
+
 import com.jl.common.SpringBeanUtil;
 import com.jl.dao.CommonDAO;
 import com.jl.entity.File;
-
-import sun.misc.BASE64Decoder;
 
 public final class DyFormComp {
 
@@ -253,22 +253,22 @@ public final class DyFormComp {
 		String hiddenInput = getHiddenInput(id, value);
 		String UUID_STR = uuid + "_" + id;
 		String displaycss = "";
-		String filetext=getFileText(UUID_STR, value, readonly);
+		String filetext = getFileText(UUID_STR, value, readonly);
 		if (StringUtils.isNotEmpty(value) && StringUtils.isNotEmpty(filetext)) {
 			displaycss = " style=\"display:none;\" ";
 		}
 		fileform.append(hiddenInput);
-		
-		if (StringUtils.isEmpty(filetext)){
+
+		if (StringUtils.isEmpty(filetext)) {
 			fileform.append("<span id=\"filetext" + UUID_STR + "\">");
 			String hiddenFilename = getHiddenInput("filename" + UUID_STR, "");
 			String hiddenF_type = getHiddenInput("f_type" + UUID_STR, "");
 			fileform.append(hiddenFilename + hiddenF_type);
 			fileform.append("</span>");
-		}  else {
+		} else {
 			fileform.append(filetext);
 		}
-		
+
 		fileform.append("<span id=\"fileform" + UUID_STR + "\"" + displaycss
 				+ ">");
 
@@ -276,10 +276,10 @@ public final class DyFormComp {
 
 		fileform.append(hiddenF_ID);
 
-		String selectbtn = getComp(
-				"<input type=\"button\" onclick=\"$uploadone('" + UUID_STR
-						+ "')\" ", "  />", "button" + UUID_STR, "上传", "",
-				classname, readonly, "");
+		 String selectbtn = getComp(
+		 "<input type=\"button\" onclick=\"$uploadone('" + UUID_STR
+		 + "')\" ", " />", "button" + UUID_STR, "上传", "",
+		 classname, readonly, "");
 		fileform.append(getComp(
 				"<input type=\"file\" onchange=\"$getFileFullName('" + UUID_STR
 						+ "')\" ", "  />" + selectbtn, "files" + UUID_STR, "",
@@ -294,7 +294,7 @@ public final class DyFormComp {
 		StringBuffer jshtml = new StringBuffer();
 		jshtml.append("var pre = store.getAt(rowIndex).get('" + columnid
 				+ "') ;");
-		
+
 		jshtml.append("var vv = $getFilename(pre);");
 		jshtml.append("return vv;");
 
@@ -302,18 +302,19 @@ public final class DyFormComp {
 				"renderer:function todo(value, cellmeta, record, rowIndex, columnIndex, store){",
 				"}", jshtml.toString());
 	}
-	
+
 	public static String getFileText(String id, String value, boolean readonly) {
 		CommonDAO dao = (CommonDAO) SpringBeanUtil.getInstance().getBean(
 				"commonDAO");
 		StringBuffer returnValue = new StringBuffer();
-		
+
 		if (StringUtils.isNotEmpty(value)) {
-			
+
 			try {
 				File file = (File) dao.findForObject("File.selectFileById",
 						value);
-				String url = DyFormBuildHtmlExt.projectname+"/file.do?method=onDownLoadFile&isOnLine=0&unid="
+				String url = DyFormBuildHtmlExt.projectname
+						+ "/file.do?method=onDownLoadFile&isOnLine=0&unid="
 						+ value;
 
 				if (readonly) {
@@ -330,9 +331,11 @@ public final class DyFormComp {
 								file.getF_type());
 						returnValue.append(hiddenFilename + hiddenF_type);
 						if (StringUtils.isNotEmpty(id)) {
-							button = getButton("", "删除", "", "", readonly,
-									"onclick=\"$deleteone('" + value + "','"
-											+ id + "')\"");
+//							button = getButton("", "删除", "", "", readonly,
+//									"onclick=\"$deleteone('" + value + "','"
+//											+ id + "')\"");
+							button = getHref("[删除]", "删除", "javascript:void(0)",
+									"onclick=\"$deleteone('" + value + "','"+ id + "')\"", "");
 						}
 						returnValue.append(getHref(file.getFilename(), file
 								.getFilename(), url, "", "_blank")
@@ -343,7 +346,7 @@ public final class DyFormComp {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		} else {
 			returnValue.append("<span id=\"filetext" + id + "\">");
 			String hiddenFilename = getHiddenInput("filename" + id, "");
@@ -352,7 +355,7 @@ public final class DyFormComp {
 			returnValue.append("</span>");
 			// returnValue.append("未上传附件");
 		}
-		
+
 		return returnValue.toString();
 	}
 

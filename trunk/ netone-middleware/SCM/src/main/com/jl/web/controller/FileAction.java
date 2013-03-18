@@ -133,7 +133,7 @@ public class FileAction extends AbstractAction {
 			String filetype = URLDecoder.decode(request.getParameter("f_type"),
 					"UTF-8");// 去除中文乱码;
 			String filename = URLDecoder.decode(request
-					.getParameter("filename"), "UTF-8");// 去除中文乱码;
+					.getParameter("filename").replace(" ", "%2B"), "UTF-8");// 去除中文乱码;
 			CommonUploadUtil importS = new CommonUploadUtil(request);
 			FileItem fileItem = importS.getFileItem(filefield);// 获取页面传来的文件
 			User user = getOnlineUser(request);

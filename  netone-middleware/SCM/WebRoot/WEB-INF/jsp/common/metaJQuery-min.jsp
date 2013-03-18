@@ -140,7 +140,8 @@ function $uploadone(id){//上传
 	            			$('#f_type'+id).val(f_type);
 	            			$('#filename'+id).val(filenamestr);
 	            			$fileform.hide();
-	            			var btn = '<input type="button" onclick="$deleteone(\''+arr[0]+'\',\''+id+'\')" value="删除">';
+	            			//var btn = '<input type="button" onclick="$deleteone(\''+arr[0]+'\',\''+id+'\')" value="删除">';
+	            			var btn = '<a class="" title="删除" href="javascript:void(0);" onclick="$deleteone(\''+arr[0]+'\',\''+id+'\')" >[删除]</a>';
 	            			$('#filetext'+id).html(filenamestr+btn);
 	            			$('#filetext'+id).show();
 	            		}

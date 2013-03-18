@@ -12,6 +12,7 @@
 	<bean id="xReportIfc" class="com.jl.common.report.XReportImple"/>
 	<bean id="securityIfc" class="com.jl.common.security3a.Security3AImpl"/>
 	<bean id="twfIfc" class="com.jl.common.workflow.TWfConsoleImpl"/>
+	<bean id="msgIfc" class="com.jl.common.msg.MsgImpl"/>
 	 
 	<bean id="baseDAO"
 		class="com.jl.service.BaseDAO">

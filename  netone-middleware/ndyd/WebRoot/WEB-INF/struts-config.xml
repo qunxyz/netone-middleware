@@ -35,6 +35,10 @@
 			type="com.jl.web.controller.AppAction" parameter="method">
 		</action>	
 		
+		<action path="/msg"
+			type="com.jl.web.controller.MsgAction" parameter="method">
+		</action>	
+		
 		<action path="/frame"
 			type="com.jl.web.controller.FrameAction" parameter="method">
 			<forward contextRelative="true" name="portalView"

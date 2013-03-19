@@ -12,6 +12,7 @@ import oe.frame.web.util.WebTip;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.WfEntry;
 
 
@@ -45,8 +46,18 @@ public class LookListOverSvl extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String workcode=request.getParameter("workcode");
+		String clientid="";
+		try {
+			clientid=SecurityEntry.iv().onlineUser(request).getClientId();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 		if(StringUtils.isNotEmpty(workcode)){
-			String sql="UPDATE t_wf_participant SET statusnow='02' WHERE workcode='"+workcode+"' AND TYPES='03'";
+			String sql="UPDATE t_wf_participant SET statusnow='02' WHERE workcode='"+workcode+"' AND TYPES='03' and usercode='"+clientid+"'";
+			System.out.println(sql);
 			try {
 				WfEntry.iv().useCoreConsole().coreSqlhandle(sql);
 			} catch (Exception e) {

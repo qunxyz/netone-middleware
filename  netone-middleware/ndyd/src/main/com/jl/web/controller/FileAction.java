@@ -240,6 +240,22 @@ public class FileAction extends AbstractAction {
 		String isOnLine = request.getParameter("isOnLine");
 		service.downLoad(unid, response, "1".equals(isOnLine) ? true : false);
 	}
+	
+	// 下载或查看 压缩 传递width height scale
+	public void onDownLoadOptFile(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		FileService service = (FileService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("fileSerivce");
+		String unid = request.getParameter("unid");
+		String isOnLine = request.getParameter("isOnLine");
+		String width = request.getParameter("width");
+		String height = request.getParameter("height");
+		String scale = request.getParameter("scale");
+		service.downLoadOpt(unid, width, height, scale,response,
+				"1".equals(isOnLine) ? true : false);
+	}
 
 	// 下载
 	public void onDownLoadHttpFile(ActionMapping mapping, ActionForm form,

@@ -570,6 +570,16 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 			btnStr
 					.append("{text:' 删 除 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},");
 		}
+		if (SecurityEntry.iv().permission(user.getUserCode(),
+				naturalname_dyform + ".PASS")) {
+			btnStr
+					.append("{text:' 通 过 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},");
+		}
+		if (SecurityEntry.iv().permission(user.getUserCode(),
+				naturalname_dyform + ".UNPASS")) {
+			btnStr
+					.append("{text:' 不通过 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},");
+		}
 		btnStr
 				.append("{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},");
 

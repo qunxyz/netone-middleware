@@ -257,7 +257,7 @@ public class WfReportUtil {
                    " WHERE NATURALNAME = 'BUSSWF.BUSSWF.NDYD') and active='1')";
 		}
 		String sql_doing="select count(*) cou from netone.t_wf_runtime where statusnow='01' and "+condition;
-		String sql_all="select count(*) cou from netone.t_wf_runtime where statusnow in('00',01','02','06') and "+condition;
+		String sql_all="select count(*) cou from netone.t_wf_runtime where statusnow in ('00','01','02','06') and "+condition;
 		List doing=DbTools.queryData(sql_doing);
 		Long doing_count=(Long)((Map)doing.get(0)).get("cou");
 		

@@ -62,7 +62,7 @@
 		<init-param>
 			<param-name>AbortUrls</param-name>
 			<param-value>
-				/syscUser,/dataOuterBk.jsp,/SSOSvl,/servlet/SyncPhpCmsUserSvl,/servlet/ReturnRadomPasswordSvl,/dyinfo,/dyinfofull,/Soasvl
+				/syscUser,/dataOuterBk.jsp,/SSOSvl,/servlet/SyncPhpCmsUserSvl,/servlet/ReturnRadomPasswordSvl,/dyinfo,/dyinfofull,/Soasvl,/ListPicSvl,/SinglePicSvl,/LoginSvlCA
 			</param-value>
 		</init-param>
 	</filter>
@@ -70,6 +70,17 @@
 		<filter-name>ssofilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+	<servlet>
+		<servlet-name>LoginSvlCA</servlet-name>
+		<servlet-class>
+			com.jl.web.controller.LoginSvlCA
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginSvlCA</servlet-name>
+		<url-pattern>/LoginSvlCA</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>logoutsvl</servlet-name>
@@ -688,5 +699,16 @@
   <servlet-mapping>
     <servlet-name>ExcelInsertSvl</servlet-name>
     <url-pattern>/ExcelInsertSvl</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RemoveAllCacheSvl</servlet-name>
+    <servlet-class>com.jl.common.dyform.RemoveAllCacheSvl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveAllCacheSvl</servlet-name>
+    <url-pattern>/RemoveAllCacheSvl</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>控件演示页</title>
+<Script language="JavaScript">
+	document.onreadystatechange = init;
+	function init() 
+	{ 
+		if(document.readyState == "complete"){
+			s.remotePort = 7010;
+			s.remoteServer = "202.109.194.211";
+			s.keepPWD = true; //此处为输密码开关，true为不用每次输密码，False为每次输密码
+		}
+	}
+	
+	//导入本地文件
+	function impLocalfile(){
+		var lf = document.getElementById("localfile").value;
+		s.ImportDocFile(lf);
+	}
+
+	//导入本地文件,A3横打
+	function impLocalfile1(){
+		IEOrientation=2
+		IEPaperSize=2   
+		var lf = document.getElementById("localfile1").value;
+		s.ImportDocFile(lf);
+	}
+	
+	//批量文件盖章
+	function impStampFileNoUI(){
+		s.keepPWD=FALSE;
+		s.multiStamp = True;
+		s.StampOpenFJCA();
+		s.StampFileNoUI("c:\\mfile\\1.htm","c:\\mfile\\1.sdp",5);
+		s.StampFileNoUI("c:\\mfile\\2.htm","c:\\mfile\\2.sdp",5);
+		s.StampFileNoUI("c:\\mfile\\3.htm","c:\\mfile\\3.sdp",5);
+		s.StampCloseFJCA();
+	}
+	
+	//加密本地文件
+	function encLocalfile(){
+		var lf = document.getElementById("enclocalfile").value;
+		var of = "c:\\enc1.edp";
+
+		s.openFjca();
+		s.EncryptLocalFile(lf,of);
+		s.stampclosefjca();
+	}
+	
+	//解密本地文件
+	function decLocalfile(){
+		var lf = document.getElementById("declocalfile").value;
+		var of = "c:\\dec1.sdp";
+		alert(of);
+		s.openFjca();
+		s.DecryptLocalFile(lf,of);
+		s.stampclosefjca();
+		s.ImportDocFile(of);
+	}
+	
+	//远程解密文件
+	function decRemotefile(){
+		var rf = "http://www.fjca.com.cn/rf.edp";
+		var of = "c:\\decrf1.sdp";
+		s.openFjca();
+		s.DecryptRemote(rf,of);
+		s.stampclosefjca();
+	}
+	
+	
+	
+	//导入远程文件
+	function impUrlFile(){
+		s.srcUrl = window.location.href.split("url=")[1];
+	}
+	//保存印章文件到本地
+	function saveFile(){
+		var sf = document.getElementById("savefile").value;
+		s.SaveStampFile(sf);
+	}
+
+	//打印当前页面
+	function printPage(){
+		s.SetFormPara();
+		window.print();
+		s.LoadFormFile();
+	}
+
+</Script>
+</head>
+
+<body>
+<object id="s" height="500" width="1000" border="1" classid="clsid:30551D74-0701-4361-916E-7B4847F4B168">
+</object>
+<br />
+
+<input id="localfile" style="display:none;"  type="file" onchange="impLocalfile();" />
+<input type="button" value="导入本地文件" onclick="localfile.click();" />
+
+<input id="localfile1" style="display:none;"  type="file" onchange="impLocalfile1();" />
+<input type="button" value="导入本地文件(超宽)" onclick="localfile1.click();" />
+
+
+<input type="button" value="导入申请表" onclick="impUrlFile();" />
+
+<input id="savafile" style="display:none;"  type="file" onchange="saveFile();" />
+<input type="button" value="保存印章文件" onclick="saveFile();" />
+
+</body>
+
+</html>

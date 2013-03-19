@@ -14,12 +14,13 @@ String dn = request.getParameter("dn");
 
 OnlineUserMgr olmgr = new DefaultOnlineUserMgr();
 String loginname = olmgr.getOnlineUser(request).getLoginname();
+String logincode = olmgr.getOnlineUser(request).getUserid();
 boolean b ;
 if(loginname.equalsIgnoreCase("administrator")){
 	b = true ;
 }else{
 	PermissionServiceImpl ps = new PermissionServiceImpl();
-	b = ps.checkUserPermission(loginname,dn,"7");
+	b = ps.checkUserPermission(logincode,loginname,dn,"7");
 }
 request.setAttribute("edit",b);
 %>

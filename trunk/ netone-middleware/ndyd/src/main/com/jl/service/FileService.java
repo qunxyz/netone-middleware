@@ -70,6 +70,17 @@ public interface FileService {
 	 */
 	public void downLoad(String unid, HttpServletResponse response,
 			boolean isOnLine) throws Exception;
+	
+	/**
+	 * 文件优化下载
+	 * 
+	 * @param unid
+	 * @param response
+	 * @param isOnLine
+	 * @throws Exception
+	 */
+	public void downLoadOpt(String unid,String width,String height,String scale, HttpServletResponse response,
+			boolean isOnLine) throws Exception;
 
 	/**
 	 * 文件下载

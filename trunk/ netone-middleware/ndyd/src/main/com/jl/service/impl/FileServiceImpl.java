@@ -27,6 +27,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.jl.common.ImageUtils;
 import com.jl.common.JSONUtil2;
 import com.jl.common.JxlUtilsTemplate;
 import com.jl.common.SpringBeanUtil;
@@ -315,6 +316,68 @@ public class FileServiceImpl extends BaseService implements FileService {
 		out.close();
 	}
 
+	public void downLoadOpt(String unid, String width, String height,
+			String scale, HttpServletResponse response, boolean isOnLine)
+			throws Exception {
+		com.jl.entity.File file = (com.jl.entity.File) commonDAO.findForObject(
+				"File.selectFileById", unid);
+
+		String prex = "(" + (width == null ? "0" : width) + "_"
+				+ (height == null ? "0" : height) + "_"
+				+ (scale == null ? "0" : scale) + ")";
+		String filePath = file.getAddress();
+
+		File f = new File(filePath);
+		if (!f.exists()) {
+			response.sendError(404, "File not found!");
+			return;
+		}
+
+		// 针对图片优化显示 以小像素显示
+		filePath = filePath.toLowerCase();
+		if (filePath.contains(".jpg") || filePath.contains(".jpeg")
+				|| filePath.contains(".gif")) {
+			filePath = filePath.replaceAll(".jpg", prex + ".jpg");
+			filePath = filePath.replaceAll(".gif", prex + ".gif");
+			filePath = filePath.replaceAll(".jpeg", prex + ".jpeg");
+			if (StringUtils.isNotEmpty(width) && StringUtils.isNotEmpty(height)) {
+				ImageUtils.scale2(file.getAddress(), filePath, Integer
+						.parseInt(width), Integer.parseInt(height), false);
+			} else if (StringUtils.isNotEmpty(scale)) {
+				ImageUtils.scale(file.getAddress(), filePath, Integer
+						.parseInt(scale), false);
+			}
+
+			f = new File(filePath);
+		}
+
+		BufferedInputStream br = new BufferedInputStream(new FileInputStream(f));
+		byte[] buf = new byte[1024];
+		int len = 0;
+
+		response.reset(); // 非常重要
+		response.setCharacterEncoding("UTF-8");
+		String docName = java.net.URLEncoder
+				.encode(file.getFilename(), "UTF-8");
+		if (isOnLine) { // 在线打开方式
+			URL u = new URL("file:///" + filePath);
+			response.setContentType(u.openConnection().getContentType());
+			response.setHeader("Content-Disposition", "inline; filename="
+					+ docName);
+			// 文件名应该编码成UTF-8
+		} else { // 纯下载方式
+			response.setContentType("application/x-msdownload;charset=UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename="
+					+ docName);
+			response.flushBuffer();
+		}
+		OutputStream out = response.getOutputStream();
+		while ((len = br.read(buf)) > 0)
+			out.write(buf, 0, len);
+		br.close();
+		out.close();
+	}
+	
 	public String downLoadHttp(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		JSONObject json = new JSONObject();

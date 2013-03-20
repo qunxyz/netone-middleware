@@ -104,7 +104,7 @@ function $select(o,url){
 			    border:false,
 			    //enableHdMenu:false,
 				store: new Ext.data.Store({
-					url: "<c:url value='/frame.do?method=onList' />", //JSON数据
+					url: "<c:url value='/frame.do?method=onList&fatherlsh=${param.fatherlsh}' />", //JSON数据
 					reader: new Ext.data.JsonReader(
 					   {totalProperty: 'total',
 					    root: 'rows'

@@ -560,7 +560,14 @@ public class FrameActionExt extends AbstractAction {
 
 			DyFormData dydata = new DyFormData();
 			BeanUtils.copyProperties(dydata, paramJson);
-			dydata.setFatherlsh("1");
+			String fatherlsh=request.getParameter("fatherlsh");
+			if(StringUtils.isNotEmpty(fatherlsh)){
+				dydata.setFatherlsh(fatherlsh);
+				
+			}else{
+				dydata.setFatherlsh("1");
+			}
+		
 			dydata.setFormcode(formcode);
 			if (!"adminx".equals(user.getUserCode())) {
 				dydata.setParticipant(user.getUserCode());

@@ -340,6 +340,8 @@ public final class WorklistVIewImpl
   public List<DataObj> worklist(String clientId, String appname, boolean mode, int from, int size, String listType, QueryColumn query)
     throws Exception
   {
+	  
+
     WorkflowView wfview = null;
     try {
       wfview = (WorkflowView)RmiEntry.iv("wfview");
@@ -468,9 +470,9 @@ public final class WorklistVIewImpl
     } else if ("02".equals(listType)) {
       urlEnd = "&query=look&cuibang=true";
 
-      loadworklist = "select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 where w1.EXECUTESTATUS='01' and w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where STATUSNOW='01' and runtimeid in(select distinct runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where STATUSNOW='02' and USERCODE='" + 
+      loadworklist = "select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where STATUSNOW='01' and runtimeid in(select distinct runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where STATUSNOW='02' and USERCODE='" + 
         clientId + "')))" + 
-        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition + " order by w1.starttime desc limit " + from + "," + size;
+        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition + " order by w1.starttime desc limit " + from + "," + (size+30);
 
       loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
     } else if ("03".equals(listType))
@@ -478,13 +480,13 @@ public final class WorklistVIewImpl
       urlEnd = "&query=look";
       loadworklist = "select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where STATUSNOW='02' and runtimeid in(select distinct runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where STATUSNOW='02' and USERCODE='" + 
         clientId + "')))" + 
-        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition + " order by w1.starttime desc limit " + from + "," + (size + 100);
+        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition + " order by w1.starttime desc limit " + from + "," + (size + 30);
       loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
     }
     else {
       loadworklist = "select w4.statusnow statusx, w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3,netone.t_wf_runtime w4 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where runtimeid in(select distinct runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where USERCODE='" + 
         clientId + "')))" + 
-        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid and w1.runtimeid=w4.runtimeid " + processidStr + condition + " order by w1.starttime desc limit " + from + "," + (size + 100);
+        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid and w1.runtimeid=w4.runtimeid " + processidStr + condition + " order by w1.starttime desc limit " + from + "," + (size + 30);
       loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
     }
 
@@ -515,7 +517,6 @@ public final class WorklistVIewImpl
       if (dataClear.size() > size) {
         dataClear = dataClear.subList(0, size);
       }
-
     }
 
     List listWorklist = new ArrayList();

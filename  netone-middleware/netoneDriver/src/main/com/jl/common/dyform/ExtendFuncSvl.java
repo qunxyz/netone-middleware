@@ -1,6 +1,7 @@
 package com.jl.common.dyform;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import oe.cav.bean.logic.bus.TCsBus;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
+import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -43,14 +45,20 @@ public class ExtendFuncSvl extends HttpServlet {
 		String ope=request.getParameter("ope");
 		try{
 		AppObj app=(AppObj)AppEntry.iv().loadApp(appname);
-		String formname=app.getFormnatualname();
+
 		String formcode=app.getDyformCode_();
-		String opeName=(formname+"."+ope).toUpperCase();
 		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
-		String ext=rs.loadResourceByNatural(opeName).getExtendattribute();
+		UmsProtectedobject upo=new UmsProtectedobject();
+		upo.setExtendattribute(formcode);
+		List list=rs.queryObjectProtectedObj(upo, null,0,1, "");
+		String formname="";
+		if(list!=null&&list.size()>0){
+			formname=((UmsProtectedobject)list.get(0)).getNaturalname();
+		}
+		String opeName=(formname+"."+ope).toUpperCase();
+		String ext=rs.loadResourceByNatural(opeName).getActionurl();
 		String script=StringUtils.substringBetween(ext, "<script>", "</script>");
 		TCsBus bus=DyEntry.iv().loadData(formcode, lsh);
-
 		DyAnalysisXml dxl=new DyAnalysisXml();
 		Object obj=dxl.executeScript(script, bus);
 		if(obj!=null){

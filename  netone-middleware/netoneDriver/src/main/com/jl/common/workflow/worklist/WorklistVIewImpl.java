@@ -130,7 +130,7 @@ public final class WorklistVIewImpl
           " and w2.types in " + 
           opemode + 
           condition;
-        loadworklist_detail = StringUtils.replace(loadworklist, "w2.usercode='" + clientId + "'", " 1=1 ");
+        loadworklist_detail = loadworklist;
       }
       else if (opemode.equals("('04')")) {
         loadworklist = "select distinct w1.runtimeid  from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='" + 
@@ -140,7 +140,7 @@ public final class WorklistVIewImpl
           " and w2.types in " + 
           opemode + 
           condition;
-        loadworklist_detail = StringUtils.replace(loadworklist, "w2.usercode='" + clientId + "'", "1=1");
+        loadworklist_detail = loadworklist;
       }
       else
       {
@@ -152,7 +152,7 @@ public final class WorklistVIewImpl
           " and w2.types in " + 
           opemode + 
           condition;
-        loadworklist_detail = StringUtils.replace(loadworklist, "w2.usercode='" + clientId + "'", " 1=1 ");
+        loadworklist_detail = loadworklist;;
       }
     } else if ("02".equals(listType)) {
       urlEnd = "&query=look&cuibang=true";
@@ -161,14 +161,14 @@ public final class WorklistVIewImpl
         clientId + "')))" + 
         "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition;
 
-      loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
+      loadworklist_detail = loadworklist;
     } else if ("03".equals(listType))
     {
       urlEnd = "&query=look";
       loadworklist = "select distinct w1.runtimeid from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where STATUSNOW='02' and runtimeid in(select runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where STATUSNOW='02' and USERCODE='" + 
         clientId + "')))" + 
         "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition;
-      loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
+      loadworklist_detail = loadworklist;
     }
     else {
       loadworklist = "select distinct w1.runtimeid from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where runtimeid in(select runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where USERCODE='" + 

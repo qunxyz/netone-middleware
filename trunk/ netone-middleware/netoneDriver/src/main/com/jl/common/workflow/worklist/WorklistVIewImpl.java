@@ -3,11 +3,13 @@ package com.jl.common.workflow.worklist;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import oe.frame.web.WebCache;
 import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
 import oe.midware.workflow.service.WorkflowConsole;
 import oe.midware.workflow.service.WorkflowView;
@@ -443,7 +445,7 @@ public final class WorklistVIewImpl
           " and w2.types in " + 
           opemode + 
           condition + " order by w1.STARTTIME desc  limit " + from + "," + size;
-        loadworklist_detail = StringUtils.replace(loadworklist, "w2.usercode='" + clientId + "'", "1=1");
+        loadworklist_detail = loadworklist;
       }
       else if (opemode.contains("'04'")) {
         loadworklist = "select  w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from netone.t_wf_worklist w1 left join netone.t_wf_participant w2 on  w1.workcode=w2.WORKCODE left join netone.t_wf_relevantvar_tmp w3 on w1.runtimeid=w3.runtimeid where w1.EXECUTESTATUS IN('01','02') AND w2.usercode='" + 
@@ -453,7 +455,7 @@ public final class WorklistVIewImpl
           " and w2.types in " + 
           opemode + 
           condition + " order by w1.STARTTIME desc limit " + from + "," + size;
-        loadworklist_detail = StringUtils.replace(loadworklist, "w2.usercode='" + clientId + "'", "1=1");
+        loadworklist_detail =loadworklist;
       }
       else
       {
@@ -465,58 +467,64 @@ public final class WorklistVIewImpl
           " and w2.types in " + 
           opemode + 
           condition + " order by w1.STARTTIME desc limit " + from + "," + size;
-        loadworklist_detail = StringUtils.replace(loadworklist, "w2.usercode='" + clientId + "'", " 1=1 ");
+        loadworklist_detail = loadworklist;
       }
     } else if ("02".equals(listType)) {
       urlEnd = "&query=look&cuibang=true";
 
       loadworklist = "select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where STATUSNOW='01' and runtimeid in(select distinct runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where STATUSNOW='02' and USERCODE='" + 
         clientId + "')))" + 
-        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition + " order by w1.starttime desc limit " + from + "," + (size+30);
+        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition + " order by w1.starttime desc ";
 
-      loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
+      loadworklist_detail = loadworklist;
     } else if ("03".equals(listType))
     {
       urlEnd = "&query=look";
       loadworklist = "select w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where STATUSNOW='02' and runtimeid in(select distinct runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where STATUSNOW='02' and USERCODE='" + 
         clientId + "')))" + 
-        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition + " order by w1.starttime desc limit " + from + "," + (size + 30);
-      loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
+        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid " + processidStr + condition + " order by w1.starttime desc  ";
+      loadworklist_detail = loadworklist;
     }
     else {
       loadworklist = "select w4.statusnow statusx, w1.processid processid,w1.activityid actid,w1.runtimeid runtimeid,w1.workcode workcode,w1.starttime starttime,w2.donetime donetime,w2.createtime createtime,w2.actname actname,concat(w2.commitername,'[',w2.commitercode,']') userinfo,w2.types,w2.sync,w3.* from  netone.t_wf_worklist w1,netone.t_wf_participant w2 ,netone.t_wf_relevantvar_tmp w3,netone.t_wf_runtime w4 where w1.RUNTIMEID in(select runtimeid from netone.t_wf_runtime where runtimeid in(select distinct runtimeid from netone.t_wf_worklist where workcode in(select workcode from netone.t_wf_participant where USERCODE='" + 
         clientId + "')))" + 
-        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid and w1.runtimeid=w4.runtimeid " + processidStr + condition + " order by w1.starttime desc limit " + from + "," + (size + 30);
+        "and w1.workcode=w2.workcode and w1.runtimeid=w3.runtimeid and w1.runtimeid=w4.runtimeid " + processidStr + condition + " order by w1.starttime desc  " ;
+      //管理者视图需要看到所有的工单
       loadworklist_detail = StringUtils.replace(loadworklist, " USERCODE='" + clientId + "'", " 1=1 ");
     }
 
-    List list = null;
-    if ("adminx".equals(clientId)){
-      list = wfview.coreSqlview(loadworklist_detail);}
-    else if(hasadminAble&&listType.equals("00")){
-	  list = wfview.coreSqlview(loadworklist_detail);
-    }
-    else {
-      list = wfview.coreSqlview(loadworklist);
-    }
+
 
     List dataClear = new ArrayList();
     if ("01".equals(listType)) {
-      dataClear = list;
+      dataClear = wfview.coreSqlview(loadworklist);
     } else {
-      Map map=new HashMap();
-      for (Iterator iterator = list.iterator(); iterator.hasNext(); ) {
-        Map object = (Map)iterator.next();
-        String runtimeid = (String)object.get("runtimeid");
-        if (map.containsKey(runtimeid)) {
-          continue;
-        }
-        map.put(runtimeid, runtimeid);
-        dataClear.add(object);
+      if(from==0){//第一次访问重新装载数据，后面的分页处理用缓存数据
+    	  List list=new ArrayList();
+          if ("adminx".equals(clientId)){
+        	  list = wfview.coreSqlview(loadworklist_detail);}
+           else if(hasadminAble&&listType.equals("00")){
+        	   list = wfview.coreSqlview(loadworklist_detail);
+          }
+          Map map=new HashMap();
+          for (Iterator iterator = list.iterator(); iterator.hasNext(); ) {
+            Map object = (Map)iterator.next();
+            String runtimeid = (String)object.get("runtimeid");
+            if (map.containsKey(runtimeid)) {
+              continue;
+            }
+            map.put(runtimeid, runtimeid);
+            dataClear.add(object);
+          }
+  		  long time=System.currentTimeMillis() + 600000L;//10分钟缓存
+  		  Date dateinfo = new Date(time);
+          WebCache.setCache("worklist"+appname+clientId, dataClear, dateinfo);
+      }else{
+    	  dataClear=(List)WebCache.getCache("worklist"+appname+clientId);
       }
-      if (dataClear.size() > size) {
-        dataClear = dataClear.subList(0, size);
-      }
+    }
+    if (dataClear.size() > size) {
+        dataClear = dataClear.subList(from, from+size);
     }
 
     List listWorklist = new ArrayList();

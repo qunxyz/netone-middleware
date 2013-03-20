@@ -676,7 +676,7 @@ public class DepartmentServiceImpl extends BaseService implements
 						commonDAO.update("User.updateUserStatus", userx);
 						// 同步组件目录API
 						if (enableSyncComponent) {
-							getSecurityAPI(request).fobidAccount(ids);
+							getSecurityAPI(request).fobidAccount(userx.getUserCode());
 						}
 					}
 

@@ -146,8 +146,8 @@ public class LeaderViewOrderSvl extends HttpServlet {
 					}
 				}
 			}
-			List list = listMaxTaskDept.subList(0,
-					listMaxTaskDept.size() >= 5 ? 5 : listMaxTaskDept.size());
+			List list = new ArrayList(listMaxTaskDept.subList(0,
+					listMaxTaskDept.size() >= 5 ? 5 : listMaxTaskDept.size()));
 			long time = System.currentTimeMillis() + 1800000L;// 30∑÷÷”ª∫¥Ê
 			Date dateinfo = new Date(time);
 			WebCache.setCache("deptTop5", list, dateinfo);

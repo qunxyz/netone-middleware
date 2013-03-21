@@ -51,7 +51,7 @@ public class ListingData extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		String lsh=request.getParameter("lsh");
 		String formcode = request.getParameter("formcode");
-		String parentId = request.getParameter("parentId");
+		String parentId = request.getParameter("parentid");
 		if (StringUtils.isEmpty(parentId)) {
 			parentId = "1";
 		}

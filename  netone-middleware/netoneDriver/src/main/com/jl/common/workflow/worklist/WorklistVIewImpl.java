@@ -499,7 +499,6 @@ public final class WorklistVIewImpl
     if ("01".equals(listType)) {
       dataClear = wfview.coreSqlview(loadworklist);
     } else {
-      if(from==0){//第一次访问重新装载数据，后面的分页处理用缓存数据
     	  List list=new ArrayList();
           if ("adminx".equals(clientId)){
         	  list = wfview.coreSqlview(loadworklist_detail);}
@@ -516,16 +515,11 @@ public final class WorklistVIewImpl
             map.put(runtimeid, runtimeid);
             dataClear.add(object);
           }
-  		  long time=System.currentTimeMillis() + 600000L;//10分钟缓存
-  		  Date dateinfo = new Date(time);
-          WebCache.setCache("worklist"+appname+clientId, dataClear, dateinfo);
-      }else{
-    	  dataClear=(List)WebCache.getCache("worklist"+appname+clientId);
-      }
     }
-    if (dataClear.size() > size) {
-        dataClear = dataClear.subList(from, from+size);
-    }
+    
+    int sizes=dataClear.size()<(from+size)?dataClear.size():(from+size);
+    dataClear = dataClear.subList(from, sizes);
+
 
     List listWorklist = new ArrayList();
     for (Iterator iterator = dataClear.iterator(); iterator.hasNext(); ) {

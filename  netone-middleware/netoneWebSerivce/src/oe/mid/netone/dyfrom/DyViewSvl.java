@@ -60,7 +60,7 @@ public class DyViewSvl extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html;charset=utf-8");
+		response.setContentType("text/json;charset=utf-8");
 		String tablename=request.getParameter("tablename");
 		String columns=request.getParameter("columns");
 		if(StringUtils.isEmpty(columns)){

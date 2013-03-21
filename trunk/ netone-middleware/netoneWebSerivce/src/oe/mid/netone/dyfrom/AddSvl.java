@@ -56,7 +56,7 @@ public class AddSvl extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String formcode = null;
 		String appname = request.getParameter("appname");
-		String parentId = request.getParameter("parentId");
+		String parentId = request.getParameter("parentid");
 		String userid = request.getParameter("userid");
 
 		DyFormData dydata = new DyFormData();
@@ -101,7 +101,7 @@ public class AddSvl extends HttpServlet {
 			try {
 				formcode = AppEntry.iv().loadApp(appname).getDyformCode_();
 				DyForm dyx[]=DyEntry.iv().loadForm(formcode).getSubform_();
-				if(dyx.length>0){
+				if(dyx!=null&&dyx.length>0){
 					formcode=dyx[0].getFormcode();
 				}
 				List list = DyEntry.iv().fetchColumnList(formcode);
@@ -143,7 +143,13 @@ public class AddSvl extends HttpServlet {
 		}
 		
 	}
-	
+	/**
+	 * 有时系统需要客户端传递时间过来 
+	 * @param request
+	 * @param formcode
+	 * @param lsh
+	 * @throws Exception
+	 */
 	private void modifyTime(HttpServletRequest request,String formcode,String lsh)throws Exception{
 		String timex=request.getParameter("timex");
 		if(StringUtils.isNotEmpty(timex)){

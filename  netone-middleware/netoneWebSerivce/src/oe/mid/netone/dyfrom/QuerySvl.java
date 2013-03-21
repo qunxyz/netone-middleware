@@ -78,7 +78,7 @@ public class QuerySvl extends HttpServlet {
 			}
 		}
 
-		String parentId = request.getParameter("parentId");
+		String parentId = request.getParameter("parentid");
 		String ext = request.getParameter("ext");
 		String lsh = request.getParameter("lsh");
 

@@ -87,9 +87,15 @@ public class Querybranchlisting extends HttpServlet {
 				try {
 					dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 							.parse(dydata.getTimex());
-				} catch (ParseException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					try {
+						dt = new SimpleDateFormat("yyyy-MM-dd hh")
+						.parse(dydata.getTimex());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				String newStr = new SimpleDateFormat("yyyy-MM-dd").format(dt);
 

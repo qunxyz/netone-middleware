@@ -46,12 +46,13 @@ public class DeptSvl extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		//获得根部门，这里 部门只支持2级
 		String rootname=request.getParameter("rootname");
+		List info=new ArrayList();
 		try {
 			ResourceRmi rmi=(ResourceRmi)RmiEntry.iv("resource");
 			UmsProtectedobject upo=rmi.loadResourceByNatural(rootname);
 			List list=rmi.subResource(upo.getId());
 			
-			List info=new ArrayList();
+			
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				UmsProtectedobject object = (UmsProtectedobject) iterator.next();
 				Map map=new HashMap();
@@ -71,14 +72,42 @@ public class DeptSvl extends HttpServlet {
 				map.put("sub",nextx );
 
 				info.add(map);
-				String jsonString=JSONArray.fromObject(info).toString();
-		   		response.getWriter().print(jsonString);
+
 			}
 		} catch (NotBoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		String jsonString=JSONArray.fromObject(info).toString();
+   		response.getWriter().print(jsonString);
 		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		List list=new ArrayList();
+		
+		Map map=new HashMap();
+		map.put("naturalname", "1");
+		map.put("name", "1");
+		
+		
+		
+		List list2=new ArrayList();
+		Map map2=new HashMap();
+		map2.put("naturalname", "2");
+		map2.put("name", "2");
+		list2.add(map2);
+		list2.add(map2);
+		map.put("sub", list2);
+		
+		list.add(map);
+		list.add(map);
+		
+		
+		String jsonString=JSONArray.fromObject(list).toString();
+   		System.out.println(jsonString);
 	}
 
 	/**

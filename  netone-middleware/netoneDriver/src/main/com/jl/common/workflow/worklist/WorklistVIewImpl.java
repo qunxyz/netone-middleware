@@ -497,7 +497,7 @@ public final class WorklistVIewImpl
 
     List dataClear = new ArrayList();
     if ("01".equals(listType)) {
-      dataClear = wfview.coreSqlview(loadworklist);
+    	dataClear = wfview.coreSqlview(loadworklist);
     } else {
     	  List list=new ArrayList();
           if ("adminx".equals(clientId)){
@@ -515,12 +515,11 @@ public final class WorklistVIewImpl
             map.put(runtimeid, runtimeid);
             dataClear.add(object);
           }
+
+          int sizes=dataClear.size()<(from+size)?dataClear.size():(from+size);
+          dataClear = dataClear.subList(from, sizes);
     }
     
-    int sizes=dataClear.size()<(from+size)?dataClear.size():(from+size);
-    dataClear = dataClear.subList(from, sizes);
-
-
     List listWorklist = new ArrayList();
     for (Iterator iterator = dataClear.iterator(); iterator.hasNext(); ) {
       List data = new ArrayList();

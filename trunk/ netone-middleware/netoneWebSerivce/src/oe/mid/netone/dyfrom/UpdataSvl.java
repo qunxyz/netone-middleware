@@ -61,7 +61,7 @@ public class UpdataSvl extends HttpServlet {
 		String formcode=null;
 		boolean fal=false;
 		String appname= request.getParameter("appname");
-		String parentId = request.getParameter("parentId");
+		String parentId = request.getParameter("parentid");
 		String userid = request.getParameter("userid");
 		String lsh = request.getParameter("lsh");
 		if (StringUtils.isEmpty(parentId)) {

@@ -935,11 +935,18 @@ public final class DyFormBuildHtmlExt {
 					split = ",";
 				} else {
 
+					boolean isSelect_ = checkSelect_(column.getViewtype());
+					String style = "width:98%;";
+					if (isSelect_) {
+						style = "width:80%;";
+					}
+					
 					String comp = routeAppointComp(column.getViewtype(), column
-							.getColumnid(), "" + value, "width:98%;", "",
+							.getColumnid(), "" + value, style, "",
 							column.isReadonly(), column.getValuelist(), "",
 							userinfo, parameter, column.getDefaultValue());
-					datas.append(split + "'&nbsp;" + column.getColumname()
+					String muskstr = column.isMusk_()?"*":"";
+					datas.append(split + "'&nbsp;" + column.getColumname()+muskstr
 							+ "':'" + comp + "'");
 					split = ",";
 
@@ -2377,7 +2384,6 @@ public final class DyFormBuildHtmlExt {
 
 		String datas_config = buildNullDatas(new DyFormData(), _formx,
 				columnmap, columnmapx, isedit, userinfo, parameter);
-
 		return datas_config;
 	}
 

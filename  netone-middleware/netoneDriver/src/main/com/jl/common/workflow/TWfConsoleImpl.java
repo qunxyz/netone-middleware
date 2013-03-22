@@ -374,10 +374,18 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 		}
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
 		// 撤销流程
-		console.coreSqlhandle("delete from t_wf_runtime where runtimeid='"
+		console.coreSqlhandle("delete from netone.t_wf_runtime where runtimeid='"
 				+ runtimeid + "'");
 		// 撤销的活动
-		console.coreSqlhandle("delete from t_wf_worklist where runtimeid='"
+		console.coreSqlhandle("delete from netone.t_wf_worklist where runtimeid='"
+				+ runtimeid + "'");
+		
+		// 撤销的变量
+		console.coreSqlhandle("delete from netone.t_wf_relevantvar_tmp where runtimeid='"
+				+ runtimeid + "'");
+		
+		// 撤销的变量
+		console.coreSqlhandle("delete from netone.t_wf_relevantvar where runtimeid='"
 				+ runtimeid + "'");
 		
 		String sql="select valuenow vx from netone.t_wf_relevantvar where runtimeid='"+runtimeid+"' and DATAFIELDID='bussid'";

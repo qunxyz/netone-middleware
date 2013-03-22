@@ -27,6 +27,7 @@ import oe.cav.web.data.dyform.utils.DymaticFormCheck;
 import oe.env.client.EnvService;
 import oe.frame.web.WebCache;
 import oe.midware.dyform.service.DyFormService;
+import oe.midware.workflow.service.WorkflowConsole;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -36,8 +37,10 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.jl.common.ScriptTools;
+import com.jl.common.app.AppEntry;
 import com.jl.common.security3a.SecurityEntry;
 import com.jl.common.workflow.TWfActive;
+import com.jl.common.workflow.TWfRelevant;
 import com.jl.common.workflow.WfEntry;
 
 public final class DyformConsoleImpl implements DyFormConsoleIfc {
@@ -676,8 +679,56 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			// if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("01")){
 			// dayx.script(formid, lsh, "Yesaffirm");//确认
 			// }
+			
+			
 		}
 		return rs;
+	}
+	
+	private void updateRev(String appname,String bussid,String runtimeid){
+		try {
+		List appdy = AppEntry.iv().wf2dyformBindCfg(appname);
+		// 动态复制动态表单中的业务数据到工作流中
+		StringBuffer rev_view_sql_column = new StringBuffer();
+		StringBuffer rev_view_sql_value = new StringBuffer();
+		int count = 0;
+		for (Iterator iterator = appdy.iterator(); iterator.hasNext();) {
+			TWfRelevant object = (TWfRelevant) iterator.next();
+			String revid = object.getRevid();
+			String columnid = object.getRev2column();
+			if (columnid == null) {
+				continue;
+			}
+			if (revid.startsWith("r_")) {
+				continue;
+			}
+			String formcode = object.getRev2formcode();
+			DyFormData data = DyEntry.iv().loadData(formcode, bussid);
+			columnid=columnid.toLowerCase();
+			String value = BeanUtils.getProperty(data, columnid);
+			updateRev(runtimeid, revid, value);
+			value = StringUtils.replace(value, "'", "’");
+			rev_view_sql_value.append(",'" + value + "'");
+			rev_view_sql_column.append(",d" + count++);
+		}
+		String rev_view_sql_column_s = "runtimeid,appname,lsh"
+				+ rev_view_sql_column.toString();
+		String rev_view_sql_value_s = "'" + runtimeid + "','" + appname
+				+ "','" + bussid + "'" + rev_view_sql_value.toString();
+		String rev_view_sql = "insert into t_wf_relevantvar_tmp("
+				+ rev_view_sql_column_s + ")values(" + rev_view_sql_value_s
+				+ ")";
+		WorkflowConsole console;
+		
+			console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+			String sql="delete from t_wf_relevantvar_tmp where runtimeid='"+runtimeid+"'";
+			console.coreSqlhandle(sql);
+			console.coreSqlhandle(rev_view_sql);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
 	}
 
 	public List queryData(DyFormData bus, int form, int to, String condition)

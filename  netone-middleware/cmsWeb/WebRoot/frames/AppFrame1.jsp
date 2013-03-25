@@ -1,4 +1,6 @@
 <%@ page language="java" pageEncoding="gbk"%>
+<%@page import="oe.rmi.client.RmiEntry"%>
+<%@page import="oe.security3a.client.rmi.ResourceRmi"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.oesee.com/netone/portal" prefix="portal"%>
@@ -8,6 +10,10 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+			
+			ResourceRmi rmi=(ResourceRmi)RmiEntry.iv("resource");
+			String name=request.getParameter("rs");
+			String acturl=rmi.loadResourceByNatural(name).getActionurl();
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -141,7 +147,7 @@
 						</div>
 						<div id="mynewcontent" style="margin-top: 6px; border:1px solid #99BBE8;display:none"></div>
 						<iframe align="top" id="proletright" name="proletright" style="margin-top:4px;"
-							src="<portal:envget envkey="WEBSER_APPFRAME"/>workList.do?method=onMainView2&mode=1&height=260&listtype=01&sortfield=&sort=desc&psize=20&appname=" scrolling="no"
+							src="<%=acturl%>" scrolling="no"
 							resize="no" height="100%" width="960" frameborder='0'></iframe>
 					</div>
 					</td>

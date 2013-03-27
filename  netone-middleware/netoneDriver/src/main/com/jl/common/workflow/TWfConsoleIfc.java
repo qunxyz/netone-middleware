@@ -703,4 +703,12 @@ public interface TWfConsoleIfc {
 	 * @return
 	 */
 	public boolean checkUserworklist(String usercode,String workcode);
+	
+	/**
+	 * 检查用户是否参与过某流程
+	 * @param usercode 用户登录名 
+	 * @param runtimeid 具体流程的实例ID
+	 * @return 如果参与过返回true
+	 */
+	public boolean checkIfUserJoinProcess(String usercode, String runtimeid);
 }

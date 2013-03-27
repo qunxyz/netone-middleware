@@ -2001,14 +2001,27 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 	}
 	
 	public boolean checkIfUserJoinProcess(String usercode, String runtimeid) {
+		if(usercode.equals("adminx"))return true;//管理员许可所有流程
 		
-		String sql="select ifnull(count(*),0) counx from netone.t_wf_participant where  usercode='"+usercode+"' and workcode in(select workcode from t_wf_worklist where runtimeid='"+runtimeid+"')";
-		List list=DbTools.queryData(sql);
-		Map data=(Map)list.get(0);
-		Long intx=(Long)data.get("counx");
-		if(intx>0){
-			return true;
+		String sql="select usercode from netone.t_wf_participant where  workcode in(select workcode from netone.t_wf_worklist where runtimeid='"+runtimeid+"')";
+		List list=DbTools.queryData(sql);//查询处该流程的所有参与者
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Map object = (Map) iterator.next();
+			String usercodex=(String)object.get("usercode");
+			if(usercode.equals(usercodex)){// 是本人参与的流程，允许查看
+				return true;
+			}
+			try{
+			String deptNaturlname=SecurityEntry.iv().loadUser(usercodex).getDeptid();
+			boolean rs=SecurityEntry.iv().permission(usercode, deptNaturlname);
+			if(rs){
+				return true;//该用户授权过过许可看该流程参与者的工单，允许查看
+			}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
+
 		return false;
 	}
 

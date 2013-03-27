@@ -1,8 +1,5 @@
 package com.jl.common.workflow;
 
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1994,6 +1991,18 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 
 	public boolean checkUserworklist(String usercode, String workcode) {
 		String sql="select ifnull(count(*),0) counx from netone.t_wf_participant where workcode='"+workcode+"' and usercode='"+usercode+"'";
+		List list=DbTools.queryData(sql);
+		Map data=(Map)list.get(0);
+		Long intx=(Long)data.get("counx");
+		if(intx>0){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean checkIfUserJoinProcess(String usercode, String runtimeid) {
+		
+		String sql="select ifnull(count(*),0) counx from netone.t_wf_participant where  usercode='"+usercode+"' and workcode in(select workcode from t_wf_worklist where runtimeid='"+runtimeid+"')";
 		List list=DbTools.queryData(sql);
 		Map data=(Map)list.get(0);
 		Long intx=(Long)data.get("counx");

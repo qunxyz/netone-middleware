@@ -23,7 +23,7 @@
 		${datecompFunc}
 		<script type="text/javascript">
 		$(function() {
-
+			checkUserLookPerm();
 			<c:if test="${!empty permission && permission=='false'}">
 				$disabledall();
 				$hideall();
@@ -53,6 +53,49 @@
 			//$("#helptext").floatdiv("rightmiddle");
 			</c:if>
 		});
+		
+		function checkUserLookPerm(){
+			//检查用户是否拥有工单处理权限 不属于自己的工单不允许操作
+			var $runtimeid = '${param.runtimeid}';
+			var $$pass =  true;
+			if ($runtimeid!=''){
+				Ext.Ajax.request({
+			        url: "<c:url value='/frame.do?method=onCheckIfUserJoinProcess' />",
+			        // 请求的服务器地址
+			        form: '_FRAME_FORM_ID_',
+			        // 指定要提交的表单id
+			        method: 'POST',
+			        sync: true,
+			        params: {
+			            runtimeid:$runtimeid
+			        },
+			        success: function (response, options) {
+			            var result = Ext.util.JSON.decode(response.responseText);
+			            if (result.error != null) {
+			            	alert('不能查看不属于您的工单!');
+			            	$$pass=false;
+			            	$disabledall();
+							$hideall();
+							window.open("","_self");window.opener=null;
+							window.close();
+			            	return;
+			            }
+			        },
+			        failure: function (response, options) {
+			            checkAjaxStatus(response);
+			            var result = Ext.util.JSON.decode(response.responseText);
+			            Ext.MessageBox.alert('提示', result.tip);
+			            $$pass=false;
+			        }
+			    });
+		    }
+		    if ($$pass==false){
+		    $disabledall();
+			$hideall();
+		    window.open("","_self");window.opener=null;
+			window.close();
+		    return;}
+		}
 		</script>
 		<title><c:choose><c:when test="${!empty htmltitleinfo}">${htmltitleinfo} - ${activityName}</c:when><c:otherwise>${activityName}</c:otherwise></c:choose></title>
 	</head>

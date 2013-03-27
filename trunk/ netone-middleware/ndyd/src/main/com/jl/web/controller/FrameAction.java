@@ -2116,4 +2116,30 @@ public class FrameAction extends AbstractAction {
 			super.writeJsonStr(response, json.toString());
 		}
 	}
+	
+	// 检查用户是否拥有工单处理权限 不属于自己的工单不允许操作
+	public void onCheckIfUserJoinProcess(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("ErrorJson", "Yes");// Json出错提示
+		JSONObject json = new JSONObject();
+		String runtimeid = request.getParameter("runtimeid");
+		try {
+			// 是否属于当前登录者待办
+			User user = getOnlineUser(request);
+			boolean userError = WfEntry.iv().checkIfUserJoinProcess(
+					user.getUserCode(), runtimeid);
+			if (userError == false) {
+				json.put("tip", "不能查看不属于您的工单!");
+				json.put("error", true);
+			} else {
+				json.put("tip", "通过");
+			}
+		} catch (Exception e) {
+			json.put("tip", "操作失败!");
+			json.put("error", "yes");
+			log.error("出错", e);
+		} finally {
+			super.writeJsonStr(response, json.toString());
+		}
+	}
 }

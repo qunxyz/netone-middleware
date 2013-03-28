@@ -277,12 +277,12 @@ public final class DyFormComp {
 		fileform.append(hiddenF_ID);
 
 		 String selectbtn = getComp(
-		 "<input type=\"button\" onclick=\"$uploadone('" + UUID_STR
-		 + "')\" ", " />", "button" + UUID_STR, "上传", "",
+		 "<input type=\"button\" onclick=\"$uploadone(&quot;" + UUID_STR
+		 + "&quot;)\" ", " />", "button" + UUID_STR, "上传", "",
 		 classname, readonly, "");
 		fileform.append(getComp(
-				"<input type=\"file\" onchange=\"$getFileFullName('" + UUID_STR
-						+ "')\" ", "  />" + selectbtn, "files" + UUID_STR, "",
+				"<input type=\"file\" onchange=\"$getFileFullName(&quot;" + UUID_STR
+						+ "&quot;)\" ", "  />" + selectbtn, "files" + UUID_STR, "",
 				"", classname, readonly, ""));
 		fileform.append("</span>");
 

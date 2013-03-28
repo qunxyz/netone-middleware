@@ -3,6 +3,7 @@ package oe.security3a.sso.onlineuser;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.swing.JApplet;
 
 import oe.frame.web.WebCache;
@@ -15,7 +16,6 @@ import oe.security3a.seupublic.authentication.util.ClerkResponseToClerk;
 import oe.security3a.sso.SsoToken;
 import oe.security3a.sso.util.SsoUtil;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -48,16 +48,164 @@ public class CA2OnlineUserMgr implements OnlineUserMgr {
 	 */
 	public OnlineUser getOnlineUser(HttpServletRequest request) {
 		OnlineUser oluser = new OnlineUser();
-		String uname=(String)request.getSession().getAttribute("cakey");
-		try {
+		String textCert; // 证书号
+		String textOriginData;// 原文(随机数)
+		String textSignData; // 签名
+	
+		HttpSession httpSession = request.getSession();
+		
+		if("adminx".equals((String)WebCache.getCache("action"))){
+			oluser.setLoginname("adminx");
+			oluser.setUserid("adminx");
+			oluser.setBelongto("0000");
+			oluser.setLoginhost("");
+			oluser.setLoginip("");
+			oluser.setLoginseq("");
+			return oluser;
+		}
+		
+		textCert = (String)httpSession.getAttribute("textCert");
+		textOriginData =(String) httpSession.getAttribute("RANDOM");
+		textSignData =(String)httpSession.getAttribute("textSignData");
+		
+		if(textCert==null){
+			textCert=(String)WebCache.getCache("textCert");
+		}
+		if(textOriginData==null){
+			textOriginData=(String)WebCache.getCache("textOriginData");
+		}
+		if(textSignData==null){
+			textSignData=(String)WebCache.getCache("textSignData");
+		}
+		
+		fjca.FJCAApps ca = new fjca.FJCAApps();
+		// 社保4000
+		ca.setErrorBase(4000);
+		// Windows 验证服务器IP
+		ca.setServerURL("202.109.194.166:7000");
+		byte[] bySubjectCN = ca.GetSubjectCN(textCert);
+		if (bySubjectCN == null) {
+			return null;
+		}
 
-			// 当前认证书里，读取认证书里内容
-			if (StringUtils.isNotEmpty(uname)) {
-				// 做映射处理，目前存在2种映射处理1、基于临时的有期限的映射有限级最高 2、基于Excel文件的映射
-				keyMap(oluser, uname);
+		String strSubjectCN = new String(bySubjectCN);
+		// 取证书序列号
+		String strSerial = ca.getSerialFromCert(textCert);
+
+		// 对企业进行身份认证（HTTP环境下的数字证书认证）
+		String strRet = ca.FJCA_VerifyQY(textOriginData, textSignData, textCert);
+
+		int retCode = ca.getLastError();
+		if (retCode == 0) {
+			String[] retArr = strRet.split(",");
+
+			// 检验企业证书有效期终止时间,服务截止时间,是否已到期
+
+			// 判断证书有效期
+			String sCertDate = retArr[0];
+			java.util.Date certDate = new java.util.Date();
+			java.util.Date today = new java.util.Date();
+			try {
+				if (sCertDate != null) {
+					if (!sCertDate.equals("")) {
+						java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
+								"yyyy/MM/dd hh:mm:ss");
+						certDate = sdf.parse(sCertDate);
+						long oneDay = 86400000;
+						if (certDate.compareTo(today) < 0) {
+							return null;
+						} else {
+							java.util.Date certvDate = new java.util.Date(certDate.getTime() - 90 * oneDay);
+							java.util.Calendar c = java.util.Calendar.getInstance();
+							c.setTime(certDate);
+							java.util.Calendar c1 = java.util.Calendar.getInstance();
+							c1.setTime(sdf.parse(sdf.format(today)));
+
+							
+							int remDate = (int) ((c.getTimeInMillis() - c1.getTimeInMillis()) / (24 * 3600 * 1000));		
+							String lasttime = null;
+							String msg = null;
+							msg = "注意：您的数字证书有效期将在"
+									+ remDate
+									+ "天后过期，请您及时联系福建CA客服中心延长证书有效期。"
+									+ "如果您无法处理，请联系当地社保服务商或者拨打客户服务热线:0591-968806.";
+							if (remDate == 0) {
+								lasttime = sCertDate.substring(11, sCertDate
+										.length());
+								msg = "注意：您的数字证书有效期将在"
+										+ lasttime
+										+ "后过期，请您及时联系福建CA客服中心延长证书有效期。"
+										+ "如果您无法处理，请联系当地社保服务商或者拨打客户服务热线:0591-968806.";
+							}
+							if (certvDate.compareTo(today) < 0) {
+								httpSession.setAttribute("msg", msg);
+							}
+
+						}
+					}
+				}
+
+				// 判断服务有效期
+				String sSerDate = retArr[1];
+				java.util.Date serDate = new java.util.Date();
+				// java.util.Date today = new java.util.Date();
+				if (sSerDate != null) {
+					if (!sSerDate.equals("")) {
+						java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
+								"yyyy/MM/dd hh:mm:ss");
+						serDate = sdf.parse(sSerDate + " 23:59:59");
+						long oneDay = 86400000;
+						if (serDate.compareTo(today) < 0) {
+							return null;
+
+						} else {
+							java.util.Date certvDate = new java.util.Date(serDate.getTime() - 30 * oneDay);
+							//int remDate = DateUtil.diffDate(serDate, sdf.parse(sdf.format(today))) + 1;
+							
+							java.util.Calendar c = java.util.Calendar.getInstance();
+							c.setTime(serDate);
+							java.util.Calendar c1 = java.util.Calendar.getInstance();
+							c1.setTime(sdf.parse(sdf.format(today)));
+							int remDate = (int) ((c.getTimeInMillis() - c1.getTimeInMillis()) / (24 * 3600 * 1000))+ 1;
+							
+							if (certvDate.compareTo(today) < 0) {
+								httpSession
+										.setAttribute(
+												"msg1",
+												"注意：证书服务在"
+														+ remDate
+														+ "天内即将过期，请及时延长证书有效服务期限。"
+														+ "<br>如果您无法处理，请联系当地社保服务商或者拨打客户服务热线:0591-968806.");
+							}
+						}
+					}
+				}
+
+				String unitNo = retArr[2];
+				if(unitNo==null||unitNo.equals("")){
+					return null;
+				}else{		
+					if("002".equals(unitNo)){
+						oluser.setLoginname("yinghang");
+						oluser.setUserid("银行用户");
+						oluser.setBelongto("0000");
+						oluser.setLoginhost("");
+						oluser.setLoginip("");
+						oluser.setLoginseq("");
+					} else if ("001".equals(unitNo)) {
+						oluser.setLoginname("qiye");
+						oluser.setUserid("企业用户");
+						oluser.setBelongto("0000");
+						oluser.setLoginhost("");
+						oluser.setLoginip("");
+						oluser.setLoginseq("");
+					}
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
+			return null;
 		}
 		return oluser;
 	}
@@ -81,7 +229,6 @@ public class CA2OnlineUserMgr implements OnlineUserMgr {
 				Clerk clerkQ = new Clerk();
 				clerkQ.setCompany(uname);// 该字段查询的是库表中的
 				// bussiness字段的信息，这里的信息是由Excel数据导入的
-
 				List list = resourceRmi.fetchClerk("0000", clerkQ, null, null);
 				if (list != null && list.size() == 1) {
 					Clerk clerkX = (Clerk) list.get(0);
@@ -99,7 +246,6 @@ public class CA2OnlineUserMgr implements OnlineUserMgr {
 					oluser.setUserid("系统帐户异常 不存在的用户");
 					oluser.setBelongto("0000");
 				}
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

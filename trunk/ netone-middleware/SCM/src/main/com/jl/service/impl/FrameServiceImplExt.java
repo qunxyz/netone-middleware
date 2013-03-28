@@ -461,7 +461,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 					formname.add(subdyform.getFormname());
 					formlist.add(getJsMap(DyFormBuildHtmlExt.buildForm(
 							subdyform, issubedit, userinfo, naturalname, lsh,
-							true, true, parameter, user), ids, "", "mode8"));
+							true, false, parameter, user), ids, "", "mode8"));
 				} else {
 					// not do
 				}
@@ -573,12 +573,12 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		if (SecurityEntry.iv().permission(user.getUserCode(),
 				naturalname_dyform + ".PASS")) {
 			btnStr
-					.append("{text:' 通 过 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},");
+					.append("{text:' 通 过 ',id:'ext_b_pass',iconCls:'addIcon',handler:function(){ _pass();}},");
 		}
 		if (SecurityEntry.iv().permission(user.getUserCode(),
 				naturalname_dyform + ".UNPASS")) {
 			btnStr
-					.append("{text:' 不通过 ',id:'ext_b_delete',iconCls:'deleteIcon',handler:function(){ _delete();}},");
+					.append("{text:' 不通过 ',id:'ext_b_unpass',iconCls:'deleteIcon',handler:function(){ _unpass();}},");
 		}
 		btnStr
 				.append("{text:' 打 印 ',id:'ext_b_delete',iconCls:'print',handler: function(){_print();}},");
@@ -1684,7 +1684,6 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		String lsh = request.getParameter("lsh");
 		AppObj app = AppEntry.iv().loadApp(naturalname);
 		String formcode = app.getDyformCode_();
-
 		DyFormData data = new DyFormData();
 		data.setLsh(lsh);
 		data.setStatusinfo("01");
@@ -1692,7 +1691,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		data.setFormcode(formcode);
 		User user = getOnlineUser(request);
 
-		int count = DyEntry.iv().queryDataNum(data, " or statusinfo = '02' ");
+		int count = DyEntry.iv().queryDataNum(data, " and statusinfo = '02' ");
 		if (count > 0) {
 			json.put("tip", "已审核状态,不能进行其他操作!");
 			json.put("error", "yes");
@@ -1735,7 +1734,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		data.setFormcode(formcode);
 		User user = getOnlineUser(request);
 
-		int count = DyEntry.iv().queryDataNum(data, " or statusinfo = '01' ");
+		int count = DyEntry.iv().queryDataNum(data, " and statusinfo = '01' ");
 		if (count > 0) {
 			json.put("tip", "已审核状态,不能进行其他操作!");
 			json.put("error", "yes");

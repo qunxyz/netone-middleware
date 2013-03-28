@@ -5,6 +5,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 	String path = request.getContextPath();
+	response.setHeader("X-UA-Compatible","IE=EmulateIE8");
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -230,7 +232,7 @@ function $select(o,url){
 					 cls:'',
 					 items:[
 					 	
-					 	<rs:permission action="7" resource="${naturalname_dyform}.ADD">
+					 	<rs:permission action="3" resource="${naturalname_dyform}.ADD">
 					 	{
 						  text:'新增',
 						  id:'ext_b_add',
@@ -241,7 +243,7 @@ function $select(o,url){
 						},
 						</rs:permission>
 						
-						<rs:permission action="7" resource="${naturalname_dyform}.MODI">
+						<rs:permission action="3" resource="${naturalname_dyform}.MODI">
 						{
 						  text:'修改',
 						  id:'ext_b_edit',
@@ -252,7 +254,7 @@ function $select(o,url){
 						},
 						</rs:permission>
 						
-						<rs:permission action="7" resource="${naturalname_dyform}.DELE">
+						<rs:permission action="3" resource="${naturalname_dyform}.DELE">
 						{
 						  text:'删除',
 						  id:'ext_b_delete',
@@ -263,7 +265,7 @@ function $select(o,url){
 						},
 						</rs:permission>
 						
-						<rs:permission action="7" resource="${naturalname_dyform}.CONF">
+						<rs:permission action="3" resource="${naturalname_dyform}.CONF">
 						{
 						  text:'确认',
 						  iconCls:"reIcon",
@@ -273,7 +275,7 @@ function $select(o,url){
 						},
 						</rs:permission>
 						
-						<rs:permission action="7" resource="${naturalname_dyform}.UCONF">
+						<rs:permission action="3" resource="${naturalname_dyform}.UCONF">
 						{
 						  text:'反确认',
 						  iconCls:"resetIcon",
@@ -283,23 +285,24 @@ function $select(o,url){
 						},
 						</rs:permission>
 						
-						<rs:permission action="7" resource="${naturalname_dyform}.QUE">
+						<rs:permission action="3" resource="${naturalname_dyform}.QUE">
 						{
 						  text:'查询',
 						  iconCls:"viewIcon",
 						  menu : querymenu
-						},
+						}
 						</rs:permission>
-						
+						/**
 						{
+						
 						  text:'打印',
 						  iconCls:"print",
 						  handler: function (){
 								$print();
 						  }
+						  
 						}
 						
-						/**
 						,{
 						  text:'导出Excel',
 						  iconCls:"excelIcon",
@@ -307,7 +310,7 @@ function $select(o,url){
 								$printexcel();
 						  }
 						}
-						**/
+						
 						
 						,{text : '导出Excel',iconCls:'excelIcon',handler:function(){
 									var selectionSet = Ext.getCmp('PlanGrid').getSelectionModel().getSelections();
@@ -331,7 +334,7 @@ function $select(o,url){
 							        }
 						        }
 						}
-						
+						**/
 						<c:if test="${!empty excel_actionurl}">
 						,{
 						  text:'数据导入',
@@ -341,7 +344,7 @@ function $select(o,url){
 						  }
 						}
 						</c:if>
-						
+						/**
 						,{
 						  text:'列配置',
 						  iconCls:"configIcon",
@@ -349,7 +352,7 @@ function $select(o,url){
 								$colconfig();
 						  }
 						}
-						
+						**/
 						/**
 						,{
 						  text:'test',
@@ -511,7 +514,7 @@ function $confirmStatus(){
     }
     var lsh = selectionSet[0].get('lsh');
 	var url = "<c:url value='/frame.do?method=onConfirmStatus' />";
-	if (!confirm('确认要确认?')){return;};
+	if (!confirm('确认要提交?')){return;};
 	var msgTip = Ext.MessageBox.show({
         title: '提示',
         width: 250,

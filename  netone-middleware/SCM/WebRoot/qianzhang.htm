@@ -10,7 +10,7 @@
 	{ 
 		if(document.readyState == "complete"){
 			s.remotePort = 7010;
-			s.remoteServer = "202.109.194.211";
+			s.remoteServer = "202.109.194.166";
 			s.keepPWD = true; //此处为输密码开关，true为不用每次输密码，False为每次输密码
 		}
 	}
@@ -74,12 +74,13 @@
 	
 	//导入远程文件
 	function impUrlFile(){
+	    s.ierender=2;
 		s.srcUrl = window.location.href.split("url=")[1];
 	}
 	//保存印章文件到本地
 	function saveFile(){
-		var sf = document.getElementById("savefile").value;
-		s.SaveStampFile(sf);
+		    var path = prompt("请输入保存路径","c:\\CA.sdp");
+			s.SaveStampFile(path);
 	}
 
 	//打印当前页面
@@ -88,12 +89,11 @@
 		window.print();
 		s.LoadFormFile();
 	}
-
 </Script>
 </head>
 
 <body>
-<object id="s" height="500" width="1000" border="1" classid="clsid:30551D74-0701-4361-916E-7B4847F4B168">
+<object id="s" height="500" width="1000" border="1" classid="clsid:F860062D-6FB1-4267-8F6E-D4F7E447A534">
 </object>
 <br />
 
@@ -106,7 +106,6 @@
 
 <input type="button" value="导入申请表" onclick="impUrlFile();" />
 
-<input id="savafile" style="display:none;"  type="file" onchange="saveFile();" />
 <input type="button" value="保存印章文件" onclick="saveFile();" />
 
 </body>

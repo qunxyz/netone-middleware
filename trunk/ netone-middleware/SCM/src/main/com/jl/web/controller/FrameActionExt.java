@@ -143,6 +143,10 @@ public class FrameActionExt extends AbstractAction {
 		if (file.exists()) {
 			forward = "/frameSCMExt/frameMain-" + naturalname + ".jsp";
 		}
+		if(request.getParameter("statusinfo") != null){
+			System.out.println(request.getParameter("statusinfo"));
+			request.getSession().setAttribute("statusinfo", request.getParameter("statusinfo"));
+		}
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
 		// true不使用转向,默认是false代表转向
@@ -577,6 +581,17 @@ public class FrameActionExt extends AbstractAction {
 					extconditions);
 			int total = obj.getTotalRows();
 			List result = obj.getResultList();
+			String statusinfo = (String)request.getSession().getAttribute("statusinfo");
+			if(!("".equals(statusinfo) && statusinfo != null)){
+				List list = new ArrayList();
+				for (Object object : result) {
+					DyFormData d = (DyFormData)object;
+					if(StringUtils.countMatches(statusinfo, d.getStatusinfo())>0)
+						list.add(d);
+				}
+				result = list;
+				request.getSession().removeAttribute("statusinfo");
+			}
 			StringBuffer jsonBuffer = new StringBuffer();
 			String split = "";
 			for (Iterator iterator = result.iterator(); iterator.hasNext();) {

@@ -3,6 +3,7 @@ package oe.cms.web.frames;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import oe.frame.web.form.RequestParamMap;
 import oe.frame.web.form.RequestUtil;
-import oe.frame.web.util.WebTip;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.ResourceRmi;
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
@@ -24,6 +24,9 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+
+import com.jl.common.security3a.Client3A;
+import com.jl.common.security3a.SecurityEntry;
 
 
 /**
@@ -41,42 +44,68 @@ public class ProletAction extends Action {
 		String root = request.getParameter("listPath");
 		// 注册入资源
 		ResourceRmi rsrmi = null;
+		Client3A user=null;
 		try {
 			// 读取名为resource的rmi服务
 			rsrmi = (ResourceRmi) RmiEntry.iv("resource");
-		} catch (NotBoundException e) {
+			user=SecurityEntry.iv().onlineUser(request);
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		} 
+		
+		
 
 		if (StringUtils.isEmpty(reqmap.getParameter("task"))) {
 			try {
 				UmsProtectedobject rootElement = rsrmi.loadResourceByNatural(root);
+				
+				List<UmsProtectedobject> nextlistTmp = rsrmi.subResource(rootElement.getId());
+				List nextList=new ArrayList();
+				for (Iterator iterator = nextlistTmp.iterator(); iterator
+						.hasNext();) {
+					UmsProtectedobject umsProtectedobject = (UmsProtectedobject) iterator
+							.next();
+					boolean rs=SecurityEntry.iv().permission(user.getClientId(), umsProtectedobject.getNaturalname());
+					if(rs)nextList.add(umsProtectedobject);
+				}
 
-				List<UmsProtectedobject> nextlist = rsrmi.subResource(rootElement.getId());
-
-				Collections.reverse(nextlist);
+				Collections.reverse(nextList);
 
 				Map<String, List<UmsProtectedobject>> map = new LinkedHashMap<String, List<UmsProtectedobject>>();
 				Map<String, List<UmsProtectedobject>> Mapone = new LinkedHashMap<String, List<UmsProtectedobject>>();
-				for (Iterator iterator = nextlist.iterator(); iterator.hasNext();) {
+				
+				for (Iterator iterator = nextList.iterator(); iterator.hasNext();) {
 					UmsProtectedobject object = (UmsProtectedobject) iterator.next();
-					List<UmsProtectedobject> nextNextlist = rsrmi.subResource(object.getId());
-					Collections.reverse(nextNextlist);
-					map.put(object.getNaturalname(), nextNextlist);
+					List<UmsProtectedobject> nextList2Tmp = rsrmi.subResource(object.getId());
+					Collections.reverse(nextList2Tmp);
+					List nextList2=new ArrayList();
+					for (Iterator iterator2 = nextList2Tmp.iterator(); iterator2
+							.hasNext();) {
+						UmsProtectedobject umsProtectedobject = (UmsProtectedobject) iterator2
+								.next();
+						boolean rs=SecurityEntry.iv().permission(user.getClientId(), umsProtectedobject.getNaturalname());
+						if(rs)nextList2.add(umsProtectedobject);
+					}
+					map.put(object.getNaturalname(), nextList2);
 					
-					for (Iterator itera = nextNextlist.iterator(); itera.hasNext();) {
+					for (Iterator itera = nextList2.iterator(); itera.hasNext();) {
 						UmsProtectedobject obj = (UmsProtectedobject) itera.next();
-						List<UmsProtectedobject> objNextlist = rsrmi.subResource(obj.getId());
-						Collections.reverse(nextNextlist);
-						Mapone.put(obj.getNaturalname(), objNextlist);
+						List<UmsProtectedobject> nextList3Tmp = rsrmi.subResource(obj.getId());
+						Collections.reverse(nextList3Tmp);
+						List nextList3=new ArrayList();
+						for (Iterator iterator2 = nextList3Tmp.iterator(); iterator2
+								.hasNext();) {
+							UmsProtectedobject umsProtectedobject = (UmsProtectedobject) iterator2
+									.next();
+							boolean rs=SecurityEntry.iv().permission(user.getClientId(), umsProtectedobject.getNaturalname());
+							if(rs)nextList3.add(umsProtectedobject);
+						}
+						
+						Mapone.put(obj.getNaturalname(), nextList3);
 					}
 					
 				}
-				request.setAttribute("childrenlist", nextlist);
+				request.setAttribute("childrenlist", nextList);
 				request.setAttribute("map", map);
 				request.setAttribute("Mapone", Mapone);
 				request.setAttribute("menu", "11");

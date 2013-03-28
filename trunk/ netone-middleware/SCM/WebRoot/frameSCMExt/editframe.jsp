@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.oesee.com/netone" prefix="rs"%>
 <%
 	String path = request.getContextPath();
+	response.setHeader("X-UA-Compatible","IE=EmulateIE8");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -228,8 +229,6 @@
 				        closable:false,
 				        msg: '正在保存信息请稍候......'
 				    });
-				    
-				    
 				    var $isnull = false;
 				     var jsonStr = '';
 				      $("body").find("table").each(function(){   
@@ -397,6 +396,76 @@
 			            Ext.MessageBox.alert('提示', result.tip);
 			        }
 			    });
+		}
+		
+		function _pass(){
+ 		    var lsh = $('#lsh').val();
+			var url = "<c:url value='/ExtendFuncSvl' />";
+			if (!confirm('确认要通过?')){return;};
+			var msgTip = Ext.MessageBox.show({
+ 		       title: '提示',
+ 		       width: 250,
+ 		       closable:false,
+		        msg: '正在执行操作请稍候......'
+ 		   });
+			 Ext.Ajax.request({
+   		     	url: url,
+ 		      	// 请求的服务器地址
+ 		      	// 指定要提交的表单id
+		        method: 'POST',
+ 		        params:{lsh:lsh,appname:'${param.naturalname}',ope:'PASS'},
+		        success: function (response, options) {
+		            msgTip.hide();
+		            var result = Ext.util.JSON.decode(response.responseText);
+ 		           	if (result.error != null) {
+    		            Ext.MessageBox.alert('提示', result.tip);
+  		           	} else {
+ 		           	Ext.ux.Toast.msg("", result.tip);
+  			          	refresh();
+  		          }
+  		      },
+  		      failure: function (response, options) {
+ 		           msgTip.hide();
+ 		           checkAjaxStatus(response);
+ 		           var result = Ext.util.JSON.decode(response.responseText);
+ 		           Ext.MessageBox.alert('提示', result.tip);
+ 		       }
+ 		   });
+		}
+		
+		function _unpass(){
+ 		    var lsh = $('#lsh').val();
+			var url = "<c:url value='/ExtendFuncSvl' />";
+			if (!confirm('确认不通过?')){return;};
+			var msgTip = Ext.MessageBox.show({
+ 		       title: '提示',
+ 		       width: 250,
+ 		       closable:false,
+		        msg: '正在执行操作请稍候......'
+ 		   });
+			 Ext.Ajax.request({
+   		     	url: url,
+ 		      	// 请求的服务器地址
+ 		      	// 指定要提交的表单id
+		        method: 'POST',
+ 		        params:{lsh:lsh,appname:'${param.naturalname}',ope:'UNPASS'},
+		        success: function (response, options) {
+		            msgTip.hide();
+		            var result = Ext.util.JSON.decode(response.responseText);
+ 		           if (result.error != null) {
+    		            Ext.MessageBox.alert('提示', result.tip);
+  		           } else {
+ 		           	Ext.ux.Toast.msg("", "操作成功");
+  			          	refresh();
+  		          }
+  		      },
+  		      failure: function (response, options) {
+ 		           msgTip.hide();
+ 		           checkAjaxStatus(response);
+ 		           var result = Ext.util.JSON.decode(response.responseText);
+ 		           Ext.MessageBox.alert('提示', result.tip);
+ 		       }
+ 		   });
 		}
 		
 		function _refreshOpenerWin() {

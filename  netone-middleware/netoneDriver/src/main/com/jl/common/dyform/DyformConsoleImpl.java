@@ -27,7 +27,9 @@ import oe.cav.web.data.dyform.utils.DymaticFormCheck;
 import oe.env.client.EnvService;
 import oe.frame.web.WebCache;
 import oe.midware.dyform.service.DyFormService;
+import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
 import oe.midware.workflow.service.WorkflowConsole;
+import oe.midware.workflow.service.WorkflowView;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
 import oe.security3a.client.rmi.ResourceRmi;
@@ -470,7 +472,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		List list = fetchColumnList(formid);
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			DyFormColumn object = (DyFormColumn) iterator.next();
-			object.getColumnid().equals(columnid);
+			if(object.getColumnid().equals(columnid))
 			return object;
 		}
 		return null;
@@ -673,6 +675,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				if (needscript)
 					dayx.script(formid, lsh, "UpdateSave"); // 正常保存
 			}
+			updateRevx(lsh);
 			// if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("02")){
 			// dayx.script(formid, lsh, "Onaffirm");//反确认
 			// }
@@ -685,51 +688,65 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		return rs;
 	}
 	
-	private void updateRev(String appname,String bussid,String runtimeid){
+	private void updateRevx(String bussid){
 		try {
-		List appdy = AppEntry.iv().wf2dyformBindCfg(appname);
-		// 动态复制动态表单中的业务数据到工作流中
-		StringBuffer rev_view_sql_column = new StringBuffer();
-		StringBuffer rev_view_sql_value = new StringBuffer();
-		int count = 0;
-		for (Iterator iterator = appdy.iterator(); iterator.hasNext();) {
-			TWfRelevant object = (TWfRelevant) iterator.next();
-			String revid = object.getRevid();
-			String columnid = object.getRev2column();
-			if (columnid == null) {
-				continue;
-			}
-			if (revid.startsWith("r_")) {
-				continue;
-			}
-			String formcode = object.getRev2formcode();
-			DyFormData data = DyEntry.iv().loadData(formcode, bussid);
-			columnid=columnid.toLowerCase();
-			String value = BeanUtils.getProperty(data, columnid);
-			updateRev(runtimeid, revid, value);
-			value = StringUtils.replace(value, "'", "’");
-			rev_view_sql_value.append(",'" + value + "'");
-			rev_view_sql_column.append(",d" + count++);
-		}
-		String rev_view_sql_column_s = "runtimeid,appname,lsh"
-				+ rev_view_sql_column.toString();
-		String rev_view_sql_value_s = "'" + runtimeid + "','" + appname
-				+ "','" + bussid + "'" + rev_view_sql_value.toString();
-		String rev_view_sql = "insert into t_wf_relevantvar_tmp("
-				+ rev_view_sql_column_s + ")values(" + rev_view_sql_value_s
-				+ ")";
-		WorkflowConsole console;
-		
-			console = (WorkflowConsole) RmiEntry.iv("wfhandle");
-			String sql="delete from t_wf_relevantvar_tmp where runtimeid='"+runtimeid+"'";
-			console.coreSqlhandle(sql);
-			console.coreSqlhandle(rev_view_sql);
+			WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
+			WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
+			List list=wfview.coreSqlview("select appname,runtimeid from t_wf_relevantvar_tmp where lsh='"+bussid+"'");
+
+			if(list.size()>0){
+				String runtimeid=(String)((Map)list.get(0)).get("runtimeid");
+				String appname=(String)((Map)list.get(0)).get("appname");
+			
+				List appdy = AppEntry.iv().wf2dyformBindCfg(appname);
+				// 动态复制动态表单中的业务数据到工作流中
+				StringBuffer rev_view_sql_column = new StringBuffer();
+				StringBuffer rev_view_sql_value = new StringBuffer();
+				int count = 0;
+				for (Iterator iterator = appdy.iterator(); iterator.hasNext();) {
+					TWfRelevant object = (TWfRelevant) iterator.next();
+					String revid = object.getRevid();
+					String columnid = object.getRev2column();
+					if (columnid == null) {
+						continue;
+					}
+					if (revid.startsWith("r_")) {
+						continue;
+					}
+					String formcode = object.getRev2formcode();
+					DyFormData data = DyEntry.iv().loadData(formcode, bussid);
+					columnid=columnid.toLowerCase();
+					String value = BeanUtils.getProperty(data, columnid);
+					
+					TWfRelevantvar rev = wfview.fetchRelevantVar(runtimeid, revid);// 获得表单变量
+					rev.setValuenow(value);
+					console.updateRelevantvar(rev);
+					
+					value = StringUtils.replace(value, "'", "’");
+					rev_view_sql_value.append(",'" + value + "'");
+					rev_view_sql_column.append(",d" + count++);
+				}
+				String rev_view_sql_column_s = "runtimeid,appname,lsh"
+						+ rev_view_sql_column.toString();
+				String rev_view_sql_value_s = "'" + runtimeid + "','" + appname
+						+ "','" + bussid + "'" + rev_view_sql_value.toString();
+				String rev_view_sql = "insert into t_wf_relevantvar_tmp("
+						+ rev_view_sql_column_s + ")values(" + rev_view_sql_value_s
+						+ ")";
+				
+					String sql="delete from t_wf_relevantvar_tmp where runtimeid='"+runtimeid+"'";
+					console.coreSqlhandle(sql);
+					console.coreSqlhandle(rev_view_sql);
+					}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
 	}
+	
+	
+
 
 	public List queryData(DyFormData bus, int form, int to, String condition)
 			throws Exception {

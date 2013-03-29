@@ -47,12 +47,12 @@ public final class DyFormComp {
 		String idAnamestr = !"".equals(id) ? " id=\"" + id + "\" name=\"" + id
 				+ "\" " : "";
 		String valuestr = !"".equals(value) ? " value=\"" + value + "\" " : "";
-		if (StringUtils.isEmpty(value)) {
-			style += (readonly == true ? "border:1.5px solid #D6D4D3;color:#D6D4D3;"
-					: "");
-			// style += (readonly == true ? "background:#cccccc;color:#000;" :
-			// "");
-		}
+//		if (StringUtils.isNotEmpty(value)) {
+//			style += (readonly == true ? "border:1.5px solid #D6D4D3;color:#D6D4D3;"
+//					: "");
+			 style += (readonly == true ? "background:#cccccc;color:#000;" :
+			 "");
+//		}
 		String stylestr = !"".equals(style) ? " style=\"" + style + "\" " : "";
 		String classnamestr = !"".equals(classname) ? " class=\"" + classname
 				+ "\" " : "";
@@ -244,7 +244,7 @@ public final class DyFormComp {
 		String hiddenInput = getHiddenInput(id, value);
 		StringBuffer comp = new StringBuffer();
 		comp.append("<iframe id=\"fileMainFrame\" name=\"fileMainFrame\" ");
-		comp.append("	src=\""+"/scm/file.do?method=onMainView&d_unid="+value+"&readonly="+readonly+"\"");
+		comp.append("  height=\"100%\"	src=\""+DyFormBuildHtmlExt.projectname+"/file.do?method=onMainView&d_unid="+value+"&readonly="+readonly+"\"");
 		comp.append("	scrolling=\"auto\" frameborder=\"0\"  style=\""+style+"\" ></iframe>");
 		return hiddenInput+comp.toString();
 	}

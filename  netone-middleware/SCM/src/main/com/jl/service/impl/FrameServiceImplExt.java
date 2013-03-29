@@ -316,7 +316,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		List<Map> listmaps = new ArrayList<Map>();
 
 		DyForm[] subdyforms = dyform.getSubform_();
-
+//		List tmptabList = new ArrayList();
 		Boolean ishidden = false;// 是否隐藏
 		// if (subformmode != null && subformmode.containsKey("MAINFORM")) {
 		// String submode = (String) subformmode.get("MAINFORM");
@@ -446,29 +446,57 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 							.getExtPanel(ids, "", null, ids, "", ""), "east"));
 				} else if ("7".equals(submode)) {// 7:集成展示-多条子表单记录(选项卡模式)
 					ids = subdyform.getFormcode();
+					
 					Map subformmap = DyFormBuildHtmlExt.buildSubForm_(
 							subdyform, lsh, isedit, userinfo, parameter, user);
-					formname.add(subdyform.getFormname() + "("
-							+ subformmap.get("count") + ")");
-					formlist.add(getJsMap(subformmap.get("html").toString(),
-							ids, DyFormComp.getExtPanel(ids, null, null, ids,
-									"", subformmap.get("js").toString()
-											+ ",autoScroll:true"), "mode7"));
+//					if (subdyform.getFormcode().equals("82d995527be911e29806c59ba34f7180_") || 
+//							subdyform.getFormcode().equals("16d5ccb67bea11e29806c59ba34f7180_") || 
+//							subdyform.getFormcode().equals("3b682d187beb11e29806c59ba34f7180_")){
+//						tmptabList.add(subformmap.get("html").toString());
+//					} else {
+						formname.add("<font style=\"font-size:12px\" onmouseover=\"javascript:this.color=&quot;red&quot;;\" onmouseout=\"javascript:this.color=&quot;white&quot;;\" >" +subdyform.getFormname() + "("
+								+ subformmap.get("count") + ")"+"</font>");
+						formlist.add(getJsMap(subformmap.get("html").toString(),
+								ids, DyFormComp.getExtPanel(ids, null, null, ids,
+										"", subformmap.get("js").toString()
+												+ ",autoScroll:true"), "mode7"));
+//					}
 
 				} else if ("8".equals(submode)) {// 8:集成展示-单条子表单记录(选项卡模式)
 					ids = "frame" + DyFormBuildHtmlExt.uuid();
-
-					formname.add(subdyform.getFormname());
-					formlist.add(getJsMap(DyFormBuildHtmlExt.buildForm(
-							subdyform, issubedit, userinfo, naturalname, lsh,
-							true, false, parameter, user), ids, "", "mode8"));
+//					if (subdyform.getFormcode().equals("82d995527be911e29806c59ba34f7180_") || 
+//							subdyform.getFormcode().equals("16d5ccb67bea11e29806c59ba34f7180_") || 
+//							subdyform.getFormcode().equals("3b682d187beb11e29806c59ba34f7180_")){
+//						tmptabList.add(DyFormBuildHtmlExt.buildForm(
+//							subdyform, issubedit, userinfo, naturalname, lsh,
+//							true, false, parameter, user));
+//					} else {
+						formname.add("<font style=\"font-size:12px\" onmouseover=\"javascript:this.color=&quot;red&quot;;\" onmouseout=\"javascript:this.color=&quot;white&quot;;\" >" +subdyform.getFormname()+"</font>");
+						formlist.add(getJsMap(DyFormBuildHtmlExt.buildForm(
+								subdyform, issubedit, userinfo, naturalname, lsh,
+								true, false, parameter, user), ids, "", "mode8"));
+//					}
 				} else {
 					// not do
 				}
+				
 			}
+//			if (tmptabList.size()>0){
+//				ids = "frame" + DyFormBuildHtmlExt.uuid();
+//				StringBuffer ss = new StringBuffer();
+//				for (Iterator iterator = tmptabList.iterator(); iterator
+//						.hasNext();) {
+//					String map = (String) iterator.next();
+//					ss.append(map);
+//				}
+//				
+//				formname.add("<font style=\"font-size:16px\" >" +"111111"+"</font>");
+//				formlist.add(getJsMap(ss.toString(), ids, "", ""));
+//			}
 			// 最终输出7,8 选项卡模式
 			if (formlist.size() > 0) {
 				ids = "frame" + DyFormBuildHtmlExt.uuid();
+				
 				listmaps.add(getJsMap(DyFormComp.getExtTabs_(ids, formname,
 						formlist), ids, DyFormComp.getExtPanel(ids, null, "$"
 						+ ids, null, "", ""), "center"));
@@ -1693,7 +1721,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 
 		int count = DyEntry.iv().queryDataNum(data, " and statusinfo = '02' ");
 		if (count > 0) {
-			json.put("tip", "已审核状态,不能进行其他操作!");
+			json.put("tip", "已提交状态,不能再次提交!");
 			json.put("error", "yes");
 		} else {
 			// data.setParticipant(user.getUserCode() + "[" +
@@ -1701,9 +1729,9 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 			// + "]");
 			boolean succ = DyEntry.iv().modifyData(formcode, data);
 			if (succ) {
-				json.put("tip", "确认成功!");
+				json.put("tip", "提交成功!");
 			} else {
-				json.put("tip", "确认失败!");
+				json.put("tip", "提交失败!");
 				json.put("error", "yes");
 			}
 		}

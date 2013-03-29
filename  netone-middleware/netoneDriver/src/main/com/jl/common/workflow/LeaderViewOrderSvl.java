@@ -56,24 +56,24 @@ public class LeaderViewOrderSvl extends HttpServlet {
 		String rootname = request.getParameter("rootname");
 		String type = request.getParameter("type");
 		String jsonpcallback = request.getParameter("jsonpcallback");
-		List list = null;
+		List list = new ArrayList();
 
-		if ("1".equals(type)) {
-			// 获得人员工作量最大的前5个
-			list = this.menTop5(rootname);
-		} else if ("2".equals(type)) {
-			// 获得部门工作量最大的前5个
-			list = this.deptTop5(rootname);
-		} else if ("3".equals(type)) {
-			// 获得流程工作量最大的前5个
-			list = this.flowTop5(rootname);
-		} else {
-			list = new ArrayList();
-			Map find = new HashMap();
-			find.put("value", "0");
-			find.put("name", "错误参数调度");
-			list = this.flowTop5(rootname);
-		}
+//		if ("1".equals(type)) {
+//			// 获得人员工作量最大的前5个
+//			list = this.menTop5(rootname);
+//		} else if ("2".equals(type)) {
+//			// 获得部门工作量最大的前5个
+//			list = this.deptTop5(rootname);
+//		} else if ("3".equals(type)) {
+//			// 获得流程工作量最大的前5个
+//			list = this.flowTop5(rootname);
+//		} else {
+//			list = new ArrayList();
+//			Map find = new HashMap();
+//			find.put("value", "0");
+//			find.put("name", "错误参数调度");
+//			list = this.flowTop5(rootname);
+//		}
 
 		response.setContentType("text/json;charset=gbk");
 		String info = JSONArray.fromObject(list).toString();
@@ -146,8 +146,8 @@ public class LeaderViewOrderSvl extends HttpServlet {
 					}
 				}
 			}
-			List list = new ArrayList(listMaxTaskDept.subList(0,
-					listMaxTaskDept.size() >= 5 ? 5 : listMaxTaskDept.size()));
+			List list = listMaxTaskDept.subList(0,
+					listMaxTaskDept.size() >= 5 ? 5 : listMaxTaskDept.size());
 			long time = System.currentTimeMillis() + 1800000L;// 30分钟缓存
 			Date dateinfo = new Date(time);
 			WebCache.setCache("deptTop5", list, dateinfo);

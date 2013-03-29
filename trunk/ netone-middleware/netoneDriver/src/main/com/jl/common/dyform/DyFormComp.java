@@ -235,6 +235,20 @@ public final class DyFormComp {
 				classname, readonly, extvalue);
 	}
 
+	public static String getMultiFile(String id, String value, String style,
+			String classname, boolean readonly, String extvalue) {
+		String uuid = DyFormBuildHtmlExt.uuid();
+		if (StringUtils.isEmpty(value)){
+			value = uuid;
+		}
+		String hiddenInput = getHiddenInput(id, value);
+		StringBuffer comp = new StringBuffer();
+		comp.append("<iframe id=\"fileMainFrame\" name=\"fileMainFrame\" ");
+		comp.append("	src=\""+"/scm/file.do?method=onMainView&d_unid="+value+"&readonly="+readonly+"\"");
+		comp.append("	scrolling=\"auto\" frameborder=\"0\"  style=\""+style+"\" ></iframe>");
+		return hiddenInput+comp.toString();
+	}
+	
 	/**
 	 * 获取附件控件
 	 * 

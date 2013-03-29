@@ -47,12 +47,12 @@ public final class DyFormComp {
 		String idAnamestr = !"".equals(id) ? " id=\"" + id + "\" name=\"" + id
 				+ "\" " : "";
 		String valuestr = !"".equals(value) ? " value=\"" + value + "\" " : "";
-//		if (StringUtils.isNotEmpty(value)) {
-//			style += (readonly == true ? "border:1.5px solid #D6D4D3;color:#D6D4D3;"
-//					: "");
-			 style += (readonly == true ? "background:#cccccc;color:#000;" :
-			 "");
-//		}
+		if (StringUtils.isNotEmpty(value)) {
+			style += (readonly == true ? "border:1.5px solid #D6D4D3;color:#D6D4D3;"
+					: "");
+//			 style += (readonly == true ? "background:#cccccc;color:#000;" :
+//			 "");
+		}
 		String stylestr = !"".equals(style) ? " style=\"" + style + "\" " : "";
 		String classnamestr = !"".equals(classname) ? " class=\"" + classname
 				+ "\" " : "";

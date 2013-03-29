@@ -151,8 +151,13 @@ public final class DyFormBuildHtmlExt {
 			return DyFormComp.getTextarea(id, value, style + "height:100px;",
 					classname, readonly, extvalue);
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
-			return DyFormComp.getFile(id, value, style, classname, readonly,
-					extvalue);
+			if ("n".equals(selectedvalue)){
+				return DyFormComp.getMultiFile(id, value, style, classname, readonly,
+						extvalue);
+			} else {
+				return DyFormComp.getFile(id, value, style, classname, readonly,
+						extvalue);
+			}
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
 			if (StringUtils.isNotEmpty(value)) {
 				return DyFormComp.getHref("管理", "管理", value, "", "_blank");
@@ -286,8 +291,13 @@ public final class DyFormBuildHtmlExt {
 			return DyFormComp.getText(id, value, style, classname, readonly,
 					extvalue);
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
-			return DyFormComp.getFile(id, value, style, classname, readonly,
-					extvalue);
+			if ("n".equals(extvalue)){
+				return DyFormComp.getMultiFile(id, value, style, classname, readonly,
+						extvalue);
+			} else {
+				return DyFormComp.getFile(id, value, style, classname, readonly,
+						extvalue);
+			}
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
 			if (StringUtils.isNotEmpty(value)) {
 				return DyFormComp.getHref("管理", "管理", value, "", "_blank");
@@ -522,15 +532,23 @@ public final class DyFormBuildHtmlExt {
 			value = htmEncode(value);
 			return value;
 		} else if (arr[11][0].equals(htmltype)) {// 14:文件
-			if ("ext".equals(type)) {
-				if (StringUtils.isNotEmpty(value)) {
-					return DyFormComp.getJsFileText(value);
-				} else {
+			if ("n".equals(selectedvalue)){
+				if ("ext".equals(type)) {
 					return "";
 				}
+				value = htmEncode(value);
+				return DyFormComp.getMultiFile("", value, "", "", false, "");
+			} else {
+				if ("ext".equals(type)) {
+					if (StringUtils.isNotEmpty(value)) {
+						return DyFormComp.getJsFileText(value);
+					} else {
+						return "";
+					}
+				}
+				value = htmEncode(value);
+				return DyFormComp.getFileText("",value, false);
 			}
-			value = htmEncode(value);
-			return DyFormComp.getFileText("",value, false);
 		} else if (arr[12][0].equals(htmltype)) {// 15:图片
 			if ("ext".equals(type)) {
 				if (StringUtils.isNotEmpty(value)) {

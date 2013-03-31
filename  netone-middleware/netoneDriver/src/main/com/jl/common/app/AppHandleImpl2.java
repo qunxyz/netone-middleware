@@ -277,12 +277,12 @@ public class AppHandleImpl2 implements AppHandleIfc {
 		String objtype = as.getParticipantmode();
 		actx.setParticipantmode(objtype);
 		String extinfo = as.getParticipantvalue();
+		
 		if (!_PARTICIPANT_MODE_HUMAN.equals(objtype)
-				&& StringUtils.isNotEmpty(commiter)
 				&& StringUtils.isNotEmpty(runtimeid)) {
 			// 除了人员外全部都不支持多选择，这里需要做个处理
 
-			if (extinfo != null) {
+			if (StringUtils.isNotEmpty(extinfo)) {
 				String[] extinfoarr = extinfo.split(",");
 
 				if (_PARTICIPANT_MODE_DEPT.equals(objtype)) {
@@ -290,13 +290,17 @@ public class AppHandleImpl2 implements AppHandleIfc {
 							extinfoarr));
 				} else if (_PARTICIPANT_MODE_ROLE.equals(objtype)) {
 					actx.setParticipant(SecurityEntry.iv().listUserByRoleId(
-							extinfoarr, commiter, false));
+							extinfoarr, "", false));
 				} else if (this._PARTICIPANT_MODE_TEAM.equals(objtype)) {
 					actx.setParticipant(SecurityEntry.iv().listUserByTeamId(
 							extinfoarr));
 				} else if (this._PARTICIPANT_MODE_FLOWROLE.equals(objtype)) {
+					if(StringUtils.isNotEmpty(commiter)){
 					actx.setParticipant(SecurityEntry.iv().listUserByRoleId(
 							extinfoarr, commiter, true));
+					}else{
+						actx.setParticipant("");
+					}
 				} else if (this._PARTICIPANT_MODE_CREATER.equals(objtype)) {
 					String rev = WfEntry.iv().getVarByRuntimeId(runtimeid,
 							TWfConsoleIfc._DEFAULT_REV_KEY_CUSTOMER);

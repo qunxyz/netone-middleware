@@ -495,9 +495,31 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				actid).getName();
 		specifyOperateByWorkcode(commiter, workcode, participant, types, sync,
 				"", null, opemode, actid, actname);
+		autozhuangban(participant,workcode);
+	}
+	
+	private void autozhuangban(String participant,String workcode)throws Exception{
+		String usercode=StringUtils.substringBetween(participant, "[","]");
+		String sql="select leavetime,backtime,dlr from iss.t_user where usercode='"+usercode+"'";
+		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
+		List list=wfview.coreSqlview(sql);
+		if(list!=null&&list.size()>0){
+			Map map=(Map)list.get(0);
+			Timestamp leavetime=(Timestamp)map.get("leavetime");
+			Timestamp backtime=(Timestamp)map.get("backtime");
+			String dlr=(String)map.get("dlr");
+			if(leavetime!=null&&backtime!=null&&dlr!=null){
+				long leavetimev=leavetime.getTime();
+				long backtimev=backtime.getTime();
+			
+				if(leavetimev<System.currentTimeMillis()&&backtimev>System.currentTimeMillis()){
+					this.specifyzhuanbangByWorkcode(participant, workcode, dlr);
+				}
+			}
+		}
 	}
 
-	private void specifyOperateByWorkcode(String uuid, String commiter,
+	private void specifyOperateByWorkcodex(String uuid, String commiter,
 			String workcode, String participant, String types, boolean sync,
 			String ext, String status, String opemode, String actid,
 			String actname) throws Exception {
@@ -565,7 +587,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			String status, String opemode, String actid, String actname)
 			throws Exception {
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-		this.specifyOperateByWorkcode(uuid, commiter, workcode, participant,
+		this.specifyOperateByWorkcodex(uuid, commiter, workcode, participant,
 				types, sync, ext, status, opemode, actid, actname);
 	}
 
@@ -661,7 +683,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 				actid).getName();
 
 		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-		specifyOperateByWorkcode(uuid, commiter, workcode, participant, types,
+		specifyOperateByWorkcodex(uuid, commiter, workcode, participant, types,
 				false, "", null, opemode, actid, actname);
 
 		String commitercode = StringUtils.substringBetween(commiter, "[", "]");

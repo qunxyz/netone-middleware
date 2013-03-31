@@ -122,6 +122,7 @@ public class DyAnalysisXml {
 						Object obj3 = BeanUtils.getProperty(bus, "fatherlsh");
 						script = dealWithScrpit(script, "fatherlsh", obj3);
 						script = dealWithScrpit(script, "formcode", formid);
+						script = dealWithScrpit(script, "belongx", bus.getBelongx());
 						List list=dy.fetchColumnList(bus.getFormcode());
 						for (Iterator iterator = list.iterator(); iterator
 								.hasNext();) {

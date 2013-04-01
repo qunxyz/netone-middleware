@@ -143,8 +143,7 @@ public class FrameActionExt extends AbstractAction {
 		if (file.exists()) {
 			forward = "/frameSCMExt/frameMain-" + naturalname + ".jsp";
 		}
-		if(request.getParameter("statusinfo") != null){
-			System.out.println(request.getParameter("statusinfo"));
+		if(request.getParameter("statusinfo") != null && !"".equals(request.getParameter("statusinfo"))){
 			request.getSession().setAttribute("statusinfo", request.getParameter("statusinfo"));
 		}
 		ActionForward af = new ActionForward(forward);
@@ -582,7 +581,7 @@ public class FrameActionExt extends AbstractAction {
 			int total = obj.getTotalRows();
 			List result = obj.getResultList();
 			String statusinfo = (String)request.getSession().getAttribute("statusinfo");
-			if(!("".equals(statusinfo) && statusinfo != null)){
+			if(!("".equals(statusinfo) || statusinfo == null)){
 				List list = new ArrayList();
 				for (Object object : result) {
 					DyFormData d = (DyFormData)object;
@@ -2435,7 +2434,7 @@ public class FrameActionExt extends AbstractAction {
 			String jsonstr = ins.saveConfirmStatus(request, response);
 			json = json.fromObject(jsonstr);
 		} catch (Exception e) {
-			json.put("tip", "确认失败!");
+			json.put("tip", "提交失败!");
 			json.put("error", "yes");
 			log.error("出错", e);
 		} finally {

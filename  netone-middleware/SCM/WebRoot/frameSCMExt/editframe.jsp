@@ -401,7 +401,13 @@
 		function _pass(){
  		    var lsh = $('#lsh').val();
 			var url = "<c:url value='/ExtendFuncSvl' />";
-			if (!confirm('确认要通过?')){return;};
+			if (confirm('确认要通过?')){
+				if (!confirm('请再次确认要通过?')){
+					return;
+				}
+			} else {
+				return;
+			};
 			var msgTip = Ext.MessageBox.show({
  		       title: '提示',
  		       width: 250,
@@ -436,7 +442,13 @@
 		function _unpass(){
  		    var lsh = $('#lsh').val();
 			var url = "<c:url value='/ExtendFuncSvl' />";
-			if (!confirm('确认不通过?')){return;};
+			if (confirm('确认不通过?')){
+				if (!confirm('请再次确认不通过?')){
+					return;
+				}
+			} else {
+				return;
+			};
 			var msgTip = Ext.MessageBox.show({
  		       title: '提示',
  		       width: 250,

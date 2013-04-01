@@ -267,7 +267,7 @@ function $select(o,url){
 						
 						<rs:permission action="3" resource="${naturalname_dyform}.CONF">
 						{
-						  text:'确认',
+						  text:'提交',
 						  iconCls:"reIcon",
 						  handler: function (){
 								$confirmStatus();
@@ -514,7 +514,13 @@ function $confirmStatus(){
     }
     var lsh = selectionSet[0].get('lsh');
 	var url = "<c:url value='/frame.do?method=onConfirmStatus' />";
-	if (!confirm('确认要提交?')){return;};
+	if (confirm('确认要提交?')){
+		if (!confirm('请再次确认所有申请单与附件均已按要求填写与上传')){
+			return;
+		}
+	}else{
+		return;
+	};
 	var msgTip = Ext.MessageBox.show({
         title: '提示',
         width: 250,

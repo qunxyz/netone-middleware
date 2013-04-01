@@ -168,7 +168,7 @@ FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType =   0, StartColo
 </html>
 <script>
 	function onLoadIframeHight(str){//自适应高度
-		parent.document.getElementById('fileMainFrame').height=document.body.scrollHeight+str;
+		//parent.document.getElementById('fileMainFrame').height=document.body.scrollHeight+str;
 	}
 	function getTrId(){//获取附件表中的所有附件ID
 		var str="";

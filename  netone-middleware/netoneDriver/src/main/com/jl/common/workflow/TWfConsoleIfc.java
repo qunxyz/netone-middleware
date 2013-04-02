@@ -37,7 +37,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 业务锁定，在流程应用中，如果表单已经提交审批那么系统需要
 	 * 在管理窗口中锁定表单不允许修改作废等操作
-	 * @param lsh
+	 * @param lsh 业务表单某条记录的lsh
 	 * @return
 	 */
 	boolean bussFormLock(String lsh)throws Exception;
@@ -45,14 +45,14 @@ public interface TWfConsoleIfc {
 	/**
 	 * 业务锁定，在流程应用中，如果表单已经提交审批那么系统需要
 	 * 在管理窗口中锁定表单不允许修改作废等操作
-	 * @param lsh
+	 * @param workcode 工作流对象的workcode
 	 * @return
 	 */
 	boolean bussFormLockByWorkcode(String workcode)throws Exception;
 	
 	/**
 	 * 获得流程首节点
-	 * @param processid
+	 * @param processid 流程资源名
 	 * @return
 	 */
 	String fetchFirstActivityId(String processid);
@@ -68,7 +68,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 获得所有运行中的活动节点
 	 * 
-	 * @param runtimeid
+	 * @param runtimeid 流程实例id
 	 * @return
 	 */
 	List<TWfWorklist> listAllRunningWorklistByRuntimeid(String runtimeid)
@@ -77,63 +77,61 @@ public interface TWfConsoleIfc {
 	/**
 	 * 获得所有运行中的活动节点
 	 * 
-	 * @param runtimeid
+	 * @param runtimeid 流程实例id
 	 * @return
 	 */
 	List<TWfWorklist> listAllDoneWorklistByRuntimeid(String runtimeid)
 			throws Exception;
 
 	/**
-	 * 获得所有运行中的活动workcode
+	 * 获得所有运行中的活动 workcode
 	 * 
-	 * @param runtimeid
-	 * @return
+	 * @param runtimeid 流程实例id
+	 * @return workcode数组，是流程中所有的活动实例的ID数组
 	 */
 	String[] getRunningWorkCodeByRuntimeid(String runtimeid) throws Exception;
 
 	/**
 	 * 根据流程runtimeid获得其流程ID
 	 * 
-	 * @param runtimeid
-	 * @return
+	 * @param runtimeid  流程实例id
+	 * @return  流程资源名
 	 * @throws Exception
 	 */
 	String getProcessIdByRuntimeId(String runtimeid) throws Exception;
 
-	// 如0、1、2、3、4、6
-
 	/**
 	 * 根据当前用户返回代办任务
 	 * 
-	 * @param clientId
+	 * @param userid 用户id
 	 * @return
 	 * 
 	 */
-	List<TWfWorklistExt> worklist(String clientId) throws Exception;
+	List<TWfWorklistExt> worklist(String userid) throws Exception;
 
 	/**
 	 * 根据当前用户返回已经办理过的但是未归档过的流程任务
 	 * 
-	 * @param customer
+	 * @param userid
 	 * @return
 	 * @throws Exception
 	 */
-	List<TWfWorklistExt> worklistDone(String customer) throws Exception;
+	List<TWfWorklistExt> worklistDone(String userid) throws Exception;
 
 	/**
 	 * 根据当前用户返回已经办理过且归档过的流程任务
 	 * 
-	 * @param customer
+	 * @param userid
 	 * @return
 	 * @throws Exception
 	 */
-	List<TWfWorklistExt> worklistDoneAndProcessDone(String customer)
+	List<TWfWorklistExt> worklistDoneAndProcessDone(String userid)
 			throws Exception;
 
 	/**
 	 * 根据当前用户返回活动列表
 	 * 
-	 * @param clientId
+	 * @param userid
 	 *            客户ID
 	 * @param processid
 	 *            流程ID
@@ -149,7 +147,7 @@ public interface TWfConsoleIfc {
 	 * @return
 	 * @throws Exception
 	 */
-	List<TWfWorklistExt> worklist(String clientId, String processid,
+	List<TWfWorklistExt> worklist(String userid, String processid,
 			boolean mode, int limit, String listtype) throws Exception;
 
 	/**
@@ -157,7 +155,7 @@ public interface TWfConsoleIfc {
 	 * 
 	 * @param processid
 	 *            流程id
-	 * @param clientId
+	 * @param userid
 	 *            启动流程者
 	 * @param busstype
 	 *            业务参数，业务类型 通常对应着应用框架的natualname
@@ -172,7 +170,7 @@ public interface TWfConsoleIfc {
 	 * 
 	 * 补充说明：流程创建实例时，必须将业务参数传入这样在代办任务中，才能衔接上业务
 	 */
-	String newProcess(String processid, String clientId, String busstype,
+	String newProcess(String processid, String userid, String busstype,
 			String busstip, String bussid, String bussurl) throws Exception;
 
 	/**
@@ -185,59 +183,61 @@ public interface TWfConsoleIfc {
 
 	/**
 	 * 停止流程
+	 * @param runtimeid
+	 *            流程实例id
 	 */
 	String stopProcess(String runtimeid) throws Exception;
 
 	/**
 	 * delete流程
+	 * @param runtimeid
+	 *            流程实例id
 	 */
 	String deleteProcess(String runtimeid) throws Exception;
 	
 	/**
 	 * 流程扭转,自动扭转由工作流的路由逻辑控制
 	 * 
-	 * @param workcode
-	 * @param clientId
+	 * @param workcode 活动实例id
+	 * @param userid 用户id
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	String nextByAuto(String workcode, String clientId) throws Exception;
+	String nextByAuto(String workcode, String userid) throws Exception;
 
 	/**
 	 * 流程扭转，直接结束流程
 	 * 
 	 * @param workcode
-	 * @param clientId
+	 * @param userid
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	String nextToEnd(String workcode, String clientId) throws Exception;
+	String nextToEnd(String workcode, String userid) throws Exception;
 
 	/**
 	 * 转办
 	 * 
-	 * @param workcode
-	 * @param clientId
+	 * @param workcode 活动实例id
+	 * @param userid 用户id
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	String nextToZhuanbang(String workcode, String clientId) throws Exception;
+	String nextToZhuanbang(String workcode, String userid) throws Exception;
 
 	/**
 	 * 流程扭转，由人工指派下一个环节的活动节点
 	 * 
-	 * @param workcode
-	 * @param actid
-	 * @param clientId
-	 * @param busstip
-	 *            审批意见
+	 * @param workcode  活动实例id
+	 * @param actid 活动的资源名
+	 * @param userid 用户id
 	 * @return
 	 * @throws Exception
 	 */
-	String nextByManual(String workcode, String actid, String clientId)
+	String nextByManual(String workcode, String actid, String userid)
 			throws Exception;
 
 	/**
@@ -274,11 +274,11 @@ public interface TWfConsoleIfc {
 	 *            流程id
 	 * @param activeid
 	 *            节点ID
-	 * @param activeid
+	 * @param appid
 	 *            应用ID
-	 * @param activeid
+	 * @param commiter
 	 *            提交者
-	 * @param activeid
+	 * @param runtimeid
 	 *            流程运行ID
 	 * @return
 	 * @throws Exception
@@ -327,7 +327,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 判断流程是否在运行中
 	 * 
-	 * @param runtimeId
+	 * @param runtimeId 流程运行实例ID
 	 * @return
 	 */
 	boolean isWorkflowRunning(String runtimeId) throws Exception;
@@ -335,7 +335,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 判断流程是否已经执行结束
 	 * 
-	 * @param runtimeId
+	 * @param runtimeId 流程运行实例ID
 	 * @return
 	 */
 	boolean isWorkflowDone(String runtimeId) throws Exception;
@@ -343,15 +343,15 @@ public interface TWfConsoleIfc {
 	/**
 	 * 判断流程是否出现异常
 	 * 
-	 * @param runtimeId
-	 * @return
+	 * @param runtimeId 流程运行实例ID
+	 * @return 
 	 */
 	boolean isWorkflowException(String runtimeId) throws Exception;
 
 	/**
 	 * 获得子流程运行ID
 	 * 
-	 * @param parentRuntimeid
+	 * @param parentRuntimeid 
 	 *            父流程ID
 	 * @return
 	 * @throws Exception
@@ -369,7 +369,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 重新激活执行过的某节点
 	 * 
-	 * @param workcode
+	 * @param workcode 活动实例id
 	 * @return
 	 * @throws Exception
 	 */
@@ -377,9 +377,10 @@ public interface TWfConsoleIfc {
 
 	/**
 	 * 指定下一个环节的执行者
-	 * 
+	 * @param commiter
+	 *            活动提交者 
 	 * @param workcode
-	 *            活动id
+	 *            活动实例 id
 	 * @param participant
 	 *            参与者
 	 * @param sync
@@ -393,7 +394,8 @@ public interface TWfConsoleIfc {
 
 	/**
 	 * 指定本环节的转办信息
-	 * 
+	 * @param commiter
+	 *            活动提交者 
 	 * @param workcode
 	 *            活动id
 	 * @param participant
@@ -406,7 +408,8 @@ public interface TWfConsoleIfc {
 
 	/**
 	 * 指定下一个环节的催办信息
-	 * 
+	 * @param commiter
+	 *            活动提交者 
 	 * @param workcode
 	 *            活动id
 	 * @param participant
@@ -438,7 +441,8 @@ public interface TWfConsoleIfc {
 
 	/**
 	 * 指定下一个环节的抄阅者
-	 * 
+	 * @param commiter
+	 *            活动提交者 
 	 * @param workcode
 	 *            活动id
 	 * @param participant
@@ -451,20 +455,22 @@ public interface TWfConsoleIfc {
 			String participant, String opemode) throws Exception;
 	
 	/**
-	 * 
-	 * 分布式提交 04
-	 * 
-	 * */
+	 * 分布式提交业务
+	 * @param commiter 提交者
+	 * @param workcode 活动实例id
+	 * @param participant 参与者
+	 * @param opemode 操作模式 
+	 * @throws Exception
+	 */
 	void distributedSubmit(String commiter, String workcode,
 			String participant, String opemode) throws Exception;
 
 	/**
 	 * 自动路由下一个环节的执行者
 	 * 
-	 * @param runtimeid
-	 *            流程id
-	 * @param participant
-	 *            参与者
+	 * @param commiter 提交者
+	 * @param workcode 活动实例id
+	 * 
 	 * @throws Exception
 	 */
 	void specifyParticipantAutoByWorkcode(String commiter, String workcode)
@@ -473,7 +479,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 获得流程中所有完成的节点
 	 * 
-	 * @param runtimeid
+	 * @param runtimeid 流程实例id
 	 * @return
 	 * @throws Exception
 	 */
@@ -539,9 +545,14 @@ public interface TWfConsoleIfc {
 	List<TWfActive> listNextRouteActive(String processid, String activeid,
 			String runtimeid, String commiter) throws Exception;
 
-	/**
-	 * 填写审批意见
-	 */
+    /**
+     *  填写审批意见
+     * @param workcode 活动实例id
+     * @param participant 参与者
+     * @param note 意见说明
+     * @return
+     * @throws Exception
+     */
 	public Integer saveAuditNote(String workcode, String participant, String note)
 			throws Exception;
 
@@ -549,7 +560,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 装载活动
 	 * 
-	 * @param workcode
+	 * @param workcode 活动实例id
 	 * @return
 	 */
 	public TWfWorklist loadWorklist(String workcode) throws Exception;
@@ -560,7 +571,7 @@ public interface TWfConsoleIfc {
 	 * @param appname
 	 *            应用程序名
 	 * @param workcode
-	 *            活动workcode
+	 *            活动实例id
 	 * @return
 	 * @throws Exception
 	 */
@@ -583,7 +594,7 @@ public interface TWfConsoleIfc {
 
 	/**
 	 * 获得所有流程
-	 * 
+	 * @param 流程资源名
 	 * @return
 	 * @throws Exception
 	 */
@@ -592,7 +603,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 获得所有流程办理信息
 	 * 
-	 * @param runtimeid
+	 * @param runtimeid 流程实例id
 	 * @param onlyDone  是否仅显示所有已经完成的
 	 * @return
 	 * @throws Exception
@@ -603,8 +614,8 @@ public interface TWfConsoleIfc {
 	/**
 	 * 获得所有流程办理信息
 	 * 
-	 * @param workcode
-	 * @param participant
+	 * @param workcode 活动实例id
+	 * @param participant 参与者
 	 * @return
 	 * @throws Exception
 	 */
@@ -614,9 +625,9 @@ public interface TWfConsoleIfc {
 	/**
 	 * 任务期限
 	 * 
-	 * @param workcode
-	 * @param participant
-	 * @param limit
+	 * @param workcode 活动实例id
+	 * @param participant 参与者
+	 * @param limit 期限
 	 * @throws Exception
 	 */
 	public void specifyLimit(String workcode, String participant, long limit)
@@ -625,8 +636,8 @@ public interface TWfConsoleIfc {
 	/**
 	 * 检查当前节点的下一步分支是否为同步模式
 	 * 
-	 * @param processid
-	 * @param activeid
+	 * @param processid 流程实例id
+	 * @param activeid 活动实例id
 	 * @return
 	 */
 	public boolean isAndBranchMode(String processid, String activeid)
@@ -635,7 +646,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 检查是否为尾节点
 	 * 
-	 * @param workcode
+	 * @param workcode 活动实例id
 	 * @return
 	 */
 	public boolean checkFinalAct(String workcode) throws Exception;
@@ -643,7 +654,7 @@ public interface TWfConsoleIfc {
 	/**
 	 * 检查是否为首节点
 	 * 
-	 * @param workcode
+	 * @param workcode 活动实例id
 	 * @return
 	 */
 	public boolean checkFirstAct(String workcode) throws Exception;
@@ -662,12 +673,12 @@ public interface TWfConsoleIfc {
 	
 	/**
 	 * 挂起活动支持延迟激活
-	 * @param workcode
+	 * @param runtimeid 流程实例id
 	 */
 	public void pendingProcess(String runtimeid)throws Exception;
 	/**
 	 * 唤醒被挂起的活动
-	 * @param workcode
+	 * @param runtimeid流程实例id
 	 */
 	public void WakeUpProcess(String runtimeid)throws Exception;
 	
@@ -682,33 +693,35 @@ public interface TWfConsoleIfc {
     /**
      * 回滚失效的操作
 
-     * @param runtimeid 流程id
+     * @param runtimeid 流程实例id
      * @param workcode 当前活动节点
      * @param actid 需要回滚到的节点，由用户在流程轨迹界面自行选定 
      * @return
      */
 	public int rollbackErrorProcess(String runtimeid,String workcode,String actid);
 	
-	/**
-	 * 修复失效的操作
-	 * @param runtimeid 流程ID
-	 * @return
-	 */
+   /**
+    * 修复失效的操作
+    * @param runtimeid 流程实例id
+    * @param commiter 提交者
+    * @param operater 执行者
+    * @return
+    */
 	public int repairErrorProcess(String runtimeid,String commitercode,String operatercode);
 
 	/**
 	 * 检查用户的待办任务
-	 * @param usercode
+	 * @param userid
 	 * @param workcode
 	 * @return
 	 */
-	public boolean checkUserworklist(String usercode,String workcode);
+	public boolean checkUserworklist(String userid,String workcode);
 	
 	/**
 	 * 检查用户是否参与过某流程
-	 * @param usercode 用户登录名 
+	 * @param userid 用户登录名 
 	 * @param runtimeid 具体流程的实例ID
 	 * @return 如果参与过返回true
 	 */
-	public boolean checkIfUserJoinProcess(String usercode, String runtimeid);
+	public boolean checkIfUserJoinProcess(String userid, String runtimeid);
 }

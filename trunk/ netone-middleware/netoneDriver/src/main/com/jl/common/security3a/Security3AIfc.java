@@ -6,8 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.jl.common.resource.Resource;
-import com.jl.common.resource.ResourceNode;
-
 import oe.security3a.seucore.obj.db.UmsProtectedobject;
 
 /**
@@ -70,30 +68,30 @@ public interface Security3AIfc {
 	/**
 	 * 根据客户id装载客户信息
 	 * 
-	 * @param clientid
+	 * @param userid
 	 * @return
 	 */
-	Client3A loadUser(String clientid) throws Exception;
+	Client3A loadUser(String userid) throws Exception;
 
 	/**
 	 * 对当前用户进行鉴权，识别其是否有权限
 	 * 
-	 * @param clientid
+	 * @param userid
 	 *            帐户ID
 	 * @param resourceNaturalname
 	 *            需要鉴权的资源，该是在外部安全服务中注册的资源目录Naturalname
 	 * @return
 	 */
-	boolean permission(String clientid, String resourceNaturalname)
+	boolean permission(String userid, String resourceNaturalname)
 			throws Exception;
 	/**
 	 * 基于ID鉴权
-	 * @param clientid
+	 * @param userid
 	 * @param id
 	 * @return
 	 * @throws Exception
 	 */
-	boolean permissionById(String clientid, String id)
+	boolean permissionById(String userid, String id)
 	throws Exception;	
 
 	/**
@@ -101,7 +99,7 @@ public interface Security3AIfc {
 	 * 
 	 * @param bussDirId
 	 *            业务系统的目录id
-	 * @param clientId
+	 * @param userid
 	 *            帐号名 注：帐户名是唯一的，用于登录时识别用户身份
 	 * @param displayname
 	 *            帐户显示名
@@ -109,7 +107,7 @@ public interface Security3AIfc {
 	 *            帐户的扩展属性
 	 * @return 创建结果
 	 */
-	String newAccount(String bussDirId, String clientId, String displayname,
+	String newAccount(String bussDirId, String userid, String displayname,
 			Map extAttribute) throws Exception;
 
 	/**
@@ -117,7 +115,7 @@ public interface Security3AIfc {
 	 * 
 	 * @param bussDirId
 	 *            业务系统的目录id
-	 * @param clientId
+	 * @param userid
 	 *            帐号名 注：帐户名是唯一的，用于登录时识别用户身份
 	 * @param displayname
 	 *            帐户显示名
@@ -127,35 +125,35 @@ public interface Security3AIfc {
 	 * 
 	 * 注：该方法将检查用户的实际隶属目录与参数bussDirId是否一致
 	 */
-	String editAccount(String bussDirId, String clientId, String displayname,
+	String editAccount(String bussDirId, String userid, String displayname,
 			Map extAttribute) throws Exception;
 
 	/**
 	 * 删除帐号
 	 * 
-	 * @param clientId
+	 * @param userid
 	 * @return
 	 * @throws Exception
 	 */
-	String deleteAccount(String clientId) throws Exception;
+	String deleteAccount(String userid) throws Exception;
 
 	/**
 	 * 禁用帐户
 	 * 
-	 * @param clientId
+	 * @param userid
 	 *            帐户名
 	 * @return
 	 */
-	String fobidAccount(String clientId) throws Exception;
+	String fobidAccount(String userid) throws Exception;
 
 	/**
 	 * 恢复禁用帐户
 	 * 
-	 * @param clientId
+	 * @param userid
 	 *            帐户名
 	 * @return
 	 */
-	String recoveryAccount(String clientId) throws Exception;
+	String recoveryAccount(String userid) throws Exception;
 
 	/**
 	 * 创建新的组织机构节点
@@ -227,10 +225,10 @@ public interface Security3AIfc {
 	/**
 	 * 根据用户登录名来获得部门Naturalname，用途在于鉴权中使用，来判断用户的隶属关系
 	 * 
-	 * @param clientid
+	 * @param userid
 	 * @return
 	 */
-	String deptNameOfUser(String clientcode) throws Exception;
+	String deptNameOfUser(String userid) throws Exception;
 
 	/**
 	 * 根据角色获得用户,支持向上区域内检索和向下检索人员

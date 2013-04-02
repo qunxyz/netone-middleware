@@ -3,6 +3,8 @@ package com.jl.common.app;
 import java.util.List;
 import java.util.Map;
 
+import com.jl.common.workflow.TWfRelevant;
+
 import com.jl.common.workflow.TWfActive;
 
 /**
@@ -52,39 +54,39 @@ public interface AppHandleIfc {
 	/**
 	 * 工作流相关变量与动态表单字段的绑定配置
 	 * 
-	 * @param naturalname
+	 * @param naturalname  应用的资源名
 	 * @return
 	 * @throws Exception
 	 */
-	public List wf2dyformBindCfg(String naturalname) throws Exception;
+	public List<TWfRelevant> wf2dyformBindCfg(String naturalname) throws Exception;
 
 	/**
 	 * 工作流相关变量与动态表单字段的绑定配置 MAP形式
 	 * 
-	 * @param naturalname
+	 * @param naturalname 应用的资源名
 	 * @return
 	 * @throws Exception
 	 */
-	public Map wf2dyformBindCfg2(String naturalname) throws Exception;
+	public Map<String,TWfRelevant> wf2dyformBindCfg2(String naturalname) throws Exception;
 
 	/**
 	 * 工作流活动与参与者的配置信息
 	 * 
-	 * @param naturalname
-	 * @param commiter
-	 * @param runtimeid
+	 * @param naturalname 应用的资源名
+	 * @param commiter 提交者
+	 * @param runtimeid 流程实例ID
 	 * @return
 	 * @throws Exception
 	 */
-	public List wf2participantBindCfg(String naturalname, String commiter,
+	public List<TWfActive> wf2participantBindCfg(String naturalname, String commiter,
 			String runtimeid) throws Exception;
 
 	/**
-	 * 装载应用配置的活动信息
+	 * 装载应用的流程环节配置的信息
 	 * 
-	 * @param naturalname
-	 * @param actid
-	 * @param commiter
+	 * @param naturalname 应用的资源名
+	 * @param actid 流程活动的节点id
+	 * @param commiter 提交者
 	 * @return
 	 */
 	public TWfActive loadCfgActive(String naturalname, String actid,
@@ -94,9 +96,9 @@ public interface AppHandleIfc {
 	 * 检查某用戶能否启动业务
 	 * 
 	 * @param natrualname
-	 *            应用程序的appname
+	 *            应用的资源名
 	 * @param userid
-	 *            格式 中文名[登录名]
+	 *            格式：中文名[登录名]
 	 * @return
 	 */
 	public boolean canCreate(String natrualname, String userid)

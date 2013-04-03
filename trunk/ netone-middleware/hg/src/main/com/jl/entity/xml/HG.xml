@@ -359,6 +359,35 @@
 		</isNotEmpty>
 	</select>
 	
+		<!-- 导出发货通知单 -->
+	<select id="exportDeliveryNoticeInfo" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT 
+		[FInterID], [FEntryID], [FCheck], [FCloseStatus], [Fdate], [FCustIDName], [FBillNo], [FSalTypeName], 
+		[FStockIDName], [FManagerIDName], [FDeptIDName], [FEmpIDName], [FuserName], [FSettleIDName], [FCurrencyIDName], [FExchangeRate], 
+		[FItemIDName], [FItemName], [FItemModel], [FUnitIDName], [Fauxqty], [Fauxprice], [Famount], [FBaseUnitID], 
+		[FBaseUnitID], [FBaseUnitID], [FBaseQty], [FNote], [FItemNumber], [FCancellation], [FReStatus], 
+		[FCheckerName], [FMapNumber], [FMapNumber], [FMapName], [FExplanation], [FFetchAdd], 
+		[FCheckDate], [FAuxPropIDName], [FAuxPropIDNumber], [FFetchDate], [FBatchNo], [FRelateBrIDName], 
+		[FOrderBillNo], [FContractBillNo], [FSourceBillNo], [FSourceTranType], [FCUUnitName], [FCUUnitQty], 
+		[FSecUnitName], [FSecCoefficient], [FSecQty], [FAreaPS], [FHeadSelfS0236], [FHeadSelfS0237], [FHeadSelfS0238],
+		[FHeadSelfS0239], [FEntrySelfS0232], [FEntrySelfS0233], [FEntrySelfS0234]
+		FROM [vwICBill_34]
+		where 1=1
+		<isNotEmpty prepend="and" property="FStartDate">
+			FDate &gt;= #FStartDate#
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="FEndDate">
+			FDate &lt;= #FEndDate#
+		</isNotEmpty>		
+		<isNotEmpty prepend="and" property="FCustIDName">
+			FCustIDName like '%$FCustIDName$%'
+		</isNotEmpty>
+		<isNotEmpty prepend="and" property="FBillNo">
+			FBillNo like '%$FBillNo$%'
+		</isNotEmpty>
+	</select>
+	
+	
 	<!-- 销售出库单根据CODE 未开票 -->
 	<select id="selectIcstockbillInfo" parameterClass="int" resultClass="java.util.HashMap">
 		/**

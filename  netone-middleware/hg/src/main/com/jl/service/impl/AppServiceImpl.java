@@ -2968,5 +2968,62 @@ public class AppServiceImpl extends BaseService implements AppService {
 		}
 
 	}
+	
+	public void exportDeliveryInfo(HttpServletRequest request,
+			HttpServletResponse response) {
+		String FBillNo = request.getParameter("FBillNo");
+		String FStartDate = request.getParameter("FStartDate");
+		String FEndDate = request.getParameter("FEndDate");
+		String FCustIDName = request.getParameter("FCustIDName");
+		Map conditionMap = new HashMap();
+		if (StringUtils.isNotEmpty(FCustIDName)) {
+			conditionMap.put("FCustIDName", FCustIDName.trim());
+		}
+		if (StringUtils.isNotEmpty(FBillNo)) {
+			conditionMap.put("FBillNo", FBillNo.trim());
+		}
+		if (StringUtils.isNotEmpty(FStartDate)) {
+			conditionMap.put("FStartDate", FStartDate.trim());
+		}
+		if (StringUtils.isNotEmpty(FEndDate)) {
+			conditionMap.put("FEndDate", FEndDate.trim());
+		}
+		response.setContentType("text/plain");// 一下两行关键的设置
+		response.addHeader("Content-Disposition", "attachment;filename=sell"
+				+ FStartDate + "-" + FEndDate + ".txt");// filename指定默认的名字
+		BufferedOutputStream buff = null;
+		StringBuffer write = new StringBuffer();
+		String tab = "  ";
+		String enter = "\r\n";
+		ServletOutputStream outSTr = null;
+		CommonDAO dao = getHgDAO();
+		try {
+			List list = (List) dao.select("HG.exportDeliveryNoticeInfo",
+					conditionMap);
+			outSTr = response.getOutputStream();// 建立
+			buff = new BufferedOutputStream(outSTr);
+			for (int i = 0; i < list.size(); i++) {
+				Map data = (Map) list.get(i);
+				write.append(data.get("FCustIDName") + "  ");
+				write.append(data.get("FItemIDName") + "  ");
+				write.append(data.get("FUnitIDName") + "  ");
+				write.append(((java.math.BigDecimal)data.get("Fauxqty")).intValue() + "  ");
+				write.append(enter);
+			}
+			buff.write(write.toString().getBytes("UTF-8"));
+			buff.flush();
+			buff.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				buff.close();
+				outSTr.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 }

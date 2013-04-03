@@ -262,4 +262,12 @@ public interface AppService {
 	 */
 	public void exportsellinfo(HttpServletRequest request,
 			HttpServletResponse response);
+	
+	/**
+	 * 导出发货通知信息
+	 * @param request
+	 * @param response
+	 */
+	public void exportDeliveryInfo(HttpServletRequest request,
+			HttpServletResponse response);
 }

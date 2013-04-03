@@ -577,7 +577,7 @@ public class AppAction extends AbstractAction {
 		return af;
 	}
 	
-	//导出
+	//导出销售信息
 	public void exportsellinfo(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -585,6 +585,27 @@ public class AppAction extends AbstractAction {
 				.getRequiredWebApplicationContext(servlet.getServletContext())
 				.getBean("appService");
 		service.exportsellinfo(request, response);
+	}
+	
+	// 查询发货通知信息
+	public ActionForward onExportDeliveryMain(ActionMapping mapping,
+			ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String forward = "/app/exportDeliverymain.jsp";
+		ActionForward af = new ActionForward(forward);
+		af.setRedirect(false);
+		// true不使用转向,默认是false代表转向
+		return af;
+	}
+	
+	//导出销售发货通知信息
+	public void exportDeliveryInfo(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		AppService service = (AppService) WebApplicationContextUtils
+				.getRequiredWebApplicationContext(servlet.getServletContext())
+				.getBean("appService");
+		service.exportDeliveryInfo(request, response);
 	}
 
 }

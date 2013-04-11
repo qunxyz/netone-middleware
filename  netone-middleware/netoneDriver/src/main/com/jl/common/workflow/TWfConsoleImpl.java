@@ -157,9 +157,15 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 	}
 
 	private void dealwith_buss_done(TWfWorklist wl) throws Exception {
+		String value=(String)WebCache.getCache("WF_MODE_"+wl.getWorkcode());
+		if("back".equals(value)){
+			WebCache.removeCache("WF_MODE_"+wl.getWorkcode());
+			return;
+		}
 		WorkflowConsole console = (WorkflowConsole) RmiEntry.iv("wfhandle");
 		List list = this.listNextRouteActive(wl.getProcessid(), wl
 				.getActivityid(), wl.getRuntimeid(), wl.getParticipant());
+		
 		if (list == null || list.size() == 0) {
 			console
 					.coreSqlhandle("update t_wf_runtime set STATUSNOW='02' where runtimeid='"

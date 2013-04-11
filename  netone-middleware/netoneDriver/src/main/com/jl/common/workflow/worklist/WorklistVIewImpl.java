@@ -498,12 +498,14 @@ public final class WorklistVIewImpl
     List dataClear = new ArrayList();
     if ("01".equals(listType)) {
     	dataClear = wfview.coreSqlview(loadworklist);
-    } else {
+   } else {
     	  List list=new ArrayList();
           if ("adminx".equals(clientId)){
         	  list = wfview.coreSqlview(loadworklist_detail);}
            else if(hasadminAble&&listType.equals("00")){
         	   list = wfview.coreSqlview(loadworklist_detail);
+          }else{
+        	  list = wfview.coreSqlview(loadworklist);
           }
           Map map=new HashMap();
           for (Iterator iterator = list.iterator(); iterator.hasNext(); ) {

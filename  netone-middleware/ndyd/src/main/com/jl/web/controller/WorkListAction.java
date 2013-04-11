@@ -23,6 +23,7 @@ import oe.midware.workflow.runtime.ormobj.TWfRelevantvar;
 import oe.midware.workflow.service.WorkflowView;
 import oe.rmi.client.RmiEntry;
 import oe.security3a.client.rmi.CupmRmi;
+import oe.security3a.client.rmi.ResourceRmi;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -151,142 +152,31 @@ public class WorkListAction extends AbstractAction {
 		}
 
 		User user = getOnlineUser(request);// 当前登录者
-		String str = " AND u.usercode='" + user.getUserCode() + "'";
-		if ("adminx".equals(user.getUserCode())) {
-			str = " ";
-		}
-		String sql = null;
-		String count_sql = null;
+
 		String listtype =(String)conditionMap.get("listtype");
-		System.out.println("listype:"+listtype);
+
 		if(StringUtils.isEmpty(listtype)){
 			listtype="01";
 		}
-		// 首页more链接中处理
-		if ("01".equals(listtype)) {// 待办
-			sql = "SELECT"
-					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
-					+ " FROM netone.t_wf_worklist w1 "
-					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
-					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
-					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
-					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
-					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
-					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS ='01'"
-					+ " AND w2.statusnow ='01' AND w2.types IN('01')" + str
-					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart
-					+ "," + iDisplayLength;
-			count_sql = "SELECT"
-					+ " count(*) total"
-					+ " FROM netone.t_wf_worklist w1 "
-					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
-					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
-					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
-					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
-					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
-					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS='01'"
-					+ " AND w2.statusnow ='01' AND w2.types IN('01')" + str;
+		int total =WlEntry.iv().count(user.getUserCode(), "", true, listtype, null);
+		List list =WlEntry.iv().worklist(user.getUserCode(), "", true, Integer.parseInt(iDisplayStart), Integer.parseInt(iDisplayLength), listtype, null);
 
-		} else if ("02".equals(listtype)) {// 办理未归档
-			sql = "SELECT"
-					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
-					+ " FROM netone.t_wf_worklist w1 "
-					+ " LEFT JOIN netone.t_wf_runtime wx ON w1.runtimeid = wx.runtimeid"
-					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
-					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
-					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
-					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
-					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
-					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
-					+ " AND w2.statusnow='02' AND w2.types IN('01') AND wx.statusnow='01'" + str
-					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart
-					+ "," + iDisplayLength;
-			count_sql = "SELECT"
-					+ " count(*) total"
-					+ " FROM netone.t_wf_worklist w1 "
-					+ " LEFT JOIN netone.t_wf_runtime wx ON w1.runtimeid = wx.runtimeid"
-					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
-					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
-					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
-					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
-					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
-					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
-					+ " AND w2.statusnow ='02' AND w2.types IN('01')  AND wx.statusnow='01'" + str;
-		} else if ("03".equals(listtype)) {// 办理已归档
-			sql = "SELECT"
-					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
-					+ " FROM netone.t_wf_worklist w1 "
-					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
-					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
-					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
-					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
-					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
-					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS='02'"
-					+ " AND w2.statusnow='02' AND w2.types IN('01')" + str
-					+ " ORDER BY w1.starttime DESC limit " + iDisplayStart
-					+ "," + iDisplayLength;
-			count_sql = "SELECT"
-					+ " count(*) total"
-					+ " FROM netone.t_wf_worklist w1 "
-					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
-					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
-					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
-					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
-					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
-					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS='02'"
-					+ " AND w2.statusnow='02' AND w2.types IN('01')" + str;
-		} else if ("00".equals(listtype)) {// 所有
-			sql = "SELECT"
-					+ " w3.lsh lsh,po.name naturalname,w3.appname naturalname2,w2.workcode workcode,w3.d0 formtitle,w2.actname actname,w1.starttime starttime,w2.commitername commitername,w2.commitercode commiter"
-					+ " FROM netone.t_wf_worklist w1 "
-					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
-					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
-					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
-					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
-					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
-					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
-					+ " AND w2.statusnow IN('01','02') AND w2.types IN('01')"
-					+ str + " ORDER BY w1.starttime DESC limit "
-					+ iDisplayStart + "," + iDisplayLength;
-			count_sql = "SELECT"
-					+ " count(*) total"
-					+ " FROM netone.t_wf_worklist w1 "
-					+ " LEFT JOIN netone.t_wf_participant w2 ON w1.workcode = w2.WORKCODE"
-					+ " LEFT JOIN netone.t_wf_relevantvar_tmp w3 ON w3.runtimeid = w1.runtimeid"
-					+ " LEFT JOIN iss.t_user u ON u.usercode=w2.usercode"
-					+ " LEFT JOIN iss.t_department w4 ON u.departmentid=w4.departmentid"
-					+ " LEFT JOIN netone.ums_protectedobject po ON po.NATURALNAME=w1.PROCESSID"
-					+ " WHERE po.naturalname LIKE 'BUSSWF.BUSSWF.NDYD.%' AND  w1.EXECUTESTATUS IN('01','02')"
-					+ " AND w2.statusnow IN('01','02') AND w2.types IN('01')"
-					+ str;
-		}
-		// System.out.println("SQL=" + sql + "\n" + "user=" +
-		// user.getUserCode());
-		
-		System.out.println("------------------------------"+sql);
-		List list = wfview.coreSqlview(sql);
-		List list_count = wfview.coreSqlview(count_sql);
-		int total = 0;
-		for (Iterator iterator = list_count.iterator(); iterator.hasNext();) {
-			Map map = (Map) iterator.next();
-			String count = map.get("total").toString();
-			if (count != null && !"".equals(count)) {
-				total = Integer.parseInt(count);
-			}
-		}
 
 		String projectname = DyFormBuildHtml.projectname + "/";
 		JSONArray arr = new JSONArray();
+		ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
 		for (int i = 0; i < list.size(); i++) {
-			Map data = (Map) list.get(i);
-			String $naturalname = (String) data.get("naturalname");
-			String $formtitle = (String) data.get("formtitle");
-			String $starttime = (String) data.get("starttime");
-			String $actname = (String) data.get("actname");
-			String $commiter = (String) data.get("commiter");
-			String $lsh = (String) data.get("lsh");
-			String $workcode = (String) data.get("workcode");
-			String $naturalname2 = (String) data.get("naturalname2");
+			DataObj data = (DataObj) list.get(i);
+			
+			String $formtitle = data.getData()[0];
+			String $starttime = data.getData()[3];
+			String $actname = data.getData()[1];
+			String $commiter =data.getData()[2];
+			String urlx=data.getUrl();
+			String $lsh = StringUtils.substringBetween(urlx, "&lsh=","&");
+			String $workcode = StringUtils.substringBetween(urlx, "&workcode=","&");
+			String $naturalname2 =  StringUtils.substringBetween(urlx, "&naturalname=","&");
+			String $naturalname =rs.loadResourceByNatural($naturalname2).getName();
 
 			String query = "&query=look&";
 			if ("01".equals(listtype)) {

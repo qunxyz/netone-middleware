@@ -227,7 +227,9 @@
 	<select id="selectUserCodeByUserId" parameterClass="string" resultClass="string">
 		select userCode from t_user where userId=#userId#
 	</select>
-	
+	<select id="selectUserIdByUserCode" parameterClass="string" resultClass="string">
+		select userId from t_user where userCode=#userCode#
+	</select>
 	<!-- 更新用户状态 -->
 	<update id="updateUserStatus" parameterClass="User">
 		update t_user set modifyDate=now(),cancelDate=#cancelDate#,status=#status#

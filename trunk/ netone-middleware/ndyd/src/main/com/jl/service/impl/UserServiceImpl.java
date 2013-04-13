@@ -25,6 +25,8 @@ import org.apache.log4j.Logger;
 import com.jl.common.JSONUtil2;
 import com.jl.common.MD5Util;
 import com.jl.common.app.SpringBeanUtilExam;
+import com.jl.common.security3a.SecurityEntry;
+import com.jl.common.workflow.DbTools;
 import com.jl.dao.CommonDAO;
 import com.jl.entity.User;
 import com.jl.service.BaseService;
@@ -240,7 +242,14 @@ public class UserServiceImpl extends BaseService implements UserService {
 	public void loadInfo(HttpServletRequest request,
 			HttpServletResponse response) {
 		String userId = request.getParameter("userId");
+
 		try {
+	
+			if(StringUtils.isEmpty(userId)){
+				userId=SecurityEntry.iv().onlineUserSessionId(request);
+				userId = (String) commonDAO.findForObject("User.selectUserIdByUserCode",
+						userId);
+			}
 			Map user = (Map) commonDAO.findForObject("User.loadUserById",
 					userId);
 			request.setAttribute("user", user);

@@ -34,6 +34,7 @@ import com.jl.common.app.AppObj;
 import com.jl.common.dyform.DyAnalysisXml;
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
+import com.jl.common.dyform.DyFormBuildHtml;
 import com.jl.common.dyform.DyFormBuildHtmlExt;
 import com.jl.common.dyform.DyFormColumn;
 import com.jl.common.dyform.DyFormComp;
@@ -287,9 +288,16 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 			html.append(loadPrint_(dyform, isedit, subformmode, userinfo,
 					workcode, naturalname, lsh, parameter, user));
 		} else {
-			html.append(load_(dyform, isedit, subformmode, userinfo, workcode,
-					naturalname, lsh, parameter, user));
+			if (config.containsKey("framestyle")
+					&& "html".equals(config.getString("framestyle"))) {
+				html.append(loadHtml_(dyform, isedit, subformmode, userinfo,
+						workcode, naturalname, lsh, parameter, user));
+			} else {
+				html.append(load_(dyform, isedit, subformmode, userinfo,
+						workcode, naturalname, lsh, parameter, user));
+			}
 		}
+		System.out.println(html.toString());
 		// long end = new Date().getTime();
 		// System.out.println("加载花费时间：" + (double) (end - start) / 1000 + "秒");
 		return html.toString();
@@ -316,7 +324,7 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		List<Map> listmaps = new ArrayList<Map>();
 
 		DyForm[] subdyforms = dyform.getSubform_();
-//		List tmptabList = new ArrayList();
+		// List tmptabList = new ArrayList();
 		Boolean ishidden = false;// 是否隐藏
 		// if (subformmode != null && subformmode.containsKey("MAINFORM")) {
 		// String submode = (String) subformmode.get("MAINFORM");
@@ -446,57 +454,69 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 							.getExtPanel(ids, "", null, ids, "", ""), "east"));
 				} else if ("7".equals(submode)) {// 7:集成展示-多条子表单记录(选项卡模式)
 					ids = subdyform.getFormcode();
-					
+
 					Map subformmap = DyFormBuildHtmlExt.buildSubForm_(
 							subdyform, lsh, isedit, userinfo, parameter, user);
-//					if (subdyform.getFormcode().equals("82d995527be911e29806c59ba34f7180_") || 
-//							subdyform.getFormcode().equals("16d5ccb67bea11e29806c59ba34f7180_") || 
-//							subdyform.getFormcode().equals("3b682d187beb11e29806c59ba34f7180_")){
-//						tmptabList.add(subformmap.get("html").toString());
-//					} else {
-						formname.add("<font style=\"font-size:12px\" onmouseover=\"javascript:this.color=&quot;red&quot;;\" onmouseout=\"javascript:this.color=&quot;white&quot;;\" >" +subdyform.getFormname() + "("
-								+ subformmap.get("count") + ")"+"</font>");
-						formlist.add(getJsMap(subformmap.get("html").toString(),
-								ids, DyFormComp.getExtPanel(ids, null, null, ids,
-										"", subformmap.get("js").toString()
-												+ ",autoScroll:true"), "mode7"));
-//					}
+					// if
+					// (subdyform.getFormcode().equals("82d995527be911e29806c59ba34f7180_")
+					// ||
+					// subdyform.getFormcode().equals("16d5ccb67bea11e29806c59ba34f7180_")
+					// ||
+					// subdyform.getFormcode().equals("3b682d187beb11e29806c59ba34f7180_")){
+					// tmptabList.add(subformmap.get("html").toString());
+					// } else {
+					formname
+							.add("<font style=\"font-size:12px\" onmouseover=\"javascript:this.color=&quot;red&quot;;\" onmouseout=\"javascript:this.color=&quot;white&quot;;\" >"
+									+ subdyform.getFormname()
+									+ "("
+									+ subformmap.get("count") + ")" + "</font>");
+					formlist.add(getJsMap(subformmap.get("html").toString(),
+							ids, DyFormComp.getExtPanel(ids, null, null, ids,
+									"", subformmap.get("js").toString()
+											+ ",autoScroll:true"), "mode7"));
+					// }
 
 				} else if ("8".equals(submode)) {// 8:集成展示-单条子表单记录(选项卡模式)
 					ids = "frame" + DyFormBuildHtmlExt.uuid();
-//					if (subdyform.getFormcode().equals("82d995527be911e29806c59ba34f7180_") || 
-//							subdyform.getFormcode().equals("16d5ccb67bea11e29806c59ba34f7180_") || 
-//							subdyform.getFormcode().equals("3b682d187beb11e29806c59ba34f7180_")){
-//						tmptabList.add(DyFormBuildHtmlExt.buildForm(
-//							subdyform, issubedit, userinfo, naturalname, lsh,
-//							true, false, parameter, user));
-//					} else {
-						formname.add("<font style=\"font-size:12px\" onmouseover=\"javascript:this.color=&quot;red&quot;;\" onmouseout=\"javascript:this.color=&quot;white&quot;;\" >" +subdyform.getFormname()+"</font>");
-						formlist.add(getJsMap(DyFormBuildHtmlExt.buildForm(
-								subdyform, issubedit, userinfo, naturalname, lsh,
-								true, false, parameter, user), ids, "", "mode8"));
-//					}
+					// if
+					// (subdyform.getFormcode().equals("82d995527be911e29806c59ba34f7180_")
+					// ||
+					// subdyform.getFormcode().equals("16d5ccb67bea11e29806c59ba34f7180_")
+					// ||
+					// subdyform.getFormcode().equals("3b682d187beb11e29806c59ba34f7180_")){
+					// tmptabList.add(DyFormBuildHtmlExt.buildForm(
+					// subdyform, issubedit, userinfo, naturalname, lsh,
+					// true, false, parameter, user));
+					// } else {
+					formname
+							.add("<font style=\"font-size:12px\" onmouseover=\"javascript:this.color=&quot;red&quot;;\" onmouseout=\"javascript:this.color=&quot;white&quot;;\" >"
+									+ subdyform.getFormname() + "</font>");
+					formlist.add(getJsMap(DyFormBuildHtmlExt.buildForm(
+							subdyform, issubedit, userinfo, naturalname, lsh,
+							true, false, parameter, user), ids, "", "mode8"));
+					// }
 				} else {
 					// not do
 				}
-				
+
 			}
-//			if (tmptabList.size()>0){
-//				ids = "frame" + DyFormBuildHtmlExt.uuid();
-//				StringBuffer ss = new StringBuffer();
-//				for (Iterator iterator = tmptabList.iterator(); iterator
-//						.hasNext();) {
-//					String map = (String) iterator.next();
-//					ss.append(map);
-//				}
-//				
-//				formname.add("<font style=\"font-size:16px\" >" +"111111"+"</font>");
-//				formlist.add(getJsMap(ss.toString(), ids, "", ""));
-//			}
+			// if (tmptabList.size()>0){
+			// ids = "frame" + DyFormBuildHtmlExt.uuid();
+			// StringBuffer ss = new StringBuffer();
+			// for (Iterator iterator = tmptabList.iterator(); iterator
+			// .hasNext();) {
+			// String map = (String) iterator.next();
+			// ss.append(map);
+			// }
+			//				
+			// formname.add("<font style=\"font-size:16px\" >"
+			// +"111111"+"</font>");
+			// formlist.add(getJsMap(ss.toString(), ids, "", ""));
+			// }
 			// 最终输出7,8 选项卡模式
 			if (formlist.size() > 0) {
 				ids = "frame" + DyFormBuildHtmlExt.uuid();
-				
+
 				listmaps.add(getJsMap(DyFormComp.getExtTabs_(ids, formname,
 						formlist), ids, DyFormComp.getExtPanel(ids, null, "$"
 						+ ids, null, "", ""), "center"));
@@ -906,6 +926,156 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		// System.out.println(html.toString() + viewport);
 		// System.out.println("--------");
 		return html.toString() + viewport;
+	}
+
+	private String loadHtml_(DyForm dyform, boolean isedit, Map subformmode,
+			String userinfo, String workcode, String naturalname, String lsh,
+			String parameter, User user) throws Exception {
+		StringBuffer html = new StringBuffer();
+		DyForm[] subdyforms = dyform.getSubform_();
+		Boolean ishidden = false;// 是否隐藏
+		if (subformmode != null && subformmode.containsKey("MAINFORM")) {
+			String submode = (String) subformmode.get("MAINFORM");
+			if ("0".equals(submode)) {// 编辑
+				isedit = true;
+				ishidden = false;
+			} else if ("1".equals(submode)) {// 只读
+				isedit = false;
+				ishidden = false;
+			} else if ("2".equals(submode)) {// 隐藏
+				ishidden = true;
+			} else {
+				ishidden = false;
+			}
+		}
+
+		String hiddenid = DyFormComp.getHiddenInput("naturalname", naturalname);
+		String hiddenunid = DyFormComp.getHiddenInput("unid", lsh);
+		String hiddenlsh = DyFormComp.getHiddenInput("lsh", lsh);
+		String ids = "frame" + DyFormBuildHtmlExt.uuid();
+		if (!ishidden) {
+			html.append(DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
+					naturalname, lsh, false, false, parameter, hiddenid
+							+ hiddenunid + hiddenlsh));
+		} else {
+			html.append("<div style='display:none'>"
+					+ DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
+							naturalname, lsh, false, false, parameter, hiddenid
+									+ hiddenunid + hiddenlsh) + "</div>");
+		}
+		if (subdyforms != null && subdyforms.length > 0) {
+			Boolean issubedit = true;// 是否可编辑
+			Boolean issubhidden = false;// 是否隐藏
+
+			List<String> formname = new ArrayList<String>();
+			List<String> formlist = new ArrayList<String>();
+
+			for (int i = 0; i < subdyforms.length; i++) {
+				DyForm subdyform = subdyforms[i];
+				if (subformmode == null) {
+					issubedit = true;
+				} else if (subformmode.containsKey(-1)
+						&& subformmode.get(-1).getClass().getName().equals(
+								"java.lang.String")) {
+					String submode = (String) subformmode.get(-1);
+					if ("0".equals(submode)) {// 编辑
+						issubedit = true;
+						issubhidden = false;
+					} else if ("1".equals(submode)) {// 只读
+						issubedit = false;
+						issubhidden = false;
+					} else if ("2".equals(submode)) {// 隐藏
+						issubhidden = true;
+					} else {
+						issubedit = true;
+						issubhidden = false;
+					}
+				} else {
+					Object submode = subformmode.get(i);
+					if (submode != null
+							&& submode.getClass().getName().equals(
+									"java.lang.Boolean")) {
+						// 旧版本配置的做法
+						issubedit = (Boolean) submode;
+						issubhidden = false;
+					} else {
+						// 新版本配置的做法
+						String submodex = (String) subformmode.get(i);
+						if ("0".equals(submodex)) {// 编辑
+							issubedit = true;
+							issubhidden = false;
+						} else if ("1".equals(submodex)) {// 只读
+							issubedit = false;
+							issubhidden = false;
+						} else if ("2".equals(submodex)) {// 隐藏
+							issubhidden = true;
+						} else {
+							issubedit = true;
+							issubhidden = false;
+						}
+
+					}
+				}
+
+				if (issubedit == null)
+					issubedit = true;
+
+				String submode = subdyform.getSubmode();
+				if ("2".equals(submode)) {// 2:链接展示-多条子表单记录(需要保存主表单)
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildLinkForm(subdyform,
+								lsh, issubedit, userinfo, submode, workcode,
+								naturalname, parameter));
+				} else if ("3".equals(submode)) {// 3:链接展示-单子表单记录(需要保存主表单、且系统控制只能一条)
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildLinkForm(subdyform,
+								lsh, issubedit, userinfo, submode, workcode,
+								naturalname, parameter));
+				} else if ("4".equals(submode)) {// 4:集成展示-单子表单记录(系统控制只能一条)
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildForm(subdyform,
+								issubedit, userinfo, naturalname, lsh, true,
+								true, parameter, ""));
+				} else if ("5".equals(submode)) {// 5:集成展示-单子表单记录(系统控制只能一条)
+					// 不显示标题
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildForm(subdyform,
+								issubedit, userinfo, naturalname, lsh, true,
+								false, parameter, ""));
+				} else if ("7".equals(submode)) {// 7:集成展示-多条子表单记录(选项卡模式)
+					ids = subdyform.getFormcode();
+					formname.add(subdyform.getFormname());
+					Map mp = DyFormBuildHtmlExt.buildSubForm_(
+							subdyform, lsh, isedit, userinfo, parameter, user);
+					formlist.add((String) mp.get("html"));
+				} else if ("8".equals(submode)) {// 8:集成展示-单条子表单记录(选项卡模式)
+					ids = "frame" + DyFormBuildHtmlExt.uuid();
+
+					formname.add(subdyform.getFormname());
+					formlist.add(DyFormBuildHtml.buildForm(subdyform,
+							issubedit, userinfo, naturalname, lsh, true, false,
+							parameter, ""));
+				} else if ("9".equals(submode)) {// 1+:集成展示-布局表单多条记录
+					if (!issubhidden)
+						html.append(DyFormBuildHtml.buildSubForms(subdyform,
+								lsh, issubedit, userinfo, parameter));
+				} else {// 1:集成展示-多条子表单记录（默认模式）
+					if (!issubhidden){
+						
+						Map subformmap = DyFormBuildHtmlExt.buildSubForm_(
+								subdyform, lsh, isedit, userinfo, parameter, user);
+						html.append((String) subformmap.get("html"));
+					}
+				}
+			}
+			// 最终输出7,8 选项卡模式
+			if (formlist.size() > 0) {
+				ids = "frame" + DyFormBuildHtmlExt.uuid();
+				html.append("<div style='width:908px;padding:0px;margin:0px;'>"
+						+ DyFormComp.getTabs(formname, formlist) + "</div>");
+			}
+		}
+		return html.toString();
 	}
 
 	private String loadPrint_(DyForm dyform, boolean isedit, Map subformmode,

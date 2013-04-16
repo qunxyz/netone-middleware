@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -143,8 +142,10 @@ public class FrameActionExt extends AbstractAction {
 		if (file.exists()) {
 			forward = "/frameSCMExt/frameMain-" + naturalname + ".jsp";
 		}
-		if(request.getParameter("statusinfo") != null && !"".equals(request.getParameter("statusinfo"))){
-			request.getSession().setAttribute("statusinfo", request.getParameter("statusinfo"));
+		if (request.getParameter("statusinfo") != null
+				&& !"".equals(request.getParameter("statusinfo"))) {
+			request.getSession().setAttribute("statusinfo",
+					request.getParameter("statusinfo"));
 		}
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -563,14 +564,14 @@ public class FrameActionExt extends AbstractAction {
 
 			DyFormData dydata = new DyFormData();
 			BeanUtils.copyProperties(dydata, paramJson);
-			String fatherlsh=request.getParameter("fatherlsh");
-			if(StringUtils.isNotEmpty(fatherlsh)){
+			String fatherlsh = request.getParameter("fatherlsh");
+			if (StringUtils.isNotEmpty(fatherlsh)) {
 				dydata.setFatherlsh(fatherlsh);
-				
-			}else{
+
+			} else {
 				dydata.setFatherlsh("1");
 			}
-		
+
 			dydata.setFormcode(formcode);
 			if (!"adminx".equals(user.getUserCode())) {
 				dydata.setParticipant(user.getUserCode());
@@ -580,12 +581,13 @@ public class FrameActionExt extends AbstractAction {
 					extconditions);
 			int total = obj.getTotalRows();
 			List result = obj.getResultList();
-			String statusinfo = (String)request.getSession().getAttribute("statusinfo");
-			if(!("".equals(statusinfo) || statusinfo == null)){
+			String statusinfo = (String) request.getSession().getAttribute(
+					"statusinfo");
+			if (!("".equals(statusinfo) || statusinfo == null)) {
 				List list = new ArrayList();
 				for (Object object : result) {
-					DyFormData d = (DyFormData)object;
-					if(StringUtils.countMatches(statusinfo, d.getStatusinfo())>0)
+					DyFormData d = (DyFormData) object;
+					if (StringUtils.countMatches(statusinfo, d.getStatusinfo()) > 0)
 						list.add(d);
 				}
 				result = list;
@@ -669,7 +671,7 @@ public class FrameActionExt extends AbstractAction {
 			Integer limit_ = Integer.parseInt(limit);
 			Integer to_ = from_ + limit_ - 1;
 			List list = new ArrayList();
-			int count = 0 ;
+			int count = 0;
 			if (dyform.getSubform_() != null) {
 				DyForm subdyform = dyform.getSubform_()[0];
 
@@ -897,12 +899,34 @@ public class FrameActionExt extends AbstractAction {
 
 		load(mapping, form, request, response, isedit, ispermission, false);
 
+		// 按钮控制
+		ResourceRmi rs = (ResourceRmi) RmiEntry.iv("resource");
+		UmsProtectedobject upo = new UmsProtectedobject();
+		upo.setExtendattribute(formcode);
+		upo.setNaturalname("BUSSFORM.BUSSFORM.%");
+		Map map = new HashMap();
+		map.put("naturalname", "like");
+		List formlist = rs.fetchResource(upo, map);
+		if (formlist.size() != 1) {
+			throw new RuntimeException("存在表单异常定义");
+		}
+		String naturalname_dyform = ((UmsProtectedobject) formlist.get(0))
+				.getNaturalname();
+		request.setAttribute("naturalname_dyform", naturalname_dyform);
+		//end 按钮控制
+		
+		String framepath = "frameSCMExt";
+		if (config.containsKey("framestyle")
+				&& "html".equals(config.getString("framestyle"))) {
+			framepath = "frame";
+		}
+
 		String path = request.getSession().getServletContext().getRealPath("/");// 应用服务器目录
-		File file = new File(path + "/frameSCMExt/editframe-" + naturalname
-				+ ".jsp");
-		String forward = "/frameSCMExt/editframe.jsp";
+		File file = new File(path + "/" + framepath + "/editframe-"
+				+ naturalname + ".jsp");
+		String forward = "/" + framepath + "/editframe.jsp";
 		if (file.exists()) {
-			forward = "/frameSCMExt/editframe-" + naturalname + ".jsp";
+			forward = "/" + framepath + "/editframe-" + naturalname + ".jsp";
 		}
 		ActionForward af = new ActionForward(forward);
 		af.setRedirect(false);
@@ -5293,15 +5317,16 @@ public class FrameActionExt extends AbstractAction {
 		String userinfo = user.getNLevelName() + "/" + user.getUserName() + ","
 				+ user.getNLevelName() + "/";
 
-		Integer startindex = (Integer.parseInt(pageIndex)-1)*Integer.parseInt(pageSize)+1;
+		Integer startindex = (Integer.parseInt(pageIndex) - 1)
+				* Integer.parseInt(pageSize) + 1;
 		String data = "";
-		
-		data = DyFormBuildHtmlExt.buildPaperData(formcode, fatherlsh,
-				true, userinfo, url, startindex, Integer.parseInt(pageSize));
-		
+
+		data = DyFormBuildHtmlExt.buildPaperData(formcode, fatherlsh, true,
+				userinfo, url, startindex, Integer.parseInt(pageSize));
+
 		response.setContentType("text/html;charset=UTF-8");
 		try {
-			response.getWriter().write(""+data+"");
+			response.getWriter().write("" + data + "");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

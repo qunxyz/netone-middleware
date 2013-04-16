@@ -2256,11 +2256,11 @@ public final class DyFormBuildHtmlExt {
 
 		String TableExtProperties_ = " style=\"width:900px;word-break:break-all;margin-top:2px;margin-bottom:2px;\" bgcolor=\"white\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\"";
 
-		String html_ = "<div style='width:900px;'>"
+		String html_ = ""
 				+ DyFormComp.getTable(formcode, "<thead>"
 						+ theadhtml.toString() + "</thead>" + "<tbody>"
 						+ html.toString() + "</tbody>", dyform.getStyleinfo_(),
-						"", 0, TableExtProperties_) + "</div>";
+						"", 0, TableExtProperties_) + "";
 
 		if (sum > pagesize) {
 			html_ += "<div id=\"pager\" class=\"jpaper\"></div>";
@@ -2282,14 +2282,15 @@ public final class DyFormBuildHtmlExt {
 							+ "\""), "", "", "align=\"left\"");// null
 
 			html_btn = DyFormComp.getTable(formcode + "btn", btnstr_
-					+ btnstr_null, dyform.getStyleinfo_(), "", 0,
+					, dyform.getStyleinfo_(), "", 0,
 					TableExtProperties);
+			html_btn = html_btn.replaceAll("table_td_title", ""); 
 		}
 
 		htmlall.append(eventListenScripts.toString()
 		// + "<div style=\"overflow-x:scroll; overflow-y:hidden;
 				// width:900px;\">"
-				+ html_ + html_btn
+				+"<div style='width:900px;margin:0px;padding:0px;'>"+ html_ + "<div style='height:25px;'>"+html_btn+"</div></div>"
 		// + "</div>"
 				);
 
@@ -2347,10 +2348,10 @@ public final class DyFormBuildHtmlExt {
 		tablejs.append("tableToGrid('table#" + formcode + "');$('table#"
 				+ formcode + "').setGridWidth('900'); \n");
 
-		tablejs
-				.append("jQuery('table#"
-						+ formcode
-						+ "').jqGrid('gridResize',{minWidth:350,maxWidth:2000,minHeight:80, maxHeight:1000});");
+//		tablejs
+//				.append("jQuery('table#"
+//						+ formcode
+//						+ "').jqGrid('gridResize',{minWidth:350,maxWidth:2000,minHeight:80, maxHeight:1000});");
 
 		Map mapx = new HashMap();
 		String description = getDescription(dyform.getDescription());

@@ -642,7 +642,11 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 
 	public TWfWorklist loadWorklist(String workcode) throws Exception {
 		WorkflowView wfview = (WorkflowView) RmiEntry.iv("wfview");
-		return wfview.loadWorklist(workcode);
+		try{
+			return wfview.loadWorklist(workcode);
+		}catch(Exception e){
+			return new TWfWorklist();
+		}
 	}
 
 	public WorkflowConsole useCoreConsole() throws Exception {
@@ -776,7 +780,7 @@ public final class TWfConsoleImpl implements TWfConsoleIfc {
 			wpt.setUsercode((String) object.get("usercode"));
 			wpt.setUsername((String) object.get("username"));
 			wpt.setWorkcode((String) object.get("workcode"));
-			wpt.setAuditnode((String) object.get("auditnode"));
+			wpt.setAuditnode((String) object.get("auditnode")+"["+(String) object.get("actname")+"]");
 			wpt.setDonetime((String) object.get("donetime"));
 			wpt.setCreatetime((String) object.get("createtime"));
 			wpt.setOpemode((String) object.get("opemode"));

@@ -71,10 +71,10 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	public String addData(String formid, DyFormData bus) throws Exception {
 		if (bus == null) {
-			throw new Exception("¿Õ±íµ¥");
+			throw new Exception("ç©ºè¡¨å•");
 		}
 		if (bus.getParticipant() == null || bus.getParticipant().equals("")) {
-			throw new Exception("È±ÉÙ²ÎÓëÕß");
+			throw new Exception("ç¼ºå°‘å‚ä¸è€…");
 		}
 		DyFormService dy = (DyFormService) RmiEntry.iv("dyhandle");
 		TCsBus busx = new TCsBus();
@@ -163,15 +163,15 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	}
 
 	private void dealWithDefaultValue(DyFormColumn columnnew, ResourceRmi rs) {
-		// À©Õ¹´¦Àí k-v ÁĞ±í£¬Ö§³Ö×ÖµäÓ¦ÓÃ
+		// æ‰©å±•å¤„ç† k-v åˆ—è¡¨ï¼Œæ”¯æŒå­—å…¸åº”ç”¨
 		String htmltype = columnnew.getViewtype();
 
 		// System.out.println(htmltype);
 		if ("11".equals(htmltype)) {
-			// KVÁĞ±íÓĞ4ÖÖÄ£Ê½ 1¡¢ÊÖ¹¤ÅäÖÃµÄ±¸Ñ¡Öµ 2¡¢À´×Ô×ÊÔ´Ê÷Ä³²ãÄ¿Â¼µÄÖµ 3¡¢À´×ÔSOA½Å±¾ 4¡¢À´×ÔÆäËû¶¯Ì¬±íµ¥µÄ×Ö¶Î
+			// KVåˆ—è¡¨æœ‰4ç§æ¨¡å¼ 1ã€æ‰‹å·¥é…ç½®çš„å¤‡é€‰å€¼ 2ã€æ¥è‡ªèµ„æºæ ‘æŸå±‚ç›®å½•çš„å€¼ 3ã€æ¥è‡ªSOAè„šæœ¬ 4ã€æ¥è‡ªå…¶ä»–åŠ¨æ€è¡¨å•çš„å­—æ®µ
 			StringBuffer but = new StringBuffer();
 			String valuelist = columnnew.getValuelist();
-			// À´×Ô×ÊÔ´Ê÷Ä³²ãÄ¿Â¼µÄÖµ
+			// æ¥è‡ªèµ„æºæ ‘æŸå±‚ç›®å½•çš„å€¼
 			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:",
 					"]");
 
@@ -210,9 +210,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					e.printStackTrace();
 				}
 			}
-			// À´×ÔSOA½Å±¾
+			// æ¥è‡ªSOAè„šæœ¬
 			but = dealWithSoa(valuelist, rs, but);
-			// À´×ÔÆäËû±íµ¥×Ö¶Î
+			// æ¥è‡ªå…¶ä»–è¡¨å•å­—æ®µ
 			rsinfo = StringUtils.substringBetween(valuelist, "[DYFORM:", "]");
 
 			if (StringUtils.isNotEmpty(rsinfo)) {
@@ -228,7 +228,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 						DyFormData object = (DyFormData) iterator.next();
 						Object key = BeanUtils.getProperty(object, form[1]);
 						String value = "";
-						// ×Ö¶ÎÏÂÀ­×Ö¶Î×éºÏ
+						// å­—æ®µä¸‹æ‹‰å­—æ®µç»„åˆ
 						if (StringUtils.contains(form[2], "@")) {
 							String[] valuex = StringUtils.split(form[2], "@");
 							for (int i = 0; i < valuex.length; i++) {
@@ -256,15 +256,15 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		} else if ("17".equals(htmltype) || "18".equals(htmltype)
 				|| "22".equals(htmltype) || "23".equals(htmltype)
 				|| "27".equals(htmltype) || "28".equals(htmltype)) {
-			// ´¦ÀíÊ÷
+			// å¤„ç†æ ‘
 			String valuelist = columnnew.getValuelist();
-			// À´×Ô×ÊÔ´Ê÷Ä³²ãÄ¿Â¼µÄÖµ
+			// æ¥è‡ªèµ„æºæ ‘æŸå±‚ç›®å½•çš„å€¼
 			String rsinfo = StringUtils.substringBetween(valuelist, "[TREE:",
 					"]");
 			if (StringUtils.isNotEmpty(rsinfo)) {
 				String name = StringUtils.substringBefore(valuelist, "[TREE:");
 				String treex[] = rsinfo.split(",");
-				// ÔÚÊ÷ÖĞÖ»È¡Ò»¸önaturalnameÆäËû²»ÓÃ
+				// åœ¨æ ‘ä¸­åªå–ä¸€ä¸ªnaturalnameå…¶ä»–ä¸ç”¨
 				columnnew.setValuelist(name + "[" + treex[0] + "]");
 			}
 		} else if ("30".equals(htmltype) || "31".equals(htmltype)
@@ -307,12 +307,12 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 						+ (naturalname.length == 2 ? naturalname[1] : "");
 
 				// System.out.println("sync user to php:"+url);
-				// Í¨Ñ¶Ğ­Òé
+				// é€šè®¯åè®®
 				URL rul = new URL(value);
-				// »ñµÃÊı¾İÁ÷
+				// è·å¾—æ•°æ®æµ
 				URLConnection urlc = rul.openConnection();
 				InputStream input = urlc.getInputStream();
-				// ½øĞĞÊı¾İ½»»»
+				// è¿›è¡Œæ•°æ®äº¤æ¢
 
 				int read = 0;
 				while ((read = input.read()) != -1) {
@@ -339,7 +339,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		String columnId = columnnew.getColumnid();
 		if (columnId.equalsIgnoreCase("belongx")
 				|| columnId.equalsIgnoreCase("timex")) {
-			// ÊÇ·ñÒş±Î
+			// æ˜¯å¦éšè”½
 			columnnew.setHidden(true);
 			return;
 		}
@@ -347,14 +347,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		String ext = columnnew.getExtendattribute();
 		if (ext != null && !ext.equals("")) {
 			DyAnalysisXml ds = new DyAnalysisXml();
-			// ÉèÖÃ»ñµÃ½¹µãÊÂ¼ş
+			// è®¾ç½®è·å¾—ç„¦ç‚¹äº‹ä»¶
 			String focusScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_FOCUSSCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
 			columnnew.setFocusScript(ds.dealWithResourceScript(focusScript,
 					"WEBSOASCRIPT"));
 
-			// ÉèÖÃÊ§È¥½¹µãÊÂ¼ş
+			// è®¾ç½®å¤±å»ç„¦ç‚¹äº‹ä»¶
 			String loseFocusScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_LOSEFOCUSSCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
@@ -378,12 +378,12 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			}
 			if (!check_req.equals("")) {
 				loseFocusScript = "if($(this).val()!=''){ if(!$(this).val().match("
-						+ check_req + ")){alert('ÎŞĞ§¸ñÊ½');}}" + loseFocusScript;
+						+ check_req + ")){alert('æ— æ•ˆæ ¼å¼');$(this).val('');}}" + loseFocusScript;
 			}
 			columnnew.setLoseFocusScript(ds.dealWithResourceScript(
 					loseFocusScript, "WEBSOASCRIPT"));
 
-			// ÊÇ·ñÊÇÒ»×é×Ö¶Î
+			// æ˜¯å¦æ˜¯ä¸€ç»„å­—æ®µ
 			String groupScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_GROUPSIZE,
 					DymaticFormCheck._FINAL_CHECK);
@@ -391,21 +391,21 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				columnnew.setGroupsize(Integer.parseInt(groupScript));
 			}
 
-			// ÉèÖÃ³õÊ¼»¯ÊÂ¼ş
+			// è®¾ç½®åˆå§‹åŒ–äº‹ä»¶
 			String initScript = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_INITSCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
 			columnnew.setInitScript(ds.dealWithResourceScript(initScript,
 					"WEBSOASCRIPT"));
 
-			// ÉèÖÃ¸Ä±äÊÂ¼ş
+			// è®¾ç½®æ”¹å˜äº‹ä»¶
 			String onchange = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_ONCHANGESCRIPT,
 					DymaticFormCheck._FINAL_CHECK);
 			columnnew.setOnchangeScript(ds.dealWithResourceScript(onchange,
 					"WEBSOASCRIPT"));
 
-			// ÉèÖÃĞ£Ñé½Å±¾
+			// è®¾ç½®æ ¡éªŒè„šæœ¬
 			String reqExpressionularX = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_CHECKRULE,
 					DymaticFormCheck._FINAL_CHECK);
@@ -420,23 +420,23 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				columnnew.setRegExpression(reqExpressionular);
 			}
 			if (columnnew.getColumname().endsWith("$#")) {
-				// ÊÇ·ñÒş±Î
+				// æ˜¯å¦éšè”½
 				columnnew.setHidden(true);
 			} else {
 				columnnew.setHidden(false);
 			}
-			// ÊÇ·ñ±ØÌî
+			// æ˜¯å¦å¿…å¡«
 			columnnew.setMusk_("1".equals(columnnew.getMusk()));
-			// ÊÇ·ñÖ»¶Á
+			// æ˜¯å¦åªè¯»
 			columnnew.setReadonly("1".equals(columnnew.getOpemode()));
-			// ÉèÖÃ¿Ø¼ş¿íµÄ
+			// è®¾ç½®æ§ä»¶å®½çš„
 			String width = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_WIDTH,
 					DymaticFormCheck._FINAL_CHECK);
 			if (width != null && !width.equals("")) {
 				columnnew.setWidth(Double.parseDouble(width));
 			}
-			// ÉèÖÃ»ã×ÜÀàĞÍ
+			// è®¾ç½®æ±‡æ€»ç±»å‹
 			String summarytype = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_SUMMARYTYPE,
 					DymaticFormCheck._FINAL_CHECK);
@@ -445,7 +445,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			} else {
 				columnnew.setSummarytype("");
 			}
-			// ÉèÖÃXY×ø±ê
+			// è®¾ç½®XYåæ ‡
 			String xyoffset = StringUtils.substringBetween(ext,
 					DymaticFormCheck._CHECK_OFFSET,
 					DymaticFormCheck._FINAL_CHECK);
@@ -457,11 +457,11 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				}
 			}
 		} else {
-			// ÊÇ·ñÒş±Î
+			// æ˜¯å¦éšè”½
 			columnnew.setHidden(false);
-			// ÊÇ·ñ±ØÌî
+			// æ˜¯å¦å¿…å¡«
 			columnnew.setMusk_("1".equals(columnnew.getMusk()));
-			// ÊÇ·ñÖ»¶Á
+			// æ˜¯å¦åªè¯»
 			columnnew.setReadonly("1".equals(columnnew.getOpemode()));
 		}
 	}
@@ -512,7 +512,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	private void dealWithImgFile(DyFormData data, String formcode)
 			throws Exception {
-		// Õë¶Ô¸½¼ş×Ö¶ÎµÄÌØ±ğ´¦Àí£¬¸½¼ş×Ö¶ÎĞèÒªĞ´Èë±íµ¥µÄlsh£¬ÓÃÀ´Õ¹Ê¾¸½¼şÁ´½ÓÊ¹ÓÃ
+		// é’ˆå¯¹é™„ä»¶å­—æ®µçš„ç‰¹åˆ«å¤„ç†ï¼Œé™„ä»¶å­—æ®µéœ€è¦å†™å…¥è¡¨å•çš„lshï¼Œç”¨æ¥å±•ç¤ºé™„ä»¶é“¾æ¥ä½¿ç”¨
 		List list = this.fetchColumnListForDesign(formcode);
 		String appfileColumnid = "";
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -542,7 +542,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	private void dealWithImgFile(List<DyFormData> data, String formcode)
 			throws Exception {
-		// Õë¶Ô¸½¼ş×Ö¶ÎµÄÌØ±ğ´¦Àí£¬¸½¼ş×Ö¶ÎĞèÒªĞ´Èë±íµ¥µÄlsh£¬ÓÃÀ´Õ¹Ê¾¸½¼şÁ´½ÓÊ¹ÓÃ
+		// é’ˆå¯¹é™„ä»¶å­—æ®µçš„ç‰¹åˆ«å¤„ç†ï¼Œé™„ä»¶å­—æ®µéœ€è¦å†™å…¥è¡¨å•çš„lshï¼Œç”¨æ¥å±•ç¤ºé™„ä»¶é“¾æ¥ä½¿ç”¨
 		List list = this.fetchColumnListForDesign(formcode);
 		String appfileColumnid = "";
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -578,12 +578,12 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		TCsForm form = dy.loadForm(formid);
 		DyForm dyform = new DyForm();
 		BeanUtils.copyProperties(dyform, form);
-		// ÉèÖÃ±íµ¥×Ö¶Î
+		// è®¾ç½®è¡¨å•å­—æ®µ
 		List column = this.fetchColumnList(formid);
 		dyform.setAllColumn_((DyFormColumn[]) column
 				.toArray(new DyFormColumn[0]));
 
-		// ÉèÖÃÁĞ±íÕ¹Ê¾×Ö¶Î
+		// è®¾ç½®åˆ—è¡¨å±•ç¤ºå­—æ®µ
 		String listinfo = dyform.getListinfo();
 		String[] infox = StringUtils.split(listinfo, ",");
 		for (int i = 0; i < infox.length; i++) {
@@ -613,7 +613,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		DyFormColumn[] columnArr = (DyFormColumn[]) dispColumnAndQueryColumn
 				.toArray(new DyFormColumn[0]);
 		dyform.setQueryColumn_(columnArr);
-		// ÉèÖÃ²éÑ¯Õ¹Ê¾×Ö¶Î
+		// è®¾ç½®æŸ¥è¯¢å±•ç¤ºå­—æ®µ
 		dyform.setListColumn_(columnArr);
 
 		String htmlinfo = form.getExtendattribute();
@@ -668,19 +668,19 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		BeanUtils.copyProperties(bux, bus);
 		DyAnalysisXml dayx = new DyAnalysisXml();
 		if (needscript)
-			dayx.script(formid, lsh, "PUpdateSave"); // Õı³£±£´æ
+			dayx.script(formid, lsh, "PUpdateSave"); // æ­£å¸¸ä¿å­˜
 		boolean rs = dy.modifyData(bux);
 		if (rs) {
 			if (bux.getStatusinfo() == null) {
 				if (needscript)
-					dayx.script(formid, lsh, "UpdateSave"); // Õı³£±£´æ
+					dayx.script(formid, lsh, "UpdateSave"); // æ­£å¸¸ä¿å­˜
 			}
 			updateRevx(lsh);
 			// if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("02")){
-			// dayx.script(formid, lsh, "Onaffirm");//·´È·ÈÏ
+			// dayx.script(formid, lsh, "Onaffirm");//åç¡®è®¤
 			// }
 			// if(bux.getStatusinfo()!=null&&bux.getStatusinfo().equals("01")){
-			// dayx.script(formid, lsh, "Yesaffirm");//È·ÈÏ
+			// dayx.script(formid, lsh, "Yesaffirm");//ç¡®è®¤
 			// }
 			
 			
@@ -699,7 +699,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				String appname=(String)((Map)list.get(0)).get("appname");
 			
 				List appdy = AppEntry.iv().wf2dyformBindCfg(appname);
-				// ¶¯Ì¬¸´ÖÆ¶¯Ì¬±íµ¥ÖĞµÄÒµÎñÊı¾İµ½¹¤×÷Á÷ÖĞ
+				// åŠ¨æ€å¤åˆ¶åŠ¨æ€è¡¨å•ä¸­çš„ä¸šåŠ¡æ•°æ®åˆ°å·¥ä½œæµä¸­
 				StringBuffer rev_view_sql_column = new StringBuffer();
 				StringBuffer rev_view_sql_value = new StringBuffer();
 				int count = 0;
@@ -718,11 +718,11 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					columnid=columnid.toLowerCase();
 					String value = BeanUtils.getProperty(data, columnid);
 					
-					TWfRelevantvar rev = wfview.fetchRelevantVar(runtimeid, revid);// »ñµÃ±íµ¥±äÁ¿
+					TWfRelevantvar rev = wfview.fetchRelevantVar(runtimeid, revid);// è·å¾—è¡¨å•å˜é‡
 					rev.setValuenow(value);
 					console.updateRelevantvar(rev);
 					
-					value = StringUtils.replace(value, "'", "¡¯");
+					value = StringUtils.replace(value, "'", "â€™");
 					rev_view_sql_value.append(",'" + value + "'");
 					rev_view_sql_column.append(",d" + count++);
 				}
@@ -767,9 +767,9 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		DyAnalysisXml dayx = new DyAnalysisXml();
 
 		if (list == null || list.size() == 0) {
-			// ´´½¨³õÊ¼»¯´¦Àí£¬ÓĞĞ©Ê±ºòÖ÷±íµ¥ĞèÒª×Ô¶¯´ø³ö¼¸Ìõ×Ó±íµ¥ĞÅÏ¢
-			// ĞÅÏ¢¸ñÊ½Îª List(TCsBus)
-			// ¸ù¾İÍâ²¿½Å±¾×Ô¶¯¹¹Ôì×Ó±íµ¥³õÊ¼Êı¾İĞÅÏ¢
+			// åˆ›å»ºåˆå§‹åŒ–å¤„ç†ï¼Œæœ‰äº›æ—¶å€™ä¸»è¡¨å•éœ€è¦è‡ªåŠ¨å¸¦å‡ºå‡ æ¡å­è¡¨å•ä¿¡æ¯
+			// ä¿¡æ¯æ ¼å¼ä¸º List(TCsBus)
+			// æ ¹æ®å¤–éƒ¨è„šæœ¬è‡ªåŠ¨æ„é€ å­è¡¨å•åˆå§‹æ•°æ®ä¿¡æ¯
 			Object rsinfo = dayx.script(formcode, null, "InitCreate");
 			if (rsinfo != null
 					&& rsinfo.getClass().getName()
@@ -777,7 +777,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 				list = (ArrayList) rsinfo;
 			}
 		}
-		// ´¦ÀíÁĞ±íÔ¤´¦ÀíÊÂ¼ş
+		// å¤„ç†åˆ—è¡¨é¢„å¤„ç†äº‹ä»¶
 		List listx = dayx.script2(formcode, list);
 		if (listx != null && listx.size() > 0) {
 			list = listx;
@@ -808,7 +808,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	}
 
 	private String subCondition(String formcode, TCsBus bus) throws Exception {
-		// ´¦ÀíÀ©Õ¹Ìõ¼ş
+		// å¤„ç†æ‰©å±•æ¡ä»¶
 		List listx = this.queryColumnQ(formcode);
 		StringBuffer butCon = new StringBuffer();
 		for (Iterator iterator = listx.iterator(); iterator.hasNext();) {
@@ -816,15 +816,15 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			String columnid = objx.getColumnid();
 			String value = BeanUtils.getProperty(bus, columnid);
 			String addcondition = objx.getExtendattribute();
-			// ×Ô¶¨ÒåµÄ²éÑ¯×Ö¶ÎÈç¹ûÓĞÌØÊâÌõ¼şµÄÇé¿öÏÂ
+			// è‡ªå®šä¹‰çš„æŸ¥è¯¢å­—æ®µå¦‚æœæœ‰ç‰¹æ®Šæ¡ä»¶çš„æƒ…å†µä¸‹
 			if (StringUtils.isNotEmpty(value)
 					&& StringUtils.isNotEmpty(addcondition)) {
-				// ÌØÊâÌõ¼şÖĞ¿ÉÄÜÇÒ½öÓĞ¿ÉÄÜ´æÔÚ¸Ã×Ö¶ÎµÄ±äÁ¿Öµ¸ñÊ½Îª $()
+				// ç‰¹æ®Šæ¡ä»¶ä¸­å¯èƒ½ä¸”ä»…æœ‰å¯èƒ½å­˜åœ¨è¯¥å­—æ®µçš„å˜é‡å€¼æ ¼å¼ä¸º $()
 				String key = "$(value)";
-				// ½«Ìõ¼şÖĞµÄ±äÁ¿Ìæ»»ÎªÕæÊµÖµ
+				// å°†æ¡ä»¶ä¸­çš„å˜é‡æ›¿æ¢ä¸ºçœŸå®å€¼
 				butCon.append(" "
 						+ StringUtils.replace(addcondition, key, value));
-				// ½«±íµ¥ÖĞ¸Ã×Ö¶ÎÉèÖÃÎª¿Õ£¬±ÜÃâ±»ÄÃÈ¥ÆÕÍ¨²éÑ¯
+				// å°†è¡¨å•ä¸­è¯¥å­—æ®µè®¾ç½®ä¸ºç©ºï¼Œé¿å…è¢«æ‹¿å»æ™®é€šæŸ¥è¯¢
 				BeanUtils.setProperty(bus, columnid, "");
 			}
 		}
@@ -833,7 +833,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 	public int deleteAll(String formcode, String fatherlsh) throws Exception {
 		DyFormData dydataSub = new DyFormData();
-		dydataSub.setFormcode(formcode);// ×Ó±íµ¥µÄformcode
+		dydataSub.setFormcode(formcode);// å­è¡¨å•çš„formcode
 		dydataSub.setFatherlsh(fatherlsh);
 		List listSub = DyEntry.iv().queryData(dydataSub, 0, 100, "");
 		for (Iterator iterator = listSub.iterator(); iterator.hasNext();) {
@@ -849,7 +849,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			DyFormData dyFormData = (DyFormData) iterator.next();
 			String formcode = dyFormData.getFormcode();
 			if (formcode == null) {
-				throw new Exception("È±ÉÙ±íµ¥±êÊ¶Âëformcode");
+				throw new Exception("ç¼ºå°‘è¡¨å•æ ‡è¯†ç formcode");
 			}
 			String lshpre = this.addData(formcode, dyFormData);
 			lsh.add(lshpre);
@@ -892,7 +892,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					but.append(object.getName() + "[" + object.getNaturalname()
 							+ "]");
 				}
-				throw new RuntimeException("±íµ¥¶¨ÒåÒì³£´æÔÚ1¸öÒÔÉÏµÄ±íµ¥×ÊÔ´:" + but);
+				throw new RuntimeException("è¡¨å•å®šä¹‰å¼‚å¸¸å­˜åœ¨1ä¸ªä»¥ä¸Šçš„è¡¨å•èµ„æº:" + but);
 			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -912,7 +912,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		try {
 			List subResource = rmi.subResource(preId);
 			if (subResource == null || subResource.size() == 0) {
-				// Èç¹ûÃ»ÓĞ×¢²á±íµ¥×Ö¶ÎµÄ±£»¤×ÊÔ´£¬ÄÇÃ´ÈÏÎª¸Ã±íµ¥²»ĞèÒª°²È«±£»¤£¬Ö±½Ó·µ»ØËùÓĞµÄ×Ö¶ÎĞí¿É
+				// å¦‚æœæ²¡æœ‰æ³¨å†Œè¡¨å•å­—æ®µçš„ä¿æŠ¤èµ„æºï¼Œé‚£ä¹ˆè®¤ä¸ºè¯¥è¡¨å•ä¸éœ€è¦å®‰å…¨ä¿æŠ¤ï¼Œç›´æ¥è¿”å›æ‰€æœ‰çš„å­—æ®µè®¸å¯
 				return;
 			}
 			for (Iterator iterator = subResource.iterator(); iterator.hasNext();) {
@@ -951,8 +951,8 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	public void permission(DyForm form, String usercode, TWfActive act)
 			throws Exception {
 		String formcolumn = act.getEditcolumn();
-		if (formcolumn == null || formcolumn.equals("")) {// ÄÜ½øÈë
-			// permission·½·¨ÒâÎ¶×ÅĞèÒª±à¼­±íµ¥£¬Èç¹ûÓÃ»§Ã»ÓĞÅäÖÃĞèÒª±à¼­ÄÇĞ©±íµ¥£¬ÄÇÃ´Ä¬ÈÏÈ«²¿¶¼ÄÜ±à¼­
+		if (formcolumn == null || formcolumn.equals("")) {// èƒ½è¿›å…¥
+			// permissionæ–¹æ³•æ„å‘³ç€éœ€è¦ç¼–è¾‘è¡¨å•ï¼Œå¦‚æœç”¨æˆ·æ²¡æœ‰é…ç½®éœ€è¦ç¼–è¾‘é‚£äº›è¡¨å•ï¼Œé‚£ä¹ˆé»˜è®¤å…¨éƒ¨éƒ½èƒ½ç¼–è¾‘
 		} else {
 			String[] columnxtmp = StringUtils.split(formcolumn, ",");
 			Map permssionColumn = new HashMap();
@@ -969,21 +969,21 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			for (int i = 0; i < columnx.length; i++) {
 				if (!permssionColumn.containsKey(columnx[i].getColumnid())) {
 					columnx[i].setReadonly(true);
-					columnx[i].setMusk_(false);// Èç¹ûÊÇÖ»¶ÁÄÇÃ´ĞèÒªºöÂÔÆä±ØĞë¿ØÖÆ
+					columnx[i].setMusk_(false);// å¦‚æœæ˜¯åªè¯»é‚£ä¹ˆéœ€è¦å¿½ç•¥å…¶å¿…é¡»æ§åˆ¶
 				}
 			}
 		}
 
-		// ±íµ¥×Ö¶ÎÊÚÈ¨¿ØÖÆ
+		// è¡¨å•å­—æ®µæˆæƒæ§åˆ¶
 		columnPermission(form, usercode);
 
-		// Á÷³Ì±íµ¥¿ØÖÆ
+		// æµç¨‹è¡¨å•æ§åˆ¶
 		try {
 
-			// ×Ö±íµ¥×Ö¶Î¿ØÖÆ
+			// å­—è¡¨å•å­—æ®µæ§åˆ¶
 			String subcolumn = act.getSubcolumn();
-			if (subcolumn == null || subcolumn.equals("")) {// ÄÜ½øÈë
-				// permission·½·¨ÒâÎ¶×ÅĞèÒª±à¼­±íµ¥£¬Èç¹ûÓÃ»§Ã»ÓĞÅäÖÃĞèÒª±à¼­ÄÇĞ©±íµ¥£¬ÄÇÃ´Ä¬ÈÏÈ«²¿¶¼ÄÜ±à¼­
+			if (subcolumn == null || subcolumn.equals("")) {// èƒ½è¿›å…¥
+				// permissionæ–¹æ³•æ„å‘³ç€éœ€è¦ç¼–è¾‘è¡¨å•ï¼Œå¦‚æœç”¨æˆ·æ²¡æœ‰é…ç½®éœ€è¦ç¼–è¾‘é‚£äº›è¡¨å•ï¼Œé‚£ä¹ˆé»˜è®¤å…¨éƒ¨éƒ½èƒ½ç¼–è¾‘
 				return;
 			}
 			subcolumn = subcolumn.replace("&quot;", "\"");
@@ -1000,7 +1000,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 						String[] read = StringUtils.split((jsonobj.get("read"))
 								.toString(), ",");
 						Map readmap = new HashMap();
-						// Ö»¶ÁµÄ×Ö¶Î
+						// åªè¯»çš„å­—æ®µ
 						for (int i = 0; i < read.length; i++) {
 							String key = StringUtils.substringBetween(read[i],
 									"[", "]");
@@ -1009,7 +1009,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 						String[] hide = StringUtils.split((jsonobj.get("hide"))
 								.toString(), ",");
 						Map hidemap = new HashMap();
-						// Òş²ØµÄ×Ö¶Î
+						// éšè—çš„å­—æ®µ
 						for (int i = 0; i < hide.length; i++) {
 							String key = StringUtils.substringBetween(hide[i],
 									"[", "]");
@@ -1027,13 +1027,13 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 								if (readmap.containsKey(subcolumnx[i]
 										.getColumnid())) {
 									subcolumnx[i].setReadonly(true);
-									subcolumnx[i].setMusk_(false);// Èç¹ûÊÇÖ»¶ÁÄÇÃ´ĞèÒªºöÂÔÆä±ØĞë¿ØÖÆ
+									subcolumnx[i].setMusk_(false);// å¦‚æœæ˜¯åªè¯»é‚£ä¹ˆéœ€è¦å¿½ç•¥å…¶å¿…é¡»æ§åˆ¶
 								}
 							}
 							if (hidemap.size() != 0) {
 								if (hidemap.containsKey(subcolumnx[i]
 										.getColumnid())) {
-									subcolumnx[i].setHidden(true);// Èç¹ûÊÇÒş²Ø
+									subcolumnx[i].setHidden(true);// å¦‚æœæ˜¯éšè—
 								}
 							}
 						}
@@ -1097,7 +1097,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 			throws Exception {
 		String runtimeid = WfEntry.iv().getSession("bussid");
 		if (StringUtils.isEmpty(runtimeid)) {
-			return true;// ËµÃ÷ÎŞÁ÷³Ì
+			return true;// è¯´æ˜æ— æµç¨‹
 		}
 		if (StringUtils.contains(participant, "[")) {
 			participant = StringUtils.substringBetween(participant, "[", "]");
@@ -1160,7 +1160,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	}
 
 	/**
-	 * Ç¶Èë½Å±¾´¦ÀíÊı¾İ×ª»¯½Å±¾<BR>
+	 * åµŒå…¥è„šæœ¬å¤„ç†æ•°æ®è½¬åŒ–è„šæœ¬<BR>
 	 * 
 	 * @author don add
 	 * @param data
@@ -1169,7 +1169,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	 */
 	private List dealWithDataTransformInScript(List<DyFormData> data,
 			String formcode) throws Exception {
-		// µ±Ç°Ä¿Â¼µÄURI
+		// å½“å‰ç›®å½•çš„URI
 		URL paths = Thread.currentThread().getContextClassLoader().getResource(
 				"");
 		String path = paths.getPath();
@@ -1179,14 +1179,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 
 		File file = new File(path + "/script/formdatalist-" + formcode
 				+ ".jcode");
-		// ´æÔÚ½Å±¾£¬¶ÁÈ¡½Å±¾ÄÚÈİ²¢¶¯Ì¬Ö´ĞĞ
+		// å­˜åœ¨è„šæœ¬ï¼Œè¯»å–è„šæœ¬å†…å®¹å¹¶åŠ¨æ€æ‰§è¡Œ
 		if (file.exists()) {
 			BufferedReader reader = null;
 			try {
 				reader = new BufferedReader(new FileReader(file));
 				String tempString = null;
 				int line = 1;
-				// Ò»´Î¶ÁÈëÒ»ĞĞ£¬Ö±µ½¶ÁÈënullÎªÎÄ¼ş½áÊø
+				// ä¸€æ¬¡è¯»å…¥ä¸€è¡Œï¼Œç›´åˆ°è¯»å…¥nullä¸ºæ–‡ä»¶ç»“æŸ
 				while ((tempString = reader.readLine()) != null) {
 					scripts.append(tempString);
 					line++;
@@ -1202,14 +1202,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					}
 				}
 			}
-			// Ö´ĞĞ½Å±¾
+			// æ‰§è¡Œè„šæœ¬
 			return (List) ScriptTools.todo(scripts.toString(), obj);
 		}
 		return data;
 	}
 
 	/**
-	 * Ç¶Èë½Å±¾´¦ÀíÊı¾İ×ª»¯½Å±¾<BR>
+	 * åµŒå…¥è„šæœ¬å¤„ç†æ•°æ®è½¬åŒ–è„šæœ¬<BR>
 	 * 
 	 * @author don add
 	 * @param data
@@ -1218,7 +1218,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	 */
 	private DyFormData dealWithDataTransformInScript(DyFormData data,
 			String formcode) throws Exception {
-		// µ±Ç°Ä¿Â¼µÄURI
+		// å½“å‰ç›®å½•çš„URI
 		URL paths = Thread.currentThread().getContextClassLoader().getResource(
 				"");
 		String path = paths.getPath();
@@ -1227,14 +1227,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		StringBuffer scripts = new StringBuffer();
 
 		File file = new File(path + "/script/formdata-" + formcode + ".jcode");
-		// ´æÔÚ½Å±¾£¬¶ÁÈ¡½Å±¾ÄÚÈİ²¢¶¯Ì¬Ö´ĞĞ
+		// å­˜åœ¨è„šæœ¬ï¼Œè¯»å–è„šæœ¬å†…å®¹å¹¶åŠ¨æ€æ‰§è¡Œ
 		if (file.exists()) {
 			BufferedReader reader = null;
 			try {
 				reader = new BufferedReader(new FileReader(file));
 				String tempString = null;
 				int line = 1;
-				// Ò»´Î¶ÁÈëÒ»ĞĞ£¬Ö±µ½¶ÁÈënullÎªÎÄ¼ş½áÊø
+				// ä¸€æ¬¡è¯»å…¥ä¸€è¡Œï¼Œç›´åˆ°è¯»å…¥nullä¸ºæ–‡ä»¶ç»“æŸ
 				while ((tempString = reader.readLine()) != null) {
 					scripts.append(tempString);
 					line++;
@@ -1250,14 +1250,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					}
 				}
 			}
-			// Ö´ĞĞ½Å±¾
+			// æ‰§è¡Œè„šæœ¬
 			return (DyFormData) ScriptTools.todo(scripts.toString(), obj);
 		}
 		return data;
 	}
 
 	/**
-	 * Ç¶Èë½Å±¾´¦Àí±íµ¥×ª»¯½Å±¾<BR>
+	 * åµŒå…¥è„šæœ¬å¤„ç†è¡¨å•è½¬åŒ–è„šæœ¬<BR>
 	 * 
 	 * @author don add
 	 * @param data
@@ -1266,7 +1266,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 	 */
 	private DyForm dealWithFormTransformInScript(DyForm dyform, String formcode)
 			throws Exception {
-		// µ±Ç°Ä¿Â¼µÄURI
+		// å½“å‰ç›®å½•çš„URI
 		URL paths = Thread.currentThread().getContextClassLoader().getResource(
 				"");
 		String path = paths.getPath();
@@ -1275,14 +1275,14 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 		StringBuffer scripts = new StringBuffer();
 
 		File file = new File(path + "/script/form-" + formcode + ".jcode");
-		// ´æÔÚ½Å±¾£¬¶ÁÈ¡½Å±¾ÄÚÈİ²¢¶¯Ì¬Ö´ĞĞ
+		// å­˜åœ¨è„šæœ¬ï¼Œè¯»å–è„šæœ¬å†…å®¹å¹¶åŠ¨æ€æ‰§è¡Œ
 		if (file.exists()) {
 			BufferedReader reader = null;
 			try {
 				reader = new BufferedReader(new FileReader(file));
 				String tempString = null;
 				int line = 1;
-				// Ò»´Î¶ÁÈëÒ»ĞĞ£¬Ö±µ½¶ÁÈënullÎªÎÄ¼ş½áÊø
+				// ä¸€æ¬¡è¯»å…¥ä¸€è¡Œï¼Œç›´åˆ°è¯»å…¥nullä¸ºæ–‡ä»¶ç»“æŸ
 				while ((tempString = reader.readLine()) != null) {
 					scripts.append(tempString);
 					line++;
@@ -1298,7 +1298,7 @@ public final class DyformConsoleImpl implements DyFormConsoleIfc {
 					}
 				}
 			}
-			// Ö´ĞĞ½Å±¾
+			// æ‰§è¡Œè„šæœ¬
 			return (DyForm) ScriptTools.todo(scripts.toString(), obj);
 		}
 		return dyform;

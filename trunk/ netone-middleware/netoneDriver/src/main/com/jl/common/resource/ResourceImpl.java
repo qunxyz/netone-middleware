@@ -86,4 +86,29 @@ public class ResourceImpl implements ResourceIfc {
 		}
 	}
 
+	@Override
+	public UmsProtectedobject loadResourceById(String id) throws Exception {
+		try {
+			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+			return rs.loadResourceById(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return null;
+	}
+
+	@Override
+	public UmsProtectedobject loadResourceByNaturalname(String naturalname)
+			throws Exception {
+		try {
+			ResourceRmi rs=(ResourceRmi)RmiEntry.iv("resource");
+			return rs.loadResourceByNatural(naturalname);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return null;
+	}
+
 }

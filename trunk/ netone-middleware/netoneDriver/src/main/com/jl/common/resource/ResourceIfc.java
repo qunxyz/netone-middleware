@@ -8,7 +8,7 @@ import oe.security3a.seucore.obj.db.UmsProtectedobject;
  * @author robanco
  *
  */
-public interface ResourceIfc {
+public interface ResourceIfc  {
 	/**
 	 * 根据ID仅获得下一级的子资源
 	 * @param id
@@ -33,5 +33,10 @@ public interface ResourceIfc {
 	 * @return
 	 */
 	public List<UmsProtectedobject> subAllByName(String name)throws Exception;
+	
+	
+	public UmsProtectedobject loadResourceById(String id)throws Exception;
+	
+	public UmsProtectedobject loadResourceByNaturalname(String naturalname)throws Exception;
 
 }

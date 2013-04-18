@@ -954,14 +954,14 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 		String hiddenlsh = DyFormComp.getHiddenInput("lsh", lsh);
 		String ids = "frame" + DyFormBuildHtmlExt.uuid();
 		if (!ishidden) {
-			html.append(DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
-					naturalname, lsh, false, false, parameter, hiddenid
-							+ hiddenunid + hiddenlsh));
+			html.append(DyFormBuildHtmlExt.buildMainForm(dyform,
+					isedit, userinfo, naturalname, lsh, false, false,
+					parameter, user));
 		} else {
 			html.append("<div style='display:none'>"
-					+ DyFormBuildHtml.buildForm(dyform, isedit, userinfo,
-							naturalname, lsh, false, false, parameter, hiddenid
-									+ hiddenunid + hiddenlsh) + "</div>");
+					+ DyFormBuildHtmlExt.buildMainForm(dyform, isedit,
+							userinfo, naturalname, lsh, false, false,
+							parameter, user) + "</div>");
 		}
 		if (subdyforms != null && subdyforms.length > 0) {
 			Boolean issubedit = true;// 是否可编辑
@@ -1023,25 +1023,25 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 				String submode = subdyform.getSubmode();
 				if ("2".equals(submode)) {// 2:链接展示-多条子表单记录(需要保存主表单)
 					if (!issubhidden)
-						html.append(DyFormBuildHtml.buildLinkForm(subdyform,
-								lsh, issubedit, userinfo, submode, workcode,
-								naturalname, parameter));
+						html.append(DyFormBuildHtmlExt.buildLinkForm(
+								subdyform, lsh, issubedit, userinfo, submode,
+								workcode, naturalname, parameter, user));
 				} else if ("3".equals(submode)) {// 3:链接展示-单子表单记录(需要保存主表单、且系统控制只能一条)
 					if (!issubhidden)
-						html.append(DyFormBuildHtml.buildLinkForm(subdyform,
-								lsh, issubedit, userinfo, submode, workcode,
-								naturalname, parameter));
+						html.append(DyFormBuildHtmlExt.buildLinkForm(
+								subdyform, lsh, issubedit, userinfo, submode,
+								workcode, naturalname, parameter, user));
 				} else if ("4".equals(submode)) {// 4:集成展示-单子表单记录(系统控制只能一条)
 					if (!issubhidden)
-						html.append(DyFormBuildHtml.buildForm(subdyform,
-								issubedit, userinfo, naturalname, lsh, true,
-								true, parameter, ""));
+						html.append(DyFormBuildHtmlExt.buildForm(
+								subdyform, issubedit, userinfo, naturalname, lsh,
+								true, true, parameter, user));
 				} else if ("5".equals(submode)) {// 5:集成展示-单子表单记录(系统控制只能一条)
 					// 不显示标题
 					if (!issubhidden)
-						html.append(DyFormBuildHtml.buildForm(subdyform,
-								issubedit, userinfo, naturalname, lsh, true,
-								false, parameter, ""));
+						html.append(DyFormBuildHtmlExt.buildForm(
+								subdyform, issubedit, userinfo, naturalname, lsh,
+								true, false, parameter, user));
 				} else if ("7".equals(submode)) {// 7:集成展示-多条子表单记录(选项卡模式)
 					ids = subdyform.getFormcode();
 					formname.add(subdyform.getFormname());
@@ -1052,9 +1052,9 @@ public class FrameServiceImplExt extends BaseService implements FrameService {
 					ids = "frame" + DyFormBuildHtmlExt.uuid();
 
 					formname.add(subdyform.getFormname());
-					formlist.add(DyFormBuildHtml.buildForm(subdyform,
-							issubedit, userinfo, naturalname, lsh, true, false,
-							parameter, ""));
+					formlist.add(DyFormBuildHtmlExt.buildForm(
+							subdyform, issubedit, userinfo, naturalname, lsh,
+							true, false, parameter, user));
 				} else if ("9".equals(submode)) {// 1+:集成展示-布局表单多条记录
 					if (!issubhidden)
 						html.append(DyFormBuildHtml.buildSubForms(subdyform,

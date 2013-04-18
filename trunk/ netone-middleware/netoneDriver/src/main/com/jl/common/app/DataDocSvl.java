@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import com.jl.common.dyform.DyEntry;
 import com.jl.common.dyform.DyForm;
 import com.jl.common.dyform.DyFormData;
-
 import com.jl.common.resource.RsEntry;
 
 public class DataDocSvl extends HttpServlet {
@@ -37,38 +38,36 @@ public class DataDocSvl extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String appname=request.getParameter("appname");
 		String lsh=request.getParameter("lsh");
 		try {
 			AppObj app=AppEntry.iv().loadApp(appname);
 			String templatename=app.getFormtitle();
-			String jspName=RsEntry.iv().loadResourceByNaturalname(templatename).getExtendattribute();
+			String jspName=RsEntry.iv().loadResourceByNaturalname(templatename).getId();
 			DyFormData obj=DyEntry.iv().loadData(app.getDyformCode_(), lsh);
 			DyForm[] forms=DyEntry.iv().loadForm(app.getDyformCode_()).getSubform_();
-			
+			StringBuffer fcode = new StringBuffer("");
 			Map map=new HashMap();
-			map.put(app.getDyformCode_(), obj);
+			map.put("d"+app.getDyformCode_(), obj);
 			for (int i = 0; i < forms.length; i++) {
 				String formcodex=forms[i].getFormcode();
 				DyFormData data=new DyFormData();
-				data.setFatherlsh("lsh");
+				data.setFatherlsh(lsh);
 				data.setFormcode(formcodex);
+				fcode.append(formcodex+",");
 				List list=DyEntry.iv().queryData(data, 0, 900, "");
-				map.put(formcodex, list);
+				map.put("d"+formcodex, list);
 			}
 			request.setAttribute("dy", map);
-			String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ "cmsWeb" + "/";
-			request.getRequestDispatcher(basePath+templatename+".jsp").forward(request,
+			request.setAttribute("test", fcode);
+			request.setAttribute("test2", JSONArray.fromObject(map).toString());
+//			response.sendRedirect(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort() + "/cmsWeb/" +jspName+".jsp");
+			request.getRequestDispatcher(jspName+".jsp").forward(request,
 					response);
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 	/**
@@ -84,7 +83,6 @@ public class DataDocSvl extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-	
 	}
 
 }

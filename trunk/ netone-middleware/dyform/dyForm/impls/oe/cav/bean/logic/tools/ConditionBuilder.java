@@ -12,6 +12,7 @@ import oe.cav.bean.logic.dy.bus.reference.BussDaoReference;
 import oe.cav.bean.logic.form.TCsForm;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -54,11 +55,12 @@ public class ConditionBuilder {
 				try {
 					String value = (String) BeanUtils.getProperty(obj, element
 							.getColumncode().toLowerCase());
-					log.debug(value+","+element
-							.getColumncode().toLowerCase());
+
 					if (value != null && !value.equals("")) {
 						String htmltype = element.getHtmltype();
 						String checktype = element.getChecktype();
+						log.debug(value+","+element
+								.getColumncode().toLowerCase()+","+htmltype+","+checktype);
 						// 判断字段类型
 						if (ColumnExtendInfo._HTML_TYPE_BUT.equals(htmltype)
 								|| ColumnExtendInfo._HTML_TYPE_IMAGE
@@ -81,7 +83,14 @@ public class ConditionBuilder {
 										|| ColumnExtendInfo._HTML_TYPE_TIME
 												.equals(htmltype)) {
 									// 时间也当作字符串来处理
+									if(value.length()>10){
+										value=value.substring(0, 10);
+									}
 									value = "'" + value + "%'";
+									
+									conditionInfo.append(" and "
+											+ element.getColumnid() + " like "
+											+ value);
 						} else if(element.getColumnid().equalsIgnoreCase("participant")){
 							conditionInfo.append(" and "
 									+ element.getColumnid() + " in( "

@@ -169,7 +169,12 @@ public class FormDaoImpl implements FormDao {
 					
 					rsrmi.addResource(upo, belongname);					
 					
-					String [][]ope_role={{"add","新增"},{"modi","修改"},{"conf","确认"},{"uconf","反确认"},{"que","查询"},{"list","列表"},{"dele","删除"}};
+					String [][]ope_role={{"add","新增"},{"modi","修改"},{"conf","确认"},{"uconf","反确认"},{"que","查询"},{"list","列表"},{"dele","删除"},
+					{"INSAVE","保存"},{"INADDMORE","继续添加"},{"INdrnk","印章"},{"INDELE","删除"},{"INPRINT","打印"},{"INCLOSE","关闭"}};
+					  
+					    
+					
+					
 					for (int i = 0; i < ope_role.length; i++) {
 						UmsProtectedobject upo1 = new UmsProtectedobject();
 						upo1.setNaturalname(ope_role[i][0]);

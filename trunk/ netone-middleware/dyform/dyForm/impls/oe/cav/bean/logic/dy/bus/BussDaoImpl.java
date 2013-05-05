@@ -711,7 +711,9 @@ public class BussDaoImpl implements BussDao {
 		String formcode = obj.getFormcode();
 		// 根据数据库名读取DyObj对象属性
 		DyObj dfo = dyObjFromXml.parser(XmlPools.fetchXML(formcode).toString());
-
+		if(dfo==null){
+			return new ArrayList();
+		}
 		List columnlist = dfo.getColumn();
 		permission(obj);
 		// 查询语句生成
@@ -725,11 +727,11 @@ public class BussDaoImpl implements BussDao {
 		try {
 			String ds = dfo.getSystemid();
 			conn = SQLTools.getConn(ds);
-			finalSQL = BussDaoCoreTools.reBuildSql(finalSQL, conn.getMetaData()
+			finalSQL = this.reBuildSql(finalSQL, conn.getMetaData()
 					.getDatabaseProductName(), from, to);
 			log.debug(finalSQL);
 			st = conn.createStatement();
-
+			System.out.println(finalSQL);
 			// 执行查询
 			rs = st.executeQuery(finalSQL);
 			while (rs.next()) {
@@ -852,6 +854,18 @@ public class BussDaoImpl implements BussDao {
 
 	public void setFormDao(FormDao formDao) {
 		this.formDao = formDao;
+	}
+	
+	public  String reBuildSql(String sql, String db, int from, int to) {
+		if (from == -1 || to == -1) {
+			return sql;
+		}
+		if ("MYSQL".equalsIgnoreCase(db)) {
+			sql = sql + " limit " + from + "," + to;
+		} else if ("ORACLE".equalsIgnoreCase(db)) {
+			sql = sql + " rows>= " + from + " and rows<" + to;
+		}
+		return sql;
 	}
 
 }

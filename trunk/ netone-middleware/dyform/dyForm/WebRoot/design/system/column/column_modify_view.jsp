@@ -42,7 +42,7 @@
 						<h:text property="columname" require="false" styleClass="btext" />
 					</td>
 				</tr>
-				<tr style='display:none'>
+				<tr>
 					<td class="tdheaddes">
 						&nbsp;◊÷∂Œ¿‡–Õ
 					</td>

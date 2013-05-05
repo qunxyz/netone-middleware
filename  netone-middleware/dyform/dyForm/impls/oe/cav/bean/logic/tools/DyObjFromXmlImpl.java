@@ -34,7 +34,7 @@ public class DyObjFromXmlImpl implements DyObjFromXml {
 		DyObj dfo = new DyObj();
 		String extendAttribute = "";
 		Document xml;
-		if (url == null || url.equals("")) {
+		if (url == null || url.equals("")||url.endsWith("null.xml")) {
 			log.error("输入参数url为空");
 			return null;
 		} else {

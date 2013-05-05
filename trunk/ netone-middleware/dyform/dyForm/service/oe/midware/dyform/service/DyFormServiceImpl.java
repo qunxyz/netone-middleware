@@ -7,7 +7,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -92,6 +91,16 @@ public class DyFormServiceImpl extends UnicastRemoteObject implements
 
 	public boolean modifyData(TCsBus bus) throws RemoteException {
 		BussDao bussDao = (BussDao) FormEntry.fetchBean("bussDao");
+		if(bus.getParticipant()!=null){
+			//特别处理，如果是管理员修改，系统不会去动表的状态和参与者
+			if("adminx".equals(bus.getParticipant())){
+				
+				TCsBus busx=this.loadData(bus.getLsh(), bus.getFormcode());
+				bus.setParticipant(busx.getParticipant());
+				bus.setStatusinfo(busx.getStatusinfo());
+		
+			}
+		}
 		boolean rs= bussDao.update(bus);
 
 		return rs;

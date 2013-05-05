@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.management.StringValueExp;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -26,8 +24,6 @@ import oe.cav.bean.logic.tools.DyObjToXML;
 import oe.cav.bean.logic.tools.XmlPools;
 import oe.cav.bean.logic.tools.reference.XmlWriter;
 import oe.cav.bean.logic.tools.reference.DyReference;
-
-;
 
 public class ColumnDaoImpl implements ColumnDao {
 
